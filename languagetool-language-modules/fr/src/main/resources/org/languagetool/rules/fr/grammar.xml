@@ -10354,6 +10354,83 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="ACCORD_DE_LA_QUANTITE" name="accord de la quantité" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token postag="[NJD].*|R rel.*" postag_regexp="yes"/>
+                  <token regexp="yes">nombres|quantités</token>
+                  <token>de</token>
+                  <token postag="N.*" postag_regexp="yes"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">nombres|quantités<exception scope="previous">de|autres|aux|comme|tel(le)?s</exception></token>
+                  </marker>
+
+                  <token>de</token>
+                  <token postag="N.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée. Dans cette expression '\1' est toujours singulier.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/nombre-de-ou-nombres-de-quantite-de-ou-quantites-de</url>
+              <example correction="nombre">Il m'a dit que <marker>nombres</marker> de personnes sont arrivées.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>plus</token>
+                  <token>d'</token>
+                  <token>un</token>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <marker>
+                      <token postag="V.* p" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée. Après l'expression '\1 \2\3' le verbe est toujours singulier.</message>
+              <suggestion><match no="5" postag="(V .*) p" postag_regexp="yes" postag_replace="$1 s"/></suggestion>
+              <example correction="est">Plus d'un élève <marker>sont</marker> là.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>moins<exception scope="previous" postag="P|V.*" postag_regexp="yes"/></token>
+                  <token>de</token>
+                  <token>deux</token>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <marker>
+                      <token postag="V.* s" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée. Après l'expression '\1 \2 \3' le verbe est toujours pluriel.</message>
+              <suggestion><match no="5" postag="(V .*) s" postag_regexp="yes" postag_replace="$1 p"/></suggestion>
+              <example correction="sont">Moins de deux amis <marker>est</marker> là.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="N . p" postag_regexp="yes" skip="-1"/>
+                  <token regexp="yes">aucune?|chaque|nul|toute?s?|pas</token>
+                  <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+                  <token postag="N . s" postag_regexp="yes" skip="1"/>
+                  <token regexp="yes">aucune?|chaque|nul|toute?s?|pas</token>
+                  <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+                  <token postag="N . s" postag_regexp="yes"/>
+                  <token postag="V.* p" postag_regexp="yes"/>
+              </antipattern>
+              <pattern>
+                  <token regexp="yes">aucune?|chaque|nul|toute?s?|pas</token>
+                  <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+                  <token postag="N . s" postag_regexp="yes" skip="1"/>
+                  <token regexp="yes">aucune?|chaque|nul|toute?s?|pas</token>
+                  <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+                  <token postag="N . s" postag_regexp="yes"/>
+                  <marker>
+                      <token postag="V.* p" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être possible. Lorsque le terme '1' est répété et désigne une entité semblable, le verbe qui suit est généralement au singulier.</message>
+              <suggestion><match no="7" postag="(V .*) p" postag_regexp="yes" postag_replace="$1 s"/></suggestion>
+              <url>https://la-conjugaison.nouvelobs.com/regles/orthographe/l-accord-du-verbe-du-verbe-avec-plusieurs-sujets-245.php</url>
+              <example correction="mérite"> Tout homme et toute femme <marker>méritent</marker> le respect.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="CONFUSION_QUEL" name="confusion quel" default="temp_off">
           <rule>
               <pattern>
