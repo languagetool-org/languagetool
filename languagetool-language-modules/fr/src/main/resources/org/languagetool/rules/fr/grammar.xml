@@ -38259,6 +38259,53 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="ACCORD_EXPRESSION_SANS_COMPLEMENT" name="accord expression sans complément" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token postag="Y" skip="-1"/>
+                  <token>sans</token>
+                  <token regexp="yes">argents|amours|joies|hâtes|dégouts|domiciles|enthousiasmes|importances|ménagements|pareils|pitiés|fins|familles|âges|retours|visages|identités|rancunes|peines|douceurs|éducations|têtes|peurs|déterminations</token>
+              </antipattern>
+              <antipattern>
+                  <token>sans</token>
+                  <token regexp="yes" skip="-1">argents|amours|joies|hâtes|dégouts|domiciles|enthousiasmes|importances|ménagements|pareils|pitiés|fins|familles|âges|retours|visages|identités|rancunes|peines|douceurs|éducations|têtes|peurs|déterminations</token>
+                  <token postag="Y"/>
+              </antipattern>
+              <pattern>
+                  <token regexp="yes">(?-i)sans<exception scope="previous" regexp="yes">(?-i)^[A-Z].*</exception></token>
+                  <marker>
+                      <token regexp="yes">argents|amours|joies|hâtes|dégouts|domiciles|enthousiasmes|importances|ménagements|pareils|pitiés|fins|familles|âges|retours|visages|identités|rancunes|peines|douceurs|éducations|têtes|peurs|déterminations</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car '\2' fait généralement référence à une unité au singulier.</message>
+              <suggestion><match no="2" regexp_match="(?-iu)s" regexp_replace=""/></suggestion>
+              <url>https://www.projet-voltaire.fr/regle-orthographe/sans_suivi_nom_singulier_pluriel</url>
+              <example correction="importance">C'est sans <marker>importances</marker>.</example>
+              <example>Les hommes sans <marker>visages</marker>, film de 2002.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="Y" skip="-1"/>
+                  <token>sans</token>
+                  <token regexp="yes">ambage$|limite$|roue$|poil$|lunette$|scrupule$|témoin$|poche$|bouton$|dent$|détour$|erreur$|aile$|ami$|bagage$|bien$|fenêtre$|principe$|souci$|nuance$|nuage$</token>
+              </antipattern>
+              <antipattern>
+                  <token>sans</token>
+                  <token regexp="yes" skip="-1">ambage$|limite$|roue$|poil$|lunette$|scrupule$|témoin$|poche$|bouton$|dent$|détour$|erreur$|aile$|ami$|bagage$|bien$|fenêtre$|principe$|souci$|nuance$|nuage$</token>
+                  <token postag="Y"/>
+              </antipattern>
+              <pattern>
+                  <token regexp="yes">(?-i)sans<exception scope="previous" regexp="yes">(?-i)^[A-Z].*</exception></token>
+                  <marker>
+                      <token regexp="yes">ambage$|limite$|roue$|poil$|lunette$|scrupule$|témoin$|poche$|bouton$|dent$|détour$|erreur$|aile$|ami$|bagage$|bien$|fenêtre$|principe$|souci$|nuance$|nuage$</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car '\2' fait généralement référence à une unité au pluriel.</message>
+              <suggestion><match no="2" regexp_match="(?iu)$" regexp_replace="s"/></suggestion>
+              <url>https://www.projet-voltaire.fr/regle-orthographe/sans_suivi_nom_singulier_pluriel</url>
+              <example correction="limites">Elle est vraiment sans <marker>limite</marker>.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="CONSTRUCTION_DANS_LES_EXPRESSIONS" name="erreurs dans la construction de ces expressions" default="temp_off">
           <rule>
               <pattern>
