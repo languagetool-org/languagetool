@@ -110,6 +110,7 @@ regexp case-insensitive maken : (?i)
 				<example correction="bè|belang">Het is van groot <marker>be</marker> lang.</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="EN_OF" name="En of / en/of" default="temp_off">
 			<rule>
 				<antipattern><token>of</token><token regexp="yes">jij|je|hij|ze|zij|wij|men</token></antipattern>
@@ -120,6 +121,25 @@ regexp case-insensitive maken : (?i)
 				<message>Hier is mogelijk het teken voor 'of' weggevallen.</message>
 				<suggestion>en/of</suggestion>
 				<example correction="en/of">Ik houd van appels <marker>en of</marker> peren.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="VEEL_DAGEN" name="2021 jaar" default="temp_off">
+			<rule>
+				<pattern>
+					<token regexp="yes">[12][0-9]{3}</token>
+					<token regexp="yes">jaar|jaren|maanden|dagen|uren|minuten|seconden</token>
+				</pattern>
+				<message>Dat is wel een verdacht groot getal voor een aantal \2.</message>
+				<example type="incorrect">Het festival is <marker>2021 jaar</marker> uitgesteld.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[4-9][0-9]{2}</token>
+					<token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
+				</pattern>
+				<message>Dat is wel een verdacht groot getal voor een aantal \2. Als het geen fout is, kunt u het wellicht beter anders noteren.</message>
+				<example type="incorrect">Het duurde <marker>400 maanden</marker>.</example>
 			</rule>
 		</rulegroup>
 		
