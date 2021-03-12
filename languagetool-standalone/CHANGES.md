@@ -6,6 +6,8 @@
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
   * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
   * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.03.01)
+  * updated en_ZA spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.02.15)
   * changes in the word tokenizer for contractions and possessives, e.g. does[do/VBZ]n't[not/RB]; Harper[Harper/NNP,harper/NN]'s['s/POS]
 ...
 
