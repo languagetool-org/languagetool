@@ -11342,31 +11342,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
-        <rulegroup id="ESTIRAR" name="tirar/estirar *de" default="temp_off">
+        <rulegroup id="ESTIRAR" name="tirar/estirar *de">
+            <!-- TODO: *tirar de memòria/orgull/... -->
             <antipattern>
                 <token>de</token>
-                <token regexp="yes">manera|forma</token>
+                <token regexp="yes">manera|forma|cap|valent</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">estirar|tirar</token>
-                    <token inflected="yes">de</token>
+                    <token regexp="yes" inflected="yes">estirar|tirar<exception regexp="yes">tirada|estirada|tirades|estirades</exception></token>
+                    <token inflected="yes">de<exception postag="_LOC_.*" postag_regexp="yes"/></token>
                     <token regexp="yes">l|ls</token>
                 </pattern>
-                <message>Aquest verb és transitiu i s'usa amb la preposició 'de'.</message>
+                <message>Aquest verb és transitiu i s'usa sense la preposició 'de'.</message>
                 <suggestion>\1 e\3</suggestion>
                 <example correction="Tiraven el"><marker>Tiraven del</marker> trineu.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" inflected="yes">estirar|tirar</token>
-                        <token inflected="yes">de</token>
+                        <token regexp="yes" inflected="yes">estirar|tirar<exception regexp="yes">tirada|estirada|tirades|estirades</exception></token>
+                        <token inflected="yes">de<exception postag="_LOC_.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>Aquest verb és transitiu i s'usa amb la preposició 'de'.</message>
+                <message>Aquest verb és transitiu i s'usa sense la preposició 'de'.</message>
                 <suggestion>\1</suggestion>
                 <example correction="Estireu"><marker>Estireu de</marker> la cadena del vàter.</example>
+                <example>Vaig tirar de valent fins arribar a Balaguer.</example>
             </rule>
         </rulegroup>
         <rule id="POSITIU_EN" name="positiu *de/en coronavirus">
@@ -16255,7 +16257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="VUIT_BUIT" name="vuit/buit" default="temp_off">
+        <rule id="VUIT_BUIT" name="vuit/buit">
             <antipattern>
                 <token postag="V....P.." postag_regexp="yes"/>
                 <token>vuit</token>
@@ -16266,7 +16268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">vuits?</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"></match></suggestion> (contrari de 'ple')?</message>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"></match></suggestion> (contrari de 'ple')? Correcte si és el número 8.</message>
             <example correction="buit">El calaix és <marker>vuit</marker>.</example>
             <example>Ells són vuit.</example>
         </rule>
@@ -46143,6 +46145,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="XARRUP" name="xarrup/sorbet" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">xarrups?</token>
+                </marker>
+                <token inflected="yes"/>
+                <token inflected="yes" regexp="yes">banana|benvinguda|casa|cava|crema|gerd|litxi|llima|llimona|llimó|mandarina|mango|maracujà|marc|meló|menta|mora|móra|pansa|pera|plàntan|poma|pruna|préssec|pètal|rosa|síndria|taronja|te|whisky|xampany|xocolata|xocolate</token>
+            </pattern>
+            <message>En el sentit de 'gelat' és preferible dir <suggestion><match no="1" regexp_match="(?iu)xarrup" regexp_replace="sorbet"></match></suggestion>.</message>
+            <example correction="sorbet">Ens van servir un <marker>xarrup</marker> de mandarina boníssim.</example>
+        </rule>
         <rule id="RASTRERA" name="rastrera/vil">
             <pattern>
                 <token postag="RG|VS.*|NCF.*" postag_regexp="yes"/>
