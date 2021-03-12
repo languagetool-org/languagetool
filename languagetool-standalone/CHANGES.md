@@ -9,6 +9,11 @@
   * changes in the word tokenizer for contractions and possessives, e.g. does[do/VBZ]n't[not/RB]; Harper[Harper/NNP,harper/NN]'s['s/POS]
 ...
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 
 ## 5.2 (released 2020-12-29)
 
