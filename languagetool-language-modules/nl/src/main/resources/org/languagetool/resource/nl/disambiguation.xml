@@ -1468,5 +1468,33 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="CHNK_ZNW_MRV_E"/></disambig>
 	</rule>
 	-->
+	<!-- prevent spelling errors in words having () -->
+    <rule name="" id="PARENTHESES_B">
+        <pattern>
+			  <!--    1338 echtgeno(o)te(n) -->
+			  <token/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token spacebefore="no"/>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token min="0" max="1" spacebefore="no"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="" id="PARENTHESES_A">
+        <pattern>
+			  <!-- echtgeno(o)t  mededader(s) -->
+			  <token/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token min="0" max="1" spacebefore="no"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
 </rules>
