@@ -39161,6 +39161,19 @@ steenwijk;Steenwijk
 				<example correction="de">Hij is <marker>de ;</marker> gek.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="DE_LIGT_ONTVLAMBARE" name="ligt / licht" >
+			<rule>
+				<pattern>
+					<token regexp="yes">de|een|geen</token>
+					<marker>
+						<token>ligt</token>
+					</marker>
+					<token postag_regexp="yes" postag="BNW.*"/>
+				</pattern>
+				<message>U bedoet vast <suggestion>licht</suggestion> (gemakkelijk).</message>
+				<example correction="licht">Het is een <marker>ligt</marker> ontvlambare situatie.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_WKW_DE" name="De benauwen de" >
 			<rule>
 				<pattern>
