@@ -110,15 +110,16 @@ regexp case-insensitive maken : (?i)
 				<example correction="bè|belang">Het is van groot <marker>be</marker> lang.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EN_OF" name="En of / en/of">
+		<rulegroup id="EN_OF" name="En of / en/of" default="temp_off">
 			<rule>
+				<antipattern><token>of</token><token regexp="yes">jij|je|hij|ze|zij|wij|men</token></antipattern>
 				<pattern>
-				   <token>en</token>
-				   <token>of</token>
+					<token>en</token>
+					<token>of</token>
 				</pattern>
-				<message>Hier is vast het teken voor 'of' weggevallen.</message>
+				<message>Hier is mogelijk het teken voor 'of' weggevallen.</message>
 				<suggestion>en/of</suggestion>
-				<example correction="en/of">Ik houd van corrigeren <marker>en of</marker> verbeteren.</example>
+				<example correction="en/of">Ik houd van appels <marker>en of</marker> peren.</example>
 			</rule>
 		</rulegroup>
 		
