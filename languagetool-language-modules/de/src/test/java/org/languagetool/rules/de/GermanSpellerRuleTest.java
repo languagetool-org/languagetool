@@ -25,7 +25,6 @@ import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -44,8 +43,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.TestCase.*;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GermanSpellerRuleTest {
 
