@@ -31,6 +31,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class ArabicCommaWhitespaceRuleTest {
+  
   private ArabicCommaWhitespaceRule rule;
   private JLanguageTool langTool;
 
@@ -62,7 +63,6 @@ public class ArabicCommaWhitespaceRuleTest {
     assertMatches("هذه ، جملة للتجربة.", 1);
     assertMatches("هذه ،تجربة جملة.", 2);
     assertMatches("،هذه جملة للتجربة.", 2);
-
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
