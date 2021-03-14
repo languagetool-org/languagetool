@@ -30,13 +30,13 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ArabicPunctuationWhitespaceRuleTest {
-  private ArabicPunctuationWhitespaceRule rule;
+public class ArabicCommaWhitespaceRuleTest {
+  private ArabicCommaWhitespaceRule rule;
   private JLanguageTool langTool;
 
   @Before
   public void setUp() {
-    rule = new ArabicPunctuationWhitespaceRule(TestTools.getEnglishMessages(), true);
+    rule = new ArabicCommaWhitespaceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   }
 
@@ -59,28 +59,9 @@ public class ArabicPunctuationWhitespaceRuleTest {
     // errors:
     // arabic comma
     assertMatches("هذه،جملة للتجربة.", 1);
-    assertMatches("هذه,جملة للتجربة.", 1);
     assertMatches("هذه ، جملة للتجربة.", 1);
-    assertMatches("هذه ,تجربة جملة.", 2);
     assertMatches("هذه ،تجربة جملة.", 2);
     assertMatches("،هذه جملة للتجربة.", 2);
-
-    // arabic question mark
-    assertMatches("This is a test sentence؟", 0);
-    assertMatches("أهذه تجربة؟", 0);
-    assertMatches("أهذه تجربة ؟", 1);
-    //latin question mark
-    assertMatches("This is a test sentence?", 0);
-    assertMatches("أهذه تجربة?", 0);
-    assertMatches("أهذه تجربة ?", 1);
-
-    // latin semi colon
-    assertMatches("أهذه تجربة;", 0);
-    assertMatches("أهذه تجربة ;", 1);
-    //Arabic semi colon
-    assertMatches("This is a test sentence؛", 0);
-    assertMatches("أهذه تجربة؛", 0);
-    assertMatches("أهذه تجربة ؛", 1);
 
   }
 
