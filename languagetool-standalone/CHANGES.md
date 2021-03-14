@@ -7,6 +7,11 @@
   * improve tagger and synthesizer to better tag pronouns
   * add ArabicTransVerbRule and ArabicPunctuationWhitespaceRule
 
+#### Arabic
+  * added and improved rules
+  * improve tagger and synthesizer to better tag pronouns
+  * add ArabicTransVerbRule and ArabicPunctuationWhitespaceRule
+
 #### English
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
   * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
