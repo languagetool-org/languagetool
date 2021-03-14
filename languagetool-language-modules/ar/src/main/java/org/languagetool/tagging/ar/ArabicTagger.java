@@ -25,6 +25,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Arabic;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tools.ArabicStringTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ArabicTagger extends BaseTagger {
     int pos = 0;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
-      String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+      String striped = ArabicStringTools.removeTashkeel(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
@@ -69,7 +70,7 @@ public class ArabicTagger extends BaseTagger {
 
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
-    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+    String striped = ArabicStringTools.removeTashkeel(word);
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     List<Integer> prefix_index_list = getPrefixIndexList(striped);
     List<Integer> suffix_index_list = getSuffixIndexList(striped);
