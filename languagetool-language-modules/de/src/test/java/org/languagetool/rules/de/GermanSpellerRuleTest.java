@@ -759,7 +759,7 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
-  public void testGetSuggestionWithPunctuation() throws Exception {
+  public void testSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     assertFirstSuggestion("informationnen.", "Informationen", rule, lt);
@@ -772,6 +772,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
+    assertFirstSuggestion("Primärfrequenz,", null, rule, lt);
   }
   
   @Test
