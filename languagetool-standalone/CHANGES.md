@@ -1,6 +1,159 @@
 # LanguageTool Change Log
 
-## 5.0-SNAPSHOT (release planned for 2020-06-26)
+## 5.3-SNAPSHOT (release planned for 2021-03-21)
+
+#### Arabic
+  * added and improved rules
+  * improve tagger and synthesizer to better tag pronouns
+  * add ArabicTransVerbRule and ArabicPunctuationWhitespaceRule
+
+#### English
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+  * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+  * changes in the word tokenizer for contractions and possessives, e.g. does[do/VBZ]n't[not/RB]; Harper[Harper/NNP,harper/NN]'s['s/POS]
+...
+
+
+## 5.2 (released 2020-12-29)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.13)
+
+#### Dutch
+  * added and improved rules
+  * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
+    still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.91 - 2020-12-01)
+ 
+#### German
+  * added and improved rules
+ 
+#### French
+  * added and improved rules
+  * updated spell checker and POS dictionary (unified in one dictionary) to lexique-gramalecte 7-0 
+    (source: https://grammalecte.net/download.php?prj=fr), 
+    as an external dependency (source: https://github.com/languagetool-org/french-pos-dict)
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Russian
+  * added and improved rules
+  * added new words and POS data for it
+  * improved suggestions algorithms for spellchecking
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-0.9)
+
+#### Ukrainian
+  * over 7000 new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
+
+#### General
+  * There's now `RegexAntiPatternFilter` which can be used to have antipatterns
+    for `<regexp>` rules. Use like this:     
+    ```
+    <regexp>my regex</regexp>
+    <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:regex1|regex2"/>
+    ```
+    Note that the regex after `antipatterns:` cannot contain spaces.
+  * German, French, Dutch, and Spanish have ngram-based false friends for
+    some time already, meaning that a German/Dutch/... native speaker will
+    get an error if (probably) using and English word incorrectly in an English
+    text. The change in this version is that for all other language pairs that
+    also have false friends, these rules are now active only in picky mode
+    (`--level PICKY` on the command line, `level=picky` with the HTTP API.)
+
+
+## 5.1.3 (released 2020-10-15)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed https://github.com/languagetool-org/languagetool/issues/3666
+    ("... not a language code known to LanguageTool")
+
+
+
+## 5.1.2 (released 2020-10-05)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed https://github.com/languagetool-org/languagetool/issues/3638,
+    https://github.com/languagetool-org/languagetool/issues/3652, and
+    https://github.com/languagetool-org/languagetool/issues/3575
+
+
+
+## 5.1.1 (released 2020-09-29)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed a NullPointerException crash in the LibreOffice/OpenOffice add-on
+
+  
+
+## 5.1 (released 2020-09-25)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.88 - 2020-09-01)
+
+#### French
+  * added and improved rules
+
+#### German
+  * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
+    to version 1.2.2.
+  * each pair of `ProhibitedCompoundRule` has its own ID now, so it can be separately turned on/off
+  * added and improved rules
+
+#### Italian
+  * small rule improvements
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Russian
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * dictionary update
+  * many new punctuation rules
+  * many new styling rules
+  * tokenization and tagging improvements
+  * disambiguation improvements
+
+#### General
+  * each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
+  * new XML attribute `chunk_re` for `<token>`, which specifies a chunk as a regular expression
+
+
+
+## 5.0.2 (2020-08-28)
+
+  * (languagetool-core only) merged https://github.com/languagetool-org/languagetool/pull/3491 and
+    https://github.com/languagetool-org/languagetool/pull/3487
+
+
+
+## 5.0 (2020-06-27)
 
 #### Arabic
   * added and improved rules
