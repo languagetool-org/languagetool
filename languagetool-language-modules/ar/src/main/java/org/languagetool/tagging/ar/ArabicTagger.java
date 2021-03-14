@@ -37,6 +37,7 @@ import java.util.Locale;
 public class ArabicTagger extends BaseTagger {
 
   private final ArabicTagManager tagmanager = new ArabicTagManager();
+  private boolean newStylePronounTag = false;
 
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
@@ -82,7 +83,7 @@ public class ArabicTagger extends BaseTagger {
           continue;
         // get stem return a list, to generate some variants for stems.
         List<String> stemsList = getStem(striped, i, j);
-        List<String> tags = getTags(striped, i);
+        List<String> tags = getTags(striped, i, j);
 
         for (String stem : stemsList) {
           List<AnalyzedToken> taggerTokens;
@@ -205,38 +206,93 @@ public class ArabicTagger extends BaseTagger {
   }
 
 
-  private List<String> getTags(String word, int posStart) {
+  private List<String> getTags(String word, int posStart, int posEnd) {
     List<String> tags = new ArrayList<>();
     // extract tags from word
     String prefix = getPrefix(word, posStart);
+    String suffix = getSuffix(word, posEnd);
     // prefixes
     // first place
     if (prefix.startsWith("و") || prefix.startsWith("ف")) {
-      tags.add("W");
+      tags.add("CONJ;W");
       prefix = prefix.replaceAll("^[وف]", "");
 
     }
     // second place
     if (prefix.startsWith("ك")) {
-      tags.add("K");
+      tags.add("JAR;K");
     } else if (prefix.startsWith("ل")) {
-      tags.add("L");
+      tags.add("JAR;L");
     } else if (prefix.startsWith("ب")) {
-      tags.add("B");
+      tags.add("JAR;B");
     } else if (prefix.startsWith("س")) {
-      tags.add("S");
+      tags.add("ISTIQBAL;S");
     }
     // last place
     if (prefix.endsWith("ال")
       || prefix.endsWith("لل")
     ) {
-      tags.add("D");
+      tags.add("PRONOUN;D");
     }
     // suffixes
-    // TODO : suffixes if needed
+    if (!newStylePronounTag) {
+      switch (suffix) {
+        case "ني":
+        case "نا":
+        case "ك":
+        case "كما":
+        case "كم":
+        case "كن":
+        case "ه":
+        case "ها":
+        case "هما":
+        case "هم":
+        case "هن":
+          tags.add("PRONOUN;H");
+          break;
+      }
+    } else // if newStyle
+    {
+      switch (suffix) {
+        case "ني":
+          tags.add("PRONOUN;b");
+          break;
+        case "نا":
+          tags.add("PRONOUN;c");
+          break;
+        case "ك":
+          tags.add("PRONOUN;d");
+          break;
+        case "كما":
+          tags.add("PRONOUN;e");
+          break;
+        case "كم":
+          tags.add("PRONOUN;f");
+          break;
+        case "كن":
+          tags.add("PRONOUN;g");
+          break;
+        case "ه":
+          tags.add("PRONOUN;H");
+          break;
+        case "ها":
+          tags.add("PRONOUN;i");
+          break;
+        case "هما":
+          tags.add("PRONOUN;j");
+          break;
+        case "هم":
+          tags.add("PRONOUN;k");
+          break;
+        case "هن":
+          tags.add("PRONOUN;n");
+      }
+    }
+
+
     return tags;
   }
-  
+
   /**
    * @return test if word has stopword tagging
    */
@@ -252,6 +308,10 @@ public class ArabicTagger extends BaseTagger {
 
   private String getPrefix(String word, int pos) {
     return word.substring(0, pos);
+  }
+
+  private String getSuffix(String word, int pos) {
+    return word.substring(pos);
   }
 
   private List<String> getStem(String word, int posStart, int posEnd) {
@@ -271,6 +331,14 @@ public class ArabicTagger extends BaseTagger {
 
     stemList.add(stem);  // لاسم أو ل+لاعب
     return stemList;
+  }
+
+
+  /*
+   * a temporary attribute to be compatible with existing pronoun tag style
+   */
+  public void enableNewStylePronounTag() {
+    newStylePronounTag = true;
   }
 }
 
