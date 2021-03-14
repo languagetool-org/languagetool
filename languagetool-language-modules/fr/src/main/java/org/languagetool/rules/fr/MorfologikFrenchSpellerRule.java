@@ -178,6 +178,26 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
     if (word.equals("voulai")) {
       return Arrays.asList("voulais", "voulait");
+    } else if (word.toLowerCase().equals("mm2")) {
+      return Arrays.asList("mm²");
+    } else if (word.toLowerCase().equals("cm2")) {
+      return Arrays.asList("cm²");
+    } else if (word.toLowerCase().equals("dm2")) {
+      return Arrays.asList("dm²");
+    } else if (word.toLowerCase().equals("m2")) {
+      return Arrays.asList("m²");
+    } else if (word.toLowerCase().equals("km2")) {
+      return Arrays.asList("km²");
+    } else if (word.toLowerCase().equals("mm3")) {
+      return Arrays.asList("mm³");
+    } else if (word.toLowerCase().equals("cm3")) {
+      return Arrays.asList("cm³");
+    } else if (word.toLowerCase().equals("dm3")) {
+      return Arrays.asList("dm³");
+    } else if (word.toLowerCase().equals("m3")) {
+      return Arrays.asList("m³");
+    } else if (word.toLowerCase().equals("km3")) {
+      return Arrays.asList("km³");
     }
     /*
      * if (word.length() < 5) { return Collections.emptyList(); }

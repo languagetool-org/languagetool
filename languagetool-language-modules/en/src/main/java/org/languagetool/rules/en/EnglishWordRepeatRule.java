@@ -66,6 +66,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true; // "The can can hold the water."
     } else if (repetitionOf("hip", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("hooray")) {
       return true;
+    } else if (repetitionOf("bam", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("bigelow")) {
+      return true;
     } else if (repetitionOf("wild", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("west")) {
       return true; // In the wild wild west (https://en.wikipedia.org/wiki/Wild_Wild_West)
     } else if (repetitionOf("far", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("away")) {

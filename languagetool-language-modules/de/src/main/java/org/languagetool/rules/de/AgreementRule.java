@@ -1020,6 +1020,11 @@ public class AgreementRule extends Rule {
       csRegex("vielen?|wenigen?|einigen?"),
       csToken("Paar"),
       posRegex("SUB:NOM:PLU:...")
+    ),
+    Arrays.asList( // Dann macht das Sinn.
+      csRegex("machte?|ergibt|ergab|stiftete?"),
+      csToken("das"),
+      csToken("Sinn")
     )
   );
 

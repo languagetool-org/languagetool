@@ -277,6 +277,14 @@ public class UkrainianWordTokenizer implements Tokenizer {
       }
     }
 
+    // leave only potential hashtags together
+    text = text.replace("#", BREAKING_PLACEHOLDER + "#");
+    // leave numbers with following % together
+    if( text.indexOf('%') >= 0 ) {
+      text = text.replaceAll("%([^-])", "%" + BREAKING_PLACEHOLDER + "$1");
+    }
+
+    
     text = COMPOUND_WITH_QUOTES.matcher(text).replaceAll("$1\uE109$2\uE109$3");
     
     // if period is not the last character in the sentence

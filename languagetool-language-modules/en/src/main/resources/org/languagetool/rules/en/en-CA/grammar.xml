@@ -161,4 +161,30 @@ USA
             </rule>
         </rulegroup>
     </category>
+
+    <category id="STYLE" name="Style" type="style">
+        <rule id="FOR_EVER_GB" name="for ever (forever)">
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">since|one|body|thing|glades?|bloomers?|changing</token>
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token postag="JJR" />
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">and|&amp;|or</token>
+                <token>ever</token>
+            </antipattern>
+            <pattern>
+                <token>for</token>
+                <token>ever</token>
+            </pattern>
+            <message>It is more common to spell this adverb as one word.</message>
+            <suggestion>forever</suggestion>
+            <url>https://www.lexico.com/definition/forever</url>
+            <example correction="forever">Your texts are stored <marker>for ever</marker>.</example>
+        </rule>
+    </category>
 </rules>

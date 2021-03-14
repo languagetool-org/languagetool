@@ -49,6 +49,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("schenke", "Gastwirtschaft (auch: Schänke)", "schenkel", "Ober- und Unterschenkel"),
           new Pair("rune", "Schriftzeichen der Germanen", "runde", "Rundstrecke"),
           new Pair("mai", "Monat nach April", "mail", "E-Mail"),
           new Pair("pump", "'auf Pump': umgangssprachlich für 'auf Kredit'", "pumpe", "Gerät zur Beförderung von Flüssigkeiten"),
@@ -104,6 +105,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "reisender",  // Ägyptenreisender etc.
+    "[a-zöäüß]+sender",  // wg. sende/sender, z.B. bremsender, abzulassender
     "gra(ph|f)ische?",  // kosmografisch etc.
     "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
     "gra(ph|f)s?$",  // Elektrokardiograph

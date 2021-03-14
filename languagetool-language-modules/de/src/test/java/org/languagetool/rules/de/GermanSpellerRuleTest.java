@@ -490,8 +490,12 @@ public class GermanSpellerRuleTest {
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
-            matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+    if (expected == null) {
+      assertThat("Matches: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().size(), is(0));
+    } else {
+      assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+        matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+    }
   }
 
   @Test
@@ -765,6 +769,8 @@ public class GermanSpellerRuleTest {
     //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
     // commas are actually not part of the word, so the suggestion doesn't include them:
     assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
+    assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
+    assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
   }
   
   @Test

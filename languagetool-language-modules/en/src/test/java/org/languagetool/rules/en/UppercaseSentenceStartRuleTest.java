@@ -19,8 +19,7 @@
 package org.languagetool.rules.en;
 
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
+import org.languagetool.*;
 
 import java.io.IOException;
 
@@ -41,6 +40,7 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(1, lt.check("languagetool.org is a website.").size());
     assertEquals(1, lt.check("a sentence.").size());
     assertEquals(1, lt.check("a sentence!").size());
+    assertEquals(0, lt.check("Hi Mr. Miller,\n\n\u00A0\n\nhow are you?").size());  // special case for paste from e.g. Outlook
   }
 
 }

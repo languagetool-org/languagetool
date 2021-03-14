@@ -63,7 +63,7 @@
     </rule>
     
     <rulegroup id="CONTRACTIONS" name="contractions: special cases">
-        <!--TODO: should be done before the chunker -->
+        <!--TODO: should be done before the chunker to get better results? -->
         <rule>
             <pattern>
                 <marker>
@@ -220,6 +220,24 @@
                 <token spacebefore="no">n't</token>
             </pattern>
             <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>'t</token>
+                </marker>
+                <token spacebefore="no">was</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="it" pos="PRP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>'t</token>
+                </marker>
+                <token spacebefore="no">was</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
@@ -521,7 +539,9 @@
         <rule id="SO_JJ" name="so + adj/rb => so/RB">
           <pattern>
             <marker><token>so</token></marker>
-            <token postag="JJ.?|RB.?" postag_regexp="yes"/>
+            <token postag="JJ.?|RB.?" postag_regexp="yes">
+                <exception regexp="yes">therefore|hence|thus</exception>
+            </token>
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched"> He checked carefully, so that the mistakes were caught.</example>
@@ -1357,6 +1377,20 @@
     </rule>
 
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
+        <antipattern><!-- #4572 been to Bush's image -->
+            <token>been</token>
+            <token>to</token>
+            <token chunk="E-NP-singular" postag="NNP"/>
+            <token chunk="B-NP-singular">'s</token>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+        </antipattern>
+        <antipattern><!-- #4572 been to Mark's, but -->
+            <token>been</token>
+            <token>to</token>
+            <token chunk="E-NP-singular" postag="NNP"/>
+            <token>'s</token>
+            <token postag="PCT"/>
+        </antipattern>
         <pattern>
             <token inflected="yes">be</token>
             <token>to</token>
@@ -1368,6 +1402,10 @@
             </marker>
         </pattern>
         <disambig postag="VB"/>
+        <example type="untouched">So far, the main damage has been to Bush's image.</example><!-- #4572 -->
+        <example type="untouched">Have you ever been to Chuck's Diner for brunch?</example><!-- #4572 -->
+        <example type="untouched">I have been to Wade's WIN site free for a week.</example><!-- #4572 Win/E-NP-singular -->
+        <example type="untouched">You sat down to eat, not because you have never been to Mark's, but because you...</example><!-- #4573 -->
     </rule>
 
     <rule id="DO_VBNN_VB" name="do/did/does + verb/noun -> VB">
@@ -2623,7 +2661,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="add"><wd pos="VBD" lemma="cc"/></disambig>
         <example type="untouched">I cc you.</example>
-        <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBP]" outputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBP]">He <marker>cc</marker>'d me.</example>
+        <!--<example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBP]" outputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBP]">He <marker>cc</marker>'d me.</example>-->
     </rule>
     <rule name="cc'd" id="CC_VBN">
         <pattern>
@@ -2634,7 +2672,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="add"><wd pos="VBN" lemma="cc"/></disambig>
         <example type="untouched">I cc you.</example>
-        <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBP]" outputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBN,cc/VBP]">He <marker>cc</marker>'d me.</example>
+        <!--<example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBP]" outputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBN,cc/VBP]">He <marker>cc</marker>'d me.</example>-->
     </rule>
     <!--<rule name="cc'ing" id="CC_VBG">
         <pattern>
@@ -4102,6 +4140,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="Simple gazetteer/proper name rule" id="gazetteer">
+        <antipattern>
+            <token postag="MD|TO|PRP" postag_regexp="yes" />
+            <token>port</token>
+            <token postag="IN|DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
         <pattern case_sensitive="yes">
             <marker>
                 <token regexp="yes">Lake|Fort|Port|Mount</token>
@@ -5938,6 +5981,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token></token>
                 <token>'s</token>
             </antipattern>
+            <antipattern case_sensitive="yes"><!-- #4567 The AN's official newspaper was -->
+                <token postag="DT" regexp="yes">\p{Lu}?\p{Ll}+</token>
+                <token chunk="E-NP-singular">AN</token>
+                <token>'s</token>
+                <token chunk="B-NP-singular" regexp="yes">\p{Ll}+</token>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[ZD]"/>
+            </antipattern>
+            <antipattern><!-- #4567 a's and b's -->
+                <token>a</token>
+                <token>'s</token>
+                <token postag_regexp="yes" postag="CC|IN"/>
+                <token regexp="yes">\p{L}</token>
+                <token>'s</token>
+            </antipattern>
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/></token>
                 <marker>
@@ -5961,9 +6019,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Which a's have many interesting properties?</example><!-- #3223 -->
             <example type="untouched">A's always please me.</example><!-- #3223 -->
             <example type="untouched">... had been sent to Reliant's legal dept.</example><!-- #4048 -->
-            <!--<example type="ambiguous" inputform="'s[be/VBZ,s/POS]" outputform="'s[be/VBZ]">Where<marker>'s</marker> Bill?</example>-->
-            <!--<example type="ambiguous" inputform="'s[be/VBZ,s/POS]" outputform="'s[be/VBZ]">There<marker>'s</marker> no milk in the fridge.</example>-->
-            <!--<example type="ambiguous" inputform="'s[be/VBZ,s/POS]" outputform="'s[be/VBZ]">Not good style: If the S<marker>'s</marker> not the correct colour, the advert won't look good.</example>-->
+            <example type="untouched">The AN's official newspaper was Secolo d'Italia.</example><!-- #4567 -->
+            <example type="untouched">... containing an unequal number of a's and b's: This is...</example><!-- #4567 -->
+            <example type="untouched">... all strings with the same number of a's as b's, the nonterminal U generates all...</example><!-- #4567 -->
+            <example type="untouched">... generates all strings with more a's than b's and the nonterminal V generate...</example><!-- #4567 -->
+            <example type="untouched">So far, the main damage has been to Bush's image.</example><!-- #4572 -->
+            <example type="untouched">Have you ever been to Chuck's Diner for brunch?</example><!-- #4572 -->
+            <example type="untouched">I have been to Wade's WIN site free for a week.</example><!-- #4572 -->
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">There<marker>'s</marker> no milk in the fridge.</example>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">One person closed the door and another<marker>'s</marker> opened it again.</example>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">One opportunity closed, but another<marker>'s</marker> opened.</example>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">Where<marker>'s</marker> Bill?</example>
@@ -6136,6 +6199,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBN"/>
                 <token postag="IN"/>
             </antipattern>
+            <antipattern> <!-- #4542 Incorrect grammar: Oneok's attorney's approve -->
+                <token chunk="E-NP-singular" postag="NNP"/>
+                <token spacebefore="no">'s</token>
+                <token chunk_re="[IE]-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
@@ -6164,6 +6234,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">The useless engineer's broken the machine again!</example><!-- #4542 -->
             <example type="untouched">The reason I think the computer's broken is that the little red light is flashing.</example><!-- #4542 -->
             <example type="untouched"><!-- Incorrect grammar -->The sequence consists of one's designated as TRUE and...</example><!-- #4542 -->
+            <example type="untouched"><!-- Incorrect grammar -->Steve will fax me a copy of the notice they received if Oneok's attorney<marker>'s</marker> approve.</example><!-- #4542 -->
 <!--             <example type="untouched">7 reasons why <marker>teacher's</marker> found us top class</example>#4542 This sentence is ambiguous. Possibly incorrect apostrophe, but possibly = ... why teacher [zero-article job role] has found ... -->
         </rule>
         <rule> <!--  add to Texas' or Armenians' -->
@@ -10618,7 +10689,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule>
           <pattern>
               <token>very</token>
-              <token regexp='yes'>(.+)ly</token>
+              <token regexp='yes' postag="RB">
+                (.+)ly
+                <exception>family</exception>
+            </token>
           </pattern>
           <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
