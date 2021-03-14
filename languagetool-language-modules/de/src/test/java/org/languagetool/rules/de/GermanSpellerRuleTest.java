@@ -772,7 +772,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
-    assertFirstSuggestion("Primärfrequenz,", null, rule, lt);
+    assertFirstSuggestion("Sakralkultur,", null, rule, lt);
   }
   
   @Test
