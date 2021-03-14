@@ -29,45 +29,45 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
-  * Data for {@link ArabicTransVerbRule}.
-  *
-  * @author Taha Zerrouki
-  */
+ * Data for {@link ArabicTransVerbRule}.
+ *
+ * @author Taha Zerrouki
+ */
 public class ArabicTransVerbData {
-private static final Set<String> requiresA = loadWords("/ar/verb_trans_to_untrans.txt");
-   private static final Set<String> requiresAn = loadWords("/ar/verb_untrans_to_trans.txt");
+  private static final Set<String> requiresA = loadWords("/ar/verb_trans_to_untrans.txt");
+  private static final Set<String> requiresAn = loadWords("/ar/verb_untrans_to_trans.txt");
 
-   private ArabicTransVerbData() {
-   }
+  private ArabicTransVerbData() {
+  }
 
-   static Set<String> getWordsRequiringA() {
-     return requiresA;
-   }
+  static Set<String> getWordsRequiringA() {
+    return requiresA;
+  }
 
-   static Set<String> getWordsRequiringAn() {
-     return requiresAn;
-   }
+  static Set<String> getWordsRequiringAn() {
+    return requiresAn;
+  }
 
-   /**
-    * Load words, normalized to lowercase unless starting with '*'.
-    */
-   private static Set<String> loadWords(String path) {
-     Set<String> set = new THashSet<>();
-     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-     try (Scanner scanner = new Scanner(stream, "utf-8")) {
-       while (scanner.hasNextLine()) {
-         String line = scanner.nextLine().trim();
-         if (line.isEmpty() || line.charAt(0) == '#') {
-           continue;
-         }
-         if (line.charAt(0) == '*') {
-           set.add(line.substring(1));
-         } else {
-           set.add(line.toLowerCase());
-         }
-       }
-     }
-     return Collections.unmodifiableSet(set);
-   }
+  /**
+   * Load words, normalized to lowercase unless starting with '*'.
+   */
+  private static Set<String> loadWords(String path) {
+    Set<String> set = new THashSet<>();
+    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    try (Scanner scanner = new Scanner(stream, "utf-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine().trim();
+        if (line.isEmpty() || line.charAt(0) == '#') {
+          continue;
+        }
+        if (line.charAt(0) == '*') {
+          set.add(line.substring(1));
+        } else {
+          set.add(line.toLowerCase());
+        }
+      }
+    }
+    return Collections.unmodifiableSet(set);
+  }
 
- }
+}
