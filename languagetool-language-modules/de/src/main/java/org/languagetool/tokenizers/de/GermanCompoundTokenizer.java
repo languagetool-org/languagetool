@@ -194,6 +194,23 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Pflanzenölsorte", asList("Pflanzenöl", "sorte"));
     wordSplitter.addException("Pflanzenölsorten", asList("Pflanzenöl", "sorten"));
     wordSplitter.addException("Damenshorts", asList("Damen", "shorts"));
+    wordSplitter.addException("Badeshorts", asList("Bade", "shorts"));
+    wordSplitter.addException("Bermudashorts", asList("Bermuda", "shorts"));
+    wordSplitter.addException("Boardshorts", asList("Board", "shorts"));
+    wordSplitter.addException("Boxershorts", asList("Boxer", "shorts"));
+    wordSplitter.addException("Damenshorts", asList("Damen", "shorts"));
+    wordSplitter.addException("Jeansshorts", asList("Jeans", "shorts"));
+    wordSplitter.addException("Khakishorts", asList("Khaki", "shorts"));
+    wordSplitter.addException("Kindershorts", asList("Kinder", "shorts"));
+    wordSplitter.addException("Latexshorts", asList("Latex", "shorts"));
+    wordSplitter.addException("Laufshorts", asList("Lauf", "shorts"));
+    wordSplitter.addException("Pyjamashorts", asList("Pyjama", "shorts"));
+    wordSplitter.addException("Retroshorts", asList("Retro", "shorts"));
+    wordSplitter.addException("Schlabbershorts", asList("Schlabber", "shorts"));
+    wordSplitter.addException("Schlafshorts", asList("Schlaf", "shorts"));
+    wordSplitter.addException("Schwimmshorts", asList("Schwimm", "shorts"));
+    wordSplitter.addException("Trägershorts", asList("Träger", "shorts"));
+    wordSplitter.addException("Polizeishorts", asList("Polizei", "shorts"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
