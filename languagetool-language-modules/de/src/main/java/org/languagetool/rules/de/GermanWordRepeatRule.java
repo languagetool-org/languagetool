@@ -102,6 +102,26 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Top")
     ),
     Arrays.asList(
+      token("Toi"),
+      token("Toi"),
+      token("Toi")
+    ),
+    Arrays.asList(
+      token("und"),
+      token("und"),
+      token("und")
+    ),
+    Arrays.asList(
+      token("man"),
+      token("man"),
+      token("man")
+    ),
+    Arrays.asList( // Art Direktor*in in der ...
+      tokenRegex("\\*|:|\\/"),
+      token("in"),
+      token("in")
+    ),
+    Arrays.asList(
       token("Üben"),
       token("Üben"),
       token("Üben")
