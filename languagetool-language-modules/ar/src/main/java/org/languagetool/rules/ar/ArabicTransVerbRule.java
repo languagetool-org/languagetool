@@ -32,16 +32,18 @@ import org.languagetool.tokenizers.ArabicWordTokenizer;
 import java.util.*;
 
 public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
-  private final ArabicTagger tagger;
-  private final ArabicTagManager tagmanager;
-  private final ArabicWordTokenizer tokenizer;
-  private final ArabicSynthesizer synthesizer;
+
   public static final String AR_VERB_TRANS_INDIRECT_REPLACE = "AR_VERB_TRANSITIVE_IINDIRECT";
 
   private static List<Map<String, SuggestionWithMessage>> wrongWords;
 
   private static final String FILE_NAME = "/ar/verb_trans_to_untrans2.txt";
   private static final Locale AR_LOCALE = new Locale("ar");
+
+  private final ArabicTagger tagger;
+  private final ArabicTagManager tagmanager;
+  private final ArabicWordTokenizer tokenizer;
+  private final ArabicSynthesizer synthesizer;
 
   public ArabicTransVerbRule(ResourceBundle messages) {
     super(messages, new Arabic());
@@ -58,7 +60,6 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);
-
   }
 
   @Override
@@ -138,15 +139,15 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
         //System.out.printf("ArabicTransVerbRule: verb %b preposition %b\n", is_attached_verb_transitive,
         //is_right_preposition);
         // the verb is attached and the next token is not the suitable preposition
-        // we give the coorect new form
+        // we give the correct new form
         if (is_attached_verb_transitive && !is_right_preposition) {
           //      if( is_attached_verb_transitive && ! is_right_preposition) {
           String verb = getCorrectVerbForm(tokens[prevTokenIndex]);
           // generate suggestion according to suggested prepositions
           //FIXME: test all suggestions
-          String newprepostion = prepositions.get(0);
+          String newPreposition = prepositions.get(0);
           //          String preposition = getCorrectPrepositionForm(token, prevToken);
-          String preposition = getCorrectPrepositionForm(newprepostion, prevToken);
+          String preposition = getCorrectPrepositionForm(newPreposition, prevToken);
 
           //System.out.printf("ArabicTransVerbRule: verb %s preposition %s =>  verb %s preposition %s\n", prevTokenStr,
           //tokenStr, verb, preposition);
@@ -157,7 +158,6 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
             this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(),
             tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف");
           ruleMatches.add(match);
-
         }
       }
 
@@ -195,7 +195,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
         //        if (verbLemmaMatch != null) {
         //          replacements = Arrays.asList(verbLemmaMatch.getSuggestion().split("\\|"));
-        //          System.out.printf("AravicTransVerbRule: (isAttachedTransitiveVerb) wrong word: %s, suggestion: %s\n",
+        //          System.out.printf("ArabicTransVerbRule: (isAttachedTransitiveVerb) wrong word: %s, suggestion: %s\n",
         //            verbLemma, Arrays.toString(replacements.toArray()));
         //          return !replacements.isEmpty();
         //        }
@@ -218,7 +218,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
     List<AnalyzedToken> verbTokenList = mytoken.getReadings();
 
     // keep the suitable postags
-    List<String> rightPostags = new ArrayList<String>();
+    List<String> rightPostags = new ArrayList<>();
     List<String> replacements = new ArrayList<>();
 
     for (AnalyzedToken verbTok : verbTokenList) {
@@ -235,7 +235,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
         // The lemma is found in the dictionnary file
         if (verbLemmaMatch != null) {
           replacements = Arrays.asList(verbLemmaMatch.getSuggestion().split("\\|"));
-          //System.out.printf("AravicTransVerbRule: (isAttachedTransitiveVerb) wrong word: %s, suggestion: %s\n",
+          //System.out.printf("ArabicTransVerbRule: (isAttachedTransitiveVerb) wrong word: %s, suggestion: %s\n",
           // verbLemma, Arrays.toString(replacements.toArray()));
           return replacements;
         }
@@ -286,11 +286,10 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
     //    String newWord = Arrays.toString(synthesizer.synthesize(prepAToken, newposTag));
     String[] newwordList = synthesizer.synthesize(prepAToken, newposTag);
     String newWord = "";
-    if (newwordList.length != 0)
+    if (newwordList.length != 0) {
       newWord = newwordList[0];
-
+    }
     return newWord;
-
   }
 
   /* generate a new form according to a specific postag, this form is Attached*/
@@ -319,8 +318,8 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
     //    String lemma = "في";
     String lemma = prepositionLemma;
     String postag = "PR-;---;---";
-    String prevpostag = prevtoken.getReadings().get(0).getPOSTag();
-    char flag = tagmanager.getFlag(prevpostag, "PRONOUN");
+    String prevPosTag = prevtoken.getReadings().get(0).getPOSTag();
+    char flag = tagmanager.getFlag(prevPosTag, "PRONOUN");
     //System.out.printf("ArabicTransVerbRule:(generateAttachedNewForm) %s %s %c\n",lemma, postag, flag );
     return generateNewForm(lemma, postag, flag);
   }
