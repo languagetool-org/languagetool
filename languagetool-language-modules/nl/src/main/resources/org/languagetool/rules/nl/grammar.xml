@@ -111,7 +111,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="EN_OF" name="En of / en/of" default="temp_off">
+		<rulegroup id="EN_OF" name="En of / en/of">
 			<rule>
 				<antipattern><token>of</token><token regexp="yes">jij|je|hij|ze|zij|wij|men|het</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token>en</token></antipattern>
@@ -124,7 +124,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="VEEL_DAGEN" name="2021 jaar" default="temp_off">
+		<rulegroup id="VEEL_DAGEN" name="2021 jaar" >
 			<rule>
 				<pattern>
 					<token regexp="yes">[12][0-9]{3}</token>
@@ -9476,6 +9476,17 @@ onwaarschijnlijk
 				<example correction="degene die">Hij is <marker>degene de</marker> een fout maakt.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="VOOR_DE_MEENEEEM" name="voor de meeneem/om mee te nemen" default="temp_off">
+			<rule>
+				<pattern>
+					<token>voor</token>
+					<token>de</token>
+					<token postag_regexp="yes" postag="WKW:VLT:1EP.*" regexp="yes" case_sensitive="yes">^[a-z].*<exception postag_regexp="yes" postag="WKW:VTD:VRB|BNW.*VRB|GET:RNG"/><exception regexp="yes">laste|look</exception></token>
+				</pattern>
+				<message>Het is beter om dit te herschrijven met 'om ... te'.</message>
+				<example type="incorrect">Dat is <marker>voor de meeneem</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_WKWVLT3EP" name="De aanlegde" >
 			<rule>
 				<pattern>
@@ -17758,7 +17769,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" default="temp_off">
+		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
@@ -17778,7 +17789,7 @@ steenwijk;Steenwijk
 				<example correction="bepalingengedoe">Ik zie het <marker>bepalingen gedoe</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
+		<rulegroup id="HET_ZNW_DE" name="het man / de man" >
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
 				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
@@ -17799,7 +17810,7 @@ steenwijk;Steenwijk
 				<example correction="de|die|deze">Ik zie <marker>het</marker> bepaling.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" default="temp_off">
+		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" >
 			<rule>
 				<antipattern><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW:.*DE_"/></antipattern>
 				<pattern>
@@ -39213,7 +39224,7 @@ steenwijk;Steenwijk
 				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder|de doorverbindende">En <marker>de doorverbinden</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DE_3EP" name="de loopt" default="temp_off">
+		<rulegroup id="DE_3EP" name="de loopt" >
 			<rule>
 				<pattern>
 					<token>de</token>
