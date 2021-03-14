@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.3-SNAPSHOT (release planned for 2021-03-21)
+## 5.3-SNAPSHOT (release planned for 2021-03-29)
 
 #### English
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
