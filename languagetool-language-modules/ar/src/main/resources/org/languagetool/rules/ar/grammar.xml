@@ -31,10 +31,11 @@ USA
     <!ENTITY horof_jar "في|من|إلى|على|عن|مع">
     <!ENTITY unbreak_proclitics "ال">
     <!ENTITY proclitics "و|ف|ال|وال|فال|ب|بال|وبال|ك|كال|وكال|فكال|ل|لل|ولل|فلل">
-    <!ENTITY undef_proclitics "و|ف|ب|ك|">
+    <!ENTITY undef_proclitics "و|ف|ب|ك|وب|فب|وك|فك">
     <!ENTITY verb_prefixes "ي|ت|ن|أ|سي|ست|سن|سأ">
     <!ENTITY verb6_prefixes "ا|ي|ت|ن|أ|سي|ست|سن|سأ">
     <!ENTITY conj "و|ف">
+    <!ENTITY prep "ب|ك|ل">
     <!ENTITY enclitics "|ه|ها|هما|هم|هن|ك|كما|كم|كن|ي|نا">
     <!ENTITY verb_enclitics "ه|ها|هما|هم|هن|ك|كما|كم|كن|ني|نا">
     <!ENTITY forms_3an "عن|عني|عنا|عنك|عنكما|عنكم|عنكن|عنه|عنها|عنهما|عنهم|عنهن">
@@ -61,7 +62,7 @@ USA
     <!ENTITY forms_dhiddah "ضدنا|ضدك|ضدكما|ضدكم|ضدكن|ضده|ضدها|ضدهما|ضدهم|ضدهن">
     <!ENTITY allah_names "الآخر|الحميد|الحفيظ|اللطيف|المحيي|الجامع|الباطن|الولي|المقسط|الغفار|الودود|الوهاب|المانع|الشكور|الحليم|المتكبر|الحسيب|الجليل|النافع|الصبور|النور|المصور|الفتاح|مالك|الحي|الغني|الحق|الواسع|الجبار|المغني|العظيم|الباقي|الوارث|الرزاق|المهيمن|الضار|المقيت|الهادي|المتعالي|الوالي|المقتدر|المعز|الأول|القادر|الصمد|السميع|المذل|الكريم|ذو|البصير|العلي|السلام|المميت|العدل|الرافع|التواب|القهار|القابض|المعيد|المبدئ|الرشيد|المؤخر|المؤمن|الجلال|الظاهر|القيوم|الخبير|الوكيل|العزيز|الرحيم|الواجد|البر|المقدم|البديع|الغفور|الرقيب|الأحد|القدوس|الباسط|الجميل|والإكرام|المجيد|الرحمن|الرؤوف|المجيب|القوي|الخالق|الواحد|المنتقم|الملك|المعطي|المحصي|الكبير|العفو|المتين|الباعث|الماجد|الخافض|الحكم|العليم|البارئ|الشهي">
     <!ENTITY wrong_feminine "ذقن|رفات">
-    <!ENTITY wrong_masculine "كتف|فخذ|ساق|ريح|بئر|يمين|ضبع">
+    <!ENTITY wrong_masculine "كتف|فخذ|ساق|ريح|بئر|يمين|ضبع|سن">
     ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -119,93 +120,339 @@ USA
       <rule id="gender_0001_hadha" name="تطابق النوع مع هذا">
         <pattern>
           <marker>
-            <token>هذا</token>
+            <token inflected="yes">هذا</token>
+            <token postag="N.*;F1.*;--.*" postag_regexp="yes"/>
           </marker>
-          <token postag="N.*;F1.*;--.*" postag_regexp="yes"/>
         </pattern>
-        <message>انتبه إلى اسم الإشارة للمذكر، ربما عليك أن تضع اسم إشارة مؤنثا <suggestion>هذه</suggestion>?
-                </message>
-        <example correction="هذه" type="incorrect"><marker>هذا</marker> السلامة </example>
-        <!--                <example correction="هذه"><marker>هذا</marker> سلامته </example>-->
-        <example correction="هذه" type="incorrect"><marker>هذا</marker> سلامة </example>
+        <message>الكلمة "\2"  مؤنثة، ربما عليك وضع اسم اشارة مؤنث: <suggestion><match no="1" regexp_match="هذا" regexp_replace="هذه"/>&nbsp;<match no="2"/></suggestion>
+        </message>
+        <example correction="هذه السلامة" type="incorrect"><marker>هذا السلامة</marker></example>
+        <example correction="وهذه السلامة" type="incorrect"><marker>وهذا السلامة</marker></example>
+        <example correction="هذه سلامته"><marker>هذا سلامته</marker></example>
+        <example correction="هذه سلامة" type="incorrect"><marker>هذا سلامة</marker></example>
       </rule>
       <rule id="gender_0002_hadhihi" name="تطابق النوع مع هذه">
         <pattern>
           <marker>
-            <token>هذه</token>
-          </marker>
-          <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
+            <token inflected="yes">هذه</token>
+            <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
+        </marker>
         </pattern>
-        <message>انتبه إلى اسم الإشارة للمؤنث، ربما عليك أن تضع اسم إشارة مذكرا <suggestion>هذا</suggestion>?
+        <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا:
+ <suggestion><match no="1" regexp_match="هذه" regexp_replace="هذا"/>&nbsp;\2</suggestion>
                 </message>
-        <example correction="هذا" type="incorrect"><marker>هذه</marker> السلام </example>
-        <!--                <example correction="هذه"><marker>هذا</marker> سلامته </example>-->
-        <example correction="هذا" type="incorrect"><marker>هذه</marker> سلام </example>
+        <example correction="هذا السلام" type="incorrect"><marker>هذه السلام</marker></example>
+        <example correction="هذا سلام" type="incorrect"><marker>هذه سلام</marker></example>
       </rule>
       <rule id="gender_0003_hadha" name="تطابق هذا مع الكلمات ملتبسة النوع">
         <pattern>
           <marker>
             <token>هذه</token>
-          </marker>
           <token regexp="yes" inflected="yes" postag="N.*;.?1.*;--.*" postag_regexp="yes">&wrong_feminine;</token>
+        </marker>
         </pattern>
-        <message>أتقصد <suggestion>هذا</suggestion>&nbsp;\2 لأن "\2" مذكر?
-            </message>
-        <example correction="هذا"><marker>هذه</marker> الذقن.
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:  <suggestion><match no="1" regexp_match="هذه" regexp_replace="هذا"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="هذا الذقن"><marker>هذه الذقن</marker>.
     </example>
       </rule>
       <rule id="gender_0004_hadhihi" name="تطابق هذه مع الكلمات ملتبسة النوع">
         <pattern>
           <marker>
-            <token>هذا</token>
-          </marker>
+            <token inflected="yes">هذا</token>
           <token regexp="yes" inflected="yes" postag="N.*;.?1.*;--.*" postag_regexp="yes">&wrong_masculine;</token>
+         </marker>
         </pattern>
-        <message>أتقصد <suggestion>هذه</suggestion>&nbsp;\2 لأن "\2" مؤنث?
-            </message>
-        <example correction="هذه"><marker>هذا</marker> الكتف.</example>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:
+            <suggestion><match no="1" regexp_match="هذا" regexp_replace="هذه"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="هذه الكتف" type="incorrect"><marker>هذا الكتف</marker>.</example>
+        <example correction="هذه كتفه" type="incorrect"><marker>هذا كتفه</marker>.</example>
+        <example correction="وهذه الكتف" type="incorrect"><marker>وهذا الكتف</marker>.</example>
       </rule>
-      <rule id="gender_0005_Sin" name="هذا السن">
+      <rule id="gender_0006_dhalika" name="تطابق النوع مع ذلك">
         <pattern>
           <marker>
-            <token>هذا</token>
+            <token inflected="yes">ذلك</token>
+            <token postag="N.*;F1.*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ربما عليك وضع اسم اشارة مؤنث: <suggestion><match no="1" regexp_match="ذلك" regexp_replace="تلك"/>&nbsp;<match no="2"/></suggestion>
+        </message>
+        <example correction="تلك السلامة" type="incorrect"><marker>ذلك السلامة</marker></example>
+        <example correction="وتلك السلامة" type="incorrect"><marker>وذلك السلامة</marker></example>
+        <example correction="تلك سلامته"><marker>ذلك سلامته</marker></example>
+        <example correction="تلك سلامة" type="incorrect"><marker>ذلك سلامة</marker></example>
+      </rule>
+      <rule id="gender_0007_tilka" name="تطابق النوع مع تلك">
+        <pattern>
+          <marker>
+            <token inflected="yes">تلك</token>
+            <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
+        </marker>
+        </pattern>
+        <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا:
+ <suggestion><match no="1" regexp_match="تلك" regexp_replace="ذلك"/>&nbsp;\2</suggestion>
+                </message>
+        <example correction="ذلك السلام" type="incorrect"><marker>تلك السلام</marker></example>
+        <example correction="ذلك سلام" type="incorrect"><marker>تلك سلام</marker></example>
+      </rule>
+      <rule id="gender_0008_dhalika" name="تطابق ذلك مع الكلمات ملتبسة النوع">
+        <pattern>
+          <marker>
+            <token>تلك</token>
+          <token regexp="yes" inflected="yes" postag="N.*;.?1.*;--.*" postag_regexp="yes">&wrong_feminine;</token>
+        </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:  <suggestion><match no="1" regexp_match="تلك" regexp_replace="ذلك"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="ذلك الذقن"><marker>تلك الذقن</marker>.
+    </example>
+      </rule>
+      <rule id="gender_0009_tilka" name="تطابق تلك مع الكلمات ملتبسة النوع">
+        <pattern>
+          <marker>
+            <token inflected="yes">ذلك</token>
+          <token regexp="yes" inflected="yes" postag="N.*;.?1.*;--.*" postag_regexp="yes">&wrong_masculine;</token>
+         </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:
+            <suggestion><match no="1" regexp_match="ذلك" regexp_replace="تلك"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="تلك الكتف" type="incorrect"><marker>ذلك الكتف</marker>.</example>
+        <example correction="تلك كتفه" type="incorrect"><marker>ذلك كتفه</marker>.</example>
+        <example correction="وتلك الكتف" type="incorrect"><marker>وذلك الكتف</marker>.</example>
+      </rule>
+
+      <rule id="gender_0010_hadhani" name="تطابق النوع مع هذان">
+        <pattern>
+          <marker>
+            <token inflected="yes">هذان</token>
+            <token postag="N.*;F2U.*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ربما عليك وضع اسم اشارة مؤنث: <suggestion><match no="1" regexp_match="هذان" regexp_replace="هاتان"/>&nbsp;<match no="2"/></suggestion>
+        </message>
+        <example correction="هاتان البطاقتان" type="incorrect"><marker>هذان البطاقتان</marker></example>
+        <example correction="وهاتان البطاقتان" type="incorrect"><marker>وهذان البطاقتان</marker></example>
+        <example correction="هاتان بطاقتاه"><marker>هذان بطاقتاه</marker></example>
+        <example correction="هاتان بطاقتان" type="incorrect"><marker>هذان بطاقتان</marker></example>
+      </rule>
+      <rule id="gender_0011_hatani" name="تطابق النوع مع هاتان">
+        <pattern>
+          <marker>
+            <token inflected="yes">هاتان</token>
+            <token postag="N.*;M2U.*;--.*" postag_regexp="yes"/>
+        </marker>
+        </pattern>
+        <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا:
+ <suggestion><match no="1" regexp_match="هاتان" regexp_replace="هذان"/>&nbsp;\2</suggestion>
+                </message>
+        <example correction="هذان السلامان" type="incorrect"><marker>هاتان السلامان</marker></example>
+        <example correction="هذان سلامان" type="incorrect"><marker>هاتان سلامان</marker></example>
+      </rule>
+      <rule id="gender_0012_hadhani" name="تطابق هذان مع الكلمات ملتبسة النوع">
+        <pattern>
+          <marker>
+            <token>هاتان</token>
+          <token regexp="yes" inflected="yes" postag="N.*;.?2U.*;--.*" postag_regexp="yes">&wrong_feminine;</token>
+        </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:  <suggestion><match no="1" regexp_match="هاتان" regexp_replace="هذان"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="هذان الذقنان"><marker>هاتان الذقنان</marker>.
+    </example>
+      </rule>
+      <rule id="gender_0013_hatani" name="تطابق هاتان مع الكلمات ملتبسة النوع">
+        <pattern>
+          <marker>
+            <token inflected="yes">هذان</token>
+          <token regexp="yes" inflected="yes" postag="N.*;.?2U.*;--.*" postag_regexp="yes">&wrong_masculine;</token>
+         </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:
+            <suggestion><match no="1" regexp_match="هذان" regexp_replace="هاتان"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="هاتان الكتفان" type="incorrect"><marker>هذان الكتفان</marker>.</example>
+        <example correction="هاتان كتفاه" type="incorrect"><marker>هذان كتفاه</marker>.</example>
+        <example correction="وهاتان الكتفان" type="incorrect"><marker>وهذان الكتفان</marker>.</example>
+      </rule>
+      <rule id="gender_0014_hadhayni" name="تطابق النوع مع هذين">
+        <pattern>
+          <marker>
+            <token inflected="yes">هذين</token>
+            <token postag="N.*;F2[IA].*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ربما عليك وضع اسم اشارة مؤنث: <suggestion><match no="1" regexp_match="هذين" regexp_replace="هاتين"/>&nbsp;<match no="2"/></suggestion>
+        </message>
+        <example correction="هاتين البطاقتين" type="incorrect"><marker>هذين البطاقتين</marker></example>
+        <example correction="وهاتين البطاقتين" type="incorrect"><marker>وهذين البطاقتين</marker></example>
+       <!-- FIXME: توليد صيغة المثنى المنصوب المتصل بضمير-->
+        <!-- <example correction="هاتين بطاقتيه"><marker>هذين بطاقتيه</marker></example>-->
+        <example correction="هاتين بطاقتين" type="incorrect"><marker>هذين بطاقتين</marker></example>
+      </rule>
+      <rule id="gender_0015_hatayni" name="تطابق النوع مع هاتين">
+        <pattern>
+          <marker>
+            <token inflected="yes">هاتين</token>
+            <token postag="N.*;M2[IA].*;--.*" postag_regexp="yes"/>
+        </marker>
+        </pattern>
+        <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا:
+ <suggestion><match no="1" regexp_match="هاتين" regexp_replace="هذين"/>&nbsp;\2</suggestion>
+                </message>
+        <example correction="هذين السلامين" type="incorrect"><marker>هاتين السلامين</marker></example>
+        <example correction="هذين سلامين" type="incorrect"><marker>هاتين سلامين</marker></example>
+      </rule>
+      <rule id="gender_0016_hadhayni" name="تطابق هذين مع الكلمات ملتبسة النوع">
+        <pattern>
+          <marker>
+            <token>هاتين</token>
+          <token regexp="yes" inflected="yes" postag="N.*;.?2[IA].*;--.*" postag_regexp="yes">&wrong_feminine;</token>
+        </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:  <suggestion><match no="1" regexp_match="هاتين" regexp_replace="هذين"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="هذين الذقنين"><marker>هاتين الذقنين</marker>.
+    </example>
+      </rule>
+      <rule id="gender_0017_hatayni" name="تطابق هاتين مع الكلمات ملتبسة النوع">
+        <pattern>
+          <marker>
+            <token inflected="yes">هذين</token>
+          <token regexp="yes" inflected="yes" postag="N.*;.?2[IA].*;--.*" postag_regexp="yes">&wrong_masculine;</token>
+         </marker>
+        </pattern>
+        <message>الكلمة "\2"  مؤنثة، ضع اسم اشارة مؤنثة:
+            <suggestion><match no="1" regexp_match="هذين" regexp_replace="هاتين"/>&nbsp;<match no="2"/></suggestion></message>
+        <example correction="هاتين الكتفين" type="incorrect"><marker>هذين الكتفين</marker>.</example>
+       <!-- FIXME: توليد صيغة المثنى المنصوب المتصل بضمير-->
+             <!--  <example correction="هاتين كتفيه" type="incorrect"><marker>هذين كتفيه</marker>.</example>-->
+        <example correction="وهاتين الكتفين" type="incorrect"><marker>وهذين الكتفين</marker>.</example>
+      </rule>
+      <rule id="gender_0018_hadhani_case" name="تطابق الإعراب مع هذان">
+        <pattern>
+          <marker>
+            <token inflected="yes">هذان</token>
+            <token postag="N.*;M2[IA].*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2" بدل من هذان لذا تتبعه في الإعراب، ربما عليك مراجعة العبارة: <suggestion><match no="1" regexp_match="هذان" regexp_replace="هذين"/>&nbsp;<match no="2"/></suggestion><suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;M2)([IA])(.*)" postag_replace="$1U$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="هذين الكتابين|هذان الكتابان" type="incorrect"><marker>هذان الكتابين</marker></example>
+        <example correction="وهذين الكتابين|وهذان الكتابان" type="incorrect"><marker>وهذان الكتابين</marker></example>
+        <example correction="هذين كتابين|هذان كتابان" type="incorrect"><marker>هذان كتابين</marker></example>
+      </rule>
+       <rule id="gender_0019_hadhani_case" name="تطابق الإعراب مع هذين">
+<!-- طبقنا هذه القاعدة تعطي اقتراحين على  هذين وهذين فهذين فقط
+أمّا "بهذين ولهذين فتعطي حالة واحدة -->
+        <pattern>
+          <marker>
+            <token regexp="yes">(&conj;)?هذين</token>
+            <token postag="N.*;M2U.*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2" بدل من هذين لذا تتبعه في الإعراب، ربما عليك مراجعة العبارة: <suggestion><match no="1" regexp_match="هذين" regexp_replace="هذان"/>&nbsp;<match no="2"/></suggestion><suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;M2)(U)(.*)" postag_replace="$1A$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="هذان الكتابان|هذين الكتابين" type="incorrect"><marker>هذين الكتابان</marker></example>
+        <example correction="وهذان الكتابان|وهذين الكتابين" type="incorrect"><marker>وهذين الكتابان</marker></example>
+        <example correction="هذان كتابان|هذين كتابين" type="incorrect"><marker>هذين كتابان</marker></example>
+      </rule>
+      <rule id="gender_0020_hadhani_case" name="تطابق الإعراب مع هذين">
+<!-- طبقنا هذه القاعدة تعطي اقتراحين على  هذين وهذين فهذين فقط
+أمّا "بهذين ولهذين فتعطي حالة واحدة -->
+        <pattern>
+          <marker>
+            <token regexp="yes">(&conj;)?(&prep;)هذين</token>
+            <token postag="N.*;M2U.*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2" بدل من هذين لذا تتبعه في الإعراب، ربما عليك مراجعة العبارة: <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;M2)(U)(.*)" postag_replace="$1A$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="بهذين الكتابين" type="incorrect"><marker>بهذين الكتابان</marker></example>
+        <example correction="وبهذين الكتابين" type="incorrect"><marker>وبهذين الكتابان</marker></example>
+        <example correction="كهذين كتابين" type="incorrect"><marker>كهذين كتابان</marker></example>
+      </rule>
+      <rule id="gender_0021_hatayni_case" name="تطابق الإعراب مع هاتان">
+        <pattern>
+          <marker>
+            <token inflected="yes">هاتان</token>
+            <token postag="N.*;F2[IA].*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2" بدل من هاتان لذا تتبعه في الإعراب، ربما عليك مراجعة العبارة: <suggestion><match no="1" regexp_match="هاتان" regexp_replace="هاتين"/>&nbsp;<match no="2"/></suggestion><suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;F2)([IA])(.*)" postag_replace="$1U$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="هاتين البطاقتين|هاتان البطاقتان" type="incorrect"><marker>هاتان البطاقتين</marker></example>
+        <example correction="وهاتين البطاقتين|وهاتان البطاقتان" type="incorrect"><marker>وهاتان البطاقتين</marker></example>
+        <example correction="هاتين بطاقتين|هاتان بطاقتان" type="incorrect"><marker>هاتان بطاقتين</marker></example>
+      </rule>
+       <rule id="gender_0022_hatayni_case" name="تطابق الإعراب مع هاتين">
+<!-- طبقنا هذه القاعدة تعطي اقتراحين على  هاتين وهاتين فهاتين فقط
+أمّا "بهاتين ولهاتين فتعطي حالة واحدة -->
+        <pattern>
+          <marker>
+            <token regexp="yes">(&conj;)?هاتين</token>
+            <token postag="N.*;F2U.*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2" بدل من هاتين لذا تتبعه في الإعراب، ربما عليك مراجعة العبارة: <suggestion><match no="1" regexp_match="هاتين" regexp_replace="هاتان"/>&nbsp;<match no="2"/></suggestion><suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;F2)(U)(.*)" postag_replace="$1A$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="هاتان البطاقتان|هاتين البطاقتين" type="incorrect"><marker>هاتين البطاقتان</marker></example>
+        <example correction="وهاتان البطاقتان|وهاتين البطاقتين" type="incorrect"><marker>وهاتين البطاقتان</marker></example>
+        <example correction="هاتان بطاقتان|هاتين بطاقتين" type="incorrect"><marker>هاتين بطاقتان</marker></example>
+      </rule>
+      <rule id="gender_0023_hatayni_case" name="تطابق الإعراب مع هاتين">
+<!-- طبقنا هذه القاعدة تعطي اقتراحين على  هاتين وهاتين فهاتين فقط
+أمّا "بهاتين ولهاتين فتعطي حالة واحدة -->
+        <pattern>
+          <marker>
+            <token regexp="yes">(&conj;)?(&prep;)هاتين</token>
+            <token postag="N.*;F2U.*;--.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>الكلمة "\2" بدل من هاتين لذا تتبعه في الإعراب، ربما عليك مراجعة العبارة: <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;F2)(U)(.*)" postag_replace="$1A$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="بهاتين البطاقتين" type="incorrect"><marker>بهاتين البطاقتان</marker></example>
+        <example correction="وبهاتين البطاقتين" type="incorrect"><marker>وبهاتين البطاقتان</marker></example>
+        <example correction="كهاتين بطاقتين" type="incorrect"><marker>كهاتين بطاقتان</marker></example>
+      </rule>
+     <!-- هذه القاعة متضمنة في القواعد السابقة،
+
+<rule id="gender_0005_Sin" name="هذا السن">
+        <pattern>
+          <marker>
+            <token inflected="yes">هذا</token>
           </marker>
           <token>السن</token>
         </pattern>
-        <message>أتقصد بالسن:العمر و الجارحة <suggestion>هذه</suggestion>؟
+        <message>أتقصد بالسن:العمر و الجارحة وهي مؤنثة<suggestion>هذه</suggestion>؟
                 </message>
         <example correction="هذه"><marker>هذا</marker>
                     السن تعبر عن مدى كبر هذا الشيخ
                 </example>
       </rule>
+-->
     </rulegroup>
 <!--
     END RULEGROUP gender_agreement_with_demonstrative_pronouns
 -->
     <rulegroup id="gender_agreement_with_relative_pronouns" name="تطابق النوع مع الأسماء الموصولة">
       <rule id="gender_0010_alladhi" name="تطابق النوع مع الذي">
-        <pattern>
+        <pattern><marker>
           <token postag="N.*;M1.*" postag_regexp="yes"/>
-          <marker>
-            <token>التي</token>
+          <token>التي</token>
           </marker>
         </pattern>
-        <message>هل تقصد <suggestion>الذي</suggestion>?
+        <message>هل تقصد <suggestion><match no="1"/>&nbsp;الذي</suggestion>?
                 </message>
-        <example correction="الذي" type="incorrect"> القول <marker>التي</marker> سمعته </example>
-        <example correction="الذي" type="incorrect"> الطعام <marker>التي</marker> جلبناه </example>
+        <example correction="القول الذي" type="incorrect"> <marker>القول التي</marker> سمعته </example>
+        <example correction="الطعام الذي" type="incorrect"> <marker>الطعام التي</marker> جلبناه </example>
       </rule>
       <rule id="gender_0011_allati" name="تطابق النوع مع التي">
         <pattern>
+        <marker>
           <token postag="N.*;F1.*" postag_regexp="yes"/>
-          <marker>
-            <token>الذي</token>
+          <token>الذي</token>
           </marker>
         </pattern>
-        <message>هل تقصد <suggestion>التي</suggestion>?
+        <message>هل تقصد <suggestion><match no="1"/>&nbsp;التي</suggestion>?
                 </message>
-        <example correction="التي" type="incorrect"> الوشاية <marker>الذي</marker> سمعتها </example>
-        <example correction="التي" type="incorrect"> الكتابة <marker>الذي</marker> جلبناها </example>
+        <example correction="الوشاية التي" type="incorrect"><marker>الوشاية الذي</marker> سمعتها </example>
+        <example correction="الكتابة التي" type="incorrect"><marker>الكتابة الذي</marker> جلبناها </example>
       </rule>
     </rulegroup>
 <!--
@@ -219,7 +466,7 @@ USA
             <token>الأكبر</token>
           </marker>
         </pattern>
-        <message>تجب المطابقة لدخول (أل) على أفعل التفضيل 
+        <message>تجب المطابقة في النوع لدخول (أل) على أفعل التفضيل
             <suggestion>هي الكبرى</suggestion>
         </message>
         <example correction="هي الكبرى" type="incorrect"> آسيا <marker>هي الأكبر</marker> بين القارات </example>
@@ -243,7 +490,7 @@ USA
             </unify>
           </marker>
         </pattern>
-        <message>(يَقْظَى) مؤنث (يقظان)، وفي جمعها تقول:(هذه نسوة يِقاظ / يَقاظى) 
+        <message>(يَقْظَى) مؤنث (يقظان)، وفي جمعها تقول:(هذه نسوة يِقاظ / يَقاظى)
             <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="يقظى" regexp_replace="يقاظ"/></suggestion>
             <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="يقظى" regexp_replace="أيقاظ"/></suggestion>
         </message>
@@ -252,15 +499,15 @@ USA
       </rule>
       <rule id="gender_0101" name="شريعة سمحاء">
         <pattern>
-          <token inflected="yes">شريعة</token>
           <marker>
-            <token inflected="yes" postag="N.*;.*;--.?" postag_regexp="yes">سمحاء</token>
+          <token inflected="yes">شريعة</token>
+          <token inflected="yes" postag="N.*;.*;--.?" postag_regexp="yes">سمحاء</token>
           </marker>
         </pattern>
-        <message>(سمحاء) مؤنث (أَسْمَح)، لم تقلهما العرب 
-            <suggestion><match no="2" regexp_match="سمحاء" regexp_replace="سَمْحة"/></suggestion>
+        <message>(سمحاء) مؤنث (أَسْمَح)، لم تقلهما العرب
+            <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="سمحاء" regexp_replace="سَمْحة"/></suggestion>
         </message>
-        <example correction="سَمْحة" type="incorrect"> شريعة <marker>سمحاء</marker> </example>
+        <example correction="شريعة سَمْحة" type="incorrect"><marker>شريعة سمحاء</marker> </example>
         <example type="correct"> شريعةٌ سَمْحَةٌ </example>
       </rule>
       <rule id="gender_0102" name="ضبع مفترس">
@@ -276,7 +523,7 @@ USA
             </unify>
           </marker>
         </pattern>
-        <message>(الضبع) اسمٌ مؤنث 
+        <message>(الضبع) اسمٌ مؤنث
             <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="مفترس" regexp_replace="مفترسة"/></suggestion>
         </message>
         <example correction="ضبع مفترسة" type="incorrect">
@@ -301,20 +548,20 @@ USA
           <marker>
             <or>
               <token inflected="yes">قَامَ</token>
-              <token>القيام</token>
+              <token inflected="yes">قيام</token>
             </or>
             <token postag="NM.*;.*;-B.*" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>
-تعبير "القيام بـ" ركيك يستحسن تجن البه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.
+تعبير "القيام بـ" ركيك يستحسن تجنبه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.
 
-        <suggestion>الفعل من (<match no="2" regexp_match="^ب" regexp_replace=""/>)</suggestion>?
+
+        <suggestion>الفعل من (<match no="2" regexp_match="^ب" regexp_replace=""/>)</suggestion>
+                <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
                 </message>
-        <example correction="الفعل من (الضرب)">
-          <marker>القيام بالضرب</marker>
-        </example>
-        <example correction="الفعل من (شرب)" type="incorrect"><marker>قمت بشرب</marker> الماء </example>
+        <example correction="الفعل من (الضرب)|الضرب"> <marker>القيام بالضرب</marker></example>
+        <example correction="الفعل من (شرب)|شرب" type="incorrect"><marker>قمت بشرب</marker> الماء </example>
       </rule>
     </rulegroup>
 <!--
@@ -338,7 +585,7 @@ USA
         <pattern>
           <marker>
 
-			<token>لم</token>
+	<token>لم</token>
             <token postag="V..;.*f.[^0];---" postag_regexp="yes"/>
 
           </marker>
@@ -387,10 +634,11 @@ USA
             <token postag="V..;..Y.f.[^0];---" postag_regexp="yes"/>
           </marker>
         </pattern>
-        <message>أتقصد؟
-الفعل المضارع بعد "لا الناهية" يأتي مجزوما.
+        <message>
+الفعل المضارع بعد "لا الناهية" يأتي مجزوما. أتقصد؟
 
         <suggestion><match no="1"/>&nbsp;<match no="2" postag="(V..;..Y.f.).*" postag_replace="$10;---" postag_regexp="yes"/></suggestion>
+
         </message>
 
         <example type="correct"><marker>لا يجري</marker></example>
@@ -436,7 +684,7 @@ USA
             <token postag=".*;W.?.?" postag_regexp="yes"/>
           </marker>
         </pattern>
-        <message>يفضل أن يقال:
+        <message>عبارة "إلّا و" يستحسن أن تقال:
             <suggestion>إلاّ <match no="2" regexp_match="^و" regexp_replace=""/></suggestion>
         </message>
         <example correction="إلاّ قال" type="incorrect"> ما تحدث <marker>إلا وقال</marker> خيرا </example>
@@ -5493,17 +5741,37 @@ END RULEGROUP Masdar errors
 -->
     <rulegroup id="wrong_adj_use" name="خطأ في استعمال صفة">
       <rule>
-        <pattern>
+    <pattern>
+      <unify>
+        <feature id="definite"/>
+        <feature id="gender"/>
+        <!--<feature id="case"/>-->
+        <feature id="number"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token inflected="yes" postag="N.*;.*;--." postag_regexp="yes">رئيسي</token>
+        </marker>
+      </unify>
+    </pattern>
+      <!--  <pattern>
           <marker>
             <token inflected="yes">رئيسي</token>
           </marker>
-        </pattern>
-        <message>لا تقل رئيسي  أو رئيسية بل قل <suggestion>رئيس</suggestion> <suggestion>رئيسة</suggestion>
+        </pattern>-->
+        <message>لا تقل  شيء رئيسي  أو حاجة رئيسية بل قل شيء  رئيس و حاجة رئيسة،
         أن كلمة "رئيس" أو "رئيسة" من الصفات وياء النسبة لا تُنسب للصفات فلا يصح مثلًا قول "(رأيتُ الرجل العظيمي)" أو "(رأيتُ المرأة العظيمية)"
+    <suggestion><match no="2" regexp_match="رئيسي" regexp_replace="رئيس"/></suggestion>
         </message>
-        <example correction="رئيس|رئيسة">‎صفحة <marker>رئيسية</marker></example>
-        <example correction="رئيس|رئيسة">‎طبق <marker>رئيسي</marker></example>
-      </rule>
+        <example correction="الرئيسة" type="incorrect">‎الصفحة  <marker>الرئيسية</marker></example>
+        <example correction="الرئيس" type="incorrect">‎الطبق <marker>الرئيسي</marker></example>
+        <example correction="رئيسة" type="incorrect">‎صفحة <marker>رئيسية</marker></example>
+                <example correction="الرئيستان" type="incorrect">‎الصفحتان <marker>الرئيسيتان</marker></example>
+        <example correction="رئيسان" type="incorrect">‎طبقان <marker>رئيسيان</marker></example>
+        <!--<example correction="الرئيسة" type="incorrect">‎الأطباق <marker>الرئيسية</marker></example>-->
+
+        <example type="correct">‎يقول <marker>رئيسي</marker> في العمل أنني مجتهد</example>
+
+        </rule>
       <rule>
         <pattern>
           <marker>
@@ -7804,8 +8072,9 @@ END RULEGROUP Masdar errors
  END RULEGROUP transitive_verbs_indirect_tobe_direct
 -->
     <rulegroup id="transitive_verbs_direct_tobe_indirect" name="المتعدي  بنفسه تصحيحه متعد بحرف">
+
  <!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
-  <rule id="trans_404_AfAD_AlHdyth" name="أفاض الحديث">
+ <!--   <rule id="trans_404_AfAD_AlHdyth" name="أفاض الحديث">
     <antipattern>
         <token inflected="yes" skip="1">أَفَاضَ</token>
         <token regexp="yes">&forms_fi;</token>
@@ -7817,8 +8086,9 @@ END RULEGROUP Masdar errors
     </pattern>
     <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
 
-  <suggestion><match no="1"  postag="(V.*)(-|H)" postag_replace="$1-" postag_regexp="yes">أَفَاضَ</match>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_enclitics;)$)|(.*)((&verb_enclitics;)?$)" regexp_replace="$2"/></suggestion>
-</message>
+  <suggestion><match no="1"  postag="(V.*)(-|H)" postag_replace="$1-" postag_regexp="yes">أَفَاضَ</match>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_enclitics;)$)|(.*)((&verb_enclitics;)?$)" regexp_replace="$2"/></suggestion>-->
+  <!--  <suggestion><match no="1"  postag="(V.*)(-|H)" postag_replace="$1-" postag_regexp="yes">أَفَاضَ</match>&nbsp;<match no="1"  postag="(V.*)(.)" postag_replace="PRD;- - -;- -$2" postag_regexp="yes">في</match></suggestion>-->
+ <!--</message>
     <example correction="أفاض في" type="incorrect"><marker>أفاض</marker> الحديث </example>
     <example correction="أفاض فيها" type="incorrect"><marker>أفاضها</marker> بالحديث </example>
     <example correction="أفاضوا فيه" type="incorrect"><marker>أفاضوه</marker> الحديث </example>
@@ -7827,8 +8097,7 @@ END RULEGROUP Masdar errors
     <example type="correct"> أفاض في الشرح </example>
     <example type="correct"> أفاض  الأستاذ في الشرح </example>
   </rule>
-
-
+-->
 <!-- trans_422_tfAda تفادى -->
   <rule id="trans_422_tfAda" name="تفادى">
    <antipattern>
@@ -8330,4 +8599,3 @@ END RULEGROUP Masdar errors
 
   </category>
 </rules>
-
