@@ -2711,7 +2711,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="cc's" id="CC_VBZ">
+    <!--<rule name="cc's" id="CC_VBZ">
         <pattern>
             <marker>
                 <token>cc</token>
@@ -2721,7 +2721,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="replace"><wd pos="VBZ" lemma="cc"/></disambig>
         <example type="untouched">I cc you.</example>
         <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBP]" outputform="cc[cc/VBZ]">He <marker>cc</marker>'s me.</example>
-    </rule>
+    </rule>-->
     <rule name="are + VBG/NN -&gt; VBG" id="ARE_VBG_NN">
         <pattern>
             <token>'re</token>
@@ -11359,14 +11359,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
 
-        <rule id="FIN_DE_SIÈCLE" name="fin de siècle">
+        <!--<rule id="FIN_DE_SIÈCLE" name="fin de siècle">
             <pattern>
                 <token>fin</token>
                 <token>de</token>
                 <token>siècle</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
-        </rule>
+        </rule>-->
 
         <rule id="FOLIE_DE_GRANDEUR" name="folie de grandeur">
             <pattern>
@@ -11486,7 +11486,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
         </rule>
 
-        <rule id="JEU_D_ESPRIT" name="jeu d'esprit">
+        <!--<rule id="JEU_D_ESPRIT" name="jeu d'esprit">
             <pattern>
                 <token>jeu</token>
                 <token>d</token>
@@ -11503,7 +11503,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token spacebefore="no">esprit</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
-        </rule>
+        </rule>-->
 
         <rule id="JEUNESSE_DORÉE" name="jeunesse dorée">
             <pattern>
@@ -11851,6 +11851,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>a</token>
                 <token>cappella</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+        
+        <rule id="IN_VITRO_ADJECTIVE" name="in vitro (adjective)">
+            <pattern>
+                <token>in</token>
+                <token>vitro</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="IN_VITRO_ADVERB" name="in vitro (adverb)">
+            <pattern>
+                <token>in</token>
+                <token>vitro</token>
             </pattern>
             <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
@@ -14535,7 +14550,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
         <rule>
             <pattern>
-                <token>parti</token>
+                <token regexp="yes">partis?</token>
                 <token>pris</token>
             </pattern>
             <disambig action="ignore_spelling"/>
