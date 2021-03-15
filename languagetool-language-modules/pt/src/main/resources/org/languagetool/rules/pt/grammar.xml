@@ -37057,6 +37057,21 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
     </rule>
 
+	<!-- PERDER A VIDA A morrer/falecer/perecer -->
+    <rule id='PERDER_A_VIDA' name="perder a vida → morrer/falecer/perecer">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-15 (1-JAN-2021+)      -->
+      <pattern>
+		<token regexp='no' inflected='yes'>perder</token>	
+		<token>a</token>
+		<token>vida</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
+      <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>
+    </rule>
+
     <rule id='QUE_TINHA_COMO_OBJETIVO' name="cujo objetivo era" default='off'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
