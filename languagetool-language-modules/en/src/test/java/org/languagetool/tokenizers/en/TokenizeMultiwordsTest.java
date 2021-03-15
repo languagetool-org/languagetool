@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 public class TokenizeMultiwordsTest {
 
   private final String MULTIWORDS_FILE = "/en/multiwords.txt";
@@ -47,6 +45,8 @@ public class TokenizeMultiwordsTest {
   public void testTokenize() {
     final EnglishWordTokenizer wordTokenizer = new EnglishWordTokenizer();
     List<String> multiwords;
+    
+    System.out.println("Checking multi-token words in spelling files...");
 
     // read multiwords.txt
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(MULTIWORDS_FILE)) {
@@ -68,7 +68,7 @@ public class TokenizeMultiwordsTest {
           List<String> tokens = wordTokenizer.tokenize(word);
           if (tokens.size() > 1) {
             System.out.println("WARNING: '" + word + "' in '" + fileName
-                + "' is multi-token and useless here. Add it to multiwords.txt or disambiguation.xml.");
+                + "' is multi-token and useless here for English spelling. Add it to multiwords.txt or disambiguation.xml.");
           }
         }
 
