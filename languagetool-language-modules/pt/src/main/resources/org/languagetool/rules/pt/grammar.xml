@@ -37042,6 +37042,21 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 	  <suggestion>determinar</suggestion>
       <example correction="delinear|determinar">Isto para <marker>saber qual</marker> a melhor técnica de ataque.</example>
     </rule>
+	
+	<!-- USAR empregar -->
+    <rule id='EMPREGAR_TERMO' name="usar → empregar">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-15 (1-JAN-2021+)      -->
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>usar</token>	
+		</marker>
+		<token></token>
+		<token regexp='yes'>termos?</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
+      <example correction="empregamo|empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
+    </rule>
 
     <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível" default='off'>
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
@@ -37055,6 +37070,21 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/na-medida-do-possivel/33734</url>
       <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
+    </rule>
+
+	<!-- PERDER A VIDA A morrer/falecer/perecer -->
+    <rule id='PERDER_A_VIDA' name="perder a vida → morrer/falecer/perecer">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-15 (1-JAN-2021+)      -->
+      <pattern>
+		<token regexp='no' inflected='yes'>perder</token>	
+		<token>a</token>
+		<token>vida</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
+      <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>
     </rule>
 
     <rule id='QUE_TINHA_COMO_OBJETIVO' name="cujo objetivo era" default='off'>

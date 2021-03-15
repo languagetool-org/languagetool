@@ -10115,7 +10115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>neu</token>
-                    <token regexp="yes" case_sensitive="yes">Bestellung|Erwerb(es|s)?|Installation|Baus?|Lands?|Aufnahme|Einsteiger(s|in)|Verpflichtung|Preis(es)?|Abschluss(es)?|Beginns?|Fassung|Wagens?|Fahrzeugs?|Geburt|Mitglied(es|s)?|Aufbaus?|Auftrag(es|s)?|Anfangs?|([Kk]unden)?[Gg]eschäft(es|s)?|Kunde|Kundin|Kauf|Anfertigung|Einkauf|Anschaffung|Zugang(es|s)?|Gründung|Zulassung|Verschuldung|Entwicklung|Ware|Gerät(es|s)?|Starts?</token>
+                    <token regexp="yes" case_sensitive="yes">Schnees?|Bestellung|Erwerb(es|s)?|Installation|Baus?|Lands?|Aufnahme|Einsteiger(s|in)|Verpflichtung|Preis(es)?|Abschluss(es)?|Beginns?|Fassung|Wagens?|Fahrzeugs?|Geburt|Mitglied(es|s)?|Aufbaus?|Auftrag(es|s)?|Anfangs?|([Kk]unden)?[Gg]eschäft(es|s)?|Kunde|Kundin|Kauf|Anfertigung|Einkauf|Anschaffung|Zugang(es|s)?|Gründung|Zulassung|Verschuldung|Entwicklung|Ware|Gerät(es|s)?|Starts?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Neu<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Neuwagen">Er bestellte sich einen <marker>neu Wagen</marker>.</example>
@@ -12991,7 +12991,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ih[mr]|mir|dir|uns|ihnen|euch|es|Geheimnis(se)?|nicht|Ver(fall|stecke?)</token>
+                    <token regexp="yes">ih[mr]|mir|dir|uns|ihnen|euch|es|Geheimnis(se)?|nichts?|Ver(fall|stecke?)</token>
                     <marker>
                         <token>preis</token>
                         <token inflected="yes" postag="VER:.+" postag_regexp="yes">geben</token>
@@ -39150,7 +39150,7 @@ Andere Projekte</example>
                             <exception postag="(VER:INF:|PA[12]:|VER:EIZ:.*).*" postag_regexp="yes"/>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
                             <exception postag="ADV:MOD.*" postag_regexp="yes"/>
-                            <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte</exception>
+                            <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|samt</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -39168,6 +39168,7 @@ Andere Projekte</example>
                 <example>John hat das Fenster kaputtgemacht.</example>
                 <example>Gott sei Dank ist mir dieser Riese nicht aufs Dach gekracht.</example>
                 <example>Auf verwalteten Plattformen ist eine vorinstallierte Partition verfügbar.</example>
+                <example>Das ist der Preis samt aller Informationen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -39789,6 +39790,11 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
+            <antipattern>
+                <token>für</token>
+                <token>mächtig</token>
+                <token regexp="yes">Stress|Ärger|Randale|Glück</token>
+            </antipattern>
             <antipattern>
                 <token>Smart</token>
                 <token regexp="yes">City|Trade|Shopping|Apps?</token>
@@ -43362,6 +43368,25 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="SEHR_SEHR_GUT" name="sehr(,) sehr gut">
+            <antipattern>
+                <token regexp="yes">richtig|sehr|so|wirklich|ziemlich|ganz|viel|super|leider</token>
+                <token><match no="0" /></token>
+                <token><match no="0" /></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">richtig|sehr|so|wirklich|ziemlich|ganz|viel|super|leider</token>
+                    <token><match no="0" /></token>
+                </marker>
+                <token postag="ADJ:.+|ADV:MOD" postag_regexp="yes" />
+            </pattern>
+            <message>Hier fehlt möglicherweise ein Komma, oder wurde das Wort versehentlich wiederholt?</message>
+            <suggestion>\1, \2</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="richtig, richtig|richtig">Das wird <marker>richtig richtig</marker> gut!</example>
+            <example correction="super, super|super">Ich bin <marker>super super</marker> unzufrieden!</example>
+        </rule>
         <rulegroup id="ICH_WUENSCHTE_ICH_KOENNTE" name="Ich wünschte(,) ich könnte zurücknehmen, was ich gesagt habe." default="temp_off">
             <!-- similar to KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ but gives suggestions -->
             <!-- TODO: check regressions and lower priority -->
@@ -49207,7 +49232,7 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
-        <rule id="GEFEATURED" name="gefeatured -> gefeaturt" default="temp_off">
+        <rule id="GEFEATURED" name="gefeatured -> gefeaturt">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked</token>
             </pattern>

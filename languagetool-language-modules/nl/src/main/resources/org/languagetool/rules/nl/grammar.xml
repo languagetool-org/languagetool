@@ -111,20 +111,20 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="EN_OF" name="En of / en/of" default="temp_off">
+		<rulegroup id="EN_OF" name="En of / en/of">
 			<rule>
-				<antipattern><token>of</token><token regexp="yes">jij|je|hij|ze|zij|wij|men</token></antipattern>
+				<antipattern><token>of</token><token regexp="yes">jij|je|hij|ze|zij|wij|men|het</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token>en</token></antipattern>
 				<pattern>
 					<token>en</token>
 					<token>of</token>
 				</pattern>
-				<message>Hier is mogelijk het teken voor 'of' weggevallen.</message>
-				<suggestion>en/of</suggestion>
+				<message>Bedoelt u wellicht <suggestion>en/of</suggestion>?</message>
 				<example correction="en/of">Ik houd van appels <marker>en of</marker> peren.</example>
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="VEEL_DAGEN" name="2021 jaar" default="temp_off">
+		<rulegroup id="VEEL_DAGEN" name="2021 jaar" >
 			<rule>
 				<pattern>
 					<token regexp="yes">[12][0-9]{3}</token>
@@ -9351,7 +9351,11 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token postag="ENM:ORG"/>
-					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ"/><exception regexp="yes">den|niets</exception></token>
+					<token postag_regexp="yes" postag="ZNW.*">
+						<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ"/>
+						<exception regexp="yes">den|niets</exception>
+						<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
+					</token>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
 				<message>Als dit een samenstelling is, hoort het aaneengeschreven.</message>
@@ -17754,7 +17758,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" default="temp_off">
+		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
@@ -17774,6 +17778,7 @@ steenwijk;Steenwijk
 				<example correction="bepalingengedoe">Ik zie het <marker>bepalingen gedoe</marker>.</example>
 			</rule>
 		</rulegroup>
+		<!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
@@ -17795,15 +17800,16 @@ steenwijk;Steenwijk
 				<example correction="de|die|deze">Ik zie <marker>het</marker> bepaling.</example>
 			</rule>
 		</rulegroup>
+		-->
 		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" default="temp_off">
 			<rule>
 				<antipattern><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW:.*DE_"/></antipattern>
 				<pattern>
 					<marker>
-						<token regexp="yes">de|die|deze</token>
+						<token regexp="yes">de|deze</token>
 					</marker>
 					<or>
-						<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/></token>
+						<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_|BNW.*"/></token>
 						<token regexp="yes">.+je<exception regexp="yes">.*(nje|ije)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
 					</or>
 				</pattern>
@@ -39209,7 +39215,7 @@ steenwijk;Steenwijk
 				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder|de doorverbindende">En <marker>de doorverbinden</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DE_3EP" name="de loopt" default="temp_off">
+		<rulegroup id="DE_3EP" name="de loopt" >
 			<rule>
 				<pattern>
 					<token>de</token>

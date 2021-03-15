@@ -67,5 +67,14 @@ public class EnglishWordTokenizerTest {
     final List <String> tokens11 = wordTokenizer.tokenize("'We’re the best.'");
     assertEquals("[', We, ’re,  , the,  , best, ., ']", tokens11.toString());
     assertEquals(tokens11.size(), 9);
+    final List <String> tokens12 = wordTokenizer.tokenize("'Don't do it'");
+    assertEquals("[', Do, n't,  , do,  , it, ']", tokens12.toString());
+    assertEquals(tokens12.size(), 8);
+    final List <String> tokens13 = wordTokenizer.tokenize("‘Don’t do it’");
+    assertEquals("[‘, Do, n’t,  , do,  , it, ’]", tokens13.toString());
+    assertEquals(tokens13.size(), 8);
+    final List <String> tokens14 = wordTokenizer.tokenize("Don't do it");
+    assertEquals("[Do, n't,  , do,  , it]", tokens14.toString());
+    assertEquals(tokens14.size(), 6); 
   }
 }
