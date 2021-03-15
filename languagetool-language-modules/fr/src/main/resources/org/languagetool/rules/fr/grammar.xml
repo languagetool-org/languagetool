@@ -38453,6 +38453,58 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="ACCORD_SUPERLATIF_POSSIBLE" name="accord superlatif possible" tags="picky" default="temp_off">
+          <antipattern>
+              <token>y</token>
+              <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+              <token>possibles</token>
+          </antipattern>
+          <antipattern>
+              <token>le</token>
+              <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
+              <token regexp="yes" skip="-1">toute?s?|tous|sur|si|s'|pas|avec|chacune?s?|pire|possibles?|mal|important|hors|souvent</token>
+              <token>possibles</token>
+          </antipattern>
+          <antipattern>
+              <token postag="V etre.*|Y" postag_regexp="yes" skip="-1"/>
+              <token>possibles</token>
+          </antipattern>
+          <antipattern>
+              <token>possibles</token>
+              <token postag="P"/>
+          </antipattern>
+          <antipattern>
+              <token skip="-1">possibles</token>
+              <token postag="Y"/>
+          </antipattern>
+          <antipattern>
+              <token>le</token>
+              <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
+              <token skip="1">des</token>
+              <token>possibles</token>
+          </antipattern>
+          <pattern>
+              <token>le</token>
+              <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
+              <marker>
+                  <token regexp="yes">possibles$<exception scope="previous" postag="[DJ].*|P" postag_regexp="yes"/></token>
+              </marker>
+          </pattern>
+          <message>L'adjectif 'possible' précédé d'un superlatif est traditionnellement invariable malgré la récente tendance en faveur de l'accord.</message>
+          <suggestion><match no="3" regexp_match="(?iu)s$" regexp_replace=""/></suggestion>
+          <url>https://bescherelle.ca/le-bon-accord-de-possible/</url>
+          <example correction="possible">Il a étudié le plus <marker>possibles</marker>.</example>
+          <example correction="possible">Il a fait le plus de sport <marker>possibles</marker>.</example>
+          <example>Faites cent exemplaires les plus jolis <marker>possibles</marker>.</example>
+          <example>Le Meilleur des mondes <marker>possibles</marker>, 2000.</example>
+          <example>Le plus petit est l'une des tombes <marker>possibles</marker>.</example>
+          <example>Le plus simple, s'il existe deux trajet <marker>possibles</marker>, c'est de prendre le plus rapide.</example>
+          <example>Le plus dur c'est qu'il y a 8 symboles <marker>possibles</marker>.</example>
+          <example>Le plus intéréssant serait que des variations soient <marker>possibles</marker>.</example>
+          <example>Le plus intéréssant est la création d'une robe de toutes les couleurs <marker>possibles</marker>.</example>
+          <example>Le plus horrible est dans cette ville où de <marker>possibles</marker>dégâts ont pu être constatés.</example>
+          <example>Le plus souvent de grandes avancées grâce à la science sont <marker>possibles</marker>.</example>
+      </rule>
       <rule id="ACCORD_ETRE_LEGION" name="accord être légion" default="temp_off">
           <pattern>
               <token postag="V etre.*" postag_regexp="yes"/>
