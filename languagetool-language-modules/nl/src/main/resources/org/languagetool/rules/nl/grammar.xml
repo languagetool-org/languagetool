@@ -17778,7 +17778,8 @@ steenwijk;Steenwijk
 				<example correction="bepalingengedoe">Ik zie het <marker>bepalingen gedoe</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HET_ZNW_DE" name="het man / de man" >
+		<!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
+		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
 				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
@@ -17799,15 +17800,16 @@ steenwijk;Steenwijk
 				<example correction="de|die|deze">Ik zie <marker>het</marker> bepaling.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" >
+		-->
+		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" default="temp_off">
 			<rule>
 				<antipattern><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW:.*DE_"/></antipattern>
 				<pattern>
 					<marker>
-						<token regexp="yes">de|die|deze</token>
+						<token regexp="yes">de|deze</token>
 					</marker>
 					<or>
-						<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/></token>
+						<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_|BNW.*"/></token>
 						<token regexp="yes">.+je<exception regexp="yes">.*(nje|ije)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
 					</or>
 				</pattern>
