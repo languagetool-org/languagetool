@@ -464,22 +464,29 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.9, signature modified in 3.9
    */
   protected void addIgnoreWords(String line) {
-    // if line consists of several words (separated by " "), a DisambiguationPatternRule
-    // will be created where each words serves as a case-sensitive and non-inflected PatternToken
-    // so that the entire multi-word entry is ignored by the spell checker
-    List<String> tokens = language.getWordTokenizer().tokenize(line);
-    if (tokens.size() > 1) {
-      List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
-      for(String token : tokens) {
-        if (token.trim().isEmpty()) {
-          continue;
-        }
-        patternTokens.add(new PatternToken(token, true, false, false));
-      }
-      antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
-        patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
-    } else {
+    if (!tokenizeNewWords()) 
+    {
       wordsToBeIgnored.add(line);
+    }
+    else {
+      // if line consists of several words (separated by " "), a DisambiguationPatternRule
+      // will be created where each words serves as a case-sensitive and non-inflected PatternToken
+      // so that the entire multi-word entry is ignored by the spell checker
+      List<String> tokens = language.getWordTokenizer().tokenize(line);
+      if (tokens.size() > 1) {
+        //System.out.println("Tokenized multi-token: " + line);
+        List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
+        for(String token : tokens) {
+          if (token.trim().isEmpty()) {
+            continue;
+          }
+          patternTokens.add(new PatternToken(token, true, false, false));
+        }
+        antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
+          patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
+      } else {
+        wordsToBeIgnored.add(line);
+      }
     }
   }
 
@@ -582,6 +589,11 @@ public abstract class SpellingCheckRule extends Rule {
       }
     }
     return match.map(String::length).orElse(0);
+  }
+  
+  // tokenize words from files spelling.txt, prohibit.txt...
+  protected boolean tokenizeNewWords() {
+    return true;
   }
 
 }

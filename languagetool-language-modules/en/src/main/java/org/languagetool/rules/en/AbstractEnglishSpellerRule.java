@@ -843,4 +843,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       this.forms = forms;
     }
   }
+  
+  // Do not tokenize new words from spelling.txt... 
+  // Multi-token words should be in multiwords.txt
+  protected boolean tokenizeNewWords() {
+    return false;
+  }
+  
 }
