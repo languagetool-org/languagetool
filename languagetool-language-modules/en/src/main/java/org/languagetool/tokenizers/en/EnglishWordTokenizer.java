@@ -38,7 +38,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
   private final EnglishTagger tagger = new EnglishTagger();
   
   private final List<Pattern> patternList = Arrays.asList(
-      Pattern.compile("^(fo['’]c['’]sle|rec['’]d|OK['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
+      Pattern.compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile(
           "^(['’]?)(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai|ought|might|need|may)(n['’]t)$",
           Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
