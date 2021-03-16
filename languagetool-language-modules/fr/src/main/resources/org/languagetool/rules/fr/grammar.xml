@@ -38453,51 +38453,6 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rule id="BARBARISME_TU" name="barbarisme tu" default="temp_off">
-          <antipattern>
-              <token>t</token>
-              <token>en</token>
-              <token postag="V.* 2 s" postag_regexp="yes"/>
-              <token regexp="yes">pas|plus|émis</token>
-          </antipattern>
-          <antipattern>
-              <token>t</token>
-              <token regexp="yes" min="0" max="1">y|en</token>
-              <token postag="V.* 2 s" postag_regexp="yes"/>
-              <token>tu</token>
-          </antipattern>
-          <antipattern>
-              <token regexp="yes" inflected="yes">(cç)a|instant|j'|toute?s?|ne|ondes|de|un</token>
-              <token regexp="yes" min="0" max="1">y|en</token>
-              <token>t</token>
-              <token postag="V.* 2 s" postag_regexp="yes"/>
-          </antipattern>
-          <antipattern>
-              <token regexp="yes">[a-z].*</token>
-              <token regexp="yes">(?-i)T</token>
-              <token regexp="yes" min="0" max="1">y|en</token>
-              <token postag="V.* 2 s" postag_regexp="yes"/>
-          </antipattern>
-          <antipattern>
-              <token postag="[VDY].*|R pers suj.*|C coor|UNKNOWN" postag_regexp="yes"/>
-              <token>t</token>
-              <token regexp="yes" min="0" max="1">y|en</token>
-              <token postag="V.* 2 s" postag_regexp="yes"/>
-          </antipattern>
-          <pattern>
-              <marker>
-                  <token>t</token>
-              </marker>
-              <token regexp="yes" min="0" max="1">y|en</token>
-              <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
-                  <exception regexp="yes">pompes|pédales|coupes|parasite|compris|plantes|tonnes|secondes|recherches</exception>
-                  <exception postag="J.*" postag_regexp="yes"/></token>
-          </pattern>
-          <message>Cette élision peut paraître familière. Voulez-vous écrire <suggestion>tu</suggestion> ?</message>
-          <example correction="Tu"><marker>T</marker> as fait tes devoirs.</example>
-          <example>Je<marker>t</marker> avais dit de venir plus tôt.</example>
-          <example>Ne <marker>t</marker> avises pas de sauter.</example>
-      </rule>
       <rule id="ACCORD_SUPERLATIF_POSSIBLE" name="accord superlatif possible" tags="picky" default="temp_off">
           <antipattern>
               <token>y</token>
