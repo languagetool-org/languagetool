@@ -628,7 +628,7 @@ though, and has since been slightly modified)-->
             <exception postag="J.*" postag_regexp="yes" scope="next"/></token>
         </pattern>
         <message>'Plus mieux' est une expression considérée comme fautive dans le langage formel. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
-        <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
+        <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce que j'ai fait.</example>
       </rule>
       <rule>
         <pattern>
@@ -10154,6 +10154,15 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
+      <rule id="CONJONCTIONS" name="conjonctions" default="temp_off">
+          <pattern>
+              <token regexp="yes">lorsque|puisque|quoique</token>
+              <token regexp="yes">^[àâaêèéeiîoôòóöuœäyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+          </pattern>
+          <message>Cette conjonction s'élide lorsqu'elle est suivie par une voyelle.</message>
+          <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
+          <example correction="lorsqu'il">J'ai été supris <marker>lorsque il</marker> est arrivé.</example>
+      </rule>
       <rulegroup id="JUSQUE" name="jusque">
           <rule>
               <antipattern>
@@ -35485,8 +35494,8 @@ though, and has since been slightly modified)-->
                   <token postag="[DNJV].*" postag_regexp="yes"/>
               </pattern>
               <message>La virgule doit être omise dans ce contexte.</message>
-              <suggestion>\3</suggestion>
-              <example correction="et">Elle a acheté des radis<marker>, et</marker> des choux.</example>
+              <suggestion> \3</suggestion>
+              <example correction=" et">Elle a acheté des radis<marker>, et</marker> des choux.</example>
               <example>Elle veut travailler à la retraite<marker>, et</marker> puis quoi encore ?</example>
               <example>Elle veut vivre en ville<marker>, et</marker> ce toute sa vie.</example>
               <example>Elle veut voyager<marker>, et</marker> dit-il, trouver le prince charmant.</example>
@@ -35523,9 +35532,9 @@ though, and has since been slightly modified)-->
                   </marker>
               </pattern>
               <message>La virgule doit être omise dans ce contexte.</message>
-              <suggestion>\4</suggestion>
-              <example correction="qui">C'est lui<marker>, qui</marker> part demain.</example>
-              <example correction="que">C’est le sac laissé dans la cuisine<marker>, que</marker> j'ai vidé.</example>
+              <suggestion> \4</suggestion>
+              <example correction=" qui">C'est lui<marker>, qui</marker> part demain.</example>
+              <example correction=" que">C’est le sac laissé dans la cuisine<marker>, que</marker> j'ai vidé.</example>
               <example>C'est quelqu'un qui s'appelle Rachid<marker>, qui</marker> leur confirme que l'air est pur.</example>
               <example>Le problème c’est d'accélérer lorsque les gens veulent vous doubler<marker>, que</marker> ce soit à pied, à cheval ou en voiture.</example>
               <example>C'est ma fille qui part<marker>, que</marker> me reste-t-il maintenant ?</example>
@@ -38461,6 +38470,145 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="BARBARISME_TU" name="barbarisme tu" default="temp_off">
+          <antipattern>
+              <token>t</token>
+              <token>en</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+              <token regexp="yes">pas|plus|émis</token>
+          </antipattern>
+          <antipattern>
+              <token>t</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+              <token>tu</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes" inflected="yes">(cç)a|instant|j'|toute?s?|ne|ondes|de|un</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token>t</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">[a-z].*</token>
+              <token regexp="yes">(?-i)T</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="[VDY].*|R pers suj.*|C coor|UNKNOWN" postag_regexp="yes"/>
+              <token>t</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>t</token>
+              </marker>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                  <exception regexp="yes">pompes|pédales|coupes|parasite|compris|plantes|tonnes|secondes|recherches</exception>
+                  <exception postag="J.*" postag_regexp="yes"/></token>
+          </pattern>
+          <message>Cette élision peut paraître familière. Voulez-vous écrire <suggestion>tu</suggestion> ?</message>
+          <example correction="Tu"><marker>T</marker> as fait tes devoirs.</example>
+          <example>Je<marker>t</marker> avais dit de venir plus tôt.</example>
+          <example>Ne <marker>t</marker> avises pas de sauter.</example>
+      </rule>
+      <rulegroup id="CONFUSION_TU_AS" name="confusion tu as" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token postag="D.*|P|J.*|N.*|Y" postag_regexp="yes"/>
+                  <token>tas</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">(?-i)TAS</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[a-z].*</token>
+                  <token regexp="yes">(?-i)Tas</token>
+              </antipattern>
+              <antipattern>
+                  <token>tas</token>
+                  <token regexp="yes">de|,|se|d'|à|tant</token>
+              </antipattern>
+              <antipattern>
+                  <token skip="-1">il</token>
+                  <token>tas</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>tas<exception scope="previous" regexp="yes">du|au|-</exception></token>
+                  </marker>
+                  <token postag="V ppa.*|P|D.*|A.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Voulez-vous dire <suggestion>Tu as</suggestion> ?</message>
+              <example correction="Tu as"><marker>Tas</marker> fait tes devoirs.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+                  <marker>
+                      <token>ta</token>
+                  </marker>
+                  <token postag="V ppa.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Voulez-vous dire <suggestion>t'a</suggestion> ?</message>
+              <example correction="t'a">Il <marker>ta</marker> dit de faire tes devoirs.</example>
+          </rule>
+      </rulegroup>
+      <rule id="ACCORD_SUPERLATIF_POSSIBLE" name="accord superlatif possible" tags="picky" default="temp_off">
+          <antipattern>
+              <token>y</token>
+              <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+              <token>possibles</token>
+          </antipattern>
+          <antipattern>
+              <token>le</token>
+              <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
+              <token regexp="yes" skip="-1">toute?s?|tous|sur|si|s'|pas|avec|chacune?s?|pire|possibles?|mal|important|hors|souvent</token>
+              <token>possibles</token>
+          </antipattern>
+          <antipattern>
+              <token postag="V etre.*|Y" postag_regexp="yes" skip="-1"/>
+              <token>possibles</token>
+          </antipattern>
+          <antipattern>
+              <token>possibles</token>
+              <token postag="P"/>
+          </antipattern>
+          <antipattern>
+              <token skip="-1">possibles</token>
+              <token postag="Y"/>
+          </antipattern>
+          <antipattern>
+              <token>le</token>
+              <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
+              <token skip="1">des</token>
+              <token>possibles</token>
+          </antipattern>
+          <pattern>
+              <token>le</token>
+              <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
+              <marker>
+                  <token>possibles<exception scope="previous" postag="[DJ].*|P" postag_regexp="yes"/></token>
+              </marker>
+          </pattern>
+          <message>L'adjectif 'possible' précédé d'un superlatif est traditionnellement invariable malgré la récente tendance en faveur de l'accord.</message>
+          <suggestion><match no="3" regexp_match="(?iu)s$" regexp_replace=""/></suggestion>
+          <url>https://bescherelle.ca/le-bon-accord-de-possible/</url>
+          <example correction="possible">Il a étudié le plus <marker>possibles</marker>.</example>
+          <example correction="possible">Il a fait le plus de sport <marker>possibles</marker>.</example>
+          <example>Faites cent exemplaires les plus jolis <marker>possibles</marker>.</example>
+          <example>Le Meilleur des mondes <marker>possibles</marker>, 2000.</example>
+          <example>Le plus petit est l'une des tombes <marker>possibles</marker>.</example>
+          <example>Le plus simple, s'il existe deux trajet <marker>possibles</marker>, c'est de prendre le plus rapide.</example>
+          <example>Le plus dur c'est qu'il y a 8 symboles <marker>possibles</marker>.</example>
+          <example>Le plus intéréssant serait que des variations soient <marker>possibles</marker>.</example>
+          <example>Le plus intéréssant est la création d'une robe de toutes les couleurs <marker>possibles</marker>.</example>
+          <example>Le plus horrible est dans cette ville où de <marker>possibles</marker>dégâts ont pu être constatés.</example>
+          <example>Le plus souvent de grandes avancées grâce à la science sont <marker>possibles</marker>.</example>
+      </rule>
       <rule id="ACCORD_ETRE_LEGION" name="accord être légion">
           <pattern>
               <token postag="V etre.*" postag_regexp="yes"/>
