@@ -70,6 +70,68 @@ regexp case-insensitive maken : (?i)
 <!ENTITY cliche_mess "Pas op voor clichés. Probeer het op een andere manier uit te drukken.">
 <!ENTITY vaag_mess "Pas op met vage taal. Probeer preciezer te zijn.">
 <!ENTITY vlotter_mess "De tekst wordt vlotter wanneer u deze herschrijft met">
+
+    <!ENTITY ambiguous_date '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!-- "7 October 2014" and "7th October 2014" -->
+    <!ENTITY date_dmy '
+        <token regexp="yes">\d\d?(th)?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_dmy_skip '
+        <token regexp="yes">\d\d?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+    <!-- "October 7, 2014" -->
+    <!ENTITY date_mdy '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_mdy_skip '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+    <!-- "31/10/2014" -->
+    <!ENTITY date_dmy_numbers '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_dmy_numbers_skip '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+    <!-- "10/31/2014" -->
+    <!ENTITY date_mdy_numbers '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_mdy_numbers_skip '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
@@ -265,6 +327,120 @@ regexp case-insensitive maken : (?i)
 	</category>
 	
 	<category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." >
+        <rulegroup id="DATE_NEW_YEAR" name="A new year has begun">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>Chr</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token>Chr</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">van</token>
+                <token skip="4" regexp="yes">2019|19</token>
+                <token skip="4">tot</token>
+                <token skip="4" regexp="yes">2020|20</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">van</token>
+                <token skip="4" regexp="yes">2020|20</token>
+                <token skip="4">tot</token>
+                <token skip="4" regexp="yes">2021|21</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">van</token>
+                <token skip="4" regexp="yes">2021|21</token>
+                <token skip="4">tot</token>
+                <token skip="4" regexp="yes">2022|22</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">sinds|vanaf|sedert</token>
+                <token skip="2" regexp="yes">&months;|&abbrevMonths;</token>
+                <token regexp="yes">20\d{2}</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <!-- "7 October 2014" -->
+                    &date_dmy;
+                </pattern>
+                <filter class="org.languagetool.rules.nl.NewYearDateFilter" args="year:\3 month:\2 day:\1"/>
+                <message>Een nieuw jaar is begonnen. Bedoelde u <suggestion>\1 \2 {realYear}</suggestion>?</message>
+                <example correction="7 October 2014">IGD Conventie - <marker>7 oktober 2013</marker></example>
+                <example correction="7 Oct 2014">IGD Conventie - <marker>7 oktober 2013</marker></example>
+                <example>IGD Conventie - Dinddag, <marker>7 oktober 2014</marker></example>
+                <example>IGD Conventie - Dinddag, <marker>7 oktober 2014</marker></example>
+            </rule>
+				<!-- this way of writing a date is wrong n Dutch
+            <rule>
+                <pattern>
+                    <- "October 7, 2014" ->
+                    &date_mdy;
+                </pattern>
+                <filter class="org.languagetool.rules.nl.NewYearDateFilter" args="year:\4 month:\1 day:\2"/>
+                <message>A new year has begun. Did you mean <suggestion>\1 \2, {realYear}</suggestion>?</message>
+                <example correction="October 7, 2014">IGD Convention - <marker>October 7, 2013</marker></example>
+                <example correction="Oct 7, 2014">IGD Convention - <marker>Oct 7, 2013</marker></example>
+                <example>IGD Convention - Tuesday, <marker>Oct 7, 2014</marker></example>
+                <example>IGD Convention - Tuesday, <marker>Oct 7, 2018</marker></example>
+                <example>IGD Convention - Tuesday, <marker>October 7, 2012</marker></example>
+            </rule>
+				-->
+            <!-- "31/10/2014" -->
+            <!-- the ambiguous forms have been antipatterned -->
+            <rule>
+                <antipattern>
+                    &ambiguous_date;
+                </antipattern>
+                <pattern>
+                    &date_dmy_numbers;
+                </pattern>
+                <filter class="org.languagetool.rules.nl.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>Een nieuw jaar is begonnen. Bedoelde u  <suggestion>\1/\3/{realYear}</suggestion>?</message>
+                <example correction="31/10/2014">IGD Convention 2014 - <marker>31/10/2013</marker></example>
+                <example>IGD Conventie 2014 - <marker>31/10/2014</marker></example>
+                <example>IGD Conventie 2014 - <marker>31/10/2018</marker></example>
+                <example>IGD Conventie 2014 - <marker>31/10/2012</marker></example>
+                <example>IGD Conventie 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Conventie 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+            <rule>
+                <!-- "10/31/2014" -->
+                <!-- the ambiguous forms have been antipatterned -->
+                <antipattern>
+                    &ambiguous_date;
+                </antipattern>
+                <pattern>
+                    &date_mdy_numbers;
+                </pattern>
+                <filter class="org.languagetool.rules.nl.NewYearDateFilter" args="year:\5 month:\1 day:\3"/>
+                <message>Een nieuw jaar is begonnen. Bedoelde u <suggestion>\1/\3/{realYear}</suggestion>?</message>
+                <example correction="10/31/2014">IGD Convention 2014 - <marker>10/31/2013</marker></example>
+                <example>IGD Conventie 2014 - <marker>10/31/2014</marker></example>
+                <example>IGD Conventie 2014 - <marker>10/31/2018</marker></example>
+                <example>IGD Conventie 2014 - <marker>10/31/2012</marker></example>
+                <example>IGD Conventie 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Conventie 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+            <rule>
+                <!-- "2014-10-31" -->
+                <pattern>
+                    <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+                </pattern>
+                <filter class="org.languagetool.rules.nl.YMDNewYearDateFilter" args="date:\1"/>
+                <message>Een nieuw jaar is begonnen. Bedoelde u <suggestion>{realDate}</suggestion>?</message>
+                <example correction="2014-10-31">IGD Conventie 2014 - <marker>2013-10-31</marker></example>
+                <example>IGD Conventie 2014 - <marker>2014-10-31</marker></example>
+                <example>IGD Conventie 2014 - <marker>2018-10-31</marker></example>
+                <example>IGD Conventie 2014 - <marker>2012-10-31</marker></example>
+            </rule>
+        </rulegroup>
+
+
 		<rulegroup id="DATE_WEEKDAY" name="Dag komt niet overeen met datum">
 			<rule>
 				<pattern>
