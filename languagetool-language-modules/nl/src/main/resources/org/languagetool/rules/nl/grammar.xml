@@ -12692,6 +12692,20 @@ onwaarschijnlijk
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
 		
+		<rulegroup id="NAM" name="De name/de NAM" type="misspelling">
+			<rule>
+				<pattern>
+						<token>de</token>
+						<marker>
+							<token regexp="yes" case_sensitive="yes">bam|nam|nos</token>
+						</marker>
+				</pattern>
+				<message>Dit hoort vast met een hoofdletter geschreven te worden.</message>
+				<suggestion><match no="2" case_conversion="allupper"/></suggestion>
+				<short>Geen hoofdletter</short>
+				<example correction="DE_NOS">De <marker>nos</marker> brengt het journaal.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="KOERDEN" name="De koerden/Koerden" type="misspelling">
 			<rule>
 				<pattern>
@@ -16989,6 +17003,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag="TSW"/><token>,</token><token>dat</token></antipattern>
+				<antipattern><token>hey</token><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>Dank</token><token>je</token><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="1"/><token regexp="yes">Bedankt|Ja|Nee|Welnee|Welja|Kijk</token><token>,</token><token>dat</token></antipattern>
 				<pattern>
