@@ -424,8 +424,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
-      <rulegroup id="PLEONASMES_DIVERS" name="pléonasmes divers" default="temp_off">
-          <rule>
+      <rulegroup id="PLEONASMES_DIVERS" name="pléonasmes divers" tags="picky">
+      <rule>
               <pattern>
                   <token>autrement</token>
                   <token>plus</token>
@@ -447,7 +447,7 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <pattern>
-                  <token>krach</token>
+                  <token>krach<exception scope="previous" regexp="yes">"|'|«</exception></token>
                   <token>boursier</token>
               </pattern>
               <message>Cette expression peut être considérée comme pléonastique, car un krach est généralement associé au domaine financier.</message>
@@ -456,7 +456,7 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <pattern>
-                  <token>légère</token>
+                  <token>légère<exception scope="previous" regexp="yes">"|'|«</exception></token>
                   <token>collation</token>
               </pattern>
               <message>Cette expression peut être considérée comme pléonastique, car une collation est habituellement légère.</message>
@@ -1428,17 +1428,19 @@ though, and has since been slightly modified)-->
           <example>C'est la maison <marker>dans</marker> face nord !</example>
           <example>C'est la vie <marker>dans</marker> face aux problèmes !</example>
       </rule>
-      <rule>
-          <pattern>
-              <marker>
-                  <token>d'</token>
-                  <token>en</token>
-              </marker>
-              <token postag="[DN].*" postag_regexp="yes"/>
-          </pattern>
-          <message>Une confusion entre la préposition 'dans' et la contraction '\1\2' semble être détectée. Souhaitez-vous écrire <suggestion>dans</suggestion> ?</message>
-          <example correction="dans">Ils sont tous <marker>d'en</marker> la maison !</example>
-      </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>d'</token>
+                      <token>en</token>
+                  </marker>
+                  <token postag="[DN].*" postag_regexp="yes">
+                      <exception regexp="yes">moyenne|appel</exception>
+                      <exception postag="V.*" postag_regexp="yes"/></token>
+              </pattern>
+              <message>Une confusion entre la préposition 'dans' et la contraction 'd'en' semble être détectée. Souhaitez-vous écrire <suggestion>dans</suggestion> ?</message>
+              <example correction="dans">Ils sont tous <marker>d'en</marker> la maison !</example>
+          </rule>
   </rulegroup>
       <rule id="FEUS_OU_FEUX" name="feus ou feux">
           <antipattern>
@@ -3006,7 +3008,12 @@ though, and has since been slightly modified)-->
         <example>Il est facile de décider a posteriori.</example>
       </rule>
       <rule>
-        <pattern>
+          <antipattern>
+              <token regexp="yes">gardes?</token>
+              <token>à</token>
+              <token regexp="yes">vues?</token>
+          </antipattern>
+          <pattern>
           <marker>
             <token>à</token>
           </marker>
@@ -10147,7 +10154,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
-      <rulegroup id="JUSQUE" name="jusque" default="temp_off">
+      <rulegroup id="JUSQUE" name="jusque">
           <rule>
               <antipattern>
                   <token>jusque</token>
@@ -10616,7 +10623,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
-      <rulegroup id="ACCORD_PRONOM_POSSESSIF_LEUR" name="accord pronom posséssif leur" default="temp_off">
+      <rulegroup id="ACCORD_PRONOM_POSSESSIF_LEUR" name="accord pronom posséssif leur">
           <rule>
               <pattern>
                   <token>que</token>
@@ -10664,7 +10671,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">nombres|quantités<exception scope="previous">de|autres|aux|comme|tel(le)?s</exception></token>
+                      <token regexp="yes">nombres|quantités<exception scope="previous" regexp="yes">de|autres|aux|comme|tel(le)?s</exception></token>
                   </marker>
 
                   <token>de</token>
@@ -10731,7 +10738,7 @@ though, and has since been slightly modified)-->
               <example correction="mérite"> Tout homme et toute femme <marker>méritent</marker> le respect.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="CONFUSION_QUEL" name="confusion quel" default="temp_off">
+      <rulegroup id="CONFUSION_QUEL" name="confusion quel">
           <rule>
               <pattern>
                   <token postag="N [em] s" postag_regexp="yes" skip="-1"/>
@@ -20798,7 +20805,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule default="temp_off">
         <pattern>
-            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|vouloir</token>
             <token min="0" max="1" regexp="yes">pas|plus</token>
             <token>qu'</token>
             <token regexp="yes">il|elle|on</token>
@@ -35463,6 +35470,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">et|ou|&amp;</token>
               </antipattern>
               <antipattern>
+                  <token skip="-1">,</token>
                   <token regexp="yes" skip="-1">et|ou|ô|&amp;</token>
                   <token>,</token>
                   <token regexp="yes">et|ou|&amp;</token>
@@ -36874,7 +36882,7 @@ though, and has since been slightly modified)-->
       <example correction=","><marker>dans ce cas</marker> il est certain</example>
       <example><marker>dans ce cas</marker>, il est certain</example>
     </rule>
-      <rulegroup id="VIRGULE_ET_CE" name="virgule et ce" default="temp_off">
+      <rulegroup id="VIRGULE_ET_CE" name="virgule et ce">
           <rule>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
@@ -38592,7 +38600,7 @@ though, and has since been slightly modified)-->
           <example>Le plus horrible est dans cette ville où de <marker>possibles</marker>dégâts ont pu être constatés.</example>
           <example>Le plus souvent de grandes avancées grâce à la science sont <marker>possibles</marker>.</example>
       </rule>
-      <rule id="ACCORD_ETRE_LEGION" name="accord être légion" default="temp_off">
+      <rule id="ACCORD_ETRE_LEGION" name="accord être légion">
           <pattern>
               <token postag="V etre.*" postag_regexp="yes"/>
               <marker>
@@ -38607,16 +38615,21 @@ though, and has since been slightly modified)-->
       <rulegroup id="ACCORD_JOURS_DE_LA_SEMAINE" name="accord jours de la semaine" default="temp_off">
           <rule>
               <antipattern>
-                  <token regexp="yes">l?d?es|tous|certains|quelques|plusieurs</token>
-                  <token min="0" max="1">les</token>
+                  <token regexp="yes">les|des|tous|certains|quelques|plusieurs</token>
                   <token regexp="yes" skip="-1">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
                   <token>de</token>
                   <token>chaque</token>
                   <token>semaine</token>
               </antipattern>
+              <antipattern>
+                  <token regexp="yes">les|des|tous|certains|quelques|plusieurs</token>
+                  <token regexp="yes" skip="-1">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+                  <token>et</token>
+                  <token regexp="yes" skip="-1">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+                  <token postag="Y"/>
+              </antipattern>
               <pattern>
-                  <token regexp="yes">l?d?es|tous|certains|quelques|plusieurs</token>
-                  <token min="0" max="1">les</token>
+                  <token regexp="yes">les|des|tous|certains|quelques|plusieurs</token>
                   <marker>
                       <token regexp="yes">lundi$|mardi$|mercred$|jeudi$|vendredi$|samedi$|dimanche$</token>
                   </marker>
@@ -38628,7 +38641,7 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <pattern>
-                  <token regexp="yes">l?d?es|tous|certains|quelques|plusieurs</token>
+                  <token regexp="yes">les|des|tous|certains|quelques|plusieurs</token>
                   <token min="0" max="1">les</token>
                   <marker>
                       <token regexp="yes" skip="-1">lundis|mardis|mercredis|jeudis|vendredis|samedis|dimanches</token>
@@ -38681,6 +38694,21 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
+                  <token>sans</token>
+                  <token skip="-1">limite</token>
+                  <token regexp="yes">durée|temps|jours?|mois|années?</token>
+              </antipattern>
+              <antipattern>
+                  <token>homme</token>
+                  <token>sans</token>
+                  <token>détour</token>
+              </antipattern>
+              <antipattern>
+                  <token>sans</token>
+                  <token>bien</token>
+                  <token postag="A|[RV].*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
                   <token postag="Y" skip="-1"/>
                   <token>sans</token>
                   <token regexp="yes">ambage$|limite$|roue$|poil$|lunette$|scrupule$|témoin$|poche$|bouton$|dent$|détour$|erreur$|aile$|ami$|bagage$|bien$|fenêtre$|principe$|souci$|nuance$|nuage$</token>
@@ -38708,13 +38736,37 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token>d'</token>
                       <token>ici</token>
-                      <token postag="K|D.*|Y" postag_regexp="yes"/>
-                  </marker>
-              </pattern>
-              <message>Cette expression peut être considérée comme familière en raison de l'omission de la préposition 'à'.</message>
-              <suggestion>\1\2 à \3</suggestion>
-              <example correction="d'ici à une">Il partira <marker>d'ici une</marker> heure.</example>
-          </rule>
+                      <token postag="K|D.*|Y" postag_regexp="yes"><exception regexp="yes">[mts][oea][ns]?|les?</exception></token>
+              </marker>
+          </pattern>
+          <message>Cette expression peut être considérée comme familière en raison de l'omission de la préposition 'à'.</message>
+          <suggestion>\1\2 à \3</suggestion>
+          <example correction="d'ici à une">Il partira <marker>d'ici une</marker> heure.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token>d'</token>
+                  <token>ici</token>
+                  <token>le</token>
+              </marker>
+          </pattern>
+          <message>Cette expression peut être considérée comme familière en raison de l'omission de la préposition 'à'.</message>
+          <suggestion>\1\2 au</suggestion>
+          <example correction="d'ici au">Il partira <marker>d'ici le</marker> mois de mars.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token>d'</token>
+                  <token>ici</token>
+                  <token>les</token>
+              </marker>
+          </pattern>
+          <message>Cette expression peut être considérée comme familière en raison de l'omission de la préposition 'à'.</message>
+          <suggestion>\1\2 aux</suggestion>
+          <example correction="d'ici aux">Il partira <marker>d'ici les</marker> vacances.</example>
+      </rule>
           <rule>
               <pattern>
                   <token>sans</token>
@@ -38781,13 +38833,7 @@ though, and has since been slightly modified)-->
               <token postag="Y"/>
           </antipattern>
           <antipattern>
-              <token regexp="yes" inflected="yes" skip="-1">présent|transformer|nourriture|planter|sente|piano|terrier|embourber|enfoncer|vautrer|crampon|sentier|nid|œufs|larve|animal|insecte|contenir|rouler|cacher|enfouir|noyer|vivre|pousser|apparaître|fouiller|tasser|nicher|dissimuler</token>
-              <token>dans</token>
-              <token postag="D.*" postag_regexp="yes"/>
-              <token>herbe</token>
-          </antipattern>
-          <antipattern>
-              <token regexp="yes" inflected="yes">présent|transformer|nourriture|planter|petit|sente|piano|terrier|embourber|enfoncer|vautrer|crampon|sentier|nid|œufs|larve|animal|insecte|contenir|rouler|cacher|enfouir|noyer|vivre|pousser|apparaître|fouiller|tasser|nicher|dissimuler</token>
+              <token regexp="yes" inflected="yes" skip="-1">présent|perdre|transformer|nourriture|planter|sente|piano|terrier|embourber|enfoncer|vautrer|crampon|sentier|nid|œufs|larve|animal|insecte|contenir|rouler|cacher|enfouir|noyer|vivre|pousser|apparaître|fouiller|tasser|nicher|dissimuler</token>
               <token>dans</token>
               <token postag="D.*" postag_regexp="yes"/>
               <token>herbe</token>
@@ -38836,74 +38882,174 @@ though, and has since been slightly modified)-->
           <example>Je me suis embrouillé <marker>dans</marker> mes fiches.</example>
       </rule>
       <rulegroup id="QUESTION_REGISTRE_SOUTENU" name="question registre soutenu" tags="picky" default="temp_off">
-      <rule>
-          <pattern>
-              <marker>
+          <rule>
+              <antipattern>
+                  <token>qu'</token>
+                  <token>est</token>
+                  <token>-ce</token>
+                  <token regexp="yes">qu'|que</token>
+                  <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">^[aâeéèêioôœuy].*</token>
+                  <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aâeéèêioôœuy]$</token>
+              </antipattern>
+              <antipattern>
                   <token>qu'</token>
                   <token>est</token>
                   <token>-ce</token>
                   <token regexp="yes">qu'|que</token>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"><exception regexp="yes">^[aâeéèêioôœuy].*|&H_ASPIRE;</exception></token>
-              </marker>
-              <token postag="M fin inte"/>
-          </pattern>
-          <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
-          <suggestion>que \6-\5</suggestion>
-          <example correction="Que fait-il"><marker>Qu'est-ce qu'il fait</marker> ?</example>
-      </rule>
-      <rule>
-          <pattern>
-              <marker>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token>en</token>
+                  <token>train</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes" inflected="yes">branler|foutre|ficher|raconter|venir|chipoter|fabriquer|mijoter</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>est</token>
+                      <token>-ce</token>
+                      <token regexp="yes">qu'|que</token>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception postag="R pers suj 1 s"/></token>
+                      <token postag="V.*" postag_regexp="yes" skip="-1">
+                          <exception scope="next" regexp="yes">cet?|cette|ces</exception>
+                          <exception regexp="yes">^[aâeéèêioôœuy].*|&H_ASPIRE;</exception></token>
+                  </marker>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+              <suggestion>que \6-\5</suggestion>
+              <example correction="Que fait-il"><marker>Qu'est-ce qu'il fait</marker> ?</example>
+              <example><marker>Qu'est-ce qu'il mange</marker> ?</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>qu'</token>
+                  <token>est</token>
+                  <token>-ce</token>
+                  <token regexp="yes">qu'|que</token>
+                  <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">^[aâeéèêioôœuy].*</token>
+                  <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aâeéèêioôœuy]$</token>
+              </antipattern>
+              <antipattern>
                   <token>qu'</token>
                   <token>est</token>
                   <token>-ce</token>
                   <token regexp="yes">qu'|que</token>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
                   <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">^[aâeéèêioôœuy].*|&H_ASPIRE;</token>
-              </marker>
-              <token postag="M fin inte"/>
-          </pattern>
-          <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
-          <suggestion>qu'\6-\5</suggestion>
-          <example correction="Qu'ajoutons-nous"><marker>Qu'est-ce que nous ajoutons</marker> ?</example>
-      </rule>
-      <rule>
-          <pattern>
-              <marker>
+                  <token regexp="yes">[mts]on|[mts]a|[mts]es|notre|votre|bien</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>est</token>
+                      <token>-ce</token>
+                      <token regexp="yes">qu'|que</token>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception postag="R pers suj 1 s"/></token>
+                      <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">^[aâeéèêioôœuy].*|&H_ASPIRE;
+                          <exception scope="next" regexp="yes">cet?|cette|ces</exception>
+                          <exception inflected="yes">foutre</exception>
+                          <exception scope="next" inflected="yes">foutre</exception>
+                      </token>
+                  </marker>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+              <suggestion>qu'\6-\5</suggestion>
+              <example correction="Qu'ajoutons-nous"><marker>Qu'est-ce que nous ajoutons</marker> ?</example>
+              <example><marker>Qu'est-ce qu'elle a</marker> ?</example>
+              <example><marker>Qu'est-ce que j'aime</marker> ?</example>
+              <example><marker>Qu’est-ce que tu as</marker> foutu ?</example>
+              <example><marker>Qu'est-ce qu'il a</marker> ce bébé là ?</example>
+              <example><marker>Qu'est-ce qu'il aime</marker>, votre père ?</example>
+          </rule>
+          <rule>
+              <antipattern>
                   <token>qu'</token>
                   <token>est</token>
                   <token>-ce</token>
                   <token regexp="yes">qu'|que</token>
-                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">^[aâeéèêioôœuy].*</token>
                   <token postag="R pers obj.*" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
-              </marker>
-              <token postag="M fin inte"/>
-          </pattern>
-          <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
-          <suggestion>que \6 \7-\5</suggestion>
-          <example correction="Que lui fait-il"><marker>Qu'est-ce qu'il lui fait</marker> ?</example>
-      </rule>
-      <rule>
-          <pattern>
-              <marker>
-                  <token>qu'</token>
-                  <token>est</token>
-                  <token>-ce</token>
-                  <token regexp="yes">qu'|que</token>
-                  <token postag="R pers suj.*" postag_regexp="yes"/>
-                  <token>en</token>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
-              </marker>
-              <token postag="M fin inte"/>
-          </pattern>
-          <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
-          <suggestion>qu'\6 \7-\5</suggestion>
-          <example correction="Qu'en fait-il"><marker>Qu'est-ce qu'il en fait</marker> ?</example>
-      </rule>
-  </rulegroup>
-      <rule id="ETRE_ALLE_A" name="être allé à" default="temp_off">
+                  <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">.*[aâeéèêioôœuy]$</token>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>est</token>
+                      <token>-ce</token>
+                      <token regexp="yes">qu'|que</token>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception postag="R pers suj 1 s"/></token>
+                      <token postag="R pers obj.*" postag_regexp="yes"><exception regexp="yes">t'|s'|m'|en|y</exception></token>
+                      <token postag="V.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                  </marker>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+              <suggestion>que \6 \7-\5</suggestion>
+              <example correction="Que lui fait-il"><marker>Qu'est-ce qu'il lui fait</marker> ?</example>
+              <example><marker>Qu'est-ce que j'en retire</marker> ?</example>
+              <example><marker>Qu'est-ce qu'il se passe</marker> ?</example>
+              <example><marker>Qu'est-ce qu'elle t'apporte</marker> ?</example>
+              <example><marker>Qu'est-ce qu'on nous a</marker> dit ?</example>
+              <example><marker>Qu'est-ce que tu y trouves</marker> ?</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>est</token>
+                      <token>-ce</token>
+                      <token regexp="yes">qu'|que</token>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception postag="R pers suj 1 s"/></token>
+                      <token regexp="yes">en|y</token>
+                      <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                  </marker>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+              <suggestion>qu'\6 \7-\5</suggestion>
+              <example correction="Qu'en fait-il"><marker>Qu'est-ce qu'il en fait</marker> ?</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>est</token>
+                      <token>-ce</token>
+                      <token regexp="yes">qu'|que</token>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception postag="R pers suj 1 s"/></token>
+                      <token regexp="yes">t'|s'|m'</token>
+                      <token postag="V.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                  </marker>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+              <suggestion>que \6\7-\5</suggestion>
+              <example correction="Que t'apporte-elle"><marker>Qu'est-ce qu'elle t'apporte</marker> ?</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>est</token>
+                      <token>-ce</token>
+                      <token regexp="yes">qu'|que</token>
+                      <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">^[aâeéèêioôœuy].*<exception postag="R pers suj 1 s"/></token>
+                      <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"><exception regexp="yes">t'|s'|m'|en|y</exception></token>
+                      <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">.*[aâeéèêioôœuy]$<exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                  </marker>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+              <suggestion>que \6 \7-t-\5</suggestion>
+              <example correction="Que nous a-t-on"><marker>Qu'est-ce qu'on nous a</marker> dit ?</example>
+              <example><marker>Qu'est-ce que tu y trouves</marker> ?</example>
+          </rule>
+      </rulegroup>
+      <rule id="ETRE_ALLE_A" name="être allé à">
           <antipattern>
               <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
               <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
@@ -38967,7 +39113,7 @@ though, and has since been slightly modified)-->
           <example>J'<marker>ai été</marker> au gouvernement en 1987.</example>
           <example>Lui aussi <marker>a été</marker> à la direction de l'entreprise.</example>
       </rule>
-      <rule id="CONFUSION_EST_ET" name="confusion est et" default="temp_off">
+      <rule id="CONFUSION_EST_ET" name="confusion est et">
           <antipattern>
               <token postag="A inte"/>
               <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
