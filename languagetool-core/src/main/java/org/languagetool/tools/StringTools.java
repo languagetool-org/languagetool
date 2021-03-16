@@ -562,8 +562,7 @@ public final class StringTools {
     * @param str input str
     */
    public static String removeTashkeel(String str) {
-      String s = Normalizer.normalize(str, Normalizer.Form.NFD);
-      String striped = s.replaceAll("["
+      String striped = str.replaceAll("["
         + "\u064B"  // Fathatan
         + "\u064C"  // Dammatan
         + "\u064D"  // Kasratan
