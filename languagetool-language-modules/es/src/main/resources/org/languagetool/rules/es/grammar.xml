@@ -960,21 +960,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="déjà vu"><marker>dejà-vu</marker>.</example>
             <example>Un déjà vu.</example>
         </rule>
-        <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
-            <pattern>
-                <marker>
-                    <token>apunto<exception scope="previous" regexp="yes">me|te|lo|la|le|nos|os|los|las|les</exception></token>
+        <rulegroup id="A_PUNTO_DE" name="*apunto de/a punto de">
+            <antipattern>
+                <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les</token>
+                <token>apunto</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token>apunto</token>
                     <token>de</token>
-                </marker>
-                <token><exception regexp="yes">manera|forma</exception></token>
-            </pattern>
-            <message>Esta locución es escribe separada.</message>
-            <suggestion>a punto de</suggestion>
-            <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
-            <example correction="a punto de">Estaba <marker>apunto de</marker> llegar.</example>
-            <example>Apunto de manera inmediata</example>
-            <example>Me apunto de voluntario.</example>
-        </rule>
+                    <token regexp="yes">manera|forma</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>apunto</token>
+                    </marker>
+                    <token regexp="yes">de|para|fijo|largo</token>
+                </pattern>
+                <message>Esta locución es escribe separada.</message>
+                <suggestion>a punto</suggestion>
+                <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
+                <example correction="a punto">Estaba <marker>apunto</marker> de llegar.</example>
+                <example correction="a punto">Estaba todo <marker>apunto</marker> de llegar.</example>
+                <example>Apunto de manera inmediata</example>
+                <example>Me apunto de voluntario.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>apunto</token>
+                    </marker>
+                    <token>de</token>
+                    <token regexp="yes">caramelo|nieve|turrón</token>
+                </pattern>
+                <message>Esta locución se escribe separada</message>
+                <suggestion>a punto</suggestion>
+                <example correction="a punto">Lo tengo <marker>apunto</marker> de caramelo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>apunto</token>
+                    </marker>
+                </pattern>
+                <message>Con el sentido de 'a tiempo' o 'listo, dispuesto', es escribe separado. Correcto si es del v. 'apuntar'.</message>
+                <suggestion>a punto</suggestion>
+                <example correction="a punto">Estaba todo <marker>apunto</marker>.</example>
+                <example>Me lo apunto.</example>
+            </rule>
+        </rulegroup>
         <rule id="TAL_ES_ASI" name="*tal es así/tanto es así">
             <pattern>
                 <token>tal</token>
@@ -11794,7 +11828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify negate="yes">
                     <feature id="genero"/>
                     <feature id="numero"/>
-                    <token inflected="yes">todo<exception postag="LOC_ADV"></exception></token>
+                    <token inflected="yes">todo<exception postag="LOC_ADV"/></token>
                     <token postag="D[AD].*" postag_regexp="yes"><exception>lo</exception></token>
                 </unify>
             </pattern>
