@@ -63,6 +63,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("daß", "dass");
     put("Frauenhofer", "Fraunhofer");
     put("Vieleicht", "Vielleicht");
     put("inbetracht", "in Betracht");
