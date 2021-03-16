@@ -10154,6 +10154,15 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
+      <rule id="CONJONCTIONS" name="conjonctions" default="temp_off">
+          <pattern>
+              <token regexp="yes">lorsque|puisque|quoique</token>
+              <token regexp="yes">^[àâaêèéeiîoôòóöuœäyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+          </pattern>
+          <message>Cette conjonction s'élide lorsqu'elle est suivie par une voyelle.</message>
+          <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
+          <example correction="lorsqu'il">J'ai été supris <marker>lorsque il</marker> est arrivé.</example>
+      </rule>
       <rulegroup id="JUSQUE" name="jusque">
           <rule>
               <antipattern>
@@ -38582,7 +38591,7 @@ though, and has since been slightly modified)-->
               <token>le</token>
               <token skip="-1" regexp="yes">plus|moins|mieux|meilleur</token>
               <marker>
-                  <token regexp="yes">possibles$<exception scope="previous" postag="[DJ].*|P" postag_regexp="yes"/></token>
+                  <token>possibles<exception scope="previous" postag="[DJ].*|P" postag_regexp="yes"/></token>
               </marker>
           </pattern>
           <message>L'adjectif 'possible' précédé d'un superlatif est traditionnellement invariable malgré la récente tendance en faveur de l'accord.</message>
