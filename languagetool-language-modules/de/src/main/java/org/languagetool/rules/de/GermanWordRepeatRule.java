@@ -68,6 +68,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("ha")
     ),
     Arrays.asList(
+      token("hip"),
+      token("hip"),
+      token("hurra")
+    ),
+    Arrays.asList(
       token("möp"),
       token("möp")
     ),
@@ -116,6 +121,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("man"),
       token("man")
     ),
+    Arrays.asList(
+      token("Arbeit"),
+      token("Arbeit"),
+      token("Arbeit")
+    ),
     Arrays.asList( // Art Direktor*in in der ...
       tokenRegex("\\*|:|\\/"),
       token("in"),
@@ -162,20 +172,20 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       tokenRegex("war|ist|sein")
     ),
     Arrays.asList( // Wahrscheinlich ist das das Problem.
-      tokenRegex("ist|war|wäre|für|dass"),
+      tokenRegex("ist|war|wäre?|für|dass"),
       token("das"),
       token("das"),
       posRegex(".*SUB:.*NEU.*")
     ),
     Arrays.asList( // Wahrscheinlich ist das das Problem.
-      tokenRegex("ist|war|wäre|für|dass"),
+      tokenRegex("ist|war|wäre?|für|dass"),
       token("das"),
       token("das"),
       posRegex("ADJ:.*"),
       posRegex(".*SUB:.*NEU.*")
     ),
     Arrays.asList( // Wahrscheinlich ist das das Problem.
-      tokenRegex("ist|war|wäre|für|dass"),
+      tokenRegex("ist|war|wäre?|für|dass"),
       token("das"),
       token("das"),
       posRegex("ADJ:.*NEU.*"),
@@ -188,6 +198,12 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("das"),
       posRegex("ADJ:.*NEU.*"),
       posRegex(".*SUB:.*NEU.*")
+    ),
+    Arrays.asList( // Werden sie sie töten?
+      tokenRegex("werden|würden|sollt?en|müsst?en|könnt?en"),
+      token("sie"),
+      token("sie"),
+      posRegex("VER:1:PLU:.*")
     ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
@@ -213,6 +229,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Die markierten Stellen stellen die Aufnahmepunkte dar."
       csToken("Stellen"),
       csToken("stellen")
+    ),
+    Arrays.asList(// "Wir reisen in die ferne Ferne."
+      token("die"),
+      csToken("ferne"),
+      csToken("Ferne")
     ),
     Arrays.asList(// "Er muss sein Essen essen"
       csToken("Essen"),
