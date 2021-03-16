@@ -556,4 +556,28 @@ public final class StringTools {
   public static boolean isCamelCase(String token) {
     return token.matches("[a-z]+[A-Z][A-Za-z]+");
   }
+
+   /**
+    * Return <code>str</code> without tashkeel characters
+    * @param str input str
+    */
+   public static String removeTashkeel(String str) {
+      String s = Normalizer.normalize(str, Normalizer.Form.NFD);
+      String striped = s.replaceAll("["
+        + "\u064B"  // Fathatan
+        + "\u064C"  // Dammatan
+        + "\u064D"  // Kasratan
+        + "\u064E"  // Fatha
+        + "\u064F"  // Damma
+        + "\u0650"  // Kasra
+        + "\u0651"  // Shadda
+        + "\u0652"  // Sukun
+        + "\u0653"  // Maddah Above
+        + "\u0654"  // Hamza Above
+        + "\u0655"  // Hamza Below
+        + "\u0656"  // Subscript Alef
+        + "\u0640"  // Tatweel
+       + "]", "");
+      return striped;
+    }
 }
