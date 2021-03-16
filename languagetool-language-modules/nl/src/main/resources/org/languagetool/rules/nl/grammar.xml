@@ -327,6 +327,7 @@ regexp case-insensitive maken : (?i)
 	</category>
 	
 	<category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." >
+		<!--
         <rulegroup id="DATE_NEW_YEAR" name="A new year has begun">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
@@ -365,7 +366,7 @@ regexp case-insensitive maken : (?i)
             </antipattern>
             <rule>
                 <pattern>
-                    <!-- "7 October 2014" -->
+                    - "7 October 2014" -
                     &date_dmy;
                 </pattern>
                 <filter class="org.languagetool.rules.nl.NewYearDateFilter" args="year:\3 month:\2 day:\1"/>
@@ -375,7 +376,7 @@ regexp case-insensitive maken : (?i)
                 <example>IGD Conventie - Dinddag, <marker>7 oktober 2014</marker></example>
                 <example>IGD Conventie - Dinddag, <marker>7 oktober 2014</marker></example>
             </rule>
-				<!-- this way of writing a date is wrong n Dutch
+				- this way of writing a date is wrong n Dutch -
             <rule>
                 <pattern>
                     <- "October 7, 2014" ->
@@ -389,9 +390,9 @@ regexp case-insensitive maken : (?i)
                 <example>IGD Convention - Tuesday, <marker>Oct 7, 2018</marker></example>
                 <example>IGD Convention - Tuesday, <marker>October 7, 2012</marker></example>
             </rule>
-				-->
-            <!-- "31/10/2014" -->
-            <!-- the ambiguous forms have been antipatterned -->
+				-
+            - "31/10/2014" -
+            - the ambiguous forms have been antipatterned -
             <rule>
                 <antipattern>
                     &ambiguous_date;
@@ -405,12 +406,12 @@ regexp case-insensitive maken : (?i)
                 <example>IGD Conventie 2014 - <marker>31/10/2014</marker></example>
                 <example>IGD Conventie 2014 - <marker>31/10/2018</marker></example>
                 <example>IGD Conventie 2014 - <marker>31/10/2012</marker></example>
-                <example>IGD Conventie 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
-                <example>IGD Conventie 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Conventie 2014 - <marker>10/09/2014</marker></example> - not correct, but ambiguous -
+                <example>IGD Conventie 2014 - <marker>9/10/2014</marker></example> - not correct, but ambiguous -
             </rule>
             <rule>
-                <!-- "10/31/2014" -->
-                <!-- the ambiguous forms have been antipatterned -->
+                - "10/31/2014" -
+                - the ambiguous forms have been antipatterned -
                 <antipattern>
                     &ambiguous_date;
                 </antipattern>
@@ -423,11 +424,11 @@ regexp case-insensitive maken : (?i)
                 <example>IGD Conventie 2014 - <marker>10/31/2014</marker></example>
                 <example>IGD Conventie 2014 - <marker>10/31/2018</marker></example>
                 <example>IGD Conventie 2014 - <marker>10/31/2012</marker></example>
-                <example>IGD Conventie 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
-                <example>IGD Conventie 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Conventie 2014 - <marker>10/09/2014</marker></example> - not correct, but ambiguous -
+                <example>IGD Conventie 2014 - <marker>9/10/2014</marker></example> - not correct, but ambiguous -
             </rule>
             <rule>
-                <!-- "2014-10-31" -->
+                - "2014-10-31" -
                 <pattern>
                     <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
                 </pattern>
@@ -439,7 +440,7 @@ regexp case-insensitive maken : (?i)
                 <example>IGD Conventie 2014 - <marker>2012-10-31</marker></example>
             </rule>
         </rulegroup>
-
+		  -->
 
 		<rulegroup id="DATE_WEEKDAY" name="Dag komt niet overeen met datum">
 			<rule>
