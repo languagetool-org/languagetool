@@ -962,7 +962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="A_PUNTO_DE" name="*apunto de/a punto de">
             <antipattern>
-                <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les</token>
+                <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les|se</token>
                 <token>apunto</token>
             </antipattern>
             <rule>
@@ -986,6 +986,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me apunto de voluntario.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>yo</token>
+                    <token>apunto</token>
+                </antipattern>
+                <antipattern>
+                    <token>apunto</token>
+                    <token min="0" postag="RG"/>
+                    <token regexp="yes">a|que</token>
+                </antipattern>
+                <antipattern>
+                    <token>apunto</token>
+                    <token min="0" postag="RG"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">a|al</token>
+                    <token min="0" regexp="yes">lo|la|los|las</token>
+                    <token>que</token>
+                    <token>apunto</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>apunto</token>
