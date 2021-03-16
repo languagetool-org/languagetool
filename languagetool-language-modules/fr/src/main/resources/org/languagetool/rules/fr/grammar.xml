@@ -628,7 +628,7 @@ though, and has since been slightly modified)-->
             <exception postag="J.*" postag_regexp="yes" scope="next"/></token>
         </pattern>
         <message>'Plus mieux' est une expression considérée comme fautive dans le langage formel. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
-        <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
+        <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce que j'ai fait.</example>
       </rule>
       <rule>
         <pattern>
@@ -10147,6 +10147,15 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
+      <rule id="CONJONCTIONS" name="conjonctions" default="temp_off">
+          <pattern>
+              <token regexp="yes">lorsque|puisque|quoique</token>
+              <token regexp="yes">^[àâaêèéeiîoôòóöuœä].*</token>
+          </pattern>
+          <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+          <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
+          <example correction="lorsqu'il">J'ai été supris <marker>lorsque il</marker> est arrivé.</example>
+      </rule>
       <rulegroup id="JUSQUE" name="jusque" default="temp_off">
           <rule>
               <antipattern>
