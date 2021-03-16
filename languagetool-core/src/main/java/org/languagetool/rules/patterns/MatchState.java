@@ -221,7 +221,7 @@ public class MatchState {
       Pattern pRegexMatch = match.getRegexMatch();
       String regexReplace = match.getRegexReplace();
       if (pRegexMatch != null) {
-        if (lang.getShortCode().equals("ar")) {
+        if (lang != null && lang.getShortCode().equals("ar")) {
            formattedString[0] = StringTools.removeTashkeel(formattedString[0]);
         }
         formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
