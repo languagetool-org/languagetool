@@ -36610,6 +36610,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EN_BREUS" name="en breus" default="temp_off">
+            <pattern>
+                <token>en</token>
+                <token>breus<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>en breu</suggestion>
+            <suggestion>d'aquí a poc temps</suggestion>
+            <suggestion>aviat</suggestion>
+            <suggestion>ben aviat</suggestion>
+            <suggestion>abans de gaire</suggestion>
+            <suggestion>de seguida</suggestion>
+            <example correction="en breu|d'aquí a poc|aviat|ben aviat|abans de gaire|de seguida">Arribarà <marker>en breus</marker>.</example>
+            <example>En breus estades als Pirineus.</example>
+        </rule>
         <rulegroup id="MAL_DE_MUCHOS" name="mal de muchos">
             <url>https://pccd.dites.cat/?paremiotipus=Mal+de+molts%2C+conhort+de+boigs</url>
             <rule>
