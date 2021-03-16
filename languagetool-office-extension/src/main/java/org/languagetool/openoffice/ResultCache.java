@@ -128,7 +128,7 @@ class ResultCache implements Serializable {
     if (entry == null) {
       return null;
     }
-    return entries.get(numberOfParagraph).getErrorArray();
+    return entry.getErrorArray();
   }
 
   /**
