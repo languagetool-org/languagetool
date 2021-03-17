@@ -38755,7 +38755,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
             <antipattern>
-                <token regexp="yes">Herr(e?n)?|Hr|Fr|Fam?|Frau(en)?|Damen?|.*kommiss?ion|Lehrkräfte|Tutor(en|in)?|Veranstalter|.*Mitglieder(in)?|.*Mitgliederinnen|Wartungsdienst|.*Redaktion|.*beteiligte|.*Sammler(in)?|Schulleitung|Schülerhilfe|Sammlerinnen|Mitarbeitende|Besucher(in)?|Anwohner(in)?|Empfänger(in)?|Empfängerinnen|Ausbilderinnen|Ausbilder(in)?|Sammler|Investoren|Invesor(in|innen)?|Leser(in)?|Studierende|Leserinnen|Kunden?|Kundin|Kundinnen|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en|in)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en|in)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager|.*beirat|.*partner|Support|Präsident|Miss|Händler|Kommiliton.+|X{1,}|Eheleute|.*Teilnehmer(innen)?|Prof|Investor(en|in)?|Kunden(betreuung|dienst|support)|.*eigentümer(innen)?|Verbraucher|.*leitung|.*service</token>
+                <token regexp="yes">Herr(e?n)?|Hr|Fr|Fam?|Frau(en)?|Damen?|.*kommiss?ion|.*autor(in)?|Lehrkräfte|Tutor(en|in)?|Veranstalter|.*Mitglieder(in)?|.*Mitgliederinnen|Wartungsdienst|.*Redaktion|.*beteiligte|.*Sammler(in)?|Schulleitung|Schülerhilfe|Sammlerinnen|Mitarbeitende|Besucher(in)?|Anwohner(in)?|Empfänger(in)?|Empfängerinnen|Ausbilderinnen|Ausbilder(in)?|Sammler|Investoren|Invesor(in|innen)?|Leser(in)?|Studierende|Leserinnen|Kunden?|Kundin|Kundinnen|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en|in)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en|in)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager|.*beirat|.*partner|Support|Präsident|Miss|Händler|Kommiliton.+|X{1,}|Eheleute|.*Teilnehmer(innen)?|Prof|Investor(en|in)?|Kunden(betreuung|dienst|support)|.*eigentümer(innen)?|Verbraucher|.*leitung|.*service</token>
             </antipattern>
             <pattern>
                 <token>Sehr</token>
@@ -43397,7 +43397,7 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rulegroup id="UND_SUB_KOMMA" name="Fehlerhaftes Komma nach 'und/oder'" default="temp_off">
+        <rulegroup id="UND_SUB_KOMMA" name="Fehlerhaftes Komma nach 'und/oder'">
             <rule>
                 <antipattern>
                     <token skip="1">Frankfurt</token>
@@ -43411,7 +43411,17 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="5" regexp="yes">und|oder</token>
-                    <token regexp="yes">halber|wegen|zufolge</token>
+                    <token regexp="yes">halber|wegen|zufolge|gegenüber</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">
+                        und|oder
+                    </token>
+                    <token skip="-1">
+                        ,
+                        <exception scope="next" postag="VER:.*" postag_regexp="yes" />
+                    </token>
                     <token>,</token>
                 </antipattern>
                 <pattern>
@@ -43422,12 +43432,13 @@ Andere Projekte</example>
                     <token postag="(ADJ|ART):.+" postag_regexp="yes" min="0" />
                     <token postag="SUB:.+" postag_regexp="yes" />
                 </pattern>
-                <message>Das Komma scheint hier obsolet zu sein.</message>
+                <message>Das Komma scheint hier überflüssig zu sein.</message>
                 <suggestion>\1</suggestion>
                 <example correction="und">Er ist ein Gauner <marker>und,</marker> Lügner.</example>
                 <example>Gut, oder, Cousin?</example>
                 <example>alle Reparatur-Maßnahmen wurden erst mit chroot und, der Einfachheit halber, später mit der Option rescue in Grub realisiert.</example>
                 <example>1742 entstand der Plan, die Orgel aus der Mitte der Empore, wo sie vor dem großen Ostfenster stand, auf die südliche Seite zu rücken und, der Symmetrie wegen, ein Pendant in Form einer blinden Orgel zu errichten.</example>
+                <example>Er zeichnet das Bild eines monogamen und, dem Ehepartner gegenüber, treuen Volkes.</example>
             </rule>
         </rulegroup>
         <rule id="SEHR_SEHR_GUT" name="sehr(,) sehr gut">
