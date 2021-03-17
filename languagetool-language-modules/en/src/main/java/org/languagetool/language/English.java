@@ -321,7 +321,9 @@ public class English extends Language implements AutoCloseable {
       case "MAY_MANY":                  return 1;   // higher prio than MAY_MANY_MY
       case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
       case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
-      case "CAR_CARE":                  return 1;   // higher prio than AI_MISSING_WORD_ARTICLE_THE
+      case "UPPERCASE_SENTENCE_START":  return 1;   // higher prio than AI_HYDRA_LEO
+      case "TO_TOO":                    return 1;   // higher prio than AI_HYDRA_LEO_REPLACE_*
+      case "CAR_CARE":                  return 1;   // higher prio than AI_HYDRA_LEO_MISSING_THE
       case "LUV":                       return 1;   // higher prio than spell checker
       case "DAT":                       return 1;   // higher prio than spell checker
       case "MAC_OS":                    return 1;   // higher prio than spell checker
@@ -333,7 +335,6 @@ public class English extends Language implements AutoCloseable {
       case "A_OK":                      return 1;   // prefer over A_AN
       case "I_A":                       return 1;   // higher prio than I_IF
       case "GOT_GO":                    return 1;   // higher prio than MD_BASEFORM
-      case "UPPERCASE_SENTENCE_START":  return 1;   // higher prio than AI_MISSING_THE_*
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
       case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
