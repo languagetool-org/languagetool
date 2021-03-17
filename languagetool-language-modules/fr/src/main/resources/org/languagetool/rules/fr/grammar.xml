@@ -10154,15 +10154,63 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
-      <rule id="CONJONCTIONS" name="conjonctions" default="temp_off">
-          <pattern>
-              <token regexp="yes">lorsque|puisque|quoique</token>
-              <token regexp="yes">^[àâaêèéeiîoôòóöuœäyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
-          </pattern>
-          <message>Cette conjonction s'élide lorsqu'elle est suivie par une voyelle.</message>
-          <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
-          <example correction="lorsqu'il">J'ai été supris <marker>lorsque il</marker> est arrivé.</example>
-      </rule>
+      <rulegroup id="CONJONCTIONS" name="conjonctions" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>quoique</token>
+                  <token regexp="yes">(?-i)^[àâaêèéeiîoôòóöuœä].*|&H_ASPIRE;<exception scope="next" postag="UNKNOWN"/></token>
+              </pattern>
+              <message>Cette conjonction s'élide toujours lorsqu'elle est suivie par une voyelle ou un h aspiré.</message>
+              <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
+              <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1571</url>
+              <example correction="quoiqu'il">J'ai été supris <marker>quoique il</marker> me l'avait déjà dit.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>lorsque</token>
+                  <token>un</token>
+                  <token>valeur</token>
+              </antipattern>
+              <pattern>
+                  <token>lorsque</token>
+                  <token regexp="yes">(?-i)ils?|elles?|on|en|une?<exception scope="next" postag="UNKNOWN"/></token>
+              </pattern>
+              <message>Cette conjonction s'élide dans ce cas précis.</message>
+              <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/lorsqu-anne-est-arrivee-ou-lorsque-anne-est-arrivee/</url>
+              <example correction="lorsqu'il">J'ai été supris <marker>lorsque il</marker> est arrivé.</example>
+              <example><marker>Lorsque Elle</marker> est sorti, le magazine est devenu populaire.</example>
+              <example>Il a eu peur <marker>lorsque il</marker> Secolo arriva.</example>
+              <example><marker>Lorsque un</marker> valeur de x, la droite est infinie.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>puisque</token>
+                  <token regexp="yes">(?-i)ils?|elles?|on|en|une?|à|avec|aussi|aucune?s?</token>
+              </pattern>
+              <message>Cette conjonction s'élide dans ce cas précis.</message>
+              <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="'"/><match no="2"/></suggestion>
+              <example correction="puisqu'il">J'ai été supris <marker>puisque il</marker> est arrivé tard.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">lorsqu(&apostrophe;)</token>
+                  <token regexp="yes">^[àâaêèéeiîoôòóöuœä].*<exception regexp="yes">(?-i)ils?|elles?|on|en|une</exception></token>
+              </pattern>
+              <message>Cette conjonction ne s'élide pas dans ce cas précis.</message>
+              <suggestion><match no="1" regexp_match="(?iu)'" regexp_replace="e"/> <match no="2"/></suggestion>
+              <example correction="lorsque Anna">J'ai été supris <marker>lorsqu'Anna</marker> me l'a dit.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">puisqu(&apostrophe;)</token>
+                  <token regexp="yes">^[àâaêèéeiîoôòóöuœä].*<exception regexp="yes">(?-i)ils?|elles?|on|en|une?|à|avec|aussi|aucune?s?</exception></token>
+              </pattern>
+              <message>Cette conjonction ne s'élide pas dans ce cas précis.</message>
+              <suggestion><match no="1" regexp_match="(?iu)'" regexp_replace="e"/> <match no="2"/></suggestion>
+              <example correction="puisque Anna">J'ai été supris <marker>puisqu'Anna</marker> ne me l'avait pas dit.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="JUSQUE" name="jusque">
           <rule>
               <antipattern>
