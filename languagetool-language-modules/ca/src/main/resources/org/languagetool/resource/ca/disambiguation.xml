@@ -3700,6 +3700,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">conseller|ministre|president|vicepresident|director|viceministre</token>
+                <marker>
+                    <token>portaveu</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="portaveu" pos="AQ0CN0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes" inflected="yes">transmissor|emissor|ràdio|estació</token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">AM|FM</token>
