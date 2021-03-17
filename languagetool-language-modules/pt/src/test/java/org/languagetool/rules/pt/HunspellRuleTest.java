@@ -39,5 +39,7 @@ public class HunspellRuleTest {
     assertEquals(1, matches.length);
     assertEquals("família", matches[0].getSuggestedReplacements().get(0));
     assertEquals("familiar", matches[0].getSuggestedReplacements().get(1));
+    
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Covid-19, COVID-19, covid-19.")).length);
   }
 }
