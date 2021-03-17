@@ -824,27 +824,17 @@ Olá minha gestora, quando voltas de férias?
           <token>sendo</token>
           <token postag='V.P.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *START* -->
-<!-- "Ao fazê-lo vão saindo resultados cada vez mais inesperados." -->
-<!-- "Ao fazê-lo vai saindo resultados cada vez mais inesperados." -->
-<!-- "Ao fazê-lo vão saindo equações cada vez mais inesperadas." -->
-<!-- "Ao fazê-lo vai saindo equações cada vez mais inesperadas." -->
-<!-- "Ao fazê-lo vão saindo agentes cada vez mais inesperados." -->
-<!-- "Ao fazê-lo vai saindo agentes cada vez mais inesperadas." -->
+<!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *START* -->
+<!--
+Ao fazê-lo vão saindo resultados cada vez mais inesperados.
+Na época eram basicamente feitos usando pequenos objetos.
+-->
       <antipattern>
-	      <token negate_pos="yes" postag='CS|RG|PP3[FM][SP]A00' postag_regexp='yes'/>
+	      <token/>
           <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-          <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
-      </antipattern>
-      <antipattern>
-	      <token negate_pos="yes" postag='CS' postag_regexp='no'/>
-		  <and>
-			<token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-			<token postag='VMI[MS]3P0' postag_regexp='yes'/>
-		  </and>
-          <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *END* -->
+          <token regexp='yes'>&gerundio_excecoes;</token>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *END* -->
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception inflected='yes' regexp='yes'>medida|votar</exception>
@@ -858,6 +848,9 @@ Olá minha gestora, quando voltas de férias?
       <example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
       <example>As regras foram sendo melhoradas ao longo do tempo.</example>
       <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
+	  
+	  <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
+	  <example>Na época eram basicamente feitos usando pequenos objetos.</example>
     </rule>
   </rulegroup>
 
