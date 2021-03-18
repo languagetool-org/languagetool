@@ -110,6 +110,27 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("10,000 EUR"));
     assertEquals(0, matches.length);
     
+    // emojis
+    matches = rule.match(langTool.getAnalyzedSentence("🧡"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🚴"));
+    assertEquals(0, matches.length);
+    //matches = rule.match(langTool.getAnalyzedSentence("🏽"));
+    //assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("♂️"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence(","));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🎉"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("💛"));
+    assertEquals(0, matches.length);
+    //matches = rule.match(langTool.getAnalyzedSentence("✈️"));
+    //assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🧡🚴"));
+    assertEquals(0, matches.length);
+    //matches = rule.match(langTool.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
+    //assertEquals(0, matches.length);
   }
 
 }

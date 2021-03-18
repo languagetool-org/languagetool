@@ -961,11 +961,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Un déjà vu.</example>
         </rule>
         <rulegroup id="A_PUNTO_DE" name="*apunto de/a punto de">
-            <antipattern>
-                <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les|se</token>
-                <token>apunto</token>
-            </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les|se</token>
+                    <token>apunto</token>
+                </antipattern>
                 <antipattern>
                     <token>apunto</token>
                     <token>de</token>
@@ -986,26 +986,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me apunto de voluntario.</example>
             </rule>
             <rule default="temp_off">
-                <antipattern>
-                    <token>yo</token>
-                    <token>apunto</token>
-                </antipattern>
-                <antipattern>
-                    <token>apunto</token>
-                    <token min="0" postag="RG"/>
-                    <token regexp="yes">a|que</token>
-                </antipattern>
-                <antipattern>
-                    <token>apunto</token>
-                    <token min="0" postag="RG"/>
-                    <token postag="D.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">a|al</token>
-                    <token min="0" regexp="yes">lo|la|los|las</token>
-                    <token>que</token>
-                    <token>apunto</token>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token>apunto</token>
@@ -1019,14 +999,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
+                    <token inflected="yes" regexp="yes">puesta|poner|estar|encontrar</token>
                     <marker>
                         <token>apunto</token>
+                    </marker>
+                </pattern>
+                <message>Esta locución se escribe separada</message>
+                <suggestion>a punto</suggestion>
+                <example correction="a punto">Quiero ponerlo <marker>apunto</marker>.</example>
+                <example correction="a punto">Aún no estaba <marker>apunto</marker>.</example>
+                <example correction="a punto">La puesta <marker>apunto</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les|se</token>
+                    <token>apunto</token>
+                </antipattern>
+                <antipattern>
+                    <token>yo</token>
+                    <token>apunto</token>
+                </antipattern>
+                <antipattern>
+                    <token>apunto</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">a|al|que</token>
+                </antipattern>
+                <antipattern>
+                    <token>apunto</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">a|al</token>
+                    <token min="0" regexp="yes">lo|la|los|las</token>
+                    <token>que</token>
+                    <token>apunto</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>apunto<exception postag="_possible_NP"/></token>
                     </marker>
                 </pattern>
                 <message>Con el sentido de 'a tiempo' o 'listo, dispuesto', es escribe separado. Correcto si es del v. 'apuntar'.</message>
                 <suggestion>a punto</suggestion>
                 <example correction="a punto">Estaba todo <marker>apunto</marker>.</example>
                 <example>Me lo apunto.</example>
+                <example>Acércate a Apunto Let.</example>
+                <example>Apunto al uso de las palabras que hacen muchos político.</example>
             </rule>
         </rulegroup>
         <rule id="TAL_ES_ASI" name="*tal es así/tanto es así">
