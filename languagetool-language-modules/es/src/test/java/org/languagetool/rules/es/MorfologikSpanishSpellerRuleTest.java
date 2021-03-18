@@ -131,7 +131,7 @@ public class MorfologikSpanishSpellerRuleTest {
     //assertEquals(0, matches.length);
     
     // Combining diacritics
-    matches = rule.match(langTool.getAnalyzedSentence("publicaci\u0301on"));
+    matches = rule.match(langTool.getAnalyzedSentence("publicacio\u0301n"));
     assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
     // Other rare characters
     matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨́𝐧"));
