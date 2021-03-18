@@ -119,8 +119,6 @@ public class MorfologikSpanishSpellerRuleTest {
     //assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("♂️"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence(","));
-    assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("🎉"));
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("💛"));
