@@ -9688,11 +9688,12 @@ onwaarschijnlijk
 				</pattern>
 				<message>Hier is vast iets mis.</message>
 				<suggestion>ze \2</suggestion>
+				<suggestion>die \2</suggestion>
 				<suggestion>je \2</suggestion>
 				<suggestion>het \2</suggestion>
 				<suggestion>de ___ \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="t$" regexp_replace=""/></suggestion>
-				<example correction="ze loopt|je loopt|het loopt|de ___ loopt|de loop">Kijk hoe <marker>de loopt</marker>.</example>
+				<example correction="ze loopt|die loopt|je loopt|het loopt|de ___ loopt|de loop">Kijk hoe <marker>de loopt</marker>.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="AANZWEL_LENDE" name="Aanzwel lende/aanzwellende" >
@@ -9775,6 +9776,17 @@ onwaarschijnlijk
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\1\2</suggestion>
 				<example correction="bezetting">De <marker>bezet ting</marker> klopt niet.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*g<exception>lang</exception></token>
+						<token regexp="yes">ging|gings|gingen</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="overbrugging">De <marker>overbrug ging</marker> klopt niet.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="STAM_LENDE" name="opval lende" >
@@ -30044,6 +30056,22 @@ steenwijk;Steenwijk
 		</rule>
 		</rulegroup>
 		-->
+
+		<rulegroup id="DE_ORDENDE" name="De ordende/de geordende" default="temp_off">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:VLT:1EP.*"><exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*"/></token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een andere vorm van het werkwoord bedoelt.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VTD:VRB"/></suggestion>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:ODW:VRB"/></suggestion>
+				<example correction="geordende|ordenende">Ik zie de <marker>ordende</marker> kast.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="WOORD_MET_UNDERSCORE" name="Eeen woord met een underscore">
 			<rule>
 				<!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
