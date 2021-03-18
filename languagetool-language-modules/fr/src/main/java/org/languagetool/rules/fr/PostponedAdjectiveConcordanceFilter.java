@@ -66,6 +66,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern _GN_FP = Pattern.compile("_GN_FP");
   private static final Pattern _GN_CS = Pattern.compile("_GN_[MF]S");
   private static final Pattern _GN_CP = Pattern.compile("_GN_[MF]P");
+  private static final Pattern _GN_MN = Pattern.compile("_GN_M[SP]");
+  private static final Pattern _GN_FN = Pattern.compile("_GN_F[SP]");
 
   private static final Pattern DET = Pattern.compile("(P\\+)?D .*");
   private static final Pattern DET_CS = Pattern.compile("(P\\+)?D e s");
@@ -75,12 +77,15 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern DET_FP = Pattern.compile("(P\\+)?D f p");
   private static final Pattern DET_CP = Pattern.compile("(P\\+)?D e p"); // NEW for French!!
 
-  private static final Pattern GN_MS = Pattern.compile("N [me] (s|sp)|J [me] (s|sp)|V ppa m s|(P\\+)?D m s");
-  private static final Pattern GN_FS = Pattern.compile("N [fe] (s|sp)|J [fe] (s|sp)|V ppa f s|(P\\+)?D f s");
-  private static final Pattern GN_MP = Pattern.compile("N [me] (p|sp)|J [me] (p|sp)|V ppa m p|(P\\+)?D m p");
-  private static final Pattern GN_FP = Pattern.compile("N [fe] (p|sp)|J [fe] (p|sp)|V ppa f p|(P\\+)?D f p");
-  private static final Pattern GN_CP = Pattern.compile("N [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D e p");
-  private static final Pattern GN_CS = Pattern.compile("N [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D e s");
+  private static final Pattern GN_MS = Pattern.compile("N [me] (s|sp)|J [me] (s|sp)|V ppa m s|(P\\+)?D m (s|sp)");
+  private static final Pattern GN_FS = Pattern.compile("N [fe] (s|sp)|J [fe] (s|sp)|V ppa f s|(P\\+)?D f (s|sp)");
+  private static final Pattern GN_MP = Pattern.compile("N [me] (p|sp)|J [me] (p|sp)|V ppa m p|(P\\+)?D m (p|sp)");
+  private static final Pattern GN_FP = Pattern.compile("N [fe] (p|sp)|J [fe] (p|sp)|V ppa f p|(P\\+)?D f (p|sp)");
+  private static final Pattern GN_CP = Pattern.compile("N [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D e (p|sp)");
+  private static final Pattern GN_CS = Pattern.compile("N [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D e (s|sp)");
+  private static final Pattern GN_MN = Pattern.compile("N [me] (s|p|sp)|J [me] (s|p|sp)|(P\\+)?D [me] (s|p|sp)"); // NEW for French!!
+  private static final Pattern GN_FN = Pattern.compile("N [fe] (s|p|sp)|J [fe] (s|p|sp)|(P\\+)?D [fe] (s|p|sp)"); // NEW for French!!
+  
   
   //private static final Pattern NOM_ADJ = Pattern.compile("N *|J .*|V ppa .*");
 
@@ -91,9 +96,13 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern ADJECTIU_FP = Pattern.compile("J [fe] (p|sp)|V ppa f p");
   private static final Pattern ADJECTIU_CP = Pattern.compile("J e (p|sp)");
   private static final Pattern ADJECTIU_CS = Pattern.compile("J e (s|sp)");
-
+  private static final Pattern ADJECTIU_MN = Pattern.compile("J m sp"); // NEW for French!!
+  private static final Pattern ADJECTIU_FN = Pattern.compile("J f sp"); // NEW for French!!
+ 
   private static final Pattern ADJECTIU_S = Pattern.compile("J .* (s|sp)|V ppa . s");
   private static final Pattern ADJECTIU_P = Pattern.compile("J .* (p|sp)|V ppa . p");
+  private static final Pattern ADJECTIU_M = Pattern.compile("J [me] .*|V ppa [me] .*"); // NEW for French!!
+  private static final Pattern ADJECTIU_F = Pattern.compile("J [fe] .*|V ppa [fe] .*"); // NEW for French!!
   private static final Pattern ADVERBI = Pattern.compile("A");
   private static final Pattern CONJUNCIO = Pattern.compile("C .*");
   private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT");
@@ -304,6 +313,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       substPattern = GN_CP;
       adjPattern = ADJECTIU_P;
       gnPattern = _GN_CP;
+    } else if (matchPostagRegexp(tokens[i], ADJECTIU_MN)) {
+      substPattern = GN_MN;
+      adjPattern = ADJECTIU_M;
+      gnPattern = _GN_MN;
+    } else if (matchPostagRegexp(tokens[i], ADJECTIU_FN)) {
+      substPattern = GN_FN;
+      adjPattern = ADJECTIU_FN;
+      gnPattern = _GN_FN;
     } else if (matchPostagRegexp(tokens[i], ADJECTIU_MS)) {
       substPattern = GN_MS;
       adjPattern = ADJECTIU_MS;
