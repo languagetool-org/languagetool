@@ -10880,6 +10880,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>por</token>
+                    <token regexp="yes">cien|ciento</token>
+                </antipattern>
+                <antipattern>
+                    <token>cero</token>
+                    <token regexp="yes">absoluto|inicial</token>
+                </antipattern>
+                <antipattern>
+                    <token>1</token>
+                    <token>/</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>parte</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">\d|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez</exception></token>
+                    <token>aniversario</token>
+                </antipattern>
+                <antipattern>
+                    <token>seguido</token>
+                    <token regexp="yes">de|del</token>
+                </antipattern>
+                <pattern>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">0*1</exception></token>
+                    <marker>
+                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_nompropi|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">bis|(?-i)CE</exception></token> <!--|V.[^P].*-->
+                    </marker>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(A...|NC.|V.P..)S(.*)" postag_replace="$1P$2"/></suggestion>
+                <example correction="perros">Tengo dos <marker>perro</marker>.</example>
+                <example correction="huevos">Batimos cinco <marker>huevo</marker> para hacer una tortilla.</example>
+                <example correction="casas">Vendemos cincuenta <marker>casa</marker> verdes.</example>
+                <example correction="destacadas">Tenemos veinticinco <marker>destacada</marker> personalidades.</example>
+                <example>Tengo un perro.</example>
+                <example>en el cincuenta aniversario</example>
+                <example>Treinta y dos hombres.</example>
+                <example>El 2 de agosto de 1644 Lleida</example>
+                <example>la 35 División Internacional</example>
+                <example>En el artículo 151 CE.</example>
+                <example>1 concierto para violín</example>
+                <example>1/24 parte de unidad</example>
+                <example>En el artículo 4 bis</example>
+                <example>01 valor numérico 20</example>
+                <example>Invirtieron 1 M€.</example>
+                <example>Invirtieron 200 M$.</example>
+                <example>Treinta y dos únicos.</example>
+                <example>Equivale a 136 seguido de 10 ceros.</example>
+                <example>Tenía una sed terrible.</example>
+                <example>Un tanto por ciento anual.</example>
+                <example>De cero absoluto.</example>
+                <example>Con cero inicial.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número">
             <rule>
                 <pattern>
