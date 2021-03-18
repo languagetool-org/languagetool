@@ -129,6 +129,14 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     //matches = rule.match(langTool.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
     //assertEquals(0, matches.length);
+    
+    // Combining diacritics
+    matches = rule.match(langTool.getAnalyzedSentence("publicaci\u0301on"));
+    assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    // Other rare characters
+    matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨́𝐧"));
+    assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    
   }
 
 }
