@@ -79,6 +79,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("de Harvard ou d'Harvard")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("d'1")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("l'email")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("À propos de cette chose… ")).length);
         
     // Test for Multiwords.
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("vox populi")).length);
