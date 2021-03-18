@@ -38579,7 +38579,8 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rule id="BARBARISME_TU" name="barbarisme tu" default="temp_off">
+      <rulegroup id="BARBARISME_TU" name="barbarisme tu" default="temp_off">
+          <rule>
           <antipattern>
               <token>t</token>
               <token>en</token>
@@ -38624,6 +38625,24 @@ though, and has since been slightly modified)-->
           <example>Je<marker>t</marker> avais dit de venir plus tôt.</example>
           <example>Ne <marker>t</marker> avises pas de sauter.</example>
       </rule>
+      <rule>
+          <antipattern>
+              <token postag="[VDY].*|R pers suj.*|C coor|UNKNOWN" postag_regexp="yes"/>
+              <token>t'</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>t'<exception scope="previous">ne</exception></token>
+                  <token regexp="yes" min="0" max="1">y|en</token>
+                  <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">(?-i)^[aâeéèêioôœuy].*</token>
+              </marker>
+          </pattern>
+          <message>Cette élision peut paraître familière. Voulez-vous écrire <suggestion>tu \2 \3</suggestion> ?</message>
+          <example correction="Tu as"><marker>T'as</marker> fait tes devoirs.</example>
+      </rule>
+  </rulegroup>
       <rulegroup id="CONFUSION_TU_AS" name="confusion tu as" default="temp_off">
           <rule>
               <antipattern>
