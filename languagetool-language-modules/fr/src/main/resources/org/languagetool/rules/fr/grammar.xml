@@ -3175,6 +3175,28 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.).(.)" regexp_replace="$1û$2"/></suggestion> ?</message>
         <example correction="sûr">Il a mis en lieu <marker>sur</marker> son butin.</example>
       </rule>
+        <rule>
+            <pattern>
+                <token>de</token>
+                <token regexp="yes">sources?</token>
+                <marker>
+                    <token regexp="yes">sures?<exception postag="D.*|UNKNONW" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>sûres</suggestion> ?</message>
+            <example correction="sûres">Je le sais de sources <marker>sures</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>en</token>
+                <token>mains</token>
+                <marker>
+                    <token regexp="yes">sure?s?</token>
+                </marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>sûres</suggestion> ?</message>
+            <example correction="sûres">Les documents sont en mains <marker>sures</marker>.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="SE_CE" name="SE au lieu de CE">
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
