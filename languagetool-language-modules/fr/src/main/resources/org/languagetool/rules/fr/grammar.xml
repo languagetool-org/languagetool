@@ -418,6 +418,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="La mi"><marker>Le mi</marker>-2020.</example>
       </rule>
     </rulegroup>
+    <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
+      <pattern>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
+      </pattern>
+      <filter class="org.languagetool.rules.fr.PostponedAdjectiveConcordanceFilter" args="key:value"/>
+      <message>Vérifiez la concordance de «\1» avec les noms précédents.</message>
+      <example correction="blanc|blanche">La maison du village <marker>blanches</marker>.</example>
+      <example correction="suivante">La réunion <marker>suivant</marker>.</example>
+      <example correction="suivie">La rencontre <marker>suivi</marker> d'un repas.</example>
+      <example>Introduire le mot de passe chiffré de la réunion suivi de dièse.</example>
+      <example>La maison du village blanc.</example>
+      <example>La maison du village blanche.</example>
+    </rule>
   </category>
   <category id="CAT_PLEONASMES" name="Pléonasmes">
     <!--The following rules were created by Hugo Voisard
