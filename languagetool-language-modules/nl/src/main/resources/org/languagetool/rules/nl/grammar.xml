@@ -9747,7 +9747,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*k</token>
-						<token regexp="yes">kings?</token>
+						<token regexp="yes">king|kings|kingen</token>
 					</marker>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
@@ -9758,7 +9758,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*p</token>
-						<token regexp="yes">pings?|pingen</token>
+						<token regexp="yes">ping|pingen|pings</token>
 					</marker>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
@@ -9769,7 +9769,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*t</token>
-						<token regexp="yes">tings?|tingen</token>
+						<token regexp="yes">ting|tings|tingen</token>
 					</marker>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
@@ -12896,6 +12896,20 @@ onwaarschijnlijk
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
 		
+		<rulegroup id="ORANJES" name="Oranjes/oranjes" type="misspelling">
+			<rule>
+				<pattern>
+						<token>de</token>
+						<marker>
+							<token case_sensitive="yes">oranjes</token>
+						</marker>
+				</pattern>
+				<message>De koninklijke familie hoort met een hoofdletter geschreven te worden.</message>
+				<suggestion>Oranjes</suggestion>
+				<short>Hoofdletters</short>
+				<example correction="Oranjes">De <marker>oranjes</marker> zijn niet bij iedereen favoriet.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="NAM" name="De name/de NAM" type="misspelling">
 			<rule>
 				<pattern>
