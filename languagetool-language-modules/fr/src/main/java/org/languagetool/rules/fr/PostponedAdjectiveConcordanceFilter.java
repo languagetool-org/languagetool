@@ -75,14 +75,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern DET_FP = Pattern.compile("(P\\+)?D f p");
   private static final Pattern DET_CP = Pattern.compile("(P\\+)?D e p"); // NEW for French!!
 
-  private static final Pattern GN_MS = Pattern.compile("N [me](s|sp)|J [me](s|sp)|V ppa m s|(P\\+)?D m s");
-  private static final Pattern GN_FS = Pattern.compile("N [fe](s|sp)|J [fe](s|sp)|V ppa f s|(P\\+)?D f s");
-  private static final Pattern GN_MP = Pattern.compile("N [me](p|sp)|J [me](p|sp)|V ppa m p|(P\\+)?D m p");
-  private static final Pattern GN_FP = Pattern.compile("N [fe](p|sp)|J [fe](p|sp)|V ppa f p|(P\\+)?D f p");
-  private static final Pattern GN_CP = Pattern.compile("N [fme](p|sp)|J [fme](p|sp)|(P\\+)?D e p");
-  private static final Pattern GN_CS = Pattern.compile("N [fme](s|sp)|J [fme](s|sp)|(P\\+)?D e s");
+  private static final Pattern GN_MS = Pattern.compile("N [me] (s|sp)|J [me] (s|sp)|V ppa m s|(P\\+)?D m s");
+  private static final Pattern GN_FS = Pattern.compile("N [fe] (s|sp)|J [fe] (s|sp)|V ppa f s|(P\\+)?D f s");
+  private static final Pattern GN_MP = Pattern.compile("N [me] (p|sp)|J [me] (p|sp)|V ppa m p|(P\\+)?D m p");
+  private static final Pattern GN_FP = Pattern.compile("N [fe] (p|sp)|J [fe] (p|sp)|V ppa f p|(P\\+)?D f p");
+  private static final Pattern GN_CP = Pattern.compile("N [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D e p");
+  private static final Pattern GN_CS = Pattern.compile("N [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D e s");
   
-  //private static final Pattern NOM_ADJ = Pattern.compile("N *|A.*|V.P.*");
+  //private static final Pattern NOM_ADJ = Pattern.compile("N *|J .*|V ppa .*");
 
   private static final Pattern ADJECTIU = Pattern.compile("J .*|V ppa .*|PX.*");
   private static final Pattern ADJECTIU_MS = Pattern.compile("J [me] (s|sp)|V ppa m s");
@@ -91,10 +91,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern ADJECTIU_FP = Pattern.compile("J [fe] (p|sp)|V ppa f p");
   private static final Pattern ADJECTIU_CP = Pattern.compile("J e (p|sp)");
   private static final Pattern ADJECTIU_CS = Pattern.compile("J e (s|sp)");
-  // private static final Pattern ADJECTIU_M =
-  // Pattern.compile("J [MC].*|V.P...M.?|PX.M.*");
-  // private static final Pattern ADJECTIU_F =
-  // Pattern.compile("J [FC].*|V.P...F.?|PX.F.*");
+
   private static final Pattern ADJECTIU_S = Pattern.compile("J .* (s|sp)|V ppa . s");
   private static final Pattern ADJECTIU_P = Pattern.compile("J .* (p|sp)|V ppa . p");
   private static final Pattern ADVERBI = Pattern.compile("A");
@@ -219,6 +216,16 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
           canBeMS = true;
         }
         if (matchPostagRegexp(tokens[i - j + 1], NOM_FS)) {
+          cDFS[level]++;
+          canBeFS = true;
+        }
+      }
+      if (matchPostagRegexp(tokens[i - j], DET_CP)) {
+        if (matchPostagRegexp(tokens[i - j + 1], NOM_MP)) {
+          cDMS[level]++;
+          canBeMS = true;
+        }
+        if (matchPostagRegexp(tokens[i - j + 1], NOM_FP)) {
           cDFS[level]++;
           canBeFS = true;
         }
