@@ -82,7 +82,8 @@ public class ReadabilityRule extends TextLevelRule {
     } else if (level >= 0) {
       this.level = level;
     } else {
-      this.level = (tooEasyTest ? 4 : 2);
+      this.level = 3;
+//      this.level = (tooEasyTest ? 4 : 2);
     }
   }
   
@@ -110,7 +111,8 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public int getDefaultValue() {
-    return (tooEasyTest ? 4 : 2);
+//    return (tooEasyTest ? 4 : 2);
+    return (3);
   }
   
   @Override
@@ -253,6 +255,7 @@ public class ReadabilityRule extends TextLevelRule {
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
+    int nParagraph = 0;
     int nAllSentences = 0;
     int nAllWords = 0;
     int nAllSyllables = 0;
@@ -311,6 +314,7 @@ public class ReadabilityRule extends TextLevelRule {
         nSyllables = 0;
         startPos = -1;
         endPos = -1;
+        nParagraph++;
       }
       pos += sentence.getCorrectedTextLength();
     }
@@ -318,7 +322,7 @@ public class ReadabilityRule extends TextLevelRule {
     double asw = (double) nAllSyllables / (double) nAllWords;
     double fre = getFleschReadingEase(asl, asw);
     int rLevel = getReadabilityLevel(fre);
-    if ((tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
+    if (nParagraph > 1 && (tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
       return toRuleMatchArray(ruleMatches);
     } else {
       return toRuleMatchArray(new ArrayList<>());
@@ -327,7 +331,7 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public int minToCheckParagraph() {
-    return 0;
+    return -1;
   }
  
 }

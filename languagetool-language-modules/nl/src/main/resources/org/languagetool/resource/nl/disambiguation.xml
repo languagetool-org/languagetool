@@ -99,6 +99,13 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+	<rule name="Ignore spelling of IBANs" id="IBAN">
+        <pattern>
+            <!-- from https://stackoverflow.com/questions/44656264/iban-regex-design, with spaces removed: -->
+            <token case_sensitive="yes" regexp="yes">^([A-Z]{2}[0-9]{2})(?=(?:[A-Z0-9]){9,30}$)((?:[A-Z0-9]{3,5}){2,7})([A-Z0-9]{1,3})?$</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
 	<!-- ROMEINSE GETALLEN -->
 	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
@@ -236,8 +243,8 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- mond- en klauwzeer en dergelijke woordgroepen -->
 	<rule name="AFKO_SAMENSTELLING" id="AFKO_SAMENSTELLING"><pattern><token postag="DVS"/><token regexp="yes">en|of</token></pattern><disambig action="ignore_spelling"/></rule>
 
-	<!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
- 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS">
+	<!-- disabling error report for longer string of unknown words (foreign quotes or names) ;--> 
+ 	<rule name="FOREIGN" id="GROUP_OF_UNKNOWN_WORDS">
 		<pattern>
 			<marker>
 				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
@@ -1461,4 +1468,33 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="CHNK_ZNW_MRV_E"/></disambig>
 	</rule>
 	-->
+	<!-- prevent spelling errors in words having () -->
+    <rule name="" id="PARENTHESES_B">
+        <pattern>
+			  <!--    1338 echtgeno(o)te(n) -->
+			  <token/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token spacebefore="no"/>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token min="0" max="1" spacebefore="no"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="" id="PARENTHESES_A">
+        <pattern>
+			  <!-- echtgeno(o)t  mededader(s) -->
+			  <token/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token min="0" max="1" spacebefore="no"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
 </rules>

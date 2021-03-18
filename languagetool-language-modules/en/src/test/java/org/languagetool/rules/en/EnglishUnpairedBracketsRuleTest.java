@@ -100,6 +100,10 @@ public class EnglishUnpairedBracketsRuleTest {
                       "B) Boston\n" +
                       "C) Foo\n");
     assertCorrect("This is not so (neither a nor b)");
+    assertCorrect("I think that Liszt's \"Forgotten Waltz No.3\" is a hidden masterpiece.");
+    assertCorrect("I think that Liszt's \"Forgotten Waltz No. 3\" is a hidden masterpiece.");
+    assertCorrect("Turkish distinguishes between dotted and dotless \"I\"s.");
+    // assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour."); It's fixed with the new tokenizer
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
@@ -111,10 +115,18 @@ public class EnglishUnpairedBracketsRuleTest {
     assertIncorrect("This is not so (neither a nor b.");
     assertIncorrect("This is not so neither a nor b)");
     assertIncorrect("This is not so neither foo nor bar)");
+    assertIncorrect("He is making them feel comfortable all along.\"");
+    assertIncorrect("\"He is making them feel comfortable all along.");
 
     // this is currently considered incorrect... although people often use smileys this way:
     assertCorrect("Some text (and some funny remark :-) with more text to follow");
     assertIncorrect("Some text (and some funny remark :-) with more text to follow!");
+    assertCorrect("Some text. This is \"12345\", a number.");
+    assertCorrect("Some text.\n\nThis is \"12345\", a number.");
+    assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
+    assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
+    assertCorrect("\"When you bring someone,\" he said.\n" +
+      "Gibson introduced the short-scale (30.5\") bass in 1961.");  // could be "inch", so no error
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));

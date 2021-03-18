@@ -167,6 +167,9 @@ class CheckRequestAnalysis {
   /** Get new initialized flat paragraph tools
    */
   FlatParagraphTools getFlatParagraphTools() {
+    if (flatPara == null) {
+      flatPara = new FlatParagraphTools(xComponent);
+    }
     return flatPara;
   }
   

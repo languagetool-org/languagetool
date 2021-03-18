@@ -185,6 +185,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("mu ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("k ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().toLowerCase().startsWith("v ") &&
@@ -226,6 +227,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" s") &&
                    !k.getReplacement().endsWith(" r") &&
                    !k.getReplacement().endsWith(" um") &&
+                   !k.getReplacement().endsWith(" na") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -354,7 +356,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("differently-abled", Arrays.asList("differently abled"));
     s.put("Differently-abled", Arrays.asList("Differently abled"));
     s.put("Ppl", Arrays.asList("People"));
+    s.put("pcs", Arrays.asList("PCs"));
     s.put("constits", Arrays.asList("consists"));
+    s.put("ect", Arrays.asList("etc"));
     s.put("fastly", Arrays.asList("fast"));
     s.put("carrie", Arrays.asList("carry"));
     s.put("bare-bone", Arrays.asList("bare-bones", "bare-boned"));
@@ -841,4 +845,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       this.forms = forms;
     }
   }
+  
+  // Do not tokenize new words from spelling.txt... 
+  // Multi-token words should be in multiwords.txt
+  protected boolean tokenizeNewWords() {
+    return false;
+  }
+  
 }

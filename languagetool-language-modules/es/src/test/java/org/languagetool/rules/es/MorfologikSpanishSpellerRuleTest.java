@@ -110,6 +110,33 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("10,000 EUR"));
     assertEquals(0, matches.length);
     
+    // emojis
+    matches = rule.match(langTool.getAnalyzedSentence("🧡"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🚴"));
+    assertEquals(0, matches.length);
+    //matches = rule.match(langTool.getAnalyzedSentence("🏽"));
+    //assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("♂️"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🎉"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("💛"));
+    assertEquals(0, matches.length);
+    //matches = rule.match(langTool.getAnalyzedSentence("✈️"));
+    //assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🧡🚴"));
+    assertEquals(0, matches.length);
+    //matches = rule.match(langTool.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
+    //assertEquals(0, matches.length);
+    
+    // Combining diacritics
+    matches = rule.match(langTool.getAnalyzedSentence("publicacio\u0301n"));
+    assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    // Other rare characters
+    matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨́𝐧"));
+    assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    
   }
 
 }

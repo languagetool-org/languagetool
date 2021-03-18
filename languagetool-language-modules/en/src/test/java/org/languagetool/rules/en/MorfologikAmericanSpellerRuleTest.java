@@ -103,7 +103,14 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji ❤️")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("This is English text 🗺.")).length);
-
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma'am.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma’am.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("'twas but a dream of thee")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("fo'c'sle")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("O'Connell, O’Connell, O'Connor, O’Neill")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("viva voce, a fortiori, in vitro")).length);
+    //assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
+    
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("NZTestWordToBeIgnored")).length);

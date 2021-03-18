@@ -118,7 +118,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
                                   boolean precSpace,
                                   boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
     String tokenStr = tokens[i].getToken();
-    if (i > 0 && (tokens[i-1].getToken().startsWith("http://") || tokens[i-1].getToken().startsWith("https://"))) {
+    if (i > 0 && tokens[i-1].getToken().matches("https?://.+") && tokens[i-1].getToken().contains("(")) {
       return false;
     }
     if (i >= 2) {
@@ -285,7 +285,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (i < tokens.length - 1 && startSymbols.get(j).equals(endSymbols.get(j))) {
       followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
               || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches()
-              || endSymbols.contains(tokens[i + 1].getToken());
+              || endSymbols.contains(tokens[i + 1].getToken())
+              || "s".equals(tokens[i + 1].getToken());// e.g. >>"I"s<< has and needs no space
     }
     return followedByWhitespace;
   }
@@ -326,12 +327,19 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         }
       }
     }
+    if (preventMatch(sentence)) {
+      return null;
+    }
     RuleMatch match = new RuleMatch(this, sentence, startPos, startPos + symbol.symbol.length(), message);
     List<String> repl = getSuggestions(lazyFullText, startPos, startPos + symbol.symbol.length());
     if (repl != null) {
       match.setSuggestedReplacements(repl);
     }
     return match;
+  }
+
+  protected boolean preventMatch(AnalyzedSentence sentence) {
+    return false;
   }
 
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {

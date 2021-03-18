@@ -103,6 +103,28 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="FOR_EVER_US" name="for ever (forever)">
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">since|one|body|thing|glades?|bloomers?|changing</token>
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token postag="JJR" />
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">and|&amp;|or</token>
+                <token>ever</token>
+            </antipattern>
+            <pattern>
+                <token>for</token>
+                <token>ever</token>
+            </pattern>
+            <message>The adverb <suggestion>forever</suggestion> is spelled as one word.</message>
+            <url>https://www.merriam-webster.com/dictionary/forever</url>
+            <example correction="forever">Your texts are stored <marker>for ever</marker>.</example>
+        </rule>
         <rule id="TRAD_TRADE" name="trad vs trade">
             <antipattern>
                 <token skip="5">trad</token>
@@ -218,6 +240,18 @@ USA
                  <token>more</token>
                  <token postag="CC"/>
               </antipattern>
+              <antipattern><!-- if you need any more, let me know -->
+                  <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">need|want|demand|require</token>
+                  <token>any</token>
+                  <token>more</token>
+              </antipattern>
+              <antipattern><!-- I couldn't ask any more of him -->
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token>any</token>
+                  <token>more</token>
+                  <token regexp="yes">from|of</token>
+                  <token postag="NNP|PRP" postag_regexp="yes"/>
+              </antipattern>
               <pattern>
                   <marker>
                      <token>any</token>
@@ -246,6 +280,8 @@ USA
               <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
               <example>Tom could not have been any more helpful.</example>
               <example>Those people do not visit emergency rooms any more often than the general population.</example>
+              <example>I'll let you know if I need any more from you.</example>
+              <example>If you ask any more of me, I won't be able to comply.</example>
           </rule>
 
     </category>
@@ -330,15 +366,14 @@ USA
         <rule id="MASTERS_DISSERTATION_THESIS" name="master's dissertation (thesis)">
             <pattern>
                 <token>master</token>
-                <token spacebefore="no" regexp="yes">&apostrophe;</token>
-                <token>s</token>
+                <token spacebefore="no">'s</token>
                 <token inflected="yes">dissertation</token>
             </pattern>
-            <message>In the US, the word '\4' is usually for doctoral degrees. Did you mean <suggestion>\1\2\3 <match no="4" postag="(NN.*)" postag_replace="$1">thesis</match></suggestion>?</message>
+            <message>In the US, the word '\3' is usually for doctoral degrees. Did you mean <suggestion>\1\2 <match no="3" postag="(NN.*)" postag_replace="$1">thesis</match></suggestion>?</message>
             <url>https://en.wikipedia.org/wiki/Thesis#United_States</url>
             <short>BrE/AmE: dissertation/thesis</short>
             <example correction="master's thesis">Her <marker>master's dissertation</marker> is excellent.</example>
-            <example correction="Master’s theses"><marker>Master’s dissertations</marker> are not easy to write.</example>
+            <example correction="Master's theses"><marker>Master’s dissertations</marker> are not easy to write.</example>
             <example correction="master's thesis">Example sentence with no full stop: <marker>master's dissertation</marker></example>
         </rule>
         <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_BRE" name="1-litre/1-liter">

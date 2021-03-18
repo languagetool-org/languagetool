@@ -63,7 +63,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("daß", "dass");
     put("Frauenhofer", "Fraunhofer");
+    put("Vieleicht", "Vielleicht");
     put("inbetracht", "in Betracht");
     put("überwhatsapp", "über WhatsApp");
     put("überzoom", "über Zoom");
@@ -73,6 +75,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
+    putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
     putRepl("wiedersprech(e|t|en)?", "wieder", "wider");
@@ -1184,6 +1187,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> suggestions = super.getSuggestions(word);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches()
             && !k.endsWith("roulett")
+            && !k.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
             && !k.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
     ).collect(Collectors.toList());
     if (word.endsWith(".")) {
@@ -1288,7 +1292,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> result = new ArrayList<>();
     for (String wordOrPhrase : wordsOrPhrases) {
       String[] words = tokenizeText(wordOrPhrase);
-      if (words.length >= 2 && isNoun(words[0]) && isNoun(words[1]) &&
+      if (words.length >= 2 && isAdjOrNounOrUnknown(words[0]) && isNounOrUnknown(words[1]) &&
               StringTools.startsWithUppercase(words[0]) && StringTools.startsWithUppercase(words[1])) {
         // ignore, seems to be in the form "Release Prozess" which is *probably* wrong
       } else {
@@ -1298,10 +1302,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return result;
   }
 
-  private boolean isNoun(String word) {
+  private boolean isNounOrUnknown(String word) {
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
-      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB"));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.isPosTagUnknown());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isAdjOrNounOrUnknown(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("ADJ") || reading.isPosTagUnknown());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

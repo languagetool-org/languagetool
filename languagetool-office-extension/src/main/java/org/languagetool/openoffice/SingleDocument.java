@@ -120,6 +120,9 @@ class SingleDocument {
     if (config != null && config.saveLoCache() && xComponent != null && !mDocHandler.isTestMode()) {
       readCaches();
     }
+    if (xComponent != null) {
+      setFlatParagraphTools(xComponent);
+    }
   }
   
   /**  get the result for a check of a single document 
@@ -158,21 +161,24 @@ class SingleDocument {
       }
     }
     hasFootnotes = footnotePositions != null;
-    if (!hasFootnotes && numParasToCheck != 0) {
+    if (!hasFootnotes) {
       //  OO and LO < 4.3 do not support 'FootnotePositions' property and other advanced features
       //  switch back to single paragraph check mode - save settings in configuration
-      if (config.useTextLevelQueue()) {
-        mDocHandler.getTextLevelCheckQueue().setStop();
+      if (numParasToCheck != 0) {
+        if (config.useTextLevelQueue()) {
+          mDocHandler.getTextLevelCheckQueue().setStop();
+        }
+        numParasToCheck = 0;
+        config.setNumParasToCheck(numParasToCheck);
+        config.setUseTextLevelQueue(false);
+        try {
+          config.saveConfiguration(docLanguage);
+        } catch (IOException e) {
+          MessageHandler.showError(e);
+        }
+        MessageHandler.printToLogFile("Single paragraph check mode set!");
       }
-      numParasToCheck = 0;
-      config.setNumParasToCheck(numParasToCheck);
-      config.setUseTextLevelQueue(false);
-      try {
-        config.saveConfiguration(docLanguage);
-      } catch (IOException e) {
-        MessageHandler.showError(e);
-      }
-      MessageHandler.printToLogFile("Single paragraph check mode set!");
+      mDocHandler.setUseOriginalCheckDialog();
     }
 
     if (resetDocCache && nPara >= 0) {
@@ -215,7 +221,7 @@ class SingleDocument {
       paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-      lastChangedPara = textIsChanged ? paraNum : -1;
+      lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
@@ -227,7 +233,7 @@ class SingleDocument {
    */
   void setConfigValues(Configuration config) {
     this.config = config;
-    numParasToCheck = mDocHandler.isTestMode() ? 0 : config.getNumParasToCheck();
+    numParasToCheck = (mDocHandler.isTestMode() || mDocHandler.heapLimitIsReached()) ? 0 : config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
     if (ltMenus != null) {
       ltMenus.setConfigValues(config);
@@ -345,7 +351,7 @@ class SingleDocument {
     return docCache;
   }
   
-  /** Get document cache of the document
+  /** Set document cache of the document
    */
   void setDocumentCache(DocumentCache docCache) {
     this.docCache = docCache;
@@ -496,7 +502,7 @@ class SingleDocument {
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool langTool) {
-    if (docCache.isFinished()) {
+    if (flatPara != null && docCache.isFinished()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false, hasFootnotes);
     }

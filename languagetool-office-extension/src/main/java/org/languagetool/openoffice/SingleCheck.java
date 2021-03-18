@@ -592,8 +592,8 @@ class SingleCheck {
     // LibreOffice since version 6.2 supports the change of underline color (key: "LineColor", value: int (RGB))
     // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
     // older version will simply ignore the properties
-    Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
-    short underlineType = config.getUnderlineType(ruleMatch.getRule().getCategory().getName());
+    Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName(), ruleMatch.getRule().getId());
+    short underlineType = config.getUnderlineType(ruleMatch.getRule().getCategory().getName(), ruleMatch.getRule().getId());
     URL url = ruleMatch.getUrl();
     if (url == null) {                      // match URL overrides rule URL 
       url = ruleMatch.getRule().getUrl();

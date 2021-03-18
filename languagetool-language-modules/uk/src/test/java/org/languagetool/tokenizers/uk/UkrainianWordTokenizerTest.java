@@ -525,5 +525,11 @@ public class UkrainianWordTokenizerTest {
         .map(s -> s.replace("\n", "\\n").replace("\u00AD", "\\xAD"))
         .collect(Collectors.toList());
     assertEquals(Arrays.asList("РЕАЛІЗАЦІЇ", " ", "\\xAD", "\\n", "СІЛЬСЬКОГОСПОДАРСЬКОЇ"), testList);
+
+    testList = w.tokenize("а%його");
+    assertEquals(Arrays.asList("а%", "його"), testList);
+
+    testList = w.tokenize("5%-го");
+    assertEquals(Arrays.asList("5%-го"), testList);
   }
 }

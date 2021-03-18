@@ -1323,6 +1323,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
+    <rule id="LEE_NOUN" name="lee + nombre">
+        <pattern>
+            <token>lee</token>
+            <marker>
+                <token postag="N.*|PI.*" postag_regexp="yes" regexp="yes" inflected="yes">revista|chiste|novela|nada</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rulegroup id="VAN_GOGH" name="van Gogh">
         <rule>
             <pattern>
@@ -3496,6 +3505,15 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="NCFS000"/>
             </pattern>
             <disambig action="filter" postag="AQ0FS0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token>sitio</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
@@ -5966,6 +5984,16 @@ Copyright (C) 2011 Juan Martorell
     <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
         <pattern>
             <token regexp="yes">@.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="IGNORE_LETTER_QUOTES" name="ignore letters between quotes">
+        <pattern>
+            <token postag="_QM_OPEN"/>
+            <marker>
+                <token regexp="yes" spacebefore="no">.</token>
+            </marker>
+            <token postag="_QM_CLOSE"/>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

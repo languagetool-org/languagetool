@@ -252,6 +252,7 @@ public class AgreementRuleTest {
     assertGood("Bei uns im Krankenhaus betrifft das Operationssäle.");
     assertGood("Macht dir das Freude?");
     assertGood("Das macht jedem Angst.");
+    assertGood("Dann macht das Sinn.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

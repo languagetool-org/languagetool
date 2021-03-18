@@ -62,13 +62,13 @@ public class LtDictionary {
     String shortCode = locale.Language;
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
     if (!dictionaryList.contains(dictionaryName)) {
+      dictionaryList.add(dictionaryName);
       XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
       for (String word : getManualWordList(locale, linguServices)) {
         manualDictionary.add(word, false, "");
       }
       manualDictionary.setActive(true);
       searchableDictionaryList.addDictionary(manualDictionary);
-      dictionaryList.add(dictionaryName);
       MessageHandler.printToLogFile("Internal LT dicitionary for language " + shortCode + " added: Number of words = " + manualDictionary.getCount());
       if (debugMode) {
         for (XDictionaryEntry entry : manualDictionary.getEntries()) {
