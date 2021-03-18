@@ -1966,7 +1966,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		
+
 		<rulegroup id="POORTHUIS_PORTHUIS" name="waarschuwing bij gebruik porthuis i.p.v. poorthuis">
 			<rule>
 				<pattern>
@@ -9522,6 +9522,20 @@ onwaarschijnlijk
 				<suggestion>\1- <match no="2" regexp_match="-$" regexp_replace=""/> \3</suggestion>
 				<example correction="eet- en drinkgelegenheid">Het is een <marker>eet en- drinkgelegenheid</marker>.</example>
 			</rule>			
+			<rule>
+				<pattern>
+					<token postag="WKW:TGW:1EP"/>
+					<marker>
+						<token>,</token>
+						<token>-</token>
+					</marker>
+					<token regexp="yes">(en|of)</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>De komma hoort hier niet.</message>
+				<suggestion>-</suggestion>
+				<example correction="-">Het is een eet<marker>,-</marker> en drinkgelegenheid.</example>
+			</rule>			
 		</rulegroup>
 
 		<rulegroup id="SAMENSTELLING_EIGENNAAM" name="eBay ding / eBayding" >
@@ -9761,6 +9775,19 @@ onwaarschijnlijk
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\1\2</suggestion>
 				<example correction="bezetting">De <marker>bezet ting</marker> klopt niet.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="STAM_LENDE" name="opval lende" >
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*l</token>
+						<token regexp="yes">lenden?</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="opvallende">De <marker>opval lende</marker> man klopt niet.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DOORRIJD_DING" name="Achteruitrijd camera/achteruitrijcamera" >
