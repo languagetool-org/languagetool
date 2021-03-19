@@ -53,6 +53,7 @@ import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
@@ -114,7 +115,9 @@ public class MultiDocumentsHandler {
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
   
   private boolean useOrginalCheckDialog = false;  // use original spell and grammar dialog (LT check dialog does not work for OO)
+  private boolean isNotTextDodument = false;
   private boolean testMode = false;
+  
 
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
     this.xContext = xContext;
@@ -218,14 +221,27 @@ public class MultiDocumentsHandler {
    */
   public SingleDocument getCurrentDocument() {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+    isNotTextDodument = false;
     if (xComponent != null) {
       for (SingleDocument document : documents) {
         if (xComponent.equals(document.getXComponent())) {
           return document;
         }
       }
+      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      if (curDoc == null) {
+        MessageHandler.printToLogFile("Is document, but not a text document!");
+        isNotTextDodument = true;
+      }
     }
     return null;
+  }
+  
+  /**
+   * return true, if a document was found but is not a text document
+   */
+  boolean isNotTextDocument() {
+    return isNotTextDodument;
   }
   
   /**
@@ -568,10 +584,7 @@ public class MultiDocumentsHandler {
       newDocument.setLanguage(docLanguage);
       newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
     }
-    
-//    if (debugMode) {
-      MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
-//    }
+    MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
     return documents.size() - 1;
   }
 
