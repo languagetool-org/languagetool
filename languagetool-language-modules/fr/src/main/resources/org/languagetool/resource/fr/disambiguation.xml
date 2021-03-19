@@ -394,6 +394,16 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="D.*"/>
   </rule>
+  <rule id="DIT" name="dit (verbe)">
+    <pattern>
+      <marker>
+        <token>dit<exception scope="previous" inflected="yes">avoir</exception></token>
+      </marker>
+        <token min="0" max="4" postag="A"/>
+        <token regexp="yes">que|qu'</token>
+    </pattern>
+    <disambig action="filter" postag="V ind.*"></disambig>
+  </rule>
   <rule id="A_PRIORI" name="a priori (noun/loc adverbial)">
     <pattern>
       <token regexp="yes">ce|cet|un|le</token>
@@ -1677,6 +1687,15 @@ RB => Règles Brutes
           <exception regexp="yes">attendu|passé|comme|suivant</exception>
           <exception scope="previous" regexp="yes">.*'</exception></token>
       </marker>
+    </pattern>
+    <disambig postag="P"/>
+  </rule>
+  <rule id="SUIVANT" name="suivant (préposition)">
+    <pattern>
+      <marker>
+        <token>suivant</token>  
+      </marker>
+      <token postag="[DJ].*" postag_regexp="yes"/>
     </pattern>
     <disambig postag="P"/>
   </rule>
