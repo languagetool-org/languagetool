@@ -113,7 +113,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|et|ou|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("P");
-  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|du|à|aux|en|dans"); //???
+  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|du|à|aux|en|dans|sur|entre|par|pour|avec|sans|contre|comme"); //???
   private static final Pattern VERB = Pattern.compile("V.* (inf|ind|sub|con|ppr|imp).*"); // Any verb that is not V ppa
   private static final Pattern GV = Pattern.compile("_GV_");
   
@@ -127,10 +127,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-    if (match.getSentence().getText().toString().contains("le plus fidèle")) {
-      int ii=0;
-    }
-    
+//    if (match.getSentence().getText().toString().contains("suivant")) {
+//      int i=0;
+//    }
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
     int j;
@@ -243,6 +242,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
           canBeFS = true;
         }
       }
+      //TODO DET_CS, DET_CP without noun afterwards
       if (!matchPostagRegexp(tokens[i - j], ADVERBI)) {
         if (matchPostagRegexp(tokens[i - j], DET_MS)) {
           cDMS[level]++;
