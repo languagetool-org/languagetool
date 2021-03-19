@@ -138,9 +138,11 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(langTool.getAnalyzedSentence("se daba cuenta c´"));
     assertEquals("cm", matches[0].getSuggestedReplacements().get(0));
-    //TODO
-    //matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨𝐧"));
-    //assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨𝐧"));
+    assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐛𝐥𝐢𝐜𝐚𝐛𝐥𝐢𝐜𝐜𝐢𝐨𝐧𝐛𝐥𝐢𝐜"));
+    assertEquals(1, matches.length);
+    assertEquals(0, matches[0].getSuggestedReplacements().size());
     
   }
 
