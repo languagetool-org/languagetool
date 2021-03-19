@@ -64,9 +64,9 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
-	<!ENTITY gerundio_verbos "acabar|afundar|ajudar|criar|fazer|fluir|ir|lesar|quebrar|ser|travar|vir">
+	<!ENTITY gerundio_verbos "acabar|afundar|ajudar|aumentar|criar|disparar|fazer|fluir|ir|lesar|quebrar|ser|travar|vir">
 
-	<!ENTITY gerundio_excecoes "abandonando|acumulando|adicionando|aperfeiçoando|beneficiando|caindo|consolidando|crescendo|decrescendo|desaparecendo|emergindo|empregando|ficando|ganhando|havendo|levantando|originando|perdendo|permitindo|progredindo|propagando|recorrendo|saindo|sendo|surgindo|usando">
+	<!ENTITY gerundio_excecoes "abandonando|acumulando|adicionando|aperfeiçoando|aumentando|beneficiando|caindo|consolidando|crescendo|decrescendo|desaparecendo|emergindo|empregando|fazendo|ficando|ganhando|havendo|levantando|originando|perdendo|permitindo|progredindo|propagando|recorrendo|saindo|sendo|surgindo|usando">
 
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -768,17 +768,33 @@ Olá minha gestora, quando voltas de férias?
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
       <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
       <short>Possível gerundismo.</short>
-    <rule>
-<!-- MARCOAGPINTO 2020-06-19 + 2020-06-30 *START* -->
-<!-- "Com efeito, vinham-se acumulando estudos e testemunhos." -->
+<!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *START* -->
+<!--
+Ao fazê-lo vão saindo resultados cada vez mais inesperados.
+Na época eram basicamente feitos usando pequenos objetos.
+Em França existe um limite que é aumentado usando carregadores de munição.
+E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.
+O número de desenvolvedores vem aumentando.
+-->
       <antipattern>
-<!--	      <token negate_pos="yes" postag='CS|RG|PP3[FM][SP]A00' postag_regexp='yes'/> -->
+	      <token/>
+          <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
+          <token regexp='yes'>&gerundio_excecoes;</token>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *START* -->
+<!--
+Com efeito, vinham-se acumulando estudos e testemunhos.
+-->
+      <antipattern>
+	      <token/>
           <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
 		  <token regexp='yes' spacebefore='no'>&hifen;</token>
-		   <token regexp='no'>se</token>
-          <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-19 + 2020-06-30 *END* -->	
+		  <token/>
+          <token regexp='yes'>&gerundio_excecoes;</token>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *END* -->	  
+    <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
           <token regexp='yes' spacebefore='no'>&hifen;</token>
@@ -789,26 +805,16 @@ Olá minha gestora, quando voltas de férias?
       <message>Se possível, evite o gerúndio.</message>
         <suggestion>\1\2\3 a <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
       <example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
+	  
+	  <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
+	  <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+	  <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+	  <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+	  <example>O número de desenvolvedores vem aumentando.</example>
+	  
+	  <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
     </rule>
     <rule>
-      <antipattern>
-          <token inflected='yes' regexp='yes'>ir|vir</token>
-          <token>sendo</token>
-          <token postag='V.P.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *START* -->
-<!-- "Ao fazê-lo vão saindo resultados cada vez mais inesperados." -->
-<!-- "Ao fazê-lo vai saindo resultados cada vez mais inesperados." -->
-<!-- "Ao fazê-lo vão saindo equações cada vez mais inesperadas." -->
-<!-- "Ao fazê-lo vai saindo equações cada vez mais inesperadas." -->
-<!-- "Ao fazê-lo vão saindo agentes cada vez mais inesperados." -->
-<!-- "Ao fazê-lo vai saindo agentes cada vez mais inesperadas." -->
-      <antipattern>
-	      <token negate_pos="yes" postag='CS|RG|PP3[FM][SP]A00' postag_regexp='yes'/>
-          <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-          <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *END* -->
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
           <token postag='V.G0+' postag_regexp='yes'/>
@@ -817,24 +823,16 @@ Olá minha gestora, quando voltas de férias?
         <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
       <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
       <example>As regras foram sendo melhoradas ao longo do tempo.</example>
+	  
+	  <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
+	  <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+	  <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+	  <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+	  <example>O número de desenvolvedores vem aumentando.</example>
+	  
+	  <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
     </rule>
     <rule>
-      <antipattern>
-          <token inflected='yes' regexp='yes'>ir|vir</token>
-          <token>sendo</token>
-          <token postag='V.P.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *START* -->
-<!--
-Ao fazê-lo vão saindo resultados cada vez mais inesperados.
-Na época eram basicamente feitos usando pequenos objetos.
--->
-      <antipattern>
-	      <token/>
-          <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-          <token regexp='yes'>&gerundio_excecoes;</token>
-      </antipattern>  
-<!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *END* -->
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception inflected='yes' regexp='yes'>medida|votar</exception>
@@ -851,6 +849,11 @@ Na época eram basicamente feitos usando pequenos objetos.
 	  
 	  <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
 	  <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+	  <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+	  <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+	  <example>O número de desenvolvedores vem aumentando.</example>
+	  
+	  <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
     </rule>
   </rulegroup>
 
