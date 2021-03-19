@@ -81,8 +81,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern GN_FS = Pattern.compile("N [fe] (s|sp)|J [fe] (s|sp)|V ppa f s|(P\\+)?D f (s|sp)");
   private static final Pattern GN_MP = Pattern.compile("N [me] (p|sp)|J [me] (p|sp)|V ppa m p|(P\\+)?D m (p|sp)");
   private static final Pattern GN_FP = Pattern.compile("N [fe] (p|sp)|J [fe] (p|sp)|V ppa f p|(P\\+)?D f (p|sp)");
-  private static final Pattern GN_CP = Pattern.compile("N [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D e (p|sp)");
-  private static final Pattern GN_CS = Pattern.compile("N [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D e (s|sp)");
+  private static final Pattern GN_CP = Pattern.compile("N [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D [fme] (p|sp)");
+  private static final Pattern GN_CS = Pattern.compile("N [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D [fme] (s|sp)");
   private static final Pattern GN_MN = Pattern.compile("N [me] (s|p|sp)|J [me] (s|p|sp)|(P\\+)?D [me] (s|p|sp)"); // NEW for French!!
   private static final Pattern GN_FN = Pattern.compile("N [fe] (s|p|sp)|J [fe] (s|p|sp)|(P\\+)?D [fe] (s|p|sp)"); // NEW for French!!
   
@@ -126,6 +126,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+    
+    if (match.getSentence().getText().toString().contains("le plus fidèle")) {
+      int ii=0;
+    }
     
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
