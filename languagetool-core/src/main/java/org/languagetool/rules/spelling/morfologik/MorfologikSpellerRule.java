@@ -134,8 +134,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       String word = token.getAnalyzedToken(0).getToken();
       
       String normalizedWord = StringTools.normalizeNFKC(word);
-      if (word.length() > 1 && !word.equals(normalizedWord)) {
-        // FIXME: the word length can change and cause errors!! 
+      if (word.length() > 1 && !word.equals(normalizedWord)) { 
         if (!isMisspelled(speller1, normalizedWord)) {
           // The normalized word is a good suggestion
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
@@ -145,7 +144,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           continue;
         } else {
           // Try to find suggestions from the normalized word
-          word = normalizedWord;
+          //FIXME: keep the original length
+          if (word.length() == normalizedWord.length()) {
+            word = normalizedWord;  
+          }
         }
       }
       
