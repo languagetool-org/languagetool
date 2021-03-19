@@ -136,6 +136,11 @@ public class MorfologikSpanishSpellerRuleTest {
     // Other rare characters
     matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨́𝐧"));
     assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("se daba cuenta c´"));
+    assertEquals("cm", matches[0].getSuggestedReplacements().get(0));
+    //TODO
+    //matches = rule.match(langTool.getAnalyzedSentence("𝐩𝐮𝐛𝐥𝐢𝐜𝐚𝐜𝐢𝐨𝐧"));
+    //assertEquals("publicación", matches[0].getSuggestedReplacements().get(0));
     
   }
 
