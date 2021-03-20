@@ -567,5 +567,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches[0].getSuggestedReplacements().size());
         assertEquals("PROVATURA", matches[0].getSuggestedReplacements().get(0));
         
+        //special chars
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("33° 5′ 40″ N i 32° 59′ 0″ E.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
+        //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Fa 5·10-³ metres.")).length);
+        
     }
 }

@@ -134,7 +134,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       String word = token.getAnalyzedToken(0).getToken();
       
       String normalizedWord = StringTools.normalizeNFKC(word);
-      if (word.length() > 1 && !word.equals(normalizedWord) && !normalizedWord.contains(" ")) { 
+      if (word.length() > 1 && !word.equals(normalizedWord) && !normalizedWord.contains(" ")
+          && isMisspelled(speller1, word)) {
         if (!isMisspelled(speller1, normalizedWord)) {
           // The normalized word is a good suggestion
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
@@ -142,7 +143,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           ruleMatch.addSuggestedReplacement(normalizedWord);
           ruleMatches.add(ruleMatch);
         } else {
-          // Try to find suggestions from the normalized word. 
+          // Try to find suggestions from the normalized word.
           List<String> suggestions = speller1.getSuggestions(normalizedWord);
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
               messages.getString("spelling"), messages.getString("desc_spelling_short"));

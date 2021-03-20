@@ -1051,7 +1051,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule id="numero_graus" name="grados">
             <pattern>
-                <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEW]?<exception regexp="yes">[\d,. ]+º</exception></token>
+                <token regexp="yes">([\d,. ]+[º°′″‴])+[CFKNSEW]?<exception regexp="yes">[\d,. ]+º</exception></token>
             </pattern>
             <disambig action="replace">
                 <wd pos="NCMP000"/>
@@ -5148,6 +5148,47 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <!-- SOME EXTRA TAGGING -->
+    <rulegroup id="letras_mayusculas" name="letras sueltas mayúsculas">
+        <rule>
+            <pattern>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
+                <marker>
+                    <token regexp="yes">\p{Lu}<exception postag="Y"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NPCN000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!--A es igual a B-->
+            <pattern>
+                <token postag="SENT_START"/>
+                <!--<token min="0" regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>-->
+                <marker>
+                    <token regexp="yes">\p{Lu}</token>
+                </marker>
+                <token postag="VS..3S." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NPCN000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!--A es igual a B-->
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>
+                <marker>
+                    <token regexp="yes">\p{Lu}</token>
+                </marker>
+                <token postag="VS..3S." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NPCN000"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="nom_en_complement" name="nom en complement">
         <rule>
             <pattern>
