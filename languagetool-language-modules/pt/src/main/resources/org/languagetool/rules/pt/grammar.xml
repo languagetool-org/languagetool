@@ -11543,17 +11543,6 @@ Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
       <example correction="mais mal-educado">O Jorge é <marker>pior educado</marker> do que parecia.</example>
     </rule>
 
-    <!-- PODERIAM-SE poder-se-iam -->
-    <rule id='PODERIAM-SE' name="Poder-se-iam">
-      <pattern>
-          <token>poderiam</token>
-          <token regexp='yes'>&tracos_de_separacao;</token>
-          <token>se</token>
-      </pattern>
-      <message>Substitua por <suggestion>poder-se-iam</suggestion>.</message>
-      <example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
-    </rule>
-
     <!-- POR CAUSA QUE porque>
     <rule id='POR_CAUSA_QUE' name="Confusão: por causa - porque">
      XXX Moved to wordiness. Remove after release.
@@ -37401,6 +37390,36 @@ A primeira função de Carvalho em Londres foi obter ajuda para as forças portu
  </category>
 
  <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
+ 
+	<!-- PODERIAM-SE poder-se-ia -->
+    <rulegroup id='PODERIAM-SE' name="Formas verbais: poderiam-se → poder-se-iam">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-20 (17-MAR-2021+)      -->
+	<!--
+Assim poderia-se escrever à Ana. → Assim poder-se-ia escrever à Ana.
+Assim poderiam-se escrever livros sobre o assunto. → Assim poder-se-iam escrever livros sobre o assunto.
+	-->
+		<rule>
+			<pattern>
+				<token postag='VMIC[13]S0' postag_regexp='yes'/>	
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me</token>
+			</pattern>
+			<message>Esta forma verbal não existe.</message>
+			<suggestion><match no='1' postag="VMIC[13]S0" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ia</suggestion>
+			<example correction="poder-se-ia">Assim <marker>poderia-se</marker> escrever à Ana.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='VMIC3P0' postag_regexp='no'/>	
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me</token>
+			</pattern>
+			<message>Esta forma verbal não existe.</message>
+			<suggestion><match no='1' postag="VMIC3P0" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
+			<example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
+		</rule>
+    </rulegroup>
+ 
     <rulegroup id="WHATSAPP" name="WhatsApp">
       <url>https://pt.wikipedia.org/wiki/WhatsApp</url>
       <rule>
