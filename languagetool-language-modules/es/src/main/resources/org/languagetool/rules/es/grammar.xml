@@ -10907,7 +10907,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">0*1</exception></token>
                     <marker>
-                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">bis|(?-i)CE</exception></token> <!--|V.[^P].*-->
+                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">bis|(?-i)CE</exception></token>
+                        <!--|V.[^P].*-->
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -10937,12 +10938,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número">
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">forma|manera</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">decena|centena|centenar|mil|millón|billón</token>
                     <token>de</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception>presupuesto</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">presupuesto|valoración|estimación|evaluación</exception></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia</message>
@@ -10966,6 +10972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="(NC.)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="personas">Son un conjunto de <marker>persona</marker>.</example>
                 <example>Participa en un grupo de teatro.</example>
+                <example>10 millones de forma semestral.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ORDINALS" name="concordancias ordinales: vigésima segunda / vigesimosegunda">
@@ -12279,6 +12286,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
             <antipattern>
+                <!-- MISSING_COMMA -->
+                <token regexp="yes">feliz|felices|buen|buenos|buenas|buena</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">fiestas|fiesta|día|días|dia|dias|tardes?|noches?</token>
+                <token postag="A.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- MISSING_COMMA -->
+                <token postag="N.*" postag_regexp="yes" regexp="yes">adiós|gracias|saludos</token>
+                <token postag="A.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- re bonita TODO: other rule is needed-->
+                <token>re</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>igual</token>
                 <token>o</token>
                 <token regexp="yes">más|menos</token>
@@ -12379,7 +12402,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">señalar|determinar|excepcional|extraordinario</exception></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">debido|junto|directo|conforme</token>
+                <token regexp="yes">debido|junto|directo|conforme|previo</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token regexp="yes">a|al</token>
             </antipattern>
@@ -12469,7 +12492,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">niño</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">la|su</token>
+                <token regexp="yes">la|su|en</token>
                 <token>mayoría</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -13119,7 +13142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <!-- telegraphic writing -->
                     <token>total</token>
-                    <token regexp="yes">gastos|productos</token>
+                    <token regexp="yes">gastos|productos|pedidos</token>
                 </antipattern>
                 <antipattern>
                     <token>número</token>
@@ -14870,6 +14893,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="BOCABAJO" name="bocabajo/boca abajo" default="temp_off">
+            <pattern>
+                <token>boca</token>
+                <token>bajo</token>
+            </pattern>
+            <message>Como adverbio, se escribe <suggestion>bocabajo</suggestion> o <suggestion>boca abajo</suggestion>.</message>
+            <example correction="bocabajo|boca abajo">Se quedó <marker>boca bajo</marker>.</example>
+        </rule>
         <rule id="LEE_LE" name="confusión *lee/le">
             <pattern>
                 <marker>
