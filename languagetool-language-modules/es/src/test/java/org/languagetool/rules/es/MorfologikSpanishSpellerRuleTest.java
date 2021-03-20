@@ -144,6 +144,11 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getSuggestedReplacements().size());
     
+    //special chars
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("33° 5′ 40″ N; 32° 59′ 0″ E.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
+    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("5·10-³ metros.")).length);
+    
   }
 
 }

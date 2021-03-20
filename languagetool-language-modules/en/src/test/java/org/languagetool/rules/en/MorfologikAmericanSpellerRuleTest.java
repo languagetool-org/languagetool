@@ -109,6 +109,19 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("fo'c'sle")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("O'Connell, O’Connell, O'Connor, O’Neill")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("viva voce, a fortiori, in vitro")).length);
+    // non-ASCII characters
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("5¼\" floppy disk drive")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a visual magnitude of -2½")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Water freezes at 0º C. 175ºC")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("33°5′40″N and 32°59′0″E.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It's up to 5·10-³ meters.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("141°00′7.128″W")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("1031－1095")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It is thus written 1″.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a 30½-inch scale length.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("symbolically stated as A ∈ ℝ3.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Thus ℵ0 is a regular cardinal.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("the classical space B(ℓ2)")).length);
     //assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
     
     // test words in language-specific spelling_en-US.txt
