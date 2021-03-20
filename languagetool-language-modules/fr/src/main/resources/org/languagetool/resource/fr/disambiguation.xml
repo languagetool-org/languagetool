@@ -394,20 +394,40 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="D.*"/>
   </rule>
+  <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
+    <pattern>
+      <token inflected="yes" regexp="yes">être|avoir</token>
+      <token min="0" max="4" postag="R.*|A" postag_regexp="yes"/>
+      <marker>
+        <token regexp="yes">fait|mis</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V ind.*"></disambig>
+  </rule>
+  <rule id="DIT_NO_IND" name="dit (not verbe ind)">
+    <pattern>
+      <token inflected="yes" regexp="yes">être|avoir</token>
+      <token min="0" max="4" postag="R.*|A" postag_regexp="yes"/>
+      <marker>
+        <token>dit</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V ind.*"></disambig>
+  </rule>
   <rule id="DIT" name="dit (verbe)">
     <pattern>
       <marker>
-        <token regexp="yes">dit|fait<exception scope="previous" inflected="yes">avoir</exception></token>
+        <token postag="V ind.*" postag_regexp="yes" regexp="yes">dit|fait<exception scope="previous" inflected="yes">avoir</exception></token>
       </marker>
         <token min="0" max="4" postag="A"/>
         <token regexp="yes">que|qu'</token>
     </pattern>
     <disambig action="filter" postag="V ind.*"></disambig>
   </rule>
-  <rule id="FAIT_VERBE" name="fait (verbe ind)">
+  <rule id="FAIT_VERBE" name="fait, mis (verbe ind)">
     <pattern>
       <marker>
-        <token regexp="yes">fait|mis<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous">tas</exception></token>
+        <token postag="V ind.*" postag_regexp="yes" regexp="yes">fait|mis<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous">tas</exception></token>
       </marker>
       <token min="0" max="4" postag="A"/>
       <token postag="D.*" postag_regexp="yes"/>
@@ -419,7 +439,7 @@ RB => Règles Brutes
       <marker>
         <token>dure</token>
       </marker>      
-      <token postag="D.*" postag_regexp="yes"/>
+      <token postag="D.*" postag_regexp="yes"><exception postag="P|P\+.*" postag_regexp="yes"/></token>
     </pattern>
     <disambig action="filter" postag="V ind.*"></disambig>
   </rule>
