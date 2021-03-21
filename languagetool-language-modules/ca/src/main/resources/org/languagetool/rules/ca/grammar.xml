@@ -11730,6 +11730,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A.*|V.P.*|DI.*" postag_regexp="yes" min="0"/>
                 <token regexp="yes" inflected="yes">temps|temporada|&unitats_temps;</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">mirar</token>
+                <token regexp="yes">prou|suficient</token>
+                <token inflected="yes">per</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou|perjudicial<exception postag="V.P.*" postag_regexp="yes"/></token>
@@ -11754,6 +11759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La utilitzaren per una llarga temporada.</example>
                 <example>L'utilitzaren per uns anys.</example>
                 <example>L'utilitzaren per uns quants anys.</example>
+                <example>No han mirat prou pels seus interessos</example>
             </rule>
             <rule>
                 <pattern>
@@ -16288,7 +16294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">Europes|EUROPES</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)es" regexp_replace="ees" case_conversion="preserve"></match></suggestion> (adjectiu)? Correcte si és el plural d'Europa (menys freqüent).</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)es" regexp_replace="ees" case_conversion="preserve"/></suggestion> (adjectiu)? Correcte si és el plural d'Europa (menys freqüent).</message>
             <example correction="Europees">Les Comunitats <marker>Europes</marker></example>
             <example correction="EUROPEES">LES INSTITUCIONS <marker>EUROPES</marker></example>
             <example>Són dues Europes diferents.</example>
@@ -16309,7 +16315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">vuits?</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"></match></suggestion> (contrari de 'ple')? Correcte si és el número 8.</message>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"/></suggestion> (contrari de 'ple')? Correcte si és el número 8.</message>
             <example correction="buit">El calaix és <marker>vuit</marker>.</example>
             <example>Ells són vuit.</example>
             <example>I fou vuit anys vicepresident</example>
@@ -18442,15 +18448,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Del s. XX</example>
         </rule>
         <rule id="PERA_PER_A" name="pera / per a">
+            <antipattern>
+                <token postag="D..FS." postag_regexp="yes"/>
+                <token>pera</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>pera<exception postag="_GN_FS"/></token>
+                    <token>pera</token>
                 </marker>
                 <token postag="V.N.*|D.*|N.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>per a</suggestion>?</message>
             <example correction="per a">Eixir del foc <marker>pera</marker> caure a les brases.</example>
             <example correction="per a">Ho vull <marker>pera</marker> dijous.</example>
+            <example correction="per a">Vet ací material <marker>pera</marker> reflexionar.</example>
             <example>Vull una pera d'aigua.</example>
             <example>Es va menjar una pera dijous.</example>
         </rule>
@@ -46208,6 +46219,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="VIGIA" name="*vigia/guaita">
+            <pattern>
+                <token regexp="yes">vigia|vigies</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)vigi" regexp_replace="guait" case_conversion="preserve"/></suggestion>? "\1" és una forma del v. 'vigir'.</message>
+            <suggestion><match no="1" regexp_match="(?iu)vigi" regexp_replace="sentinell" case_conversion="preserve"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)vigi" regexp_replace="talai" case_conversion="preserve"/></suggestion>
+            <example correction="guaita|sentinella|talaia">A la torre hi havia un <marker>vigia</marker>.</example>
+        </rule>
         <rule id="SANGRIA" name="sangria/sagnia">
             <pattern>
                 <token inflected="yes">sangria</token>
@@ -46223,7 +46243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">de</token>
                 <token inflected="yes" regexp="yes">banana|benvinguda|casa|cava|crema|gerd|litxi|llima|llimona|llimó|mandarina|mango|maracujà|marc|meló|menta|mora|móra|pansa|pera|plàntan|poma|pruna|préssec|pètal|rosa|síndria|taronja|te|whisky|xampany|xocolata|xocolate</token>
             </pattern>
-            <message>En el sentit de 'gelat' és preferible dir <suggestion><match no="1" regexp_match="(?iu)xarrup" regexp_replace="sorbet"></match></suggestion>.</message>
+            <message>En el sentit de 'gelat' és preferible dir <suggestion><match no="1" regexp_match="(?iu)xarrup" regexp_replace="sorbet"/></suggestion>.</message>
             <example correction="sorbet">Ens van servir un <marker>xarrup</marker> de mandarina boníssim.</example>
         </rule>
         <rule id="RASTRERA" name="rastrera/vil">
@@ -64674,6 +64694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Us animo a continuar esforçant-vos.</example>
             <example>Els vam animar sempre a esforçar-se.</example>
             <example>Us hem impulsat a vegades a esforçar-vos.</example>
+            <example>Consistirà a adonar-se que la qüestió és així.</example>
         </rule>
         <rulegroup id="VERBS_NO_PRONOMINALS" name="verbs no pronominals">
             <!-- eliminat: témer-->
