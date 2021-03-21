@@ -118,6 +118,7 @@ public class WordListValidatorTest {
           "Łódź",
           "Ørsted",
           "Mirotić",
+          "Pÿur",
           "dtª",  // for PT
           "dtº",  // for PT
           "ª",  // for PT
