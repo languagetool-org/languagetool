@@ -2438,6 +2438,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 -->
 
+  <rule name="Раза з дробовими числівниками" id="raza_with_fractions">
+    <antipattern>
+      <token regexp="yes">([0-9.,—–-]+)?[0-9]+[.,][0-9]+|півтора</token>
+      <token>раза</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">[0-9]+[.,][0-9]+([0-9.,—–-]+)?|півтора</token>
+      <token>раза</token>
+    </antipattern>
+    <antipattern>
+      <token>половиною</token>
+      <token>раза</token>
+    </antipattern>
+    <antipattern>
+      <token>раза</token>
+      <token min="0" regexp="yes">[ву]</token>
+      <token regexp="yes">півтора(-.*)?</token>
+    </antipattern>
+    <pattern>
+      <token>раза
+        <exception case_sensitive="yes">Раза</exception>
+      </token>
+    </pattern>
+    <message>«\1» вживаємо лише після дробових числівників</message>
+    <suggestion>рази</suggestion>
+    <suggestion>разів</suggestion>
+    <suggestion>разу</suggestion>
+    <url>https://kulturamovy.org.ua/movni-trudnoshhi/r-movni-trudnoshhi/raz/</url>
+    <example correction="рази|разів|разу">Два <marker>раза</marker> прочитав.</example>
+    <example>1,5 раза.</example>
+    <example>раза півтора-два</example>
+    <example>у 2,3–2,5 раза</example>
+    <example>2,5–5 раза</example>
+    <example>Юсуф Раза Гілані</example>
+    <example>два з половиною раза</example>
+  </rule>
+
+
   </category>
 
   <category id="LOGICAL_ERRORS" name="Логічні помилки">
