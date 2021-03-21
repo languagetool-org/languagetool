@@ -399,7 +399,7 @@ RB => Règles Brutes
       <token inflected="yes" regexp="yes">être|avoir</token>
       <token min="0" max="4" postag="R.*|A" postag_regexp="yes"/>
       <marker>
-        <token regexp="yes">fait|mis</token>
+        <token regexp="yes">fait|mis<exception scope="previous" postag="R.*" postag_regexp="yes"/></token>
       </marker>
     </pattern>
     <disambig action="remove" postag="V ind.*"></disambig>
@@ -487,7 +487,7 @@ RB => Règles Brutes
   </rule>
   <rule id="DEVENIR" name="devenir">
     <antipattern>
-      <token postag="(P\+)?D m s|P" postag_regexp="yes"/>
+      <token postag="(P\+)?D m s" postag_regexp="yes"/>
       <token>devenir</token>
     </antipattern>
     <pattern>
@@ -2245,7 +2245,7 @@ RB => Règles Brutes
           <token>fait</token>
         </marker>
       </pattern>
-      <disambig postag="V ind pres 3 s"/>
+      <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
     <rule>
       <pattern>
@@ -2254,7 +2254,7 @@ RB => Règles Brutes
           <token>fait</token>
         </marker>
       </pattern>
-      <disambig postag="N m s"/>
+      <disambig action="filter" postag="N m s"/>
     </rule>
     <rule>
       <!-- TODO: generalize -->
@@ -2265,7 +2265,7 @@ RB => Règles Brutes
         </marker>
         <token regexp="yes">(\d+)?(m|cm|mm|diamètre|.*mètres?|haut|long)</token>
       </pattern>
-      <disambig postag="V ind pres 3 s"/>
+      <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
   </rulegroup>
   <rule id="FORTE" name="forte">
