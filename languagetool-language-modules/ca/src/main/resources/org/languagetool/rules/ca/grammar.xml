@@ -3894,6 +3894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els tres homes.</example>
                 <example>va ser vassall seu tres anys</example>
                 <example>al nou model polític</example>
+                <example>El que aquest nou statu quo representa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12314,8 +12315,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">fixar<exception postag="_reflexiu"/></token>
             </antipattern>
+            <antipattern>
+                <token>hi</token>
+                <token min="0" postag="V.*" postag_regexp="yes"/>
+                <token inflected="yes">confiar</token>
+            </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">basar|centrar|fixar</token>
+                <token inflected="yes" regexp="yes">basar|centrar|fixar|confiar</token>
                 <token min="0" max="3" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"><exception>-hi</exception></token>
                 <marker>
                     <token>amb</token>
@@ -12326,6 +12332,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en">Vull que et centres <marker>amb</marker> això.</example>
             <example correction="en">Si no és basada <marker>amb</marker> dades totalment objectives.</example>
             <example correction="en">Fixeu-vos <marker>amb</marker> el mapa.</example>
+            <example correction="en">Confio <marker>amb</marker> tu!</example>
+            <example>Hi confio amb certesa.</example>
+            <example>Hi confio amb tot l'entusiasme.</example>
             <example>un centre o centres amb cinquanta o més treballadors</example>
             <example>Fixeu-vos-hi amb tota la vostra atenció.</example>
             <example>Així poden fixar amb exactitud el procés.</example>
@@ -23315,7 +23324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.IF[12]P.." postag_regexp="yes" regexp="yes" skip="7">.+(arem|areu)</token>
+                        <token postag="V.IF[12]P.." postag_regexp="yes" regexp="yes" skip="15">.+(arem|areu)</token>
                     </marker>
                     <token postag="_marca_passat"/>
                 </pattern>
@@ -23323,19 +23332,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible confusió</short>
                 <example correction="enviàrem">Els llibres que <marker>enviarem</marker> ahir.</example>
                 <example correction="pensàrem">Hi <marker>pensarem</marker> la setmana passada.</example>
+                <example correction="Deixàrem"><marker>Deixarem</marker> de pensar-hi en el passat.</example>
                 <example>Hi pensarem demà.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="_marca_passat" skip="7"/>
+                    <token postag="_marca_passat" skip="15"/>
                     <marker>
-                        <token postag="V.IF[12]P.." postag_regexp="yes" regexp="yes" skip="7">.+(arem|areu)</token>
+                        <token postag="V.IF[12]P.." postag_regexp="yes" regexp="yes">.+(arem|areu)</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)a(rem|reu)" regexp_replace="$1à$2"/></suggestion> (passat en comptes de futur)?</message>
                 <short>Possible confusió</short>
                 <example correction="enviàrem">Ahir l'<marker>enviarem</marker>.</example>
                 <example correction="enviàrem">L'any passat l'<marker>enviarem</marker>.</example>
+                <example correction="deixàrem">Fa deu anys que <marker>deixarem</marker> la casa.</example>
                 <example>Demà l'enviarem</example>
             </rule>
         </rulegroup>
@@ -32436,18 +32447,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>van decidir fer-ne la seva residència permanent</example>
                 <example>diguem-ne la seva ànima</example>
             </rule>
-            <rule id="ADONARSEN_DE" name="'en' redundant: adonar-se'n de/que">
+        </rulegroup>
+        <rulegroup id="ADONARSEN_DE" name="'en' redundant: adonar-se'n de/que">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes" skip="1">'n|n'</token>
                     </marker>
                     <token inflected="yes">adonar</token>
-                    <token regexp="yes">de|que<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">de|que|d'<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>El pronom 'en' probablement és redundant.</message>
                 <short>Redundància</short>
                 <example correction="">Se<marker>'n</marker> va adonar de l'error.</example>
                 <example correction="">Se <marker>n'</marker>adonà que era un error.</example>
+                <example>Se'n va adonar de seguida</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">adonar</token>
+                        <token spacebefore="no"/>
+                        <token inflected="yes" spacebefore="no">en</token>
+                    </marker>
+                    <token regexp="yes">de|que|d'<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El pronom 'en' probablement és redundant.</message>
+                <suggestion>\1\2</suggestion>
+                <short>Redundància</short>
+                <example correction="adonar-se">Va <marker>adonar-se'n</marker> de l'error.</example>
+                <example correction="adonar-nos">Per a <marker>adonar-nos-en</marker> que és així.</example>
                 <example>Se'n va adonar de seguida</example>
             </rule>
         </rulegroup>
