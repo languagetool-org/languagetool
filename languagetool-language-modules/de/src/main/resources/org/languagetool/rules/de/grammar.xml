@@ -37303,7 +37303,7 @@ Andere Projekte</example>
                     <token regexp="yes">und|oder|&amp;</token>
                     <token>Mitglieder</token>
                 </pattern>
-                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um alle Geschlechter anzusprechen.</message>
                 <example correction="Mitglieder">Liebe <marker>Mitgliederinnen und Mitglieder</marker>, danke für eure Hilfe.</example>
             </rule>
             <rule>
@@ -37312,22 +37312,31 @@ Andere Projekte</example>
                     <token regexp="yes">und|oder|&amp;</token>
                     <token>Mitgliederinnen</token>
                 </pattern>
-                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um alle Geschlechter anzusprechen.</message>
                 <example correction="Mitglieder">Liebe <marker>Mitglieder und Mitgliederinnen</marker>, danke für eure Hilfe.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>Mitgliederinnen</token>
                 </pattern>
-                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um alle Geschlechter anzusprechen.</message>
                 <example correction="Mitglieder">Ich habe die <marker>Mitgliederinnen</marker> informiert.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>Mitgliederin</token>
                 </pattern>
-                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglied</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglied</suggestion> reicht daher aus, um alle Geschlechter anzusprechen.</message>
                 <example correction="Mitglied">Ich habe die <marker>Mitgliederin</marker> informiert.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Mitglieder</token>
+                    <token regexp="yes">[:\*/]</token>
+                    <token>innen</token>
+                </pattern>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglied</suggestion> reicht daher aus, um alle Geschlechter anzusprechen.</message>
+                <example correction="Mitglied">Ich habe die <marker>Mitglieder:innen</marker> informiert.</example>
             </rule>
         </rulegroup>
         <rule id="PERSONA_NON_GRATA" name="Persona non grata">
