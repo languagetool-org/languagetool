@@ -326,6 +326,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>ви в силу талісманів вірите?</example>
     </rule>
 
+    <rule id="nakazuvaty_karaty" name="Наказувати і карати">
+      <pattern>
+        <marker>
+          <token regexp="yes">наказувати|наказати
+            <exception scope="next">нічого</exception>
+            <exception scope="next" postag_regexp="yes" postag="verb.*inf.*"/>
+          </token>
+        </marker>
+        <token postag_regexp="yes" postag="(noun|adj).*v_rod.*">
+          <exception postag_regexp="yes" postag="(noun|adj).*v_dav.*"></exception>
+        </token>
+      </pattern>
+      <message>Правильно: <suggestion>карати</suggestion></message>
+      <example correction="карати"><marker>наказувати</marker> учня</example>
+      <example>наказувати учню</example>
+      <example>наказувати нічого не треба</example>
+      <example>наказувати піти</example>
+    </rule>
+
     <rule id="HVORITY_CHYM" name="Хворіти чим замість на що">
       <pattern>
         <token inflected="yes" regexp="yes">.*?хворі(ти|вши|ючи)</token>
@@ -2793,6 +2812,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>немовля</suggestion>, <suggestion>пригрудне дитя</suggestion>, <suggestion>пригрудча</suggestion></message>
       <example correction="немовля|пригрудне дитя|пригрудча">Чому <marker>грудна дитина</marker> плаче</example>
     </rule>
+
+    <rulegroup id="na_smertnomu_odri" name="На смертному одрі" default="off">
+      <rule>
+        <pattern>
+          <token regexp="yes">смертельному|смертному</token>
+          <token>одрі</token>
+        </pattern>
+        <message>Правильно: <suggestion>смертній постелі</suggestion>, <suggestion>Божій дорозі</suggestion></message>
+        <example correction="смертній постелі|Божій дорозі">він лежав на <marker>смертному одрі</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">смертельного|смертного</token>
+          <token>одра</token>
+        </pattern>
+        <message>Правильно: <suggestion>смертної постелі</suggestion>, <suggestion>Божої дороги</suggestion></message>
+        <example correction="смертної постелі|Божої дороги">він встав зі <marker>смертного одра</marker>.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="VID_KORKY_DO_KORKY" name="Від корки до корки">
       <pattern>
