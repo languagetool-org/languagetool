@@ -5149,11 +5149,19 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <!-- SOME EXTRA TAGGING -->
     <rulegroup id="letras_mayusculas" name="letras sueltas mayúsculas">
+        <antipattern>
+            <token regexp="yes">\p{Lu}+</token>
+            <token regexp="yes">\p{Lu}</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">\p{Lu}</token>
+            <token regexp="yes">\p{Lu}+</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
                 <marker>
-                    <token regexp="yes">\p{Lu}<exception postag="Y"/></token>
+                    <token regexp="yes">\p{Lu}</token>
                 </marker>
             </pattern>
             <disambig action="add">

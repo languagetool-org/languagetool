@@ -226,6 +226,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "VOSEO": return -40;
       case "MORFOLOGIK_RULE_ES": return -100;
       case "PHRASE_REPETITION": return -150;
+      case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
     }
     //STYLE is -50
