@@ -463,8 +463,8 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
-                        <exception regexp="yes">advertise|advertised|advertises|advertising|arose|braise|braises|chastise|merchandise|merchandised|merchandises|merchandising|misadvise|prise|prised|prises|prising|uprose</exception><!-- suppress_misspelled does not work with these verbs. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. -->
-                        </token>
+                        <exception regexp="yes">advertise|advertised|advertises|advertising|arose|braise|braises|chastise|merchandise|merchandised|merchandises|merchandising|misadvise|prise|prised|prises|prising|uprose|raised</exception><!-- suppress_misspelled does not work with these verbs. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. -->
+                    </token>
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
                 <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>? The spelling '\1' is also correct.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
@@ -491,8 +491,9 @@ USA
             <rule><!-- id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"> ~isable, ~isational, ~ised, ~ising -->
                 <pattern>
                     <token postag="JJ" regexp="yes">([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)
+                        <exception>raised</exception>
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
-                        </token>
+                    </token>
                 </pattern>
                 <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>? The spelling '\1' is also correct.</message>
                 <short>Oxford spelling: adjectives</short>
@@ -506,6 +507,7 @@ USA
                 <example>...as a parody of modern DJs' own soundbites and <marker>self-advertising</marker> pieces.</example>
                 <example>These words are always spelled with ~s (possibly some are AmE only): advisable, advised, advising, bruised, bruising, circumcised, circumcising, compromised, compromising, despisable, devised, devising, disenfranchised, disenfranchising, disguised, disguising, divisible, enfranchised, enfranchising, enterprising, excised, excising, exercisable, exercised, exercising, franchised, franchising, hair-raising, ill-advised, immunocompromised, immunocompromising, improvisational, improvised, improvising, inadvisable, incised, incising, indivisible, invisible, noncompromised, noncompromising, poised, poising, practised, practising, promised, promising, raisable, raised, raising, revised, revising, self-advertising, self-raising, self-rising, supervised, supervising, surprised, surprising, televised, televising, unadvertised, unadvisable, unadvised, unbruised, uncircumcised, uncompromised, uncompromising, undevised, undisguised, unenfranchised, unexcised, unexercised, unfranchised, unimprovised, unincised, unpoised, unpractised, unpromised, unraisable, unraised, unrevised, unsupervised, unsurprised, unsurprising, untelevised, well-advertised</example>
                 <example>For information about the <marker>Conference of Specialised Ministers</marker> refer to www.coe.int/en/web/cm/iguide-chapter6</example><!-- Refer to disambiguation.xml CONFERENCE_OF_SPECIALISED_MINISTERS -->
+                <example>I am also a Texan, Born and Raised.</example>
             </rule>
             <rule><!-- id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"> ~isably, ~isationally) -->
                 <pattern>
