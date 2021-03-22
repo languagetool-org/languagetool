@@ -424,16 +424,6 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="V ind.*"></disambig>
   </rule>
-  <rule id="FAIT_VERBE" name="fait, mis (verbe ind)">
-    <pattern>
-      <marker>
-        <token postag="V ind.*" postag_regexp="yes" regexp="yes">fait|mis<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous" regexp="yes">tas|ma</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
-      </marker>
-      <token min="0" max="4" postag="A"/>
-      <token postag="D.*" postag_regexp="yes"></token>
-    </pattern>
-    <disambig action="filter" postag="V ind.*"></disambig>
-  </rule>
   <rule id="DURE" name="dure (verbe)">
     <pattern>
       <marker>
@@ -2266,6 +2256,16 @@ RB => Règles Brutes
         <token regexp="yes">(\d+)?(m|cm|mm|diamètre|.*mètres?|haut|long)</token>
       </pattern>
       <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="V ind.*" postag_regexp="yes" regexp="yes">fait|mis<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous" regexp="yes">tas|ma</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+        </marker>
+        <token min="0" max="4" postag="A"/>
+        <token postag="D.*" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="filter" postag="V ind.*"></disambig>
     </rule>
   </rulegroup>
   <rule id="FORTE" name="forte">
