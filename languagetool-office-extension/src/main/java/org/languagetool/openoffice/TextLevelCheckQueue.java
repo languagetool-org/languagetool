@@ -319,7 +319,7 @@ public class TextLevelCheckQueue {
   private boolean testHeapSpace() {
     if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
       numSinceHeapTest = 0;
-      if (!multiDocHandler.runHeapSpaceTest()) {
+      if (!multiDocHandler.isEnoughHeapSpace()) {
         return false;
       }
     } else {

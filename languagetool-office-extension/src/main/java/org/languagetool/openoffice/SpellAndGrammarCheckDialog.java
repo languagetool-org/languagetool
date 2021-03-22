@@ -193,7 +193,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   public void nextError() {
     SingleDocument document = getCurrentDocument();
-    if (document == null) {
+    if (document == null || !documents.isEnoughHeapSpace()) {
       return;
     }
     XComponent xComponent = document.getXComponent();
@@ -1190,7 +1190,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           dialogX = p.x;
           dialogY = p.y;
           if (focusLost) {
-/*
+/*        TODO: Remove after tests
             if (debugMode) {
               MessageHandler.printToLogFile("Check Dialog: Window Focus gained: Event = " + e.paramString());
             }
@@ -1353,6 +1353,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * fill the elements of the dialog with the information of the match
      */
     private void gotoNextError(boolean startAtBegin) {
+      if (!documents.isEnoughHeapSpace()) {
+        closeDialog();
+        return;
+      }
       ignoreOnce.setEnabled(false);
       ignoreAll.setEnabled(false);
       deactivateRule.setEnabled(false);

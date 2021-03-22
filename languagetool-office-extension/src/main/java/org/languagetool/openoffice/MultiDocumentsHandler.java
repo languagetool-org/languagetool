@@ -1292,7 +1292,7 @@ public class MultiDocumentsHandler {
    * Change to single paragraph mode if not
    * return false if heap space is to small 
    */
-  public boolean runHeapSpaceTest() {
+  public boolean isEnoughHeapSpace() {
     if (OfficeTools.isHeapLimitReached()) {
       heapLimitReached = true;
       setConfigValues(config, langTool);
@@ -1312,7 +1312,7 @@ public class MultiDocumentsHandler {
   private void testHeapSpace() {
     if (!heapLimitReached && config.getNumParasToCheck() != 0) {
       if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
-        runHeapSpaceTest();
+        isEnoughHeapSpace();
         numSinceHeapTest = 0;
       } else {
         numSinceHeapTest++;
