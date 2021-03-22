@@ -121,9 +121,11 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   @Override
   protected boolean isPartOfWord(String testTokenText, String tokenText) {
     return (
+          testTokenText.length() > 2 && tokenText.length() > 2 &&
           (testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText)
           || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
           && (!isFalsePair(testTokenText, tokenText, "lang", "klang"))
+          && (!isFalsePair(testTokenText, tokenText, "Art", "Artefakt"))
           && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
           || testTokenText.length() > tokenText.length() + 3)
           || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
