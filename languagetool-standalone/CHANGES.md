@@ -9,6 +9,7 @@
 
 #### Catalan
   * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.14)
 
 #### English
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
@@ -21,7 +22,7 @@
 
 #### French
   * added and improved rules
-  
+
 #### Portuguese
   * added and improved rules
   * added words and POS data
