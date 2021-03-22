@@ -464,6 +464,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Simkarte", "SIM-Karte", rule, lt);
     assertFirstSuggestion("Pineingabe", "PIN-Eingabe", rule, lt);
     assertFirstSuggestion("carnivorischen", "karnivoren", rule, lt);
+    assertFirstSuggestion("Zaubererinnen", "Zauberinnen", rule, lt);
+    assertFirstSuggestion("erroriere", "eruiere", rule, lt);
+    assertFirstSuggestion("erroriert", "eruiert", rule, lt);
+    assertFirstSuggestion("Second-Hand-Shops", "Secondhandshops", rule, lt);
+    assertFirstSuggestion("mediterranischer", "mediterraner", rule, lt);
+    assertFirstSuggestion("unterschreibungsfähige", "unterschriftsfähige", rule, lt);
   }
 
   @Test
