@@ -9469,6 +9469,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="Y_E_O_U" name="e Italia; u Honduras">
             <rule>
+                <antipattern>
+                    <token>y</token>
+                    <token case_sensitive="yes">y</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>y<exception scope="previous">¿</exception></token>
@@ -9515,6 +9519,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="y">Agua <marker>e</marker> iones.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- probably a wrong repetition -->
+                    <token>o</token>
+                    <token>o</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>o</token>
