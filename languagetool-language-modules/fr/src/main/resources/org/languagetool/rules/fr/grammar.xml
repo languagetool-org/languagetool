@@ -38791,7 +38791,30 @@ though, and has since been slightly modified)-->
           <example>Je<marker>t</marker> avais dit de venir plus tôt.</example>
           <example>Ne <marker>t</marker> avises pas de sauter.</example>
       </rule>
+          <rule>
+              <pattern>
+                  <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+                  <marker>
+                      <token>ta</token>
+                  </marker>
+                  <token postag="V ppa.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Voulez-vous dire <suggestion>t'a</suggestion> ?</message>
+              <example correction="t'a">Il <marker>ta</marker> dit de faire tes devoirs.</example>
+          </rule>
       <rule>
+          <antipattern>
+              <token>t'</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes" regexp="yes" skip="-1">(?-i)^[aâeéèêioôœuy].*</token>
+              <token regexp="yes">plus|pas|jamais|rien|aucune?s?</token>
+          </antipattern>
+          <antipattern>
+              <token>t'</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes" regexp="yes" skip="-1">(?-i)^[aâeéèêioôœuy].*</token>
+              <token postag="M fin inte"/>
+          </antipattern>
           <antipattern>
               <token postag="[VDY].*|R pers suj.*|C coor|UNKNOWN" postag_regexp="yes"/>
               <token>t'</token>
@@ -38800,13 +38823,72 @@ though, and has since been slightly modified)-->
           </antipattern>
           <pattern>
               <marker>
-                  <token>t'<exception scope="previous">ne</exception></token>
+                  <token>t'<exception scope="previous" regexp="yes">ne|qui</exception></token>
                   <token regexp="yes" min="0" max="1">y|en</token>
-                  <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">(?-i)^[aâeéèêioôœuy].*</token>
+                  <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">(?-i)^[aâeéèêioôœuy].*
+                      <exception scope="next" postag="R pers suj.*" postag_regexp="yes"/>
+                      <exception scope="next" regexp="yes">que|qu'</exception>
+                  </token>
               </marker>
           </pattern>
           <message>Cette élision peut paraître familière. Voulez-vous écrire <suggestion>tu \2 \3</suggestion> ?</message>
           <example correction="Tu as"><marker>T'as</marker> fait tes devoirs.</example>
+          <example><marker>T'es</marker> qu'un menteur.</example>
+          <example><marker>T'as</marker> fait tes corvées ?</example>
+          <example><marker>T'as</marker> jamais vu cela !</example>
+          <example>Si je te connaissais mieux, peut-être <marker>t'aurais</marker>-je laissé entrer.</example>
+      </rule>
+      <rule>
+          <antipattern>
+              <token>t'</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes" regexp="yes" skip="-1">(?-i)^[aâeéèêioôœuy].*</token>
+              <token postag="M fin inte"/>
+          </antipattern>
+          <antipattern>
+              <token postag="[VDY].*|R pers suj.*|C coor|UNKNOWN" postag_regexp="yes"/>
+              <token>t'</token>
+              <token regexp="yes" min="0" max="1">y|en</token>
+              <token postag="V.* 2 s" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>t'<exception scope="previous" regexp="yes">ne|qui</exception></token>
+                  <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">(?-i)^[aâeéèêioôœuy].*
+                      <exception scope="next" postag="R pers suj.*" postag_regexp="yes"/></token>
+              </marker>
+              <token regexp="yes">plus|pas|jamais|rien|aucune?s?|qu'|que</token>
+          </pattern>
+          <message>Cette élision peut paraître familière. Voulez-vous écrire <suggestion>tu n'\2</suggestion> ?</message>
+          <example correction="Tu n'as"><marker>T'as</marker> jamais fait tes devoirs.</example>
+      </rule>
+      <rule>
+          <antipattern>
+              <token regexp="yes" skip="-1">quoi|quel(le)?s?|combien|comment|(pour)?quoi|quand|où|qu[ie]</token>
+              <token>t'</token>
+              <token postag="V.*" postag_regexp="yes" skip="-1"/>
+          </antipattern>
+          <antipattern>
+              <token>t'</token>
+              <token postag="V.*" postag_regexp="yes" skip="-1"/>
+              <token regexp="yes">plus|pas|jamais|rien|aucune?s?|non|quel(le)?s?|combien|comment|(pour)?quoi|quand|où</token>
+          </antipattern>
+          <antipattern>
+              <token>t'</token>
+              <token>es</token>
+              <token postag="N.*" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>t'</token>
+                  <token postag="V.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="R pers suj.*" postag_regexp="yes"/></token>
+              </marker>
+              <token postag="M fin inte"/>
+          </pattern>
+          <message>Cette élision peut paraître familière. Voulez-vous écrire <suggestion>as-tu</suggestion> ?</message>
+          <example correction="As-tu"><marker>T'as</marker> fait tes devoirs ?</example>
+          <example><marker>T'es</marker>-tu connecté ?</example>
+          <example>D'où viennent tous <marker>t'es</marker> habits ?</example>
       </rule>
   </rulegroup>
       <rulegroup id="CONFUSION_TU_AS" name="confusion tu as" default="temp_off">
