@@ -13716,6 +13716,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="fa_x_temps2" name="fa tres anys, molt de temps">
         <!--  segona passada de la regla: per a evitar les excepcions de Verbs
             |NP..SP.*  PI0CS000| -->
+        <antipattern>
+            <token>bon</token>
+            <token>dia</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">què|quant</exception></token>
@@ -16072,6 +16076,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="marca_passat" name="marca de passat (ahir, l'any passat...)">
         <rule>
+            <antipattern>
+                <token>com</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">any|mes|setmana|dècada</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes" inflected="yes">any|mes|setmana|dècada</token>
                 <marker>
@@ -16085,7 +16094,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">(despús-|abans-d')?ahir|antany</token>
+                    <token regexp="yes">(despús-|abans-d')?ahir|antany<exception scope="previous" regexp="yes">de|d'</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
