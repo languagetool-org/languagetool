@@ -67,6 +67,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
+  
+  private final Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -132,6 +134,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       int startPos = token.getStartPos();
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
+      
+      // Tokens with no letters cannot have spelling errors. So ignore them. 
+      Matcher mHasNoLetter = pHasNoLetter.matcher(word);
+      if (mHasNoLetter.matches()) {
+        continue;
+      }
       
       String normalizedWord = StringTools.normalizeNFKC(word);
       if (word.length() > 1 && !word.equals(normalizedWord) && !normalizedWord.contains(" ")
