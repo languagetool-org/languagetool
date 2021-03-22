@@ -3390,6 +3390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="unes tres"><marker>uns tres</marker> o quatre xiquetes</example>
                 <example correction="uns mitjans"><marker>un mitjans</marker> públics.</example>
                 <example correction="uns alts"><marker>un alts</marker> càrrecs públics.</example>
+                <example correction="un nou">la transició cap a <marker>una nou</marker> tipus d'escultura</example>
             </rule>
             <rule>
                 <pattern>
@@ -10164,6 +10165,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>per</token>
                     <token>tant</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="LOC_ADV" postag_regexp="yes" regexp="yes">fa|feia</token>
+                    <token>tant</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tant<exception postag=".*LOC.*|allow_tant" postag_regexp="yes"/></token>
@@ -10179,6 +10184,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Menja tan de pressa!</example>
                 <example>De tant en tant una mica.</example>
                 <example>Tant a la llarga com a la curta.</example>
+                <example>Fa tant temps que estem junts.</example>
+                <example>Fa tant de temps que estem junts.</example>
             </rule>
             <rule>
                 <!-- CASOS DUBTOSOS: tan de gust, tan de grat, tan de cop (depenen del significat) -->
@@ -12316,6 +12323,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">fixar<exception postag="_reflexiu"/></token>
             </antipattern>
             <antipattern>
+                <and>
+                    <token inflected="yes">confiar</token>
+                    <token postag="_reflexiu"/>
+                </and>
+            </antipattern>
+            <antipattern>
                 <token>hi</token>
                 <token min="0" postag="V.*" postag_regexp="yes"/>
                 <token inflected="yes">confiar</token>
@@ -12341,6 +12354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Fixar amb claredat els principis educatius.</example>
             <example>Hom la fixa amb claus al casc.</example>
             <example>La reunió ha servit per a fixar amb l'Ajuntament les zones de construcció.</example>
+            <example>Ajuda que les persones es confiïn amb el seu interlocutor.</example>
         </rule>
         <rule id="DELEGAR_EN" name="delegar *(en)">
             <pattern>
@@ -23321,6 +23335,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ACCENTUACIO_FUTUR_PASSAT" name="confusió futur/passat: enviarem/enviàrem">
+            <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" inflected="yes">aviat|prompte|prest|demà|despús-demà|futur</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes"  skip="-1">aviat|prompte|prest|demà|despús-demà|futur</token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -23334,6 +23356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pensàrem">Hi <marker>pensarem</marker> la setmana passada.</example>
                 <example correction="Deixàrem"><marker>Deixarem</marker> de pensar-hi en el passat.</example>
                 <example>Hi pensarem demà.</example>
+                <example>Aviat penjarem les fotos d'ahir a la tarda.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23347,7 +23370,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="enviàrem">Ahir l'<marker>enviarem</marker>.</example>
                 <example correction="enviàrem">L'any passat l'<marker>enviarem</marker>.</example>
                 <example correction="deixàrem">Fa deu anys que <marker>deixarem</marker> la casa.</example>
+                <example correction="enviàrem">Fa alguns dies <marker>enviarem</marker> un comunicat.</example>
                 <example>Demà l'enviarem</example>
+                <example>Si fa bon dia, alguns ens quedarem a dinar per allà.</example>
+                <example>Com l'any passat, en aquest espai trobareu actuacions en directe de grans músics.</example>
             </rule>
         </rulegroup>
         <rule id="ACCENTUACIO_SUBJUNTIU" name="consideres/considerés">
@@ -46249,6 +46275,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <rule id="VIGIA" name="*vigia/guaita">
+            <antipattern>
+                <token>que</token>
+                <token>vigia</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">vigia|vigies</token>
             </pattern>
@@ -46256,6 +46286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" regexp_match="(?iu)vigi" regexp_replace="sentinell" case_conversion="preserve"/></suggestion>
             <suggestion><match no="1" regexp_match="(?iu)vigi" regexp_replace="talai" case_conversion="preserve"/></suggestion>
             <example correction="guaita|sentinella|talaia">A la torre hi havia un <marker>vigia</marker>.</example>
+            <example>El dret vigent a les valls i el que vigia a Catalunya.</example>
         </rule>
         <rule id="SANGRIA" name="sangria/sagnia">
             <pattern>
