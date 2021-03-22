@@ -570,7 +570,7 @@ public class MorfologikCatalanSpellerRuleTest {
         //special chars
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("33° 5′ 40″ N i 32° 59′ 0″ E.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
-        //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Fa 5·10-³ metres.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Fa 5·10-³ metres.")).length);
         
     }
 }

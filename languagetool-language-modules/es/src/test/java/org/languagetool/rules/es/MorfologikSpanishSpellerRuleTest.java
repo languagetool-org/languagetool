@@ -123,12 +123,12 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("💛"));
     assertEquals(0, matches.length);
-    //matches = rule.match(langTool.getAnalyzedSentence("✈️"));
-    //assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("✈️"));
+    assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("🧡🚴"));
     assertEquals(0, matches.length);
-    //matches = rule.match(langTool.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
-    //assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
+    assertEquals(0, matches.length);
     
     // Combining diacritics
     matches = rule.match(langTool.getAnalyzedSentence("publicacio\u0301n"));
@@ -147,7 +147,7 @@ public class MorfologikSpanishSpellerRuleTest {
     //special chars
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("33° 5′ 40″ N; 32° 59′ 0″ E.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
-    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("5·10-³ metros.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("5·10-³ metros.")).length);
     
   }
 
