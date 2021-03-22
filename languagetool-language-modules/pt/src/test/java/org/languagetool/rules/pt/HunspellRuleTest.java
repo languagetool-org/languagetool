@@ -41,5 +41,17 @@ public class HunspellRuleTest {
     assertEquals("familiar", matches[0].getSuggestedReplacements().get(1));
     
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Covid-19, COVID-19, covid-19.")).length);
+    
+    matches = rule.match(langTool.getAnalyzedSentence("eu ja fiz isso.")); 
+    assertEquals(1, matches.length);
+    assertEquals("já", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("eu so")); 
+    assertEquals(1, matches.length);
+    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("é so")); 
+    assertEquals(1, matches.length);
+    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
   }
 }
