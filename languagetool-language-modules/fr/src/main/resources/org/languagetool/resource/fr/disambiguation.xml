@@ -562,6 +562,16 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="N.*"></disambig>
   </rule>
+  <rule id="AFFINE" name="affine (verbe)">
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes">affine</token>
+      </marker>     
+      <token min="0" postag="A"/>
+      <token postag="[JNDC].*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="remove" postag="[NJ].*"></disambig>
+  </rule>
   <rule id="DIPOSE" name="dispose (not adjective)">
     <antipattern>
       <token>fraîche</token>
@@ -1266,6 +1276,13 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filterall"/>
   </rule>
+  <rule id="FAIRE_INF" name="faire + inf">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+      <token postag="V inf"/>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
   <rule name="en pensant" id="EN_PENSANT">
     <pattern>
       <marker>
@@ -1563,7 +1580,8 @@ RB => Règles Brutes
           <exception postag="P"/></token>
         <token postag="N.*|J.*|V ppa.*" postag_regexp="yes">
           <exception regexp="yes">a|dans|envers|si|fut|plus|avoir|fait</exception>
-          <exception postag="K"/></token>
+          <exception postag="K"/>
+          <exception postag="J e sp"/></token>
       </unify>
     </pattern>
     <disambig action="filterall"/>
@@ -1725,6 +1743,16 @@ RB => Règles Brutes
     <disambig>
       <match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/>
     </disambig>
+  </rule>
+  <rule name="assez bien + adj" id="ASSEZ_BIEN_ADJ">
+    <pattern>
+      <marker>
+        <token postag="A" regexp="yes">assez|encore</token>
+        <token postag="A">bien</token>  
+      </marker>
+      <token postag="J .*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filterall"/>
   </rule>
   <rulegroup name="RP : Être + adj ambigu" id="RP-ETRE_ADJ_AMBIG">
     <rule>
@@ -2061,6 +2089,10 @@ RB => Règles Brutes
       <token inflected="yes">tout</token>
       <token postag="N.*" postag_regexp="yes"/>
     </antipattern>
+    <antipattern>
+      <token>tout</token>
+      <token regexp="yes">de|d'|des</token>
+    </antipattern>
     <pattern>
       <marker>
         <token postag="A">
@@ -2265,6 +2297,15 @@ RB => Règles Brutes
       <disambig action="filter" postag="N m s"/>
     </rule>
     <rule>
+      <pattern>
+        <token>ça</token>
+        <marker>
+          <token>fait</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule>
       <!-- TODO: generalize -->
       <pattern>
         <token regexp="yes">une?</token>
@@ -2318,10 +2359,10 @@ RB => Règles Brutes
   <rule id="BIEN" name="bien">
     <pattern>
       <marker>
-        <token>bien</token>
+        <token postag="A">bien</token>
       </marker>
     </pattern>
-    <disambig postag="A"/>
+    <disambig action="filter" postag="A"/>
   </rule>
   <rule id="UN_DES" name="un des">
     <pattern>

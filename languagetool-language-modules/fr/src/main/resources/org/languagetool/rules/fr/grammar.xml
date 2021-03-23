@@ -431,7 +431,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="La mi"><marker>Le mi</marker>-2020.</example>
       </rule>
     </rulegroup>
-    <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordance adjectif après les noms" default="temp_off">
+    <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
       <antipattern>
         <!-- better disambiguation of "V ppr" needed -->
         <token postag="V ppr"/>
@@ -485,6 +485,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <token>pourvu</token>
         <token regexp="yes">que|qu'</token>
+      </antipattern>
+      <antipattern>
+        <!-- TODO: new rule for agreement subject + avoir l'air + adjective -->
+        <token inflected="yes">avoir</token>
+        <token>l'</token>
+        <token>air</token>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
         <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp"/><exception regexp="yes">\p{Lu}.*|passant</exception></token>
@@ -562,13 +569,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="actif">Possède tous deux le même principe <marker>active</marker></example>
       <example correction="actuel">le championnat du monde <marker>actuelle</marker></example>
       <example>la plupart des smartphones actuels</example>
-        
+      <example>La Bible catholique contient tout de la Bible protestante additionné de plusieurs autres livres.</example>
+      <example>Le programme en 25 points adopté le 24 février 1920.</example>
+      <example>S'est dit aussi d'une disposition des cheveux adoptée aux XVIIIe et XIXe siècles.</example>
+      <example>Lettre de Pierre Charnier adressée à Aubertier.</example>
+      <example correction="adversaire">Il n'a pas eu de vrai <marker>adversaires</marker>.</example> <!-- better done by a rule ADJ + NOUN -->
+      <example>un affineur affine le fromage</example>
+      <example>Ils ont l'air américains.</example>
+      <example>Elle a l'air anxieuse.</example>
+      <example>La nourriture a l'air appétissante.</example>
+      <example>Ça fait belle lurette que ça ne m'était pas arrivé.</example>
+      <example>Son sourire la fit paraître encore plus belle.</example>
+      <example>C'est le combat du bien et du mal affrontés.</example>
+      <example correction="affrontés">C'est le combat du bien et du mal <marker>affrontées</marker>.</example>
       <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
-        ** Appostions **
+        ** Appositions **
         Honoraires inclus charge acquéreur
         la direction avec les autres monnaies actif 
+        Site de rencontre adultes mariés.
         -->
       
       
