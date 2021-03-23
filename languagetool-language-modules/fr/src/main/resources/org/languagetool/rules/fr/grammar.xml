@@ -435,10 +435,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <!-- better disambiguation of "V ppr" needed -->
         <token postag="V ppr"/>
-        <token postag="[AP]|[JD] .*|P\+.*" postag_regexp="yes"/> <!-- PARA tags? -->
+        <token postag="[AP]|[JD] .*|P\+.*|C sub" postag_regexp="yes"/> <!-- PARA tags? -->
       </antipattern>
       <antipattern>
         <token inflected="yes">seul</token>
+      </antipattern>
+      <antipattern>
+        <!-- ordinals -->
+        <token regexp="yes">\de</token>
       </antipattern>
       <antipattern>
         <token regexp="yes">&jours_semaine;|&mois_annee;</token>
@@ -447,6 +451,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <token>jours</token>
         <token>ouvrés</token>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token>pendant</token>
+        <token>des</token>
+        <token regexp="yes" inflected="yes">&unites_temps;</token>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token>en</token>
+        <token>quelque</token>
+        <token>sort</token>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
@@ -461,7 +477,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
-        <token>une</token>
+        <token regexp="yes">la|une|plusieurs</token>
+        <token min="0" regexp="yes">première|seconde|.*ème</token>
         <token>fois</token>
         <token postag="A" min="0" max="3"/>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
@@ -494,7 +511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
-        <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp"/><exception regexp="yes">\p{Lu}.*|passant</exception></token>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp"/><exception regexp="yes">\p{Lu}.*|passant|allant|approchant</exception></token>
       </pattern>
       <filter class="org.languagetool.rules.fr.PostponedAdjectiveConcordanceFilter" args="key:value"/>
       <message>Vérifiez la concordance de «\1» avec les noms précédents.</message>
@@ -574,6 +591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>S'est dit aussi d'une disposition des cheveux adoptée aux XVIIIe et XIXe siècles.</example>
       <example>Lettre de Pierre Charnier adressée à Aubertier.</example>
       <example correction="adversaire">Il n'a pas eu de vrai <marker>adversaires</marker>.</example> <!-- better done by a rule ADJ + NOUN -->
+      <example correction="amis">Ce sont de bons <marker>amies</marker> à nous.</example> <!-- better done by a rule ADJ + NOUN -->
       <example>un affineur affine le fromage</example>
       <example>Ils ont l'air américains.</example>
       <example>Elle a l'air anxieuse.</example>
@@ -582,6 +600,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Son sourire la fit paraître encore plus belle.</example>
       <example>C'est le combat du bien et du mal affrontés.</example>
       <example correction="affrontés">C'est le combat du bien et du mal <marker>affrontées</marker>.</example>
+      <example>Comme les eaux du Danube scintillaient au loin doucement agitées.</example>
+      <example>Un prix d'entrée amical.</example>
+      <example correction="amical|amicale">Un prix d'entrée <marker>amicaux</marker>.</example>
+      <example correction="amical|amicale">Un prix d'entrée <marker>amicales</marker>.</example>
+      <example>Le temple a été plusieurs fois agrandi et réaménagé.</example>
+      <example>Se montre alors très agressif.</example>
+      <example>Reste alitée !</example>
+      <example>Doit se contenter d'une éducation au mariage agrémentée de talents décoratifs.</example>
+      <example>Raoul dispose d'une connaissance profonde des cultures allemande, française, marocaine, ivoirienne, béninoise, nigériane, etc.</example>
+      <example>Il voit maintenant ses chances d'être utilisé dans la crise contemporaine très amoindries.</example>
+      <example>Marie avait été pendant des années amoureuse de Thomas.</example>
+      <example>L'une de ces routes amène à la station.</example>
+      <example>Les femelles non appariées sont rares.</example>
+      <example>se découvre le pouvoir d'accélérer les molécules appelé aussi « combustion moléculaire »</example>
+      <example>Frais de déménagement applicables et payables.</example>
+      <example>La série originelle autour de quatre sœurs apprenant qu'elles ont des pouvoirs surnaturels.</example>
+      <example>Les vacances approchant, nous avons commencé à faire des projets.</example>
+      <example>se sont tour à tour appropriés la scène</example>
+      <example>que l'ombudsman de la CCN juge appropriées</example>
+      <example>Stan a été une première fois appréhendé</example>
       <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.

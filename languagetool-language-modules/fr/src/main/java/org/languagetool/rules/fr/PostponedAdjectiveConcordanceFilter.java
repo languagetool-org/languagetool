@@ -109,11 +109,11 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern LOC_ADV = Pattern.compile("A");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("A");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("et|ou|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("Y|J .*|N .*|D .*|P.*|V ppa .*|M nonfin|UNKNOWN|Z.*");
+  private static final Pattern KEEP_COUNT = Pattern.compile("Y|J .*|N .*|D .*|P.*|V ppa .*|M nonfin|UNKNOWN|Z.*|V.* inf");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|et|ou|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("P");
-  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|des|du|à|aux|en|dans|sur|entre|par|pour|avec|sans|contre|comme"); //???
+  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("d'|de|des|du|à|au|aux|en|dans|sur|entre|par|pour|avec|sans|contre|comme"); //???
   private static final Pattern VERB = Pattern.compile("V.* (inf|ind|sub|con|ppr|imp).*"); // Any verb that is not V ppa
   private static final Pattern GV = Pattern.compile("_GV_");
   
@@ -127,10 +127,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-    if (match.getSentence().getText().toString().contains("affrontées")) {
-      int i=0;
-      i++;
-    }
+//    if (match.getSentence().getText().toString().contains("amicaux")) {
+//      int i=0;
+//      i++;
+//    }
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
     int j;
