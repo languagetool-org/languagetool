@@ -156,6 +156,53 @@ regexp case-insensitive maken : (?i)
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
+
+		<rulegroup id="PIJLEN" name="-&gt; (→)">
+			<rule>
+					<pattern>
+						<token negate="yes">&lt;</token>
+						<marker>
+							<token regexp="yes">(\-|=){1,2}</token>
+							<token>&gt;</token>
+						</marker>
+					</pattern>
+					<message>Wilt u een pijl plaatsen?</message>
+					<suggestion>→</suggestion>
+					<suggestion>⇾</suggestion>
+					<suggestion>⇉</suggestion>
+					<suggestion>⇒</suggestion>
+					<suggestion>⇨</suggestion>
+					<suggestion>⇛</suggestion>
+					<example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Eerste punt</example>
+			</rule>
+			<rule>
+					<antipattern>
+						<token>&lt;</token>
+						<token regexp="yes">(-|=){1,2}</token>
+						<token>&gt;</token>
+					</antipattern>
+					<pattern>
+						<marker>
+							<token>&lt;</token>
+							<token regexp="yes">(-|=){1,2}</token>
+						</marker>
+						<token/>
+					</pattern>
+					<message>Wilet u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+					<example>A ← B</example>
+					<example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+			</rule>
+			<rule>
+					<pattern>
+						<token>&lt;</token>
+						<token regexp="yes">\-|=</token>
+						<token>&gt;</token>
+					</pattern>
+					<message>Wilt u een pijl plaatsen? Suggesties: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
+					<example>A ⇔ B</example>
+					<example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+			</rule>
+		</rulegroup>		
 		
 		<rulegroup id="BE" name="be kan van alles zijn...">
 			<antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
@@ -17089,7 +17136,8 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
-		
+
+		  
 		<rulegroup id="MUNTEENHEID_SPATIE" name="Na een munteenheid hoort een spatie">
 			<rule>
 				<pattern>
@@ -30056,7 +30104,7 @@ steenwijk;Steenwijk
 		</rule>
 		</rulegroup>
 		-->
-<!-- ############################################ TODO 
+
 		<rulegroup id="DE_ORDENDE" name="De ordende/de geordende" default="temp_off">
 			<rule>
 				<pattern>
@@ -30071,7 +30119,7 @@ steenwijk;Steenwijk
 				<example correction="geordende|ordenende">Ik zie de <marker>ordende</marker> kast.</example>
 			</rule>
 		</rulegroup>
-		-->
+
 		<rulegroup id="WOORD_MET_UNDERSCORE" name="Een woord met een underscore">
 			<rule>
 				<!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
