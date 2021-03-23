@@ -445,6 +445,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">dernier|prochain</token>
       </antipattern>
       <antipattern>
+        <token>jours</token>
+        <token>ouvrés</token>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
         <token postag="D.*" postag_regexp="yes"/>
         <token regexp="yes" inflected="yes">&unites_temps;</token>
         <token regexp="yes">plus|mois</token>
@@ -458,7 +463,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <token>une</token>
         <token>fois</token>
+        <token postag="A" min="0" max="3"/>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token>une</token>
+        <token min="0">large</token>
+        <token>majorité</token>
       </antipattern>
       <antipattern>
         <unify>
@@ -483,6 +494,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="suivante">La réunion <marker>suivant</marker>.</example>
       <example correction="blanc|blanche">La maison du village <marker>blanches</marker>.</example>
       <example correction="suivie">La rencontre <marker>suivi</marker> d'un repas.</example>
+      <example correction="achetée">utiliser de l'encre de seiche <marker>acheté</marker> en poudre</example> <!-- both nouns are fem sg-->
       <example>Introduire le mot de passe chiffré de la réunion suivi de dièse.</example>
       <example>La maison du village blanc.</example>
       <example>La maison du village blanche.</example>
@@ -538,6 +550,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Son action fait encore des vagues dans la société japonaise.</example>
       <example>Ma mère fait souvent des tartes aux pommes pour nous.</example>
       <example>Ma visseuse fait des bruits bizarres.</example>
+      <example>Mais une virée à moto pourtant anodine fait tout basculer.</example>
+      <example>Le sens moral ou la conscience fait tout autant partie de l'homme que sa jambe ou son bras.</example>
+      <example>Pour quelle raison êtes-vous de nouveau absente ?</example>
+      <example>C'est-à-dire beaucoup plus accessibles.</example>
+      <example>C'est une espèce robuste une fois bien acclimaté.</example>
+      <example>étaient en large majorité acquises au protestantisme</example>
+      <example>Kitahara demeure actif.</example>
+      <example correction="belle">Une demeure <marker>belles</marker>.</example>
+      <example correction="actif">Le même principe <marker>active</marker></example>
+      <example correction="actif">Possède tous deux le même principe <marker>active</marker></example>
+      <example correction="actuel">le championnat du monde <marker>actuelle</marker></example>
+      <example>la plupart des smartphones actuels</example>
+        
+      <!-- 
+        ** Agreement with the subject **
+        Elle alla au procès accusée du meurtre de son mari.
+        ** Appostions **
+        Honoraires inclus charge acquéreur
+        la direction avec les autres monnaies actif 
+        -->
+      
+      
     </rule>
   </category>
   <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -36456,16 +36490,11 @@ though, and has since been slightly modified)-->
               <pattern>
                   <marker>
                       <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
-                      <token>c'</token>
-                      <token>est</token>
-                      <token>-</token>
-                      <token>à</token>
-                      <token>-</token>
-                      <token>dire</token>
+                      <token>c'est-à-dire</token>
                   </marker>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
-              <suggestion>\1, \2\3\4\5\6\7</suggestion>
+              <suggestion>\1, \2</suggestion>
               <example correction="temps, c'est-à-dire">Il ne réagit pas au <marker>temps c'est-à-dire</marker> aux saisons qui passent.</example>
           </rule>
           <rule>

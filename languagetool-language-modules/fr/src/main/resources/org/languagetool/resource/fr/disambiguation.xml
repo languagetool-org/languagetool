@@ -433,28 +433,6 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="V ind.*"></disambig>
   </rule>
-  <rule id="DEVINS" name="devins (verbe)">
-    <pattern>
-      <marker>
-        <token>devins</token>
-      </marker>      
-      <token postag="[JND].*" postag_regexp="yes"/>
-    </pattern>
-    <disambig action="remove" postag="N.*"></disambig>
-  </rule>
-  <rule id="DIPOSE" name="dispose (not adjective)">
-    <antipattern>
-      <token>fraîche</token>
-      <token>et</token>
-      <token>dispose</token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <token postag="V.*" postag_regexp="yes">dispose</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="J .*"></disambig>
-  </rule>
   <rule id="RIEN" name="rien">
     <antipattern>
       <token regexp="yes">un|le</token>
@@ -575,6 +553,32 @@ RB => Règles Brutes
       <disambig action="remove" postag="V.* (imp|sub|ind) .*"/>
     </rule>
   </rulegroup>
+  <rule id="DEVINS" name="devins (verbe)">
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes">devins</token>
+      </marker>      
+      <token postag="[JND].*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="remove" postag="N.*"></disambig>
+  </rule>
+  <rule id="DIPOSE" name="dispose (not adjective)">
+    <antipattern>
+      <token>fraîche</token>
+      <token>et</token>
+      <token>dispose</token>
+    </antipattern>
+    <antipattern>
+      <token postag="D f s"/>
+      <token>demeure</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" regexp="yes">dispose|demeure</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="[JN] .*"></disambig>
+  </rule>
   <rulegroup name="été (nom)" id="ETE">
     <rule>
       <pattern>
@@ -609,15 +613,29 @@ RB => Règles Brutes
       <marker>
         <token>tous</token>
         <token>les</token>
-        <token>deux</token>
+        <token regexp="yes">deux|trois|quatre|cinq</token>
       </marker>
       <token>
         <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
     </pattern>
     <disambig action="replace">
-      <wd lemma="tous les deux" pos="R m s"/>
-      <wd lemma="tous les deux" pos="R m s"/>
-      <wd lemma="tous les deux" pos="R m s"/>
+      <wd lemma="tous les deux" pos="R m p"/>
+      <wd lemma="tous les deux" pos="R m p"/>
+      <wd lemma="tous les deux" pos="R m p"/>
+    </disambig>
+  </rule>
+  <rule id="TOUS_DEUX" name="tous deux (determiner / pronoun)">
+    <pattern>
+      <marker>
+        <token>tous</token>
+        <token regexp="yes">deux|trois|quatre|cinq</token>
+      </marker>
+      <token>
+        <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+    </pattern>
+    <disambig action="replace">
+      <wd lemma="tous deux" pos="R m p"/>
+      <wd lemma="tous deux" pos="R m p"/>
     </disambig>
   </rule>
   <rule name="quelque chose" id="QUELQUE_CHOSE">
@@ -1540,7 +1558,7 @@ RB => Règles Brutes
       <unify>
         <feature id="number"/>
         <feature id="gender"/>
-        <token postag="D.*" postag_regexp="yes">
+        <token postag="(P\+)?D.*" postag_regexp="yes">
           <exception>même</exception>
           <exception postag="P"/></token>
         <token postag="N.*|J.*|V ppa.*" postag_regexp="yes">
@@ -2256,6 +2274,27 @@ RB => Règles Brutes
         <token regexp="yes">(\d+)?(m|cm|mm|diamètre|.*mètres?|haut|long)</token>
       </pattern>
       <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule>
+      <!-- fait partie, fait peur -->
+      <pattern>
+        <marker>
+          <token postag="V ind.*" postag_regexp="yes">fait<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous" regexp="yes">tas|ma</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+        </marker>
+        <token min="0" max="4" postag="A|R.*" postag_regexp="yes"/>
+        <token regexp="yes">partie|peur</token>
+      </pattern>
+      <disambig action="filter" postag="V ind.*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="V ind.*" postag_regexp="yes">fait<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous" regexp="yes">tas|ma</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+        </marker>
+        <token min="0" max="4" postag="A|R.*" postag_regexp="yes"/>
+        <token postag="V.* inf.*" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="filter" postag="V ind.*"></disambig>
     </rule>
     <rule>
       <pattern>
