@@ -32,6 +32,11 @@
   * added and improved rules
   * updated dictionary (spanish-pos-dict-1.1)
 
+#### Ukrainian
+  * over 6000 new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
+
 
 ## 5.2 (released 2020-12-29)
 
