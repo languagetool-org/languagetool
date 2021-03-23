@@ -36677,6 +36677,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="MES_ADJ_COMPARATIU" name="*més inferior/més baix" default="temp_off">
+            <antipattern>
+                <token>a</token>
+                <token>més</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>més</token>
+                    <token>inferior</token>
+                </pattern>
+                <message>Expressió inadequada. "Inferior" és un adjectiu comparatiu "més baix".</message>
+                <suggestion>inferior</suggestion>
+                <suggestion>més baix</suggestion>
+                <example correction="inferior|més baix">El resultat és <marker>més inferior</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>més</token>
+                    <token>superior</token>
+                </pattern>
+                <message>Expressió inadequada. "Superior" és un adjectiu comparatiu "més alt".</message>
+                <suggestion>superior</suggestion>
+                <suggestion>més alt</suggestion>
+                <example correction="superior|més alt">El resultat és <marker>més superior</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>més<exception scope="previous">com</exception></token>
+                    <token>millor</token>
+                </pattern>
+                <message>Expressió inadequada. "Millor" és un adjectiu comparatiu "més bo".</message>
+                <suggestion>millor</suggestion>
+                <suggestion>més bo</suggestion>
+                <example correction="millor|més bo">El resultat és <marker>més millor</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>més</token>
+                    <token>pitjor</token>
+                </pattern>
+                <message>Expressió inadequada. "Pitjor" és un adjectiu comparatiu "més dolent".</message>
+                <suggestion>pitjor</suggestion>
+                <suggestion>més dolent</suggestion>
+                <suggestion>més roí</suggestion>
+                <example correction="pitjor|més dolent|més roí">El resultat és <marker>més pitjor</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_BREUS" name="en breus">
             <pattern>
                 <token>en</token>
