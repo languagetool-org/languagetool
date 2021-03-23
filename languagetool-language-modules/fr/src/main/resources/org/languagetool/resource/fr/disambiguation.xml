@@ -1306,7 +1306,7 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <marker>
-          <token inflected="yes">avoir</token>
+          <token inflected="yes" regexp="yes">avoir|rester</token>
         </marker>
         <token min="0" max="3" postag="A|R.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">un|ce|plusieurs</exception></token>
         <token postag="V.* ppa .*" postag_regexp="yes"/>
@@ -1390,7 +1390,7 @@ RB => Règles Brutes
         <token postag="D.*" postag_regexp="yes"/>
         <token postag="J.*" postag_regexp="yes"/>
         <token postag="N.*" postag_regexp="yes">
-          <exception regexp="yes">dans|envers|mais|plus</exception>
+          <exception regexp="yes">dans|envers|mais|plus|non</exception>
           <exception inflected="yes" regexp="yes">avoir|être</exception></token>
       </unify>
     </pattern>
@@ -1961,6 +1961,16 @@ RB => Règles Brutes
       <disambig action="filter" postag="V.* (imp|ppr).*"/>
     </rule>
   </rulegroup>
+  <rule id="SE_VERB" name="se montre">
+      <pattern>
+        <token postag="R pers.*" postag_regexp="yes">
+          <exception regexp="yes">-.*</exception></token>
+        <marker>
+          <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+  </rule>
   <rulegroup id="not_imperative" name="not imperative">
     <rule>
       <pattern>
@@ -2090,13 +2100,13 @@ RB => Règles Brutes
       <token postag="N.*" postag_regexp="yes"/>
     </antipattern>
     <antipattern>
-      <token>tout</token>
+      <token regexp="yes">tout|frais</token>
       <token regexp="yes">de|d'|des</token>
     </antipattern>
     <pattern>
       <marker>
         <token postag="A">
-          <exception regexp="yes">causa|puis|soit|comme|si</exception></token>
+          <exception regexp="yes">causa|puis|soit|comme|si|frais</exception></token>
       </marker>
     </pattern>
     <disambig postag="A"/>
@@ -2275,6 +2285,44 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D f p"/>
   </rule>-->
+  <rule id="TOMBE" name="tombe (verb)">
+    <antipattern>
+      <token postag="D f s"/>
+      <token>tombe</token>
+    </antipattern>
+    <antipattern>
+      <token>tombe</token>
+      <token regexp="yes">de|d'|du</token>
+    </antipattern>
+    <pattern>
+      <token postag="V.*" postag_regexp="yes">tombe</token>
+    </pattern>
+    <disambig action="remove" postag="N f s"></disambig>
+  </rule>
+  <rule id="JUGE" name="juge (verb)">
+    <antipattern>
+      <token postag="D m s"/>
+      <token>juge</token>
+    </antipattern>
+    <antipattern>
+      <token>juge</token>
+      <token regexp="yes">de|d'|du</token>
+    </antipattern>
+    <pattern>
+      <token postag="V.*" postag_regexp="yes">juge</token>
+    </pattern>
+    <disambig action="remove" postag="N [em] s"></disambig>
+  </rule>
+  <rule id="AMENE" name="amène">
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes">amène</token>
+      </marker>
+      <token min="0">à</token>
+      <token postag="(P\+)*D.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="remove" postag="J e s"></disambig>
+  </rule>
   <rulegroup id="FAIT" name="fait">
     <!-- TODO: "le fait" is ambiguous -->
     <rule>
@@ -2910,6 +2958,26 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="Z e sp"/>
   </rule>
+  <rulegroup id="NOM_S_SP" name="nom s/sp">
+    <rule>
+      <pattern>
+        <token postag="D m s"/>
+        <marker>
+          <token postag="N m sp">prix</token>  
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="D [me] p" regexp="yes"/>
+        <marker>
+          <token postag="N m sp">prix</token>  
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="N m p"/>
+    </rule>
+  </rulegroup>
   <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
     <pattern>
       <!-- chrome://, ftp://, file:// -->
