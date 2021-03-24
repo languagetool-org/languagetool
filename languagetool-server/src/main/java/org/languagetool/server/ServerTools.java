@@ -145,7 +145,7 @@ final class ServerTools {
       } else if (params.get("password") != null) {
         return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
       } else {
-        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' (recommended) or 'password'");
+        throw new IllegalArgumentException("With 'username' set, you also need to specify 'apiKey'");
       }
     } else {
       if (params.get("apiKey") != null) {
