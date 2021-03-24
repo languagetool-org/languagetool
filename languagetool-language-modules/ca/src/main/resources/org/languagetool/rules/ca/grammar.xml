@@ -23341,7 +23341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">aviat|prompte|prest|demà|despús-demà|futur</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes"  skip="-1">aviat|prompte|prest|demà|despús-demà|futur</token>
+                <token regexp="yes" inflected="yes" skip="-1">aviat|prompte|prest|demà|despús-demà|futur</token>
                 <token postag="SENT_END"/>
             </antipattern>
             <rule>
@@ -26112,6 +26112,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Cal apostrofar.</message>
                 <suggestion>per l'\3</suggestion>
                 <example correction="Per l'statu"><marker>Pel statu</marker> quo</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>a</token>
+                    <marker>
+                        <token>l'</token>
+                        <token skip="2">una</token>
+                    </marker>
+                    <token regexp="yes">&parts_dia;</token>
+                </pattern>
+                <message>Si es refereix a una hora del dia, s'escriu sense apostrofar.</message>
+                <suggestion>la una</suggestion>
+                <example correction="la una">Ens veurem a <marker>l'una</marker> del migdia.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="3">quedar|llevar|despertar|alçar|aixecar|venir|veure|reunir</token>
+                    <token>a</token>
+                    <marker>
+                        <token>l'</token>
+                        <token skip="2">una</token>
+                    </marker>
+                </pattern>
+                <message>Si es refereix a una hora del dia, s'escriu sense apostrofar.</message>
+                <suggestion>la una</suggestion>
+                <example correction="la una">Hem quedat a <marker>l'una</marker>.</example>
             </rule>
         </rulegroup>
     </category>
