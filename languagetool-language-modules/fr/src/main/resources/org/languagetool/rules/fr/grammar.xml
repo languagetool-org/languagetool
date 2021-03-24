@@ -462,7 +462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <token>en</token>
         <token>quelque</token>
-        <token>sort</token>
+        <token>sorte</token>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
@@ -477,8 +477,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
-        <token regexp="yes">la|une|plusieurs</token>
-        <token min="0" regexp="yes">première|seconde|.*ème</token>
+        <token regexp="yes">la|une|plusieurs|beaucoup</token>
+        <token min="0" regexp="yes">première|seconde|.*ème|de</token>
         <token>fois</token>
         <token postag="A" min="0" max="3"/>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
@@ -506,12 +506,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <!-- TODO: new rule for agreement subject + avoir l'air + adjective -->
         <token inflected="yes">avoir</token>
+        <token min="0" max="3" postag="A"/>
         <token>l'</token>
         <token>air</token>
+        <token min="0" max="3" postag="A"/>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
-        <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp"/><exception regexp="yes">\p{Lu}.*|passant|allant|approchant</exception></token>
+        <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp"/><exception regexp="yes">\p{Lu}.*|passant|allant|approchant|arrivant</exception></token>
       </pattern>
       <filter class="org.languagetool.rules.fr.PostponedAdjectiveConcordanceFilter" args="key:value"/>
       <message>Vérifiez la concordance de «\1» avec les noms précédents.</message>
@@ -596,6 +598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ils ont l'air américains.</example>
       <example>Elle a l'air anxieuse.</example>
       <example>La nourriture a l'air appétissante.</example>
+      <example>La nourriture n'avait pas l'air très appétissante.</example>
       <example>Ça fait belle lurette que ça ne m'était pas arrivé.</example>
       <example>Son sourire la fit paraître encore plus belle.</example>
       <example>C'est le combat du bien et du mal affrontés.</example>
@@ -620,6 +623,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>se sont tour à tour appropriés la scène</example>
       <example>que l'ombudsman de la CCN juge appropriées</example>
       <example>Stan a été une première fois appréhendé</example>
+      <example>C'était en quelque sorte amusant.</example>
+      <example>J'ai été beaucoup de fois arnaqué.</example>
+      <example>La nuit arrivant, les enfants rentraient.</example>
+      <!-- TODO: Diluer avec de l'eau distillée ou remplacer une plante moins astringents, -->
       <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
