@@ -661,17 +661,18 @@ O que o torna perigoso é haver civis inocentes.
 		<token postag='AQ0MS0' postag_regexp='no'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-02-25 (1-JAN-2021+) *START* -->
+<!-- MARCOAGPINTO 2021-02-25 + 2021-03-24 (Enhanced) (17-MAR-2021+) *START* -->
 <!--
 Com a marca, um exclusivo Auchan.
 Um computador da Dell pode ser integrado com um processador Intel.
+Uma cliente disse querer pagar com o cartão Auchan.
 -->
       <antipattern>
-		<token postag='DI0MS0' postag_regexp='no'/>
+		<token postag='D.0MS.+' postag_regexp='yes'/>
 		<token postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
       </antipattern> 
-<!-- MARCOAGPINTO 2021-02-25 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-25 + 2021-03-24 (Enhanced) (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -749,6 +750,7 @@ Um computador da Dell pode ser integrado com um processador Intel.
 	  
 	  <example>Com a marca, um <marker>exclusivo Auchan</marker>.</example>
 	  <example>Um computador da Dell pode ser integrado com um processador Intel.</example>
+	  <example>Uma cliente disse querer pagar com o cartão Auchan.</example>
     </rule>
     <rule>
       <pattern>
