@@ -380,20 +380,11 @@ RB => Règles Brutes
           <token postag="D f s">la</token>
         </marker>
         <token>
-          <exception postag="V .*inf" postag_regexp="yes"/></token>
+          <exception postag="V .*inf|V .*ind .*" postag_regexp="yes"/></token>
       </pattern>
       <disambig postag="D f s"/>
     </rule>
   </rulegroup>
-  <rule name="la_le_les_leur (déterminant)" id="LA_LE_LES_LEUR_D">
-    <pattern>
-      <token postag="P"/>
-      <marker>
-        <token regexp="yes">la|les?|leurs?</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="D.*"/>
-  </rule>
   <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
     <pattern>
       <token inflected="yes" regexp="yes">être|avoir</token>
@@ -589,6 +580,13 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="[JN] .*"></disambig>
   </rule>
+  <rule id="FAUTE" name="faute (nom)">
+    <pattern>
+      <token postag="(P\+)?D.*" postag_regexp="yes"/>
+      <token postag="N.*" postag_regexp="yes" regexp="yes">fautes?</token> 
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
   <rulegroup name="été (nom)" id="ETE">
     <rule>
       <pattern>
@@ -618,36 +616,70 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="V.*"/>
   </rule>
-  <rule id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
-    <pattern>
-      <marker>
-        <token>tous</token>
-        <token>les</token>
-        <token regexp="yes">deux|trois|quatre|cinq</token>
-      </marker>
-      <token>
-        <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
-    </pattern>
-    <disambig action="replace">
-      <wd lemma="tous les deux" pos="R m p"/>
-      <wd lemma="tous les deux" pos="R m p"/>
-      <wd lemma="tous les deux" pos="R m p"/>
-    </disambig>
-  </rule>
-  <rule id="TOUS_DEUX" name="tous deux (determiner / pronoun)">
-    <pattern>
-      <marker>
-        <token>tous</token>
-        <token regexp="yes">deux|trois|quatre|cinq</token>
-      </marker>
-      <token>
-        <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
-    </pattern>
-    <disambig action="replace">
-      <wd lemma="tous deux" pos="R m p"/>
-      <wd lemma="tous deux" pos="R m p"/>
-    </disambig>
-  </rule>
+  <rulegroup id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
+    <rule>
+      <pattern>
+        <marker>
+          <token>tous</token>
+          <token>les</token>
+          <token regexp="yes">deux|trois|quatre|cinq</token>
+        </marker>
+        <token>
+          <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="replace">
+        <wd lemma="tous les deux" pos="R m p"/>
+        <wd lemma="tous les deux" pos="R m p"/>
+        <wd lemma="tous les deux" pos="R m p"/>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>toutes</token>
+          <token>les</token>
+          <token regexp="yes">deux|trois|quatre|cinq</token>
+        </marker>
+        <token>
+          <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="replace">
+        <wd lemma="toutes les deux" pos="R f p"/>
+        <wd lemma="toutes les deux" pos="R f p"/>
+        <wd lemma="toutes les deux" pos="R f p"/>
+      </disambig>  
+    </rule>
+  </rulegroup>
+  <rulegroup id="TOUS_DEUX" name="tous deux (determiner / pronoun)">
+    <rule>
+       <pattern>
+         <marker>
+           <token>tous</token>
+           <token regexp="yes">deux|trois|quatre|cinq</token>
+         </marker>
+         <token>
+           <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+       </pattern>
+       <disambig action="replace">
+         <wd lemma="tous deux" pos="R m p"/>
+         <wd lemma="tous deux" pos="R m p"/>
+       </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>toutes</token>
+          <token regexp="yes">deux|trois|quatre|cinq</token>
+        </marker>
+        <token>
+          <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="replace">
+        <wd lemma="toutes deux" pos="R f p"/>
+        <wd lemma="toutes deux" pos="R f p"/>
+      </disambig>
+    </rule>
+  </rulegroup>
   <rule name="quelque chose" id="QUELQUE_CHOSE">
     <pattern>
       <token>quelque</token>
@@ -1806,6 +1838,15 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
   </rule>-->
+  <rule name="la_le_les_leur (déterminant)" id="LA_LE_LES_LEUR_D">
+    <pattern>
+      <token postag="P"/>
+      <marker>
+        <token regexp="yes">la|les?|leurs?</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="D.*"/>
+  </rule>
   <rule name="en (no preposition)" id="EN_NO_PREPOSITION">
     <pattern>
       <marker>
@@ -2970,7 +3011,7 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token postag="D [me] p" regexp="yes"/>
+        <token postag="D [me] p" postag_regexp="yes"/>
         <marker>
           <token postag="N m sp">prix</token>  
         </marker>
