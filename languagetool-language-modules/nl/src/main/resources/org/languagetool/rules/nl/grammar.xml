@@ -9862,6 +9862,20 @@ onwaarschijnlijk
 				<example correction="doorrijbotsing">Het was een vreemde <marker>doorrijd botsing</marker>.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="AAN_DE_RECYCLE" name="aan de recycle" type="style" >
+			<rule>
+				<pattern>
+					<marker>
+						<token>aan</token>
+						<token>de</token>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="ZNW.*"/></token>
+					</marker>
+				</pattern>
+				<message>Dit is spreektaal.</message>
+				<suggestion>\1 het <match no="3" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="aan het recyclen">Ik ben <marker>aan de recycle</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
 			<antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/></antipattern>
 			<rule>
