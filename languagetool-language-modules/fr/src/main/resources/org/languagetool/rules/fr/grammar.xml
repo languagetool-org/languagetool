@@ -146,7 +146,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <unify>
           <feature id="number"/>
           <feature id="gender"/>
-          <token postag="[NJ] .*|V.* ppa" postag_regexp="yes"/>
+          <token postag="[NJ] .*|V.* ppa .*" postag_regexp="yes"/>
           <token inflected="yes" regexp="yes">(à|de)\+lequel</token>
         </unify>
       </antipattern>
@@ -217,16 +217,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <antipattern>
         <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
-        <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+        <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
         <token postag="C coor"/>
-        <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+        <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
         <token postag="N [me] (p|sp)" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
         <token postag="(P\+)?D [fe] (p|sp)" postag_regexp="yes"/>
-        <token postag="J [fe] (s|sp)" postag_regexp="yes"/>
+        <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
         <token postag="C coor"/>
-        <token postag="J [fe] (s|sp)" postag_regexp="yes"/>
+        <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
         <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
@@ -428,7 +428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <feature id="number"/>
             <feature id="gender"/>
             <token postag="(P\+)?D .*" postag_regexp="yes"/>
-            <token postag="J .*" postag_regexp="yes"><exception postag="[NZ].*" postag_regexp="yes"/></token>
+            <token postag="J .*|V.* ppa .*" postag_regexp="yes"><exception postag="[NZ].*" postag_regexp="yes"/></token>
           </unify>
         </pattern>
         <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
@@ -14338,6 +14338,9 @@ though, and has since been slightly modified)-->
         <example>Essayez de ne pas être si tendue.</example>
         <example>J'ai été si humiliée.</example>
         <example>Elle en est très affectée.</example>
+        <example>C'est la partie la plus dure.</example>
+        <example>la plus importante position dans une démocratie</example>
+        <example>Elle a passé la plus grande partie de sa vie à s'occuper des pauvres.</example>
       </rule>
       <rule name="féminin suivi du masculin">
         <antipattern>
