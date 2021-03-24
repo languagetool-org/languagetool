@@ -366,6 +366,18 @@ RB => Règles Brutes
   </rule>
   <rulegroup name="la (déterminant/pronom)" id="LA_D">
     <rule>
+      <antipattern>
+        <token>la</token>
+        <token regexp="yes">majeur|mineur|44\d</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag="[RD].*" postag_regexp="yes">la</token>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="N m sp"/>
+    </rule>
+    <rule>
       <pattern>
         <marker>
           <token postag="R pers obj 3 f s">la</token>
