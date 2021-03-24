@@ -25942,11 +25942,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>una</token>
-                        <token>en</token>
-                        <token>punt</token>
-                    </marker>
+                    <token>a</token>
+                    <token>la</token>
+                    <token skip="2">una</token>
+                    <token regexp="yes">&parts_dia;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes" skip="3">quedar|llevar|despertar|alçar|aixecar|venir|veure|reunir</token>
+                    <token>a</token>
+                    <token>la</token>
+                    <token>una</token>
+                </antipattern>
+                <antipattern>
+                    <token>una</token>
+                    <token>en</token>
+                    <token>punt</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">tocar|migdia|dinar|menjar|sopar|.*dormir|hora|nit</exception></token>
@@ -25969,6 +25979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cap a la una de la matinada.</example>
                 <example>A la una comença la revetlla.</example>
                 <example>Arribarem a la una en punt.</example>
+                <example>Si et lleves a la una, faràs tard.</example>
                 <!-- <example>A la una hem d'anar tots allà.</example> -->
             </rule>
             <rule>
@@ -26132,12 +26143,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                     <marker>
                         <token>l'</token>
-                        <token skip="2">una</token>
+                        <token>una</token>
                     </marker>
                 </pattern>
                 <message>Si es refereix a una hora del dia, s'escriu sense apostrofar.</message>
                 <suggestion>la una</suggestion>
                 <example correction="la una">Hem quedat a <marker>l'una</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>l'</token>
+                        <token>una</token>
+                    </marker>
+                    <token regexp="yes">i|en</token>
+                    <or>
+                        <token regexp="yes">punt|quart|mitja</token>
+                        <token postag="DN.*" postag_regexp="yes"/>
+                    </or>
+                </pattern>
+                <message>Si es refereix a una hora del dia, s'escriu sense apostrofar.</message>
+                <suggestion>la una</suggestion>
+                <example correction="la una">Serà a <marker>l'una</marker> i quart.</example>
+                <example correction="la una">Serà a <marker>l'una</marker> i vint-i-cinc.</example>
             </rule>
         </rulegroup>
     </category>
