@@ -188,7 +188,7 @@ regexp case-insensitive maken : (?i)
 						</marker>
 						<token/>
 					</pattern>
-					<message>Wilet u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+					<message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
 					<example>A ← B</example>
 					<example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
 			</rule>
@@ -30105,12 +30105,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		-->
 
-		<rulegroup id="DE_ORDENDE" name="De ordende/de geordende" default="temp_off">
+		<rulegroup id="DE_ORDENDE" name="De ordende/de geordende" >
 			<rule>
 				<pattern>
 					<token>de</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/><exception>laste</exception></token>
+						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/><exception regexp="yes">laste|riep|had</exception></token>
 					</marker>
 				</pattern>
 				<message>De kans is groot dat u een andere vorm van het werkwoord bedoelt.</message>
