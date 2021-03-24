@@ -228,6 +228,7 @@ public class French extends Language implements AutoCloseable {
     switch (id) { 
       case "AGREEMENT_EXCEPTIONS": return 10; // greater than D_N
       case "SA_CA": return 10; // greater than D_N
+      case "MA": return 10; // greater than D_J
       case "A_INFINITIF": return 10;
       case "DU_DU": return 10; // greater than DU_LE
       case "ACCORD_CHAQUE": return 10; // greater than ACCORD_NOMBRE
