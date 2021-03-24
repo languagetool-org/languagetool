@@ -384,6 +384,16 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="D f s"/>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="D f s">la</token>
+        </marker>
+        <token postag="A"/>
+        <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>  
+      </pattern>
+      <disambig postag="D f s"/>
+    </rule>
   </rulegroup>
   <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
     <pattern>
@@ -2002,16 +2012,6 @@ RB => Règles Brutes
       <disambig action="filter" postag="V.* (imp|ppr).*"/>
     </rule>
   </rulegroup>
-  <rule id="SE_VERB" name="se montre">
-      <pattern>
-        <token postag="R pers.*" postag_regexp="yes">
-          <exception regexp="yes">-.*</exception></token>
-        <marker>
-          <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
-        </marker>
-      </pattern>
-      <disambig action="remove" postag="N.*"/>
-  </rule>
   <rulegroup id="not_imperative" name="not imperative">
     <rule>
       <pattern>
@@ -2214,6 +2214,16 @@ RB => Règles Brutes
     <disambig action="filter">
       <match no="2" postag="[ZNJ].*" postag_regexp="yes"/>
     </disambig>
+  </rule>
+  <rule id="SE_VERB" name="se montre">
+    <pattern>
+      <token postag="R pers.*" postag_regexp="yes">
+        <exception regexp="yes">-.*</exception></token>
+      <marker>
+        <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
   </rule>
   <rulegroup id="UNUSUAL_ADJECTIVE" name="usually noun not adjective">
     <rule>
