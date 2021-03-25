@@ -23,9 +23,9 @@ LT_VERSION=5.3-SNAPSHOT
 ADDITIONAL_DICT_FILE=/home/dnaber/data/corpus/jan_schreiber/german.txt
 # see https://sourceforge.net/p/germandict/code/HEAD/tree/hunspell_words.txt?format=raw (conversion to UTF-8 needed):
 UNKNOWN_TO_HUNSPELL=/home/dnaber/data/corpus/jan_schreiber/hunspell_words.txt
-# Frequency data, see https://languagetool.org/download/frequency-data/wordcount-de-sorted-top200k.xml:
+# get frequency data from https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries -
 # this is optional, remove "-freq $FREQ_FILE" below for not using frequencies:
-FREQ_FILE=/home/dnaber/lt/occurrence_counts/wordcount-de-sorted-top200k.xml
+FREQ_FILE=/home/dnaber/lt/occurrence_counts/de_wordlist.xml
 INPUT_ENCODING=latin1
 OUTPUT_ENCODING=utf8
 TEMP_FILE=/tmp/lt-dictionary.dump
