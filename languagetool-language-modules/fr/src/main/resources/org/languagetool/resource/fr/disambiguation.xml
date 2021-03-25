@@ -172,7 +172,7 @@ RB => Règles Brutes
       <token postag="SENT_START"/>
       <token regexp="yes">Les?|La</token>
       <marker>
-        <token postag="[NJZK].*" postag_regexp="yes"/>
+        <token postag="[NJZK].*" postag_regexp="yes"><exception postag="V ppr"/></token>
       </marker>
     </pattern>
     <disambig action="filter" postag="[NJZK].*"/>
@@ -392,7 +392,7 @@ RB => Règles Brutes
           <token postag="D f s">la</token>
         </marker>
         <token>
-          <exception postag="V .*inf|V .*ind .*" postag_regexp="yes"/></token>
+          <exception postag="V .*inf|V .*ind .*|V ppr" postag_regexp="yes"/></token>
       </pattern>
       <disambig postag="D f s"/>
     </rule>
@@ -566,6 +566,18 @@ RB => Règles Brutes
       <disambig action="remove" postag="V.* (imp|sub|ind) .*"/>
     </rule>
   </rulegroup>
+  <rule id="DIVERS_J" name="divers (adj, not det)">
+    <pattern>
+      <unify>
+        <feature id="number"/>
+        <feature id="gender"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token postag="J.*" postag_regexp="yes" inflected="yes">divers</token>
+      </unify>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
+  
   <rule id="DEVINS" name="devins (verbe)">
     <pattern>
       <marker>
@@ -1884,7 +1896,7 @@ RB => Règles Brutes
   </rule>-->
   <rule name="la_le_les_leur (déterminant)" id="LA_LE_LES_LEUR_D">
     <pattern>
-      <token postag="P"/>
+      <token postag="P"><exception>comme</exception></token>
       <marker>
         <token regexp="yes">la|les?|leurs?</token>
       </marker>
