@@ -3904,7 +3904,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern>
             <token>to</token>
-            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey|Kill|Punch|Reform</token>
+            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey|Kill|Punch|Reform|Bang</token>
         </antipattern>
         <pattern case_sensitive="yes">
             <marker>
@@ -4042,6 +4042,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="NNP + Uppercase NN -&gt; NNP" id="UPPER_NN_NNP">
+        <antipattern>
+            <token>Just</token>
+            <token postag="VB" />
+        </antipattern>
         <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
             <marker>
@@ -4054,6 +4058,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NNP"/>
         <example type="ambiguous" inputform="City[&lt;/S&gt;,city/JJ,city/NN]" outputform="City[&lt;/S&gt;,city/NNP]">Kansas <marker>City</marker></example>
         <example type="untouched">Los Angeles</example>
+        <example type="untouched">You Have To Just Book A Room</example>
         <example type="untouched">Restoration drawings of Delphi Why would I need one?</example>
     </rule>
     <rule name="Uppercase word/no tag + 's -&gt; NNP" id="UPPER_UNKNOWN_NNP">
@@ -4250,6 +4255,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk_re="[BI]-VP" postag_regexp="yes" postag="VBP?"/>
             <token postag_regexp="yes" postag="PRP\$|NNP"/>
         </antipattern>
+        <antipattern>
+            <token>to</token>
+            <token postag="RB" min="0" />
+            <token>up</token>
+        </antipattern>
+        <antipattern>
+            <token postag="MD" />
+            <token postag="RB" min="0" />
+            <token>up</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4271,6 +4286,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I did everything I could to save Tom.</example><!-- #3660 -->
         <example type="untouched">Leila couldn't save Sami.</example>
         <example type="untouched">Leila could really save Sami.</example>
+        <example type="untouched">I need to overall up my levels</example>
     </rule>
 
     <!-- the known good solution -->
@@ -6923,7 +6939,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern><!-- #2661 I do not much care -->
             <token regexp="yes">I|you|we|they</token>
             <token regexp="yes">do|did</token>
-            <token>not</token>
+            <token inflected="yes">not</token>
             <token postag="RB"/>
             <token postag_regexp="yes" postag="VBP?"/>
         </antipattern>
@@ -6938,7 +6954,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern><!-- #2682 She does not much care for -->
             <token regexp="yes">he|she|it</token>
             <token regexp="yes">does|did</token>
-            <token>not</token>
+            <token inflected="yes">not</token>
             <token postag="RB"/>
             <token chunk="E-NP-singular" postag="VB"/>
         </antipattern>
@@ -7243,6 +7259,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>be</token>
             <token>check</token>
         </antipattern>
+        <antipattern><!-- Do you suppose they don't all talk about you? -->
+            <token inflected="yes">do</token>
+            <token inflected="yes">not</token>
+            <token regexp="yes">all|much</token>
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7265,6 +7287,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Loving to work is the key to happiness.</example>
         <example type="untouched">Love to party!</example>
         <example type="untouched">You sure look exhausted.</example>
+        <example type="untouched">Do you suppose they don't all talk about you?</example>
         <example type="untouched">Something you absolutely cannot control!</example>
         <example type="untouched">I want to age gracefully.</example>
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
@@ -7402,6 +7425,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar (ether/either): You can ether type in the address bar or click on a bookmark.</example>
         <example type="untouched">It's shameful; few start at the right times and then they go home early.</example><!-- #3574 -->
         <example type="untouched">At Tatoeba, it is more important that a translation sound natural than that it be strictly faithful to the original.</example>
+        <!-- ambiguos #2682 -->
+        <example type="untouched">Does not much <marker>care</marker> for the patient also cost much money?</example>
 <!-- Refer to the counter example        <example type="untouched">If any professional want to know the new practices of their field...</example>Premium #1564 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
@@ -7409,7 +7434,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">But will NOT <marker>work</marker> of any type help you to forget your troubles?</example><!--  #2326 Unusual capitalization of NOT. -->
         <example type="ambiguous" inputform="WORK[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="WORK[work/NN:UN]">BUT, WON'T <marker>WORK</marker> ON YOUR PART AFFECT THE COMPLETION TIME?</example>
         <example type="ambiguous" inputform="reference[reference/NN:UN,reference/VB,reference/VBP]" outputform="reference[reference/NN:UN]">The document does not show the can reference. Do you know the can <marker>reference</marker>?</example><!-- A 'can reference' is a possible technical term. -->
-        <example type="ambiguous" inputform="care[care/NN:UN,care/VB,care/VBP]" outputform="care[care/NN:UN]">Does not much <marker>care</marker> for the patient also cost much money?</example><!-- #2682 -->
         <example type="ambiguous" inputform="order[order/NN:UN,order/UH,order/VB,order/VBP]" outputform="order[order/NN:UN]">  ... after he was given a court <marker>order</marker> to lend money to an incompetent applicant.</example><!-- Premium #1564 counter example -->
         <example type="ambiguous" inputform="question[question/NN:UN,question/VB,question/VBP]" outputform="question[question/NN:UN]">But activist groups for the health and food safety <marker>question</marker> are likely to disagree.</example><!-- 3524 -->
         <example type="ambiguous" inputform="need[need/MD,need/NN:UN,need/VB,need/VBP]" outputform="need[need/NN:UN]">There is more <marker>need</marker> to be mindful of disambiguation problems.</example><!-- #3565 -->
@@ -7493,6 +7517,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes" postag="NN.*|JJ.*" postag_regexp="yes" chunk_re="I-NP.*" />
             <token regexp="yes" postag="NNP?S" postag_regexp="yes" chunk_re="E-NP.*" />
             <token postag="NN(:UN)?" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>how</token>
+            <token regexp="yes">many|much</token>
+            <token postag="NNS" />
+            <token regexp="yes">can|will</token>
+            <token postag="PRP|NNP" postag_regexp="yes" />
+            <token postag="VB.*" postag_regexp="yes" />
         </antipattern>
         <pattern>
             <and>
@@ -8999,10 +9031,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ">other</token>
             <token postag="VBZ" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes">ok(ay)?</token>
+            <token>thanks</token>
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
-                <exception postag_regexp="yes" postag="RB|NNP|ORD"/>
+                <exception postag_regexp="yes" postag="RB|NNP|ORD|UH"/>
                 <exception scope="previous" postag="JJ.*" postag_regexp="yes"/>
             </token>
             <marker>
@@ -9019,6 +9055,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="NNS"/>
         <example type="untouched">I enjoy running.</example>
+        <example type="untouched">Okay thanks.</example>
         <example type="untouched">Hard work causes fitness and vice versa.</example>
         <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
         <example type="untouched">Tom wishes that were true.</example>
@@ -9475,6 +9512,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>long</token>
                 <token>to</token>
             </antipattern>
+            <antipattern><!-- "long form"-->
+                <token>long</token>
+                <token postag="NN.*" postag_regexp="yes" chunk_re=".-NP.*" />
+            </antipattern>
             <pattern>
             <marker>
               <and>
@@ -9492,6 +9533,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">The risk/reward to being long is not so great.</example>
           <example type="untouched">An advantage of being long was that the lever...</example>
           <example type="untouched">An introduction to being still wasn't given by Jones in his lecture on meditation.</example><!-- Ambiguous. Can parse 'still' as an adjective or as an adverb. -->
+          <example type="untouched">… at least as it exists in its old, long form.</example>
           <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/RB]">Much of the diet involved the use of peppers, as it <marker>still</marker> does today.</example>
           <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/RB]">... and her book Introduction to Being <marker>still</marker> was not correct, despite the best efforts of the proofreader.</example>
         </rule>
