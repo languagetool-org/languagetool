@@ -10920,7 +10920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
-        <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural" default="temp_off">
+        <rulegroup id="AGREEMENT_NUMERAL_PLURAL_" name="concordancia número + nombre/adjetivo plural" default="temp_off">
             <rule>
                 <antipattern>
                     <token>por</token>
@@ -10944,10 +10944,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>seguido</token>
                     <token regexp="yes">de|del</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">[12]\d.[0-6]\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[12]\d</token>
+                    <token>:</token>
+                    <token regexp="yes">[0-6]\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">a|en|de|del|años</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>\</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">piso|puerta|nota|vuelo|sección|artículo|apartado|cláusula|\p{Lu}+|ley</token>
+                    <token regexp="yes">[\d\.,]+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>punto</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">n|núm|nº</token>
+                    <token min="0" max="2" regexp="yes">\.|º</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">0*1</exception></token>
                     <marker>
-                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">bis|(?-i)CE</exception></token>
+                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">mil|bis|(?-i)CE</exception><exception inflected="yes" regexp="yes">multiplicar|dividir|elevar</exception></token>
                         <!--|V.[^P].*-->
                     </marker>
                 </pattern>
