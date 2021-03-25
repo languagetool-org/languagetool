@@ -161,7 +161,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
                     + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
                     + "\u203C\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
                     + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-                    + "\u2B9A" // arrows
+                    + "\u2B9A\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
                     + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-™®", true); // Not included: middle dot (·)
     String s;
     String groupStr;
