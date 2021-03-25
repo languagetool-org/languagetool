@@ -122,6 +122,7 @@ public class WordListValidatorTest {
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "kryptowalutę", // for PL
+          "fotowoltaikę", // for PL
           "insulinooporność", // for PL
           "infografikę", // for PL
           "dtª",  // for PT
