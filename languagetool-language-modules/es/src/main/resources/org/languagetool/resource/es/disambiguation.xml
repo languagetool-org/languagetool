@@ -3489,7 +3489,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token><exception postag="&pronombre_personal_atono_POS;|CS|PR.*|LOC_CS" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="[ND].*" postag_regexp="yes" regexp="yes">una|espacio</token>
+                    <token postag="[NDA].*" postag_regexp="yes" regexp="yes">una|espacio|desnudo|desnudas?</token>
                 </marker>
                 <token><exception postag="D.*" postag_regexp="yes"/></token>
             </pattern>
@@ -3512,6 +3512,24 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token>sitio</token>
                 </marker>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>camino</token>
+                </marker>
+                <token regexp="yes">del?</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">casa|casas</token>
+                </marker>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="V.*"/>
         </rule>
@@ -4836,12 +4854,12 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="NC.*"/>
         </rule>
     </rulegroup>
-    <rule id="VerbAdjective" name="verb/adjective no agreement">
-        <!-- too greedy?! -->
+    <!--<rule id="VerbAdjective" name="verb/adjective no agreement">
+        <!-\- too greedy?! -\->
         <antipattern>
             <token postag="NC.*|CS|PR.*" postag_regexp="yes"/>
             <token>este</token>
-            <!-- error: esté -->
+            <!-\- error: esté -\->
             <token postag="A.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
@@ -4854,7 +4872,7 @@ Copyright (C) 2011 Juan Martorell
             </marker>
         </pattern>
         <disambig action="filter" postag="V.*"/>
-    </rule>
+    </rule>-->
     <rulegroup id="tanto_no_det" name="tanto: no determinant">
         <rule>
             <pattern>

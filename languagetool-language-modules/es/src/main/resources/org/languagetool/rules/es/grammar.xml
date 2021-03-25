@@ -6063,6 +6063,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>para ver cómo esta se deshacía</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ESTAS_NO_TILDE" name="estás/estas" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS" postag_regexp="yes"/></token>
+                    <marker>
+                        <token skip="-1" regexp="yes">estás?<exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="V.[SI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="Estas"><marker>Estás</marker> casas son verdes.</example>
+                <example correction="estas">Las tres cajas <marker>estás</marker> para María están rotas.</example>
+                <example>Tal y como está es incorrecto.</example>
+                <example>No está claro cuándo desapareció.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="CC.*|P[RT].*|_PUNCT.*|LOC_CS" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS" postag_regexp="yes"/><exception postag="V.[SI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <marker>
+                        <token regexp="yes">estás?</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion><match no="3" regexp_match="(?iu)á" regexp_replace="a" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="estas">Son verdes <marker>estás</marker> casas.</example>
+                <example correction="estas">Son para María las tres cajas <marker>estás</marker>.</example>
+                <example correction="esta">Es para María <marker>está</marker> caja.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
             <antipattern>
                 <token><exception>si</exception></token>
@@ -14845,7 +14874,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="BOCABAJO" name="bocabajo/boca abajo" default="temp_off">
+        <rule id="DENUDO" name="denudo/desnudo" default="temp_off">
+            <pattern>
+                <token regexp="yes">denudo|denuda|denudas</token>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)den" regexp_replace="desn" case_conversion="preserve"/></suggestion>? "<match no="1" case_conversion="startupper"/>" es correcto como forma del v. 'denudar'.</message>
+            <example correction="desnudas">Dos personas <marker>denudas</marker>.</example>
+        </rule>
+        <rule id="BOCABAJO" name="bocabajo/boca abajo">
             <pattern>
                 <token>boca</token>
                 <token>bajo</token>
