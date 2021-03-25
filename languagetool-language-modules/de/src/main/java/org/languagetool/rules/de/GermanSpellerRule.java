@@ -1050,6 +1050,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[sS]chanse", "Chance");
     put("nich", "nicht");
     put("wat", "was");
+    put("[Ee][Ss]ports", "E-Sports");
+
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
