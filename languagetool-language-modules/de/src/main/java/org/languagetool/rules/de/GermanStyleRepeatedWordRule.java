@@ -126,6 +126,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
           && (!isFalsePair(testTokenText, tokenText, "lang", "klang"))
           && (!isFalsePair(testTokenText, tokenText, "Art", "Artefakt"))
+          && (!isFalsePair(testTokenText, tokenText, "kommen", "kommentier"))
           && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
           || testTokenText.length() > tokenText.length() + 3)
           || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
