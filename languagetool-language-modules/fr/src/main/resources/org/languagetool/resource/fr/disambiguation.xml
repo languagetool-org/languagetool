@@ -2556,10 +2556,26 @@ RB => Règles Brutes
       <disambig postag="A"/>
     </rule>
   </rulegroup>
+  <rule id="EN_REALITE" name="en réalité">
+    <antipattern>
+      <token>réalité</token>
+      <token regexp="yes">augmentée|virtuelle</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token>en</token>
+        <token regexp="yes">réalité</token>
+      </marker>
+    </pattern>
+    <disambig action="replace">
+      <wd pos="A"/>
+      <wd pos="A"/>
+    </disambig>
+  </rule>
   <rule id="EN_GENERAL" name="en général">
     <pattern>
       <token>en</token>
-      <token regexp="yes">apparence|conséquence|définitive|effet|général|gros|particulier|partie|principe|revanche|réalité</token>
+      <token regexp="yes">apparence|conséquence|définitive|effet|général|gros|particulier|partie|principe|revanche</token>
     </pattern>
     <disambig action="replace">
       <wd pos="A"/>
