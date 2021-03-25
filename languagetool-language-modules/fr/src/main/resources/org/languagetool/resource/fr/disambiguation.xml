@@ -602,13 +602,27 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="[JN] .*"></disambig>
   </rule>
-  <rule id="FAUTE" name="faute (nom)">
-    <pattern>
-      <token postag="(P\+)?D.*" postag_regexp="yes"/>
-      <token postag="N.*" postag_regexp="yes" regexp="yes">fautes?</token> 
-    </pattern>
-    <disambig action="filterall"/>
-  </rule>
+  <rulegroup id="FAUTE" name="usually noun after determiner: faute, cours">
+    <!-- even with agreement errors-->
+    <rule>
+      <pattern>
+        <token postag="(P\+)?D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes" regexp="yes">fautes?|cours|reste|véhicules?|politiques?|présidente?s?</token> 
+      </pattern>
+      <disambig action="filterall"/>  
+    </rule>
+    <rule>
+      <pattern>
+         <marker>
+           <token postag="(P\+)?D.*" postag_regexp="yes"/>
+           <token postag="N.*" postag_regexp="yes" regexp="yes">fait|manque</token>  
+         </marker>
+         <token regexp="yes">de|du|d'</token>
+      </pattern>
+      <disambig action="filterall"/>  
+    </rule>
+    
+  </rulegroup>
   <rulegroup name="été (nom)" id="ETE">
     <rule>
       <pattern>
@@ -1415,6 +1429,14 @@ RB => Règles Brutes
       </pattern>
       <disambig action="filterall"/>
     </rule>
+    <rule>
+      <pattern>
+        <token postag="R.*" postag_regexp="yes">y</token>
+        <token postag="R.*" postag_regexp="yes">en</token>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">avoir</token>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
   </rulegroup>
   <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
     <rule name="Infinitif être">
@@ -1444,7 +1466,7 @@ RB => Règles Brutes
         <token postag="D.*" postag_regexp="yes"/>
         <token postag="J.*" postag_regexp="yes"/>
         <token postag="N.*" postag_regexp="yes">
-          <exception regexp="yes">dans|envers|mais|plus|non</exception>
+          <exception regexp="yes">dans|envers|mais|plus|non|contre</exception>
           <exception inflected="yes" regexp="yes">avoir|être</exception></token>
       </unify>
     </pattern>
@@ -2227,6 +2249,27 @@ RB => Règles Brutes
       <match no="2" postag="[ZNJ].*" postag_regexp="yes"/>
     </disambig>
   </rule>
+  <rulegroup id="PREP_NOM" name="prep + noun (not verb)">
+    <rule>
+      <pattern>
+        <token postag="P.*" postag_regexp="yes"/>
+        <marker>
+          <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>  
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.* (ind|sub|imp).*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="P"/>
+        <token postag="D.*" postag_regexp="yes"/> 
+        <marker>
+          <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>  
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.* (ind|sub|imp).*"/> 
+    </rule>
+  </rulegroup>
   <rule id="SE_VERB" name="se montre">
     <pattern>
       <token postag="R pers.*" postag_regexp="yes">
