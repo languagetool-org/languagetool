@@ -141,6 +141,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
             + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
             + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
             + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-·™®"
+            + "\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
             + "\u2032", // prime...
         true);
     String s;
