@@ -749,6 +749,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Frémont en tombe littéralement amoureux.</example>
       <example>crédits auxquels donne droit la souscription</example>
       <example>J'étais en sorte si éveillé que je ne pouvais dormir.</example>
+      <example>Il est allé à l'école seulement pendant quelques années.</example>
+      <example>et sont par le fait difficilement exploitables</example>
       <!-- TODO: Diluer avec de l'eau distillée ou remplacer une plante moins astringents, -->
       <!-- 
         ** Agreement with the subject **
@@ -14537,7 +14539,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <antipattern>
           <token postag="N [me] ([sp]|sp)" postag_regexp="yes"/>
-          <token regexp="yes" postag="P">aux|à|de|du|d'|sans|en</token>
+          <token regexp="yes" postag="P.*" postag_regexp="yes">aux|à|de|du|d'|sans|en</token>
           <token postag="D.*|J .*" postag_regexp="yes" min="0"/>
           <token postag="N .*" postag_regexp="yes"/>
           <token min="0" max="1" postag="A|J f .*" postag_regexp="yes"/>
@@ -14630,6 +14632,7 @@ though, and has since been slightly modified)-->
         <example>Un État sans armée issu d'un processus de décolonisation.</example>
         <example>Les crêpes Suzette sont un grand classique de la cuisine française inventé par Auguste Escoffier.</example>
         <example>la mise en place du paiement en ligne sécurisé pour les locataires</example>
+        <example>dans un marché aux puces spécialisé</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
@@ -14746,7 +14749,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="D . s?p" postag_regexp="yes"/>
           <token postag="N . p" postag_regexp="yes">
-            <exception regexp="yes">grosses|dernières|premières</exception></token>
+            <exception regexp="yes">grosses|dernières|premières|petits</exception></token>
           <marker>
             <token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token>
           </marker>
@@ -14757,6 +14760,7 @@ though, and has since been slightly modified)-->
         <example>Un cageot des <marker>premières cerises</marker>.</example>
         <example correction="azur">Elle avait les yeux <marker>azurs</marker>.</example>
         <example>Nous mangeons de bonnes cerises.</example>
+        <example>Il lui a acheté des petits chocolats.</example>
       </rule>
       <rule>
         <antipattern>
@@ -15081,6 +15085,10 @@ though, and has since been slightly modified)-->
           <token inflected="yes" regexp="yes">(re)?détester|(re)?désirer|savoir|vouloir</token>
           <token postag="V ppa .*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="V ppa.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
             <exception postag="V ind pres 1 s">puis</exception></token>
@@ -15099,6 +15107,7 @@ though, and has since been slightly modified)-->
         <example>Il se sait traqué.</example>
         <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
         <example>Elles sont bien <marker>entendu placées</marker> en hauteur.</example>
+        <example>rendu seulement par des pensées inspirées</example>
       </rule>
       <rule>
         <pattern>
@@ -15755,6 +15764,7 @@ though, and has since been slightly modified)-->
         <example correction="fortes">Si les actions sont plus <marker>forts</marker> que les mots.</example>
         <example>Autour de cette église est créé un enclos paroissial.</example>
         <example correction="faite" type="triggers_error">Tout sur terre est <marker>fait</marker> d'atomes.</example> <!-- TODO -->
+        <example>Elle est hors sujet.</example>
       </rule>
       <rule>
         <pattern>
@@ -17638,6 +17648,7 @@ though, and has since been slightly modified)-->
         <example>Ils ont eux-mêmes été contaminés.</example>
         <example>Ont-ils apprécié leurs vacances en Écosse ?</example>
         <example>et pourront, par conséquent, elles-mêmes être appelées</example>
+        <example>L'homme derrière eux joue du piano.</example>
       </rule>
       <rule name="celles/ceux + 2 tokens + Verbe">
         <antipattern>
