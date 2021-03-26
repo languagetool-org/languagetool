@@ -2852,8 +2852,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule  id="Kak_Tak_i" name="Знаки препинания в сложном предложении «Как ... , так и ...»">  
             <pattern>             
                 <marker>
-                    <token skip="-1">как</token>           
-                    <token >так<exception regexp="yes" scope="previous">&pnct;|то|вот</exception></token>
+                    <token skip="-1">как<exception scope="next">но</exception></token>           
+                    <token >так<exception regexp="yes" scope="previous">&pnct;|то|вот|но</exception></token>
                     <token regexp="yes" skip="-1">и|как|когда<exception regexp="yes" scope="next">[,;-]</exception></token>
                 </marker>
                 <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
@@ -2862,6 +2862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая</short>
             <example>Как мышка бегает, так и кошка прыгает.</example>
             <example>Как мышка бегает, то так и кошка прыгает.</example>
+            <example>Он написал запрос, как было указано на сайте, но на текущий момент так и не получил ответа.</example>
             <example>Те варяги назывались русью, как другие называются шведы, а иные норманны и англы, а ещё иные готландцы, — вот так и эти.</example>
             <example correction="Как мышка бегает, так и"><marker>Как мышка бегает так и</marker> кошка прыгает.</example>
         </rule>             
