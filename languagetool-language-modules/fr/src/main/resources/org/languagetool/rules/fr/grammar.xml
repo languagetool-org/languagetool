@@ -98,6 +98,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>
         <example correction="du Canada"><marker>du canada</marker></example>
       </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token regexp="yes">la|une|cette</token>
+          <marker>
+            <token case_sensitive="yes">venus</token>
+          </marker>
+        </pattern>
+        <message>S'il s'agit d'un nom propre, il doit être en majuscule.</message>
+        <suggestion><match no="2" case_conversion="startupper"/></suggestion>
+        <example correction="Venus">La <marker>venus</marker> d'Urbin.</example>
+      </rule>
       <rule>
         <pattern>
           <marker>
