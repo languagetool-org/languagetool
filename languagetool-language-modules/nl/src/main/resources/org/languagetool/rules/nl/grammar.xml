@@ -30397,6 +30397,22 @@ steenwijk;Steenwijk
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
 
+		<rulegroup id="BINNEN_NU_EN_X_MAANDEN" name="Binnen nu en/binnen">
+			<rule>
+				<pattern>
+					<marker>
+						<token>binnen</token>
+						<token>nu</token>
+						<token>en</token>
+					</marker>
+					<token/>
+					<token regexp="yes">dagen|weken|maanden|jaren|maand|jaar</token>
+				</pattern>
+				<message>Dit kan beter en korter.</message>
+				<suggestion>binnen</suggestion>
+				<example correction="binnen">De fout treedt op <marker>binnen nu en</marker> 5 jaar.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter">
 			<rule>
 				<pattern>
