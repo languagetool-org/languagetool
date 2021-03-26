@@ -14533,6 +14533,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">aux|à|de|du|d'|en</token>
           <token postag="N .*" postag_regexp="yes"/>
           <token regexp="yes">aux|à|de|du|d'|en</token>
+          <token postag="D.*|J .*" postag_regexp="yes" min="0"/>
           <token postag="N .*" postag_regexp="yes"/>
           <token min="0" max="1" postag="A"/>
           <token postag="J [me] ([sp]|sp)" postag_regexp="yes"/>
@@ -14761,6 +14762,7 @@ though, and has since been slightly modified)-->
         <example correction="azur">Elle avait les yeux <marker>azurs</marker>.</example>
         <example>Nous mangeons de bonnes cerises.</example>
         <example>Il lui a acheté des petits chocolats.</example>
+        <example>Je mangeai des bonnes cerises.</example>
       </rule>
       <rule>
         <antipattern>
@@ -20878,7 +20880,9 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="N .*" postag_regexp="yes">
             <exception regexp="yes">est|pas|car</exception>
-            <exception postag="V.*" postag_regexp="yes"/></token>
+            <exception postag="V.*" postag_regexp="yes"/>
+            <exception scope="previous">en</exception>
+          </token>  
           <token regexp="yes">l[àa]</token>
           <token postag="M .*" postag_regexp="yes"/>
         </pattern>
@@ -20890,6 +20894,8 @@ though, and has since been slightly modified)-->
         <example>Tout est là.</example>
         <example>Ils ne s’en tinrent pas là.</example>
         <example>Si là, ce n'est pas fait, Macron et ses successeurs sauront qu'ils peuvent faire ce qu'ils veulent.</example>
+        <example>Il est peu probable que cette affaire en reste là.</example>
+        <example>Le problème est qu'il s'agit d'un circuit en série là.</example>
       </rule>
       <rule>
         <pattern>
@@ -41414,6 +41420,7 @@ though, and has since been slightly modified)-->
       <example>Il est de fait que le monde virtuel occupe déjà une part importante de la vie humaine.</example>
       <example>C'est de ce fait qu'il est toujours conseillé.</example>
       <example>Tout Paris est de sortie.</example>
+      <example>Toutes tes paroles sont de sacrés mensonges.</example>
     </rule>
     <rulegroup id="PIRE_ALLER" name="pire(-)aller">
       <rule>
