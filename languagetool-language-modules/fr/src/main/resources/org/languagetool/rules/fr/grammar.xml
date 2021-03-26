@@ -435,6 +435,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">être</token>
           <token>plusieurs</token>
         </antipattern>
+        <antipattern>
+          <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
+          <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+          <token postag="C coor"/>
+          <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+          <token regexp="yes">&mois_annee;</token>
+        </antipattern>
         <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -467,6 +474,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>En attendant, comme le précise Yvon Le Bot.</example>
         <example>J'ai été plusieurs arnaquée.</example>
         <example type="triggers_error" reason="ambiguous, impossible to know if it is an abbreviation">En parlant de la manière dont se comporte <marker>une pers</marker>.</example>
+        <example>Les 1er et 2e février.</example>
+        <example>certains portant le nom Motza</example>
       </rule>
     </rulegroup>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
