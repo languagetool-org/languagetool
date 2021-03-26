@@ -9865,6 +9865,20 @@ onwaarschijnlijk
 				<example correction="aan het recyclen">Ik ben <marker>aan de recycle</marker>.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="VOOR_DE_RECYCLE" name="aan de recycle" type="style" >
+			<rule>
+				<pattern>
+					<marker>
+						<token>voor</token>
+						<token>de</token>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="ZNW.*|BNW.*"/><exception regexp="yes">eigen|minder|tier</exception></token>
+					</marker>
+				</pattern>
+				<message>Dit is spreektaal.</message>
+				<suggestion>om te <match no="3" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="om te recyclen">Het is <marker>voor de recycle</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
 			<antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/></antipattern>
 			<rule>
