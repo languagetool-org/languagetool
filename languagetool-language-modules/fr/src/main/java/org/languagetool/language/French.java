@@ -227,6 +227,7 @@ public class French extends Language implements AutoCloseable {
   protected int getPriorityForId(String id) {
     switch (id) { 
       case "AGREEMENT_EXCEPTIONS": return 10; // greater than D_N
+      case "EXPRESSIONS_VU": return 10; // greater than A_ACCENT_A
       case "SA_CA": return 10; // greater than D_N
       case "MA": return 10; // greater than D_J
       case "A_INFINITIF": return 10;
