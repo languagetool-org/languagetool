@@ -119,6 +119,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Voulez-vous écrire <suggestion>m’a dit</suggestion> ?</message>
         <example correction="m’a dit">Il <marker>ma dit</marker> qu’il est parti..</example>
       </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token regexp="yes">la|une|cette</token>
+          <marker>
+            <token>ligné</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>lignée</suggestion> ?</message>
+        <suggestion>ligne</suggestion>
+        <example correction="lignée|ligne">L'histoire évolutive de la <marker>ligné</marker> humaine.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles, noms et adjectifs">
       <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
@@ -485,8 +496,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>En attendant, comme le précise Yvon Le Bot.</example>
         <example>J'ai été plusieurs arnaquée.</example>
         <example type="triggers_error" reason="ambiguous, impossible to know if it is an abbreviation">En parlant de la manière dont se comporte <marker>une pers</marker>.</example>
-        <example>Les 1er et 2e février.</example>
+        <example>Les 1er et 2d février.</example>
         <example>certains portant le nom Motza</example>
+        <example>sur la base de l'article 19 du TUE</example>
       </rule>
     </rulegroup>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
