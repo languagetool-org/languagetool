@@ -9946,6 +9946,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="TUV_GEPRUEFT" name="TÜV-geprüft" default="temp_off">
+            <antipattern>
+                <token regexp="yes">beim|de[sm]|vom|unserem|deinem|ihrem|deren|seinem</token>
+                <token>TÜV</token>
+            </antipattern>
+            <pattern>
+                <token>TÜV</token>
+                <token regexp="yes">geprüft(e[srnm]?)?</token>
+            </pattern>
+            <message>Meinten Sie das Adjektiv <suggestion><match no="1" case_conversion="allupper" />-<match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <example correction="TÜV-geprüft">Dieses Produkt ist <marker>TÜv geprüft</marker>.</example>
+            <example>Wurde das Auto vom TÜV geprüft?</example>
+        </rule>
         <rule id="NONSTOP_FLUG" name="Nonstop-Flug">
             <pattern>
                 <token regexp="yes">non-?stop</token>
@@ -9956,7 +9969,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DURCH_SCHAUEN" name="durch + Verb">
             <antipattern>
-                <token skip="2" regexp="yes">dort|hier|da|quer|oben|unten</token>
+                <token skip="2" regexp="yes">dort|drüben|hinten|vorne|hier|da|quer|oben|unten</token>
                 <token>durch</token>
             </antipattern>
             <antipattern>
@@ -49316,7 +49329,7 @@ Andere Projekte</example>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
         <rule id="GEFEATURED" name="gefeatured -> gefeaturt">
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
