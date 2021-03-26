@@ -263,7 +263,7 @@ public class HunspellRule extends SpellingCheckRule {
     /*if (sentence.getErrorLimitReached()) {
       return toRuleMatchArray(Collections.emptyList());
     }*/
-    if (language.getShortCode().equals("de")) {
+    /*if (language.getShortCode().equals("de")) {
       for (RuleMatch ruleMatch : ruleMatches) {
         int i = 1;
         for (String repl : ruleMatch.getSuggestedReplacements()) {
@@ -274,7 +274,7 @@ public class HunspellRule extends SpellingCheckRule {
           i++;
         }
       }
-    }
+    }*/
     return toRuleMatchArray(ruleMatches);
   }
 
