@@ -33628,6 +33628,23 @@ steenwijk;Steenwijk
 				<example correction="van de">Elk jaar is het weer feest in het zuiden <marker>des</marker> lands.</example>
 			</rule>
 		</rulegroup>
+		
+		<rulegroup id="SPAAR_DER" name="spaar der / spaarder">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV" regexp="yes">.*r$<exception postag_regexp="yes" postag="ZNW.*"/></token>
+						<token>der</token>
+					</marker>
+					<token/>
+				</pattern>
+				<message>Da kans is groot dat u een spatie te veel hebt gezet.</message>
+				<suggestion>\1\2</suggestion>
+				<short>spatie te veel</short>
+				<example correction="spaarder">Hij is een groot <marker>spaar der</marker>.</example>
+				<example correction="raarder">En dat is veel <marker>raar der</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
 			<rule>
 				<antipattern><token>in</token><token>der</token><token>eeuwigheid</token></antipattern>
