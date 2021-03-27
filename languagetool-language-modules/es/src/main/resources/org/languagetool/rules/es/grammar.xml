@@ -8804,10 +8804,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">uso</token>
                 </marker>
-                <token inflected="yes">horario</token>
+                <token inflected="yes" regexp="yes">horario|esférico</token>
             </pattern>
-            <message>Error ortográfico.</message>
-            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">huso</match></suggestion>
+            <message>En el sentido de 'parte en que se divide la superficie terrestre', se escribe con hache.</message>
+            <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="hu" case_conversion="preserve"/></suggestion>
+            <url>https://dle.rae.es/huso</url>
             <example correction="huso">En el <marker>uso</marker> horario de las Canarias.</example>
             <example correction="husos">En otros <marker>usos</marker> horarios.</example>
         </rule>
@@ -10978,7 +10979,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">0*1</exception></token>
                     <marker>
-                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">mil|bis|(?-i)CE</exception><exception inflected="yes" regexp="yes">multiplicar|dividir|elevar</exception></token>
+                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">mil|bis|(?-i)CE</exception><exception inflected="yes" regexp="yes"
+                            >multiplicar|dividir|elevar</exception></token>
                         <!--|V.[^P].*-->
                     </marker>
                 </pattern>
