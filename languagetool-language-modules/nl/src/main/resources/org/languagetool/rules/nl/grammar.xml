@@ -9901,6 +9901,17 @@ onwaarschijnlijk
 				<example correction="beide hoge bruggen">Ik zie dat <marker>beiden hoge bruggen</marker> dicht zijn.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="TE_WKW1EP" name="te check" >
+			<rule>
+				<pattern>
+					<token>te</token>
+					<token postag="WKW:TGW:1EP"/>
+				</pattern>
+				<message>Hier hoort vast het hele werkwoord.</message>
+				<suggestion>te <match no="2" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="te checken">We vergaten het <marker>te check</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="TE_ZNW" name="te man" >
 			<rule>
 				<pattern>
@@ -32819,6 +32830,21 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+		<rulegroup id="DE_18_DE" name="18 de/18e">
+			<rule>
+				<pattern>
+					<token regexp="yes">de|het</token>
+					<marker>
+						<token regexp="yes">[0-9]{1,3}<exception>1</exception></token>
+						<token spacebefore="yes" case_sensitive="yes">de</token>
+						</marker>
+				</pattern>
+				<message>Bedoelt u misschien een rangtelwoord?. De spatie hoort er dan niet in.</message>
+				<suggestion>\2\3</suggestion>
+				<suggestion>\2e</suggestion>
+				<example correction="18de|18e">Het komt op de <marker>18 de</marker>.</example>
+			</rule>
+		</rulegroup>  
 		<rulegroup id="ACHTER_OP" name="Achterop of achter op">
 			<rule>
 				<pattern>
