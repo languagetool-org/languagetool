@@ -8094,7 +8094,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern raw_pos="yes">
                     <marker>
-                        <token>по</token>
+                        <token>по<exception scope="previous">судя</exception></token>
                         <token  postag="ADJ:Posit:Masc:D" />
                     </marker>
                     <token>,</token>
@@ -8105,6 +8105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис</short>
+                <example>Судя по мясному рагу на столе, вы застигли его за обедом.</example>
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker>, так как было холодно.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker>, иначе будет грустно.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>, как бы вы меня ни уговаривали.</example>
@@ -11676,12 +11677,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag=".*:R" postag_regexp="yes"></exception>
                             <exception postag=".*:Fem:Sin:V" postag_regexp="yes"></exception> 
                             <exception postag="PNN:.*" postag_regexp="yes"></exception>
+                            <exception>не</exception> <!-- fast fix -->
                         </token>
                     </marker>
                 </pattern>
                 <message>Не найдены обязательные зависимые слова: интересовать кого?</message>
                 <short>интересовать кого?</short>
                 <example>Через несколько минут мы ответим на интересующие слушателей вопросы.</example>
+                <example>Мы владеем сокровищами, которые интересуют не только нас.</example>
                 <example correction="">Мы ответим на <marker>интересующие вопросы</marker>.</example>
             </rule>
             <rule>
