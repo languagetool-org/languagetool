@@ -2905,7 +2905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"></token>
                 <token skip="-1">Если</token>
                 <marker>                     
-                    <token skip="1">то<exception scope="previous" >,</exception><exception scope="next" >,</exception><exception scope="previous" regexp="yes">&defis_libo;|–|-|—</exception></token>
+                    <token skip="1">то<exception scope="previous" postag="CONJ" ></exception><exception scope="next" >,</exception><exception scope="previous" regexp="yes">&defis_libo;|–|-|—|,</exception></token>
                 </marker>
                 <token />          
             </pattern>
@@ -2913,6 +2913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://old-punctum.ru/punctum.php?sid=1191</url>
             <short>Нужна запятая или тире</short>
             <example>Если постучится кто то дверь не открывай, а зови на помощь.</example> <!-- incorrect example, but it must detect with another rule -->
+            <example>Если передумаешь - не тяни, а то я могу всё распродать</example>
             <example correction=", то| – то">Если ты позвонил<marker> то</marker> говори.</example>
         </rule>
         <rulegroup id="Nesmotrja_na_to_chto" name="Выражение «несмотря на то, что ...»" >
