@@ -7829,7 +7829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule  id="Ne_narech2" name="«Не» с наречиями (2)" default="on">
             <!-- TODO set on after release -->
             <!-- слитное написание частицы не:
-               отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»
+               отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни», TODO отсутствуют «едва ли не», «чуть ли не» ,«разве не».
                 -->
                 <antipattern>
                     <token>не</token>
@@ -7839,7 +7839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>         
-                        <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception>
+                        <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|разве|ли|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception>
                             <exception scope="previous" postag_regexp="yes" postag="ADV" />
                             <exception scope="previous">но</exception>
                         </token>
@@ -7858,6 +7858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Достаточно A, но не достаточно B.</example>
                 <example>Красное больше не модно.</example>
                 <example>Дома сидеть невесело.</example>
+                <example>Разве не опасно бродить по улицам?</example>
                 <example>Отрасли промышленности с большим вложением капитала, совершенно не обязательно требуют вложения знаний.</example>
                 <example>Работа выполнена не плохо, а хорошо.</example>  <!-- противопоставление с отрицанием, раздельно-->
                 <example>Работа выполнена неплохо, но с опозданием.</example>  <!-- противопоставление без отрицания, слитно -->
