@@ -2555,16 +2555,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <unify negate="no">
                         <feature id="gender"/>
+                        <feature id="tense"/> 
                         <token postag="VB:Past:.*" postag_regexp="yes"  skip="2" >
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|если|чего</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|если|чего|как</exception>
                             <exception scope="next"  postag="INTERJECTION"></exception>
                         </token>
                         <token postag="VB:Past:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|как</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
                         </token>
                     </unify>
@@ -2586,18 +2587,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <unify negate="no">
                         <feature id="person"/>
-                        <feature id="number"/>       
+                        <feature id="number"/>
+                        <feature id="tense"/>        
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes"  skip="2" >
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception regexp="yes" inflected="yes">пойти|давать|идти|брать|воровать|быть|делать|сделать</exception>
-                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|чего|если|что</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|чего|если|что|как</exception>
                             <exception scope="next" postag_regexp="yes" postag="INTERJECTION|VB:INF:.*"></exception>
                         </token>
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|что</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|что|как</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:.*"></exception>
                         </token>
                     </unify>
@@ -2611,7 +2613,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Покрась и побели забор.</example>
                 <example>Я, может, скоро сдамся и вместо этого пойду вздремну.</example>
                 <example>Я сделаю всё что могу.</example>
-                 <example>Он подробно описывает что происходит в данный момент.</example>
+                <example>Надеюсь однажды я перестану торчать здесь.</example>
+                <example>Он подробно описывает что происходит в данный момент.</example>
+                <example>Выживаю как могу.</example>
                 <example>Иди помоги мыть посуду.</example>
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
             </rule>                                                                                                      
