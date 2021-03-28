@@ -127,7 +127,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().toString().contains("amicaux")) {
+//    if (match.getSentence().getText().toString().contains("atlas chers")) {
 //      int i=0;
 //      i++;
 //    }
@@ -236,11 +236,11 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       if (matchPostagRegexp(tokens[i - j], DET_CP)) {
         if (matchPostagRegexp(tokens[i - j + 1], NOM_MP)) {
           cDMS[level]++;
-          canBeMS = true;
+          canBeMP = true;
         }
         if (matchPostagRegexp(tokens[i - j + 1], NOM_FP)) {
           cDFS[level]++;
-          canBeFS = true;
+          canBeFP = true;
         }
       }
       //TODO DET_CS, DET_CP without noun afterwards
@@ -365,8 +365,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     // Necessary condition: previous token is a non-agreeing noun
     // or it is adjective or adverb (not preceded by verb)
     // /*&& !matchPostagRegexp(tokens[i],NOM)*/
-    if ((matchPostagRegexp(tokens[i - 1], NOM) && !matchPostagRegexp(tokens[i - 1], substPattern))
-        || (matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], gnPattern))
+    if ( (matchPostagRegexp(tokens[i - 1], NOM) && !matchPostagRegexp(tokens[i - 1], substPattern)) 
+        || (matchPostagRegexp(tokens[i - 1], _GN_) && !matchPostagRegexp(tokens[i - 1], gnPattern))
         || (matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], adjPattern))
         || (i > 2 && matchPostagRegexp(tokens[i - 1], ADVERBIS_ACCEPTATS) && !matchPostagRegexp(tokens[i - 2], VERB)
             && !matchPostagRegexp(tokens[i - 2], PREPOSICIONS))

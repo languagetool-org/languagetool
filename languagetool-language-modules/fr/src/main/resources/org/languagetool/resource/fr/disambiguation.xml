@@ -3069,28 +3069,6 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N f s"/>
   </rule>
-  <rulegroup id="MISE_A_JOUR" name="mise à jour">
-    <rule>
-      <pattern>
-        <token>mise</token>
-        <token>à</token>
-        <marker>
-          <token regexp="yes">jour|niveau</token>
-        </marker>
-      </pattern>
-      <disambig postag="N f s"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>mises</token>
-        <token>à</token>
-        <marker>
-          <token regexp="yes">jour|niveau</token>
-        </marker>
-      </pattern>
-      <disambig postag="N f p"/>
-    </rule>
-  </rulegroup>
   <rulegroup id="A_PRESENT" name="à présent">
     <rule>
       <pattern>
@@ -3324,6 +3302,72 @@ RB => Règles Brutes
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
+  
+  <rulegroup id="NOMINAL_GROUPS" name="nonimal groups">
+    <rule>
+      <pattern>
+        <token postag="D m s"/>
+        <token postag="N [em] (s|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_MS"></wd>
+        <wd pos="_GN_MS"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="D f s"/>
+        <token postag="N [ef] (s|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_FS"></wd>
+        <wd pos="_GN_FS"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="D m p"/>
+        <token postag="N [em] (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_MP"></wd>
+        <wd pos="_GN_MP"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="D f p"/>
+        <token postag="N [ef] (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_FP"></wd>
+        <wd pos="_GN_FP"></wd>
+      </disambig>  
+    </rule>
+    
+    <rule>
+      <pattern>
+        <token postag="D e p"/>
+        <token postag="N m (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_MP"></wd>
+        <wd pos="_GN_MP"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="D e p"/>
+        <token postag="N f (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_FP"></wd>
+        <wd pos="_GN_FP"></wd>
+      </disambig>  
+    </rule>
+    
+    
+  </rulegroup>
   <rulegroup name="Ignore spelling of numbers" id="IGNORE_SPELLING_OF_NUMBERS">
     <!--
         In English, Spanish, German and many other languages, we simply allow numbers and letters next to each other

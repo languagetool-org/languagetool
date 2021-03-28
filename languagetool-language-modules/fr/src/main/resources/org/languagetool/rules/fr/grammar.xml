@@ -140,7 +140,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="courts-circuits|court-circuit">Les <marker>court-circuits</marker>.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles, noms et adjectifs">
+    <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
       <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
       <antipattern>
         <token postag="(P.)?D [fe] (s|sp)" postag_regexp="yes"/>
@@ -456,7 +456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
       </rule>
-      <rule id="D_J_" name="Concordance du déterminant avec l’adjectif" default="temp_off">
+      <rule id="D_J" name="Concordance du déterminant avec l’adjectif" default="temp_off">
         <antipattern>
           <token postag="K"/>
           <token inflected="yes" regexp="yes">diviser|multiplier|élever</token>
@@ -516,6 +516,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Il termine la course à la 21e place du classement général, derrière deux Alpine.</example>
       </rule>
     </rulegroup>
+    <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
+      <pattern>
+        <unify negate="yes">
+          <feature id="number"/>
+          <feature id="gender"/>
+          <token postag="J .*" postag_regexp="yes"/>
+          <token postag="[NZ] .*" postag_regexp="yes"/>
+        </unify>
+      </pattern>  
+      <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (s|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [me] (s|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (s|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [fe] (s|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (p|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [me] (p|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (p|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [fe] (p|sp)"/></suggestion>
+      <example correction="joli garçon|jolie garçonne|jolis garçons|jolies garçonnes"><marker>jolie garçon</marker></example>
+      <example correction="grand chien|grande chienne|grands chiens|grandes chiennes">Une très <marker>grand chienne</marker>.</example>
+    </rule>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
       <rule>
         <pattern>
@@ -638,6 +655,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="blanc|blanche">La maison du village <marker>blanches</marker>.</example>
       <example correction="suivie">La rencontre <marker>suivi</marker> d'un repas.</example>
       <example correction="achetée">utiliser de l'encre de seiche <marker>acheté</marker> en poudre</example> <!-- both nouns are fem sg-->
+      <example correction="tropical">Un climat <marker>tropicale</marker>.</example>
+      <example correction="tropical">Un climat très <marker>tropicale</marker>.</example>
+      <example correction="triés">Les dossiers <marker>triées</marker> par ordre alphabétique.</example>
+      <example correction="intelligente">Une géologue <marker>intelligent</marker>.</example>
+      <example correction="tropicale">Une forêt <marker>tropical</marker>.</example>
+      <example correction="grande">Une forêt très <marker>grand</marker>.</example>
+      <example correction="triées">Les lettres <marker>triés</marker> par ordre alphabétique.</example>
+      <example correction="gratuite">Une mise à jour <marker>gratuit</marker>.</example>
+      <example correction="laitière">une vache <marker>laitières</marker>.</example>
+      <example correction="cher">Un atlas <marker>chers</marker>.</example>
+      <example correction="lourd">Un camion très <marker>lourds</marker>.</example>
+      <example correction="lourds">Les camions très <marker>lourd</marker>.</example>
+      <example correction="chers">Les atlas <marker>cher</marker>.</example>
       <example>Introduire le mot de passe chiffré de la réunion suivi de dièse.</example>
       <example>La maison du village blanc.</example>
       <example>La maison du village blanche.</example>
@@ -13723,7 +13753,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token postag="[DJN] .* s" postag_regexp="yes" skip="1">
               <!-- Following exception skip words both singular/plural as well as adverbs -->
-              <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
+              <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END|_GN_.*" postag_regexp="yes" scope="next"/>
               <exception postag="V (inf|con|ind|sub).*|[DJNZ] .* s?p|A" postag_regexp="yes"/>
               <exception regexp="yes" scope="previous">et|de|du|,|que</exception>
               <exception regexp="yes">air|car|juste|même|neuf|bonjour</exception>
@@ -13828,7 +13858,7 @@ though, and has since been slightly modified)-->
               <exception postag="V.*" postag_regexp="yes"/>
               <exception postag=".* sp?" postag_regexp="yes"/>
               <!-- Following exception skip words both singular/plural as well as adverbs -->
-              <exception negate_pos="yes" postag="A|[JN] . sp?|SENT_END" postag_regexp="yes" scope="next"/>
+              <exception negate_pos="yes" postag="A|[JN] . sp?|SENT_END|_GN_.*" postag_regexp="yes" scope="next"/>
               <exception regexp="yes">ayants|sous</exception>
               <exception scope="next" regexp="yes">est|demain</exception></token>
             <token postag="[JN] .* s" postag_regexp="yes">
@@ -14470,7 +14500,7 @@ though, and has since been slightly modified)-->
             <exception postag="[NJ] [me] .*|V .*" postag_regexp="yes"/>
             <exception postag="Z [em] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
             <!-- Following exception is to skip an adverb or epicene word -->
-            <exception negate_pos="yes" postag="A|[JNZ] [me] .*|SENT_END" postag_regexp="yes" scope="next"/>
+            <exception negate_pos="yes" postag="A|[JNZ] [me] .*|SENT_END|_GN_.*" postag_regexp="yes" scope="next"/>
             <exception>partie</exception></token>
           <marker>
             <token postag="[JNZ] m .*" postag_regexp="yes">
@@ -14615,7 +14645,7 @@ though, and has since been slightly modified)-->
         <example>Les cours étaient en <marker>réalité destinés</marker> à préparer les élèves.</example>
         <example><marker>Une fut</marker> soumise anonymement.</example>
         <example>Son metteur en <marker>scène préféré</marker>.</example>
-        <example correction="gratuite">Une mise à jour <marker>gratuit</marker>.</example>
+        <!--<example correction="gratuite">Une mise à jour <marker>gratuit</marker>.</example>-->
         <example>Une mise à jour gratuite.</example>
         <example>Les sols en permanence gelés.</example>
         <example>L’orge perlé.</example>
@@ -19038,7 +19068,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START" skip="2"/>
           <token postag="N m .*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="N m .*" postag_regexp="yes"/></token>
+            <exception negate_pos="yes" postag="N m .*|_GN_.*" postag_regexp="yes"/></token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
           <marker>
@@ -19054,7 +19084,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START" skip="2"/>
           <token postag="N f .*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="N f .*" postag_regexp="yes"/></token>
+            <exception negate_pos="yes" postag="N f .*|_GN_.*" postag_regexp="yes"/></token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
           <marker>
@@ -19070,7 +19100,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START" skip="2"/>
           <token postag="N . s" postag_regexp="yes">
-            <exception negate_pos="yes" postag="N . s" postag_regexp="yes"/></token>
+            <exception negate_pos="yes" postag="N . s|_GN_.*" postag_regexp="yes"/></token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
           <marker>
@@ -19086,7 +19116,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START" skip="2"/>
           <token postag="N . p" postag_regexp="yes">
-            <exception negate_pos="yes" postag="N . p" postag_regexp="yes"/></token>
+            <exception negate_pos="yes" postag="N . p|_GN_.*" postag_regexp="yes"/></token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
           <marker>
