@@ -484,6 +484,19 @@ RB => Règles Brutes
       <disambig postag="D f s"/>
     </rule>
   </rulegroup>
+  <rulegroup id="COURT" name="court">
+    <!-- TODO: more rules -->
+    <rule>
+      <pattern>
+        <token postag="[NJ].*" postag_regexp="yes"/>
+        <marker>
+          <token postag="V.*" postag_regexp="yes">court</token>
+        </marker>
+        <token postag="A"/>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+  </rulegroup>
   <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
     <pattern>
       <token inflected="yes" regexp="yes">être|avoir</token>
@@ -504,24 +517,26 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="V ind.*"></disambig>
   </rule>
-  <rule id="DIT" name="dit (verbe)">
-    <pattern>
-      <marker>
-        <token postag="V ind.*" postag_regexp="yes" regexp="yes">dit|fait<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous" regexp="yes">tas|ma</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
-      </marker>
+  <rulegroup id="DIT" name="dit (verbe)">
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="V ind.*" postag_regexp="yes" regexp="yes">dit|fait<exception scope="previous" inflected="yes">avoir</exception><exception scope="previous" regexp="yes">tas|ma</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+        </marker>
         <token min="0" max="4" postag="A"/>
-        <token regexp="yes">que|qu'</token>
-    </pattern>
-    <disambig action="filter" postag="V ind.*"></disambig>
-  </rule>
+        <token regexp="yes">que|qu'|:|tout</token>
+      </pattern>
+      <disambig action="filter" postag="V ind.*"></disambig>  
+    </rule>
+  </rulegroup>
   <rule id="DURE" name="dure (verbe)">
     <pattern>
       <marker>
-        <token>dure</token>
+        <token regexp="yes">dure|creuse</token>
       </marker>      
       <token postag="D.*" postag_regexp="yes"><exception postag="P|P\+.*" postag_regexp="yes"/></token>
     </pattern>
-    <disambig action="filter" postag="V ind.*"></disambig>
+    <disambig action="filter" postag="V (ind|sub|imp).*"></disambig>
   </rule>
   <rule id="RIEN" name="rien">
     <antipattern>
