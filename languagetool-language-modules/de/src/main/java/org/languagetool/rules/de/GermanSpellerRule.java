@@ -64,6 +64,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("daß", "dass");
+    put("eien", "eine");
+    put("wiederrum", "wiederum");
+    put("ne", "eine");
+    put("ner", "einer");
     put("Frauenhofer", "Fraunhofer");
     put("Vieleicht", "Vielleicht");
     put("inbetracht", "in Betracht");
