@@ -566,6 +566,36 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="V ppa .*"/>
   </rule>
+  <rule id="TRAITER_DE" name="traiter de">
+    <pattern>
+      <token postag="[NJZ].*" postag_regexp="yes"/>
+      <marker>
+        <token postag="V (ind|sub|imp).*" postag_regexp="yes" inflected="yes">traiter</token>
+      </marker>
+      <token regexp="yes">de|du|des|d'</token>
+    </pattern>
+    <disambig action="filter" postag="V (ind|sub|imp).*"/>
+  </rule>
+  <rule id="CONDUIRE_A" name="conduire à">
+    <pattern>
+      <token postag="[NJZ].*" postag_regexp="yes"/>
+      <marker>
+        <token postag="V (ind|sub|imp).*" postag_regexp="yes" inflected="yes">conduire</token>
+      </marker>
+      <token regexp="yes">à|aux</token>
+    </pattern>
+    <disambig action="filter" postag="V (ind|sub|imp).*"/>
+  </rule>
+  <rule id="CONTINUER_A" name="continuer à">
+    <pattern>
+      <marker>
+        <token postag="V (ind|sub|imp).*" postag_regexp="yes" inflected="yes">continuer</token>
+      </marker>
+      <token regexp="yes" skip="1">à</token>
+      <token postag="V.* inf" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V (ind|sub|imp).*"/>
+  </rule>
   
   <rule id="A_PRIORI" name="a priori (noun/loc adverbial)">
     <pattern>
