@@ -447,7 +447,12 @@ public abstract class SpellingCheckRule extends Rule {
       }
     }
     newSuggestions = filterDupes(newSuggestions);
+    newSuggestions = filterNoSuggestWords(newSuggestions);
     return newSuggestions;
+  }
+
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l;
   }
 
   private boolean isProperNoun(String wordWithoutS) {
