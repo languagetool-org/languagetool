@@ -517,24 +517,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Il termine la course à la 21e place du classement général, derrière deux Alpine.</example>
       </rule>
     </rulegroup>
-<!--    <rule id="J_N_" name="Concordance de l’adjectif avec le nom" default="temp_off">
+    <rule id="J_N_" name="Concordance de l’adjectif avec le nom" default="temp_off">
       <pattern>
         <unify negate="yes">
           <feature id="number"/>
           <feature id="gender"/>
-          <token postag="J .*" postag_regexp="yes"/>
-          <token postag="[NZ] .*" postag_regexp="yes"/>
+            <token postag="J .*" postag_regexp="yes"/>
+            <token postag="[NZ] .*" postag_regexp="yes"/>
         </unify>
       </pattern>  
+      <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
       <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (s|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [me] (s|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (s|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [fe] (s|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (p|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [me] (p|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (p|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [fe] (p|sp)"/></suggestion>
       <example correction="joli garçon|jolie garçonne|jolis garçons|jolies garçonnes"><marker>jolie garçon</marker></example>
-      <example correction="grand chien|grande chienne|grands chiens|grandes chiennes">Une très <marker>grand chienne</marker>.</example>
-      <example correction="joli Christophe|jolis Christophe">Le <marker>jolie Christophe</marker></example>
-    </rule>-->
+      <example correction="grande chienne|grand chien|grands chiens|grandes chiennes">Une très <marker>grand chienne</marker>.</example>
+      <example correction="jolis Christophe|joli Christophe">Le <marker>jolie Christophe</marker></example>
+      <example correction="belles villes|belle ville">Le Japon est rempli de <marker>belle villes</marker>.</example>
+      <example correction="beaux hommes|bel homme">C'est un <marker>belle hommes</marker>.</example>
+    </rule>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
       <rule>
         <pattern>
@@ -21036,21 +21035,55 @@ though, and has since been slightly modified)-->
       <example>C’est sa onzième fille.</example>
       <example>Ma honte.</example>
     </rule>
-    <rule id="VIEUX" name="vieux + voyelle">
-      <pattern>
-        <token>vieux</token>
-        <and>
-          <token regexp="yes"> [aâeéèêioœuh].*
-            <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
-          <token postag="[NJ] m s" postag_regexp="yes"/>
-        </and>
-      </pattern>
-      <message>Voulez-vous dire <suggestion>vieil \2</suggestion> ?</message>
-      <example correction="vieil homme">C’est un <marker>vieux homme</marker>.</example>
-      <example correction="vieil ami">Mon <marker>vieux ami</marker>.</example>
-      <example>Mon vieil ami.</example>
-      <example>Ils sont comme de vieux ours.</example>
-    </rule>
+    <rulegroup id="VIEUX" name="vieux + voyelle">
+      <rule>
+        <pattern>
+          <token>vieux</token>
+          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>vieil \2</suggestion> ?</message>
+        <example correction="vieil homme">C’est un <marker>vieux homme</marker>.</example>
+        <example correction="vieil ami">Mon <marker>vieux ami</marker>.</example>
+        <example>Mon vieil ami.</example>
+        <example>Ils sont comme de vieux ours.</example>  
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>beau</token>
+          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>bel \2</suggestion> ?</message>
+        <example correction="bel homme">C’est un <marker>beau homme</marker>.</example>
+        <example correction="bel ami">Mon <marker>beau ami</marker>.</example>  
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>fou</token>
+          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>fol \2</suggestion> ?</message>
+        <example correction="fol homme">C’est un <marker>fou homme</marker>.</example>
+        <example correction="fol ami">Mon <marker>fou ami</marker>.</example>  
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>nouveau</token>
+          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>nouvel \2</suggestion> ?</message>
+        <example correction="nouvel homme">C’est un <marker>nouveau homme</marker>.</example>
+        <example correction="nouvel ami">Mon <marker>nouveau ami</marker>.</example>  
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>fou</token>
+          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>fol \2</suggestion> ?</message>
+        <example correction="fol homme">C’est un <marker>fou homme</marker>.</example>
+        <example correction="fol ami">Mon <marker>fou ami</marker>.</example>  
+      </rule>
+    </rulegroup>
     <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes">
       <antipattern>
         <token>nous</token>
