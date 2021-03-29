@@ -66,7 +66,6 @@ public class EnglishWordTokenizer extends WordTokenizer {
    * </ol>
    * 
    * @param text String of words to tokenize.
-   * @throws IOException
    */
   @Override
   public List<String> tokenize(String text) {
