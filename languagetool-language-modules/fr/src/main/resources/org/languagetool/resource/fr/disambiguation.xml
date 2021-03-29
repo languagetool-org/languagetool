@@ -64,6 +64,73 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="R dem m s"/>
   </rule>
+  <rule name="souffir le martyre" id="SOUFFIR_LE_MARTYRE">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">souffrir</token>
+      <token postag="D m s">le</token>
+      <token postag="N m s">martyre</token>
+    </pattern>
+    <disambig postag="filterall"/>
+  </rule>
+  <rule id="SAINTE-Z" name="sainte-z">
+    <pattern>
+    <token skip="1">sainte</token>
+    <token postag="Z f sp"/>
+    </pattern>
+    <disambig action="replace">
+      <wd pos="Z f sp"/>
+      <wd pos="Z f sp"/>
+    </disambig>
+  </rule>
+  <rule id="SAINT-Z" name="sainte-z">
+    <pattern>
+    <token skip="1">saint</token>
+    <token postag="Z m sp"/>
+    </pattern>
+    <disambig action="replace">
+      <wd pos="Z m sp"/>
+      <wd pos="Z m sp"/>
+    </disambig>
+  </rule>
+  <rule id="SAUVE" name="sauve">
+    <pattern>
+      <token postag="D.*" postag_regexp="yes"/>
+      <token postag="N.*" postag_regexp="yes"/>
+      <marker>
+        <token postag="V.*" postag_regexp="yes">sauve</token>
+      </marker>
+      <token postag="D.*" postag_regexp="yes"/>
+      <token postag="N.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
+  <rule name="prise de tête" id="PRISE_DE_TETE">
+    <pattern>
+      <token postag="N f s" inflected="yes">prise</token>
+      <token postag="P">de</token>
+      <token postag="N f s">tête</token>
+    </pattern>
+    <disambig postag="filterall"/>
+  </rule>
+  <rule name="plaisanter de" id="PLAISANTER_DE">
+    <pattern>
+      <marker>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">plaisanter</token>
+      </marker>
+      <token postag="P">de</token>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
+  <rule name="précise" id="PRECISE">
+    <pattern>
+      <token postag="D.*" postag_regexp="yes"/>
+      <token regexp="yes">[A-Z].*</token>
+      <marker>
+        <token postag="V.*" postag_regexp="yes">précise</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
   <rule id="ROMAN_NUMBER" name="roman number">
     <pattern>
       <!--(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)-->
