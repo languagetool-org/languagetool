@@ -41,6 +41,51 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   //private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
+  private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
+    // words with 'NOSUGGEST' in en_US.dic:
+    "asshole",
+    "assholes",
+    "bullshit",
+    "bullshitted",
+    "bullshitter",
+    "bullshitters",
+    "bullshitting",
+    "chickenshit",
+    "chickenshits",
+    "cocksucker",
+    "cocksuckers",
+    "coon",
+    "cunt",
+    "fuck",
+    "fucker",
+    "fuckhead",
+    "fuckheads",
+    "horseshit",
+    "kraut",
+    "krauts",
+    "motherfucker",
+    "motherfuckers",
+    "motherfucking",
+    "nigga",
+    "niggas",
+    "niggaz",
+    "nigger",
+    "niggers",
+    "shit",
+    "shits",
+    "shitfaced",
+    "shithead",
+    "shitheads",
+    "shitload",
+    "shitted",
+    "shitting",
+    "shitty",
+    "wop",
+    "wops",
+    // extension:
+    "niggard", "niggardly"
+  ));
+  
   private final BeoLingusTranslator translator;
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
@@ -52,6 +97,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     this(messages, language, null, userConfig, altLanguages, null, null);
+  }
+
+  @Override
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l.stream().filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());
   }
 
   protected static Map<String,String> loadWordlist(String path, int column) {
