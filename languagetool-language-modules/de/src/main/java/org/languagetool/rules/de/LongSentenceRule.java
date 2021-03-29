@@ -24,6 +24,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,11 +33,16 @@ import java.util.ResourceBundle;
  * A rule that warns on long sentences.
  * @since 3.9
  */
-public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
+public class LongSentenceRule extends TextLevelRule {
+
+  private static final int DEFAULT_MAX_WORDS = 50;
+  protected int maxWords = DEFAULT_MAX_WORDS;
+
+  private final ResourceBundle messages;
 
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive, boolean picky) {
-    super(messages, userConfig, defaultWords, defaultActive, picky);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    this.messages = messages;
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
                    Example.fixed("<marker>Dies ist ein kurzer Satz.</marker>"));
@@ -77,39 +83,53 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     return false;
   }
 
+  public String getMessage() {
+    return MessageFormat.format(messages.getString("long_sentence_rule_msg2"), maxWords);
+  }
+
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    if (tokens.length < maxWords) {   // just a short-circuit
-      return toRuleMatchArray(ruleMatches);
-    }
-    String msg = getMessage();
-    int i = 0;
-    List<Integer> fromPos = new ArrayList<>();
-    List<Integer> toPos = new ArrayList<>();
-    while (i < tokens.length) {
-      int numWords = 0;
-      while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
-              && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n") 
-              && !tokens[i].getToken().equals("\n\r")
-              ) {
-        if (isWordCount(tokens[i].getToken())) {
-          if (numWords == maxWords) {
-            fromPos.add(tokens[i].getStartPos());
-            toPos.add(tokens[i].getEndPos());
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokens();
+      if (tokens.length < maxWords) {   // just a short-circuit
+        pos += sentence.getCorrectedTextLength();
+        continue;
+      }
+      String msg = getMessage();
+      int i = 0;
+      List<Integer> fromPos = new ArrayList<>();
+      List<Integer> toPos = new ArrayList<>();
+      while (i < tokens.length) {
+        int numWords = 0;
+        while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
+          && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n")
+          && !tokens[i].getToken().equals("\n\r")
+        ) {
+          if (isWordCount(tokens[i].getToken())) {
+            if (numWords == maxWords) {
+              fromPos.add(tokens[0].getStartPos());
+              toPos.add(tokens[tokens.length-1].getEndPos()-1);
+            }
+            numWords++;
           }
-          numWords++;
+          i++;
         }
         i++;
       }
-      i++;
-    }
-    for (int j = 0; j < fromPos.size(); j++) {
-      RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
-      ruleMatches.add(ruleMatch);
+      for (int j = 0; j < fromPos.size(); j++) {
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+fromPos.get(j), pos+toPos.get(j), msg);
+        ruleMatches.add(ruleMatch);
+      }
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
   }
 
 }
