@@ -526,12 +526,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </unify>
       </pattern>  
       <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (s|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [me] (s|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (s|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [fe] (s|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (p|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [me] (p|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (p|sp)"/> <match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="N [fe] (p|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (s|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [me] (s|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (s|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [fe] (s|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [me] (p|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [me] (p|sp)"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="1" postag="(J.*)" postag_regexp="yes" postag_replace="J [fe] (p|sp)"/> <match no="2" postag="([NZ] .*)" postag_regexp="yes" postag_replace="[NZ] [fe] (p|sp)"/></suggestion>
       <example correction="joli garçon|jolie garçonne|jolis garçons|jolies garçonnes"><marker>jolie garçon</marker></example>
       <example correction="grand chien|grande chienne|grands chiens|grandes chiennes">Une très <marker>grand chienne</marker>.</example>
+      <example correction="joli Christophe|jolis Christophe">Le <marker>jolie Christophe</marker></example>
     </rule>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
       <rule>
