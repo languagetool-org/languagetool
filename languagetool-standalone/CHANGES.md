@@ -11,6 +11,9 @@
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.14)
 
+#### Dutch
+  * added and improved rules
+
 #### English
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
   * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
