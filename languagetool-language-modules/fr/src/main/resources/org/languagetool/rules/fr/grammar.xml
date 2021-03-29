@@ -597,11 +597,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
-        <token>fois</token>
-        <token regexp="yes">plus|mois</token>
-        <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-      </antipattern>
-      <antipattern>
         <token regexp="yes">la|une|plusieurs|beaucoup</token>
         <token min="0" regexp="yes">première|seconde|.*ème|de</token>
         <token>fois</token>
@@ -647,6 +642,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token min="0" max="3" postag="A"/>
         <token postag="J .*|V ppa .*" postag_regexp="yes"/>
       </antipattern>
+        <antipattern>
+            <token postag="N.*" postag_regexp="yes" skip="-1"/>
+            <token regexp="yes" skip="-1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            <token regexp="yes">[‘’\"\/\'«»“”]</token>
+        </antipattern>
+        <antipattern>
+            <token>pour</token>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token>part</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>fois</token>
+            <token regexp="yes" min="0" max="1">plus|moins</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+        <token min="0" max="1">à</token>
+        <token regexp="yes">la|aux</token>
+        <token regexp="yes">pages?</token>
+        <token postag="K"/>
+        </antipattern>
+        <antipattern>
+            <token>tout</token>
+            <token regexp="yes">juste|temps</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>en</token>
+            <token>aucun</token>
+            <token>cas</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
       <pattern>
         <token postag="J .*|V ppa .*" postag_regexp="yes"><exception postag="J e sp"/><exception regexp="yes">\p{Lu}.*|passant|allant|approchant|arrivant</exception></token>
       </pattern>
@@ -669,9 +701,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="lourd">Un camion très <marker>lourds</marker>.</example>
       <example correction="lourds">Les camions très <marker>lourd</marker>.</example>
       <example correction="chers">Les atlas <marker>cher</marker>.</example>
+      <example>Les commentaires insultants ne seront en aucun cas publiés.</example>
+      <example>La colonnade de la basilique saint-Pierre est vraiment grande.</example>
+      <example>Est-ce que le Covid-19 sauve des vies?</example>
+      <example>Tout juste sortie la version luxe du Supreme book est uniquement disponible dans les Supreme stores.</example>
+      <example>Les pays à GHI « extrêmement alarmant » se situent tous en Afrique subsaharienne.</example>
       <example>Introduire le mot de passe chiffré de la réunion suivi de dièse.</example>
+      <example>Elle obtint le cognomen Pia VI Fidelis VI (litt : six fois fidèle, six fois loyale).</example>
       <example>La maison du village blanc.</example>
+      <example>Le photographe plaisante de bon cœur avec les élèves.</example>
+      <example>Ouvre ton livre à la page neuf.</example>
+      <example>Je n'ai pour ma part lu ce manga qu'en scans.</example>
+      <example>Le Titulaire précise que l'absence de communication peut entraîner l'impossibilité de garantir l'adéquation du traitement.</example>
       <example>La maison du village blanche.</example>
+      <example>J'avais besoin d'un livre pas trop prise de tête.</example>
       <example>J'adore les films français.</example>
       <example>C'est la chose la plus stupide.</example>
       <example>Elles sont un peu extrêmes.</example>
