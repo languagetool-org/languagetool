@@ -9901,11 +9901,22 @@ onwaarschijnlijk
 				<example correction="beide hoge bruggen">Ik zie dat <marker>beiden hoge bruggen</marker> dicht zijn.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="TE_WKW1EP" name="te check" >
+			<rule>
+				<pattern>
+					<token>te</token>
+					<token postag="WKW:TGW:1EP"><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop</exception></token>
+				</pattern>
+				<message>Hier hoort vast het hele werkwoord.</message>
+				<suggestion>te <match no="2" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="te checken">We vergaten het <marker>te check</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="TE_ZNW" name="te man" >
 			<rule>
 				<pattern>
 					<token>te</token>
-					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*"/><exception case_sensitive="yes" regexp="yes">^[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren</exception></token>
+					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop</exception></token>
 				</pattern>
 				<message>Voor een zelfstandig naamwoord hoort 'de'.</message>
 				<suggestion>de \2</suggestion>
@@ -32819,6 +32830,21 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+		<rulegroup id="DE_18_DE" name="18 de/18e">
+			<rule>
+				<pattern>
+					<token regexp="yes">de|het</token>
+					<marker>
+						<token regexp="yes">[0-9]{1,3}<exception>1</exception></token>
+						<token spacebefore="yes" case_sensitive="yes">de</token>
+						</marker>
+				</pattern>
+				<message>Bedoelt u misschien een rangtelwoord?. De spatie hoort er dan niet in.</message>
+				<suggestion>\2\3</suggestion>
+				<suggestion>\2e</suggestion>
+				<example correction="18de|18e">Het komt op de <marker>18 de</marker>.</example>
+			</rule>
+		</rulegroup>  
 		<rulegroup id="ACHTER_OP" name="Achterop of achter op">
 			<rule>
 				<pattern>
@@ -33626,6 +33652,23 @@ steenwijk;Steenwijk
 				<example correction="van de">De tol <marker>des</marker> bloeds.</example>
 				<example correction="van de">Het werd aan de procureur <marker>des</marker> Konings doorgestuurd.</example>
 				<example correction="van de">Elk jaar is het weer feest in het zuiden <marker>des</marker> lands.</example>
+			</rule>
+		</rulegroup>
+		
+		<rulegroup id="SPAAR_DER" name="spaar der / spaarder">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV" regexp="yes">.*r$<exception postag_regexp="yes" postag="ZNW.*"/></token>
+						<token>der</token>
+					</marker>
+					<token/>
+				</pattern>
+				<message>Da kans is groot dat u een spatie te veel hebt gezet.</message>
+				<suggestion>\1\2</suggestion>
+				<short>spatie te veel</short>
+				<example correction="spaarder">Hij is een groot <marker>spaar der</marker>.</example>
+				<example correction="raarder">En dat is veel <marker>raar der</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">

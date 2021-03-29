@@ -8063,6 +8063,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">...+</token>
+                    <token min="0">-</token>
+                    <token>hablantes</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="1" regexp_match="(.+)" regexp_replace="$1hablantes"/></suggestion>
+                <example correction="mayahablantes">Son <marker>maya hablantes</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>power</token>
                     <token min="0">-</token>
                     <token regexp="yes">points?</token>
@@ -8804,10 +8814,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">uso</token>
                 </marker>
-                <token inflected="yes">horario</token>
+                <token inflected="yes" regexp="yes">horario|esférico</token>
             </pattern>
-            <message>Error ortográfico.</message>
-            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">huso</match></suggestion>
+            <message>En el sentido de 'parte en que se divide la superficie terrestre', se escribe con hache.</message>
+            <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="hu" case_conversion="preserve"/></suggestion>
+            <url>https://dle.rae.es/huso</url>
             <example correction="huso">En el <marker>uso</marker> horario de las Canarias.</example>
             <example correction="husos">En otros <marker>usos</marker> horarios.</example>
         </rule>
@@ -10920,8 +10931,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
-        <rulegroup id="AGREEMENT_NUMERAL_PLURAL_" name="concordancia número + nombre/adjetivo plural" default="temp_off">
+        <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural" default="temp_off">
             <rule>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">&meses_ano_abrv;|&meses_ano;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&meses_ano_abrv;|&meses_ano;</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">debido|junto|directo|conforme|previo</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">a|al</token>
+                </antipattern>
                 <antipattern>
                     <token>por</token>
                     <token regexp="yes">cien|ciento</token>
@@ -10931,10 +10955,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">absoluto|inicial</token>
                 </antipattern>
                 <antipattern>
-                    <token>1</token>
+                    <!--<token>1</token>-->
                     <token>/</token>
                     <token postag="DN.*" postag_regexp="yes"/>
-                    <token>parte</token>
+                    <!--<token>parte</token>-->
                 </antipattern>
                 <antipattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">\d|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez</exception></token>
@@ -10953,7 +10977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[0-6]\d</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">a|en|de|del|años</token>
+                    <token regexp="yes">a|en|de|del|año|años|desde|este|ese|aquel|temporada|curso|feliz|©|memoria|informe|reporte</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </antipattern>
                 <antipattern>
@@ -10962,8 +10986,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">piso|puerta|nota|vuelo|sección|artículo|apartado|cláusula|\p{Lu}+|ley</token>
+                    <token regexp="yes" inflected="yes">piso|puerta|nota|vuelo|sección|artículo|apartado|cláusula|\p{Lu}+|ley|ruta|punto|plata|oro|zona|página|amplitud|esquina|tomo|siglo</token>
                     <token regexp="yes">[\d\.,]+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN|_possible_NP" postag_regexp="yes"/>
+                    <token regexp="yes">[\d\.,]+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[\d\.,]+</token>
+                    <token regexp="yes" inflected="yes">alto|ancho|esquina|factorial|fax|tel|teléfono|este|oeste|norte|sur|piso</token>
                 </antipattern>
                 <antipattern>
                     <token postag="DN.*" postag_regexp="yes"/>
@@ -10975,10 +11007,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="2" regexp="yes">\.|º</token>
                     <token regexp="yes">\d+</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">doble|tripe</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token regexp="yes">ciento|mil|cero|coma|punto</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token regexp="yes">cero|coma|punto</token>
+                    <token>uno</token>
+                </antipattern>
+                <antipattern>
+                    <token>uno</token>
+                    <token regexp="yes">cero|coma|punto</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>uno</token>
+                    <token regexp="yes">cero|coma|punto</token>
+                    <token>uno</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN.*|NCCN000" postag_regexp="yes"/>
+                    <token>mil</token>
+                    <token>ciento</token>
+                    <token postag="DN.*|NCCN000" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+|\d+|sub|Sub</token>
+                    <token>-</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">otro</token>
+                    <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\d+\.\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">teléfono|telefono|tel|telf|tlf|fax</token>
+                    <token min="0">.</token>
+                    <token min="1" max="5" regexp="yes">\d+</token>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">0*1</exception></token>
                     <marker>
-                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">mil|bis|(?-i)CE</exception><exception inflected="yes" regexp="yes">multiplicar|dividir|elevar</exception></token>
+                        <token postag="A...S.|NC.S.*|V.P..S." postag_regexp="yes"><exception postag="N..[PN].*|_possible_NP|AO.*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;</exception><exception regexp="yes">mil|bis|(?-i)CE</exception><exception inflected="yes" regexp="yes"
+                            >multiplicar|dividir|elevar|cero</exception></token>
                         <!--|V.[^P].*-->
                     </marker>
                 </pattern>
@@ -10988,6 +11069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="huevos">Batimos cinco <marker>huevo</marker> para hacer una tortilla.</example>
                 <example correction="casas">Vendemos cincuenta <marker>casa</marker> verdes.</example>
                 <example correction="destacadas">Tenemos veinticinco <marker>destacada</marker> personalidades.</example>
+                <example correction="personas">Cincuenta y una <marker>persona</marker> murieron.</example>
                 <example>Tengo un perro.</example>
                 <example>en el cincuenta aniversario</example>
                 <example>Treinta y dos hombres.</example>
@@ -11006,6 +11088,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un tanto por ciento anual.</example>
                 <example>De cero absoluto.</example>
                 <example>Con cero inicial.</example>
+                <example>1/2 baño</example>
+                <example>y desde 1971 catedrático de la Universidad de Konstanz</example>
+                <example>trescientos, cuatro cero cuatro, treinta y dos, veintisiete</example>
+                <example>Tres cero, gana el Real</example>
+                <example>en el año dos mil ciento veintiuno</example>
+                <example>tres coma catorce</example>
+                <example>Este 2018 cumple sus primeros diez años de funcionamiento.</example>
+                <example>el puesto cincuenta y siete debido a su limitada radiodifusión</example>
+                <example>que señaló el 2-2 definitivo</example>
+                <example>AppStudio 4.0 lanza un nuevo diseño</example>
+                <example>El Ariane 5 lanza satélites en tándem</example>
+                <example>la Selección Sub-21 masculina</example>
+                <example>tres punto uno cuatro</example>
+                <example>en la Copa América 2001 realizada en Colombia</example>
+                <example>en un SO-DIMM DDR2 400 reemplazable por el usuario</example>
+                <example>un frasco de boticario del siglo 19 relleno de agua verde</example>
+                <example>A las tres supe de amores</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número">
@@ -13260,6 +13359,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>en Lagasca 33 1º derecha 28001 Madrid</example>
                 <example>Trae el manto que tienes encima y sujeta bien.</example>
                 <example>calor y frío externos</example>
+                <example>Una piedra rodante no junta musgo.</example>
+                <example>¿Por qué no limpia papá su estudio?</example>
+                <example>el masajeador facial que quita años de encima</example>
             </rule>
             <rule>
                 <pattern>
@@ -13308,6 +13410,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Diseños de primera exteriores.</example>
                 <example>técnicas médico-asistenciales de reproducción asistida</example>
                 <example>las formaciones económico-sociales inca y azteca</example>
+                <example>Tom seguido baja películas.</example>
+                <example>Tom baja películas a menudo.</example>
+                <example>un entorno que propicia actitudes egoístas</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre">

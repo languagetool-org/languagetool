@@ -29961,6 +29961,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>o</token>
                     <token>no</token>
                 </antipattern>
+                <antipattern>
+                    <token>per</token>
+                    <token>sí</token>
+                    <token>o</token>
+                    <token>per</token>
+                    <token>no</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">entre|en|de|amb|per|sobre</token>
                     <marker>
@@ -30666,6 +30673,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">quantiós|abundant|abundós|copiós</token>
                     <token inflected="yes">bé</token>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token>i</token>
+                <token>un</token>
+                <token>be</token>
+                <token>negre</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -32182,6 +32195,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Hi falta un apòstrof</short>
                 <example correction="">Porta<marker>-los</marker>-en.</example>
                 <example>Porta'ls-en.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aeiï]</token>
+                    <marker>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">'[tms]</token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-]e[ln]s?</token>
+                    </marker>
+                    <!-- <token><exception postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes"/></token> -->
+                </pattern>
+                <message>Combinació incorrecta d'apòstrofs i guionets.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="-"/><match no="3" regexp_match="(?iu)['-]e([ln]s?)" regexp_replace="e'$1"></match></suggestion>
+                <example correction="-te'l">Emporta<marker>'t-el</marker>.</example>
+                <example correction="-me'n">Prendre<marker>'m-en</marker> una.</example>
+                <example correction="-se'l">Prendre<marker>'s-el</marker>.</example>
+                <example>Emporta-te'l.</example>
+                <example>Prendre'ls-ho tot.</example>
+                <example>el temor d'ofendre'l s'imposa sobre l'egoisme</example>
             </rule>
             <rule>
                 <pattern>
@@ -65361,6 +65392,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">es</token>
                 <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">passar|haver|anar</token>
+            </antipattern>
+            <antipattern>
+                <token>pe</token>
+                <token>l</token>
+                <token>cap</token>
             </antipattern>
             <rule>
                 <pattern>
