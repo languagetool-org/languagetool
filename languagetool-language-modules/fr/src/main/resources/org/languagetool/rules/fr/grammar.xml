@@ -39082,7 +39082,7 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token postag="V ppa.*" postag_regexp="yes"/>
               </pattern>
-              <message>Voulez-vous dire <suggestion>t'a</suggestion> ?</message>
+              <message>Un espace semble être omis. Voulez-vous écrire <suggestion>t'a</suggestion> ?</message>
               <example correction="t'a">Il <marker>ta</marker> dit de faire tes devoirs.</example>
           </rule>
       <rule>
@@ -39154,14 +39154,31 @@ though, and has since been slightly modified)-->
       </rule>
           <rule>
               <antipattern>
-                  <token regexp="yes" skip="-1">quoi|quel(le)?s?|combien|comment|pourquoi|quand|où|qu[ie]</token>
+                  <token>t'</token>
+                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                  <token>t'</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token>t'</token>
+                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                  <token postag="M fin inte"></token>
+                  <token postag="M fin excl"/>
+              </antipattern>
+              <antipattern>
+                  <token>t'</token>
+                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                  <token regexp="yes">quoi|quel(le)?s?|combien(tième)?|comment|pourquoi|quand|o[ùu]|qu[ie]</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes" skip="-1">quoi|(le)?quel(le)?s?|combien(tième)?|oh|ah|hé|éh|si|tiens|comment|pourquoi|quand|o[ùu]|qu[ie]</token>
                   <token>t'</token>
                   <token postag="V.*" postag_regexp="yes" skip="-1"/>
               </antipattern>
               <antipattern>
                   <token>t'</token>
                   <token postag="V.*" postag_regexp="yes" skip="-1"/>
-                  <token regexp="yes">plus|pas|jamais|rien|aucune?s?|non|quel(le)?s?|combien|comment|(pour)?quoi|quand|où</token>
+                  <token regexp="yes">plus|pas|hein|jamais|rien|aucune?s?|non|quel(le)?s?|combien|comment|(pour)?quoi|quand|où</token>
               </antipattern>
               <antipattern>
                   <token>t'</token>
@@ -39175,27 +39192,34 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token postag="M fin inte"/>
               </pattern>
-              <message>Voulez-vous dire <suggestion>\2-tu</suggestion> ?</message>
+              <message>Dans une phrase interrogative, cette élision peut paraître familière. Voulez-vous écrire <suggestion>\2-tu</suggestion> ?</message>
               <example correction="As-tu"><marker>T'as</marker> fait tes devoirs ?</example>
               <example><marker>T'es</marker>-tu connecté ?</example>
               <example>D'où viennent tous <marker>t'es</marker> habits ?</example>
           </rule>
           <rule>
               <antipattern>
+                  <token regexp="yes" skip="-1">quoi|(le)?quel(le)?s?|combien(tième)?|oh|ah|hé|éh|si|tiens|comment|pourquoi|quand|o[ùu]|qu[ie]</token>
+                  <token postag="R pers suj 2 s"/>
+                  <token>t'</token>
+                  <token postag="V.* 2 s" postag_regexp="yes" skip="-1"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
                   <token>t'</token>
                   <token postag="V.*" postag_regexp="yes" skip="-1"/>
-                  <token regexp="yes">plus|pas|jamais|rien|aucune?s?|non|quel(le)?s?|combien|comment|(pour)?quoi|quand|où</token>
+                  <token regexp="yes">plus|bien|pas|jamais|rien|aucune?s?|non|quel(le)?s?|combien|comment|(pour)?quoi|quand|où</token>
               </antipattern>
               <pattern>
                   <marker>
-                      <token postag="R pers suj 2 s"/>
+                      <token postag="R pers suj 2 s"><exception scope="previous" postag="[NZ].*|C coor" postag_regexp="yes"/></token>
                       <token>t'</token>
                       <token postag="V.* 2 s" postag_regexp="yes" skip="-1"/>
                   </marker>
                   <token postag="M fin inte"/>
               </pattern>
-              <message>Voulez-vous dire <suggestion><match no="2" case_conversion="startupper"/>\3-<match no="1" case_conversion="startlower"/></suggestion> ?</message>
-              <example correction="T'es-tu"><marker>Tu t'es</marker> fait tes devoirs ?</example>
+              <message>Cette phrase peut paraître familière. Voulez-vous écrire <suggestion><match no="2" case_conversion="startupper"/>\3-<match no="1" case_conversion="startlower"/></suggestion> ?</message>
+              <example correction="T'es-tu"><marker>Tu t'es</marker> fait couper les cheveux ?</example>
           </rule>
       </rulegroup>
       <rulegroup id="CONFUSION_TU_AS" name="confusion tu as" default="temp_off">
