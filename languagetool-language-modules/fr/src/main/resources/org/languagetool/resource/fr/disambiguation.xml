@@ -3248,23 +3248,23 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <token postag="V.*" postag_regexp="yes" inflected="yes">tenir</token>
-        <token regexp="yes">bon|ferme</token>
+        <token postag="J.*" postag_regexp="yes" regexp="yes">bon|ferme</token>
       </pattern>
       <disambig action="filterall"/>
     </rule>
     <rule>
       <pattern>
         <token postag="V.*" postag_regexp="yes" inflected="yes">filer</token>
-        <token>bon</token>
-        <token>train</token>
+        <token postag="J m s">bon</token>
+        <token postag="N m s">train</token>
       </pattern>
       <disambig action="filterall"/>
     </rule>
   </rulegroup>
   <rule id="GRAND_J" name="grand et adjectif">
     <pattern>
-      <token>grand</token>
-      <token regexp="yes">max(imum)?</token>
+      <token postag="J m s">grand</token>
+      <token postag="N m s" regexp="yes">max(imum)?</token>
     </pattern>
     <disambig action="filterall"/>
   </rule>
@@ -3341,7 +3341,7 @@ RB => Règles Brutes
         <token regexp="yes">citée?s?</token>
       </marker>
     </pattern>
-    <disambig action="filterall" postag="J.*"/>
+    <disambig action="filter" postag="J.*"/>
   </rule>
   <rule id="CAR" name="car">
     <antipattern>
@@ -3360,9 +3360,10 @@ RB => Règles Brutes
     <pattern>
       <token regexp="yes">(?-i)Saint</token>
       <token>-</token>
-      <token postag="Z m sp" postag_regexp="yes"/>
+      <token postag="Z m sp"/>
     </pattern>
     <disambig action="replace">
+      <wd pos="Z m sp"/>
       <wd pos="Z m sp"/>
       <wd pos="Z m sp"/>
     </disambig>
@@ -3371,9 +3372,10 @@ RB => Règles Brutes
     <pattern>
       <token regexp="yes">(?-i)Sainte</token>
       <token>-</token>
-      <token postag="Z f sp" postag_regexp="yes"/>
+      <token postag="Z f sp"/>
     </pattern>
     <disambig action="replace">
+      <wd pos="Z f sp"/>
       <wd pos="Z f sp"/>
       <wd pos="Z f sp"/>
     </disambig>
@@ -3386,7 +3388,7 @@ RB => Règles Brutes
         <token regexp="yes">facilités?</token>
       </marker>
     </pattern>
-    <disambig action="filter" postag="N"/>
+    <disambig action="filter" postag="N.*"/>
   </rule>
   <rule id="COURT_ADVERBE" name="court adverbe">
     <pattern>
@@ -3403,13 +3405,15 @@ RB => Règles Brutes
   </rule>
   <rule id="TOUT" name="tout">
     <pattern>
-      <marker>
         <token>tout</token>
-      </marker>
       <token regexp="yes">au|du</token>
       <token regexp="yes">moins|plus</token>
     </pattern>
-    <disambig action="filter" postag="A"/>
+    <disambig action="replace">
+      <wd pos="A"/>
+      <wd pos="A"/>
+      <wd pos="A"/>
+    </disambig>
   </rule>
   <rule id="COURT_LE_LONG" name="court le long">
     <pattern>
@@ -3419,35 +3423,35 @@ RB => Règles Brutes
       <token>long</token>
       <token>de</token>
     </pattern>
-    <disambig action="filter" postag="V"/>
+    <disambig action="filter" postag="V.*"/>
   </rule>
   <rule id="COURT_A_SA_PERTE" name="courir à sa perte">
     <pattern>
       <marker>
-        <token regexp="yes">court</token>
+        <token postag="V.*" postag_regexp="yes">court</token>
       </marker>
       <token skip="1">à</token>
       <token>perte</token>
     </pattern>
-    <disambig action="filter" postag="V"/>
+    <disambig action="filter" postag="V.*"/>
   </rule>
   <rule id="TIRER_PARTIE" name="tirer partie">
     <pattern>
-      <marker>
         <token postag="V.*" postag_regexp="yes" inflected="yes">tirer</token>
-      </marker>
+      <marker>
       <token>partie</token>
+    </marker>
     </pattern>
-    <disambig action="filterall"/>
+    <disambig action="filter" postag="N.*"/>
   </rule>
   <rule id="RUMEUR_COURT" name="rumeur court">
     <pattern>
       <token>rumeur</token>
       <marker>
-        <token postag="V.*" postag_regexp="yes" inflected="yes">court</token>
+        <token postag="V.*" postag_regexp="yes">court</token>
       </marker>
     </pattern>
-    <disambig action="filter" postag="V"/>
+    <disambig action="filter" postag="V.*"/>
   </rule>
   <rule id="COURT_LE_RISQUE" name="court le risque">
     <pattern>
@@ -3457,29 +3461,29 @@ RB => Règles Brutes
       <token>le</token>
       <token>risque</token>
     </pattern>
-    <disambig action="filter" postag="V"/>
+    <disambig action="filter" postag="V.*"/>
   </rule>
   <rule id="SE_SAVOIR" name="se savoir">
     <pattern>
-      <token postag="R pers obj.*" postag_regexp="yes"/>
+      <token>se</token>
       <marker>
-        <token>savoir</token>
+        <token postag="V.*" postag_regexp="yes">savoir</token>
       </marker>
     </pattern>
-    <disambig action="filter" postag="V"/>
+    <disambig action="filter" postag="V.*"/>
   </rule>
   <rule id="RENDRE_VISITE" name="rendre visite">
     <pattern>
       <token postag="V.*" postag_regexp="yes" inflected="yes">rendre</token>
-      <token>visite</token>
+      <token postag="N f s">visite</token>
     </pattern>
     <disambig action="filterall"/>
   </rule>
   <rule id="METRES_COURSE" name="mètres dans une course">
     <pattern>
       <token postag="Y"/>
-      <token>mètres</token>
-      <token regexp="yes">féminin|masculin</token>
+      <token postag="N m s">mètres</token>
+      <token postag="J f s" regexp="yes">féminin|masculin</token>
     </pattern>
     <disambig action="filterall"/>
   </rule>
@@ -3497,7 +3501,7 @@ RB => Règles Brutes
     <pattern>
       <token postag="N.*" postag_regexp="yes"/>
       <marker>
-        <token regexp="yes">gagne</token>
+        <token postag="V.*" postag_regexp="yes">gagne</token>
       </marker>
     </pattern>
     <disambig action="filter" postag="V.*"/>
