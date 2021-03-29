@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.3-SNAPSHOT (release planned for 2021-03-29)
+## 5.3 (2021-03-29)
 
 #### Arabic
   * added and improved rules
@@ -17,12 +17,12 @@
   * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.03.01)
   * updated en_ZA spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.02.15)
-  * changes in the word tokenizer for contractions and possessives, e.g. does[do/VBZ]n't[not/RB]; Harper[Harper/NNP,harper/NN]'s['s/POS]
-
-#### German
-  * added and improved rules
+  * changes in the word tokenizer for contractions and possessives, e.g. `does[do/VBZ]n't[not/RB]`; `Harper[Harper/NNP,harper/NN]'s['s/POS]`
 
 #### French
+  * added and improved rules
+
+#### German
   * added and improved rules
 
 #### Portuguese
@@ -41,6 +41,7 @@
   * over 6000 new words in the POS dictionary
   * added and improved rules
   * improved tagging and disambiguation
+
 
 
 ## 5.2 (released 2020-12-29)
