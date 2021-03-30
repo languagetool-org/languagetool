@@ -83,13 +83,13 @@ RB => Règles Brutes
     <wd pos="A"/>
     <wd pos="A"/>
   </disambig>
-</rule>
+  </rule>
   <rule name="inclus" id="INCLUS">
     <pattern>
       <marker>
         <token postag="V.*" postag_regexp="yes">inclus</token>
       </marker>
-      <token>que</token>
+      <token inflected="yes">que</token>
     </pattern>
     <disambig action="filter" postag="V.*"/>
   </rule>
@@ -165,20 +165,6 @@ RB => Règles Brutes
       <token postag="N f s" inflected="yes">prise</token>
       <token postag="P">de</token>
       <token postag="N f s">tête</token>
-    </pattern>
-    <disambig postag="filterall"/>
-  </rule>
-  <rule name="fonctionnalités enceinte" id="FONCTIONALITE_ENCEINTE">
-    <pattern>
-      <token postag="N f p">fonctionalités</token>
-      <token postag="J f s ">enceinte</token>
-    </pattern>
-    <disambig postag="filterall"/>
-  </rule>
-  <rule name="bonne" id="BONNE">
-    <pattern>
-      <token postag="J f s">bonne</token>
-      <token postag="N f s" regexp="yes">chance|nuit</token>
     </pattern>
     <disambig postag="filterall"/>
   </rule>
@@ -1680,6 +1666,19 @@ RB => Règles Brutes
       </pattern>
       <disambig action="filterall"/>
     </rule>
+    <rule>
+      <pattern>
+        <unify>
+          <feature id="number"/>
+          <feature id="gender"/>
+          <marker>
+            <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">bon|meilleur</token>
+            <token postag="N.*" postag_regexp="yes"/>
+          </marker>
+        </unify>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
   </rulegroup>
   
   <rulegroup id="DE_P_D" name="de (prep / det )">
@@ -1823,7 +1822,7 @@ RB => Règles Brutes
   <rulegroup id="POUVOIR_INFINITIF" name="pouvoir + infinitif">
     <rule>
       <pattern>
-        <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
+        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir</token>
         <token postag="V.* inf" postag_regexp="yes"/>
       </pattern>
       <disambig action="filterall"/>
@@ -1836,16 +1835,16 @@ RB => Règles Brutes
         <token>?</token>
       </antipattern>-->
       <pattern>
-        <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
-        <token postag="R pers obj.*" postag_regexp="yes"/>
+        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir</token>
+        <token postag="R pers obj.*|A" postag_regexp="yes"/>
         <token postag="V.* inf" postag_regexp="yes"/>
       </pattern>
       <disambig action="filterall"/>
     </rule>
     <rule>
       <pattern>
-        <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
-        <token postag="A">pas</token>
+        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir</token>
+        <token postag="A"/>
         <token postag="R pers obj.*" postag_regexp="yes"/>
         <token postag="V.* inf" postag_regexp="yes"/>
       </pattern>
