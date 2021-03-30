@@ -32206,7 +32206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- <token><exception postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes"/></token> -->
                 </pattern>
                 <message>Combinació incorrecta d'apòstrofs i guionets.</message>
-                <suggestion><match no="2" regexp_match="'" regexp_replace="-"/><match no="3" regexp_match="(?iu)['-]e([ln]s?)" regexp_replace="e'$1"></match></suggestion>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="-"/><match no="3" regexp_match="(?iu)['-]e([ln]s?)" regexp_replace="e'$1"/></suggestion>
                 <example correction="-te'l">Emporta<marker>'t-el</marker>.</example>
                 <example correction="-me'n">Prendre<marker>'m-en</marker> una.</example>
                 <example correction="-se'l">Prendre<marker>'s-el</marker>.</example>
@@ -35045,12 +35045,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BARCA_MAJUSCULES" name="barça/Barça">
             <pattern case_sensitive="yes">
-                <token postag="D..MS." postag_regexp="yes"/>
                 <marker>
                     <token>barça</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>Barça</suggestion> (en majúscula)?</message>
+            <message>¿Volíeu dir <suggestion>Barça</suggestion> (club de futbol)?</message>
             <example correction="Barça">En un partit del <marker>barça</marker>.</example>
             <example correction="Barça">Un <marker>barça</marker> espectacular.</example>
         </rule>
@@ -35162,6 +35161,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>↑ «Presidenta Bachelet se suma a la trobada»</example>
             </rule>
         </rulegroup>
+        <rule id="HOLANDA" name="Holanda">
+            <pattern case_sensitive="yes">
+                <token>holanda</token>
+            </pattern>
+            <message>Si és un nom de lloc, s'escriu amb majúscula. Existeix com a nom comú (en minúscula) amb sentits menys freqüents.</message>
+            <suggestion>Holanda</suggestion>
+            <example correction="Holanda">El mes que ve me'n vaig a treballar a <marker>holanda</marker>.</example>
+        </rule>
     </category>
     <category id="TYPOGRAPHY" name="Z) Errors de tipografia i puntuació" type="typographical">
         <rule id="COMETA_APOSTROF" name="confusió cometa/apòstrof">
