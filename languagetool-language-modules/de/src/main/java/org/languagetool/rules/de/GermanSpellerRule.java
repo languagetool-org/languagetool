@@ -1643,6 +1643,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Danke");
     } else if (word.equals("Zynik")) {
       return Collections.singletonList("Zynismus");
+    } else if (word.equalsIgnoreCase("email")) {
+      return Collections.singletonList("E-Mail");
     } else if (word.length() > 9 && word.startsWith("Email")) {
       String suffix = word.substring(5);
       if (!hunspell.spell(suffix)) {
@@ -1653,7 +1655,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("wiederspiegeln")) {
       return Collections.singletonList("widerspiegeln");
     } else if (word.equals("ch")) {
-        return Collections.singletonList("ich");
+      return Collections.singletonList("ich");
     } else {
       for (Pattern p : ADDITIONAL_SUGGESTIONS.keySet()) {
         if (p.matcher(word).matches()) {
