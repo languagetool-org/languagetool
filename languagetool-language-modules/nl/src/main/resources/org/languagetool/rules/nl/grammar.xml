@@ -39610,7 +39610,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<marker>
 						<token>de</token>
-						<token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW.*|BNW:STF|.*MRV.*|WKW:VTD:ONV"/><exception>beiden</exception></token>
+						<token postag="WKW:TGW:INF" regexp="yes">.*[^r]en<exception postag_regexp="yes" postag="ZNW.*|BNW:STF|.*MRV.*|WKW:VTD:ONV"/><exception>beiden</exception></token>
 					</marker>
 					<token><exception>de</exception></token>
 				</pattern>
@@ -39624,6 +39624,25 @@ steenwijk;Steenwijk
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="er"/></suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ende"/></suggestion>
 				<example correction="het doorverbinden|de ___ doorverbinden|de te doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder|de doorverbindende">En <marker>de doorverbinden</marker> doet u zo.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<marker>
+						<token>de</token>
+						<token postag="WKW:TGW:INF" regexp="yes">.*ren<exception postag_regexp="yes" postag="ZNW.*|BNW:STF|.*MRV.*|WKW:VTD:ONV"/></token>
+					</marker>
+					<token><exception>de</exception></token>
+				</pattern>
+				<message>Hier is iets mis, want na 'de' past bijna nooit een werkwoord.</message>
+				<suggestion>het \2</suggestion>
+				<suggestion>de ___ \2</suggestion>
+				<suggestion>de te \2</suggestion>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ing"/></suggestion>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ingen"/></suggestion>
+				<suggestion>te \2</suggestion>
+				<suggestion>de <match no="2" regexp_match="(.)ren$" regexp_replace="$1$1rder"/></suggestion>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ende"/></suggestion>
+				<example correction="het doorboren|de ___ doorboren|de te doorboren|de doorboring|de doorboringen|te doorboren|de doorboorder|de doorborende">En <marker>de doorboren</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_3EP" name="de loopt" >
