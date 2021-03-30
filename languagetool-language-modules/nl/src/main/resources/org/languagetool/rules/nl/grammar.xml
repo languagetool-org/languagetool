@@ -9600,7 +9600,19 @@ onwaarschijnlijk
 				<example correction="eBayobject">Het is een <marker>eBay object</marker>.</example>
 			</rule>			
 		</rulegroup>
-
+		<rulegroup id="WIL_DE_GAAN" name="wil de /wilde">
+			<rule>
+				<pattern>
+					<marker>
+						<token>wil</token>
+						<token>de</token>
+					</marker>
+					<token postag_regexp="yes" postag="WKW:TGW:INF.*"/>
+				</pattern>
+				<message>De kans is groot dat u <suggestion>\1\2</suggestion> bedoelt.</message>
+				<example correction="wilde">Hij <marker>wil de</marker> weglopen.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="VEELMEER" name="veelmeer / veel meer">
 			<rule>
 				<pattern>
