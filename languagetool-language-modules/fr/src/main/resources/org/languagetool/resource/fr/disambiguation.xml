@@ -552,6 +552,32 @@ RB => Règles Brutes
       </pattern>
       <disambig action="filter" postag="V.*"/>
     </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">route|rue|rumeur</token>
+        <marker>
+          <token postag="V.*" postag_regexp="yes">court</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="V.*" postag_regexp="yes">court</token>
+        </marker>
+        <token regexp="yes">vers|autour</token>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">courir</token>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes">risque</token>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
   </rulegroup>  
   <rule id="A_PRIORI" name="a priori (noun/loc adverbial)">
     <pattern>
@@ -2392,15 +2418,28 @@ RB => Règles Brutes
       <disambig action="filter" postag="A"/>
     </rule>
   </rulegroup>
-  <rule id="ENSEMBLE" name="ensemble (adverb)">
-    <pattern>
-      <token regexp="yes">tous|toutes</token>
-      <marker>
-        <token postag="A">ensemble</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="A"/>
-  </rule>
+  <rulegroup id="ENSEMBLE" name="ensemble (adverb)">
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="N m s">ensemble</token>  
+        </marker>
+        <token regexp="yes">de|d'|des</token>
+        <token min="0" postag="J .* (p|sp)" postag_regexp="yes"/>
+        <token postag="N .* (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">tous|toutes</token>
+        <marker>
+          <token postag="A">ensemble</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="A"/>  
+    </rule>
+  </rulegroup>
   <rule id="PARMI" name="parmi (prep)">
    <!-- rare or old as adverb-->    
     <pattern>
