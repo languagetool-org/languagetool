@@ -225,7 +225,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Alle die die"
       tokenRegex("alle|nur|obwohl|lediglich|für|zwar|aber"),
       new PatternTokenBuilder().csToken("die").build(),
-      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("die").build()
     ),
     Arrays.asList(// "Das Haus, in das das Kind läuft."
       csToken(","),
