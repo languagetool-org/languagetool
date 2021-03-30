@@ -646,6 +646,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <antipattern>
         <token inflected="yes">saint</token>
+        <token min="0">-</token>
         <token postag="[NZ].*" postag_regexp="yes"/>
       </antipattern>
         <antipattern>
@@ -755,12 +756,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">strictes?</token>
             <token regexp="yes">fins?</token>
         </antipattern>
-        <antipattern>
-            <token postag="N . p" postag_regexp="yes"/>
-            <token regexp="yes">baroque|classique|basse|caudale|dorsale|gauche|droit|cinétique|civile|collectif</token>
-            <token postag="C coor"/>
-            <token regexp="yes">baroque|classique|hyperbasse|caudale|dorsale|gauche|droit|optique|pénale|individuel</token>
-        </antipattern>
+      <antipattern>
+        <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+        <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+        <token postag="C coor"/>
+        <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+        <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+        <token postag="C coor"/>
+        <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+      </antipattern>
         <antipattern>
             <token regexp="yes">par|d[ue]|en|ce|à</token>
             <token regexp="yes">nature|genre|exemple|théorie|préférence|sytle|soir|matin|midi|type|hasard|évidence|application|part</token>
