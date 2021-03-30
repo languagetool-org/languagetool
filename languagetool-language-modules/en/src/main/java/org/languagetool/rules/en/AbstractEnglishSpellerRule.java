@@ -405,6 +405,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("differently-abled", Arrays.asList("differently abled"));
     s.put("Differently-abled", Arrays.asList("Differently abled"));
+    s.put("data-uri", Arrays.asList("data URI"));
     s.put("Ppl", Arrays.asList("People"));
     s.put("Si", Arrays.asList("Is"));
     s.put("si", Arrays.asList("is"));
