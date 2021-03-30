@@ -18854,6 +18854,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token regexp="yes">es|das|dies</token>
+                        <token regexp="yes" min="0">wirklich|überhaupt|wohl|natürlich|doch|kaum|durchaus|möglicherweise|jetzt|nun|total</token>
+                        <token>Sinn</token>
+                        <token>macht</token>
+                    </marker>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>\1 \2 \3 ergibt</suggestion>
+                <suggestion>\1 \2 sinnvoll ist</suggestion>
+                <suggestion>\1 \2 \3 stiftet</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="es Sinn ergibt|es sinnvoll ist|es Sinn stiftet">Er sagt, dass <marker>es Sinn macht</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>Sinn</token>
                     <token>macht</token>
                 </pattern>
@@ -49338,7 +49354,7 @@ Andere Projekte</example>
                 <token>by</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
