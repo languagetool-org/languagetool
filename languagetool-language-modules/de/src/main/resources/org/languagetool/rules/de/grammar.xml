@@ -9946,18 +9946,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="TUV_GEPRUEFT" name="TÜV-geprüft" default="temp_off">
+        <rule id="TUV_GEPRUEFT" name="TÜV-geprüft">
             <antipattern>
-                <token regexp="yes">beim|de[sm]|vom|unserem|deinem|ihrem|deren|seinem</token>
-                <token>TÜV</token>
+                <token postag="(PRP|ART):.+" postag_regexp="yes" />
+                <token postag="ADJ:.*|UNKNOWN" postag_regexp="yes" min="0" />
+                <token regexp="yes">TÜV|DEKRA</token>
+                <token regexp="yes">zertifiziert|geprüft</token>
             </antipattern>
             <pattern>
-                <token>TÜV</token>
-                <token regexp="yes">geprüft(e[srnm]?)?</token>
+                <token regexp="yes">TÜV|DEKRA</token>
+                <token regexp="yes">geprüft(e[srnm]?)?|zertifiziert(e[srnm]?)?</token>
             </pattern>
             <message>Meinten Sie das Adjektiv <suggestion><match no="1" case_conversion="allupper" />-<match no="2" case_conversion="alllower" /></suggestion>?</message>
             <example correction="TÜV-geprüft">Dieses Produkt ist <marker>TÜv geprüft</marker>.</example>
+            <example correction="TÜV-geprüftes">Ein <marker>TÜV geprüftes</marker> Auto.</example>
             <example>Wurde das Auto vom TÜV geprüft?</example>
+            <example>Das hat schon der TÜV geprüft.</example>
+            <example>Die DEKRA zertifiziert das.</example>
         </rule>
         <rule id="NONSTOP_FLUG" name="Nonstop-Flug">
             <pattern>
@@ -49328,6 +49333,10 @@ Andere Projekte</example>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
         <rule id="GEFEATURED" name="gefeatured -> gefeaturt">
+            <antipattern>
+                <token>designed</token>
+                <token>by</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched</token>
             </pattern>
