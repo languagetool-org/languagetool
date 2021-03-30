@@ -2472,6 +2472,24 @@ Tendo os seus tripulantes conseguido ser resgatados.
 		<token postag='SPS.+|SP0.+|DA0.S.+|VMN0000' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-03-30 (17-MAR-2021+) *START* -->
+<!--
+O LanguageTool é um extra para os navegadores Chrome/Firefox/Edge/Safari.
+Pela ótica conservadora, a agricultura obedece aos conceitos cartesiano, simplista e reducionista.
+Para além de Trajano, as principais perseguições foram ordenadas pelos imperadores Marco Aurélio, Décio, Valeriano e Diocleciano.
+A Ucrânia é uma república com um sistema de governo semi-presidencial e poderes legislativo, executivo e judiciário separados.
+-->
+      <antipattern>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<token min="1" max="3" postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+		</token>
+		<token regexp='yes'>[,/]</token>
+		<token min="1" max="3" postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+		</token>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-03-30 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -2527,6 +2545,11 @@ Tendo os seus tripulantes conseguido ser resgatados.
 	  <example>Tendo os seus <marker>protestos caído</marker> em saco-roto, preencheu os formulários do imposto.</example>
 	  <example>Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.</example>
 	  <example>Tendo os seus tripulantes conseguido ser resgatados.</example>
+	  
+	  <example type='correct'>O LanguageTool é um extra para os <marker>navegadores Chrome</marker>/Firefox/Edge/Safari.</example>
+	  <example>Pela ótica conservadora, a agricultura obedece aos conceitos cartesiano, simplista e reducionista.</example>
+	  <example>Para além de Trajano, as principais perseguições foram ordenadas pelos imperadores Marco Aurélio, Décio, Valeriano e Diocleciano.</example>
+	  <example>A Ucrânia é uma república com um sistema de governo semi-presidencial e poderes legislativo, executivo e judiciário separados.</example>	  
     </rule>
     <rule>
       <antipattern>
