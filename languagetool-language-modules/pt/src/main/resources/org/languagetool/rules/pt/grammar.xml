@@ -4671,6 +4671,25 @@ O plural de cavalo é cavalos.
     </rule>
   </rulegroup>
 
+	<!-- TROCAS-TE trocaste -->
+    <rule id='HIFEN_INTRUSIVO' name="Verbo com hífen intrusivo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-30 (17-MAR-2021+)      -->
+	<!--
+Hoje trocas-te de computador? → Hoje trocaste de computador?
+	-->
+		<pattern>
+			<marker>
+				<token postag='VMIP2S0' postag_regexp='no'/>	
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='no' spacebefore='no'>te</token>
+			</marker>
+			<token postag='SPS00' postag_regexp='no'/>
+		</pattern>
+		<message>Caso se trate de uma forma do pretérito perfeito, escreve-se sem hífen.</message>
+		<suggestion>\1\3</suggestion>
+		<example correction="trocaste">Hoje <marker>trocas-te</marker> de computador?</example>
+    </rule>
+
   <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
     <!--              General verbal concordance errors           -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
