@@ -241,16 +241,17 @@ public class French extends Language implements AutoCloseable {
       case "JE_M_APPEL": return 1;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 1;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      case "D_N": return 1; // needs to have higher priority than agreement postponed adj
+      case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
+      case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "FR_SPELLING_RULE": return -100;
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-      case "D_N": return 1; // needs to have higher priority than agreement postponed adj
-      case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
     }
     if (id.startsWith("grammalecte_")) {
       return -150;
