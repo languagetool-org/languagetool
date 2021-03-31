@@ -36801,6 +36801,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ESTAR_EN_EL_CERT" name="estar en el cert">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">estar</token>
+                <token>en</token>
+                <token>el</token>
+                <token>cert</token>
+            </pattern>
+            <message>Aquesta expressió és un calc del castellà.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tenir</match> raó</suggestion>
+            <example correction="tenies raó">Tu <marker>estaves en el cert</marker>.</example>
+        </rule>
         <rulegroup id="MES_ADJ_COMPARATIU" name="*més inferior/més baix">
             <antipattern>
                 <token>a</token>
