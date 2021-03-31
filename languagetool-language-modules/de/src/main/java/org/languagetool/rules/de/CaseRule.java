@@ -714,6 +714,21 @@ public class CaseRule extends Rule {
       csToken(">"),
       csRegex("[A-ZÄÜÖ].+"),
       csToken(">")
+    ),
+    Arrays.asList(
+      // :D Auf dieses Frl. der apfel fällt ja doch nicht weit vom stamm! 
+      SENT_START,
+      regex("[:;]"),
+      regex("[DPO]"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // :-D Auf dieses Frl. der apfel fällt ja doch nicht weit vom stamm! 
+      SENT_START,
+      regex("[:;]"),
+      token("-"),
+      regex("[DPO]"),
+      regex("[A-ZÄÜÖ].*")
     )
   );
 
