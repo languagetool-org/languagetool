@@ -1458,17 +1458,26 @@ public class JLanguageTool {
       language.getChunker().addChunkTags(aTokens);
     }
 
-    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
+    int tokenCount = language.isSentenceEndSeparate() ? tokens.size() + 2 : tokens.size() + 1;
+    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokenCount];
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
     AnalyzedToken sentenceStartToken = new AnalyzedToken("", SENTENCE_START_TAGNAME, null);
     startTokenArray[0] = sentenceStartToken;
     tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
+    
     int startPos = 0;
     for (AnalyzedTokenReadings posTag : aTokens) {
       posTag.setStartPos(startPos);
       tokenArray[toArrayCount++] = posTag;
       startPos += posTag.getToken().length();
+    }
+    
+    if( language.isSentenceEndSeparate() ) {
+      AnalyzedToken sentenceEndToken = new AnalyzedToken("", SENTENCE_END_TAGNAME, null);
+      AnalyzedToken[] endTokenArray = new AnalyzedToken[1];
+      endTokenArray[0] = sentenceEndToken;
+      tokenArray[toArrayCount++] = new AnalyzedTokenReadings(endTokenArray, startPos);
     }
 
     int numTokens = aTokens.size();
@@ -1490,19 +1499,22 @@ public class JLanguageTool {
 
     // add additional tags
     int lastToken = toArrayCount - 1;
-    // make SENT_END appear at last not whitespace token
-    for (int i = 0; i < toArrayCount - 1; i++) {
-      if (!tokenArray[lastToken - i].isWhitespace()) {
-        lastToken -= i;
-        break;
+    
+    if( ! language.isSentenceEndSeparate() ) {
+      // make SENT_END appear at last not whitespace token
+      for (int i = 0; i < toArrayCount - 1; i++) {
+        if (!tokenArray[lastToken - i].isWhitespace()) {
+          lastToken -= i;
+          break;
+        }
       }
-    }
 
-    tokenArray[lastToken].setSentEnd();
-
-    if (tokenArray.length == lastToken + 1 && tokenArray[lastToken].isLinebreak()) {
-      tokenArray[lastToken].setParagraphEnd();
+      tokenArray[lastToken].setSentEnd();
     }
+    
+      if (tokenArray.length == lastToken + 1 && tokenArray[lastToken].isLinebreak()) {
+        tokenArray[lastToken].setParagraphEnd();
+      }
     return new AnalyzedSentence(tokenArray);
   }
 

@@ -68,6 +68,7 @@ public abstract class Language {
   
   private List<AbstractPatternRule> patternRules;
   private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
+  private boolean sentenceEndSeparate;
 
   private Disambiguator disambiguator;
   private Tagger tagger;
@@ -825,6 +826,14 @@ public abstract class Language {
     output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
     
     return output;
+  }
+
+  public boolean isSentenceEndSeparate() {
+    return sentenceEndSeparate;
+  }
+
+  public void setSentenceEndSeparate(boolean sentenceEndSeparate) {
+    this.sentenceEndSeparate = sentenceEndSeparate;
   }
 
   /**

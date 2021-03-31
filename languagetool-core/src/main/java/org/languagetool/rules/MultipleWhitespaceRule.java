@@ -35,10 +35,12 @@ import java.util.ResourceBundle;
  * @author Marcin Miłkowski
  */
 public class MultipleWhitespaceRule extends TextLevelRule {
+  private Language language;
 
   public MultipleWhitespaceRule(ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
+    this.language = language;
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
 
@@ -75,10 +77,11 @@ public class MultipleWhitespaceRule extends TextLevelRule {
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
       //note: we start from token 1
       //token no. 0 is guaranteed to be SENT_START
-      for (int i = 1; i < tokens.length; i++) {
+      int stopAt = language.isSentenceEndSeparate() ? tokens.length-1 : tokens.length;
+      for (int i = 1; i < stopAt; i++) {
         if(isFirstWhite(tokens[i])) {
           int nFirst = i;
-          for (i++; i < tokens.length && isRemovableWhite(tokens[i]); i++);
+          for (i++; i < stopAt && isRemovableWhite(tokens[i]); i++);
           i--;
           if (i > nFirst) {
             String message = messages.getString("whitespace_repetition");
@@ -88,7 +91,7 @@ public class MultipleWhitespaceRule extends TextLevelRule {
             ruleMatches.add(ruleMatch);
           }
         } else if (tokens[i].isLinebreak()) {
-          for (i++; i < tokens.length && isRemovableWhite(tokens[i]); i++);
+          for (i++; i < stopAt && isRemovableWhite(tokens[i]); i++);
         }
       }
       pos += sentence.getCorrectedTextLength();

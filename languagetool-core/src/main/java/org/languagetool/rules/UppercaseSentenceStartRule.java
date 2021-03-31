@@ -88,7 +88,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
     boolean isPrevSentenceNumberedList = false;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-      if (tokens.length < 2) {
+      int tokenLength = language.isSentenceEndSeparate() ? tokens.length-1 : tokens.length;
+      if (tokenLength < 2) {
         return toRuleMatchArray(ruleMatches);
       }
       int matchTokenPos = 1; // 0 = SENT_START
@@ -97,7 +98,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       String secondToken = null;
       String thirdToken = null;
       // ignore quote characters:
-      if (tokens.length >= 3 && isQuoteStart(firstToken)) {
+      if (tokenLength >= 3 && isQuoteStart(firstToken)) {
         matchTokenPos = 2;
         secondToken = tokens[matchTokenPos].getToken();
       }
@@ -114,10 +115,10 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         checkToken = secondToken;
       }
 
-      String lastToken = tokens[tokens.length - 1].getToken();
+      String lastToken = tokens[tokenLength - 1].getToken();
       if (WHITESPACE_OR_QUOTE.matcher(lastToken).matches()) {
         // ignore trailing whitespace or quote
-        lastToken = tokens[tokens.length - 2].getToken();
+        lastToken = tokens[tokenLength - 2].getToken();
       }
 
       boolean preventError = false;
@@ -133,7 +134,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       }
 
       //allows enumeration with lowercase letters: a), iv., etc.
-      if (matchTokenPos+1 < tokens.length
+      if (matchTokenPos+1 < tokenLength
               && NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
               && (tokens[matchTokenPos+1].getToken().equals(".")
               || tokens[matchTokenPos+1].getToken().equals(")"))) {
