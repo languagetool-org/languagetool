@@ -37133,19 +37133,37 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
     </rule>
 	
 	<!-- USAR empregar -->
-    <rule id='EMPREGAR_TERMO' name="usar → empregar" type="style" tags="picky">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-15 + 2021-03-16 (1-JAN-2021+)      -->
+    <rulegroup id='EMPREGAR_TERMO' name="usar → empregar" type="style" tags="picky">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
+	 <rule>
       <pattern>
 		<marker>
 			<token regexp='no' inflected='yes'>usar</token>	
 		</marker>
-		<token/>
-		<token regexp='yes'>termos?</token>
+        <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
+		<token regexp="yes">termos?</token>
       </pattern>
       <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
 	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
       <example correction="empregamo|empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
-    </rule>
+	  <example correction="empregamo|empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
+     </rule> 
+	 <rule>
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>usar</token>	
+			<token regexp='yes' spacebefore='no'>&hifen;</token>
+			<token regexp='no' spacebefore='no'>se</token>			
+		</marker>
+		<token min="0" max="1" negate="yes" regexp="yes">termos?</token>
+		<token regexp="yes">termos?</token>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match>-se</suggestion>
+      <example correction="emprega-se|empregues-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
+	  <example correction="emprega-se|empregues-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
+     </rule> 
+	</rulegroup>
 
     <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível" default='off'>
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
