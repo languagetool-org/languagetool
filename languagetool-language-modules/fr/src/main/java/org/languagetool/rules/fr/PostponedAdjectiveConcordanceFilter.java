@@ -115,6 +115,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern PREPOSICIONS = Pattern.compile("P");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("d'|de|des|du|à|au|aux|en|dans|sur|entre|par|pour|avec|sans|contre|comme"); //???
   private static final Pattern VERB = Pattern.compile("V.* (inf|ind|sub|con|ppr|imp).*"); // Any verb that is not V ppa
+  private static final Pattern INFINITIVE = Pattern.compile("V.* inf"); 
   private static final Pattern GV = Pattern.compile("_GV_");
   
   private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
@@ -122,15 +123,16 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
   boolean punctuationAppeared = false;
+  boolean infinitiveAppeared = false;
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().toString().contains("le bus")) {
-//      int i=0;
-//      i++;
-//    }
+    if (match.getSentence().getText().toString().contains("ou remplacer une plante")) {
+      int i=0;
+      i++;
+    }
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
     int j;
@@ -492,7 +494,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     // adverb+comma, adverb+conjunction, comma+conjunction,
     // punctuation+punctuation
     if ((adverbAppeared && conjunctionAppeared) || (adverbAppeared && punctuationAppeared)
-        || (conjunctionAppeared && punctuationAppeared) || (punctuationAppeared && matchPostagRegexp(aTr, PUNTUACIO))) {
+        || (conjunctionAppeared && punctuationAppeared) || (punctuationAppeared && matchPostagRegexp(aTr, PUNTUACIO))
+        || (infinitiveAppeared && matchRegexp(aTr.getToken(), COORDINACIO_IONI))) {
       return false;
     }
     return (matchPostagRegexp(aTr, KEEP_COUNT) || matchRegexp(aTr.getToken(), KEEP_COUNT2)
@@ -504,6 +507,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     adverbAppeared = false;
     conjunctionAppeared = false;
     punctuationAppeared = false;
+    infinitiveAppeared = false;
   }
 
   private void updateApparitions(AnalyzedTokenReadings aTr) {
@@ -517,6 +521,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     }
     adverbAppeared |= matchPostagRegexp(aTr, ADVERBI);
     punctuationAppeared |= (matchPostagRegexp(aTr, PUNTUACIO) || aTr.getToken().equals(","));
+    infinitiveAppeared |= matchPostagRegexp(aTr, INFINITIVE);
   }
 
   /**

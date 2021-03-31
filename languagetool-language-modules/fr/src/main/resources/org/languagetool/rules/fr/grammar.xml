@@ -532,6 +532,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>grâce</token>
         <token regexp="yes">à|aux</token>
       </antipattern>
+      <antipattern>
+        <!-- checked by AGREEMENT_POSTPONED_ADJ -->
+        <token postag="P.*" postag_regexp="yes"/>
+        <token min="0" postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token postag="J.*" postag_regexp="yes"/>          
+      </antipattern>
       <pattern>
         <unify negate="yes">
           <feature id="number"/>
@@ -552,6 +559,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>les deux parcs éoliens offshore</example>
       <example>Faites attention à ce que je dis.</example>
       <example>De l'Air Force, de la Navy et du Marine Corps dans les décennies à venir.</example>
+      <example>Un prix d'entrée amicales.</example> <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ -->
+      <example>Un prix d'entrée amical.</example>
     </rule>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
       <rule>
@@ -971,8 +980,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Cette belle ville court le risque de devenir une jungle de béton.</example>
       <example>Tu vas attraper froid à sortir si peu couverte.</example>
       <example>Aucune donnée personnelle vous concernant est collectée par ce service.</example>
-        
-      <!-- TODO: Diluer avec de l'eau distillée ou remplacer une plante moins astringents, -->
+      <example>dans une des éditions des « Plus beaux villages de France »</example>
+      <example>dans une des éditions des plus beaux villages de France</example>
+      <example correction="astringente">Diluer avec de l'eau distillée ou remplacer une plante moins <marker>astringents</marker>.</example>
+      
       <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
@@ -14957,7 +14968,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Le mot « \3 » devrait être au pluriel.</message>
-      <suggestion><match no="3" postag_regexp="yes" postag="(N|J|V ppa) (.) s" postag_replace="$1 $2 p"/></suggestion>
+      <suggestion suppress_misspelled="yes"><match no="3" postag_regexp="yes" postag="(N|J|V ppa) (.) s" postag_replace="$1 $2 p"/></suggestion>
       <example correction="personnes">Une centaine de <marker>personne</marker> est venue.</example>
       <example correction="anarchistes">Une centaine d’<marker>anarchiste</marker> est venue.</example>
       <example>Une centaine d’anarchistes est venue.</example>

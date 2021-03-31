@@ -3810,6 +3810,48 @@ RB => Règles Brutes
       </disambig>  
     </rule>
     
+    <!-- adjective + noun -->
+    
+    <rule>
+      <pattern>
+        <token postag="(J|V ppa) [me] (s|sp)" postag_regexp="yes"/>
+        <token postag="N [em] (s|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_MS"></wd>
+        <wd pos="_GN_MS"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="(J|V ppa) [fe] (s|sp)" postag_regexp="yes"/>
+        <token postag="N [ef] (s|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_FS"></wd>
+        <wd pos="_GN_FS"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="(J|V ppa) [me] (p|sp)" postag_regexp="yes"/>
+        <token postag="N [em] (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_MP"></wd>
+        <wd pos="_GN_MP"></wd>
+      </disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="(J|V ppa) [fe] (p|sp)" postag_regexp="yes"/>
+        <token postag="N [ef] (p|sp)" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_GN_FP"></wd>
+        <wd pos="_GN_FP"></wd>
+      </disambig>  
+    </rule>
     
   </rulegroup>
   <rulegroup name="Ignore spelling of numbers" id="IGNORE_SPELLING_OF_NUMBERS">
