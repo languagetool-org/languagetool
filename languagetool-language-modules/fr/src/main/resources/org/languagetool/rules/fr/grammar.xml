@@ -21149,50 +21149,68 @@ though, and has since been slightly modified)-->
     <rulegroup id="VIEUX" name="vieux + voyelle">
       <rule>
         <pattern>
-          <token>vieux</token>
+          <marker>
+            <token>vieux</token>  
+          </marker>
           <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>vieil \2</suggestion> ?</message>
-        <example correction="vieil homme">C’est un <marker>vieux homme</marker>.</example>
-        <example correction="vieil ami">Mon <marker>vieux ami</marker>.</example>
+        <message>Il faut écrire <suggestion>vieil</suggestion> devant un nom masculin singulier commençant par une voyelle ou un h muet.</message>
+        <example correction="vieil">C’est un <marker>vieux</marker> homme.</example>
+        <example correction="vieil">Mon <marker>vieux</marker> ami.</example>
         <example>Mon vieil ami.</example>
         <example>Ils sont comme de vieux ours.</example>  
       </rule>
-      <rule default="temp_off">
-        <pattern>
+      <rule>
+        <antipattern>
+          <token inflected="yes">avoir</token>
           <token>beau</token>
-          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>bel \2</suggestion> ?</message>
-        <example correction="bel homme">C’est un <marker>beau homme</marker>.</example>
-        <example correction="bel ami">Mon <marker>beau ami</marker>.</example>  
-      </rule>
-      <rule default="temp_off">
+          <token postag="V.* ppa.*" postag_regexp="yes"/> <!-- It should be infinitive -->
+        </antipattern>
         <pattern>
-          <token>fou</token>
+          <marker>
+            <token>beau</token>  
+          </marker>
           <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>fol \2</suggestion> ?</message>
-        <example correction="fol héroïsme">C’est un <marker>fou héroïsme</marker>.</example>
-        <example correction="fol espoir">Mon <marker>fou espoir</marker>.</example>  
+        <message>Il faut écrire <suggestion>bel</suggestion> devant un nom masculin singulier commençant par une voyelle ou un h muet.</message>
+        <example correction="bel">C’est un <marker>beau</marker> homme.</example>
+        <example correction="bel">Mon <marker>beau</marker> ami.</example>  
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
-          <token>nouveau</token>
-          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+          <marker>
+            <token>fou</token>  
+          </marker>
+          <token postag="N m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception><exception postag="J m s|V ppa m s" postag_regexp="yes"/></token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>nouvel \2</suggestion> ?</message>
-        <example correction="nouvel homme">C’est un <marker>nouveau homme</marker>.</example>
-        <example correction="nouvel ami">Mon <marker>nouveau ami</marker>.</example>  
+        <message>Il faut écrire <suggestion>fol</suggestion> devant un nom masculin singulier commençant par une voyelle ou un h muet.</message>
+        <example correction="fol">C’est un <marker>fou</marker> héroïsme.</example>
+        <example correction="fol">Mon <marker>fou</marker> espoir.</example>
+        <example>Il donne cette impression de fou obstiné.</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
-          <token>mou</token>
+          <marker>
+            <token>nouveau<exception scope="previous" regexp="yes">à|de</exception></token>  
+          </marker>
           <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>mol \2</suggestion> ?</message>
-        <example correction="mol abandon">C’est un <marker>mou abandon</marker>.</example>
-        <example correction="mol obstacle">Le <marker>mou obstacle</marker> d'une résistance toute passive.</example>  
+        <message>Il faut écrire <suggestion>nouvel</suggestion> devant un nom masculin singulier commençant par une voyelle ou un h muet.</message>
+        <example correction="nouvel">C’est un <marker>nouveau</marker> homme.</example>
+        <example correction="nouvel">Mon <marker>nouveau</marker> ami.</example>
+        <example correction="nouvel">Il ne concerne pas son <marker>nouveau</marker> état de conscience</example>
+        <example>J'ai à nouveau essayé à 14 heures.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>mou</token>
+          </marker>
+          <token postag="[NJ] m s" postag_regexp="yes" regexp="yes">[aâeéèêioœuh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        </pattern>
+        <message>Il faut écrire <suggestion>mol</suggestion> devant un nom masculin singulier commençant par une voyelle ou un h muet.</message>
+        <example correction="mol">C’est un <marker>mou</marker> abandon.</example>
+        <example correction="mol">Le <marker>mou</marker> obstacle d'une résistance toute passive.</example>  
       </rule>
     </rulegroup>
     <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes">
