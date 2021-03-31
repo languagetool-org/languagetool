@@ -1805,6 +1805,16 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="ILS_ONT" name="il sont/ils ont" default="temp_off">
+            <pattern>
+                <token>il</token>
+                <token>sont</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>ils ont</suggestion> ?</message>
+            <suggestion>ils sont</suggestion>
+            <suggestion>il est</suggestion>
+            <example correction="Ils ont|Ils sont|Il est"><marker>Il sont</marker> l'air très bons.</example>
+        </rule>
         <rulegroup id="EXPRESSIONS_VU" name="expressions comprenant le terme vu" default="temp_off">
             <rule>
                 <antipattern>
