@@ -985,7 +985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Apunto de manera inmediata</example>
                 <example>Me apunto de voluntario.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>apunto</token>
@@ -997,7 +997,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>a punto</suggestion>
                 <example correction="a punto">Lo tengo <marker>apunto</marker> de caramelo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">puesta|poner|estar|encontrar</token>
                     <marker>
@@ -1010,7 +1010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a punto">Aún no estaba <marker>apunto</marker>.</example>
                 <example correction="a punto">La puesta <marker>apunto</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les|se</token>
                     <token>apunto</token>
@@ -6063,7 +6063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>para ver cómo esta se deshacía</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESTAS_NO_TILDE" name="estás/estas" default="temp_off">
+        <rulegroup id="ESTAS_NO_TILDE_" name="estás/estas" default="temp_off">
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS" postag_regexp="yes"/></token>
