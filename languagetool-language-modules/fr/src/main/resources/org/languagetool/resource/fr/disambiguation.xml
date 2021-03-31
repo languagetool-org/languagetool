@@ -1172,9 +1172,8 @@ RB => Règles Brutes
         <rule name="se">
             <pattern>
                 <marker>
-                    <token>s</token>
+                    <token>s'</token>
                 </marker>
-                <token regexp="yes">&apostrophe;</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
             <disambig postag="R pers obj 3 sp"/>
@@ -1182,9 +1181,8 @@ RB => Règles Brutes
         <rule name="te">
             <pattern>
                 <marker>
-                    <token>t</token>
+                    <token>t'</token>
                 </marker>
-                <token regexp="yes">&apostrophe;</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
             <disambig postag="R pers obj 2 s"/>
@@ -1192,20 +1190,28 @@ RB => Règles Brutes
         <rule name="m'">
             <pattern>
                 <marker>
-                    <token>m</token>
+                    <token>m'</token>
                 </marker>
-                <token regexp="yes">&apostrophe;</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
             <disambig postag="R pers obj 1 s"/>
         </rule>
-        <rule name="lui">
+        <!--<rule name="lui">
             <pattern>
                 <marker>
                     <token>lui</token>
                 </marker>
             </pattern>
             <disambig postag="R 3 s"/>
+        </rule>-->
+        <rule name="lui (R pers)">
+            <pattern>
+                <token postag="P"/>
+                <marker>
+                    <token>lui</token>
+                </marker>
+            </pattern>
+            <disambig postag="R pers obj 3 m s"/>
         </rule>
         <rule name="lui (R pers)">
             <pattern>
@@ -1904,7 +1910,7 @@ RB => Règles Brutes
     <rulegroup id="POUVOIR_INFINITIF" name="pouvoir + infinitif">
         <rule>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </pattern>
             <disambig action="filterall"/>
@@ -1917,7 +1923,7 @@ RB => Règles Brutes
         <token>?</token>
       </antipattern>-->
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir</token>
                 <token postag="R pers obj.*|A" postag_regexp="yes"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </pattern>
@@ -1925,7 +1931,7 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir</token>
                 <token postag="A"/>
                 <token postag="R pers obj.*" postag_regexp="yes"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
@@ -2658,7 +2664,8 @@ RB => Règles Brutes
                         <exception postag="P\+R rel.*" postag_regexp="yes"/></token>
                 </marker>
                 <marker>
-                    <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>
+                    <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes">
+                        <exception postag="R pers suj.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="R.*"/>
@@ -3766,6 +3773,12 @@ RB => Règles Brutes
             <token>auras</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="LUI" name="lui (no V ppa)">
+        <pattern>
+            <token postag="R.*" postag_regexp="yes">lui</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rulegroup id="NOMINAL_GROUPS" name="nonimal groups">
         <rule>
