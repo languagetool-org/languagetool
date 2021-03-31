@@ -64,6 +64,46 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="R dem m s"/>
   </rule>
+  <rule name="continue" id="CONTINUE">
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes">continue</token>
+      </marker>
+      <token postag="P.*" postag_regexp="yes"/>
+      <token postag="V.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
+  <rule id="NEGATION_J" name="négation j">
+    <pattern>
+      <token inflected="yes">ne</token>
+      <marker>
+        <token postag="J.*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="J.*"></disambig>
+  </rule>
+  <rule name="droits et obligations" id="DROITS_ET_OBLIGATIONS">
+    <pattern>
+      <marker>
+        <token>droits</token>
+      </marker>
+      <token>et</token>
+      <token>obligations</token>
+    </pattern>
+    <disambig action="filter" postag="N.*"/>
+  </rule>
+  <rule name="court adverbe" id="COURT_ADVERBE">
+    <pattern>
+      <token postag="[NA].*" postag_regexp="yes"/>
+      <marker>
+      <token>court</token>
+      </marker>
+    </pattern>
+    <disambig action="add">
+      <wd pos="A"></wd>
+    </disambig>
+  </rule>
   <rule name="souffir le martyre" id="SOUFFIR_LE_MARTYRE">
     <pattern>
       <token postag="V.*" postag_regexp="yes" inflected="yes">souffrir</token>
@@ -75,11 +115,13 @@ RB => Règles Brutes
   <rule id="AU_MOINS" name="au moins">
   <pattern>
     <marker>
-      <token>au</token>
+      <token min="0" max="1">tout</token>
+      <token regexp="yes">au|du</token>
       <token regexp="yes">moins|plus</token>
     </marker>
   </pattern>
   <disambig action="replace">
+    <wd pos="A"/>
     <wd pos="A"/>
     <wd pos="A"/>
   </disambig>
@@ -133,17 +175,57 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="V.*"/>
   </rule>
-  <rule id="PRESENTE" name="présente">
+  <rule id="HAUT_ADVERBE" name="haut adverbe">
     <pattern>
-      <token postag="D.*" postag_regexp="yes"/>
-      <token postag="N.*" postag_regexp="yes"/>
+      <token postag="V ppa.*" postag_regexp="yes"/>
+      <token postag="A"/>
       <marker>
-        <token postag="V.*" postag_regexp="yes">présente</token>
+        <token regexp="yes">haut|bas</token>
       </marker>
-      <token postag="D.*" postag_regexp="yes"/>
-      <token postag="N.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="A"/>
+  </rule>
+  <rule id="INCLUS_QUE" name="inclus que">
+    <pattern>
+      <marker>
+        <token regexp="yes">inclu[st]|induit</token>
+      </marker>
+      <token>que</token>
+    </pattern>
+    <disambig action="filter" postag="V ind.*"/>
+  </rule>
+  <rule id="A_VERBE" name="a verbe">
+    <pattern>
+      <token postag="Z.*" postag_regexp="yes"/>
+      <marker>
+        <token>a</token>
+      </marker>
     </pattern>
     <disambig action="filter" postag="V.*"/>
+  </rule>
+  <rule name="pression" id="PRESSION">
+    <pattern>
+      <token postag="J f s" regexp="yes">basse|haute</token>
+      <token postag="N f s">pression</token>
+    </pattern>
+    <disambig postag="filterall"/>
+  </rule>
+  <rule id="DUREE" name="durée">
+    <pattern>
+      <marker>
+        <token>dure</token>
+      </marker>
+      <token postag="A" min="0" max="3"/>
+      <token regexp="yes">longtemps|heures?</token>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
+  <rule name="tribunal entreprise" id="TRIBUNAL_ENTREPRISE">
+    <pattern>
+      <token postag="N m s">tribunal</token>
+      <token postag="J f s">entreprise</token>
+    </pattern>
+    <disambig postag="filterall"/>
   </rule>
   <rule id="RESTE" name="reste">
     <pattern>
@@ -1433,6 +1515,219 @@ RB => Règles Brutes
     <pattern>
       <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
       <token postag="N f s">partie</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_DE" name="faire de">
+    <pattern>
+      <token postag="N.*" postag_regexp="yes"/>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+      </marker>
+      <token postag="P" min="0" max="1"/>
+      <token postag="V.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V ind pres 3 s"/>
+  </rule>
+  <rule id="FAIRE_ATTENTION" name="faire attention">
+    <pattern>
+        <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
+      <token postag="N f s">attention</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_DE_MEME" name="faire de même">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes"/>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+    <token>de</token>
+    <token>même</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+      </marker>
+      <token>de</token>
+      <token>même</token>
+    </pattern>
+    <disambig action="filter" postag="V ind pres 3 s"/>
+  </rule>
+  <rule id="FAIRE_DES_DEGATS" name="faire des dégâts">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes"/>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+    <token postag="A" min="0" max="3"/>
+    <token postag="P"/>
+    <token regexp="yes">bruit|dégâts</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+      </marker>
+      <token postag="A" min="0" max="3"/>
+      <token postag="P"/>
+      <token regexp="yes">bruit|dégâts</token>
+    </pattern>
+    <disambig action="filter" postag="V ind pres 3 s"/>
+  </rule>
+  <rule id="FAIRE_L_OBJET_DE" name="faire l'objet de">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes"/>
+      <token postag="V.*" postag_regexp="yes" inflected="yes" skip="1">faire</token>
+    <token postag="A" min="0" max="2"/>
+    <token>l'</token>
+    <token>objet</token>
+    <token>de</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="1">faire</token>
+      </marker>
+      <token postag="A" min="0" max="2"/>
+      <token>l'</token>
+      <token>objet</token>
+      <token>de</token>
+    </pattern>
+    <disambig action="filter" postag="V ind pres 3 s"/>
+  </rule>
+  <rule id="FAIRE_NOM_DE" name="faire nom de">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token regexp="yes">semblant|usage|allusion|face|référence|place|preuve</token>
+      <token regexp="yes">de?|à</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag="V ind pres 3 s">fait</token>
+      </marker>
+      <token regexp="yes">semblant|usage|allusion|face|référence|place|preuve</token>
+      <token regexp="yes">de?|à</token>
+    </pattern>
+    <disambig action="filter" postag="V ind pres 3 s"/>
+  </rule>
+  <rule id="FAIRE_IMPRESSION" name="faire impression">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="A" min="0" max="3"/>
+      <token>impression</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="A" min="0" max="3"/>
+      <token>impression</token>
+    </pattern>
+    <disambig action="filter" postag="V ind pres 3 s"/>
+  </rule>
+  <rule id="FAIRE_RAGE" name="faire rage">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N f s">rage</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N f s">rage</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_SURFACE" name="faire surface">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N f s">surface</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N f s">surface</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_FROID_DANS_LE_DOS" name="faire froid dans le dos">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m s">froid</token>
+      <token postag="P">dans</token>
+      <token postag="D m s">le</token>
+      <token postag="N m s">dos</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m s">froid</token>
+      <token postag="P">dans</token>
+      <token postag="D m s">le</token>
+      <token postag="N m s">dos</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_DU_TORD" name="faire du tord">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="P.*" postag_regexp="yes">du</token>
+      <token postag="N m s">tord</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="P.*" postag_regexp="yes">du</token>
+      <token postag="N m s">tord</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_CORPS_AVEC" name="faire corps avec">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m sp">corps</token>
+      <token postag="P">avec</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m sp">corps</token>
+      <token postag="P">avec</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_GRAND_BRUIT" name="faire grand bruit">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m s">grand</token>
+      <token postag="N m s">bruit</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m s">grand</token>
+      <token postag="N m s">bruit</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_JEUNE_POUR_SON_AGE" name="faire jeune pour son âge">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="J e s">jeune</token>
+      <token postag="P" skip="1">pour</token>
+      <token postag="N m s">âge</token>
+    </antipattern>
+    <pattern>
+      <token postag="V ind pres 3 s">fait</token>
+      <token postag="J e s">jeune</token>
+      <token postag="P" skip="1">pour</token>
+      <token postag="N m s">âge</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="FAIRE_APPEL" name="faire appel">
+    <antipattern>
+      <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+      <token postag="V ind pres 3 s">fait</token>
+    <token postag="N m s" regexp="yes">appel|écho|débat|étalage</token>
+    </antipattern>
+    <pattern>
+        <token postag="V ind pres 3 s">fait</token>
+      <token postag="N m s" regexp="yes">appel|écho|débat|étalage</token>
     </pattern>
     <disambig action="filterall"/>
   </rule>

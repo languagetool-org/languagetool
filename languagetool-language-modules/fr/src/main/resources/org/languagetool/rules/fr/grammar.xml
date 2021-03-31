@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY apostrophe "’|´|'|‛|′|‘">
     <!ENTITY mois_annee "janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre">
     <!ENTITY jours_semaine "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche">
-    <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
+    <!ENTITY unites_temps "temps|passé|présent|avenir|an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expression_deux_mots_trait_union "alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
 ]>
 
@@ -599,8 +599,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">délai|temps</token>
       </antipattern>
       <antipattern>
-        <token regexp="yes">&jours_semaine;|&mois_annee;</token>
-        <token regexp="yes">dernier|prochain</token>
+        <token regexp="yes">&jours_semaine;|&mois_annee;|&unites_temps;</token>
+        <token regexp="yes">dernier|prochain|dure</token>
       </antipattern>
       <antipattern>
         <token>jours</token>
@@ -719,8 +719,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern>
             <token>en</token>
-            <token>aucun</token>
-            <token>cas</token>
+            <token regexp="yes">aucun|majeure|grande</token>
+            <token regexp="yes">partie|cas</token>
             <token postag="J .*|V ppa .*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
@@ -774,6 +774,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
       </antipattern>
         <antipattern>
+            <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+            <token postag="[NZ].*" postag_regexp="yes"/>
+                <token regexp="yes">présente|divise|décrit|détruit|maudit</token>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="[NZ].*" postag_regexp="yes" min="0" max="1"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">c[oô]té</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>dure</token>
+            <token postag="A" min="0" max="1"/>
+            <token postag="Y|UNKNOWN" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="V avoir.*" postag_regexp="yes" skip="-1"/>
+            <token>extrait</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">ne</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
             <token regexp="yes">par|d[ue]|en|ce|à</token>
             <token regexp="yes">nature|genre|exemple|théorie|préférence|sytle|soir|matin|midi|type|hasard|évidence|application|part</token>
             <token postag="J .*|V ppa .*" postag_regexp="yes"/>
@@ -802,7 +826,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="chers">Les atlas <marker>cher</marker>.</example>
       <example>Reste attentive à quoi que ce soit qui se présente !</example>
       <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
+      <example>Que Dieu continue de bénir les Etats-Unis d'Amérique.</example>
+      <example>Ce premier cours dure 1h30.</example>
+      <example>Tom a mauvaise réputation.</example>
+      <example>Une guerre civile fait rage dans ce pays.</example>
+      <example>Elle s'est fait couper les cheveux court.</example>
+      <example>Vous pouvez le faire avec le chocolat par contre faites attention à la quantité de crème.</example>
+      <example>Une guerre civile fait rage dans ce pays.</example>
+      <example>La nature de l'Union européenne fait débat parmi les spécialistes.</example>
+      <example>La Russie fait face à d'importantes difficultés financières.</example>
+      <example>Une idée fait surface.</example>
+      <example>Son frère fait de même.</example>
+      <example>La chute de la natalité induit que les héritages sont relativement positifs.</example>
+      <example>Maman fait à manger dans la cuisine.</example>
+      <example>La maison fait corps avec la grange.</example>
+      <example>Ma mère fait jeune pour son âge.</example>
+      <example>Kärcher n'a jamais cessé d'optimiser le principe du nettoyage haute pression.</example>
+      <example>L'exemple ne rentre dans aucune des catégories énoncées plus haut.</example>
+      <example>L'histoire fait grand bruit depuis plus d'un an.</example>
+      <example>La marque horlogère fait forte impression dans le domaine du design.</example>
+      <example>La nature n'enfreint jamais ses propres lois.</example>
+      <example>Les datamineurs avaient il y a quelques semaines extrait le fichier.</example>
       <example>Si tu rencontres une interprète danois-maltais.</example>
+      <example>Combien de temps dure habituellement votre petit-déjeuner ?</example>
       <example>Les commentaires insultants ne seront en aucun cas publiés.</example>
       <example>Il est parfois facile de mettre en application certaines des préconisations.</example>
       <example>La colonnade de la basilique saint-Pierre est vraiment grande.</example>
@@ -813,6 +859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Nous sommes par hasard nés le même jour.</example>
       <example>Nous en sommes pour ainsi dire certaines.</example>
       <example>Bonjour chère Belette ou Cannibal Lecteur…</example>
+      <example>La réponse du maire droits et obligations.</example>
       <example>Je veux juste dire bonne chance.</example>
       <example>Le deuxième examen est une grande avancée comparé au premier.</example>
       <example>Il est également le père d'Anna avec qui les rapports sont pour le moins compliqués.</example>
