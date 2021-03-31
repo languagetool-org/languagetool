@@ -22,8 +22,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -324,6 +326,39 @@ public class MultiDocumentsHandler {
    */
   Set<String> getDisabledRules() {
     return disabledRulesUI;
+  }
+  
+  /**
+   *  get all disabled rules by context menu or spell dialog
+   */
+  Map<String, String> getDisabledRulesMap() {
+    Map<String, String> disabledRulesMap = new HashMap<>();
+    List<Rule> allRules = langTool.getAllRules();
+    for (String disabledRule : disabledRulesUI) {
+      String ruleDesc = null;
+      for (Rule rule : allRules) {
+        if (disabledRule.equals(rule.getId())) {
+          ruleDesc = rule.getDescription();
+          break;
+        }
+      }
+      if (ruleDesc != null) {
+        disabledRulesMap.put(disabledRule, ruleDesc);
+      }
+    }
+    for (String disabledRule : config.getDisabledRuleIds()) {
+      String ruleDesc = null;
+      for (Rule rule : allRules) {
+        if (disabledRule.equals(rule.getId())) {
+          ruleDesc = rule.getDescription();
+          break;
+        }
+      }
+      if (ruleDesc != null) {
+        disabledRulesMap.put(disabledRule, ruleDesc);
+      }
+    }
+    return disabledRulesMap;
   }
   
   /**
@@ -875,6 +910,17 @@ public class MultiDocumentsHandler {
   }
 
   /**
+   * Deactivate a rule by rule iD
+   */
+  public void activateRule(String ruleId) {
+    if (ruleId != null) {
+      removeDisabledRule(ruleId);
+      deactivateRule(ruleId, true);
+      resetDocument();
+    }
+  }
+  
+  /**
    * Deactivate a rule as requested by the context menu
    */
   public void deactivateRule() {
@@ -1137,6 +1183,9 @@ public class MultiDocumentsHandler {
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
         resetDocument();
+      } else if (sEvent.startsWith("activateRule_")) {
+        String ruleId = sEvent.substring(13);
+        activateRule(ruleId);
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (useOrginalCheckDialog) {
           if ("checkDialog".equals(sEvent) ) {

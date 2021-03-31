@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
@@ -313,6 +314,7 @@ public class LanguageToolMenus {
     private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
     private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
     private final static String LT_DEACTIVATE_RULE = "service:org.languagetool.openoffice.Main?deactivateRule";
+    private final static String LT_ACTIVATE_RULE = "service:org.languagetool.openoffice.Main?activateRule_";
     private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
 
     public ContextMenuInterceptor() {}
@@ -357,13 +359,17 @@ public class LanguageToolMenus {
         XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
         int count = xContextMenu.getCount();
         
+        if (debugMode) {
+          for (int i = 0; i < count; i++) {
+            Any a = (Any) xContextMenu.getByIndex(i);
+            XPropertySet props = (XPropertySet) a.getObject();
+            printProperties(props);
+          }
+        }
         //  Add LT Options Item if a Grammar or Spell error was detected
         for (int i = 0; i < count; i++) {
           Any a = (Any) xContextMenu.getByIndex(i);
           XPropertySet props = (XPropertySet) a.getObject();
-          if (debugMode) {
-            printProperties(props);
-          }
           String str = null;
           if (props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
             str = props.getPropertyValue("CommandURL").toString();
@@ -394,6 +400,31 @@ public class LanguageToolMenus {
               xContextMenu.insertByIndex(i + 2, xNewMenuEntry1);
               
               int nId = i + 4;
+              
+              Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap();
+
+              if (!deactivatedRulesMap.isEmpty()) {
+                XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
+                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+                int j = 0;
+                for (String ruleId : deactivatedRulesMap.keySet()) {
+                  XPropertySet xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+                      xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+                  xNewSubMenuEntry.setPropertyValue("Text", deactivatedRulesMap.get(ruleId));
+                  xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ACTIVATE_RULE + ruleId);
+                  xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+                  j++;
+                }
+                
+                XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
+                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+                xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuActivateRule"));
+//                xNewMenuEntry3.setPropertyValue("CommandURL", new String( "slot:5410" ));
+                xNewMenuEntry3.setPropertyValue( "SubContainer", (Object)xSubMenuContainer );
+                xContextMenu.insertByIndex(i + 3, xNewMenuEntry3);
+                nId++;
+              }
+              
               if (isRemote) {
                 XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
                     xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
