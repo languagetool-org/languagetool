@@ -6282,7 +6282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
-                <token regexp="yes">an|frohe|fröhliche|gesegnete|schöne|vor|zu</token>
+                <token regexp="yes">an|frohe|fröhliche|gesegnete|schöne|(be)?vor|zu</token>
                 <marker>
                     <token case_sensitive="yes">Osten</token>
                 </marker>
@@ -10586,17 +10586,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zu, nachdem">Bitte weise das Issue mir <marker>zu nach dem</marker> die Tests erfolgreich waren.</example>
             </rule>
         </rulegroup>
-        <rule id="VOR_ORT_TERMIN" name="Vor-Ort-Termin">
-            <pattern>
-                <token>vor</token>
-                <token>ort</token>
-                <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
-            </pattern>
-            <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
-            <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
-            <short>Zusammenschreibung</short>
-            <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor Ort Termin</marker> vereinbaren.</example>
-        </rule>
+        <rulegroup id="VOR_ORT_TERMIN" name="Vor-Ort-Termin">
+            <rule>
+                <pattern>
+                    <token>vor</token>
+                    <token>ort</token>
+                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
+                <short>Zusammenschreibung</short>
+                <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor Ort Termin</marker> vereinbaren.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>vor-ort</token>
+                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
+                <short>Zusammenschreibung</short>
+                <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor-ort Termin</marker> vereinbaren.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="POP_UP" name="Pop-up">
             <url>https://de.wikipedia.org/wiki/Pop-up</url>
             <rule>
