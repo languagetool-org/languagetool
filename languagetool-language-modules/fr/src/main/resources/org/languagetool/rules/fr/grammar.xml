@@ -3676,6 +3676,18 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
+      <rule default="temp_off">
+          <pattern>
+             <token postag="SENT_START"/>
+             <token>Bien</token>
+             <marker>
+                 <token>sur[e?s?]</token>
+             </marker>
+          </pattern>
+          <message>Voulez-vous écrire <suggestion>sûr</suggestion> ?</message>
+          <example correction="sûr">Bien <marker>sur</marker>, on me dira que la vie est dure</example>
+          <example>Comfortablement assis, il se sentait bien sur cette chaise</example>
+        </rule>
       <rule>
         <antipattern>
           <token inflected="yes">asseoir</token>
