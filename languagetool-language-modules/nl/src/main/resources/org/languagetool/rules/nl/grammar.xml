@@ -9600,6 +9600,19 @@ onwaarschijnlijk
 				<example correction="eBayobject">Het is een <marker>eBay object</marker>.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="VERDEEL_EN_HEERS_DING" name="Verdeel-en-heersstrategie" >
+			<rule>
+				<pattern>
+					<token>verdeel</token>
+					<token regexp="yes">en|&amp;</token>
+					<token>heers</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>Dit wordt als een mini-zin gezien, en schrijf je dus anders.</message>
+				<suggestion>\1-en-\3\4</suggestion>
+				<example correction="verdeel-en-heersstrategie">Hij hanteert een <marker>verdeel en heers strategie</marker> tegen hen.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="WIL_DE_GAAN" name="wil de /wilde">
 			<rule>
 				<pattern>
@@ -9728,6 +9741,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="DE_WKWVLT3EP" name="De aanlegde" >
 			<rule>
+				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern>
 					<token>de</token>
 					<marker>
@@ -9741,20 +9755,38 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="DE_WKW3EP" name="De loopt" >
 			<rule>
+				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token>de</token>
 					<token postag_regexp="yes" postag="WKW:TGW:3EP.*" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*|VRZ"/></token>
 				</pattern>
 				<message>Hier is vast iets mis.</message>
+				<suggestion>\2</suggestion>
 				<suggestion>ze \2</suggestion>
 				<suggestion>die \2</suggestion>
 				<suggestion>je \2</suggestion>
 				<suggestion>het \2</suggestion>
 				<suggestion>de ___ \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="t$" regexp_replace=""/></suggestion>
-				<example correction="ze loopt|die loopt|je loopt|het loopt|de ___ loopt|de loop">Kijk hoe <marker>de loopt</marker>.</example>
+				<example correction="loopt|ze loopt|die loopt|je loopt|het loopt|de ___ loopt|de loop">Kijk hoe <marker>de loopt</marker>.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="DE_VERBROKENE_DING" name="de verbrokene/verbroken belofte" >
+			<rule>
+			<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
+				<pattern case_sensitive="yes">
+					<token>de</token>
+					<marker>
+						<token postag="WKW:VTD:ZNW:EKV"><exception postag="WKW:VTD:VRB"/></token>
+					</marker>
+					<token postag_regexp="yes" postag=".*DE_"/>
+				</pattern>
+				<message>U hebt zo te zien een verouderde vorm voor het voltooid deelwoord gebruikt.</message>
+				<suggestion><match no="2" postag="WKW:VTD:VRB"/></suggestion>
+				<example correction="verbroken">Hij herhaalde de <marker>verbrokene</marker> belofte.</example>
+			</rule>			
+		</rulegroup>
+		
 		<rulegroup id="STAM_BAAR" name="beschik baar" >
 			<rule>
 				<pattern>
@@ -17315,7 +17347,7 @@ steenwijk;Steenwijk
 				<antipattern><token inflected="yes">kunnen</token><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token>ook</token><token>maar</token><token regexp="yes">een|één|eens|niet|genoeg</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
-				<antipattern><token postag="WKW:TGW:1EP"/><token>mij</token><token>maar</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:1EP.*"/><token>mij|hem|haar</token><token>maar</token></antipattern>
 				<antipattern><token regexp="yes">ge|je|ik|hij|zij|u</token><token regexp="yes">je|me|zich|u</token><token>maar</token></antipattern>
 				<antipattern><token regexp="yes">altijd|steeds|zelf|eerst|we|mezelf|nog|dan|alleen|enkel|zo|nu|nou|\.|-|,|\(|toch|ook|van|toe|het|dat|dit|die|er|je|hij|zij|wij|zeg|hem|haar|hen|weinig|echter</token><token>maar</token></antipattern>
 				<antipattern><token skip="10">als</token><token>maar</token></antipattern>
@@ -39592,6 +39624,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_WKW_DE" name="De benauwen de" >
 			<rule>
+				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern>
 					<token regexp="yes">de|een|geen</token>
 					<marker>
@@ -39607,6 +39640,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_WKW" name="de fantaseren" >
 			<rule>
+				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern>
 					<marker>
 						<token>de</token>
