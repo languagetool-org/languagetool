@@ -1467,7 +1467,7 @@ RB => Règles Brutes
   <rule id="FAIRE_PARTIE" name="faire partie">
     <pattern>
       <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
-      <token postag="N f s">partie</token>
+      <token postag="N .*" postag_regexp="yes" regexp="yes">partie|appel|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|place</token>
     </pattern>
     <disambig action="filterall"/>
   </rule>
@@ -1720,7 +1720,7 @@ RB => Règles Brutes
           <feature id="gender"/>
             <token postag="D.*" postag_regexp="yes"/>
             <marker>
-              <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">bon|meilleur</token>
+              <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">bon|meilleur|mauvais</token>
             </marker>
             <token postag="N.*" postag_regexp="yes"/>
         </unify>
@@ -1733,7 +1733,7 @@ RB => Règles Brutes
           <feature id="number"/>
           <feature id="gender"/>
           <marker>
-            <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">bon|meilleur</token>
+            <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">bon|meilleur|mauvais</token>
             <token postag="N.*" postag_regexp="yes"/>
           </marker>
         </unify>
