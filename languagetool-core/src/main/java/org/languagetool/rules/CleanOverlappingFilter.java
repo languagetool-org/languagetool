@@ -58,7 +58,13 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       // overlapping
       int currentPriority = language.getRulePriority(ruleMatch.getRule());
+      if (ruleMatch.getRule().getTags().toString().contains("picky")) {
+        currentPriority -= 10000;
+      }
       int prevPriority = language.getRulePriority(prevRuleMatch.getRule());
+      if (prevRuleMatch.getRule().getTags().toString().contains("picky")) {
+        prevPriority -= 10000;
+      }
       if (currentPriority == prevPriority) {
         // take the longest error:
         currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();
