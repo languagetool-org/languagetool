@@ -24918,6 +24918,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DOS_ARTICLES" name="Dos articles seguits: *la l'aparició">
             <rule>
                 <pattern>
+                    <token>pe</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">l'|la|les</token>
+                </pattern>
+                <message>Dos articles seguits.</message>
+                <suggestion>per \3</suggestion>
+                <example correction="per l'">Programat <marker>pel l'</marker>enginyer</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">l'|la|les</token>
+                </pattern>
+                <message>Dos articles seguits.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="a l'">Enviat <marker>al l'</marker>enginyer</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">la|el</token>
                     <token>l'</token>
                 </pattern>
