@@ -430,6 +430,15 @@ RB => Règles Brutes
       <disambig action="remove" postag="P"/>
     </rule>
   </rulegroup>
+  <rule id="NOT_PREPOSITION" name="not preposition: vous concernant">
+    <pattern>
+      <token postag="R pers obj.*" postag_regexp="yes"/>
+      <marker>
+        <token postag="V ppr"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="P"></disambig>
+  </rule>
   <rulegroup name="est" id="EST">
     <rule>
       <pattern>
@@ -1447,7 +1456,7 @@ RB => Règles Brutes
   <rulegroup name="RP : Négation" id="RP-NEGATION">
     <rule name="pas">
       <pattern>
-        <token regexp="yes" skip="3">ne|n</token>
+        <token regexp="yes" skip="3">ne|n'</token>
         <marker>
           <token regexp="yes">pas|point|plus|jamais</token>
         </marker>
@@ -1457,7 +1466,7 @@ RB => Règles Brutes
     <rule name="ne">
       <pattern>
         <marker>
-          <token regexp="yes" skip="3">ne?</token>
+          <token regexp="yes" skip="3">ne|n'</token>
         </marker>
         <token regexp="yes">pas|point|plus|jamais</token>
       </pattern>
@@ -1468,6 +1477,13 @@ RB => Règles Brutes
     <pattern>
       <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
       <token postag="N .*" postag_regexp="yes" regexp="yes">partie|appel|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|place</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule id="PRENDRE_PLACE" name="prendre place">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">prendre</token>
+      <token postag="N .*" postag_regexp="yes">place</token>
     </pattern>
     <disambig action="filterall"/>
   </rule>
