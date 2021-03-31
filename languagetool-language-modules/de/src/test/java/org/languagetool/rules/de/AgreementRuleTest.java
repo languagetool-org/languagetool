@@ -475,6 +475,8 @@ public class AgreementRuleTest {
     assertBad("Er stieg durchs Fensters.");
     assertBad("Ich habe heute ein Krankenwagen gesehen.");
     assertGood("Sie werden merken, dass das echte Nutzer sind.");
+    assertGood("Dieses neue Mac OS trug den Codenamen Rhapsody.");
+    assertGood("Das Mac OS is besser als Windows.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

@@ -420,7 +420,7 @@ USA
             <example correction="In the future"><marker>In future</marker>, we will do better.</example>
             <example><marker>In the future</marker>, we will do better.</example>
         </rule>
-        <rule id="HAVE_A_SHOWER" name="have a shower -> take a shower" default="temp_off">
+        <rule id="HAVE_A_SHOWER" name="have a shower -> take a shower">
             <antipattern>
                 <token regexp="yes">\w*(room|house|home)$</token>
                 <token />
@@ -432,9 +432,9 @@ USA
                 <token min="0" postag="RB" />
                 <token postag_regexp="yes" postag="DT|CD" />
                 <token min="0" postag_regexp="yes" postag="JJ|RB"><exception regexp="yes">baby|steam|spacious|big|large|small</exception></token>
-                <token regexp="yes">shower|bath</token>
+                <token regexp="yes" chunk_re="E-NP.*">shower|bath</token>
             </pattern>
-            <message>In the US, the verb <suggestion><match no="1" postag="VB.*">take</match></suggestion> is usually used before '\5'.</message>
+            <message>In American English, the verb <suggestion><match no="1" postag="VB.*">take</match></suggestion> is usually used before '\5'.</message>
             <example correction="took">He <marker>had</marker> a shower before breakfast.</example>
             <example correction="takes">He <marker>has</marker> a shower every day.</example>
             <example correction="taken">I haven't <marker>had</marker> a bath in years.</example>

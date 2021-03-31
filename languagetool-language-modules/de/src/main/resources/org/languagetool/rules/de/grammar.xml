@@ -6282,7 +6282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
-                <token regexp="yes">an|frohe|fröhliche|gesegnete|schöne|vor|zu</token>
+                <token regexp="yes">an|frohe|fröhliche|gesegnete|schöne|(be)?vor|zu</token>
                 <marker>
                     <token case_sensitive="yes">Osten</token>
                 </marker>
@@ -9946,6 +9946,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="ROT_ROT_GRÜN" name="Er wählt 'rot rot grün' (rot-rot-grün)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">rot|schwarz</token>
+                    <token regexp="yes">rot|gelb</token>
+                    <token>grün</token>
+                </pattern>
+                <message>Dieses Wort wird in der Regel mit Bindestrich geschrieben.</message>
+                <suggestion>\1-\2-\3</suggestion>
+                <example correction="Rot-Rot-Grün">Er wählt bei der nächsten Wahl <marker>Rot Rot Grün</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rot|schwarz</token>
+                    <token regexp="yes">rot|gelb</token>
+                    <token regexp="yes">grün(e[rnms]?)</token>
+                </pattern>
+                <message>Dieses Wort wird in der Regel mit Bindestrich geschrieben.</message>
+                <suggestion>\1-<match no="2" case_conversion="alllower" />-<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="rot-rot-grünes">Er wählt bei der nächsten Wahl ein <marker>rot rot grünes</marker> Bündnis.</example>
+            </rule>
+        </rulegroup>
+        <rule id="US_ARMEE" name="US Armee (US-Armee)" default="temp_off">
+            <antipattern>
+                <token>US</token>
+                <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus</token>
+            </antipattern>
+            <antipattern>
+                <token>US</token>
+                <token />
+                <token>of</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">US|Elektro</token><!-- TODO: Add "Krypto" -->
+                <token postag="SUB:.+" postag_regexp="yes" />
+            </pattern>
+            <message>Dieses Nomen wird in der Regel zusammengeschrieben.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="Elektro-Golf">Er fährt einen <marker>Elektro Golf</marker>.</example>
+            <!-- <example correction="Krypto-Experte">Peter ist ein <marker>Krypto Experte</marker>.</example> -->
+            <example>1863 ging es wieder im US Corps of Engineers auf.</example>
+        </rule>
         <rule id="TUV_GEPRUEFT" name="TÜV-geprüft">
             <antipattern>
                 <token postag="(PRP|ART):.+" postag_regexp="yes" />
@@ -10544,17 +10586,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zu, nachdem">Bitte weise das Issue mir <marker>zu nach dem</marker> die Tests erfolgreich waren.</example>
             </rule>
         </rulegroup>
-        <rule id="VOR_ORT_TERMIN" name="Vor-Ort-Termin">
-            <pattern>
-                <token>vor</token>
-                <token>ort</token>
-                <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
-            </pattern>
-            <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
-            <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
-            <short>Zusammenschreibung</short>
-            <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor Ort Termin</marker> vereinbaren.</example>
-        </rule>
+        <rulegroup id="VOR_ORT_TERMIN" name="Vor-Ort-Termin">
+            <rule>
+                <pattern>
+                    <token>vor</token>
+                    <token>ort</token>
+                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
+                <short>Zusammenschreibung</short>
+                <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor Ort Termin</marker> vereinbaren.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>vor-ort</token>
+                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
+                <short>Zusammenschreibung</short>
+                <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor-ort Termin</marker> vereinbaren.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="POP_UP" name="Pop-up">
             <url>https://de.wikipedia.org/wiki/Pop-up</url>
             <rule>
@@ -11150,7 +11204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Questions|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -39339,6 +39393,10 @@ Andere Projekte</example>
                 <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'/>
                 <token case_sensitive="yes">Sie</token>
             </antipattern>
+            <antipattern>
+                <token>leicht</token>
+                <token>gemacht</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -39381,6 +39439,7 @@ Andere Projekte</example>
             <example>Bambus essen Gorillas sehr gern.</example>
             <example>Langeweile haben wir dennoch nicht.</example>
             <example>Werbung schalten mit Facebook, Google &amp; Co!</example>
+            <example>Smartwatch verkaufen leicht gemacht.</example>
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
