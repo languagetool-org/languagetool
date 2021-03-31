@@ -9787,6 +9787,22 @@ onwaarschijnlijk
 			</rule>			
 		</rulegroup>
 		
+		<rulegroup id="DE_VERDOM_DE" name="de verdom de/de verdomde" >
+			<rule>
+			<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
+				<pattern case_sensitive="yes">
+					<token>de</token>
+					<marker>
+						<token postag="WKW:TGW:1EP"><exception regexp="yes">.*[kfschp]$</exception></token>
+						<token>de</token>
+					</marker>
+				</pattern>
+				<message>U hebt vast een spatie te veel staan.</message>
+				<suggestion>\2\3</suggestion>
+				<example correction="verdomde">Daar staat de <marker>verdom de</marker> fout weer.</example>
+			</rule>			
+		</rulegroup>
+		
 		<rulegroup id="STAM_BAAR" name="beschik baar" >
 			<rule>
 				<pattern>
