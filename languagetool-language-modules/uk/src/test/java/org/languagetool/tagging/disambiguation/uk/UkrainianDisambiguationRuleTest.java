@@ -518,7 +518,7 @@ public class UkrainianDisambiguationRuleTest {
     // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
     assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
         + " Петрович[Петрович/noun:anim:f:v_dav:nv:prop:lname,Петрович/noun:anim:f:v_naz:nv:prop:lname,Петрович/noun:anim:f:v_oru:nv:prop:lname,Петрович/noun:anim:f:v_rod:nv:prop:lname,Петрович/noun:anim:f:v_zna:nv:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname:xp2,Петрович/noun:anim:m:v_naz:prop:pname]"
-        + ".[</S>]",
+        + ".[./null]</S> ",
         analyzedSentence.toString());
 
   }

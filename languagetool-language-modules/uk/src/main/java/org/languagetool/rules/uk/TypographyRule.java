@@ -20,6 +20,7 @@ package org.languagetool.rules.uk;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -59,6 +60,8 @@ public class TypographyRule extends Rule {
   public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    //TODO: send_end - fix properly later
+    tokens = Arrays.copyOf(tokens, tokens.length-1);
 
     for (int i = 1; i < tokens.length; i++) {
 //      if( i == 1 && "\u2013".equals(tokens[i].getToken()) )

@@ -49,6 +49,7 @@ public class Ukrainian extends Language {
   public static final Ukrainian DEFAULT_VARIANT = new Ukrainian();
 
   public Ukrainian() {
+    setSentenceEndSeparate(true);
   }
 
   @Override

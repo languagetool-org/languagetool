@@ -289,7 +289,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag_regexp="yes" postag=".*:alt.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|PARA_END" />
+            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*" />
           </token>
         </pattern>
         <message>Слово, написане не за чинним правописом</message>
@@ -297,10 +297,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction=""><marker>ґрантовий</marker></example>
         <example>проекту</example>
         <example>проєкту</example>
+        <!-- TOOD: need to fix core to make it work consistently 
         <example correction=""><marker>ґра́нтовий</marker></example>
-        <!-- TODO: fix core
-        <example correction=""><marker>ґра́нтовий</marker>.</example>
-        -->
+         -->
         <example>хоче прорости</example>
         <example>проекту</example>
       </rule>
@@ -508,9 +507,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">&punct_dash;</token>
           <token regexp="yes">(авт\.|ред\.)</token>
         </antipattern>
+        <antipattern>
+          <token>.</token>
+          <token postag="SENT_END"/>
+        </antipattern>
         <pattern>
           <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв|млн|млрд</token>
-          <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
+          <token>.</token>
         </pattern>
         <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
         <example correction="грн">100 <marker>грн.</marker> в банк.</example>
@@ -546,13 +549,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
           <marker>
             <token case_sensitive="yes" regexp="yes">([смкд]|мк)?м</token>
-            <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
+            <token>.
+              <exception scope="next" postag="SENT_END"/>
+            </token>
           </marker>
           <token case_sensitive="yes" negate="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
         </pattern>
         <message>Метричні одиниці пишуться без крапки: <suggestion><match no="2"/></suggestion></message>
         <example correction="м">100 <marker>м.</marker> дороги.</example>
         <example correction="м">100 кв. <marker>м.</marker> дороги.</example>
+        <example correction="м">112 земельна ділянка площею 880 <marker>м.</marker> кв.</example>
         <example>Останні 100 м.</example>
         <example>Прийшов М. Гориня.</example>
         <example>Проїхали м. Львів.</example>

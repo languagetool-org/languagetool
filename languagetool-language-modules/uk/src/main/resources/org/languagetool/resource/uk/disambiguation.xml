@@ -58,8 +58,8 @@
     </pattern>
     <disambig postag="number:latin:bad" />
     <example type="ambiguous"
-        inputform="І[&lt;/S&gt;,і/conj:coord,і/part]"
-        outputform="І[&lt;/S&gt;,і/number:latin:bad]">Петром <marker>І</marker> </example>
+        inputform="І[і/conj:coord,і/part]"
+        outputform="І[і/number:latin:bad]">Петром <marker>І</marker> </example>
     <example type="untouched">НАЦІЯ І НАРОД</example>
     <example type="untouched">І все</example>
   </rule>
@@ -214,8 +214,8 @@
         outputform="усі[ухо/noun:inanim:n:v_mis:bad]"
         >в <marker>усі</marker> почалося запалення</example>
     <example type="ambiguous"
-        inputform="усі[&lt;/S&gt;,увесь/adj:p:v_naz:&amp;pron:gen,увесь/adj:p:v_zna:rinanim:&amp;pron:gen,усі/noun:anim:p:v_naz:&amp;pron:gen,ухо/noun:inanim:n:v_mis:bad]"
-        outputform="усі[&lt;/S&gt;,ухо/noun:inanim:n:v_mis:bad]"
+        inputform="усі[увесь/adj:p:v_naz:&amp;pron:gen,увесь/adj:p:v_zna:rinanim:&amp;pron:gen,усі/noun:anim:p:v_naz:&amp;pron:gen,ухо/noun:inanim:n:v_mis:bad]"
+        outputform="усі[ухо/noun:inanim:n:v_mis:bad]"
         >тихо як в <marker>усі</marker></example>
     <example type="untouched">в усі сторони</example>
   </rule>
@@ -273,7 +273,9 @@
       </marker>
       <token min="0">,</token>
       <token postag_regexp="yes" postag="verb.*inf.*"/>
-      <token min="0" max="5"/>
+      <token min="0" max="5">
+        <exception>!</exception>
+      </token>
       <token>!</token>
     </pattern>
     <disambig action="filter" postag="intj:bad"/>
@@ -300,7 +302,9 @@
   <rule name="Чоловік - множина" id="cholovik_plural_1">
     <antipattern>
       <token>чоловік</token>
-      <token min="0" max="2"/>
+      <token min="0" max="2">
+        <exception>жінок</exception>
+      </token>
       <token>жінок</token>
     </antipattern>
     <pattern>
@@ -1409,8 +1413,8 @@
     </pattern>
     <disambig action="filter" postag="noun.*"/>
     <example type="ambiguous" 
-        inputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
-        outputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname]">Агов <marker>Люба</marker></example>
+        inputform="Люба[Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
+        outputform="Люба[Люба/noun:anim:f:v_naz:prop:fname]">Агов <marker>Люба</marker></example>
     <example type="untouched">«Люба формула.</example>
   </rule>
 
@@ -1438,11 +1442,11 @@
     </pattern>
     <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
     <example type="ambiguous" 
-        inputform="По[&lt;/S&gt;,по/prep]"
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Аллана <marker>По</marker></example>
+        inputform="По[по/prep]"
+        outputform="По[По/noun:anim:m:nv:prop:lname]">Знали Аллана <marker>По</marker></example>
     <example type="ambiguous"
-        inputform="По[&lt;/S&gt;,по/prep]" 
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара <marker>По</marker></example>
+        inputform="По[по/prep]" 
+        outputform="По[По/noun:anim:m:nv:prop:lname]">Знали Едгара <marker>По</marker></example>
     <example type="untouched">ганяли Едгара по полю.</example>
   </rule>
 
@@ -1455,8 +1459,8 @@
     </pattern>
     <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
     <example type="ambiguous" 
-        inputform="По[&lt;/S&gt;,по/prep]"
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара А. <marker>По</marker></example>
+        inputform="По[по/prep]"
+        outputform="По[По/noun:anim:m:nv:prop:lname]">Знали Едгара А. <marker>По</marker></example>
     <example type="untouched">ганяли Едгара по полю.</example>
   </rule>
 
@@ -1769,8 +1773,8 @@
     </pattern>
     <disambig action="filter" postag="noun.*"/>
     <example type="ambiguous" 
-        inputform="лютого[&lt;/S&gt;,лютий/adj:m:v_rod:compb,лютий/adj:m:v_zna:ranim:compb,лютий/adj:n:v_rod:compb,лютий/noun:inanim:m:v_rod]"
-        outputform="лютого[&lt;/S&gt;,лютий/noun:inanim:m:v_rod]">23 <marker>лютого</marker></example>
+        inputform="лютого[лютий/adj:m:v_rod:compb,лютий/adj:m:v_zna:ranim:compb,лютий/adj:n:v_rod:compb,лютий/noun:inanim:m:v_rod]"
+        outputform="лютого[лютий/noun:inanim:m:v_rod]">23 <marker>лютого</marker></example>
     <example type="untouched">такого лютого морозу</example>
   </rule>
 
@@ -1864,8 +1868,8 @@
     </pattern>
     <disambig action="filter" postag="numr.*"/>
     <example type="ambiguous"
-        inputform="сорока[&lt;/S&gt;,сорок/numr:p:v_dav,сорок/numr:p:v_oru,сорок/numr:p:v_rod,сорок/numr:p:v_zna,сорока/noun:anim:f:v_naz]"
-        outputform="сорока[&lt;/S&gt;,сорок/numr:p:v_dav,сорок/numr:p:v_oru,сорок/numr:p:v_rod,сорок/numr:p:v_zna]"
+        inputform="сорока[сорок/numr:p:v_dav,сорок/numr:p:v_oru,сорок/numr:p:v_rod,сорок/numr:p:v_zna,сорока/noun:anim:f:v_naz]"
+        outputform="сорока[сорок/numr:p:v_dav,сорок/numr:p:v_oru,сорок/numr:p:v_rod,сорок/numr:p:v_zna]"
             >до мінус <marker>сорока</marker></example>
     <example type="untouched">полетіла сорока</example>
     <!--  TODO:
@@ -2609,8 +2613,8 @@
         >Не стало <marker>води</marker> у річці.
     </example>
     <example type="ambiguous"
-        inputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
-        outputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
+        inputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
+        outputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
         >Не стало <marker>води</marker>
     </example>
     <example type="untouched">не води мене колами.</example>
@@ -2625,8 +2629,8 @@
     </pattern>
     <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
-        inputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
-        outputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
+        inputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
+        outputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
         >Не стало <marker>води</marker>
     </example>
     <example type="untouched">не води мене колами.</example>
@@ -2717,8 +2721,8 @@
     </pattern>
     <disambig action="filter" postag="noun.*"/>
     <example type="ambiguous"
-        inputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod,чаїти/verb:imperf:pres:s:1]"
-        outputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod]"
+        inputform="чаю[чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod,чаїти/verb:imperf:pres:s:1]"
+        outputform="чаю[чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod]"
         >Випити <marker>чаю</marker>
     </example>
     <example type="untouched">душі не чаю в доньці</example>
@@ -2734,8 +2738,8 @@
     </pattern>
     <disambig action="filter" postag="(noun|adj).*"/>
     <example type="ambiguous"
-        inputform="хворій[&lt;/S&gt;,хворий/adj:f:v_dav:compb,хворий/noun:anim:f:v_dav,хворіти/verb:imperf:impr:s:2]"
-        outputform="хворій[&lt;/S&gt;,хворий/adj:f:v_dav:compb,хворий/noun:anim:f:v_dav]"
+        inputform="хворій[хворий/adj:f:v_dav:compb,хворий/noun:anim:f:v_dav,хворіти/verb:imperf:impr:s:2]"
+        outputform="хворій[хворий/adj:f:v_dav:compb,хворий/noun:anim:f:v_dav]"
         >Не допомогло <marker>хворій</marker>
     </example>
     <example type="untouched">Не хворій!</example>
@@ -2989,8 +2993,8 @@
     </pattern>
     <disambig action="remove" postag="noun:anim:m:v_naz:slang"></disambig>
     <example type="ambiguous"
-        inputform="коп[&lt;/S&gt;,коп/noun:anim:m:v_naz:slang]"
-        outputform="коп[&lt;/S&gt;]"
+        inputform="коп[коп/noun:anim:m:v_naz:slang]"
+        outputform="коп[коп]"
             >ціною в 12,5 <marker>коп</marker></example>
     <example type="untouched">солідний коп</example>
   </rule>
@@ -3085,8 +3089,8 @@
     </pattern>
     <disambig action="replace" postag="adv:abbr"></disambig>
     <example type="ambiguous"
-        inputform="д.[&lt;/S&gt;]"
-        outputform="д.[&lt;/S&gt;,д./adv:abbr]"
+        inputform="д.[д.]"
+        outputform="д.[д./adv:abbr]"
             >і т.<marker>д.</marker></example>
     <example type="untouched">д.м.н.</example>
   </rule>

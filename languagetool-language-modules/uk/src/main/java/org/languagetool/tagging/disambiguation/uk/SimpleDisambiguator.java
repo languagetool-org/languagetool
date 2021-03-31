@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -45,8 +46,8 @@ class SimpleDisambiguator {
     for (int i = 1; i < tokens.length; i++) {
 
       String token = tokens[i].getToken();
-//      if( token == null )
-//        continue;
+      if( StringUtils.isEmpty(token) )
+        continue;
 
       if( Character.isLowerCase(token.charAt(0)) ) {
         token = token.toLowerCase();
