@@ -143,6 +143,9 @@ class CheckRequestAnalysis {
       }
     }
     XFlatParagraph xFlatPara = flatPara.getFlatParagraphAt(nPara);
+    if (xFlatPara == null) {
+      return null;
+    }
     String chPara = xFlatPara.getText();
     Locale docLocale = docLanguage == null ? null : LinguisticServices.getLocale(docLanguage);
     Locale lastLocale = nPara <= 0 ? null : docCache.getFlatParagraphLocale(nPara - 1);
