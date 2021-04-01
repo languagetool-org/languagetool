@@ -41924,6 +41924,23 @@ Andere Projekte</example>
                 <example correction="Sie">So kommen <marker>sie</marker> doch!</example>
                 <example correction="Sie">Aber schalten <marker>sie</marker> unsere Stelle doch bitte frei.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token case_sensitive="yes" skip="-1" regexp="yes">Sie|Ihnen</token>
+                    <token postag="ADV:TMP|KON:NEB|PKT" postag_regexp="yes" />
+                    <token min="0">bitte</token>
+                    <token postag="VER:3:PLU:PRÄ.*" postag_regexp="yes"/>
+                    <marker>
+                        <token skip="-1" case_sensitive="yes">sie</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[\.\!…]</token>
+                </pattern>
+                <message>Meinten Sie die großgeschriebene Höflichkeitsform <suggestion>Sie</suggestion>? Sollte es sich bei diesem Satz um eine Frage handeln, verwenden Sie bitte ein Fragezeichen am Satzende.</message>
+                <short>Klein- und Großschreibung</short>
+                <example>Kommen <marker>sie</marker> morgen auch?</example>
+                <example correction="Sie">Schreiben Sie hier ihren Text oder fügen <marker>sie</marker> ihn einfach hier ein!</example>
+                <example correction="Sie">Wenn Sie Dank erwarten, gehen <marker>sie</marker> zum König!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DEN_DEM" name="'dem/den' (nur für wenige Verben)">
             <!-- TODO: the list of words needs to be extended -->
