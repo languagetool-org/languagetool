@@ -4825,6 +4825,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>den</suggestion> oder fehlt ein Satzzeichen (z. B. ein Strichpunkt) vor 'denn'?</message>
                 <example correction="den">Sie ging in <marker>denn</marker> Garten.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>den</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:DAT:PLU:MAS" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>den</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" min="0" max="2" />
+                    <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[A-Z].+n</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">was|wer|wo|wann|wie|welcher?|warum|weshalb|wozu|woran|wessen|worum</token>
+                    <token inflected="yes">sein</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>denn</suggestion>?</message>
+                <example correction="denn">Was ist <marker>den</marker> los?</example>
+                <example correction="denn">Ab wann ist <marker>den</marker> wirtschaftlicher Erfolg böse?</example>
+                <example correction="denn">Was ist <marker>den</marker> genau das Problem?</example>
+                <example>Wer kann den Unterschied zwischen Lärm und Geräusch übersetzen?</example>
+                <example>Was ist den alten Römern passiert?</example>
+                <example>Was ist den Römern passiert?</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>den</token>
+                    <token>ein</token>
+                    <token regexp="yes">Jahr|Monat|Woche|Tag|Jahrzent|Jahrhundert</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">man|sich</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token regexp="yes">der|die|das|eins?|eine[rs]?|diese[rs]?|solche[rs]?|ihre[rs]|[dsm]eine[rs]?|andere[rs]?|unsere[rs]?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>denn</suggestion>?</message>
+                <example correction="denn">Erkennt man <marker>den</marker> das Geschlecht schon?</example>
+                <example>Wir waren zu fünft, wenn man den ein Jahr alten Tom mitzählt.</example>
+            </rule>
         </rulegroup>
         <rule id="AL_ALS" name="al (als)">
             <pattern case_sensitive="yes">
