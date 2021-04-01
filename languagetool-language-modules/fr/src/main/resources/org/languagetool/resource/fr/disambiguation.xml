@@ -59,7 +59,7 @@ RB => Règles Brutes
     </unification>
     
     
-    <!-- CATEGORY: Elements dans périphrases verbals -->
+    <!-- CATEGORY: Elements dans périphrases verbals, exceptions -->
     
     <rule id="JUSTE_TOUS" name="juste tous">
         <pattern>
@@ -69,6 +69,17 @@ RB => Règles Brutes
                 <token postag="R.*" postag_regexp="yes" regexp="yes">tous|toutes</token>
             </marker>
             <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="LUI_AUSSI" name="lui aussi">
+        <pattern>
+            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <marker>
+                <token postag="R pers suj 3 m s">lui</token>
+                <token postag="A">aussi</token>
+            </marker>
+            <!--<token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>-->
         </pattern>
         <disambig action="filterall"/>
     </rule>
