@@ -3581,6 +3581,27 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example correction="à">La distance <marker>a</marker> vol d’oiseau.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>a</token>
+                    <token>lui</token>
+                    <token>aussi</token>
+                    <token postag="V.* ppa.*|D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token>lui</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> ? Il est correct si "a lui" signifie "a brillé".</message>
+                <example correction="À"><marker>A</marker> lui seul il fait tout le make-up.</example>
+                <example correction="À"><marker>A</marker> lui.</example>
+                <example>Il a lui aussi reçu des critiques mitigées.</example>
+                <example>Le gel a lui aussi un effet important.</example>
+                <example>Le ballast a lui aussi été refait.</example>
+                <example correction="à" type="triggers_error">Le jour de gloire <marker>a</marker> lui pour vous.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="A_INFINITIF" name="a + infinitif">
             <!--<antipattern>
