@@ -238,13 +238,14 @@ public class French extends Language implements AutoCloseable {
       case "ESPACE_UNITES": return 1; // needs to have higher priority than spell checker
       case "BYTES": return 1; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 1; // needs to be higher than spell checker for style suggestion
-      case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
+      case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
       case "JE_M_APPEL": return 1;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 1;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 1;  // needs higher priority than spell checker
       //case "D_N": return 1; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
+      case "FR_SIMPLE_REPLACE": return -10;
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "AGREEMENT_POSTPONED_ADJ": return -50;
