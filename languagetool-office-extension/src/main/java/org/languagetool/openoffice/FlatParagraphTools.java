@@ -148,7 +148,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("setLanguageOfParagraph: FlatParagraph == null");
+          MessageHandler.printToLogFile("getFlatParagraphAt: FlatParagraph == null");
         }
         return null;
       }
@@ -163,7 +163,7 @@ public class FlatParagraphTools {
         num++;
       }
       if (xFlatPara == null) {
-        MessageHandler.printToLogFile("setLanguageOfParagraph: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
+        MessageHandler.printToLogFile("getFlatParagraphAt: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
         return null;
       }
       return xFlatPara;

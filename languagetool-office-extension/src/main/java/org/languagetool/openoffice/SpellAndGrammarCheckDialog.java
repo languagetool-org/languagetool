@@ -160,7 +160,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         flatPara.init();
       }
       Configuration config = documents.getConfiguration();
-      docCache = new DocumentCache(docCursor, flatPara, -1, config == null ? null : LinguisticServices.getLocale(config.getDefaultLanguage()));
+      docCache = new DocumentCache(docCursor, flatPara, -1, 
+          (config == null || config.getDefaultLanguage() == null) ? null : LinguisticServices.getLocale(config.getDefaultLanguage()));
     }
     return docCache;
   }
@@ -213,7 +214,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       x = 0;
       yFlat++;
     }
-    MessageHandler.showMessage(messages.getString("guiCheckComplete"), false);
+    MessageHandler.showClosingInformationDialog(messages.getString("guiCheckComplete"));
   }
 
   /**
