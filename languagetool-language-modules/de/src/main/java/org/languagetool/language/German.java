@@ -301,6 +301,7 @@ public class German extends Language implements AutoCloseable {
     switch (id) {
       // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "DE_COMPOUNDS": return 10;
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
       case "RESOURCE_RESSOURCE": return 1;  // better error than DE_CASE
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
