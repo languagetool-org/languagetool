@@ -57,10 +57,7 @@ RB => Règles Brutes
             <token postag=".* 3 .*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-    
-    
     <!-- CATEGORY: Elements dans périphrases verbals, exceptions -->
-    
     <rule id="JUSTE_TOUS" name="juste tous">
         <pattern>
             <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
@@ -313,11 +310,8 @@ RB => Règles Brutes
             </disambig>
         </rule>
     </rulegroup>
-    
     <!-- END: Elements dans périphrases verbals -->
-    
     <!-- CATEGORY: Périphrases verbals -->
-    
     <rulegroup id="AVOIR_PARTICIPE" name="avoir + participe">
         <rule>
             <pattern>
@@ -504,7 +498,7 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V ppa .*"/>
         </rule>
-    </rulegroup>  
+    </rulegroup>
     <rulegroup id="LE_POUVOIR" name="le pouvoir">
         <rule>
             <antipattern>
@@ -577,11 +571,8 @@ RB => Règles Brutes
             <disambig postag="V avoir inf"/>
         </rule>
     </rulegroup>
-    
     <!-- END: périphrases verbals -->
-    
     <!-- CATEGORY: périphrases verbe + nom--> 
-
     <rule name="souffir le martyre" id="SOUFFIR_LE_MARTYRE">
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">souffrir</token>
@@ -635,10 +626,7 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    
     <!-- END: périphrases verbe + noms -->
-    
-        
     <rule id="GRAND_FEMININE" name="grand faim">
         <pattern>
             <marker>
@@ -1753,14 +1741,15 @@ RB => Règles Brutes
                     <token>lui</token>
                 </marker>
             </pattern>
-            <disambig postag="R pers subj 3 m s"/> <!-- subj ??? -->
+            <disambig postag="R pers subj 3 m s"/>
+            <!-- subj ??? -->
         </rule>
         <rule>
             <pattern>
                 <marker>
                     <token postag="R pers obj 3 e s">lui</token>
                 </marker>
-               <!-- <token min="0">en</token>
+                <!-- <token min="0">en</token>
                 <token postag="V.*" postag_regexp="yes"/>-->
             </pattern>
             <disambig postag="R pers obj 3 e s"/>
@@ -2051,7 +2040,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="P"/>
     </rule>
-    
     <rule id="PERSONNE" name="personne">
         <pattern>
             <token postag="P|D f s" postag_regexp="yes"/>
@@ -2217,7 +2205,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
-    
     <rulegroup id="BON" name="bon (adj)">
         <rule>
             <pattern>
@@ -2348,9 +2335,6 @@ RB => Règles Brutes
         <example type="untouched">Ça le fait.</example>
         <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
     </rule>
-    
-
-    
     <rulegroup name="RP : Que" id="RP-QUE">
         <rule name="que relatif">
             <pattern>
@@ -3576,7 +3560,6 @@ RB => Règles Brutes
             <disambig postag="A"/>
         </rule>
     </rulegroup>
-    
     <rulegroup id="METTEUR_EN_SCENE" name="metteur en scène">
         <rule>
             <pattern>
@@ -4007,6 +3990,26 @@ RB => Règles Brutes
             <pattern>
                 <token postag="D f s"/>
                 <token postag="N [ef] (s|sp)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_FS"/>
+                <wd pos="_GN_FS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D e s"/>
+                <token postag="N m (s|sp)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MS"/>
+                <wd pos="_GN_MS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D e s"/>
+                <token postag="N f (s|sp)" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
                 <wd pos="_GN_FS"/>
