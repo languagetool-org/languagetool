@@ -498,7 +498,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // Ein dickes Danke an alle die ...
       token("ein"),
-      tokenRegex("dickes|großes|grosses|fettes|persönliches"),
+      posRegex("ADJ:.+"),
       token("Danke")
     ),
     Arrays.asList(
