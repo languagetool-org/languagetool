@@ -775,16 +775,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">en|une?|sans|bien|pour|de</token>
-                <token regexp="yes">majeure|petit|peu|aucun|tou[ts]|quelque|le|des|ainsi</token>
-                <token regexp="yes">partie|peu|cause|doute|points?|égards|moins|manière|dire</token>
+                <token regexp="yes">en|une?|sans|bien|pour|de|tout|fin</token>
+                <token regexp="yes">majeure|petit|peu|aucun|tou[ts]|quelque|bonne|l(e)?|des?|ainsi|grand</token>
+                <token regexp="yes">part(ie)?|peu|cause|doute|points?|égards|moins|manière|dire|monde|heure|nombre|soirée</token>
                 <token postag="A.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>tue
                     <exception scope="next" postag="P"/>
-                    <exception scope="previous">se</exception> </token>
+                    <exception scope="previous">se</exception></token>
             </antipattern>
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -822,9 +822,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="C coor"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
             </antipattern>
+             <antipattern>
+                <token postag="Y" skip="1"/>
+              <token regexp="yes">min(imum)?|max(imum)?</token>
+            </antipattern>
+              <antipattern>
+                <token regexp="yes">&unites_temps;</token>
+              <token regexp="yes">min(imum)?|max(imum)?</token>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">par|d[ue]|en|ce|à</token>
-                <token regexp="yes">nature|genre|exemple|théorie|préférence|sytle|soir|matin|midi|type|hasard|évidence|application|part</token>
+                <token regexp="yes">nature|genre|exemple|théorie|préférence|sytle|soir|suite|matin|midi|type|hasard|évidence|application|part</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+             <antipattern>
+                <token postag="N m ." postag_regexp="yes"/>
+                <token>surprise</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+             <antipattern>
+                <token regexp="yes">&prefixes;</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -855,12 +875,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Reste attentive à quoi que ce soit qui se présente !</example>
             <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
             <example>Si tu rencontres une interprète danois-maltais.</example>
+            <example>Site de rencontres adultes mariés.</example>
+            <example>Chaque langue dit le monde à sa manière.</example>
+            <example>Certains prétendent que les scanners corporels violent le quatrième amendement.</example>
+            <example>La viande cuit correctement de plus ce qui est pratique c'est qu'il y a un côté plancha.</example>
+            <example>Ce sont des noms identiques qui voudraient dire différentes choses différentes dans différents pays.</example>
+            <example>C'est un Japonais pure souche.</example>
+            <example>Il n'y a pas de réduction étudiant.</example>
+            <example>Je suis hyper contente pour vous.</example>
+            <example>L'efficacité, c'est la communication client.</example>
+            <example>L'efficacité, c'est la communication client</example>
+            <example>Mes parents résident à la campagne.</example>
+            <example>Que le spectacle continue !</example>
+            <example>Ce paradoxe est en réalité inhérent au mot surprise et à la notion d'aléatoire.</example>
+            <example>Qui dit revenus modestes dit prêts plus compliqués.</example>
+            <example>Les points retrait offrent l'avantage d'être proches de chez vous.</example>
+            <example>Ces pouvoirs n'étaient pas à proprement parler séparés.</example>
+            <example>Le « mariage avec l'esprit » par lequel Nietzsche caractérise la spiritualisation traduit un compromis de puissance entre instincts.</example>
+            <example>J'aurais aimé que mon père vive plus longtemps.</example>
+            <example>L'abonnement comprend 4 leçons à prendre durant 40 jours maximum à partir de la date de la commande</example>
+            <example>Nous utilisons les cookies pour vous offrir une meilleure expérience utilisateur.</example>
             <example>Les commentaires insultants ne seront en aucun cas publiés.</example>
+            <example>Quelles sont les dimensions produit ?</example>
+            <example>L'enfant est retrouvé en fin de soirée sain et sauf.</example>
             <example>Il est parfois facile de mettre en application certaines des préconisations.</example>
             <example>La colonnade de la basilique saint-Pierre est vraiment grande.</example>
             <example>Mise à part certaines de ses relations Dieudonné à tout compris.</example>
             <example>Est-ce que le Covid-19 sauve des vies?</example>
             <example>Payer des amendes inclus.</example>
+            <example>Le Tibre divise Rome en deux parties.</example>
             <example>les courants chrétiens suivant au moins certaines règles se répartissent dans le monde.</example>
             <example>Nous sommes par hasard nés le même jour.</example>
             <example>Nous en sommes pour ainsi dire certaines.</example>
