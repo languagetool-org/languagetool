@@ -76,7 +76,7 @@ RB => Règles Brutes
         <pattern>
             <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
             <marker>
-                <token postag="A" regexp="yes">bien</token>
+                <token postag="A">bien</token>
             </marker>
             <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
         </pattern>
@@ -1541,12 +1541,22 @@ RB => Règles Brutes
             </pattern>
             <disambig postag="R 3 s"/>
         </rule>-->
-        <rule name="lui (R pers)">
+        <rule>
             <pattern>
                 <token postag="P"/>
                 <marker>
                     <token>lui</token>
                 </marker>
+            </pattern>
+            <disambig postag="R pers obj 3 m s"/> <!-- subj ??? -->
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>lui</token>
+                </marker>
+               <!-- <token min="0">en</token>
+                <token postag="V.*" postag_regexp="yes"/>-->
             </pattern>
             <disambig postag="R pers obj 3 m s"/>
         </rule>
