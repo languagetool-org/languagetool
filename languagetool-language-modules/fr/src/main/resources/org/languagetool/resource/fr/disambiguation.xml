@@ -561,7 +561,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token postag="V.*" postag_regexp="yes">reste
-                    <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <exception scope="previous" postag="D.*|P.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="filter" postag="V.*"/>
@@ -1545,20 +1545,20 @@ RB => Règles Brutes
             <pattern>
                 <token postag="P"/>
                 <marker>
-                    <token postag="R pers obj 3 m s">lui</token>
+                    <token>lui</token>
                 </marker>
             </pattern>
-            <disambig postag="R pers obj 3 m s"/> <!-- subj ??? -->
+            <disambig postag="R pers subj 3 m s"/> <!-- subj ??? -->
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token postag="R pers obj 3 m s">lui</token>
+                    <token postag="R pers obj 3 e s">lui</token>
                 </marker>
                <!-- <token min="0">en</token>
                 <token postag="V.*" postag_regexp="yes"/>-->
             </pattern>
-            <disambig postag="R pers obj 3 m s"/>
+            <disambig postag="R pers obj 3 e s"/>
         </rule>
         <rule name="lui (R pers)">
             <pattern>

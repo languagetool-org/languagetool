@@ -11056,6 +11056,11 @@ though, and has since been slightly modified)-->
                 <example>l'Avis de confidentialité d'H &amp; M</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">d'|qu'|jusqu'</token>
+                    <token>au</token>
+                    <token regexp="yes">moins|plus</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
                     <token inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
@@ -11071,6 +11076,8 @@ though, and has since been slightly modified)-->
                 <example>La liquidation de l’I.S.R.</example>
                 <example>L'HTML</example>
                 <example>L'Yonne.</example>
+                <example>Pour un achat d'un montant d'au moins 50€.</example>
+                <example>L'esclave a sa vanité, il ne veut obéir qu'au plus grand des despotes.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -15931,6 +15938,8 @@ though, and has since been slightly modified)-->
                 <example>Ils doivent décider seuls du devenir de nos communes.</example>
                 <example>informé du fait que son accord concernant le contenu</example>
                 <example>Le banquier est surnommé « Le Chacal » du fait de son rôle dans le jeu.</example>
+                <example>Je vous laisse vous occuper du reste.</example>
+                <example>Du reste, tu es le bienvenu.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20797,7 +20806,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">.*[td]</exception>
                             <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
                             <exception postag="P"/></token>
-                        <token postag="R pers suj 3 [mfe] s" postag_regexp="yes">
+                        <token postag="R pers suj 3 [mfe] s" postag_regexp="yes" regexp="yes">il|elle|on
                             <exception regexp="yes" case_sensitive="yes">-.*|Elle|Lui</exception></token>
                     </marker>
                     <token>
@@ -20819,6 +20828,7 @@ though, and has since been slightly modified)-->
                 <example>En 1859, George Sand publie Elle et Lui.</example>
                 <example>Depuis le commencement du monde il n'aurait pas encore existé un seul roi.</example>
                 <example>Un homme sans faute il n'y en a pas.</example>
+                <example>Thomas alla lui prêter main forte.</example>
             </rule>
             <rule name="troisième personne du singulier, verbe finissant par -d ou -t">
                 <antipattern>
@@ -20862,7 +20872,7 @@ though, and has since been slightly modified)-->
                         <token postag="V .* 3 s" postag_regexp="yes">
                             <exception regexp="yes">.*[a-ce-sw-zéè]</exception>
                             <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/></token>
-                        <token postag="R pers suj 3 [mfe] s" postag_regexp="yes">
+                        <token postag="R pers suj 3 [mfe] s" postag_regexp="yes" regexp="yes">il|elle|on
                             <exception regexp="yes">-.*</exception></token>
                     </marker>
                     <token>
@@ -20879,6 +20889,7 @@ though, and has since been slightly modified)-->
                 <example>On dit qu'en fait il n'avait rien à voir avec ça.</example>
                 <example>Soit il viendra, soit il m'appellera.</example>
                 <example>Une fois atteint il ne reste plus qu'à descendre.</example>
+                <example>Anatole allait lui emprunter de l'argent et baiser ses belles épaules.</example>
             </rule>
             <rule name="première personne du pluriel">
                 <antipattern>
