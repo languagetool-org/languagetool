@@ -9971,7 +9971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="US_ARMEE" name="US Armee (US-Armee)" default="temp_off">
             <antipattern>
                 <token>US</token>
-                <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus</token>
+                <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus|Boys?|Top|Cars?</token>
             </antipattern>
             <antipattern>
                 <token>US</token>
@@ -10603,7 +10603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>vor-ort</token>
                     <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
                 </pattern>
-                <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <message>Das Nomen <suggestion>Vor-Ort-<match no="2" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
                 <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
                 <short>Zusammenschreibung</short>
                 <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor-ort Termin</marker> vereinbaren.</example>
@@ -20538,6 +20538,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="IN_KAUF_NEHMEN" name="in kauf (Kauf) nehmen" default="temp_off">
+            <url>https://de.wiktionary.org/wiki/in_Kauf_nehmen</url>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token case_sensitive="yes">kauf</token>
+                    </marker>
+                    <token inflected="yes">nehmen</token>
+                </pattern>
+                <message>Das Wort <suggestion>Kauf</suggestion> wird in der Redewendung "etw. in Kauf nehmen" großgeschrieben.</message>
+                <example correction="Kauf">Er hat es in <marker>kauf</marker> genommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="4">nehmen</token>
+                    <token>in</token>
+                    <marker>
+                        <token case_sensitive="yes">kauf</token>
+                    </marker>
+                </pattern>
+                <message>Das Wort <suggestion>Kauf</suggestion> wird in der Redewendung "etw. in Kauf nehmen" großgeschrieben.</message>
+                <example correction="Kauf">Ich nehme das bewusst in <marker>kauf</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="IHN" name="Kleinschreibung 'ihn/ihm'">
             <antipattern>
                 <token postag="SENT_START" />

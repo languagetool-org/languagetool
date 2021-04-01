@@ -57,12 +57,31 @@ RB => Règles Brutes
             <token postag=".* 3 .*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-    <rule name="C" id="C_APOSTROPHE">
+    
+    
+    <!-- CATEGORY: Elements dans périphrases verbals, exceptions -->
+    
+    <rule id="JUSTE_TOUS" name="juste tous">
         <pattern>
-            <token>C
-                <exception scope="next" regexp="yes" negate="yes">&apostrophe;</exception></token>
+            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <marker>
+                <token postag="A" regexp="yes">juste|pas|point|jamai</token>
+                <token postag="R.*" postag_regexp="yes" regexp="yes">tous|toutes</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
         </pattern>
-        <disambig postag="R dem m s"/>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="LUI_AUSSI" name="lui aussi">
+        <pattern>
+            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <marker>
+                <token postag="R pers suj 3 m s">lui</token>
+                <token postag="A">aussi</token>
+            </marker>
+            <!--<token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>-->
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
@@ -220,6 +239,349 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="filterall"/>
     </rule>
+    <rule id="BIEN" name="bien (adv)">
+        <pattern>
+            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <marker>
+                <token postag="A">bien</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rulegroup id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tous</token>
+                    <token>les</token>
+                    <token regexp="yes">deux|trois|quatre|cinq</token>
+                </marker>
+                <token>
+                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="tous les deux" pos="R m p"/>
+                <wd lemma="tous les deux" pos="R m p"/>
+                <wd lemma="tous les deux" pos="R m p"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>toutes</token>
+                    <token>les</token>
+                    <token regexp="yes">deux|trois|quatre|cinq</token>
+                </marker>
+                <token>
+                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="toutes les deux" pos="R f p"/>
+                <wd lemma="toutes les deux" pos="R f p"/>
+                <wd lemma="toutes les deux" pos="R f p"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="TOUS_DEUX" name="tous deux (determiner / pronoun)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tous</token>
+                    <token regexp="yes">deux|trois|quatre|cinq</token>
+                </marker>
+                <token>
+                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="tous deux" pos="R m p"/>
+                <wd lemma="tous deux" pos="R m p"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>toutes</token>
+                    <token regexp="yes">deux|trois|quatre|cinq</token>
+                </marker>
+                <token>
+                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="toutes deux" pos="R f p"/>
+                <wd lemma="toutes deux" pos="R f p"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    
+    <!-- END: Elements dans périphrases verbals -->
+    
+    <!-- CATEGORY: Périphrases verbals -->
+    
+    <rulegroup id="AVOIR_PARTICIPE" name="avoir + participe">
+        <rule>
+            <pattern>
+                <token inflected="yes">avoir</token>
+                <token min="0" max="3" postag="A|R.*" postag_regexp="yes">
+                    <exception inflected="yes" regexp="yes">un|ce|plusieurs</exception></token>
+                <marker>
+                    <token postag="V.* ppa .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.* ppa .*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">avoir|rester</token>
+                </marker>
+                <token min="0" max="3" postag="A|R.*" postag_regexp="yes">
+                    <exception inflected="yes" regexp="yes">un|ce|plusieurs</exception></token>
+                <token postag="V.* ppa .*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="AVIONS" name="avions">
+        <pattern>
+            <marker>
+                <token postag="D.*" postag_regexp="yes">les</token>
+                <token postag="N.*" postag_regexp="yes">avions</token>
+            </marker>
+            <token>
+                <exception postag="V.* ppa .*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rulegroup id="AVOIR_PP" name="avoir + pp">
+        <rule>
+            <pattern>
+                <token regexp="yes">l'|les</token>
+                <marker>
+                    <token inflected="yes">avoir</token>
+                </marker>
+                <token postag="V ppa .*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token skip="2">ayant</token>
+                </marker>
+                <token postag="V ppa .*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule name="qu'as donc tu fait">
+            <pattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token inflected="yes">avoir</token>
+                    <unify-ignore>
+                        <token min="0">donc</token>
+                    </unify-ignore>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                </unify>
+                <marker>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa.*"/>
+        </rule>
+    </rulegroup>
+    <!-- TODO: tu ne l'as; l'avoir rencontrée -->
+    <!-- This is to catch frequent errors such as "J'ai manger" which would not
+         be caught without disambiguation as "manger" can also be a noun -->
+    <rulegroup name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
+        <rule>
+            <pattern>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes" postag="V inf">.*er</token>
+                </marker>
+            </pattern>
+            <disambig postag="V inf"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+                <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|peut-être|plus|presque|toujours|très|trop</token>
+                <marker>
+                    <token regexp="yes" postag="V inf">.*er</token>
+                </marker>
+            </pattern>
+            <disambig postag="V inf"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+                <token regexp="yes">assez|beaucoup|déjà|pas|plus|presque|peut-être|jamais|toujours|très|trop</token>
+                <token regexp="yes">assez|beaucoup|bien|encore|énormément|peu|plus|très|trop</token>
+                <marker>
+                    <token regexp="yes" postag="V inf">.*er</token>
+                </marker>
+            </pattern>
+            <disambig postag="V inf"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ETRE" name="être">
+        <rule id="ETRE_PP" name="être + PP">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">être</token>
+                </marker>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token postag="P.*|D.*" postag_regexp="yes"/>
+                <token>est</token>
+            </antipattern>
+            <antipattern>
+                <token>
+                    <exception postag="SENT_START"/></token>
+                <token case_sensitive="yes">Est</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">est</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ETRE_AVOIR_VPPA_AMBIG">
+        <rule>
+            <pattern>
+                <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa .*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
+                <token postag="A"/>
+                <marker>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa .*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
+                <token postag="A"/>
+                <token postag="A"/>
+                <marker>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa .*"/>
+        </rule>
+        <rule name="avoir été">
+            <pattern>
+                <token postag="V avoir .*" postag_regexp="yes" skip="2"/>
+                <marker>
+                    <token>été
+                        <exception scope="previous" postag="D m s"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa .*"/>
+        </rule>
+        <rule name="avoir été">
+            <pattern>
+                <token regexp="yes">.*[-‑‐](?:je|tu|ils?|elles?|on|[nv]ous)</token>
+                <marker>
+                    <token>été</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa .*"/>
+        </rule>
+    </rulegroup>  
+    <rulegroup id="LE_POUVOIR" name="le pouvoir">
+        <rule>
+            <antipattern>
+                <token>pouvoir</token>
+                <token postag="V .*inf" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="D m s" regexp="yes">le|leur</token>
+                <token postag="N m s">pouvoir</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D [me] s" postag_regexp="yes" regexp="yes">son|ton|mon|notre|votre</token>
+                <token postag="N m s">pouvoir</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="POUVOIR_INFINITIF" name="pouvoir + infinitif">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <!--<antipattern>
+        <!-\- error: missing hyphen -\->
+        <token postag="V.* 1 p" inflected="yes">pouvoir</token>
+        <token skip="-1">nous</token>
+        <token>?</token>
+      </antipattern>-->
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser</token>
+                <token postag="R pers obj.*|A" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser</token>
+                <token postag="A"/>
+                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
+        <rule name="Infinitif être">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V etre inf"/>
+                </marker>
+            </pattern>
+            <disambig postag="V etre inf"/>
+        </rule>
+        <rule name="Infinitif avoir">
+            <pattern>
+                <token postag="V .*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V avoir inf"/>
+                </marker>
+            </pattern>
+            <disambig postag="V avoir inf"/>
+        </rule>
+    </rulegroup>
+    
+    <!-- END: périphrases verbals -->
+    
+    <!-- CATEGORY: périphrases verbe + nom--> 
+
     <rule name="souffir le martyre" id="SOUFFIR_LE_MARTYRE">
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">souffrir</token>
@@ -227,6 +589,64 @@ RB => Règles Brutes
             <token postag="N m s">martyre</token>
         </pattern>
         <disambig postag="filterall"/>
+    </rule>
+    <rule id="FAIRE_PARTIE" name="faire partie">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+            <token postag="A" min="0" max="3"/>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="PRENDRE_PLACE" name="prendre place">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">prendre</token>
+            <token postag="N .*" postag_regexp="yes">place</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="avoir_trait_a" name="avoir trait à">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">avoir</token>
+            <token postag="N m s">trait</token>
+            <token postag="P.*" postag_regexp="yes" regexp="yes">à|aux</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="GRISE_MINE" name="grise mine">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes" min="0" max="1">faire</token>
+            <token postag="J f s">grise</token>
+            <token postag="N f s">mine</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="TIRER_PARTIE" name="tirer partie">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">tirer</token>
+            <token postag="N.*" postag_regexp="yes">partie</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="RENDRE_VISITE" name="rendre visite">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">rendre</token>
+            <token postag="N f s">visite</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    
+    <!-- END: périphrases verbe + noms -->
+    
+        
+    <rule id="GRAND_FEMININE" name="grand faim">
+        <pattern>
+            <marker>
+                <token>grand</token>
+            </marker>
+            <token regexp="yes">faim|soif</token>
+        </pattern>
+        <disambig action="replace" postag="J e s"/>
     </rule>
     <rule id="AU_MOINS" name="au moins">
         <pattern>
@@ -346,7 +766,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token postag="V.*" postag_regexp="yes">reste
-                    <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <exception scope="previous" postag="D.*|P.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="filter" postag="V.*"/>
@@ -386,6 +806,10 @@ RB => Règles Brutes
         <disambig action="filter" postag="V.*"/>
     </rule>
     <rule id="ROMAN_NUMBER" name="roman number">
+        <antipattern>
+            <token>rayons</token>
+            <token>x</token>
+        </antipattern>
         <pattern>
             <!--(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)-->
             <token regexp="yes" case_sensitive="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
@@ -970,81 +1394,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
-    <rule id="JUSTE_TOUS" name="juste tous">
-        <pattern>
-            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
-            <marker>
-                <token postag="A" regexp="yes">juste|pas|point|jamai</token>
-                <token postag="R.*" postag_regexp="yes" regexp="yes">tous|toutes</token>
-            </marker>
-            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rulegroup id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tous</token>
-                    <token>les</token>
-                    <token regexp="yes">deux|trois|quatre|cinq</token>
-                </marker>
-                <token>
-                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd lemma="tous les deux" pos="R m p"/>
-                <wd lemma="tous les deux" pos="R m p"/>
-                <wd lemma="tous les deux" pos="R m p"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>toutes</token>
-                    <token>les</token>
-                    <token regexp="yes">deux|trois|quatre|cinq</token>
-                </marker>
-                <token>
-                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd lemma="toutes les deux" pos="R f p"/>
-                <wd lemma="toutes les deux" pos="R f p"/>
-                <wd lemma="toutes les deux" pos="R f p"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-    <rulegroup id="TOUS_DEUX" name="tous deux (determiner / pronoun)">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tous</token>
-                    <token regexp="yes">deux|trois|quatre|cinq</token>
-                </marker>
-                <token>
-                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd lemma="tous deux" pos="R m p"/>
-                <wd lemma="tous deux" pos="R m p"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>toutes</token>
-                    <token regexp="yes">deux|trois|quatre|cinq</token>
-                </marker>
-                <token>
-                    <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd lemma="toutes deux" pos="R f p"/>
-                <wd lemma="toutes deux" pos="R f p"/>
-            </disambig>
-        </rule>
-    </rulegroup>
     <rule name="quelque chose" id="QUELQUE_CHOSE">
         <pattern>
             <token>quelque</token>
@@ -1397,14 +1746,24 @@ RB => Règles Brutes
             </pattern>
             <disambig postag="R 3 s"/>
         </rule>-->
-        <rule name="lui (R pers)">
+        <rule>
             <pattern>
                 <token postag="P"/>
                 <marker>
                     <token>lui</token>
                 </marker>
             </pattern>
-            <disambig postag="R pers obj 3 m s"/>
+            <disambig postag="R pers subj 3 m s"/> <!-- subj ??? -->
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="R pers obj 3 e s">lui</token>
+                </marker>
+               <!-- <token min="0">en</token>
+                <token postag="V.*" postag_regexp="yes"/>-->
+            </pattern>
+            <disambig postag="R pers obj 3 e s"/>
         </rule>
         <rule name="lui (R pers)">
             <pattern>
@@ -1414,6 +1773,12 @@ RB => Règles Brutes
                 </marker>
             </pattern>
             <disambig postag="R pers obj 3 m s"/>
+        </rule>
+        <rule id="LUI" name="lui (no V ppa)">
+            <pattern>
+                <token postag="R.*" postag_regexp="yes">lui</token>
+            </pattern>
+            <disambig action="filterall"/>
         </rule>
         <rule>
             <pattern>
@@ -1576,15 +1941,12 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token>n</token>
-                <token regexp="yes">&apostrophe;</token>
+                <token>n'</token>
                 <marker>
                     <token postag="V.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
-            <disambig>
-                <match no="2" postag_regexp="yes" postag="V.*"/>
-            </disambig>
+            <disambig action="filter" postag="V.*"/>
         </rule>
     </rulegroup>
     <rulegroup id="SON" name="non (nom)">
@@ -1612,8 +1974,7 @@ RB => Règles Brutes
                 <marker>
                     <token>son</token>
                 </marker>
-                <token>d</token>
-                <token regexp="yes">&apostrophe;</token>
+                <token>d'</token>
                 <token regexp="yes">instruments?</token>
             </pattern>
             <disambig postag="N m s"/>
@@ -1626,9 +1987,7 @@ RB => Règles Brutes
                 <token postag="V ppr"/>
             </marker>
         </pattern>
-        <disambig>
-            <match no="1" postag="V ppr"/>
-        </disambig>
+        <disambig action="filter" postag="V ppr"/>
     </rule>
     <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
         <rule name="mon">
@@ -1672,28 +2031,6 @@ RB => Règles Brutes
             <disambig postag="A"/>
         </rule>
     </rulegroup>
-    <rule id="FAIRE_PARTIE" name="faire partie">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
-            <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rule id="PRENDRE_PLACE" name="prendre place">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">prendre</token>
-            <token postag="N .*" postag_regexp="yes">place</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rule id="FAIRE_INF" name="faire + inf">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
-            <token postag="V inf"/>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rulegroup id="DONNER" name="donner (verbe)">
         <rule>
             <pattern>
@@ -1714,41 +2051,7 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="P"/>
     </rule>
-    <rulegroup id="AVOIR_PARTICIPE" name="avoir + participe">
-        <rule>
-            <pattern>
-                <token inflected="yes">avoir</token>
-                <token min="0" max="3" postag="A|R.*" postag_regexp="yes">
-                    <exception inflected="yes" regexp="yes">un|ce|plusieurs</exception></token>
-                <marker>
-                    <token postag="V.* ppa .*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* ppa .*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">avoir|rester</token>
-                </marker>
-                <token min="0" max="3" postag="A|R.*" postag_regexp="yes">
-                    <exception inflected="yes" regexp="yes">un|ce|plusieurs</exception></token>
-                <token postag="V.* ppa .*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="V.*"/>
-        </rule>
-    </rulegroup>
-    <rule id="AVIONS" name="avions">
-        <pattern>
-            <marker>
-                <token postag="D.*" postag_regexp="yes">les</token>
-                <token postag="N.*" postag_regexp="yes">avions</token>
-            </marker>
-            <token>
-                <exception postag="V.* ppa .*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
+    
     <rule id="PERSONNE" name="personne">
         <pattern>
             <token postag="P|D f s" postag_regexp="yes"/>
@@ -1914,26 +2217,7 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
-    <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
-        <rule name="Infinitif être">
-            <pattern>
-                <token postag="V.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V etre inf"/>
-                </marker>
-            </pattern>
-            <disambig postag="V etre inf"/>
-        </rule>
-        <rule name="Infinitif avoir">
-            <pattern>
-                <token postag="V .*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V avoir inf"/>
-                </marker>
-            </pattern>
-            <disambig postag="V avoir inf"/>
-        </rule>
-    </rulegroup>
+    
     <rulegroup id="BON" name="bon (adj)">
         <rule>
             <pattern>
@@ -1998,81 +2282,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="OSER_ING" name="oser + inf">
-        <pattern>
-            <marker>
-                <token inflected="yes">oser</token>
-            </marker>
-            <token postag="V inf"/>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
-    </rule>
-    <rulegroup id="ETRE" name="être">
-        <rule id="ETRE_PP" name="être + PP">
-            <pattern>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes">être</token>
-                </marker>
-                <token postag="V ppa.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="V.*"/>
-        </rule>
-        <rule>
-            <antipattern>
-                <token postag="P.*|D.*" postag_regexp="yes"/>
-                <token>est</token>
-            </antipattern>
-            <antipattern>
-                <token>
-                    <exception postag="SENT_START"/></token>
-                <token case_sensitive="yes">Est</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes">est</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.*"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="AVOIR_PP" name="avoir + pp">
-        <rule>
-            <pattern>
-                <token regexp="yes">l'|les</token>
-                <marker>
-                    <token inflected="yes">avoir</token>
-                </marker>
-                <token postag="V ppa .*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="V.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token skip="2">ayant</token>
-                </marker>
-                <token postag="V ppa .*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="V.*"/>
-        </rule>
-        <rule name="qu'as donc tu fait">
-            <pattern>
-                <unify>
-                    <feature id="number"/>
-                    <feature id="person"/>
-                    <token inflected="yes">avoir</token>
-                    <unify-ignore>
-                        <token min="0">donc</token>
-                    </unify-ignore>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
-                </unify>
-                <marker>
-                    <token postag="V ppa .*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V ppa.*"/>
-        </rule>
-    </rulegroup>
     <rule id="LEUR" name="leur (unusually noun)">
         <pattern>
             <marker>
@@ -2081,58 +2290,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
-    <rulegroup id="LE_POUVOIR" name="le pouvoir">
-        <rule>
-            <antipattern>
-                <token>pouvoir</token>
-                <token postag="V .*inf" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <token postag="D m s" regexp="yes">le|leur</token>
-                <token postag="N m s">pouvoir</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="D [me] s" postag_regexp="yes" regexp="yes">son|ton|mon|notre|votre</token>
-                <token postag="N m s">pouvoir</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="POUVOIR_INFINITIF" name="pouvoir + infinitif">
-        <rule>
-            <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir</token>
-                <token postag="V.* inf" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <!--<antipattern>
-        <!-\- error: missing hyphen -\->
-        <token postag="V.* 1 p" inflected="yes">pouvoir</token>
-        <token skip="-1">nous</token>
-        <token>?</token>
-      </antipattern>-->
-            <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir</token>
-                <token postag="R pers obj.*|A" postag_regexp="yes"/>
-                <token postag="V.* inf" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir</token>
-                <token postag="A"/>
-                <token postag="R pers obj.*" postag_regexp="yes"/>
-                <token postag="V.* inf" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-    </rulegroup>
     <rulegroup id="PRONOM_SUJET_VERB" name="pronom sujet + verb">
         <rule>
             <pattern>
@@ -2191,110 +2348,9 @@ RB => Règles Brutes
         <example type="untouched">Ça le fait.</example>
         <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
     </rule>
-    <!-- TODO: tu ne l'as; l'avoir rencontrée -->
-    <!-- This is to catch frequent errors such as "J'ai manger" which would not
-         be caught without disambiguation as "manger" can also be a noun -->
-    <rulegroup name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
-        <rule>
-            <pattern>
-                <token postag="V avoir .*" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes" postag="V inf">.*er</token>
-                </marker>
-            </pattern>
-            <disambig postag="V inf"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="V avoir .*" postag_regexp="yes"/>
-                <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|peut-être|plus|presque|toujours|très|trop</token>
-                <marker>
-                    <token regexp="yes" postag="V inf">.*er</token>
-                </marker>
-            </pattern>
-            <disambig postag="V inf"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="V avoir .*" postag_regexp="yes"/>
-                <token regexp="yes">assez|beaucoup|déjà|pas|plus|presque|peut-être|jamais|toujours|très|trop</token>
-                <token regexp="yes">assez|beaucoup|bien|encore|énormément|peu|plus|très|trop</token>
-                <marker>
-                    <token regexp="yes" postag="V inf">.*er</token>
-                </marker>
-            </pattern>
-            <disambig postag="V inf"/>
-        </rule>
-    </rulegroup>
-    <rule id="avoir_trait_a" name="avoir trait à">
-        <pattern>
-            <token inflected="yes">avoir</token>
-            <token postag="N m s">trait</token>
-            <token postag="P">à</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ETRE_AVOIR_VPPA_AMBIG">
-        <rule>
-            <pattern>
-                <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V ppa .*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig>
-                <match no="2" postag_regexp="yes" postag="V ppa .*"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
-                <token postag="A"/>
-                <marker>
-                    <token postag="V ppa .*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig>
-                <match no="3" postag_regexp="yes" postag="V ppa .*"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
-                <token postag="A"/>
-                <token postag="A"/>
-                <marker>
-                    <token postag="V ppa .*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig>
-                <match no="4" postag_regexp="yes" postag="V ppa .*"/>
-            </disambig>
-        </rule>
-        <rule name="avoir été">
-            <pattern>
-                <token postag="V avoir .*" postag_regexp="yes" skip="2"/>
-                <marker>
-                    <token>été
-                        <exception scope="previous" postag="D m s"/></token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd lemma="être" pos="V etre ppa e sp"/>
-            </disambig>
-        </rule>
-        <rule name="avoir été">
-            <pattern>
-                <token regexp="yes">.*[-‑‐](?:je|tu|ils?|elles?|on|[nv]ous)</token>
-                <marker>
-                    <token>été</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd lemma="être" pos="V etre ppa e sp"/>
-            </disambig>
-        </rule>
-    </rulegroup>
+    
+
+    
     <rulegroup name="RP : Que" id="RP-QUE">
         <rule name="que relatif">
             <pattern>
@@ -2362,7 +2418,7 @@ RB => Règles Brutes
                 <token postag="V etre .*" postag_regexp="yes"/>
                 <marker>
                     <token postag="J.*" postag_regexp="yes">
-                        <exception>torse</exception></token>
+                        <exception regexp="yes">torse|bien</exception></token>
                 </marker>
             </pattern>
             <disambig>
@@ -2455,6 +2511,7 @@ RB => Règles Brutes
         <disambig postag="P"/>
     </rule>
     <rulegroup name="RB : Infinitif" id="RB-INFINITIF">
+        <!-- TODO: exceptions ?? -->
         <rule name="infinitif être">
             <pattern>
                 <marker>
@@ -3135,7 +3192,7 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="J f s"/>
     </rule>
-    <rule id="BIEN" name="bien">
+    <rule id="BIEN_ADV" name="bien">
         <pattern>
             <marker>
                 <token postag="A">bien</token>
@@ -3519,15 +3576,7 @@ RB => Règles Brutes
             <disambig postag="A"/>
         </rule>
     </rulegroup>
-    <rule id="GRAND_FAIM" name="grand faim">
-        <pattern>
-            <marker>
-                <token>grand</token>
-                <token>faim</token>
-            </marker>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
+    
     <rulegroup id="METTEUR_EN_SCENE" name="metteur en scène">
         <rule>
             <pattern>
@@ -3608,33 +3657,30 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="A"/>
     </rule>
-    <rule id="RAYONS_X" name="rayons X">
-        <pattern>
-            <token>rayons</token>
-            <marker>
-                <token>X</token>
-            </marker>
-        </pattern>
-        <disambig postag=""/>
-    </rule>
     <rulegroup id="DERNIER_CRI" name="dernier cri">
         <rule>
+            <!-- as invariant adjective-->
             <pattern>
+                <token postag="[NJ].*|V etre.*" postag_regexp="yes"/>
                 <marker>
                     <token>dernier</token>
-                </marker>
-                <token>cri</token>
-            </pattern>
-            <disambig postag="J e sp"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>dernier</token>
-                <marker>
                     <token>cri</token>
                 </marker>
             </pattern>
-            <disambig postag="N e sp"/>
+            <disambig action="replace">
+                <wd lemma="dernier crie" pos="J e sp"/>
+                <wd lemma="dernier crie" pos="J e sp"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="(P\+)=D.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="J m s">dernier</token>
+                    <token postag="N m s">cri</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
         </rule>
     </rulegroup>
     <rulegroup id="BON_MARCHE" name="bon marché">
@@ -3759,14 +3805,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="GRISE_MINE" name="grise mine">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes" min="0" max="1">faire</token>
-            <token postag="J f s">grise</token>
-            <token postag="N f s">mine</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rulegroup id="CHER" name="cher">
         <rule>
             <antipattern>
@@ -3860,13 +3898,6 @@ RB => Règles Brutes
             <wd pos="A"/>
         </disambig>
     </rule>
-    <rule id="TIRER_PARTIE" name="tirer partie">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">tirer</token>
-            <token postag="N.*" postag_regexp="yes">partie</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rule id="SE_SAVOIR" name="se savoir">
         <pattern>
             <token>se</token>
@@ -3875,13 +3906,6 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="filter" postag="V.*"/>
-    </rule>
-    <rule id="RENDRE_VISITE" name="rendre visite">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">rendre</token>
-            <token postag="N f s">visite</token>
-        </pattern>
-        <disambig action="filterall"/>
     </rule>
     <rule id="METRES_COURSE" name="mètres dans une course">
         <pattern>
@@ -3967,12 +3991,6 @@ RB => Règles Brutes
             <token>auras</token>
         </pattern>
         <disambig action="ignore_spelling"/>
-    </rule>
-    <rule id="LUI" name="lui (no V ppa)">
-        <pattern>
-            <token postag="R.*" postag_regexp="yes">lui</token>
-        </pattern>
-        <disambig action="filterall"/>
     </rule>
     <rulegroup id="NOMINAL_GROUPS" name="nonimal groups">
         <rule>
