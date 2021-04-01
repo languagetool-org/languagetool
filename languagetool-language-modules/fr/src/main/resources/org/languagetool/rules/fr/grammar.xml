@@ -549,6 +549,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="J.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <!-- telegraphic writing -->
+                <token>honoraires</token>
+                <token>inclus</token>
+            </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="number"/>
@@ -573,6 +578,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Un prix d'entrée amicales.</example>
             <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ -->
             <example>Un prix d'entrée amical.</example>
+            <example>Honoraires inclus charge acquéreur.</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -831,6 +837,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[NZ].*" postag_regexp="yes" min="0" max="1"/>
             </antipattern>
             <antipattern>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">c[oô]té</token>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
@@ -981,8 +992,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Je n'avais jamais vu un aussi splendide coucher de soleil.</example>
             <example>L'occasion fait le larron.</example>
             <example>Ce pays est environ deux fois plus grand que le Japon.</example>
-            <example correction="conclu">Le café <marker>conclue</marker> la plupart des dîners.</example>
             <!-- TODO: another rule to give the right suggestion: conclut #4646 -->
+            <example>Le café <marker>conclue</marker> la plupart des dîners.</example>
             <example>Les réponses que nous avions écrites.</example>
             <example>New York est une des plus grandes villes du monde.</example>
             <example>Mais la plus simple des tâches pratiques le dépassait.</example>
@@ -1105,13 +1116,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Les Palestiniens ont le droit de vivre libres.</example>
             <example>Je suis monté dans un mauvais bus par inadvertance.</example>
             <example>Petit bus.</example>
+            <example type="triggers_error">et ne peuvent détourner leur regard captivés par le spectacle</example>
+            <example>Le fils sot chagrine sa mère.</example>
+            <example>Honoraires inclus charge acquéreur.</example>
+            <example>la direction avec les autres monnaies actif</example>
+            <example>Site de rencontre adultes mariés.</example>
             <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
-        ** Appositions **
-        Honoraires inclus charge acquéreur
-        la direction avec les autres monnaies actif 
-        Site de rencontre adultes mariés.
         -->
         </rule>
     </category>
@@ -3773,7 +3785,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.*ppa.*" postag_regexp="yes">
                         <exception regexp="yes">croisées?|fait|forfaits?|partie|pointe?s?|issues?|coté|partis?|portées?|prises?|mort|vue|revenus?|tapis|visées?|(?-i)Vitré</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>a</suggestion> ?</message>
+                <message>Voulez-vous écrire <suggestion>a</suggestion> (du verbe "avoir")?</message>
                 <example correction="a">Il <marker>à</marker> été aux États-Unis.</example>
                 <example>Il a été aux États-Unis.</example>
                 <example correction="a">Paul <marker>à</marker> travaillé tard.</example>
