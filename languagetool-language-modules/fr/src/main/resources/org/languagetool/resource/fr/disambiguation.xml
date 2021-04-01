@@ -72,6 +72,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="BIEN" name="bien (adv)">
+        <pattern>
+            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <marker>
+                <token postag="A" regexp="yes">bien</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
         <rule>
             <pattern>
@@ -468,7 +478,7 @@ RB => Règles Brutes
             </marker>
             <token regexp="yes">faim|soif</token>
         </pattern>
-        <disambig action="replace" postag="J f s"/>
+        <disambig action="replace" postag="J e s"/>
     </rule>
     <rule id="AU_MOINS" name="au moins">
         <pattern>
@@ -2969,7 +2979,7 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="J f s"/>
     </rule>
-    <rule id="BIEN" name="bien">
+    <rule id="BIEN_ADV" name="bien">
         <pattern>
             <marker>
                 <token postag="A">bien</token>
