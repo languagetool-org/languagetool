@@ -11280,6 +11280,15 @@ though, and has since been slightly modified)-->
                 <example>Le professeur autorise le port du hakama</example>
             </rule>
         </rulegroup>
+        <rule id="ELISION_AU_MOINS" name="d'au moins" default="temp_off">
+            <pattern>
+                <token regexp="yes">de|que|jusque</token>
+                <token>au</token>
+                <token regexp="yes">moins|plus</token>
+            </pattern>
+            <message>« \1 \2 \3» s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>'\2 \3</suggestion>.</message>
+            <example correction="d'au moins">Vous devez être âgé <marker>de au moins</marker> 18 ans.</example>
+        </rule>
         <rule id="EL_SI" name="Élision de si">
             <pattern>
                 <token>si</token>
