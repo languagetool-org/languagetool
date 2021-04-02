@@ -40212,18 +40212,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Calleu|Feu mutis|No digueu ni piu|No badeu boca|Feu moixoni|Muts i a la gàbia|(Mossegar-se) la llengua"><marker>Calleu la boca</marker>.</example>
             <example correction="callessin|fessin mutis|no diguessin ni piu|no badessin boca|fessin moixoni|muts i a la gàbia|(mossegar-se) la llengua">Els va dir que <marker>callessin la boca</marker>.</example>
         </rule>
-        <rule id="CALLAR_LOS_LA_BOCA" name="*callar-los la boca/fer-los callar/tapar-los la boca">
-            <pattern>
-                <token inflected="yes">callar</token>
-                <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
-                <token>la</token>
-                <token>boca</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tapar</match>\2 la boca</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match>\2 callar</suggestion>
-            <example correction="tapar-nos la boca|fer-nos callar">Per a <marker>callar-nos la boca</marker>.</example>
-        </rule>
+        <rulegroup id="CALLAR_LOS_LA_BOCA" name="*callar-los la boca/fer-los callar/tapar-los la boca">
+            <rule>
+                <pattern>
+                    <token inflected="yes">callar</token>
+                    <token min="0">-se</token>
+                    <token>la</token>
+                    <token>boca</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>callar</suggestion>
+                <example correction="callar">Ha perdut l'oportunitat de <marker>callar-se la boca</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">callar</token>
+                    <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                    <token>la</token>
+                    <token>boca</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tapar</match>\2 la boca</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match>\2 callar</suggestion>
+                <example correction="tapar-nos la boca|fer-nos callar">Per a <marker>callar-nos la boca</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CALLAR_NOS" name="*ens callaran">
             <url>https://esadir.cat/entrades/fitxa/id/1438</url>
             <rule>
