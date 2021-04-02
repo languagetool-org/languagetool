@@ -554,11 +554,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>honoraires</token>
                 <token>inclus</token>
             </antipattern>
+            <antipattern>
+                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="number"/>
                     <feature id="gender"/>
-                    <token postag="J .*" postag_regexp="yes"/>
+                    <token postag="J .*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="[NZ] .*" postag_regexp="yes">
                         <exception postag="J e sp"/></token>
                 </unify>
@@ -579,6 +591,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ -->
             <example>Un prix d'entrée amical.</example>
             <example>Honoraires inclus charge acquéreur.</example>
+            <example>les classiques noir et blanc</example>
+            <example>porte de plein droit intérêts de retard</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -597,23 +611,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token>grande</token>
-                    <token regexp="yes">soif|faim</token>
+                    <token><exception postag="D.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>grande</token>
+                        <token regexp="yes">soif|faim</token>
+                    </marker>
                 </pattern>
-                <message>Cette expression est écrite <suggestion>grand \2</suggestion></message>
-                <example correction="grand soif">Une <marker>grande soif</marker></example>
+                <message>Cette expression est écrite <suggestion>grand \3</suggestion></message>
+                <example correction="grand soif">J'ai <marker>grande soif</marker> de connaissance</example>
+                <example>J'ai une grande soif de connaissance</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
                     <marker>
                         <token postag="D m s"/>
+                        <token>grand</token>
                     </marker>
-                    <token>grand</token>
                     <token regexp="yes">soif|faim</token>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et '\2 \3' ne semblent pas bien accordés.</message>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="D.*" postag_regexp="yes" postag_replace="D f s"/></suggestion>
-                <example correction="Une"><marker>Un</marker> grand soif</example>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D.*" postag_regexp="yes" postag_replace="D f s"/> grande</suggestion>
+                <example correction="Une grande"><marker>Un grand</marker> soif</example>
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordance adjectif après les noms" default="temp_off">
@@ -820,13 +838,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="N [me] (p|sp)" postag_regexp="yes"/>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
-                <token postag="C coor"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="C coor"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1121,6 +1139,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Honoraires inclus charge acquéreur.</example>
             <example>la direction avec les autres monnaies actif</example>
             <example>Site de rencontre adultes mariés.</example>
+            <example>nous avons besoin d'une nouvelle piste d'atterrissage spécialement aménagée</example>
+            <example>un millier d'hommes de la force des Nations Unies chargée d'observer</example>
+            <example>L'Espagne produit beaucoup d'oranges.</example>
+            <example>L'Italie réduit de 30 % sa commande de chasseurs F-35.</example>
+            <example>la sœur du plus puissant des dieux</example>
+            <example>quel que soit vos besoins du plus simple au plus complexe. </example>
+            <example>La question a donc été prépondérante en 2015.</example>
+                
             <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
@@ -15233,6 +15259,12 @@ though, and has since been slightly modified)-->
                     <token>de</token>
                     <token>jais</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                    <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="D . s?p" postag_regexp="yes"/>
                     <token postag="N . p" postag_regexp="yes"/>
@@ -15247,6 +15279,7 @@ though, and has since been slightly modified)-->
                 <example>Des yeux <marker>vert</marker> clair.</example>
                 <example>Des yeux <marker>vert</marker> olive.</example>
                 <example>Ses cheveux étaient noir de jais.</example>
+                <example>les classiques noir, blanc, nude</example>
             </rule>
             <rule>
                 <pattern>
@@ -17755,6 +17788,8 @@ though, and has since been slightly modified)-->
                 <example>Comment t'es-tu procuré cet argent ?</example>
                 <example>Mais qu'as donc tu fait pendant tout ce temps !</example>
                 <example correction="fais">c'est trop tard soit tu te <marker>fait</marker> tabasser</example>
+                <!-- another error: as-tu -->
+                <example>Qu'en as tu fait ?</example> 
             </rule>
             <rule name="il/elle/on + 0 tokens + Verbe">
                 <antipattern>
@@ -19950,7 +19985,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
                 <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-                <example correction="étaie|était|étaye">Mon enfant <marker>étaient</marker> parti.</example>
+                <example correction="était">Mon enfant <marker>étaient</marker> parti.</example>
                 <example>Mon enfant joue en bas.</example>
                 <example>Le contexte troublé.</example>
                 <example>Ma mère étant malade n’est pas venue.</example>
