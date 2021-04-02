@@ -187,6 +187,13 @@ public class HunspellRule extends SpellingCheckRule {
             misspelledButEnglish++;
           }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
+          if (word.startsWith("-")) {
+            cleanWord = cleanWord.substring(1);
+            len++;
+            if (!isMisspelled(cleanWord)) {
+              continue;
+            }
+          }
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
             boolean ignoreSplitting = false;
@@ -222,9 +229,10 @@ public class HunspellRule extends SpellingCheckRule {
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
+            String finalCleanWord = cleanWord;
             ruleMatch.setLazySuggestedReplacements(() -> {
               try {
-                return calcSuggestions(word, cleanWord);
+                return calcSuggestions(word, finalCleanWord);
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }
