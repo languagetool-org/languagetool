@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -33,11 +32,11 @@ import static org.junit.Assert.assertEquals;
 public class SpanishUnpairedBracketsRuleTest {
 
   private SpanishUnpairedBracketsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testSpanishRule() throws IOException {
-    langTool = new JLanguageTool(new Spanish());
+    lt = new JLanguageTool(new Spanish());
     rule = new SpanishUnpairedBracketsRule(TestTools.getEnglishMessages());
     // correct sentences:
     assertMatches("Soy un hombre (muy honrado).", 0);
@@ -53,7 +52,7 @@ public class SpanishUnpairedBracketsRuleTest {
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

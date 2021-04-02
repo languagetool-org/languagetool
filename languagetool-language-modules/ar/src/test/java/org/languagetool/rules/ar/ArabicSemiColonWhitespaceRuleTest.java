@@ -32,12 +32,12 @@ import static org.junit.Assert.assertEquals;
 
 public class ArabicSemiColonWhitespaceRuleTest {
   private ArabicSemiColonWhitespaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() {
     rule = new ArabicSemiColonWhitespaceRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   }
 
   @Test
@@ -50,10 +50,9 @@ public class ArabicSemiColonWhitespaceRuleTest {
 
     //Arabic semi colon
     assertMatches("أهذه تجربة ؛", 1);
-    
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 }

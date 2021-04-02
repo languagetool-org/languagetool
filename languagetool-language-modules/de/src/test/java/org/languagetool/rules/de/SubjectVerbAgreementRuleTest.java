@@ -33,17 +33,16 @@ import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
-
 public class SubjectVerbAgreementRuleTest {
 
   private static SubjectVerbAgreementRule rule;
-  private static JLanguageTool langTool;
+  private static JLanguageTool lt;
 
   @BeforeClass
   public static void setUp() {
     Language german = Languages.getLanguageForShortCode("de-DE");
     rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), (German) german);
-    langTool = new JLanguageTool(german);
+    lt = new JLanguageTool(german);
   }
 
   @Test
@@ -108,11 +107,11 @@ public class SubjectVerbAgreementRuleTest {
 
   @Test
   public void testArrayOutOfBoundsBug() throws IOException {
-    rule.match(langTool.getAnalyzedSentence("Die nicht Teil des Näherungsmodells sind"));
+    rule.match(lt.getAnalyzedSentence("Die nicht Teil des Näherungsmodells sind"));
   }
 
   private AnalyzedTokenReadings[] getTokens(String s) throws IOException {
-    return langTool.getAnalyzedSentence(s).getTokensWithoutWhitespace();
+    return lt.getAnalyzedSentence(s).getTokensWithoutWhitespace();
   }
 
   @Test
@@ -479,7 +478,7 @@ public class SubjectVerbAgreementRuleTest {
   }
 
   private RuleMatch[] getMatches(String input) throws IOException {
-    return rule.match(langTool.getAnalyzedSentence(input));
+    return rule.match(lt.getAnalyzedSentence(input));
   }
 
 }

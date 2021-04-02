@@ -35,28 +35,28 @@ public class DoublePunctuationRuleTest {
   public void testRule() throws IOException {
     DoublePunctuationRule rule = new DoublePunctuationRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));
+    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence..."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Это тестовое предложение?.."));
+    matches = rule.match(lt.getAnalyzedSentence("Это тестовое предложение?.."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Это тестовое предложение!.. "));
+    matches = rule.match(lt.getAnalyzedSentence("Это тестовое предложение!.. "));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence... More stuff...."));
+    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence... More stuff...."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..... More stuff...."));
+    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence..... More stuff...."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This, is, a test sentence."));
+    matches = rule.match(lt.getAnalyzedSentence("This, is, a test sentence."));
     assertEquals(0, matches.length);
 
     // errors:
-    matches = rule.match(langTool.getAnalyzedSentence("This,, is a test sentence."));
+    matches = rule.match(lt.getAnalyzedSentence("This,, is a test sentence."));
     assertEquals(1, matches.length);
     assertEquals(4, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence.. Another sentence"));
+    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence.. Another sentence"));
     assertEquals(1, matches.length);
     assertEquals(23, matches[0].getFromPos());
     assertEquals(25, matches[0].getToPos());

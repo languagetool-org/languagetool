@@ -33,12 +33,12 @@ import static org.junit.Assert.assertEquals;
 public class ArabicCommaWhitespaceRuleTest {
   
   private ArabicCommaWhitespaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() {
     rule = new ArabicCommaWhitespaceRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   }
 
   @Test
@@ -66,6 +66,6 @@ public class ArabicCommaWhitespaceRuleTest {
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 }

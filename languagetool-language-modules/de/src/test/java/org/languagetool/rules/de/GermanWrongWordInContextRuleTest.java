@@ -32,12 +32,12 @@ import org.languagetool.Languages;
  */
 public class GermanWrongWordInContextRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private GermanWrongWordInContextRule rule;
   
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     rule = new GermanWrongWordInContextRule(null);
   }
 
@@ -53,10 +53,10 @@ public class GermanWrongWordInContextRuleTest {
     assertGood("Er hat entzündete Lider.");
     assertGood("Wir singen gemeinsam Lieder.");
     assertGood("Lieder singen wir.");
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Lider singen wir."))[0].getFromPos());
-    assertEquals(11, rule.match(langTool.getAnalyzedSentence("Ihre Lieder sind entzündet."))[0].getToPos());
-    assertEquals("Lider", rule.match(langTool.getAnalyzedSentence("Er hat entzündete Lieder."))[0].getSuggestedReplacements().get(0));
-    assertEquals("Lieder", rule.match(langTool.getAnalyzedSentence("Wir singen gemeinsam Lider."))[0].getSuggestedReplacements().get(0));
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Lider singen wir."))[0].getFromPos());
+    assertEquals(11, rule.match(lt.getAnalyzedSentence("Ihre Lieder sind entzündet."))[0].getToPos());
+    assertEquals("Lider", rule.match(lt.getAnalyzedSentence("Er hat entzündete Lieder."))[0].getSuggestedReplacements().get(0));
+    assertEquals("Lieder", rule.match(lt.getAnalyzedSentence("Wir singen gemeinsam Lider."))[0].getSuggestedReplacements().get(0));
 
     // malen/mahlen
     assertGood("Ich soll Bilder einer Mühle malen.");
@@ -72,8 +72,8 @@ public class GermanWrongWordInContextRuleTest {
     assertBad("Du musst das Bild ausmahlen.");
     assertBad("Wir haben das im Kunstunterricht gemahlt.");
     assertBad("Er hat ein schönes Selbstporträt gemahlt.");
-    assertEquals("gemahlen", rule.match(langTool.getAnalyzedSentence("Das Korn wird in den Mühlen gemalen."))[0].getSuggestedReplacements().get(0));
-    assertEquals("malten", rule.match(langTool.getAnalyzedSentence("Wir mahlten im Kunstunterricht."))[0].getSuggestedReplacements().get(0));
+    assertEquals("gemahlen", rule.match(lt.getAnalyzedSentence("Das Korn wird in den Mühlen gemalen."))[0].getSuggestedReplacements().get(0));
+    assertEquals("malten", rule.match(lt.getAnalyzedSentence("Wir mahlten im Kunstunterricht."))[0].getSuggestedReplacements().get(0));
 
     // Mine/Miene
     assertGood("Er verzieht keine Miene.");
@@ -92,8 +92,8 @@ public class GermanWrongWordInContextRuleTest {
     assertBad("Der Bleistift hat eine Miene.");
     assertBad("Die Mienen sind gestern Abend explodiert.");
     assertBad("Die Miene des Kugelschreibers ist leer.");
-    assertEquals("Minen", rule.match(langTool.getAnalyzedSentence("Er hat das mit den Mienen weggesprengt."))[0].getSuggestedReplacements().get(0));
-    assertEquals("Miene", rule.match(langTool.getAnalyzedSentence("Er versucht, keine Mine zu verziehen."))[0].getSuggestedReplacements().get(0));
+    assertEquals("Minen", rule.match(lt.getAnalyzedSentence("Er hat das mit den Mienen weggesprengt."))[0].getSuggestedReplacements().get(0));
+    assertEquals("Miene", rule.match(lt.getAnalyzedSentence("Er versucht, keine Mine zu verziehen."))[0].getSuggestedReplacements().get(0));
 
     // Saite/Seite
     assertGood("Die Seiten des Buches sind beschrieben.");
@@ -110,16 +110,16 @@ public class GermanWrongWordInContextRuleTest {
     assertBad("Die Seiten des Kontrabasses sind gerissen.");
     assertBad("Bei der UNO müssen andere Seiten aufgezogen werden.");
     assertBad("Die Seiten des Violoncellos sind kurz.");
-    assertEquals("Saite", rule.match(langTool.getAnalyzedSentence("Die E-Gitarre hat eine sechste Seite."))[0].getSuggestedReplacements().get(0));
-    assertEquals("Seiten", rule.match(langTool.getAnalyzedSentence("Dieses Buch hat sechs Saiten."))[0].getSuggestedReplacements().get(0));
+    assertEquals("Saite", rule.match(lt.getAnalyzedSentence("Die E-Gitarre hat eine sechste Seite."))[0].getSuggestedReplacements().get(0));
+    assertEquals("Seiten", rule.match(lt.getAnalyzedSentence("Dieses Buch hat sechs Saiten."))[0].getSuggestedReplacements().get(0));
 
     // Neutron/Neuron
     assertGood("Nervenzellen nennt man Neuronen");
     assertGood("Das Neutron ist elektisch neutral");
     assertBad("Atomkerne bestehen aus Protonen und Neuronen");
     assertBad("Über eine Synapse wird das Neutron mit einer bestimmten Zelle verknüpft und nimmt mit der lokal zugeordneten postsynaptischen Membranregion eines Dendriten Signale auf.");
-    assertEquals("Neutronen", rule.match(langTool.getAnalyzedSentence("Protonen und Neuronen sind Bausteine des Atomkerns"))[0].getSuggestedReplacements().get(0));
-    assertEquals("Neurons", rule.match(langTool.getAnalyzedSentence("Das Axon des Neutrons ..."))[0].getSuggestedReplacements().get(0));
+    assertEquals("Neutronen", rule.match(lt.getAnalyzedSentence("Protonen und Neuronen sind Bausteine des Atomkerns"))[0].getSuggestedReplacements().get(0));
+    assertEquals("Neurons", rule.match(lt.getAnalyzedSentence("Das Axon des Neutrons ..."))[0].getSuggestedReplacements().get(0));
     
     // Wunde/Winde
     assertGood("Das Seil läuft durch eine Winde.");
@@ -141,11 +141,11 @@ public class GermanWrongWordInContextRuleTest {
   }
 
   private void assertGood(String sentence) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(sentence)).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(sentence)).length);
   }
 
   private void assertBad(String sentence) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(sentence)).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(sentence)).length);
   }
 
 }

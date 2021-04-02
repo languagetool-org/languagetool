@@ -41,12 +41,12 @@ import static org.junit.Assert.fail;
 public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
-    langTool = new JLanguageTool(new Romanian());
+    lt = new JLanguageTool(new Romanian());
   }
 
   /**
@@ -74,7 +74,7 @@ public class SimpleReplaceRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Paisprezece case.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Paisprezece case.")).length);
 
     // incorrect sentences:
 
@@ -136,7 +136,7 @@ public class SimpleReplaceRuleTest {
    */
   private void checkSimpleReplaceRule(String sentence, String... words)
           throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, words.length, matches.length);
     for (int i = 0; i < words.length; i++) {

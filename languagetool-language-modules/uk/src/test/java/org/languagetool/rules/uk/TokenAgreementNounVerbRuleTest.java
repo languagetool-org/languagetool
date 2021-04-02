@@ -34,13 +34,13 @@ import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementNounVerbRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private TokenAgreementNounVerbRule rule;
 
   @Before
   public void setUp() throws IOException {
     rule = new TokenAgreementNounVerbRule(TestTools.getMessages("uk"));
-    langTool = new JLanguageTool(new Ukrainian());
+    lt = new JLanguageTool(new Ukrainian());
   }
 
   @Test
@@ -473,7 +473,7 @@ public class TokenAgreementNounVerbRuleTest {
   }
   
   private void assertEmptyMatch(String text) throws IOException {
-    AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence(text);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(text);
     try {
       assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(analyzedSentence)));
     }
@@ -508,16 +508,16 @@ public class TokenAgreementNounVerbRuleTest {
   public void testSpecialChars() throws IOException {
     assertEmptyMatch("Тарас при\u00ADбіг.");
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Тарас при\u00ADбігла."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Тарас при\u00ADбігла."));
     assertEquals(1, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Та\u00ADрас прибігла."));
+    matches = rule.match(lt.getAnalyzedSentence("Та\u00ADрас прибігла."));
     assertEquals(1, matches.length);
   }
 
   
   private void assertMatches(int num, String text) throws IOException {
-    assertEquals(num, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals(num, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
   private static final String GOOD_TEXT = "Хоча упродовж десятиліть ширилися численні історії про те, що я був у ряду наступників трону Тембу, щойно наведений простий генеалогічний екскурс викриває міфічність таких тверджень."

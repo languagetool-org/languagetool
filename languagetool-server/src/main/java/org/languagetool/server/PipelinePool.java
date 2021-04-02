@@ -241,22 +241,22 @@ class PipelinePool {
     return lt;
   }
 
-  private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
+  private void configureFromRulesFile(JLanguageTool lt, Language lang) throws IOException {
     ServerTools.print("Using options configured in " + config.getRulesConfigFile());
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
     if (config.getRulesConfigFile() != null) {
-      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile()
+      org.languagetool.gui.Tools.configureFromRules(lt, new Configuration(config.getRulesConfigFile()
         .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));
     } else {
       throw new RuntimeException("config.getRulesConfigFile() is null");
     }
   }
 
-  private void configureFromGUI(JLanguageTool langTool, Language lang) throws IOException {
+  private void configureFromGUI(JLanguageTool lt, Language lang) throws IOException {
     Configuration config = new Configuration(lang);
     if (internalServer && config.getUseGUIConfig()) {
       ServerTools.print("Using options configured in the GUI");
-      org.languagetool.gui.Tools.configureFromRules(langTool, config);
+      org.languagetool.gui.Tools.configureFromRules(lt, config);
     }
   }
 

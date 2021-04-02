@@ -73,8 +73,8 @@ public class EnglishChunkerTest {
 
   @Test
   public void testContractions() throws Exception {
-    JLanguageTool langTool = new JLanguageTool(new English());
-    AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("I'll be there");
+    JLanguageTool lt = new JLanguageTool(new English());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("I'll be there");
     AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
     assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
     assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 

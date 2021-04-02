@@ -67,14 +67,14 @@ public class MainTest {
   @Test
   public void testGetCheckResults() {
     // create a list of paragraphs for a virtual document
-    List<String> paragraphs = new ArrayList<String>();
+    List<String> paragraphs = new ArrayList<>();
     paragraphs.add("»Dies ist eine Beispieltext.");
     paragraphs.add("Dies ist ein  zweiter Satz.");
     paragraphs.add("Dies ist ein (dritter.");
     paragraphs.add("Dies ist ein vierter Satz.«");
     // all paragraphs are text paragraphs (not footnotes, tables, etc.
-    List<String> textParagraphs = new ArrayList<String>(paragraphs);
-    List<int[]> footnotes = new ArrayList<int[]>();
+    List<String> textParagraphs = new ArrayList<>(paragraphs);
+    List<int[]> footnotes = new ArrayList<>();
     // no footnotes in text
     for (int i = 0; i < paragraphs.size(); i++) {
       footnotes.add(new int[0]);
@@ -95,7 +95,7 @@ public class MainTest {
     assertTrue(paRes.aErrors[1].aRuleIdentifier.equals("DE_AGREEMENT"));
     MultiDocumentsHandler documents = prog.getMultiDocumentsHandler();
     SingleDocument document = documents.getDocuments().get(0);
-    SwJLanguageTool langtool = documents.getLanguageTool();
+    SwJLanguageTool lt = documents.getLanguageTool();
     // disable all rules not needed for test
     // test rules are:
     // DE_AGREEMENT - test of rule on sentence level
@@ -103,18 +103,18 @@ public class MainTest {
     // ENGLISH_WORD_REPEAT_BEGINNING_RULE - test of rule on level of three paragraphs
     // EN_UNPAIRED_BRACKETS - test of rule on level of chapter / full text
     // EN_QUOTES - negative test of rule on level of chapter / full text
-    Set<String> enabledRules = new HashSet<String>();
-    for (Rule rule : langtool.getAllActiveOfficeRules()) {
+    Set<String> enabledRules = new HashSet<>();
+    for (Rule rule : lt.getAllActiveOfficeRules()) {
       if (!rule.getId().equals("DE_AGREEMENT") && !rule.getId().equals("WHITESPACE_RULE")
           && !rule.getId().equals("UNPAIRED_BRACKETS") && !rule.getId().equals("GERMAN_WORD_REPEAT_BEGINNING_RULE")) {
-        langtool.disableRule(rule.getId());
+        lt.disableRule(rule.getId());
       } else {
         enabledRules.add(rule.getId());
       }
     }
     assertEquals(4, enabledRules.size()); // test if all needed 4 rules are enabled 
     enabledRules.clear();
-    for (Rule rule : langtool.getAllActiveOfficeRules()) {
+    for (Rule rule : lt.getAllActiveOfficeRules()) {
       enabledRules.add(rule.getId());
     }
     assertEquals(4, enabledRules.size()); // test if not more than needed rules are enabled
@@ -125,7 +125,7 @@ public class MainTest {
       paRes.nStartOfSentencePosition = 0;
       paRes.nBehindEndOfSentencePosition = paragraphs.get(i).length();
       paRes.nStartOfNextSentencePosition = paRes.nBehindEndOfSentencePosition;
-      paRes = document.getCheckResults(paragraphs.get(i), locale, paRes, propertyValues, false, langtool, i);
+      paRes = document.getCheckResults(paragraphs.get(i), locale, paRes, propertyValues, false, lt, i);
       if (i == 0) {
         assertEquals(1, paRes.aErrors.length);
         assertTrue(paRes.aErrors[0].aRuleIdentifier.equals("DE_AGREEMENT"));

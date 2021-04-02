@@ -52,12 +52,12 @@ public class MissingVerbRuleTest {
     //assertBad("Ich einen neuen Fehler gefunden.", lt);  // see issue #42
   }
 
-  private void assertGood(String text, JLanguageTool langTool) throws IOException {
-    assertEquals("Found unexpected error in: '" + text + "'", 0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertGood(String text, JLanguageTool lt) throws IOException {
+    assertEquals("Found unexpected error in: '" + text + "'", 0, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
-  private void assertBad(String text, JLanguageTool langTool) throws IOException {
-    assertEquals("Did not find expected error in: '" + text + "'", 1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertBad(String text, JLanguageTool lt) throws IOException {
+    assertEquals("Did not find expected error in: '" + text + "'", 1, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

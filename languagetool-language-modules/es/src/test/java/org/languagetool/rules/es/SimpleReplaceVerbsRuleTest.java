@@ -36,12 +36,12 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceVerbsRuleTest {
 
   private SimpleReplaceVerbsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"), new Spanish());
-    langTool = new JLanguageTool(new Spanish());
+    lt = new JLanguageTool(new Spanish());
   }
 
   @Test
@@ -50,19 +50,19 @@ public class SimpleReplaceVerbsRuleTest {
     // correct sentences:
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("sanitizaban"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitizaban"));
     assertEquals(1, matches.length);
     assertEquals("desinfectaban", matches[0].getSuggestedReplacements().get(0));
 
-    matches = rule.match(langTool.getAnalyzedSentence("saniticen"));
+    matches = rule.match(lt.getAnalyzedSentence("saniticen"));
     assertEquals(1, matches.length);
     assertEquals("desinfecten", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("mutearse"));
+    matches = rule.match(lt.getAnalyzedSentence("mutearse"));
     assertEquals(1, matches.length);
     assertEquals("silenciarse", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("mutearlos"));
+    matches = rule.match(lt.getAnalyzedSentence("mutearlos"));
     assertEquals(1, matches.length);
     assertEquals("silenciarlos", matches[0].getSuggestedReplacements().get(0));
     

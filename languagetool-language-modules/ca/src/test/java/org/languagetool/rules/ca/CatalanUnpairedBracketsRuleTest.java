@@ -36,12 +36,12 @@ import static org.junit.Assert.assertEquals;
 public class CatalanUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   
   @Before
   public void setUp() throws IOException {
     rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
-    langTool = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(new Catalan());
   }
 
   @Test
@@ -132,7 +132,7 @@ public class CatalanUnpairedBracketsRuleTest {
   }
   
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 

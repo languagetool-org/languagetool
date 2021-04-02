@@ -35,10 +35,10 @@ public class WordCoherencyRuleTest extends PatternRuleTest {
 
   @Test
   public void testRules() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new Persian());
+    JLanguageTool lt = new JLanguageTool(new Persian());
     TextLevelRule rule = new WordCoherencyRule(TestTools.getMessages("fa"));
-    assertThat(rule.match(Collections.singletonList(langTool.getAnalyzedSentence("این یک اتاق است."))).length, is(0));
-    assertThat(rule.match(Collections.singletonList(langTool.getAnalyzedSentence("این یک اتاق است. این یک اطاق است."))).length, is(1));
+    assertThat(rule.match(Collections.singletonList(lt.getAnalyzedSentence("این یک اتاق است."))).length, is(0));
+    assertThat(rule.match(Collections.singletonList(lt.getAnalyzedSentence("این یک اتاق است. این یک اطاق است."))).length, is(1));
   }
 
 }
