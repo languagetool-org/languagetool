@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY apostrophe "’|´|'|‛|′|‘">
     <!ENTITY mois_annee "janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre">
     <!ENTITY jours_semaine "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche">
-    <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
+    <!ENTITY unites_temps "journée|an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
     <!ENTITY expression_deux_mots_trait_union "alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
 ]>
@@ -644,6 +644,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
+                <token regexp="yes">rouge|gris</token>
+                <token regexp="yes">vif|foncé</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes" inflected="yes">&expression_deux_mots_trait_union;</token>
                 <token postag="[NJZ].*" postag_regexp="yes"/>
                 <token regexp="yes">[-/]</token>
@@ -688,6 +692,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>pendant</token>
                 <token>des</token>
+                <token regexp="yes" inflected="yes">&unites_temps;</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="4">passer</token>
+                <token postag="D.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
@@ -1215,6 +1225,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Elle en est affectée.</example>
             <example>c'est que dans le pays qui les a le plus criminalisées</example>
             <example>Nous l'avons tous déjà vu.</example>
+            <example>Le rapport fut assemblé sur la base de données collectées par le Centre de Contrôle des Maladies.</example>
+            <example>Thomas passe trois journées enfermé dans son minuscule appartement.</example>
             <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
@@ -4239,6 +4251,7 @@ though, and has since been slightly modified)-->
                 <example>60 % de son plein potentiel.</example>
                 <example>au faible son de pas</example>
                 <example>qui voit son pouvoir évoluer</example>
+                <example>L'ennemi poursuivit son attaque toute la nuit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
@@ -17823,6 +17836,7 @@ though, and has since been slightly modified)-->
                 <example>Je ne l’y <marker>ai</marker> pas vu.</example>
                 <example correction="ai">Je vous <marker>avez</marker> avertis de ne pas venir ici.</example>
                 <example>La lettre j s’écrivait également sans point suscrit.</example>
+                <example>Je la rencontre une fois par semaine.</example>
             </rule>
             <rule name="tu token + verbe">
                 <antipattern>
@@ -18527,6 +18541,7 @@ though, and has since been slightly modified)-->
                 <example>Monte le son.</example>
                 <example>Marine le Pen.</example>
                 <example>Regardez le grand immeuble là-bas.</example>
+                <example>Descendez la rue tout droit.</example>
             </rule>
             <rule>
                 <antipattern>
