@@ -509,6 +509,18 @@ public class GermanSpellerRuleTest {
   public void testDashAndHyphen() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+
+    // "-" as bullet point with no space:
+    assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
+    List<RuleMatch> matches1 = lt.check("-Teex\n\n-Kaffee");
+    assertEquals(1, matches1.size());
+    assertEquals(1, matches1.get(0).getFromPos());
+    assertEquals(5, matches1.get(0).getToPos());
+    List<RuleMatch> matches2 = lt.check("- Teex\n\n-Kaffee");
+    assertEquals(1, matches2.size());
+    assertEquals(2, matches2.get(0).getFromPos());
+    assertEquals(6, matches2.get(0).getToPos());
+    
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);

@@ -179,7 +179,11 @@ public class HunspellRule extends SpellingCheckRule {
         String word = tokens[i];
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
           prevStartPos = len;
-          len += word.length() + 1;
+          if (word.equals("-")) {  // special case when "-" is used as a kind of bullet point with no space after it
+            len += word.length();
+          } else {
+            len += word.length() + 1;
+          }
           continue;
         }
         if (isMisspelled(word)) {
@@ -389,7 +393,19 @@ public class HunspellRule extends SpellingCheckRule {
 
 
   protected String[] tokenizeText(String sentence) {
-    return nonWordPattern.split(sentence);
+    String[] split = nonWordPattern.split(sentence);
+    List<String> l = new ArrayList<>();
+    int i = 0;
+    for (String s : split) {
+      if (i == 0 && s.startsWith("-")) {  // "-" used as a bullet point
+        l.add("-");
+        l.add(s.substring(1));
+      } else {
+        l.add(s);
+      }
+      i++;
+    }
+    return l.toArray(new String[0]);
   }
 
   protected String getSentenceTextWithoutUrlsAndImmunizedTokens(AnalyzedSentence sentence) {
