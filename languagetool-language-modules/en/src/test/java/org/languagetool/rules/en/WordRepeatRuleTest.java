@@ -34,7 +34,7 @@ public class WordRepeatRuleTest {
 
   private final Language english = Languages.getLanguageForShortCode("en");
   private final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), english);
-  private final JLanguageTool langTool = new JLanguageTool(english);
+  private final JLanguageTool lt = new JLanguageTool(english);
 
   @Test
   public void testRule() throws IOException {
@@ -50,7 +50,7 @@ public class WordRepeatRuleTest {
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertEquals(expectedMatches, matches.length);
   }
 

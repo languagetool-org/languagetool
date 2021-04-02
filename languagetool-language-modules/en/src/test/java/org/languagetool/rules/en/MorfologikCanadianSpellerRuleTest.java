@@ -42,9 +42,9 @@ public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRul
     Rule rule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
 
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
     // suggestions from language specific spelling_en-XX.txt
-    assertSuggestion(rule, langTool, "CATestWordToBeIgnore", "CATestWordToBeIgnored");
+    assertSuggestion(rule, lt, "CATestWordToBeIgnore", "CATestWordToBeIgnored");
   }
 
   @Test
@@ -53,29 +53,29 @@ public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRul
     MorfologikBritishSpellerRule rule =
             new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Why don't we speak today.")).length);
     //with doesn't
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji (😥)...")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("He doesn't know what to do.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji (😥)...")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
 
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("arbor"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("arbor"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(5, matches[0].getToPos());
     assertTrue(matches[0].getSuggestedReplacements().contains("arbour"));
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
   }
 
   private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {

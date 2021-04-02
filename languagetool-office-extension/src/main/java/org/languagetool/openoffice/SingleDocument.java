@@ -129,18 +129,15 @@ class SingleDocument {
    * 
    * @param paraText          paragraph text
    * @param paRes             proof reading result
-   * @param footnotePositions position of footnotes
-   * @param isParallelThread  true: check runs as parallel thread
-   * @param nPara             number of flat paragraph (if known; only for LT internal functions)
    * @return                  proof reading result
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool) {
-    return getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool, -1);
+      PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool lt) {
+    return getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt, -1);
   }
     
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool, int nPara) {
+      PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool lt, int nPara) {
     
     int [] footnotePositions = null;  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
     int proofInfo = OfficeTools.PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
@@ -186,7 +183,7 @@ class SingleDocument {
       resetDocCache = false;
     }
     if (docLanguage == null) {
-      docLanguage = langTool.getLanguage();
+      docLanguage = lt.getLanguage();
     }
     if (ltMenus == null) {
       ltMenus = new LanguageToolMenus(xContext, this, config);
@@ -215,7 +212,7 @@ class SingleDocument {
       
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
           docLanguage, ignoredMatches, numParasToCheck, isDialogRequest);
-      paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, langTool, paraNum, 
+      paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
           paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara, isIntern);
       lastSinglePara = singleCheck.getLastSingleParagraph();
       paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
@@ -501,10 +498,10 @@ class SingleDocument {
   /**
    * run a text level check from a queue entry (initiated by the queue)
    */
-  public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool langTool) {
+  public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool lt) {
     if (flatPara != null && docCache.isFinished()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
-      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false, hasFootnotes);
+      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, doReset, false, hasFootnotes);
     }
   }
   

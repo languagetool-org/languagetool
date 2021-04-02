@@ -30,12 +30,12 @@ import static org.junit.Assert.assertEquals;
 public class PersianSpaceBeforeRuleTest {
 
   private PersianSpaceBeforeRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
     rule = new PersianSpaceBeforeRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
-    langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    lt = new JLanguageTool(TestTools.getDemoLanguage());
   }
 
   @Test
@@ -46,7 +46,7 @@ public class PersianSpaceBeforeRuleTest {
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

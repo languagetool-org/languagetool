@@ -39,36 +39,36 @@ public class SimpleReplaceSoftRuleTest {
     SimpleReplaceSoftRule rule = new SimpleReplaceSoftRule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатися."));
+    matches = rule.match(lt.getAnalyzedSentence("Ці рядки повинні збігатися."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("у Трускавці."));
+    matches = rule.match(lt.getAnalyzedSentence("у Трускавці."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Цей брелок"));
+    matches = rule.match(lt.getAnalyzedSentence("Цей брелок"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("дармовис"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("Не знайде спасіння."));
+    matches = rule.match(lt.getAnalyzedSentence("Не знайде спасіння."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("рятування", "рятунок", "порятунок", "визволення"), matches[0].getSuggestedReplacements());
     assertTrue(matches[0].getMessage().contains(": релігія"));
 
     //refl
-    matches = rule.match(langTool.getAnalyzedSentence("відображаються"));
+    matches = rule.match(lt.getAnalyzedSentence("відображаються"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
     assertTrue("No context: " + matches[0].getMessage(), matches[0].getMessage().contains(": математика"));
 
     // test ignoreTagged
-//    matches = rule.match(langTool.getAnalyzedSentence("щедрота"));
+//    matches = rule.match(lt.getAnalyzedSentence("щедрота"));
 //    assertEquals(1, matches.length);
 //    assertEquals(Arrays.asList("щедрість", "гойність", "щедриня"), matches[0].getSuggestedReplacements());
 //
-//    matches = rule.match(langTool.getAnalyzedSentence("щедроти"));
+//    matches = rule.match(lt.getAnalyzedSentence("щедроти"));
 //    assertEquals(0, matches.length);
   }
 }

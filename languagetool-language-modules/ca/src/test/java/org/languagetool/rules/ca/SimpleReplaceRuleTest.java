@@ -36,33 +36,33 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("ca"));
-    langTool = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(new Catalan());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Això està força bé.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Això està força bé.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El recader fa huelga."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El recader fa huelga."));
     assertEquals(2, matches.length);
     assertEquals("ordinari", matches[0].getSuggestedReplacements().get(0));
     assertEquals("transportista", matches[0].getSuggestedReplacements().get(1));
     assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("EEUU"));
+    matches = rule.match(lt.getAnalyzedSentence("EEUU"));
     assertEquals(1, matches.length);
     assertEquals("EUA", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("Aconteixements"));
+    matches = rule.match(lt.getAnalyzedSentence("Aconteixements"));
     assertEquals(1, matches.length);
     assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
     

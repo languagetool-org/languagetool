@@ -32,12 +32,12 @@ import static org.junit.Assert.assertEquals;
 public class GenericUnpairedBracketsRuleTest {
 
   private GenericUnpairedBracketsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testRomanianRule() throws IOException {
-    langTool = new JLanguageTool(new Romanian());
-    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
+    lt = new JLanguageTool(new Romanian());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("A fost plecat (pentru puțin timp).", 0);
     assertMatches("Nu's de prin locurile astea.", 0);
@@ -59,7 +59,7 @@ public class GenericUnpairedBracketsRuleTest {
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

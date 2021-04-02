@@ -147,13 +147,13 @@ public class WikipediaQuickCheck {
   MarkupAwareWikipediaResult checkWikipediaMarkup(URL url, MediaWikiContent wikiContent, Language language, ErrorMarker errorMarker) throws IOException {
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     PlainTextMapping mapping = filter.filter(wikiContent.getContent());
-    MultiThreadedJLanguageTool langTool = getLanguageTool(language);
+    MultiThreadedJLanguageTool lt = getLanguageTool(language);
     List<AppliedRuleMatch> appliedMatches = new ArrayList<>();
     List<RuleMatch> matches;
     try {
-      matches = langTool.check(mapping.getPlainText());
+      matches = lt.check(mapping.getPlainText());
     } finally {
-      langTool.shutdown();
+      lt.shutdown();
     }
     int internalErrors = 0;
     for (RuleMatch match : matches) {
@@ -172,12 +172,12 @@ public class WikipediaQuickCheck {
   }
 
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
-    MultiThreadedJLanguageTool langTool = getLanguageTool(lang);
+    MultiThreadedJLanguageTool lt = getLanguageTool(lang);
     try {
-      List<RuleMatch> ruleMatches = langTool.check(plainText);
+      List<RuleMatch> ruleMatches = lt.check(plainText);
       return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortCode());
     } finally {
-      langTool.shutdown();
+      lt.shutdown();
     }
   }
 
@@ -232,23 +232,23 @@ public class WikipediaQuickCheck {
   }
 
   private MultiThreadedJLanguageTool getLanguageTool(Language lang) throws IOException {
-    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
-    enableWikipediaRules(langTool);
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
+    enableWikipediaRules(lt);
     for (String disabledRuleId : disabledRuleIds) {
-      langTool.disableRule(disabledRuleId);
+      lt.disableRule(disabledRuleId);
     }
     if (ngramDir != null) {
-      langTool.activateLanguageModelRules(ngramDir);
+      lt.activateLanguageModelRules(ngramDir);
     }
-    disableSpellingRules(langTool);
-    return langTool;
+    disableSpellingRules(lt);
+    return lt;
   }
 
-  private void enableWikipediaRules(JLanguageTool langTool) {
-    List<Rule> allRules = langTool.getAllRules();
+  private void enableWikipediaRules(JLanguageTool lt) {
+    List<Rule> allRules = lt.getAllRules();
     for (Rule rule : allRules) {
       if (rule.getCategory().getName().equals("Wikipedia")) {
-        langTool.enableRule(rule.getId());
+        lt.enableRule(rule.getId());
       }
     }
   }

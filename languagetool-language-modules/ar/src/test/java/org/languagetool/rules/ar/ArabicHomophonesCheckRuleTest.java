@@ -36,20 +36,20 @@ import static org.junit.Assert.assertEquals;
 public class ArabicHomophonesCheckRuleTest {
 
   private ArabicHomophonesRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() {
     rule = new ArabicHomophonesRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(new Arabic());
+    lt = new JLanguageTool(new Arabic());
   }
 
   @Test
   public void testRule() throws IOException {
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("ضن")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("حاضر")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("حض")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ضن")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("حاضر")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("حض")).length);
 
     // FIXME : AbstractSimpleReplaceRule2 doesn't support lemma checking
     // can find and replace words after stemming

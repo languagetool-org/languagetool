@@ -115,7 +115,7 @@ class SingleCheck {
   /**
    *   get the result for a check of a single document 
    */
-  public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool langTool, 
+  public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, int lastChangedPara, boolean isIntern) {
     if (lastChangedPara >= 0) {
       if (docCursor == null) {
@@ -131,7 +131,7 @@ class SingleCheck {
       //  Don't use Cache for check in single paragraph mode
       paraText = docCache.getFlatParagraph(paraNum);
     }
-    List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, footnotePositions, paraNum, startOfSentence, langTool, textIsChanged, isIntern);
+    List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, footnotePositions, paraNum, startOfSentence, lt, textIsChanged, isIntern);
     startOfSentence = paragraphsCache.get(0).getStartSentencePosition(paraNum, startOfSentence);
     int nextSentence = paragraphsCache.get(0).getNextSentencePosition(paraNum, startOfSentence);
     SingleProofreadingError[] errors = mergeErrors(pErrors, paraNum);
@@ -160,7 +160,7 @@ class SingleCheck {
    *   check for number of Paragraphs > 0, chapter wide or full text
    *   is also called by text level queue
    */
-  public void addParaErrorsToCache(int nFPara, SwJLanguageTool langTool, int cacheNum, int parasToCheck, 
+  public void addParaErrorsToCache(int nFPara, SwJLanguageTool lt, int cacheNum, int parasToCheck, 
           boolean override, boolean isIntern, boolean hasFootnotes) {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
@@ -187,7 +187,7 @@ class SingleCheck {
       String textToCheck = docCache.getDocAsString(nTPara, parasToCheck, textIsChanged, useQueue, hasFootnotes);
       List<RuleMatch> paragraphMatches = null;
       if (mDocHandler.isSortedRuleForIndex(cacheNum)) {
-        paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
+        paragraphMatches = lt.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
       }
       
       int startPara = docCache.getStartOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue, false);
@@ -378,12 +378,12 @@ class SingleCheck {
    * (for different kinds of text level rules)
    */
   private List<SingleProofreadingError[]> checkTextRules( String paraText, int[] footnotePos, int paraNum, 
-      int startSentencePos, SwJLanguageTool langTool, boolean textIsChanged, boolean isIntern) {
+      int startSentencePos, SwJLanguageTool lt, boolean textIsChanged, boolean isIntern) {
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
 
     int nTParas = paraNum < 0 ? -1 : docCache.getNumberOfTextParagraph(paraNum);
     if (nTParas < 0) {
-      pErrors.add(checkParaRules(paraText, footnotePos, paraNum, startSentencePos, langTool, 0, 0, textIsChanged, isIntern));
+      pErrors.add(checkParaRules(paraText, footnotePos, paraNum, startSentencePos, lt, 0, 0, textIsChanged, isIntern));
     } else {
       //  Real full text check / numParas < 0
       ResultCache oldCache = null;
@@ -391,7 +391,7 @@ class SingleCheck {
       for (int i = 0; i < minToCheckPara.size(); i++) {
         int parasToCheck = minToCheckPara.get(i);
         if (i == 0 || mDocHandler.isSortedRuleForIndex(i)) {
-          mDocHandler.activateTextRulesByIndex(i, langTool);
+          mDocHandler.activateTextRulesByIndex(i, lt);
           if (debugMode > 1) {
             MessageHandler.printToLogFile("ParaCeck: Index: " + i + "/" + minToCheckPara.size() 
               + "; numParasToCheck: " + numParasToCheck + OfficeTools.LOG_LINE_BREAK);
@@ -404,7 +404,7 @@ class SingleCheck {
               paragraphsCache.set(i, new ResultCache(oldCache));
             }
           }
-          pErrors.add(checkParaRules(paraText, footnotePos, paraNum, startSentencePos, langTool, i, parasToCheck, textIsChanged, isIntern));
+          pErrors.add(checkParaRules(paraText, footnotePos, paraNum, startSentencePos, lt, i, parasToCheck, textIsChanged, isIntern));
           if (textIsChanged && !useQueue) {
             if (parasToCheck != 0) {
               tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
@@ -425,7 +425,7 @@ class SingleCheck {
           pErrors.add(new SingleProofreadingError[0]);
         }
       }
-      mDocHandler.reactivateTextRules(langTool);
+      mDocHandler.reactivateTextRules(lt);
     }
     return pErrors;
   }
@@ -454,7 +454,7 @@ class SingleCheck {
    */
   @Nullable
   private SingleProofreadingError[] checkParaRules( String paraText, int[] footnotePos, int nFPara, int sentencePos, 
-          SwJLanguageTool langTool, int cacheNum, int parasToCheck, boolean textIsChanged, boolean isIntern) {
+          SwJLanguageTool lt, int cacheNum, int parasToCheck, boolean textIsChanged, boolean isIntern) {
 
     List<RuleMatch> paragraphMatches;
     SingleProofreadingError[] pErrors = null;
@@ -486,13 +486,13 @@ class SingleCheck {
       //  One paragraph check (set by options or proof of footnote, etc.)
       if (nPara < 0 || parasToCheck == 0) {
         List<Integer> nextSentencePositions;
-        if (langTool.isRemote()) {
+        if (lt.isRemote()) {
           nextSentencePositions = new ArrayList<Integer>();
           nextSentencePositions.add(paraText.length());
         } else {
-          nextSentencePositions = getNextSentencePositions(paraText, langTool);
+          nextSentencePositions = getNextSentencePositions(paraText, lt);
         }
-        paragraphMatches = langTool.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
+        paragraphMatches = lt.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
         if (paragraphMatches == null || paragraphMatches.isEmpty()) {
           paragraphsCache.get(cacheNum).put(nFPara, nextSentencePositions, new SingleProofreadingError[0]);
           if (debugMode > 1) {
@@ -529,7 +529,7 @@ class SingleCheck {
       }
 
       //  check of numParasToCheck or full text 
-      addParaErrorsToCache(nFPara, langTool, cacheNum, parasToCheck, textIsChanged, isIntern, (footnotePos != null));
+      addParaErrorsToCache(nFPara, lt, cacheNum, parasToCheck, textIsChanged, isIntern, (footnotePos != null));
       return paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos);
 
     } catch (Throwable t) {
@@ -639,9 +639,9 @@ class SingleCheck {
   /**
    * get beginning of next sentence using LanguageTool tokenization
    */
-  private List<Integer> getNextSentencePositions (String paraText, SwJLanguageTool langTool) {
+  private List<Integer> getNextSentencePositions (String paraText, SwJLanguageTool lt) {
     List<Integer> nextSentencePositions = new ArrayList<Integer>();
-    List<String> tokenizedSentences = langTool.sentenceTokenize(cleanFootnotes(paraText));
+    List<String> tokenizedSentences = lt.sentenceTokenize(cleanFootnotes(paraText));
     int position = 0;
     for (String sentence : tokenizedSentences) {
       position += sentence.length();

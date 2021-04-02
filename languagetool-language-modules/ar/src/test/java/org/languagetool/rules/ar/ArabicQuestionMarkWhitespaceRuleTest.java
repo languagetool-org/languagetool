@@ -32,12 +32,12 @@ import static org.junit.Assert.assertEquals;
 
 public class ArabicQuestionMarkWhitespaceRuleTest {
   private ArabicQuestionMarkWhitespaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() {
     rule = new ArabicQuestionMarkWhitespaceRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   }
 
   @Test
@@ -56,6 +56,6 @@ public class ArabicQuestionMarkWhitespaceRuleTest {
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 }

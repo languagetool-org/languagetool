@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,15 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-
 package org.languagetool.rules.ru;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -33,39 +30,34 @@ import static org.junit.Assert.assertEquals;
 
 public class MorfologikRussianSpellerRuleTest {
 
-    @Test
-    public void testMorfologikSpeller() throws IOException {
-        MorfologikRussianSpellerRule rule =
-                new MorfologikRussianSpellerRule (TestTools.getMessages("ru"), new Russian(), null, Collections.emptyList());
+  @Test
+  public void testMorfologikSpeller() throws IOException {
+    MorfologikRussianSpellerRule rule =
+      new MorfologikRussianSpellerRule(TestTools.getMessages("ru"), new Russian(), null, Collections.emptyList());
 
-        RuleMatch[] matches;
-        JLanguageTool langTool = new JLanguageTool(new Russian());
+    JLanguageTool lt = new JLanguageTool(new Russian());
 
+    // correct word
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("русский")).length);
 
+    // correct word
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ёжик")).length);
 
-        // correct word
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("русский")).length);
-        
-        // correct word
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("ёжик")).length);
-      
-        // correct word
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("ежик")).length);
-        
-        
-        // incorrect word with hyphen
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("юго-зпдный")).length);
-
-        // correct word with hyphen
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("северо-восточный")).length);
-        
-                
-        // correct word with hyphen
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ростов-на-Дону")).length);
-        
-        // incorrect word with hyphen
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ростов-на-дону")).length);
+    // correct word
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ежик")).length);
 
 
-     }
+    // incorrect word with hyphen
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("юго-зпдный")).length);
+
+    // correct word with hyphen
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("северо-восточный")).length);
+
+
+    // correct word with hyphen
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ростов-на-Дону")).length);
+
+    // incorrect word with hyphen
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Ростов-на-дону")).length);
+  }
 }

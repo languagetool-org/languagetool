@@ -35,18 +35,18 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("nl"));
-    langTool = new JLanguageTool(new Dutch());
+    lt = new JLanguageTool(new Dutch());
   }
 
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("all right")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("all right")).length);
 
     // incorrect sentences:
     checkSimpleReplaceRule("ofzo", "of zo");
@@ -59,7 +59,7 @@ public class SimpleReplaceRuleTest {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
         + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

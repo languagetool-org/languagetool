@@ -33,19 +33,19 @@ import static org.junit.Assert.assertEquals;
 public class BritishReplaceRuleTest {
 
   private BritishReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new BritishReplaceRule(TestTools.getMessages("en"));
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Buy some petrol.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Buy some petrol.")).length);
 
     // incorrect sentences:
 
@@ -61,7 +61,7 @@ public class BritishReplaceRuleTest {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

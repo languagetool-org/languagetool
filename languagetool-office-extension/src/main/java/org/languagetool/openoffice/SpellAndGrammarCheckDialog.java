@@ -91,12 +91,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
   private static final String spellingError = messages.getString("desc_spelling");
   private static final String spellRuleId = "SPELLING_ERROR";
+  
   private static int nLastFlat = 0;
-  private XComponentContext xContext;
-  private MultiDocumentsHandler documents;
-  private SwJLanguageTool langTool;
+  
+  private final XComponentContext xContext;
+  private final MultiDocumentsHandler documents;
+  private final ExtensionSpellChecker spellChecker;
+  
+  private SwJLanguageTool lt;
   private Language lastLanguage;
-  private ExtensionSpellChecker spellChecker;
   private Locale locale;
   private int checkType = 0;
   private DocumentCache docCache;
@@ -118,10 +121,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Initialize LanguageTool to run in LT check dialog and next error function
    */
   private void setLangTool(MultiDocumentsHandler documents, Language language) {
-    langTool = documents.initLanguageTool(language, false);
-    documents.initCheck(langTool, LinguisticServices.getLocale(language));
+    lt = documents.initLanguageTool(language, false);
+    documents.initCheck(lt, LinguisticServices.getLocale(language));
     if (debugMode) {
-      for (String id : langTool.getDisabledRules()) {
+      for (String id : lt.getDisabledRules()) {
         MessageHandler.printToLogFile("After init disabled rule: " + id);
       }
     }
@@ -410,11 +413,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       paRes.nStartOfNextSentencePosition = text.length();
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
       if (debugMode) {
-        for (String id : langTool.getDisabledRules()) {
+        for (String id : lt.getDisabledRules()) {
           MessageHandler.printToLogFile("Dialog disabled rule: " + id);
         }
       }
-      paRes = document.getCheckResults(text, locale, paRes, propertyValues, false, langTool, nFPara);
+      paRes = document.getCheckResults(text, locale, paRes, propertyValues, false, lt, nFPara);
       if (paRes.aErrors != null) {
         if (debugMode) {
           MessageHandler.printToLogFile("Number of Errors = " + paRes.aErrors.length);
@@ -459,7 +462,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           return null;
         }
         Locale locale = null;
-        AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence(text);
+        AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(text);
         AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
         for (int i = 0; i < tokens.length; i++) {
           AnalyzedTokenReadings token = tokens[i];
@@ -589,7 +592,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       try {
         for (int n = 0; n < docCache.size(); n++) {
           if (docCache.getNumberOfTextParagraph(n) < 0) {
-            AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence(docCache.getFlatParagraph(n));
+            AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(docCache.getFlatParagraph(n));
             AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
             for (int i = tokens.length - 1; i >= 0 ; i--) {
               List<Integer> x ;
@@ -1408,8 +1411,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
           changeAll.setEnabled(false);
         }
         
-        Language lang = locale == null ? langTool.getLanguage() : documents.getLanguage(locale);
-        if (debugMode && langTool.getLanguage() == null) {
+        Language lang = locale == null ? lt.getLanguage() : documents.getLanguage(locale);
+        if (debugMode && lt.getLanguage() == null) {
           MessageHandler.printToLogFile("LT language == null");
         }
         lastLang = lang.getTranslatedName(messages);
@@ -1450,7 +1453,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (docCache.size() > 0) {
           locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
         }
-        Language lang = locale == null || !documents.hasLocale(locale)? langTool.getLanguage() : documents.getLanguage(locale);
+        Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
         language.setSelectedItem(lang.getTranslatedName(messages));
       }
     }

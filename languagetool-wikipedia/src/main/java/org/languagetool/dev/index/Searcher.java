@@ -239,8 +239,8 @@ public class Searcher {
 
   List<PatternRule> getRuleById(String ruleId, Language language) throws IOException {
     List<PatternRule> rules = new ArrayList<>();
-    JLanguageTool langTool = new JLanguageTool(language);
-    for (Rule rule : langTool.getAllRules()) {
+    JLanguageTool lt = new JLanguageTool(language);
+    for (Rule rule : lt.getAllRules()) {
       if (rule.getId().equals(ruleId) && rule instanceof PatternRule) {
         rules.add((PatternRule) rule);
       }
@@ -292,15 +292,15 @@ public class Searcher {
   }
 
   private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) {
-    JLanguageTool langTool = new JLanguageTool(lang);
-    for (Rule rule : langTool.getAllActiveRules()) {
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (Rule rule : lt.getAllActiveRules()) {
       if (!rule.getId().equals(patternRule.getId())) {
-        langTool.disableRule(rule.getId());
+        lt.disableRule(rule.getId());
       }
     }
-    langTool.addRule(patternRule);
-    langTool.enableRule(patternRule.getId()); // rule might be off by default
-    return langTool;
+    lt.addRule(patternRule);
+    lt.enableRule(patternRule.getId()); // rule might be off by default
+    return lt;
   }
 
   static class PossiblyLimitedTopDocs {

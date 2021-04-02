@@ -119,8 +119,8 @@ public class GenericUnpairedBracketsRuleTest {
     assertEquals("Expected " + expectedMatches + " matches, got: " + ruleMatches, expectedMatches, ruleMatches.size());
   }
 
-  public static GenericUnpairedBracketsRule getBracketsRule(JLanguageTool langTool) {
-    for (Rule rule : langTool.getAllActiveRules()) {
+  public static GenericUnpairedBracketsRule getBracketsRule(JLanguageTool lt) {
+    for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof GenericUnpairedBracketsRule) {
         return (GenericUnpairedBracketsRule)rule;
       }

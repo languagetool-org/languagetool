@@ -82,7 +82,7 @@ public class MultiDocumentsHandler {
 
   private static boolean debugMode = false;   //  should be false except for testing
   
-  private SwJLanguageTool langTool = null;
+  private SwJLanguageTool lt = null;
   private Language docLanguage = null;
   private Language fixedLanguage = null;
   private Language langForShortName;
@@ -97,12 +97,12 @@ public class MultiDocumentsHandler {
   private SortedTextRules sortedTextRules;
   private Set<String> disabledRulesUI;        //  Rules disabled by context menu or spell dialog
   private final List<Rule> extraRemoteRules;  //  store of rules supported by remote server but not locally
-  private LtDictionary dictionary;            //  internal dictionary of LT defined words 
+  private final LtDictionary dictionary;      //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;      //  LT spelling and grammar check dialog
   private boolean dialogIsRunning = false;    //  The dialog was started     
   
   private XComponentContext xContext;         //  The context of the document
-  private List<SingleDocument> documents;     //  The List of LO documents to be checked
+  private final List<SingleDocument> documents;  //  The List of LO documents to be checked
   private XComponent goneContext = null;      //  save component of closed document
   private boolean recheck = true;             //  if true: recheck the whole document at next iteration
   private int docNum;                         //  number of the current document
@@ -182,17 +182,17 @@ public class MultiDocumentsHandler {
       boolean isSameLanguage = true;
       if (fixedLanguage == null || langForShortName == null) {
         langForShortName = getLanguage(locale);
-        isSameLanguage = langForShortName.equals(docLanguage) && langTool != null;
+        isSameLanguage = langForShortName.equals(docLanguage) && lt != null;
       }
       if (!isSameLanguage || recheck) {
-        boolean initDocs = langTool == null || recheck;
+        boolean initDocs = lt == null || recheck;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           this.locale = locale;
           extraRemoteRules.clear();
         }
-        langTool = initLanguageTool(!isSameLanguage);
-        initCheck(langTool, locale);
+        lt = initLanguageTool(!isSameLanguage);
+        initCheck(lt, locale);
         if (initDocs) {
           initDocuments();
         }
@@ -203,8 +203,8 @@ public class MultiDocumentsHandler {
       return paRes;
     }
     testHeapSpace();
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool);
-    if (langTool.doReset()) {
+    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt);
+    if (lt.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
       MessageHandler.showMessage(messages.getString("loRemoteSwitchToLocal"));
       config.setRemoteCheck(false);
@@ -333,7 +333,7 @@ public class MultiDocumentsHandler {
    */
   Map<String, String> getDisabledRulesMap() {
     Map<String, String> disabledRulesMap = new HashMap<>();
-    List<Rule> allRules = langTool.getAllRules();
+    List<Rule> allRules = lt.getAllRules();
     for (String disabledRule : disabledRulesUI) {
       String ruleDesc = null;
       for (Rule rule : allRules) {
@@ -372,13 +372,13 @@ public class MultiDocumentsHandler {
    *  get LanguageTool
    */
   SwJLanguageTool getLanguageTool() {
-    if (langTool == null) {
+    if (lt == null) {
       if (docLanguage == null) {
         docLanguage = getLanguage();
       }
-      langTool = initLanguageTool();
+      lt = initLanguageTool();
     }
-    return langTool;
+    return lt;
   }
   
   /**
@@ -525,9 +525,9 @@ public class MultiDocumentsHandler {
   /**
    *  Set configuration Values for all documents
    */
-  private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
+  private void setConfigValues(Configuration config, SwJLanguageTool lt) {
     this.config = config;
-    this.langTool = langTool;
+    this.lt = lt;
     if (textLevelQueue != null && (heapLimitReached || config.getNumParasToCheck() == 0)) {
       textLevelQueue.setStop();
       textLevelQueue = null;
@@ -673,7 +673,7 @@ public class MultiDocumentsHandler {
   }
 
   SwJLanguageTool initLanguageTool(Language currentLanguage, boolean setService) {
-    SwJLanguageTool langTool = null;
+    SwJLanguageTool lt = null;
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
       noBackgroundCheck = config.noBackgroundCheck();
@@ -681,7 +681,7 @@ public class MultiDocumentsHandler {
         linguServices = new LinguisticServices(xContext);
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
-      if (this.langTool == null) {
+      if (this.lt == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
       }
@@ -693,9 +693,9 @@ public class MultiDocumentsHandler {
         currentLanguage = docLanguage;
       }
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
+      lt = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
-      config.initStyleCategories(langTool.getAllRules());
+      config.initStyleCategories(lt.getAllRules());
       /* The next row is only for a single line break marks a paragraph
       docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
        */
@@ -703,7 +703,7 @@ public class MultiDocumentsHandler {
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), currentLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
-          langTool.activateLanguageModelRules(ngramDirectory);
+          lt.activateLanguageModelRules(ngramDirectory);
           if (debugMode) {
             MessageHandler.printToLogFile("ngram Model activated for language: " + currentLanguage.getShortCode());
           }
@@ -713,12 +713,12 @@ public class MultiDocumentsHandler {
       if (word2VecDirectory != null) {
         File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
         if (word2VecLangDir.exists()) {  // user might have word2vec data only for some languages and that's okay
-          langTool.activateWord2VecModelRules(word2VecDirectory);
+          lt.activateWord2VecModelRules(word2VecDirectory);
         }
       }
-      for (Rule rule : langTool.getAllActiveOfficeRules()) {
+      for (Rule rule : lt.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
-          langTool.disableRule(rule.getId());
+          lt.disableRule(rule.getId());
           if (rule.useInOffice()) {
             // set default off so it can be re-enabled by user configuration
             rule.setDefaultOff();
@@ -726,23 +726,23 @@ public class MultiDocumentsHandler {
         }
       }
       recheck = false;
-      return langTool;
+      return lt;
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    return langTool;
+    return lt;
   }
 
   /**
    * Enable or disable rules as given by configuration file
    */
-  void initCheck(SwJLanguageTool langTool, Locale locale) {
+  void initCheck(SwJLanguageTool lt, Locale locale) {
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
       List<String> list = new ArrayList<>(disabledRuleIds);
       for (String id : list) {
-        langTool.disableRule(id);
+        lt.disableRule(id);
       }
     }
     Set<String> disabledCategories = config.getDisabledCategoryNames();
@@ -750,7 +750,7 @@ public class MultiDocumentsHandler {
       // copy as the config thread may access this as well
       List<String> list = new ArrayList<>(disabledCategories);
       for (String categoryName : list) {
-        langTool.disableCategory(new CategoryId(categoryName));
+        lt.disableCategory(new CategoryId(categoryName));
       }
     }
     Set<String> enabledRuleIds = config.getEnabledRuleIds();
@@ -758,12 +758,12 @@ public class MultiDocumentsHandler {
       // copy as the config thread may access this as well
       List<String> list = new ArrayList<>(enabledRuleIds);
       for (String ruleName : list) {
-        langTool.enableRule(ruleName);
+        lt.enableRule(ruleName);
       }
     }
     if (disabledRulesUI != null) {
       for (String id : disabledRulesUI) {
-        langTool.disableRule(id);
+        lt.disableRule(id);
       }
     }
     handleLtDictionary();
@@ -773,8 +773,8 @@ public class MultiDocumentsHandler {
    * Initialize single documents, prepare text level rules and start queue
    */
   void initDocuments() {
-    setConfigValues(config, langTool);
-    sortedTextRules = new SortedTextRules(langTool, config, disabledRulesUI);
+    setConfigValues(config, lt);
+    sortedTextRules = new SortedTextRules(lt, config, disabledRulesUI);
     for (SingleDocument document : documents) {
       document.resetCache();
     }
@@ -960,7 +960,7 @@ public class MultiDocumentsHandler {
    * reset sorted text level rules
    */
   public void resetSortedTextRules() {
-    sortedTextRules = new SortedTextRules(langTool, config, disabledRulesUI);
+    sortedTextRules = new SortedTextRules(lt, config, disabledRulesUI);
   }
 
   /**
@@ -987,15 +987,15 @@ public class MultiDocumentsHandler {
    * activate all rules stored under a given index related to the list of getNumMinToCheckParas
    * deactivate all other text level rules
    */
-  public void activateTextRulesByIndex(int index, SwJLanguageTool langTool) {
-    sortedTextRules.activateTextRulesByIndex(index, langTool);
+  public void activateTextRulesByIndex(int index, SwJLanguageTool lt) {
+    sortedTextRules.activateTextRulesByIndex(index, lt);
   }
 
   /**
    * reactivate all text level rules
    */
-  public void reactivateTextRules(SwJLanguageTool langTool) {
-    sortedTextRules.reactivateTextRules(langTool);;
+  public void reactivateTextRules(SwJLanguageTool lt) {
+    sortedTextRules.reactivateTextRules(lt);
   }
 
   /**
@@ -1026,7 +1026,7 @@ public class MultiDocumentsHandler {
       if (lang == null) {
         return;
       }
-      SwJLanguageTool lTool = langTool;
+      SwJLanguageTool lTool = lt;
       if (!lang.equals(docLanguage)) {
         docLanguage = lang;
         lTool = initLanguageTool();
@@ -1344,7 +1344,7 @@ public class MultiDocumentsHandler {
   public boolean isEnoughHeapSpace() {
     if (OfficeTools.isHeapLimitReached()) {
       heapLimitReached = true;
-      setConfigValues(config, langTool);
+      setConfigValues(config, lt);
       MessageHandler.showMessage(messages.getString("loExtHeapMessage"));
       for (SingleDocument document : documents) {
         document.resetCache();

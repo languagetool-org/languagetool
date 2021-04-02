@@ -37,7 +37,7 @@ import org.languagetool.tools.StringTools;
  */
 public final class CheckBNC {
 
-  private JLanguageTool langTool = null;
+  private final JLanguageTool lt;
   private final BNCTextFilter textFilter = new BNCTextFilter();
 
   private static final boolean CHECK_BY_SENTENCE = true;
@@ -51,13 +51,13 @@ public final class CheckBNC {
     prg.run(new File(args[0]));
   }
   
-  private CheckBNC() throws IOException {
-    langTool = new JLanguageTool(new English());
+  private CheckBNC() {
+    lt = new JLanguageTool(new English());
     final String[] disRules = {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
     System.err.println("Note: disabling the following rules:");
     for (String disRule : disRules) {
-      langTool.disableRule(disRule);
+      lt.disableRule(disRule);
       System.err.println(" " + disRule);
     }
   }
@@ -73,18 +73,18 @@ public final class CheckBNC {
       String text = StringTools.readStream(new FileInputStream(file.getAbsolutePath()), "utf-8");
       text = textFilter.filter(text);
       if (CHECK_BY_SENTENCE) {
-        final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();
+        final Tokenizer sentenceTokenizer = lt.getLanguage().getSentenceTokenizer();
         final List<String> sentences = sentenceTokenizer.tokenize(text);
         for (String sentence : sentences) {
-          CommandLineTools.checkText(sentence, langTool, false, false, 1000);
+          CommandLineTools.checkText(sentence, lt, false, false, 1000);
         }
       } else {
-        CommandLineTools.checkText(text, langTool);
+        CommandLineTools.checkText(text, lt);
       }
     }
   }
 
-  class BNCTextFilter {
+  static class BNCTextFilter {
 
     public String filter(String text) {
       String fText = text.replaceAll("(?s)<header.*?>.*?</header>", "");
