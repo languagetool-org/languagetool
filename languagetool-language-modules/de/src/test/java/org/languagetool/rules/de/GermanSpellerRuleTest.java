@@ -506,7 +506,7 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
-  public void testDashAndHyphen() throws Exception {
+  public void testDashAndHyphenEtc() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
 
@@ -590,6 +590,9 @@ public class GermanSpellerRuleTest {
     HunspellRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertEquals(1, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
     assertEquals(0, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitssfürlanguagetooltests-Auto")).length);
+
+    // bullet points in Google Docs:
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("\uFEFFAblenkungsfreie Schreibumgebung")).length);
   }
 
   @Test

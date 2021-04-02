@@ -1383,6 +1383,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false;
+    boolean ignoreBulletPointCase = false;
+    if (!ignoreUncapitalizedWord) {
+      // happens e.g. with list items in Google Docs, which introduce \uFEFF, which here appears as
+      // an empty token:
+      ignoreBulletPointCase = !ignore && idx == 1 && words.get(0).isEmpty() 
+        && StringTools.startsWithUppercase(words.get(idx)) 
+        && isMisspelled(words.get(idx))
+        && !isMisspelled(words.get(idx).toLowerCase());
+    }
     boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if (words.get(idx).contains("-")) {
@@ -1390,7 +1399,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
     }
-    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
+    return ignore || ignoreUncapitalizedWord || ignoreBulletPointCase || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
   }
 
   @Override
