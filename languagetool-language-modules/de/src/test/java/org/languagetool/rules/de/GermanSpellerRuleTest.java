@@ -511,7 +511,7 @@ public class GermanSpellerRuleTest {
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
 
     // "-" as bullet point with no space:
-    assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
+    /*assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
     List<RuleMatch> matches1 = lt.check("-Teex\n\n-Kaffee");
     assertEquals(1, matches1.size());
     assertEquals(1, matches1.get(0).getFromPos());
@@ -520,6 +520,7 @@ public class GermanSpellerRuleTest {
     assertEquals(1, matches2.size());
     assertEquals(2, matches2.get(0).getFromPos());
     assertEquals(6, matches2.get(0).getToPos());
+    */
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
