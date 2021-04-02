@@ -37061,13 +37061,13 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|seulement</exception></token>
                     <marker>
                         <token regexp="yes">(?-i)ce|ça</token>
-                        <token postag="V etre.* 3 s" postag_regexp="yes">
-                            <exception postag="V etre sub pres 3 s"/></token>
                     </marker>
+                    <token postag="V etre.* 3 s" postag_regexp="yes">
+                        <exception postag="V etre sub pres 3 s"/></token>
                 </pattern>
                 <message>Une virgule est requise dans ce contexte.</message>
-                <suggestion>, \2 \3</suggestion>
-                <example correction=", ce sera">Le plus grand<marker> ce sera</marker> Pierre.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", ce">Le plus grand<marker> ce</marker> sera Pierre.</example>
                 <example>Il sera grand <marker>et ce sera</marker> un homme.</example>
                 <example>Il m'a dit <marker>que ce serait</marker> un homme.</example>
                 <example>Ce film a été réalisé avec cet homme, <marker>dont ce sera</marker> le dernier film.</example>
@@ -37233,14 +37233,14 @@ though, and has since been slightly modified)-->
                     <token>voire</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                        <marker>
                         <token case_sensitive="yes">voire</token>
                     </marker>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1, \2</suggestion>
-                <example correction="fâchée, voire">Je suis <marker>fâchée voire</marker> furieuse !</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", voire">Je suis fâchée<marker> voire</marker> furieuse !</example>
             </rule>
             <rule>
                 <antipattern>
