@@ -571,7 +571,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify negate="yes">
                     <feature id="number"/>
                     <feature id="gender"/>
-                    <token postag="J .*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="J .*" postag_regexp="yes">
+                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="[NZ] .*" postag_regexp="yes">
                         <exception postag="J e sp"/></token>
                 </unify>
@@ -612,7 +613,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="D.*" postag_regexp="yes"/></token>
+                    <token>
+                        <exception postag="D.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>grande</token>
                         <token regexp="yes">soif|faim</token>
@@ -1147,7 +1149,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>la sœur du plus puissant des dieux</example>
             <example>quel que soit vos besoins du plus simple au plus complexe. </example>
             <example>La question a donc été prépondérante en 2015.</example>
-                
             <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
@@ -11427,7 +11428,7 @@ though, and has since been slightly modified)-->
                 <example>Le professeur autorise le port du hakama</example>
             </rule>
         </rulegroup>
-        <rule id="ELISION_AU_MOINS" name="d'au moins" default="temp_off">
+        <rule id="ELISION_AU_MOINS" name="d'au moins">
             <pattern>
                 <token regexp="yes">de|que|jusque</token>
                 <token>au</token>
@@ -17801,7 +17802,7 @@ though, and has since been slightly modified)-->
                 <example>Mais qu'as donc tu fait pendant tout ce temps !</example>
                 <example correction="fais">c'est trop tard soit tu te <marker>fait</marker> tabasser</example>
                 <!-- another error: as-tu -->
-                <example>Qu'en as tu fait ?</example> 
+                <example>Qu'en as tu fait ?</example>
             </rule>
             <rule name="il/elle/on + 0 tokens + Verbe">
                 <antipattern>
@@ -37004,18 +37005,18 @@ though, and has since been slightly modified)-->
                     <token postag="V etre.* 3 s" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                        <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
+                        <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|auquel</exception> </token>
                     <marker>
-                        <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
-                            <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
-                            <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|auquel</exception> </token>
                         <token regexp="yes">(?-i)c'</token>
                         <token postag="V etre.* 3 s" postag_regexp="yes">
                             <exception postag="V etre sub pres 3 s"/></token>
                     </marker>
                 </pattern>
                 <message>Une virgule est requise dans ce contexte.</message>
-                <suggestion>\1, \2\3</suggestion>
-                <example correction="grand, c'est">Le plus <marker>grand c'est</marker> Pierre.</example>
+                <suggestion>, \2\3</suggestion>
+                <example correction=", c'est">Le plus grand<marker> c'est</marker> Pierre.</example>
                 <example><marker>!c'est</marker> Pierre.</example>
                 <example>Il était grand <marker>et c'était</marker> un homme.</example>
                 <example>Il m'a dit <marker>que c'était</marker> un homme.</example>
@@ -37055,18 +37056,18 @@ though, and has since been slightly modified)-->
                     <token postag="V etre.* 3 s" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                        <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
+                        <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|seulement</exception></token>
                     <marker>
-                        <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
-                            <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
-                            <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|seulement</exception></token>
                         <token regexp="yes">(?-i)ce|ça</token>
                         <token postag="V etre.* 3 s" postag_regexp="yes">
                             <exception postag="V etre sub pres 3 s"/></token>
                     </marker>
                 </pattern>
                 <message>Une virgule est requise dans ce contexte.</message>
-                <suggestion>\1, \2 \3</suggestion>
-                <example correction="grand, ce sera">Le plus <marker>grand ce sera</marker> Pierre.</example>
+                <suggestion>, \2 \3</suggestion>
+                <example correction=", ce sera">Le plus grand<marker> ce sera</marker> Pierre.</example>
                 <example>Il sera grand <marker>et ce sera</marker> un homme.</example>
                 <example>Il m'a dit <marker>que ce serait</marker> un homme.</example>
                 <example>Ce film a été réalisé avec cet homme, <marker>dont ce sera</marker> le dernier film.</example>
@@ -37090,19 +37091,19 @@ though, and has since been slightly modified)-->
                     <token postag="V etre.* 3 s" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                        <exception postag="C sub|C coor|R rel.*|A inte|[PV].*" postag_regexp="yes"/>
+                        <exception regexp="yes">mieux|car|travers|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi</exception> </token>
                     <marker>
-                        <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
-                            <exception postag="C sub|C coor|R rel.*|A inte|[PV].*" postag_regexp="yes"/>
-                            <exception regexp="yes">mieux|car|travers|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi</exception> </token>
                         <token>cela</token>
-                        <token postag="V etre.* 3 s" postag_regexp="yes">
-                            <exception postag="V etre sub pres 3 s"/></token>
                     </marker>
+                    <token postag="V etre.* 3 s" postag_regexp="yes">
+                        <exception postag="V etre sub pres 3 s"/></token>
                 </pattern>
                 <message>Une virgule est requise dans ce contexte.</message>
-                <suggestion>\1, \2 \3</suggestion>
-                <example correction="grand, cela sera">Le plus <marker>grand cela sera</marker> Pierre.</example>
-                <example correction="fort, cela serait">Le plus <marker>fort cela serait</marker> Christophe.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", cela">Le plus grand<marker> cela</marker> sera Pierre.</example>
+                <example correction=", cela">Le plus fort<marker> cela</marker> serait Christophe.</example>
                 <example>Il sera grand <marker>et ce sera</marker> un homme.</example>
                 <example>Il m'a dit <marker>que ce serait</marker> un homme.</example>
                 <example>Il se demande <marker>comment cela est</marker> possible.</example>
@@ -37155,18 +37156,18 @@ though, and has since been slightly modified)-->
                     <token postag="V etre ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                        <exception postag="C sub|C coor|R rel e sp|A inte|P" postag_regexp="yes"/>
+                        <exception regexp="yes">mieux|car|travers|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|ci|jamais|vraiment</exception> </token>
                     <marker>
-                        <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
-                            <exception postag="C sub|C coor|R rel e sp|A inte|P" postag_regexp="yes"/>
-                            <exception regexp="yes">mieux|car|travers|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|ci|jamais|vraiment</exception> </token>
                         <token regexp="yes">ça|cela</token>
-                        <token postag="V avoir.* 3 s" postag_regexp="yes"/>
-                        <token postag="V etre ppa.*" postag_regexp="yes"/>
                     </marker>
+                    <token postag="V avoir.* 3 s" postag_regexp="yes"/>
+                    <token postag="V etre ppa.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Une virgule est requise dans ce contexte.</message>
-                <suggestion>\1, \2 \3 \4</suggestion>
-                <example correction="fort, ça aurait été">Le plus <marker>fort ça aurait été</marker> Christophe.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", ça">Le plus fort<marker> ça</marker> aurait été Christophe.</example>
                 <example>Un algorithme performant pour <marker>effectuer cela a été</marker> développé par l'entreprise.</example>
                 <example>Il faut savoir dans quel <marker>contexte cela a été</marker> dit.</example>
                 <example>Il a parlé comme <marker>jamais cela avait été</marker> le cas.</example>
@@ -37210,16 +37211,16 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_END"/>
                 </antipattern>
                 <pattern>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                        <exception postag="[DP].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
-                            <exception postag="[DP].*" postag_regexp="yes"/></token>
                         <token regexp="yes" case_sensitive="yes">car|mais</token>
                     </marker>
                 </pattern>
                 <message>Une virgule est conseillée dans ce contexte.</message>
-                <suggestion>\1, \2</suggestion>
+                <suggestion>, \2</suggestion>
                 <url>https://bescherelle.ca/virgules/</url>
-                <example correction="fâchée, mais">Depuis qu'il me l'a dit, je suis <marker>fâchée mais</marker> je ne lui en veux pas.</example>
+                <example correction=", mais">Depuis qu'il me l'a dit, je suis fâchée<marker> mais</marker> je ne lui en veux pas.</example>
                 <example>Il est <marker>beau mais</marker> grand.</example>
             </rule>
             <rule>
