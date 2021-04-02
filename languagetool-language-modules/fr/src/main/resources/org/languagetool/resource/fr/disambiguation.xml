@@ -601,7 +601,7 @@ RB => Règles Brutes
     <!-- CATEGORY: périphrases verbe + nom-->
     <rule name="dire le monde" id="DIRE_LE_MONDE">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">dire</token>
+            <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">construire|dire</token>
             <token postag="D m s">le</token>
             <token postag="N m s">monde</token>
         </pattern>
@@ -611,6 +611,13 @@ RB => Règles Brutes
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">dire</token>
             <token postag="N m s">vrai</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="BATTRE_PAVILLON" name="battre pavillon">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">battre</token>
+            <token postag="N m s">pavillon</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -894,7 +901,7 @@ RB => Règles Brutes
                     <feature id="gender"/>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand</token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
@@ -907,7 +914,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
@@ -968,6 +975,41 @@ RB => Règles Brutes
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rule id="CONDUIT" name="conduit">
+        <pattern>
+            <token>que</token>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>conduit</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="CONDUIT_BIEN" name="conduit bien">
+        <pattern>
+            <marker>
+                <token>conduit</token>
+            </marker>
+            <token regexp="yes">bien|mal</token>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="CONDUIT_P" name="conduit + préposition">
+        <antipattern>
+            <token skip="-1">conduit</token>
+            <token postag="P"/>
+            <token postag="V.*" postag_regexp="yes">
+                <exception postag="V inf"/></token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token skip="-1">conduit</token>
+            </marker>
+            <token postag="P"/>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
     <rule id="PRODUIT" name="produit">
         <pattern>
             <token postag="[NZJ].*" postag_regexp="yes"/>
@@ -1067,6 +1109,17 @@ RB => Règles Brutes
         <disambig action="filter" postag="A"/>
     </rule>
     <rule id="AU_MOINS" name="au moins">
+        <antipattern>
+            <token regexp="yes">du|au</token>
+            <token regexp="yes" skip="-1">moins|plus</token>
+            <token regexp="yes">du|au</token>
+            <token regexp="yes">moins|plus</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">du|au</token>
+            <token regexp="yes" skip="1">moins|plus</token>
+            <token>des</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token regexp="yes">du|au</token>
@@ -1105,13 +1158,13 @@ RB => Règles Brutes
     </rule>
     <rule id="PRESENTE" name="présente">
         <pattern>
-            <token postag="D.*" postag_regexp="yes"/>
-            <token postag="N.*" postag_regexp="yes"/>
-            <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+            <token postag="[NJZ].*" postag_regexp="yes"/>
             <marker>
                 <token postag="V (ind|sub) pres 3 .|J.*" postag_regexp="yes">
-                    <exception scope="previous" regexp="yes">&prefixes;</exception></token>
+                    <exception scope="previous" regexp="yes">&prefixes;</exception>
+                    <exception>fait</exception></token>
             </marker>
+            <token postag="A" min="0"/>
             <token postag="D.*" postag_regexp="yes">
                 <exception postag="P.*" postag_regexp="yes"/></token>
             <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
@@ -1120,7 +1173,7 @@ RB => Règles Brutes
         <disambig action="filter" postag="V (ind|sub) pres 3 ."/>
         <example type="untouched">une nouvelle piste d'atterrissage spécialement aménagée</example>
     </rule>
-    <rule id="DIVERGENT" name="divergent">
+    <rule id="VIOLENT" name="violent">
         <pattern>
             <token postag="D.*" postag_regexp="yes"/>
             <token postag="N.*" postag_regexp="yes"/>
@@ -1136,10 +1189,10 @@ RB => Règles Brutes
     </rule>
     <rule id="DIVISE" name="divise">
         <pattern>
-            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
             <token postag="[ZN].*" postag_regexp="yes"/>
             <marker>
-                <token postag="V.*" postag_regexp="yes">divise</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">divise|braque</token>
             </marker>
             <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
             <token postag="[NZ].*" postag_regexp="yes"/>
