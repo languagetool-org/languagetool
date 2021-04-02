@@ -53,5 +53,7 @@ public class HunspellRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("é so")); 
     assertEquals(1, matches.length);
     assertEquals("só", matches[0].getSuggestedReplacements().get(0));
+
+    langTool.check("- Encontre no autoconheciemen");  // No "Could not map 29 to original position." issue
   }
 }

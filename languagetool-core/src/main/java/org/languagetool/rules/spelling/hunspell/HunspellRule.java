@@ -399,7 +399,10 @@ public class HunspellRule extends SpellingCheckRule {
     for (String s : split) {
       if (i == 0 && s.startsWith("-")) {  // "-" used as a bullet point
         l.add("-");
-        l.add(s.substring(1));
+        String rest = s.substring(1);
+        if (!rest.isEmpty()) {
+          l.add(rest);
+        }
       } else {
         l.add(s);
       }
