@@ -113,11 +113,11 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffstatistik"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("haben -sehr")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Kleindung")).length, is(1));  // ignored due to ignoreCompoundWithIgnoredWord(), but still in ignore.txt -> ignore.txt must override this
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise]"));
     assertFirstSuggestion("Schöler-", "Schüler-", rule, lt);
     assertFirstSuggestion("wars.", "war's", rule, lt);
-    assertFirstSuggestion("haben -sehr", "sehr", rule, lt);
     assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
 //    assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
@@ -511,7 +511,7 @@ public class GermanSpellerRuleTest {
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
 
     // "-" as bullet point with no space:
-    /*assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
+    assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
     List<RuleMatch> matches1 = lt.check("-Teex\n\n-Kaffee");
     assertEquals(1, matches1.size());
     assertEquals(1, matches1.get(0).getFromPos());
@@ -520,7 +520,6 @@ public class GermanSpellerRuleTest {
     assertEquals(1, matches2.size());
     assertEquals(2, matches2.get(0).getFromPos());
     assertEquals(6, matches2.get(0).getToPos());
-    */
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
