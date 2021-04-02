@@ -91,6 +91,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             - numeral + noun
             - det + nominal group: le grand faim -> la grand faim
             - det + adv + adj: le plus belle
+            Mon ancienne professeur d'anglais
         -->
         <rulegroup id="AGREEMENT_EXCEPTIONS" name="Concordance: cas particuliers">
             <rule>
@@ -464,6 +465,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un goute à goute constant.</example>
                 <example>Les troupes avaient plein d'armes.</example>
                 <example>Il y a plein d'œufs frais sur la table. </example>
+                <example>Nous en avions toutes connaissance.</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -536,6 +538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ma cocotte ne les voulait pas tous trempées dans le chocolat.</example>
                 <example>Il termine la course à la 21e place du classement général, derrière deux Alpine.</example>
                 <example>Nous avons toute la mort pour nous reposer.</example>
+                <example>En avez-vous tous fini, ici ?</example>
             </rule>
         </rulegroup>
         <rule id="J_N_" name="Concordance de l’adjectif avec le nom" default="temp_off">
@@ -595,6 +598,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Honoraires inclus charge acquéreur.</example>
             <example>les classiques noir et blanc</example>
             <example>porte de plein droit intérêts de retard</example>
+            <example>Le merle bleu porte le ciel sur son dos.</example>
+            <example>Pour sa tenue années cinquante.</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -896,6 +901,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&prefixes;</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <!-- les a le plus criminalisées-->
+                <token>les</token>
+                <token inflected="yes">avoir</token>
+                <token>le</token>
+                <token regexp="yes">plus|mois</token>
+                <token postag="V ppa . p" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
                     <exception postag="J e sp|_GN_.*" postag_regexp="yes"/>
@@ -1149,6 +1162,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>la sœur du plus puissant des dieux</example>
             <example>quel que soit vos besoins du plus simple au plus complexe. </example>
             <example>La question a donc été prépondérante en 2015.</example>
+            <example>un grand drapeau et un petit livre rouges</example>
+            <example>objets comme nous n'en avions jamais vu</example>
+            <example>Elle en est très affectée.</example>
+            <example>Elle en est affectée.</example>
+            <example>c'est que dans le pays qui les a le plus criminalisées</example>
+            <example>Nous l'avons tous déjà vu.</example>
             <!-- 
         ** Agreement with the subject **
         Elle alla au procès accusée du meurtre de son mari.
@@ -15854,6 +15873,8 @@ though, and has since been slightly modified)-->
                 <example>Il l’<marker>est</marker> que durant l’élection.</example>
                 <example>On dirait qu'il s'en fait rarement pour moi, n'est-ce pas ?</example>
                 <example>Il s'en est sorti indemne.</example>
+                <example>Il s'en est déjà allé.</example>
+                <example>moins il nous en reste</example>
             </rule>
             <rule>
                 <pattern>
@@ -15877,6 +15898,7 @@ though, and has since been slightly modified)-->
                 <example>Petit-déjeunes-tu à la maison ?</example>
                 <example>On ne l'invite pas.</example>
                 <example>Il ne s'auto-mutile pas !</example>
+                <example>moins il nous en reste</example>
             </rule>
             <rule>
                 <pattern>
@@ -19434,7 +19456,7 @@ though, and has since been slightly modified)-->
                         <exception postag="V.*" postag_regexp="yes"/></token>
                     <token regexp="yes" skip="2">que|qu'</token>
                     <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
-                        <exception scope="next">été</exception></token>
+                        <exception scope="next" regexp="yes">été|des</exception></token>
                     <marker>
                         <token postag="V.* ppa.* p|V.* ppa.* f s" postag_regexp="yes"/>
                     </marker>
@@ -19453,6 +19475,7 @@ though, and has since been slightly modified)-->
                 <example>Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
                 <example>C’est dans la soirée que ces poursuites avaient été entamées.</example>
                 <example correction="aimé">Le marteau que j'ai <marker>aimée</marker>.</example>
+                <example>du fait que les gens ont des préjugés à leur égard</example>
             </rule>
             <rule name="f s suivi par . p">
                 <antipattern>
@@ -19822,6 +19845,7 @@ though, and has since been slightly modified)-->
                 <example>EU-LE TREPORT-MERS LES BAINS</example>
                 <example>Ne voilà-t-il pas qu’ils oublient d’aller voter.</example>
                 <example>Pourquoi s'en est-elle allée si tôt ?</example>
+                <example>En sommes-nous sûrs ?</example>
             </rule>
             <rule>
                 <pattern>
@@ -37058,7 +37082,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
                         <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
-                        <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|seulement</exception></token>
+                        <exception regexp="yes">pire|mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|seulement</exception></token>
                     <marker>
                         <token regexp="yes">(?-i)ce|ça</token>
                     </marker>
@@ -37072,6 +37096,7 @@ though, and has since been slightly modified)-->
                 <example>Il m'a dit <marker>que ce serait</marker> un homme.</example>
                 <example>Ce film a été réalisé avec cet homme, <marker>dont ce sera</marker> le dernier film.</example>
                 <example><marker>Comment ce sera</marker> quand Marie arrivera ?</example>
+                <example>Plus longtemps tu attendras pour lui dire, pire ce sera.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37233,8 +37258,8 @@ though, and has since been slightly modified)-->
                     <token>voire</token>
                 </antipattern>
                 <pattern>
-                        <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
-                        <marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <marker>
                         <token case_sensitive="yes">voire</token>
                     </marker>
                 </pattern>
