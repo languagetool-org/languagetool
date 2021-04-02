@@ -635,7 +635,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- better disambiguation of "V ppr" needed -->
                 <token postag="V ppr"/>
-                <token postag="[AP]|[JD] .*|P\+.*|C sub" postag_regexp="yes"/>
+                <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s" postag_regexp="yes"/>
                 <!-- PARA tags? -->
             </antipattern>
             <antipattern>
@@ -819,13 +819,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="N [me] (p|sp)" postag_regexp="yes"/>
-                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s|UNKNOWN" postag_regexp="yes"/>
                 <token postag="C coor"/>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
-                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s|UNKNOWN" postag_regexp="yes"/>
                 <token postag="C coor"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
             </antipattern>
@@ -872,8 +872,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">assise?s?</token>
+                <token postag="P"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">&prefixes;</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">certaine?s?</token>
+                <token>des</token>
+            </antipattern>
+              <antipattern>
+                <token>dites</token>
             </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
@@ -904,8 +918,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
             <example>Si tu rencontres une interprète danois-maltais.</example>
             <example>Site de rencontres adultes mariés.</example>
+            <example>Grande cité, grande solitude.</example>
+            <example>Elisabeth Picard complète présentement un document.</example>
+            <example>Le chef du groupe désintègre la voiture contenant Carver.</example>
+            <example>Ils mangent des langoustes assis dans des fauteuils.</example>
+            <example>L'eau passe à l'état liquide et le cycle continue.</example>
+            <example>La pauvreté conduit parfois les gens à commettre des crimes.</example>
+            <example>Comment pouvez-vous être à ce point aveugles ?</example>
+            <example>Les enfants de ce mariage sont en tout état de cause considérés.</example>
+            <example>Certaines mines sont envahies par les eaux bloquant 181 mineurs.</example>
+            <example>Je suis fière de me contenter de mes huiles végétales pour moi mais aussi de mes fils du plus grand au plus petit.</example>
+            <example>La qualité du moins bon des 2 serait alors suffisante.</example>
+            <example>Qu'est-ce que la mort fait avec notre âme ?</example>
             <example>Chaque langue dit le monde à sa manière.</example>
+            <example>Le séminaire peut être une occasion de mettre au jour certains des contrats.</example>
+            <example>Il regorge de navires battant pavillon de tous les horizons.</example>
             <example>Certains prétendent que les scanners corporels violent le quatrième amendement.</example>
+            <example>Elle passe un bon bout de temps juste assise là à regarder par la fenêtre.</example>
             <example>La viande cuit correctement de plus ce qui est pratique c'est qu'il y a un côté plancha.</example>
             <example>Ce sont des noms identiques qui voudraient dire différentes choses différentes dans différents pays.</example>
             <example>C'est un Japonais pure souche.</example>
@@ -1047,6 +1076,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="amical|amicale">Un prix d'entrée <marker>amicales</marker>.</example>
             <example>Le temple a été plusieurs fois agrandi et réaménagé.</example>
             <example>Se montre alors très agressif.</example>
+            <example>Elle raconte n'avoir jamais été aussi gênée de sa vie.</example>
+            <example>Les besoins du plus grand nombre l'emportent sur les nécessités du plus petit.</example>
+            <example>L'Espagne produit beaucoup d'oranges.</example>
+            <example>Elle devient une petite boule de feu sportive.</example>
             <example>Reste alitée !</example>
             <example>Doit se contenter d'une éducation au mariage agrémentée de talents décoratifs.</example>
             <example>Raoul dispose d'une connaissance profonde des cultures allemande, française, marocaine, ivoirienne, béninoise, nigériane, etc.</example>
@@ -1121,10 +1154,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Honoraires inclus charge acquéreur.</example>
             <example>la direction avec les autres monnaies actif</example>
             <example>Site de rencontre adultes mariés.</example>
-            <!-- 
-        ** Agreement with the subject **
-        Elle alla au procès accusée du meurtre de son mari.
-        -->
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -15623,7 +15652,7 @@ though, and has since been slightly modified)-->
         <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">accepter|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
+                    <token inflected="yes" regexp="yes">accepter|craindre|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
                     <token>de</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
