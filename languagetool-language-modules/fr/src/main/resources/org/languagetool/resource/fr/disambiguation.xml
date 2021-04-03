@@ -84,7 +84,8 @@ RB => Règles Brutes
                         <exception regexp="yes">-.*</exception></token>
                     <token postag="R pers obj">en</token>
                 </marker>
-                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes">
+                    <exception postag="V ppr"/></token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -922,7 +923,8 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="[NZJ].*|V ppa.*" postag_regexp="yes"><exception postag="[NZJ].*|V ppa.*" postag_regexp="yes"  negate_pos="yes"/></token>
+                <token postag="[NZJ].*|V ppa.*" postag_regexp="yes">
+                    <exception postag="[NZJ].*|V ppa.*" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="P.*" postag_regexp="yes" regexp="yes">de|du|d'|des</token>
                 </marker>
@@ -930,31 +932,50 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="P.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="P">d'</token>
+                <token postag="N m s">accord</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
     </rulegroup>
     <rule id="CONTRE" name="contre">
         <pattern>
             <marker>
                 <token postag="P" regexp="yes">contre|entre</token>
             </marker>
-            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="[DR].*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="P"/>
     </rule>
-    <rulegroup id="DANS" name="dans">
-        <rule>
-            <pattern>
-                <token>dans</token>
-            </pattern>
-            <disambig postag="P"/>
-        </rule>
+    <rulegroup id="DANS" name="dans, sous">
         <rule>
             <pattern>
                 <token regexp="yes">[ld]es</token>
-                <token>dans</token>
+                <marker>
+                    <token postag="N m p" regexp="yes">dans|sous</token>
+                </marker>
             </pattern>
-            <disambig postag="N m p"/>
+            <disambig action="filter" postag="N m p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="P" regexp="yes">dans|sous</token>
+            </pattern>
+            <disambig action="filter" postag="P"/>
         </rule>
     </rulegroup>
+    <rule id="SAUF" name="sauf">
+        <pattern>
+            <token inflected="yes">tout</token>
+            <marker>
+                <token postag="P">sauf</token>
+            </marker>
+            <token postag="[DK].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="P"/>
+    </rule>
     <rule id="EN" name="en (preposition/pronoun)">
         <!-- gérondif -->
         <pattern>
@@ -962,6 +983,19 @@ RB => Règles Brutes
             <token postag="V.* ppr" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="V_PPR" name="prep + v_ppr">
+        <!-- gérondif -->
+        <pattern>
+            <token postag="P.*" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    <token postag="V ppr"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ppr"/>
     </rule>
     <!-- END: prepositions -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
@@ -994,6 +1028,13 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="DES_FAITS" name="des faits">
+        <pattern>
+            <token postag="P+D e p">des</token>
+            <token postag="N m p">faits</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="site de rencontres" id="SITES_DE_RENCONTRES">
         <pattern>
             <token postag="N m s" inflected="yes">site</token>
@@ -1424,8 +1465,8 @@ RB => Règles Brutes
     <rule id="PROBABLE_VERBE" name="verb probable">
         <!-- Alert: it could be too greedy, move down -->
         <pattern>
-            <token postag="[NJZ].*" postag_regexp="yes">
-                <exception postag="[PDRV].*" postag_regexp="yes"/></token>
+            <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
+                <exception postag="[NJZ].*|V ppa.*" postag_regexp="yes" negate_pos="yes"/></token>
             <marker>
                 <token postag="V (ind|sub) pres 3 .|J.*" postag_regexp="yes">
                     <exception scope="previous" regexp="yes">&prefixes;</exception>
@@ -2427,6 +2468,12 @@ RB => Règles Brutes
             <disambig action="filter" postag="R pers obj.*"/>
         </rule>
         <rule name="Nous">
+            <antipattern>
+                <!-- It is "obj" -->
+                <token regexp="yes" skip="1">nous|vous</token>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">-t-il|-t-elle|-t-on</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
