@@ -9538,7 +9538,7 @@ onwaarschijnlijk
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
 
 		<rulegroup id="VAN_DE_WEGRAKEN" name="wegraken / weg raken" >
-			<antipattern><token>de<token><token>wegwerken</token></antipattern>
+			<antipattern><token>de</token><token>wegwerken</token></antipattern>
 			<rule>
 				<pattern>
 					<token postag="VRZ"/>
@@ -30265,7 +30265,19 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>de</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/><exception regexp="yes">laste|riep|had</exception></token>
+						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*te<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/><exception>laste</exception></token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een andere vorm van het werkwoord bedoelt.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VTD:VRB"/></suggestion>
+				<suggestion><match no="2" regexp_match="te$" regexp_replace=" te"/></suggestion>
+				<example correction="gewenste|wens te">Ik zie de <marker>wenste</marker> gast.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>de</token>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*de<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/></token>
 					</marker>
 				</pattern>
 				<message>De kans is groot dat u een andere vorm van het werkwoord bedoelt.</message>
