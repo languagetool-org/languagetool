@@ -999,7 +999,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token>el</token>
+                <token regexp="yes">el|mig|l</token>
                 <marker>
                     <token>sec</token>
                 </marker>
@@ -4702,6 +4702,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
+    </rule>
+    <rule id="calent" name="calent (adj)">
+        <pattern>
+            <marker>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes">calent</token>
+            </marker>
+            <token>de</token>
+            <token regexp="yes">cap|ment</token>
+        </pattern>
+        <disambig action="filter" postag="AQ.*"/>
     </rule>
     <rulegroup id="Poder_substantiu_infinitiu" name="Poder com a substantiu o infinitiu">
         <rule>
@@ -16231,9 +16241,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token>a</token>
-                <token>l</token>
+                <token regexp="yes">l|la</token>
                 <marker>
-                    <token regexp="yes">pa|vi|peix</token>
+                    <token regexp="yes">pa|vi|peix|pul</token>
                 </marker>
                 <token><match no="2"/></token>
             </pattern>
