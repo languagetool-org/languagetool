@@ -951,7 +951,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">an|auf|bei|hinter|in|mit|nach|vo[nr]|zu|Termin</token>
                 <marker>
-                    <token regexp="yes">[A-Z]\w+baren</token>
+                    <token regexp="yes">[A-Z]\w+baren
+                        <exception>Barbaren</exception>
+                        <exception regexp="yes">.+barbaren</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Wenn es sich bei '\2' um eine Verbform handelt, muss diese kleingeschrieben werden.</message>
@@ -959,6 +962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vereinbaren">Dies ist nur schwer miteinander zu <marker>Vereinbaren</marker>.</example>
             <example correction="wunderbaren">Sie erzählte von <marker>Wunderbaren</marker> Erlebnissen.</example>
             <example>Glaube ist die Liebe zum Unsichtbaren.</example>
+            <example>Ich kann sagen, dass ich nie von Barbaren gefangen wurde.</example>
         </rule>
         <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
             <pattern>
