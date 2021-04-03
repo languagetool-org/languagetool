@@ -510,6 +510,11 @@ public class GermanSpellerRuleTest {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
 
+    assertEquals(2, lt.check("\uFEFF-Product Development Coordinator").size());
+    assertEquals(2, lt.check("-Product Development Coordinator").size());
+    assertEquals(1, lt.check("\uFEFF-Einx Test").size());
+    assertEquals(0, lt.check("\uFEFF-Ein Test").size());
+    
     // "-" as bullet point with no space:
     assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
     List<RuleMatch> matches1 = lt.check("-Teex\n\n-Kaffee");

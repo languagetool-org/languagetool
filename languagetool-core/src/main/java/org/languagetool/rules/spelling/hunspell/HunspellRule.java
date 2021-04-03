@@ -177,6 +177,7 @@ public class HunspellRule extends SpellingCheckRule {
       int misspelledButEnglish = 0;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
+        int dashCorr = 0;
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
           prevStartPos = len;
           len += word.length() + 1;
@@ -188,10 +189,11 @@ public class HunspellRule extends SpellingCheckRule {
           }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
           if (word.startsWith("-")) {
-            cleanWord = cleanWord.substring(1);
-            len++;
-            if (!isMisspelled(cleanWord)) {
+            if (!isMisspelled(cleanWord.substring(1))) {
+              len += word.length() + 1;
               continue;
+            } else {
+              dashCorr++;
             }
           }
           if (i > 0 && prevStartPos != -1) {
@@ -206,7 +208,7 @@ public class HunspellRule extends SpellingCheckRule {
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
               String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);
               if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
-                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);
+                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len+dashCorr, cleanWord, sugg1a, sugg1b, prevStartPos);
                 if (rm != null) {
                   ruleMatches.add(rm);
                 }
@@ -215,7 +217,7 @@ public class HunspellRule extends SpellingCheckRule {
               String sugg2a = prevWord + word.charAt(0);
               String sugg2b = cutOffDot(word.substring(1));
               if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
-                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
+                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len+dashCorr, cleanWord, sugg2a, sugg2b, prevStartPos);
                 if (rm != null) {
                   ruleMatches.add(rm);
                 }
@@ -224,15 +226,14 @@ public class HunspellRule extends SpellingCheckRule {
           }
           
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
-            len, len + cleanWord.length(),
+            len + dashCorr, len + cleanWord.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
-            String finalCleanWord = cleanWord;
             ruleMatch.setLazySuggestedReplacements(() -> {
               try {
-                return calcSuggestions(word, finalCleanWord);
+                return calcSuggestions(word, cleanWord);
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }
@@ -260,7 +261,7 @@ public class HunspellRule extends SpellingCheckRule {
             }
           }
         }
-        prevStartPos = len;
+        prevStartPos = len + dashCorr;
         len += word.length() + 1;
       }
     } finally {
