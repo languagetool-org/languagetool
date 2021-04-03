@@ -644,8 +644,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
-                <token regexp="yes">rouge|gris</token>
-                <token regexp="yes">vif|foncé</token>
+                <token regexp="yes">rouge|gris|blue</token>
+                <token min="0">-</token>
+                <token regexp="yes">vif|foncé|pâle</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&expression_deux_mots_trait_union;</token>
@@ -8641,6 +8642,10 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="POINT_POING" name="point et poing">
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2220</url>
+            <antipattern>
+                <token regexp="yes" skip="1">points?</token>
+                <token>internet</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">arme|coup|oiseau</token>
@@ -11928,6 +11933,7 @@ though, and has since been slightly modified)-->
             <suggestion suppress_misspelled="yes"><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
             <url>https://www.projet-voltaire.fr/regles-orthographe/les-roues-arriere-ou-les-roues-arrieres/</url>
             <example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
+            <example correction="arrière">Il n'y a que les optiques <marker>arrières</marker> en relief.</example>
         </rule>
         <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA">
             <rule>
@@ -12656,6 +12662,7 @@ though, and has since been slightly modified)-->
                 <message>Vouliez-vous dire <suggestion>\1 à \3</suggestion>.</message>
                 <example correction="râpe à fromage">La <marker>râpe a fromage</marker> est un instrument très utile.</example>
                 <example correction="couteau à beurre">Mon <marker>couteau a beurre</marker> brille comme s'il était neuf !</example>
+                <example>La saison des pluies a lieu entre les mois de mars et de mai.</example>
             </rule>
             <!-- Same as above
         <rule default="off">
@@ -15576,6 +15583,10 @@ though, and has since been slightly modified)-->
             <example>La police me court après.</example>
         </rule>
         <rule id="MON_NFS" name="mon/ton/son suivi d’un nom féminin singulier">
+            <antipattern>
+                <token>le</token>
+                <token>son</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">[mts]on</token>
@@ -17495,10 +17506,11 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Après l’auxiliaire « \2 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa e (s|p|sp)"/></suggestion>
                 <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
                 <example correction="signé|signée|signés|signées">Il a <marker>signer</marker> le contrat</example>
                 <example correction="signé|signée|signés|signées">Elle a <marker>signez</marker> le contrat</example>
@@ -17529,10 +17541,11 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
-                <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-                <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
-                <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
-                <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa e (s|p|sp)"/></suggestion>
                 <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
                 <example correction="signé|signée|signés|signées">Il a <marker>signer</marker> le contrat</example>
                 <example correction="signé|signée|signés|signées">Il a <marker>signez</marker> le contrat</example>
@@ -17566,12 +17579,14 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa e (s|p|sp)"/></suggestion>
                 <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
                 <example correction="mangé|mangée|mangés|mangées">J’ai bien <marker>manger</marker>.</example>
+                <example correction="ri">J'ai beaucoup <marker>rit</marker></example>
                 <example>J’ai bien <marker>mangé</marker>.</example>
                 <example>Il a aussi permis.</example>
                 <example>Je n'ai pas dit que ça a eu lieu ici. </example>
@@ -17590,10 +17605,11 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa e (s|p|sp)"/></suggestion>
                 <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
                 <example correction="mangé|mangée|mangés|mangées">Je n’ai pas encore <marker>manger</marker>.</example>
                 <example>Je n’ai pas encore <marker>mangé</marker>.</example>
@@ -17611,10 +17627,11 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
-                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa e (s|p|sp)"/></suggestion>
                 <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
                 <example correction="signé|signée|signés|signées">Avez-vous <marker>signez</marker> le contrat ?</example>
                 <example correction="signé|signée|signés|signées">Avez-vous <marker>signer</marker> le contrat ?</example>
@@ -21392,6 +21409,11 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="LA_LA" name="la → là">
+            <antipattern>
+                <!-- rule IMP_PRON-->
+                <token postag="V.* imp .*" postag_regexp="yes"/>
+                <token>la</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -22411,7 +22433,7 @@ though, and has since been slightly modified)-->
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes">
                         <exception regexp="yes">.*'</exception></token>
                     <marker>
-                        <token postag="R.* obj.*" postag_regexp="yes" regexp="yes"> [aeiouyh].*
+                        <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[aeiouyh].*
                             <exception regexp="yes" inflected="yes" postag="R.* obj.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token regexp="yes">pas|jamais|guère</token>
@@ -22421,6 +22443,7 @@ though, and has since been slightly modified)-->
                 <message>Formulation familière. Voulez-vous écrire <suggestion>n’\2 \3 \4</suggestion> ?</message>
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="n’y a pas">Il <marker>y a pas</marker> d’eau.</example>
+                <example correction="n’en faites pas">Vous <marker>en faites pas</marker> !</example>
                 <example>Il n’y a pas d’eau.</example>
                 <example>Je ne l’y ait pas vu.</example>
             </rule>
@@ -22460,6 +22483,8 @@ though, and has since been slightly modified)-->
             <example>Il est né à <marker>Cabana</marker>.</example>
             <example>D’où le maintien de projets d’avions construits totalement en bois.</example>
             <example>C'est un sanctuaire incrusté de cristaux et rempli de restes pétrifiés.</example>
+            <example>Le coup de grâce est donné par Roland et Sabrina</example>
+            <example>Un adhésif double face est posé au dos du pictogramme.</example>
         </rule>
         <rule id="DOUBLE_NEG" name="Double négation">
             <pattern>
@@ -22471,6 +22496,11 @@ though, and has since been slightly modified)-->
             <example>Il n’y a personne pour m’aider.</example>
         </rule>
         <rule id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
+            <antipattern>
+                <!-- rule IMP_PRON-->
+                <token postag="V.* imp .*" postag_regexp="yes"/>
+                <token regexp="yes">la|le|les|nous|vous</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
                 <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
@@ -40762,6 +40792,8 @@ though, and has since been slightly modified)-->
                 <message>Cette expression peut être considérée comme familière.</message>
                 <suggestion>tout \2 \3</suggestion>
                 <example correction="tout de suite">Je reviens <marker>de suite</marker>.</example>
+                <!-- TODO: Is it right?-->
+                <example>Ça donne moins envie de suite.</example>
             </rule>
             <rule>
                 <pattern>
