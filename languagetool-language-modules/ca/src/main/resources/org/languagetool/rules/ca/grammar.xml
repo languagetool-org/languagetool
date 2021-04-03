@@ -1999,6 +1999,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- noms, adjectius en singular  -->
             <rule>
                 <antipattern>
+                    <token>i</token>
+                    <token>dos</token>
+                    <token>arreu</token>
+                </antipattern>
+                <antipattern>
                     <token>1</token>
                     <token>/</token>
                     <token postag="DN.*" postag_regexp="yes"/>
@@ -30715,18 +30720,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="BE" name="be/bé">
             <antipattern>
-                <marker>
-                    <token inflected="yes">bé</token>
-                    <token inflected="yes" regexp="yes">moble|immoble|quantiós|abundant|abundós|copiós</token>
-                </marker>
+                <token inflected="yes">bé</token>
+                <token inflected="yes" regexp="yes">moble|immoble|quantiós|abundant|abundós|copiós</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">quantiós|abundant|abundós|copiós</token>
-                    <token inflected="yes">bé</token>
-                </marker>
+                <token inflected="yes" regexp="yes">quantiós|abundant|abundós|copiós</token>
+                <token inflected="yes">bé</token>
             </antipattern>
             <antipattern>
+                <token postag="SENT_START" skip="-1"/>
                 <token>i</token>
                 <token>un</token>
                 <token>be</token>
@@ -30745,7 +30747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bé">Ho fas tan <marker>be</marker> com ell.</example>
                 <example>Ho fas <marker>bé</marker>.</example>
                 <example>Entendre la a per la be.</example>
-                <!-- <example>I un be negre!</example> -->
+                <example>I un be negre!</example>
             </rule>
             <rule>
                 <pattern>
@@ -61977,6 +61979,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>dir</token>
                     <token>-ho</token>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">llarg</token>
+                <token>en</token>
+                <token>el</token>
+                <token>donar</token>
             </antipattern>
             <rule>
                 <pattern>
