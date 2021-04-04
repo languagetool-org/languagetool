@@ -9543,7 +9543,7 @@ onwaarschijnlijk
 				<pattern>
 					<token postag="VRZ"/>
 					<token>de</token>
-					<token inflected="yes" postag="WKW:TGW:INF" regexp="yes">weg.*</token>
+					<token inflected="yes" postag="WKW:TGW:INF" regexp="yes">weg.....+</token>
 				</pattern>
 				<message>Hier mist vast een spatie.</message>
 				<suggestion>\1 \2 <match no="3" regexp_match="^weg" regexp_replace="weg "/></suggestion>
@@ -9603,13 +9603,14 @@ onwaarschijnlijk
 				<antipattern><token>geef</token><token>je</token><token/><token/><token>om</token></antipattern>
 				<antipattern><token>Google</token><token>Home</token></antipattern>
 				<antipattern><token>ov</token><token>chipkaart</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token/><token/><token postag="WKW:TGW:VTD:ONV"/></antipattern>
 				<pattern>
 					<token/>
 					<marker>
 						<token postag="ENM:ORG"/>
 						<token postag_regexp="yes" postag="ZNW.*">
-							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ"/>
-							<exception regexp="yes">den|niets|zo|ipod|binnenboord</exception>
+							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
+							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do</exception>
 							<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
 						</token>
 					</marker>
@@ -9782,14 +9783,14 @@ onwaarschijnlijk
 					<token postag_regexp="yes" postag="WKW:TGW:3EP.*" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*|VRZ"/></token>
 				</pattern>
 				<message>Hier is vast iets mis.</message>
-				<suggestion>\2</suggestion>
 				<suggestion>ze \2</suggestion>
 				<suggestion>die \2</suggestion>
 				<suggestion>je \2</suggestion>
 				<suggestion>het \2</suggestion>
-				<suggestion>de ___ \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="t$" regexp_replace=""/></suggestion>
-				<example correction="loopt|ze loopt|die loopt|je loopt|het loopt|de ___ loopt|de loop">Kijk hoe <marker>de loopt</marker>.</example>
+				<suggestion>\2</suggestion>
+				<suggestion>de ___ \2</suggestion>
+				<example correction="ze loopt|die loopt|je loopt|het loopt|de loop|loopt|de ___ loopt">Kijk hoe <marker>de loopt</marker>.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_VERBROKENE_DING" name="de verbrokene/verbroken belofte" >
