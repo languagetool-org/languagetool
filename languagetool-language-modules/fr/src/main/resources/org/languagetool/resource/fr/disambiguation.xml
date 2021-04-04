@@ -27,7 +27,7 @@ RB => Règles Brutes
     <!ENTITY extensions_de_fichiers "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
     <!ENTITY domaines_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
     <!ENTITY apostrophe "[’´'‛′‘]">
-    <!ENTITY prefixes "mini|anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi">
+    <!ENTITY prefixes "mini|anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi|mi">
     <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
 ]>
@@ -943,7 +943,7 @@ RB => Règles Brutes
     <rule id="CONTRE" name="contre">
         <pattern>
             <marker>
-                <token postag="P" regexp="yes">contre|entre</token>
+                <token postag="P" regexp="yes">contre|entre|vers</token>
             </marker>
             <token postag="[DR].*" postag_regexp="yes"/>
         </pattern>
@@ -951,6 +951,10 @@ RB => Règles Brutes
     </rule>
     <rulegroup id="DANS" name="dans, sous">
         <rule>
+            <antipattern>
+                <token postag="V imp.*" postag_regexp="yes"/>
+                <token>les</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[ld]es</token>
                 <marker>
@@ -960,22 +964,36 @@ RB => Règles Brutes
             <disambig action="filter" postag="N m p"/>
         </rule>
         <rule>
+            <antipattern>
+                <token>sous</token>
+                <token postag="M.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="P" regexp="yes">dans|sous</token>
             </pattern>
             <disambig action="filter" postag="P"/>
         </rule>
     </rulegroup>
-    <rule id="SAUF" name="sauf">
-        <pattern>
-            <token inflected="yes">tout</token>
-            <marker>
-                <token postag="P">sauf</token>
-            </marker>
-            <token postag="[DK].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="P"/>
-    </rule>
+    <rulegroup id="SAUF" name="sauf">
+        <rule>
+            <pattern>
+                <token inflected="yes">tout</token>
+                <marker>
+                    <token postag="P">sauf</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="P"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="P">sauf</token>
+                </marker>
+                <token postag="[DNJ].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="P"/>
+        </rule>
+    </rulegroup>
     <rule id="EN" name="en (preposition/pronoun)">
         <!-- gérondif -->
         <pattern>
@@ -2504,7 +2522,9 @@ RB => Règles Brutes
                 <marker>
                     <token postag="R pers obj [21] p" postag_regexp="yes" regexp="yes">nous|vous</token>
                 </marker>
-                <token postag="V.* 3 s" postag_regexp="yes"/>
+                <token min="0">en</token>
+                <token postag="V.* 3 s" postag_regexp="yes" skip="-1"/>
+                <token>?</token>
             </pattern>
             <disambig action="filter" postag="R pers obj [12] p"/>
         </rule>

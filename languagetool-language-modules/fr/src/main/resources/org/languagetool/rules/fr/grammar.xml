@@ -552,6 +552,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>numéro</token>
             </antipattern>
             <antipattern>
+                <token postag="Z.*" postag_regexp="yes" min="1" max="2"/>
+                <token>-</token>
+                <token postag="Z.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <!-- checked by AGREEMENT_POSTPONED_ADJ -->
                 <token postag="P.*" postag_regexp="yes"/>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
@@ -609,6 +614,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La moitié des étudiants manque.</example>
             <example>Elle frappa à la porte d'entrée numéro 23.</example>
             <example>Quelqu'un d'intelligent remarque tout.</example>
+            <example>Bouclier de protection des données Union Européenne-États-Unis</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -18242,6 +18248,7 @@ though, and has since been slightly modified)-->
                 <example>Vous l'ai-je demandé ?</example>
                 <example>L'abandon de leur maison fut une étape très dure de leur vie.</example>
                 <example>Vous en reste-t-il ?</example>
+                <example>Que vous en semble ?</example>
             </rule>
             <rule name="ils/elles + 0 token + Verbe">
                 <antipattern>
@@ -18341,6 +18348,7 @@ though, and has since been slightly modified)-->
                 <example>Ils ne m’<marker>attendent</marker> pas.</example>
                 <example correction="avaient">Ils me l’<marker>avait</marker> donné.</example>
                 <example>Ils me l’<marker>avaient</marker> donné.</example>
+                <example>Ceux en charge des soins spécialisés.</example>
             </rule>
             <rule name="ils/elles + 4 tokens + Verbe">
                 <antipattern>
@@ -18594,6 +18602,7 @@ though, and has since been slightly modified)-->
                 <example><marker>Coupez les</marker> autres légumes.</example>
                 <example><marker>Coupez les</marker> 3 feuilles.</example>
                 <example><marker>Coupez les</marker> trois feuilles.</example>
+                <example correction="plongez-les">Détachez les ravioles et <marker>plongez les</marker> dans le bouillon</example>
             </rule>
             <rule>
                 <pattern>
@@ -37871,18 +37880,18 @@ though, and has since been slightly modified)-->
                     <token postag="M fin"/>
                 </antipattern>
                 <pattern>
+                    <token postag="N.*" postag_regexp="yes">
+                        <exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="N.*" postag_regexp="yes">
-                            <exception postag="C.*" postag_regexp="yes"/></token>
                         <token postag="R pers suj.*" postag_regexp="yes" skip="-1">
                             <exception>on</exception></token>
                     </marker>
                     <token postag="M fin"/>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1, \2</suggestion>
+                <suggestion>, \2</suggestion>
                 <url>https://bescherelle.ca/virgules/</url>
-                <example correction="photos, je">Ces <marker>photos je</marker> les aime beaucoup.</example>
+                <example correction=", je">Ces photos<marker> je</marker> les aime beaucoup.</example>
                 <example>La <marker>municipalité elle-même</marker> les aime beaucoup.</example>
                 <example>Il lui explique combien d'<marker>hommes il</marker> devra tuer pour cela.</example>
                 <example>Si <marker>transfert il</marker> y a eu.</example>
