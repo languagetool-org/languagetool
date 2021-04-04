@@ -974,6 +974,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[mM]editerranisch(e[mnrs]?)?", "isch", "");
     putRepl("[uU]nterschreibungsfähig(e[mnrs]?)?", "schreibung", "schrift");
     putRepl("[eE]rrorier(en?|t(e[mnrs]?)?|st)", "ror", "u");
+    putRepl("malediert(e[mnrs]?)?", "malediert", "malträtiert");
+    putRepl("maletriert(e[mnrs]?)?", "maletriert", "malträtiert");
+    putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
+    put("achtungslo[ßs]", "achtlos");
     put("gildet", "gilt");
     put("gleitete", "glitt");
     put("gleiteten", "glitten");
@@ -1030,6 +1034,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("heilwegs", "halbwegs");
     put("undsoweiter", "und so weiter");
     put("Gladbeckerstrasse", "Gladbecker Straße");
+    put("Bonnerstra(ß|ss)e", "Bonner Straße");
     put("[bB]range", "Branche");
     put("Gewebtrauma", "Gewebetrauma");
     put("aufgehangen", "aufgehängt");
