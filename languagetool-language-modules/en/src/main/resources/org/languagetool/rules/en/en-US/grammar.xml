@@ -562,6 +562,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token postag="NNP" />
+                    <token min="0">,</token>
                     <token>and</token>
                     <token min="0">the</token>
                     <token min="0" postag="J.*" postag_regexp="yes" />
@@ -575,17 +576,32 @@ USA
                     <token>the</token>
                     <token>United</token>
                     <token>States</token>
-                    </antipattern>
+                </antipattern>
+                <antipattern>
+                    <token postag="NNS" />
+                    <token>and</token>
+                    <token>the</token>
+                    <token>United</token>
+                    <token>states</token>
+                </antipattern>
+                <antipattern>
+                    <token />
+                    <token postag="," />
+                    <token>and</token>
+                    <token>the</token>
+                    <token>United</token>
+                    <token>states</token>
+                </antipattern>
                 <pattern>
                     <token>the</token>
                     <token>United</token>
                     <token>States</token>
-                        <marker>
-                            <token postag="VB|VBP" postag_regexp="yes">
-                                <exception postag="VBD" />
-                                <exception regexp="yes">must|should|will|would</exception>
-                            </token>
-                        </marker>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes">
+                            <exception postag="VBD" />
+                            <exception regexp="yes">must|should|will|would</exception>
+                        </token>
+                    </marker>
                 </pattern>
                 <message>Verb agreement error. Did you mean <suggestion><match no="4" postag="VBZ" /></suggestion>?</message>
                 <example correction="is">The United States <marker>are</marker> 245 years old.</example>
@@ -601,11 +617,20 @@ USA
                 <example>Kennedy proposed that the United States accelerate its space program.</example>
                 <example>Should the United States have gotten involved there, too?</example>
                 <example>Why didn't the United States protect the Kurds in Afrin?</example>
+                <example>Caribbean countries and the United States have collaborated to create tsunami warning systems</example>
+                <example>Many police and fire services in Scotland, Canada, Australia, New Zealand, Hong Kong, and the United States have also adopted the tradition of fielding pipe bands.</example>
+                <example>Austria, Belgium, Germany, Israel, the Netherlands, Northern Ireland, Russia, Taiwan, Ontario (Canada), and the United States have adopted commitment criteria</example>
             </rule>
             <rule>
                 <antipattern>
                     <token>US</token>
                     <token chunk_re="[IE]-NP-singular">
+                        <exception>need</exception>
+                    </token>
+                </antipattern>
+                <antipattern>
+                    <token>US</token>
+                    <token chunk_re="[IE]-NP-plural">
                         <exception>need</exception>
                     </token>
                 </antipattern>
@@ -633,12 +658,12 @@ USA
                 <pattern>
                     <token>the</token>
                     <token>US</token>
-                        <marker>
-                            <token postag="VB|VBP" postag_regexp="yes">
-                                <exception postag="VBD" />
-                                <exception regexp="yes">must|people|should|will|would</exception>
-                            </token>
-                        </marker>
+                    <marker>
+                        <token postag="VB|VBP" postag_regexp="yes">
+                            <exception postag="VBD" />
+                            <exception regexp="yes">must|people|should|will|would</exception>
+                        </token>
+                    </marker>
                 </pattern>
                 <message>Verb agreement error. Did you mean <suggestion><match no="4" postag="VBZ" /></suggestion>?</message>
                 <example correction="is">The US <marker>are</marker> 245 years old.</example>
