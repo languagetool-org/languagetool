@@ -4936,7 +4936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>den</suggestion> oder fehlt ein Satzzeichen (z. B. ein Strichpunkt) vor 'denn'?</message>
                 <example correction="den">Sie ging in <marker>denn</marker> Garten.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>den</token>
                     <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" min="0" max="2" />
@@ -4962,11 +4962,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Was ist den alten Römern passiert?</example>
                 <example>Was ist den Römern passiert?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>den</token>
                     <token>ein</token>
                     <token regexp="yes">Jahr|Monat|Woche|Tag|Jahrzent|Jahrhundert</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="1">den</token>
+                    <token regexp="yes">Ansicht|Meinung|Auffassung</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">man|sich</token>
@@ -10100,7 +10104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="ROT_ROT_GRÜN" name="Er wählt 'rot rot grün' (rot-rot-grün)" default="temp_off">
+        <rulegroup id="ROT_ROT_GRÜN" name="Er wählt 'rot rot grün' (rot-rot-grün)">
             <rule>
                 <pattern>
                     <token regexp="yes">rot|schwarz</token>
@@ -10122,7 +10126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rot-rot-grünes">Er wählt bei der nächsten Wahl ein <marker>rot rot grünes</marker> Bündnis.</example>
             </rule>
         </rulegroup>
-        <rule id="US_ARMEE" name="US Armee (US-Armee)" default="temp_off">
+        <rule id="US_ARMEE" name="US Armee (US-Armee)">
             <antipattern>
                 <token>US</token>
                 <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus|Boys?|Top|Cars?</token>
@@ -10752,7 +10756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Zusammenschreibung</short>
                 <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor Ort Termin</marker> vereinbaren.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>vor-ort</token>
                     <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
@@ -20692,7 +20696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="IN_KAUF_NEHMEN" name="in kauf (Kauf) nehmen" default="temp_off">
+        <rulegroup id="IN_KAUF_NEHMEN" name="in kauf (Kauf) nehmen">
             <url>https://de.wiktionary.org/wiki/in_Kauf_nehmen</url>
             <rule>
                 <pattern>
@@ -42078,9 +42082,12 @@ Andere Projekte</example>
                 <example correction="Sie">So kommen <marker>sie</marker> doch!</example>
                 <example correction="Sie">Aber schalten <marker>sie</marker> unsere Stelle doch bitte frei.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token case_sensitive="yes" skip="-1" regexp="yes">Sie|Ihnen</token>
+                    <token case_sensitive="yes" skip="-1" regexp="yes">
+                        Sie|Ihnen
+                        <exception scope="next" postag="SUB:.+:PLU:.+" postag_regexp="yes" />
+                    </token>
                     <token postag="ADV:TMP|KON:NEB|PKT" postag_regexp="yes" />
                     <token min="0">bitte</token>
                     <token postag="VER:3:PLU:PRÄ.*" postag_regexp="yes"/>
@@ -42094,6 +42101,7 @@ Andere Projekte</example>
                 <example>Kommen <marker>sie</marker> morgen auch?</example>
                 <example correction="Sie">Schreiben Sie hier ihren Text oder fügen <marker>sie</marker> ihn einfach hier ein!</example>
                 <example correction="Sie">Wenn Sie Dank erwarten, gehen <marker>sie</marker> zum König!</example>
+                <example>Regelmäßig erhalten Sie alle notwendigen Studienunterlagen zugeschickt und bearbeiten sie in Ihrem individuellen Lerntempo - angepasst an Ihren persönlichen Zeitrahmen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEN_DEM" name="'dem/den' (nur für wenige Verben)">
