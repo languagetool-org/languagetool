@@ -146,6 +146,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Voulez-vous dire <suggestion>courts-circuits</suggestion> (pluriel) or <suggestion>court-circuit</suggestion> (singulier) ?</message>
                 <example correction="courts-circuits|court-circuit">Les <marker>court-circuits</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(P.)?D [me] (s|sp)" postag_regexp="yes"/>
+                        <token case_sensitive="yes">java</token>
+                    </marker>
+                </pattern>
+                <message>S'il s'agit d'un  langage de programmation, il doit être en majuscule.</message>
+                <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="le Java">Des compilateurs compilent ainsi directement <marker>le java</marker> en code objet natif.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
             <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
@@ -580,6 +591,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>mi</token>
+                <token>-</token>
+            </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="number"/>
@@ -615,6 +630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Elle frappa à la porte d'entrée numéro 23.</example>
             <example>Quelqu'un d'intelligent remarque tout.</example>
             <example>Bouclier de protection des données Union Européenne-États-Unis</example>
+            <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -18226,6 +18242,7 @@ though, and has since been slightly modified)-->
                 <example>Vous revoir me réjouit.</example>
                 <example>un film culte que je ne peux que vous recommander</example>
                 <example>Je ne veux que vous aider !</example>
+                <example>Ce que vous a dit Tom était un mensonge.</example>
             </rule>
             <rule name="vous + pronom obj + Verbe">
                 <pattern>
