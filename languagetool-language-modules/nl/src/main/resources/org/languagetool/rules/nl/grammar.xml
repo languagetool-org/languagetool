@@ -12263,8 +12263,13 @@ onwaarschijnlijk
 			2020-01-07 uitzondering voor zinnen mete paragraafnummer (kopjes)
 			-->
 			<rule>
-				
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token><token>.</token><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token></antipattern><!-- 0.00 – 1.00 uur -->
+				<antipattern>
+					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token>
+					<token>-</token>
+					<token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token>
+					<token>uur</token>
+					</antipattern><!-- 0.00 – 1.00 uur -->
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no">.</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token postag="SENT_END"/></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token postag="SENT_END"/></antipattern>
