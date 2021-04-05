@@ -11745,7 +11745,19 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="AFKORTINGEN" name="Afkortingen">
-		<!-- TODO: im --> 
+		<rulegroup id="GR" name="gr → gr.">
+			<rule>
+				<pattern case_sensitive="yes">
+					<token postag_regexp="yes" postag="GET.*"/>
+					<marker>
+						<token>gr</token>
+					</marker>
+					<token><exception>.</exception></token>
+				</pattern>
+				<message>Gram wordt afgekort als <suggestion>gr.</suggestion> of <suggestion>g</suggestion>.</message>
+				<example correction="gr.|g">Het weegt 500 <marker>gr</marker> meer.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DI" name="di → d.i.">
 			<rule>
 				<antipattern><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token>di</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
@@ -15913,6 +15925,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		
 		<rulegroup id="GEEN_HOOFDLETTER_NA_GETAL" name="Na getal begint zin niet met hoofdletter.">
+			<!-- geldt niet voor start hoofstuk en zo -->
+			<antipattern>
+					<token postag="SENT_START"/>
+					<token regexp="yes" skip="-1">[0-9]+</token>
+					<token postag="SENT_END"><exception regexp="yes">[.!?]</exception></token>
+			</antipattern>
 			<rule>
 				<pattern>
 					<token postag="SENT_START"/>
@@ -18042,6 +18060,7 @@ steenwijk;Steenwijk
 		<rulegroup id="JE_ME_AANBIEDT" name="verkeerde werkwoordvorm" default="on">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="VNW.*BEZ"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token>rond</token><token regexp="yes">deze|die</token><token>tijd</token></antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="VNW:PER:[23]EP:EKV:ACT"/>
 					<token postag_regexp="yes" postag="VNW.*PSF"/>
@@ -18083,10 +18102,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:3EP.*">
-							<exception>want</exception>
-							<exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VTD:1EP.*"/>
-						</token>
+						<token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception>want</exception><exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VLT:1EP.*"/></token>
 					</marker>
 					<token regexp="yes">ik|je|jij</token>
 				</pattern>
@@ -37123,6 +37139,7 @@ steenwijk;Steenwijk
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
 		<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
 			<rule>
+				<antipattern><token postag="VGW"/><token>het</token><token>het</token><token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/></antipattern><!-- alsof het het begin is -->
 				<antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
 				<antipattern><token>de</token><token>een</token><token>een</token><token postag="ZNW:EKV.*" postag_regexp="yes"/></antipattern>
 				<antipattern><token>is</token><token>is</token></antipattern>
@@ -39936,5 +39953,23 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>	
-
+	<category id="CATCH_REST" name="Catch strange sentences">
+		<rulegroup id="CATCH_4" name="zinnen met 4 woorden" >
+			<rule>
+				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+				<antipattern><token>Ik</token><token regexp="yes">ben|word</token><token postag="GET:MRV"/></antipattern> <!-- Ik ben zesentwintig -->
+				<pattern case_sensitive="yes">
+					<token postag="SENT_START"/>
+					<marker>
+						<token/>
+						<token/>
+						<token/>
+						<token postag="SENT_END" regexp="yes">[.!?]</token>
+					</marker>
+				</pattern>
+				<message>Dit is een ongebruikelijke zinsbouw. Kijk deze nog eens na.</message>
+				<example type="incorrect"><marker>Aap, wil.</marker></example>		
+			</rule>
+		</rulegroup>
+	</category>	
 </rules>
