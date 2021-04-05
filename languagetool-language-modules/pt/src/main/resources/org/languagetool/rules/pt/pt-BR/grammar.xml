@@ -595,15 +595,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		<!-- CONFUNDIR DAQUI A COM DAQUI -->
 		
 		<rule id="DAQUI_BR" name="Daqui a">
+<!-- MARCOAGPINTO 2021-04-05 (17-MAR-2021+) *START* -->
+<!--
+Todos os garotos daqui têm namorada.
+Será que o senhor não conheceria um caminho daqui para a cidade?
+Quantas estrelas são visíveis a olho nu daqui da Terra?
+Quatro casas daqui do bairro desmoronaram.
+Vou-me embora daqui!
+É normal que as pessoas daqui te cumprimentem com um beijo.
+Daqui não saio, daqui ninguém me tira.
+-->
+			<antipattern>
+				<token>daqui</token>
+				<token postag='V.+|RN|CC|SPS.+|CS|RG|PP.+|PI.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='DI.+|NC.+|AQ0.+'/>
+				</token>
+			</antipattern> 
+<!-- MARCOAGPINTO 2021-04-05 (17-MAR-2021+) *END* -->
 			<pattern>
 				<marker>
 					<token>daqui</token>
 				</marker>
 				<token negate="yes">a
-				  <exception regexp='yes'>\.|,</exception></token> <!-- MARCOAGPINTO 2020-05-19 -->
+				  <exception regexp='yes'>[.,!?;():]|são|o</exception> <!-- MARCOAGPINTO 2021-04-05 (Enhanced) (17-MAR-2021+) -->
+				 </token>
 			</pattern>
 			<message>O advérbio daqui é usado para indicar lugar ou tempo e pede a preposição a. Substitua «daqui» por <suggestion>daqui a</suggestion>.</message>
 			<example correction="daqui a">Farei o pagamento <marker>daqui</marker> 5 dias.</example>
+			<example>Todos os garotos daqui têm namorada.</example>
+			<example>Será que o senhor não conheceria um caminho daqui para a cidade?</example>
+			<example>Quantas estrelas são visíveis a olho nu daqui da Terra?</example>
+			<example>Quatro casas daqui do bairro desmoronaram.</example>
+			<example>Vou-me embora daqui!</example>
+			<example>É normal que as pessoas daqui te cumprimentem com um beijo.</example>
+			<example>Daqui não saio, daqui ninguém me tira.</example>
 		</rule>
 	
 		<!-- FIM DAQUI A COM DAQUI -->
