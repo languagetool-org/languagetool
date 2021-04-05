@@ -1214,7 +1214,6 @@ public class MultiDocumentsHandler {
             }
           }
           resetIgnoredMatches();
-          resetDocument();
         }
         if (debugMode) {
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
@@ -1223,6 +1222,9 @@ public class MultiDocumentsHandler {
       } else if ("nextError".equals(sEvent)) {
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
+      } else if ("refreshCheck".equals(sEvent)) {
+        resetIgnoredMatches();
+        resetDocument();
       } else if ("remoteHint".equals(sEvent)) {
         if (getConfiguration().useOtherServer()) {
           MessageHandler.showMessage(MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), 
