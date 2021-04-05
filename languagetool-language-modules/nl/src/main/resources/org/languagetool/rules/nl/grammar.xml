@@ -12263,6 +12263,8 @@ onwaarschijnlijk
 			2020-01-07 uitzondering voor zinnen mete paragraafnummer (kopjes)
 			-->
 			<rule>
+				
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token><token>.</token><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token></antipattern><!-- 0.00 – 1.00 uur -->
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no">.</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token postag="SENT_END"/></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token postag="SENT_END"/></antipattern>
@@ -13202,1892 +13204,1892 @@ onwaarschijnlijk
 		</rulegroup>
 		
 		<rulegroup id="EIGENNAMEN_PLAATSEN" name="Hoofdletters bij plaatsnamen" type="misspelling">
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Aan</token><token>de</token><token>Rijksweg</token></antipattern>
-			<pattern><token>aan</token><token>de</token><token>rijksweg</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Aan de Rijksweg</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Aan de Rijksweg">Ik zie <marker>aan de rijksweg</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Achterste</token><token>Erm</token></antipattern>
-			<pattern><token>achterste</token><token>erm</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Achterste Erm</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Achterste Erm">Ik zie <marker>achterste erm</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Alphen</token><token>aan</token><token>den</token><token>Rijn</token></antipattern>
-			<pattern><token>alphen</token><token>aan</token><token>den</token><token>rijn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Alphen aan den Rijn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Alphen aan den Rijn">Ik zie <marker>alphen aan den rijn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Anna</token><token>Jacobapolder</token></antipattern>
-			<pattern><token>anna</token><token>jacobapolder</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Anna Jacobapolder</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Anna Jacobapolder">Ik zie <marker>anna jacobapolder</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Anna</token><token>Paulowna</token></antipattern>
-			<pattern><token>anna</token><token>paulowna</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Anna Paulowna</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Anna Paulowna">Ik zie <marker>anna paulowna</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Bad</token><token>Nieuweschans</token></antipattern>
-			<pattern><token>bad</token><token>nieuweschans</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Bad Nieuweschans</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Bad Nieuweschans">Ik zie <marker>bad nieuweschans</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Beek</token><token>en</token><token>Donk</token></antipattern>
-			<pattern><token>beek</token><token>en</token><token>donk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Beek en Donk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Beek en Donk">Ik zie <marker>beek en donk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Berg</token><token>aan</token><token>de</token><token>Maas</token></antipattern>
-			<pattern><token>berg</token><token>aan</token><token>de</token><token>maas</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Berg aan de Maas</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Berg aan de Maas">Ik zie <marker>berg aan de maas</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Bergen</token><token>aan</token><token>Zee</token></antipattern>
-			<pattern><token>bergen</token><token>aan</token><token>zee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Bergen aan Zee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Bergen aan Zee">Ik zie <marker>bergen aan zee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Berg</token><token>en</token><token>Dal</token></antipattern>
-			<pattern><token>berg</token><token>en</token><token>dal</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Berg en Dal</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Berg en Dal">Ik zie <marker>berg en dal</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Bergen</token><token>op</token><token>Zoom</token></antipattern>
-			<pattern><token>bergen</token><token>op</token><token>zoom</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Bergen op Zoom</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Bergen op Zoom">Ik zie <marker>bergen op zoom</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Berkel</token><token>en</token><token>Rodenrijs</token></antipattern>
-			<pattern><token>berkel</token><token>en</token><token>rodenrijs</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Berkel en Rodenrijs</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Berkel en Rodenrijs">Ik zie <marker>berkel en rodenrijs</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Blauwe</token><token>Hand</token></antipattern>
-			<pattern><token>blauwe</token><token>hand</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Blauwe Hand</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Blauwe Hand">Ik zie <marker>blauwe hand</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Bosch</token><token>en</token><token>Duin</token></antipattern>
-			<pattern><token>bosch</token><token>en</token><token>duin</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Bosch en Duin</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Bosch en Duin">Ik zie <marker>bosch en duin</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Broek</token><token>in</token><token>Waterland</token></antipattern>
-			<pattern><token>broek</token><token>in</token><token>waterland</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Broek in Waterland</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Broek in Waterland">Ik zie <marker>broek in waterland</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Broek</token><token>op</token><token>Langedijk</token></antipattern>
-			<pattern><token>broek</token><token>op</token><token>langedijk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Broek op Langedijk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Broek op Langedijk">Ik zie <marker>broek op langedijk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Cadier</token><token>en</token><token>Keer</token></antipattern>
-			<pattern><token>cadier</token><token>en</token><token>keer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Cadier en Keer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Cadier en Keer">Ik zie <marker>cadier en keer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Capelle</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
-			<pattern><token>capelle</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Capelle aan den IJssel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Capelle aan den IJssel">Ik zie <marker>capelle aan den ijssel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Catsop</token><token>-</token></antipattern>
-			<pattern><token>catsop</token><token>-</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Catsop -</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Catsop -">Ik zie <marker>catsop -</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Bilt</token></antipattern>
-			<pattern><token>de</token><token>bilt</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Bilt</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Bilt">Ik zie <marker>de bilt</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Blesse</token></antipattern>
-			<pattern><token>de</token><token>blesse</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Blesse</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Blesse">Ik zie <marker>de blesse</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Bult</token></antipattern>
-			<pattern><token>de</token><token>bult</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Bult</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Bult">Ik zie <marker>de bult</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Cocksdorp</token></antipattern>
-			<pattern><token>de</token><token>cocksdorp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Cocksdorp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Cocksdorp">Ik zie <marker>de cocksdorp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Glind</token></antipattern>
-			<pattern><token>de</token><token>glind</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Glind</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Glind">Ik zie <marker>de glind</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Goorn</token></antipattern>
-			<pattern><token>de</token><token>goorn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Goorn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Goorn">Ik zie <marker>de goorn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Groeve</token></antipattern>
-			<pattern><token>de</token><token>groeve</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Groeve</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Groeve">Ik zie <marker>de groeve</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Haukes</token></antipattern>
-			<pattern><token>de</token><token>haukes</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Haukes</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Haukes">Ik zie <marker>de haukes</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Heen</token></antipattern>
-			<pattern><token>de</token><token>heen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Heen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Heen">Ik zie <marker>de heen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Heurne</token></antipattern>
-			<pattern><token>de</token><token>heurne</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Heurne</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Heurne">Ik zie <marker>de heurne</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Hoef</token></antipattern>
-			<pattern><token>de</token><token>hoef</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Hoef</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Hoef">Ik zie <marker>de hoef</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern><token regexp="yes">om|op</token><token>de</token><token>hoek</token></antipattern>
-			<antipattern case_sensitive="yes"><token>De</token><token>Hoek</token></antipattern>
-			<pattern><token>de</token><token>hoek</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Hoek</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Hoek">Ik zie <marker>de hoek</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Hoeve</token></antipattern>
-			<pattern><token>de</token><token>hoeve</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Hoeve</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Hoeve">Ik zie <marker>de hoeve</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Hulk</token></antipattern>
-			<pattern><token>de</token><token>hulk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Hulk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Hulk">Ik zie <marker>de hulk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Kar</token></antipattern>
-			<pattern><token>de</token><token>kar</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Kar</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Kar">Ik zie <marker>de kar</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Kiel</token></antipattern>
-			<pattern><token>de</token><token>kiel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Kiel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Kiel">Ik zie <marker>de kiel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Klencke</token></antipattern>
-			<pattern><token>de</token><token>klencke</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Klencke</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Klencke">Ik zie <marker>de klencke</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Klomp</token></antipattern>
-			<pattern><token>de</token><token>klomp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Klomp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Klomp">Ik zie <marker>de klomp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Knijpe</token></antipattern>
-			<pattern><token>de</token><token>knijpe</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Knijpe</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Knijpe">Ik zie <marker>de knijpe</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Koog</token></antipattern>
-			<pattern><token>de</token><token>koog</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Koog</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Koog">Ik zie <marker>de koog</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Kooy</token></antipattern>
-			<pattern><token>de</token><token>kooy</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Kooy</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Kooy">Ik zie <marker>de kooy</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Krim</token></antipattern>
-			<pattern><token>de</token><token>krim</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Krim</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Krim">Ik zie <marker>de krim</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Kwakel</token></antipattern>
-			<pattern><token>de</token><token>kwakel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Kwakel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Kwakel">Ik zie <marker>de kwakel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Lichtmis</token></antipattern>
-			<pattern><token>de</token><token>lichtmis</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Lichtmis</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Lichtmis">Ik zie <marker>de lichtmis</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Lier</token></antipattern>
-			<pattern><token>de</token><token>lier</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Lier</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Lier">Ik zie <marker>de lier</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Lutte</token></antipattern>
-			<pattern><token>de</token><token>lutte</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Lutte</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Lutte">Ik zie <marker>de lutte</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Marshoek</token></antipattern>
-			<pattern><token>de</token><token>marshoek</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Marshoek</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Marshoek">Ik zie <marker>de marshoek</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Meern</token></antipattern>
-			<pattern><token>de</token><token>meern</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Meern</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Meern">Ik zie <marker>de meern</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Moer</token></antipattern>
-			<pattern><token>de</token><token>moer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Moer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Moer">Ik zie <marker>de moer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Mortel</token></antipattern>
-			<pattern><token>de</token><token>mortel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Mortel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Mortel">Ik zie <marker>de mortel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Andel</token></antipattern>
-			<pattern><token>den</token><token>andel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Andel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Andel">Ik zie <marker>den andel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Bommel</token></antipattern>
-			<pattern><token>den</token><token>bommel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Bommel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Bommel">Ik zie <marker>den bommel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Burg</token></antipattern>
-			<pattern><token>den</token><token>burg</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Burg</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Burg">Ik zie <marker>den burg</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Dolder</token></antipattern>
-			<pattern><token>den</token><token>dolder</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Dolder</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Dolder">Ik zie <marker>den dolder</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Dungen</token></antipattern>
-			<pattern><token>den</token><token>dungen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Dungen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Dungen">Ik zie <marker>den dungen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Nes</token></antipattern>
-			<pattern><token>de</token><token>nes</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Nes</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Nes">Ik zie <marker>de nes</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Haag</token></antipattern>
-			<pattern><token>den</token><token>haag</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Haag</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Haag">Ik zie <marker>den haag</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Ham</token></antipattern>
-			<pattern><token>den</token><token>ham</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Ham</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Ham">Ik zie <marker>den ham</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Helder</token></antipattern>
-			<pattern><token>den</token><token>helder</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Helder</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Helder">Ik zie <marker>den helder</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Hoorn</token></antipattern>
-			<pattern><token>den</token><token>hoorn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Hoorn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Hoorn">Ik zie <marker>den hoorn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Horn</token></antipattern>
-			<pattern><token>den</token><token>horn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Horn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Horn">Ik zie <marker>den horn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Hout</token></antipattern>
-			<pattern><token>den</token><token>hout</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Hout</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Hout">Ik zie <marker>den hout</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Hulst</token></antipattern>
-			<pattern><token>den</token><token>hulst</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Hulst</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Hulst">Ik zie <marker>den hulst</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Ilp</token></antipattern>
-			<pattern><token>den</token><token>ilp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Ilp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Ilp">Ik zie <marker>den ilp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Kaat</token></antipattern>
-			<pattern><token>den</token><token>kaat</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Kaat</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Kaat">Ik zie <marker>den kaat</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Nul</token></antipattern>
-			<pattern><token>den</token><token>nul</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Nul</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Nul">Ik zie <marker>den nul</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Oever</token></antipattern>
-			<pattern><token>den</token><token>oever</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Oever</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Oever">Ik zie <marker>den oever</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Den</token><token>Velde</token></antipattern>
-			<pattern><token>den</token><token>velde</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Den Velde</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Den Velde">Ik zie <marker>den velde</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Pol</token></antipattern>
-			<pattern><token>de</token><token>pol</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Pol</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Pol">Ik zie <marker>de pol</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Pollen</token></antipattern>
-			<pattern><token>de</token><token>pollen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Pollen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Pollen">Ik zie <marker>de pollen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Poppe</token></antipattern>
-			<pattern><token>de</token><token>poppe</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Poppe</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Poppe">Ik zie <marker>de poppe</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Punt</token></antipattern>
-			<antipattern><token>op</token><token>de</token><token>punt</token></antipattern>
-			<pattern><token>de</token><token>punt</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Punt</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Punt">Ik zie <marker>de punt</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Rijp</token></antipattern>
-			<pattern><token>de</token><token>rijp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Rijp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Rijp">Ik zie <marker>de rijp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Rips</token></antipattern>
-			<pattern><token>de</token><token>rips</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Rips</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Rips">Ik zie <marker>de rips</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Schiphorst</token></antipattern>
-			<pattern><token>de</token><token>schiphorst</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Schiphorst</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Schiphorst">Ik zie <marker>de schiphorst</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Stapel</token></antipattern>
-			<pattern><token>de</token><token>stapel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Stapel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Stapel">Ik zie <marker>de stapel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Steeg</token></antipattern>
-			<pattern><token>de</token><token>steeg</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Steeg</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Steeg">Ik zie <marker>de steeg</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Stolpen</token></antipattern>
-			<pattern><token>de</token><token>stolpen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Stolpen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Stolpen">Ik zie <marker>de stolpen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Tike</token></antipattern>
-			<pattern><token>de</token><token>tike</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Tike</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Tike">Ik zie <marker>de tike</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Valom</token></antipattern>
-			<pattern><token>de</token><token>valom</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Valom</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Valom">Ik zie <marker>de valom</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Vecht</token></antipattern>
-			<pattern><token>de</token><token>vecht</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Vecht</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Vecht">Ik zie <marker>de vecht</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Veenhoop</token></antipattern>
-			<pattern><token>de</token><token>veenhoop</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Veenhoop</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Veenhoop">Ik zie <marker>de veenhoop</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Waal</token></antipattern>
-			<pattern><token>de</token><token>waal</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Waal</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Waal">Ik zie <marker>de waal</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Weere</token></antipattern>
-			<pattern><token>de</token><token>weere</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Weere</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Weere">Ik zie <marker>de weere</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>de</token><token>Wijk</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern>
-			<antipattern case_sensitive="yes"><token>de</token><token>Wijk</token></antipattern>
-			<pattern><token>de</token><token>wijk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>de Wijk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="de Wijk">Ik zie <marker>de wijk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Wijk</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern>
-			<antipattern case_sensitive="yes"><token>De</token><token>Wijk</token></antipattern>
-			<pattern><token>de</token><token>wijk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Wijk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Wijk">Ik zie <marker>de wijk</marker>.</example>
-		</rule>
-
-		<rule>
-			<!-- uitzondering: aan de wilgen hangen -->
-			<antipattern case_sensitive="yes"><token postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes">hangen|sloot|rivier|plant|knotten</token></antipattern>
-			<antipattern case_sensitive="yes"><token>De</token><token>Wilgen</token></antipattern>
-			<pattern><token>de</token><token>wilgen</token></pattern>
-			<message>U bedoelt misschien het gehucht <suggestion>De Wilgen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Wilgen">Ik zie <marker>de wilgen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Wilp</token></antipattern>
-			<pattern><token>de</token><token>wilp</token></pattern>
-			<message>U bedoelt misschien het dorp <suggestion>De Wilp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Wilp">Ik zie <marker>de wilp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Woude</token></antipattern>
-			<pattern><token>de</token><token>woude</token></pattern>
-			<message>U bedoelt misschien het dorp <suggestion>De Woude</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Woude">Ik zie <marker>de woude</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Zande</token></antipattern>
-			<pattern><token>de</token><token>zande</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Zande</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Zande">Ik zie <marker>de zande</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>De</token><token>Zilk</token></antipattern>
-			<pattern><token>de</token><token>zilk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>De Zilk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="De Zilk">Ik zie <marker>de zilk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Dokkumer</token><token>Nieuwe</token><token>Zijlen</token></antipattern>
-			<pattern><token>dokkumer</token><token>nieuwe</token><token>zijlen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Dokkumer Nieuwe Zijlen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Dokkumer Nieuwe Zijlen">Ik zie <marker>dokkumer nieuwe zijlen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Druten</token><token>-</token></antipattern>
-			<pattern><token>druten</token><token>-</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Druten -</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Druten -">Ik zie <marker>druten -</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Duur</token><token>-</token></antipattern>
-			<pattern><token>duur</token><token>-</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Duur -</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Duur -">Ik zie <marker>duur -</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Eck</token><token>en</token><token>Wiel</token></antipattern>
-			<pattern><token>eck</token><token>en</token><token>wiel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Eck en Wiel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Eck en Wiel">Ik zie <marker>eck en wiel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Eerste</token><token>Exloërmond</token></antipattern>
-			<pattern><token>eerste</token><token>exloërmond</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Eerste Exloërmond</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Eerste Exloërmond">Ik zie <marker>eerste exloërmond</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Egmond</token><token>aan</token><token>den</token><token>Hoef</token></antipattern>
-			<pattern><token>egmond</token><token>aan</token><token>den</token><token>hoef</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Egmond aan den Hoef</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Egmond aan den Hoef">Ik zie <marker>egmond aan den hoef</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Egmond</token><token>aan</token><token>Zee</token></antipattern>
-			<pattern><token>egmond</token><token>aan</token><token>zee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Egmond aan Zee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Egmond aan Zee">Ik zie <marker>egmond aan zee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Geulle</token><token>aan</token><token>de</token><token>Maas</token></antipattern>
-			<pattern><token>geulle</token><token>aan</token><token>de</token><token>maas</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Geulle aan de Maas</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Geulle aan de Maas">Ik zie <marker>geulle aan de maas</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Groot</token><token>Agelo</token></antipattern>
-			<pattern><token>groot</token><token>agelo</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Groot Agelo</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Groot Agelo">Ik zie <marker>groot agelo</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Groot</token><token>Dochteren</token></antipattern>
-			<pattern><token>groot</token><token>dochteren</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Groot Dochteren</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Groot Dochteren">Ik zie <marker>groot dochteren</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Groot</token><token>Dorregeest</token></antipattern>
-			<pattern><token>groot</token><token>dorregeest</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Groot Dorregeest</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Groot Dorregeest">Ik zie <marker>groot dorregeest</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Groote</token><token>Keeten</token></antipattern>
-			<pattern><token>groote</token><token>keeten</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Groote Keeten</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Groote Keeten">Ik zie <marker>groote keeten</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Groot</token><token>Haasdal</token></antipattern>
-			<pattern><token>groot</token><token>haasdal</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Groot Haasdal</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Groot Haasdal">Ik zie <marker>groot haasdal</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hei-</token><token>en</token><token>Boeicop</token></antipattern>
-			<pattern><token>hei-</token><token>en</token><token>boeicop</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hei- en Boeicop</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hei- en Boeicop">Ik zie <marker>hei- en boeicop</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Heilig</token><token>Landstichting</token></antipattern>
-			<pattern><token>heilig</token><token>landstichting</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Heilig Landstichting</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Heilig Landstichting">Ik zie <marker>heilig landstichting</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Het</token><token>Koegras</token></antipattern>
-			<pattern><token>het</token><token>koegras</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Het Koegras</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Het Koegras">Ik zie <marker>het koegras</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Het</token><token>Woud</token></antipattern>
-			<pattern><token>het</token><token>woud</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Het Woud</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Het Woud">Ik zie <marker>het woud</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hoek</token><token>van</token><token>Holland</token></antipattern>
-			<pattern><token>hoek</token><token>van</token><token>holland</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hoek van Holland</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hoek van Holland">Ik zie <marker>hoek van holland</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hoge</token><token>Hexel</token></antipattern>
-			<pattern><token>hoge</token><token>hexel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hoge Hexel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hoge Hexel">Ik zie <marker>hoge hexel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hollandsche</token><token>Rading</token></antipattern>
-			<pattern><token>hollandsche</token><token>rading</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hollandsche Rading</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hollandsche Rading">Ik zie <marker>hollandsche rading</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hongerige</token><token>Wolf</token></antipattern>
-			<pattern><token>hongerige</token><token>wolf</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hongerige Wolf</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hongerige Wolf">Ik zie <marker>hongerige wolf</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hooge</token><token>Mierde</token></antipattern>
-			<pattern><token>hooge</token><token>mierde</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hooge Mierde</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hooge Mierde">Ik zie <marker>hooge mierde</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hooge</token><token>Zwaluwe</token></antipattern>
-			<pattern><token>hooge</token><token>zwaluwe</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hooge Zwaluwe</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hooge Zwaluwe">Ik zie <marker>hooge zwaluwe</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Hoog</token><token>Soeren</token></antipattern>
-			<pattern><token>hoog</token><token>soeren</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Hoog Soeren</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Hoog Soeren">Ik zie <marker>hoog soeren</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Huis</token><token>ter</token><token>Heide</token></antipattern>
-			<pattern><token>huis</token><token>ter</token><token>heide</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Huis ter Heide</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Huis ter Heide">Ik zie <marker>huis ter heide</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>It</token><token>Heidenskip</token></antipattern>
-			<pattern><token>it</token><token>heidenskip</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>It Heidenskip</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="It Heidenskip">Ik zie <marker>it heidenskip</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Julianadorp</token><token>aan</token><token>Zee</token></antipattern>
-			<pattern><token>julianadorp</token><token>aan</token><token>zee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Julianadorp aan Zee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Julianadorp aan Zee">Ik zie <marker>julianadorp aan zee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Katwijk</token><token>aan</token><token>den</token><token>Rijn</token></antipattern>
-			<pattern><token>katwijk</token><token>aan</token><token>den</token><token>rijn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Katwijk aan den Rijn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Katwijk aan den Rijn">Ik zie <marker>katwijk aan den rijn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Katwijk</token><token>aan</token><token>Zee</token></antipattern>
-			<pattern><token>katwijk</token><token>aan</token><token>zee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Katwijk aan Zee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Katwijk aan Zee">Ik zie <marker>katwijk aan zee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Klein</token><token>Dochteren</token></antipattern>
-			<pattern><token>klein</token><token>dochteren</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Klein Dochteren</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Klein Dochteren">Ik zie <marker>klein dochteren</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Klein</token><token>Dorregeest</token></antipattern>
-			<pattern><token>klein</token><token>dorregeest</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Klein Dorregeest</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Klein Dorregeest">Ik zie <marker>klein dorregeest</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Kleine</token><token>Huisjes</token></antipattern>
-			<pattern><token>kleine</token><token>huisjes</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Kleine Huisjes</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Kleine Huisjes">Ik zie <marker>kleine huisjes</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Kleine</token><token>Koolwijk</token></antipattern>
-			<pattern><token>kleine</token><token>koolwijk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Kleine Koolwijk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Kleine Koolwijk">Ik zie <marker>kleine koolwijk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Klein</token><token>Haasdal</token></antipattern>
-			<pattern><token>klein</token><token>haasdal</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Klein Haasdal</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Klein Haasdal">Ik zie <marker>klein haasdal</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Klein</token><token>Ulsda</token></antipattern>
-			<pattern><token>klein</token><token>ulsda</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Klein Ulsda</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Klein Ulsda">Ik zie <marker>klein ulsda</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Klein</token><token>Zundert</token></antipattern>
-			<pattern><token>klein</token><token>zundert</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Klein Zundert</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Klein Zundert">Ik zie <marker>klein zundert</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Kolderveense</token><token>Bovenboer</token></antipattern>
-			<pattern><token>kolderveense</token><token>bovenboer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Kolderveense Bovenboer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Kolderveense Bovenboer">Ik zie <marker>kolderveense bovenboer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Koog</token><token>aan</token><token>de</token><token>Zaan</token></antipattern>
-			<pattern><token>koog</token><token>aan</token><token>de</token><token>zaan</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Koog aan de Zaan</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Koog aan de Zaan">Ik zie <marker>koog aan de zaan</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Koudekerk</token><token>aan</token><token>den</token><token>Rijn</token></antipattern>
-			<pattern><token>koudekerk</token><token>aan</token><token>den</token><token>rijn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Koudekerk aan den Rijn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Koudekerk aan den Rijn">Ik zie <marker>koudekerk aan den rijn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Krimpen</token><token>aan</token><token>de</token><token>Lek</token></antipattern>
-			<pattern><token>krimpen</token><token>aan</token><token>de</token><token>lek</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Krimpen aan de Lek</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Krimpen aan de Lek">Ik zie <marker>krimpen aan de lek</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Krimpen</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
-			<pattern><token>krimpen</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Krimpen aan den IJssel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Krimpen aan den IJssel">Ik zie <marker>krimpen aan den ijssel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Lage</token><token>Mierde</token></antipattern>
-			<pattern><token>lage</token><token>mierde</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Lage Mierde</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Lage Mierde">Ik zie <marker>lage mierde</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Lage</token><token>Vuursche</token></antipattern>
-			<pattern><token>lage</token><token>vuursche</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Lage Vuursche</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Lage Vuursche">Ik zie <marker>lage vuursche</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Lage</token><token>Zwaluwe</token></antipattern>
-			<pattern><token>lage</token><token>zwaluwe</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Lage Zwaluwe</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Lage Zwaluwe">Ik zie <marker>lage zwaluwe</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Loenen</token><token>aan</token><token>de</token><token>Vecht</token></antipattern>
-			<pattern><token>loenen</token><token>aan</token><token>de</token><token>vecht</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Loenen aan de Vecht</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Loenen aan de Vecht">Ik zie <marker>loenen aan de vecht</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Loon</token><token>op</token><token>Zand</token></antipattern>
-			<pattern><token>loon</token><token>op</token><token>zand</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Loon op Zand</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Loon op Zand">Ik zie <marker>loon op zand</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Millingen</token><token>aan</token><token>de</token><token>Rijn</token></antipattern>
-			<pattern><token>millingen</token><token>aan</token><token>de</token><token>rijn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Millingen aan de Rijn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Millingen aan de Rijn">Ik zie <marker>millingen aan de rijn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nederhorst</token><token>den</token><token>Berg</token></antipattern>
-			<pattern><token>nederhorst</token><token>den</token><token>berg</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nederhorst den Berg</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nederhorst den Berg">Ik zie <marker>nederhorst den berg</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nes</token><token>aan</token><token>de</token><token>Amstel</token></antipattern>
-			<pattern><token>nes</token><token>aan</token><token>de</token><token>amstel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nes aan de Amstel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nes aan de Amstel">Ik zie <marker>nes aan de amstel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuw</token><token>Bergen</token></antipattern>
-			<pattern><token>nieuw</token><token>bergen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuw Bergen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuw Bergen">Ik zie <marker>nieuw bergen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Krim</token></antipattern>
-			<pattern><token>nieuwe</token><token>krim</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwe Krim</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwe Krim">Ik zie <marker>nieuwe krim</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Meer</token></antipattern>
-			<pattern><token>nieuwe</token><token>meer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwe Meer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwe Meer">Ik zie <marker>nieuwe meer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Niedorp</token></antipattern>
-			<pattern><token>nieuwe</token><token>niedorp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwe Niedorp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwe Niedorp">Ik zie <marker>nieuwe niedorp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuw-</token><token>en</token><token>Sint</token><token>Joosland</token></antipattern>
-			<pattern><token>nieuw-</token><token>en</token><token>sint</token><token>joosland</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuw- en Sint Joosland</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuw- en Sint Joosland">Ik zie <marker>nieuw- en sint joosland</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Pekela</token></antipattern>
-			<pattern><token>nieuwe</token><token>pekela</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwe Pekela</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwe Pekela">Ik zie <marker>nieuwe pekela</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwerkerk</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
-			<pattern><token>nieuwerkerk</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwerkerk aan den IJssel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwerkerk aan den IJssel">Ik zie <marker>nieuwerkerk aan den ijssel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwer</token><token>ter</token><token>Aa</token></antipattern>
-			<pattern><token>nieuwer</token><token>ter</token><token>aa</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwer ter Aa</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwer ter Aa">Ik zie <marker>nieuwer ter aa</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Wetering</token></antipattern>
-			<pattern><token>nieuwe</token><token>wetering</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuwe Wetering</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuwe Wetering">Ik zie <marker>nieuwe wetering</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nieuw</token><token>Heeten</token></antipattern>
-			<pattern><token>nieuw</token><token>heeten</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nieuw Heeten</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nieuw Heeten">Ik zie <marker>nieuw heeten</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nij</token><token>Altoenae</token></antipattern>
-			<pattern><token>nij</token><token>altoenae</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nij Altoenae</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nij Altoenae">Ik zie <marker>nij altoenae</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nij</token><token>Beets</token></antipattern>
-			<pattern><token>nij</token><token>beets</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nij Beets</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nij Beets">Ik zie <marker>nij beets</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Nijeveense</token><token>Bovenboer</token></antipattern>
-			<pattern><token>nijeveense</token><token>bovenboer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Nijeveense Bovenboer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Nijeveense Bovenboer">Ik zie <marker>nijeveense bovenboer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Noord</token><token>Deurningen</token></antipattern>
-			<pattern><token>noord</token><token>deurningen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Noord Deurningen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Noord Deurningen">Ik zie <marker>noord deurningen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Noordwijk</token><token>aan</token><token>Zee</token></antipattern>
-			<pattern><token>noordwijk</token><token>aan</token><token>zee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Noordwijk aan Zee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Noordwijk aan Zee">Ik zie <marker>noordwijk aan zee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ohé</token><token>en</token><token>Laak</token></antipattern>
-			<pattern><token>ohé</token><token>en</token><token>laak</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ohé en Laak</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ohé en Laak">Ik zie <marker>ohé en laak</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oud</token><token>Ade</token></antipattern>
-			<pattern><token>oud</token><token>ade</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oud Ade</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oud Ade">Ik zie <marker>oud ade</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oud</token><token>Avereest</token></antipattern>
-			<pattern><token>oud</token><token>avereest</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oud Avereest</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oud Avereest">Ik zie <marker>oud avereest</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Leede</token></antipattern>
-			<pattern><token>oude</token><token>leede</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Leede</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Leede">Ik zie <marker>oude leede</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Leije</token></antipattern>
-			<pattern><token>oude</token><token>leije</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Leije</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Leije">Ik zie <marker>oude leije</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Meer</token></antipattern>
-			<pattern><token>oude</token><token>meer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Meer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Meer">Ik zie <marker>oude meer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Niedorp</token></antipattern>
-			<pattern><token>oude</token><token>niedorp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Niedorp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Niedorp">Ik zie <marker>oude niedorp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Pekela</token></antipattern>
-			<pattern><token>oude</token><token>pekela</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Pekela</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Pekela">Ik zie <marker>oude pekela</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ouderkerk</token><token>aan</token><token>de</token><token>Amstel</token></antipattern>
-			<pattern><token>ouderkerk</token><token>aan</token><token>de</token><token>amstel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ouderkerk aan de Amstel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ouderkerk aan de Amstel">Ik zie <marker>ouderkerk aan de amstel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ouderkerk</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
-			<pattern><token>ouderkerk</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ouderkerk aan den IJssel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ouderkerk aan den IJssel">Ik zie <marker>ouderkerk aan den ijssel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Wetering</token></antipattern>
-			<pattern><token>oude</token><token>wetering</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Wetering</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Wetering">Ik zie <marker>oude wetering</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oude</token><token>Willem</token></antipattern>
-			<pattern><token>oude</token><token>willem</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oude Willem</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oude Willem">Ik zie <marker>oude willem</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oud</token><token>Gastel</token></antipattern>
-			<pattern><token>oud</token><token>gastel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oud Gastel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oud Gastel">Ik zie <marker>oud gastel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oud</token><token>Ootmarsum</token></antipattern>
-			<pattern><token>oud</token><token>ootmarsum</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oud Ootmarsum</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oud Ootmarsum">Ik zie <marker>oud ootmarsum</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oud</token><token>Osdorp</token></antipattern>
-			<pattern><token>oud</token><token>osdorp</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oud Osdorp</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oud Osdorp">Ik zie <marker>oud osdorp</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Oud</token><token>Sabbinge</token></antipattern>
-			<pattern><token>oud</token><token>sabbinge</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Oud Sabbinge</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Oud Sabbinge">Ik zie <marker>oud sabbinge</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Radio</token><token>Kootwijk</token></antipattern>
-			<pattern><token>radio</token><token>kootwijk</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Radio Kootwijk</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Radio Kootwijk">Ik zie <marker>radio kootwijk</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Rotterdam</token><token>Albrands</token></antipattern>
-			<pattern><token>rotterdam</token><token>albrands</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Rotterdam Albrands</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Rotterdam Albrands">Ik zie <marker>rotterdam albrands</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Schin</token><token>op</token><token>Geul</token></antipattern>
-			<pattern><token>schin</token><token>op</token><token>geul</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Schin op Geul</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Schin op Geul">Ik zie <marker>schin op geul</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Agatha</token></antipattern>
-			<pattern><token>sint</token><token>agatha</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Agatha</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Agatha">Ik zie <marker>sint agatha</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Annaparochie</token></antipattern>
-			<pattern><token>sint</token><token>annaparochie</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Annaparochie</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Annaparochie">Ik zie <marker>sint annaparochie</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Anna</token><token>ter</token><token>Muiden</token></antipattern>
-			<pattern><token>sint</token><token>anna</token><token>ter</token><token>muiden</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Anna ter Muiden</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Anna ter Muiden">Ik zie <marker>sint anna ter muiden</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Annen</token></antipattern>
-			<pattern><token>sint</token><token>annen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Annen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Annen">Ik zie <marker>sint annen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Anthonis</token></antipattern>
-			<pattern><token>sint</token><token>anthonis</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Anthonis</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Anthonis">Ik zie <marker>sint anthonis</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Geertruid</token></antipattern>
-			<pattern><token>sint</token><token>geertruid</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Geertruid</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Geertruid">Ik zie <marker>sint geertruid</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Gerlach</token></antipattern>
-			<pattern><token>sint</token><token>gerlach</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Gerlach</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Gerlach">Ik zie <marker>sint gerlach</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Hubert</token></antipattern>
-			<pattern><token>sint</token><token>hubert</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Hubert</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Hubert">Ik zie <marker>sint hubert</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Isidorushoeve</token></antipattern>
-			<pattern><token>sint</token><token>isidorushoeve</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Isidorushoeve</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Isidorushoeve">Ik zie <marker>sint isidorushoeve</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Jansklooster</token></antipattern>
-			<pattern><token>sint</token><token>jansklooster</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Jansklooster</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Jansklooster">Ik zie <marker>sint jansklooster</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Jansteen</token></antipattern>
-			<pattern><token>sint</token><token>jansteen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Jansteen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Jansteen">Ik zie <marker>sint jansteen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Joost</token></antipattern>
-			<pattern><token>sint</token><token>joost</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Joost</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Joost">Ik zie <marker>sint joost</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Kruis</token></antipattern>
-			<pattern><token>sint</token><token>kruis</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Kruis</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Kruis">Ik zie <marker>sint kruis</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Laurens</token></antipattern>
-			<pattern><token>sint</token><token>laurens</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Laurens</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Laurens">Ik zie <marker>sint laurens</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Maarten</token></antipattern>
-			<pattern><token>sint</token><token>maarten</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Maarten</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Maarten">Ik zie <marker>sint maarten</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Maartensbrug</token></antipattern>
-			<pattern><token>sint</token><token>maartensbrug</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Maartensbrug</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Maartensbrug">Ik zie <marker>sint maartensbrug</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Maartensvlotbrug</token></antipattern>
-			<pattern><token>sint</token><token>maartensvlotbrug</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Maartensvlotbrug</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Maartensvlotbrug">Ik zie <marker>sint maartensvlotbrug</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Maartenszee</token></antipattern>
-			<pattern><token>sint</token><token>maartenszee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Maartenszee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Maartenszee">Ik zie <marker>sint maartenszee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Michielsgestel</token></antipattern>
-			<pattern><token>sint</token><token>michielsgestel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Michielsgestel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Michielsgestel">Ik zie <marker>sint michielsgestel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Nicolaasga</token></antipattern>
-			<pattern><token>sint</token><token>nicolaasga</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Nicolaasga</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Nicolaasga">Ik zie <marker>sint nicolaasga</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Odiliënberg</token></antipattern>
-			<pattern><token>sint</token><token>odiliënberg</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Odiliënberg</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Odiliënberg">Ik zie <marker>sint odiliënberg</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Pancras</token></antipattern>
-			<pattern><token>sint</token><token>pancras</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Pancras</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Pancras">Ik zie <marker>sint pancras</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Sint</token><token>Philipsland</token></antipattern>
-			<pattern><token>sint</token><token>philipsland</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Sint Philipsland</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Sint Philipsland">Ik zie <marker>sint philipsland</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Smalle</token><token>Ee</token></antipattern>
-			<pattern><token>smalle</token><token>ee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Smalle Ee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Smalle Ee">Ik zie <marker>smalle ee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ten</token><token>Arlo</token></antipattern>
-			<pattern><token>ten</token><token>arlo</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ten Arlo</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ten Arlo">Ik zie <marker>ten arlo</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ten</token><token>Boer</token></antipattern>
-			<pattern><token>ten</token><token>boer</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ten Boer</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ten Boer">Ik zie <marker>ten boer</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ten</token><token>Esschen</token></antipattern>
-			<pattern><token>ten</token><token>esschen</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ten Esschen</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ten Esschen">Ik zie <marker>ten esschen</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ten</token><token>Post</token></antipattern>
-			<pattern><token>ten</token><token>post</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ten Post</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ten Post">Ik zie <marker>ten post</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ter</token><token>Aar</token></antipattern>
-			<pattern><token>ter</token><token>aar</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ter Aar</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ter Aar">Ik zie <marker>ter aar</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ter</token><token>Aard</token></antipattern>
-			<pattern><token>ter</token><token>aard</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ter Aard</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ter Aard">Ik zie <marker>ter aard</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ter</token><token>Apel</token></antipattern>
-			<pattern><token>ter</token><token>apel</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ter Apel</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ter Apel">Ik zie <marker>ter apel</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ter</token><token>Apelkanaal</token></antipattern>
-			<pattern><token>ter</token><token>apelkanaal</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ter Apelkanaal</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ter Apelkanaal">Ik zie <marker>ter apelkanaal</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ter</token><token>Heijde</token></antipattern>
-			<pattern><token>ter</token><token>heijde</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ter Heijde</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ter Heijde">Ik zie <marker>ter heijde</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Ter</token><token>Idzard</token></antipattern>
-			<pattern><token>ter</token><token>idzard</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Ter Idzard</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Ter Idzard">Ik zie <marker>ter idzard</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Goy</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>goy</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Goy</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Goy">Ik zie <marker>'t goy</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Haagje</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>haagje</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Haagje</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Haagje">Ik zie <marker>'t haagje</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Haantje</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>haantje</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Haantje</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Haantje">Ik zie <marker>'t haantje</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Harde</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>harde</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Harde</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Harde">Ik zie <marker>'t harde</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>The</token><token>Bottom</token></antipattern>
-			<pattern><token>the</token><token>bottom</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>The Bottom</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="The Bottom">Ik zie <marker>the bottom</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Loo</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>loo</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Loo</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Loo">Ik zie <marker>'t loo</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Rooth</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>rooth</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Rooth</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Rooth">Ik zie <marker>'t rooth</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Tull</token><token>en</token><token>'</token><token>t</token><token>Waal</token></antipattern>
-			<pattern><token>tull</token><token>en</token><token>'</token><token>t</token><token>waal</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Tull en 't Waal</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Tull en 't Waal">Ik zie <marker>tull en 't waal</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Veld</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>veld</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Veld</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Veld">Ik zie <marker>'t veld</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Waar</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>waar</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Waar</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Waar">Ik zie <marker>'t waar</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Tweede</token><token>Exloërmond</token></antipattern>
-			<pattern><token>tweede</token><token>exloërmond</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Tweede Exloërmond</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Tweede Exloërmond">Ik zie <marker>tweede exloërmond</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Tweede</token><token>Valthermond</token></antipattern>
-			<pattern><token>tweede</token><token>valthermond</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Tweede Valthermond</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Tweede Valthermond">Ik zie <marker>tweede valthermond</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Zand</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>zand</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Zand</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Zand">Ik zie <marker>'t zand</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Zandt</token></antipattern>
-			<pattern><token>'</token><token>t</token><token>zandt</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>'t Zandt</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="'t Zandt">Ik zie <marker>'t zandt</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Van</token><token>Ewijcksluis</token></antipattern>
-			<pattern><token>van</token><token>ewijcksluis</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Van Ewijcksluis</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Van Ewijcksluis">Ik zie <marker>van ewijcksluis</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Vuile</token><token>Riete</token></antipattern>
-			<pattern><token>vuile</token><token>riete</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Vuile Riete</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Vuile Riete">Ik zie <marker>vuile riete</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Wehe-den</token><token>Hoorn</token></antipattern>
-			<pattern><token>wehe-den</token><token>hoorn</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Wehe-den Hoorn</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Wehe-den Hoorn">Ik zie <marker>wehe-den hoorn</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Wijk</token><token>aan</token><token>Zee</token></antipattern>
-			<pattern><token>wijk</token><token>aan</token><token>zee</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Wijk aan Zee</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Wijk aan Zee">Ik zie <marker>wijk aan zee</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Wijk</token><token>bij</token><token>Duurstede</token></antipattern>
-			<pattern><token>wijk</token><token>bij</token><token>duurstede</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Wijk bij Duurstede</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Wijk bij Duurstede">Ik zie <marker>wijk bij duurstede</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Wijk</token><token>en</token><token>Aalburg</token></antipattern>
-			<pattern><token>wijk</token><token>en</token><token>aalburg</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Wijk en Aalburg</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Wijk en Aalburg">Ik zie <marker>wijk en aalburg</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Willige</token><token>Langerak</token></antipattern>
-			<pattern><token>willige</token><token>langerak</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Willige Langerak</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Willige Langerak">Ik zie <marker>willige langerak</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Witte</token><token>Paarden</token></antipattern>
-			<pattern><token>witte</token><token>paarden</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Witte Paarden</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Witte Paarden">Ik zie <marker>witte paarden</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Woerdense</token><token>Verlaat</token></antipattern>
-			<pattern><token>woerdense</token><token>verlaat</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Woerdense Verlaat</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Woerdense Verlaat">Ik zie <marker>woerdense verlaat</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Woeste</token><token>Hoeve</token></antipattern>
-			<pattern><token>woeste</token><token>hoeve</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Woeste Hoeve</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Woeste Hoeve">Ik zie <marker>woeste hoeve</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Wouwse</token><token>Plantage-</token></antipattern>
-			<pattern><token>wouwse</token><token>plantage-</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Wouwse Plantage-</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Wouwse Plantage-">Ik zie <marker>wouwse plantage-</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Zevenbergschen</token><token>Hoek</token></antipattern>
-			<pattern><token>zevenbergschen</token><token>hoek</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Zevenbergschen Hoek</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Zevenbergschen Hoek">Ik zie <marker>zevenbergschen hoek</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Zions</token><token>Hill</token></antipattern>
-			<pattern><token>zions</token><token>hill</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Zions Hill</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Zions Hill">Ik zie <marker>zions hill</marker>.</example>
-		</rule>
-
-		<rule>
-			<antipattern case_sensitive="yes"><token>Zwarte</token><token>Haan</token></antipattern>
-			<pattern><token>zwarte</token><token>haan</token></pattern>
-			<message>U bedoelt misschien de plaats <suggestion>Zwarte Haan</suggestion>.</message>
-			<short>Plaatsnaam verkeerd</short>
-			<example correction="Zwarte Haan">Ik zie <marker>zwarte haan</marker>.</example>
-		</rule>
+			<antipattern><token regexp="yes" case_sensitive="yes">[A-Z]+</token><token regexp="yes" case_sensitive="yes">[A-Z]+</token></antipattern>
+			<rule>
+				<antipattern case_sensitive="yes"><token>Aan</token><token>de</token><token>Rijksweg</token></antipattern>
+				<pattern><token>aan</token><token>de</token><token>rijksweg</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Aan de Rijksweg</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Aan de Rijksweg">Ik zie <marker>aan de rijksweg</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Achterste</token><token>Erm</token></antipattern>
+				<pattern><token>achterste</token><token>erm</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Achterste Erm</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Achterste Erm">Ik zie <marker>achterste erm</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Alphen</token><token>aan</token><token>den</token><token>Rijn</token></antipattern>
+				<pattern><token>alphen</token><token>aan</token><token>den</token><token>rijn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Alphen aan den Rijn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Alphen aan den Rijn">Ik zie <marker>alphen aan den rijn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Anna</token><token>Jacobapolder</token></antipattern>
+				<pattern><token>anna</token><token>jacobapolder</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Anna Jacobapolder</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Anna Jacobapolder">Ik zie <marker>anna jacobapolder</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Anna</token><token>Paulowna</token></antipattern>
+				<pattern><token>anna</token><token>paulowna</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Anna Paulowna</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Anna Paulowna">Ik zie <marker>anna paulowna</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Bad</token><token>Nieuweschans</token></antipattern>
+				<pattern><token>bad</token><token>nieuweschans</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Bad Nieuweschans</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Bad Nieuweschans">Ik zie <marker>bad nieuweschans</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Beek</token><token>en</token><token>Donk</token></antipattern>
+				<pattern><token>beek</token><token>en</token><token>donk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Beek en Donk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Beek en Donk">Ik zie <marker>beek en donk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Berg</token><token>aan</token><token>de</token><token>Maas</token></antipattern>
+				<pattern><token>berg</token><token>aan</token><token>de</token><token>maas</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Berg aan de Maas</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Berg aan de Maas">Ik zie <marker>berg aan de maas</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Bergen</token><token>aan</token><token>Zee</token></antipattern>
+				<pattern><token>bergen</token><token>aan</token><token>zee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Bergen aan Zee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Bergen aan Zee">Ik zie <marker>bergen aan zee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Berg</token><token>en</token><token>Dal</token></antipattern>
+				<pattern><token>berg</token><token>en</token><token>dal</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Berg en Dal</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Berg en Dal">Ik zie <marker>berg en dal</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Bergen</token><token>op</token><token>Zoom</token></antipattern>
+				<pattern><token>bergen</token><token>op</token><token>zoom</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Bergen op Zoom</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Bergen op Zoom">Ik zie <marker>bergen op zoom</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Berkel</token><token>en</token><token>Rodenrijs</token></antipattern>
+				<pattern><token>berkel</token><token>en</token><token>rodenrijs</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Berkel en Rodenrijs</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Berkel en Rodenrijs">Ik zie <marker>berkel en rodenrijs</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Blauwe</token><token>Hand</token></antipattern>
+				<pattern><token>blauwe</token><token>hand</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Blauwe Hand</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Blauwe Hand">Ik zie <marker>blauwe hand</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Bosch</token><token>en</token><token>Duin</token></antipattern>
+				<pattern><token>bosch</token><token>en</token><token>duin</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Bosch en Duin</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Bosch en Duin">Ik zie <marker>bosch en duin</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Broek</token><token>in</token><token>Waterland</token></antipattern>
+				<pattern><token>broek</token><token>in</token><token>waterland</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Broek in Waterland</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Broek in Waterland">Ik zie <marker>broek in waterland</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Broek</token><token>op</token><token>Langedijk</token></antipattern>
+				<pattern><token>broek</token><token>op</token><token>langedijk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Broek op Langedijk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Broek op Langedijk">Ik zie <marker>broek op langedijk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Cadier</token><token>en</token><token>Keer</token></antipattern>
+				<pattern><token>cadier</token><token>en</token><token>keer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Cadier en Keer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Cadier en Keer">Ik zie <marker>cadier en keer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Capelle</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
+				<pattern><token>capelle</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Capelle aan den IJssel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Capelle aan den IJssel">Ik zie <marker>capelle aan den ijssel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Catsop</token><token>-</token></antipattern>
+				<pattern><token>catsop</token><token>-</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Catsop -</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Catsop -">Ik zie <marker>catsop -</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Bilt</token></antipattern>
+				<pattern><token>de</token><token>bilt</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Bilt</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Bilt">Ik zie <marker>de bilt</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Blesse</token></antipattern>
+				<pattern><token>de</token><token>blesse</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Blesse</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Blesse">Ik zie <marker>de blesse</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Bult</token></antipattern>
+				<pattern><token>de</token><token>bult</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Bult</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Bult">Ik zie <marker>de bult</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Cocksdorp</token></antipattern>
+				<pattern><token>de</token><token>cocksdorp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Cocksdorp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Cocksdorp">Ik zie <marker>de cocksdorp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Glind</token></antipattern>
+				<pattern><token>de</token><token>glind</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Glind</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Glind">Ik zie <marker>de glind</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Goorn</token></antipattern>
+				<pattern><token>de</token><token>goorn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Goorn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Goorn">Ik zie <marker>de goorn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Groeve</token></antipattern>
+				<pattern><token>de</token><token>groeve</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Groeve</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Groeve">Ik zie <marker>de groeve</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Haukes</token></antipattern>
+				<pattern><token>de</token><token>haukes</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Haukes</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Haukes">Ik zie <marker>de haukes</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Heen</token></antipattern>
+				<pattern><token>de</token><token>heen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Heen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Heen">Ik zie <marker>de heen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Heurne</token></antipattern>
+				<pattern><token>de</token><token>heurne</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Heurne</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Heurne">Ik zie <marker>de heurne</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Hoef</token></antipattern>
+				<pattern><token>de</token><token>hoef</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Hoef</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Hoef">Ik zie <marker>de hoef</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern><token regexp="yes">om|op</token><token>de</token><token>hoek</token></antipattern>
+				<antipattern case_sensitive="yes"><token>De</token><token>Hoek</token></antipattern>
+				<pattern><token>de</token><token>hoek</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Hoek</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Hoek">Ik zie <marker>de hoek</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Hoeve</token></antipattern>
+				<pattern><token>de</token><token>hoeve</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Hoeve</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Hoeve">Ik zie <marker>de hoeve</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Hulk</token></antipattern>
+				<pattern><token>de</token><token>hulk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Hulk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Hulk">Ik zie <marker>de hulk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Kar</token></antipattern>
+				<pattern><token>de</token><token>kar</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Kar</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Kar">Ik zie <marker>de kar</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Kiel</token></antipattern>
+				<pattern><token>de</token><token>kiel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Kiel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Kiel">Ik zie <marker>de kiel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Klencke</token></antipattern>
+				<pattern><token>de</token><token>klencke</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Klencke</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Klencke">Ik zie <marker>de klencke</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Klomp</token></antipattern>
+				<pattern><token>de</token><token>klomp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Klomp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Klomp">Ik zie <marker>de klomp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Knijpe</token></antipattern>
+				<pattern><token>de</token><token>knijpe</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Knijpe</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Knijpe">Ik zie <marker>de knijpe</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Koog</token></antipattern>
+				<pattern><token>de</token><token>koog</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Koog</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Koog">Ik zie <marker>de koog</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Kooy</token></antipattern>
+				<pattern><token>de</token><token>kooy</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Kooy</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Kooy">Ik zie <marker>de kooy</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Krim</token></antipattern>
+				<pattern><token>de</token><token>krim</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Krim</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Krim">Ik zie <marker>de krim</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Kwakel</token></antipattern>
+				<pattern><token>de</token><token>kwakel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Kwakel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Kwakel">Ik zie <marker>de kwakel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Lichtmis</token></antipattern>
+				<pattern><token>de</token><token>lichtmis</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Lichtmis</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Lichtmis">Ik zie <marker>de lichtmis</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Lier</token></antipattern>
+				<pattern><token>de</token><token>lier</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Lier</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Lier">Ik zie <marker>de lier</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Lutte</token></antipattern>
+				<pattern><token>de</token><token>lutte</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Lutte</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Lutte">Ik zie <marker>de lutte</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Marshoek</token></antipattern>
+				<pattern><token>de</token><token>marshoek</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Marshoek</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Marshoek">Ik zie <marker>de marshoek</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Meern</token></antipattern>
+				<pattern><token>de</token><token>meern</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Meern</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Meern">Ik zie <marker>de meern</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Moer</token></antipattern>
+				<pattern><token>de</token><token>moer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Moer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Moer">Ik zie <marker>de moer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Mortel</token></antipattern>
+				<pattern><token>de</token><token>mortel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Mortel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Mortel">Ik zie <marker>de mortel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Andel</token></antipattern>
+				<pattern><token>den</token><token>andel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Andel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Andel">Ik zie <marker>den andel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Bommel</token></antipattern>
+				<pattern><token>den</token><token>bommel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Bommel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Bommel">Ik zie <marker>den bommel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Burg</token></antipattern>
+				<pattern><token>den</token><token>burg</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Burg</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Burg">Ik zie <marker>den burg</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Dolder</token></antipattern>
+				<pattern><token>den</token><token>dolder</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Dolder</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Dolder">Ik zie <marker>den dolder</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Dungen</token></antipattern>
+				<pattern><token>den</token><token>dungen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Dungen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Dungen">Ik zie <marker>den dungen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Nes</token></antipattern>
+				<pattern><token>de</token><token>nes</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Nes</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Nes">Ik zie <marker>de nes</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Haag</token></antipattern>
+				<pattern><token>den</token><token>haag</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Haag</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Haag">Ik zie <marker>den haag</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Ham</token></antipattern>
+				<pattern><token>den</token><token>ham</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Ham</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Ham">Ik zie <marker>den ham</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Helder</token></antipattern>
+				<pattern><token>den</token><token>helder</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Helder</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Helder">Ik zie <marker>den helder</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Hoorn</token></antipattern>
+				<pattern><token>den</token><token>hoorn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Hoorn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Hoorn">Ik zie <marker>den hoorn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Horn</token></antipattern>
+				<pattern><token>den</token><token>horn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Horn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Horn">Ik zie <marker>den horn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Hout</token></antipattern>
+				<pattern><token>den</token><token>hout</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Hout</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Hout">Ik zie <marker>den hout</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Hulst</token></antipattern>
+				<pattern><token>den</token><token>hulst</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Hulst</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Hulst">Ik zie <marker>den hulst</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Ilp</token></antipattern>
+				<pattern><token>den</token><token>ilp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Ilp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Ilp">Ik zie <marker>den ilp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Kaat</token></antipattern>
+				<pattern><token>den</token><token>kaat</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Kaat</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Kaat">Ik zie <marker>den kaat</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Nul</token></antipattern>
+				<pattern><token>den</token><token>nul</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Nul</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Nul">Ik zie <marker>den nul</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Oever</token></antipattern>
+				<pattern><token>den</token><token>oever</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Oever</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Oever">Ik zie <marker>den oever</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Den</token><token>Velde</token></antipattern>
+				<pattern><token>den</token><token>velde</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Den Velde</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Den Velde">Ik zie <marker>den velde</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Pol</token></antipattern>
+				<pattern><token>de</token><token>pol</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Pol</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Pol">Ik zie <marker>de pol</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Pollen</token></antipattern>
+				<pattern><token>de</token><token>pollen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Pollen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Pollen">Ik zie <marker>de pollen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Poppe</token></antipattern>
+				<pattern><token>de</token><token>poppe</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Poppe</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Poppe">Ik zie <marker>de poppe</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Punt</token></antipattern>
+				<antipattern><token>op</token><token>de</token><token>punt</token></antipattern>
+				<pattern><token>de</token><token>punt</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Punt</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Punt">Ik zie <marker>de punt</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Rijp</token></antipattern>
+				<pattern><token>de</token><token>rijp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Rijp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Rijp">Ik zie <marker>de rijp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Rips</token></antipattern>
+				<pattern><token>de</token><token>rips</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Rips</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Rips">Ik zie <marker>de rips</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Schiphorst</token></antipattern>
+				<pattern><token>de</token><token>schiphorst</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Schiphorst</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Schiphorst">Ik zie <marker>de schiphorst</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Stapel</token></antipattern>
+				<pattern><token>de</token><token>stapel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Stapel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Stapel">Ik zie <marker>de stapel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Steeg</token></antipattern>
+				<pattern><token>de</token><token>steeg</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Steeg</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Steeg">Ik zie <marker>de steeg</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Stolpen</token></antipattern>
+				<pattern><token>de</token><token>stolpen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Stolpen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Stolpen">Ik zie <marker>de stolpen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Tike</token></antipattern>
+				<pattern><token>de</token><token>tike</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Tike</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Tike">Ik zie <marker>de tike</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Valom</token></antipattern>
+				<pattern><token>de</token><token>valom</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Valom</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Valom">Ik zie <marker>de valom</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Vecht</token></antipattern>
+				<pattern><token>de</token><token>vecht</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Vecht</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Vecht">Ik zie <marker>de vecht</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Veenhoop</token></antipattern>
+				<pattern><token>de</token><token>veenhoop</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Veenhoop</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Veenhoop">Ik zie <marker>de veenhoop</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Waal</token></antipattern>
+				<pattern><token>de</token><token>waal</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Waal</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Waal">Ik zie <marker>de waal</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Weere</token></antipattern>
+				<pattern><token>de</token><token>weere</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Weere</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Weere">Ik zie <marker>de weere</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>de</token><token>Wijk</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern>
+				<antipattern case_sensitive="yes"><token>de</token><token>Wijk</token></antipattern>
+				<pattern><token>de</token><token>wijk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>de Wijk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="de Wijk">Ik zie <marker>de wijk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Wijk</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern>
+				<antipattern case_sensitive="yes"><token>De</token><token>Wijk</token></antipattern>
+				<pattern><token>de</token><token>wijk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Wijk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Wijk">Ik zie <marker>de wijk</marker>.</example>
+			</rule>
+
+			<rule>
+				<!-- uitzondering: aan de wilgen hangen -->
+				<antipattern case_sensitive="yes"><token postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes">hangen|sloot|rivier|plant|knotten</token></antipattern>
+				<antipattern case_sensitive="yes"><token>De</token><token>Wilgen</token></antipattern>
+				<pattern><token>de</token><token>wilgen</token></pattern>
+				<message>U bedoelt misschien het gehucht <suggestion>De Wilgen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Wilgen">Ik zie <marker>de wilgen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Wilp</token></antipattern>
+				<pattern><token>de</token><token>wilp</token></pattern>
+				<message>U bedoelt misschien het dorp <suggestion>De Wilp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Wilp">Ik zie <marker>de wilp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Woude</token></antipattern>
+				<pattern><token>de</token><token>woude</token></pattern>
+				<message>U bedoelt misschien het dorp <suggestion>De Woude</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Woude">Ik zie <marker>de woude</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Zande</token></antipattern>
+				<pattern><token>de</token><token>zande</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Zande</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Zande">Ik zie <marker>de zande</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>De</token><token>Zilk</token></antipattern>
+				<pattern><token>de</token><token>zilk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Zilk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="De Zilk">Ik zie <marker>de zilk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Dokkumer</token><token>Nieuwe</token><token>Zijlen</token></antipattern>
+				<pattern><token>dokkumer</token><token>nieuwe</token><token>zijlen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Dokkumer Nieuwe Zijlen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Dokkumer Nieuwe Zijlen">Ik zie <marker>dokkumer nieuwe zijlen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Druten</token><token>-</token></antipattern>
+				<pattern><token>druten</token><token>-</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Druten -</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Druten -">Ik zie <marker>druten -</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Duur</token><token>-</token></antipattern>
+				<pattern><token>duur</token><token>-</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Duur -</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Duur -">Ik zie <marker>duur -</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Eck</token><token>en</token><token>Wiel</token></antipattern>
+				<pattern><token>eck</token><token>en</token><token>wiel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Eck en Wiel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Eck en Wiel">Ik zie <marker>eck en wiel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Eerste</token><token>Exloërmond</token></antipattern>
+				<pattern><token>eerste</token><token>exloërmond</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Eerste Exloërmond</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Eerste Exloërmond">Ik zie <marker>eerste exloërmond</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Egmond</token><token>aan</token><token>den</token><token>Hoef</token></antipattern>
+				<pattern><token>egmond</token><token>aan</token><token>den</token><token>hoef</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Egmond aan den Hoef</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Egmond aan den Hoef">Ik zie <marker>egmond aan den hoef</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Egmond</token><token>aan</token><token>Zee</token></antipattern>
+				<pattern><token>egmond</token><token>aan</token><token>zee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Egmond aan Zee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Egmond aan Zee">Ik zie <marker>egmond aan zee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Geulle</token><token>aan</token><token>de</token><token>Maas</token></antipattern>
+				<pattern><token>geulle</token><token>aan</token><token>de</token><token>maas</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Geulle aan de Maas</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Geulle aan de Maas">Ik zie <marker>geulle aan de maas</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Groot</token><token>Agelo</token></antipattern>
+				<pattern><token>groot</token><token>agelo</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Groot Agelo</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Groot Agelo">Ik zie <marker>groot agelo</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Groot</token><token>Dochteren</token></antipattern>
+				<pattern><token>groot</token><token>dochteren</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Groot Dochteren</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Groot Dochteren">Ik zie <marker>groot dochteren</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Groot</token><token>Dorregeest</token></antipattern>
+				<pattern><token>groot</token><token>dorregeest</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Groot Dorregeest</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Groot Dorregeest">Ik zie <marker>groot dorregeest</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Groote</token><token>Keeten</token></antipattern>
+				<pattern><token>groote</token><token>keeten</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Groote Keeten</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Groote Keeten">Ik zie <marker>groote keeten</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Groot</token><token>Haasdal</token></antipattern>
+				<pattern><token>groot</token><token>haasdal</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Groot Haasdal</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Groot Haasdal">Ik zie <marker>groot haasdal</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hei-</token><token>en</token><token>Boeicop</token></antipattern>
+				<pattern><token>hei-</token><token>en</token><token>boeicop</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hei- en Boeicop</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hei- en Boeicop">Ik zie <marker>hei- en boeicop</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Heilig</token><token>Landstichting</token></antipattern>
+				<pattern><token>heilig</token><token>landstichting</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Heilig Landstichting</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Heilig Landstichting">Ik zie <marker>heilig landstichting</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Het</token><token>Koegras</token></antipattern>
+				<pattern><token>het</token><token>koegras</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Het Koegras</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Het Koegras">Ik zie <marker>het koegras</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Het</token><token>Woud</token></antipattern>
+				<pattern><token>het</token><token>woud</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Het Woud</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Het Woud">Ik zie <marker>het woud</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hoek</token><token>van</token><token>Holland</token></antipattern>
+				<pattern><token>hoek</token><token>van</token><token>holland</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hoek van Holland</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hoek van Holland">Ik zie <marker>hoek van holland</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hoge</token><token>Hexel</token></antipattern>
+				<pattern><token>hoge</token><token>hexel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hoge Hexel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hoge Hexel">Ik zie <marker>hoge hexel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hollandsche</token><token>Rading</token></antipattern>
+				<pattern><token>hollandsche</token><token>rading</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hollandsche Rading</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hollandsche Rading">Ik zie <marker>hollandsche rading</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hongerige</token><token>Wolf</token></antipattern>
+				<pattern><token>hongerige</token><token>wolf</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hongerige Wolf</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hongerige Wolf">Ik zie <marker>hongerige wolf</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hooge</token><token>Mierde</token></antipattern>
+				<pattern><token>hooge</token><token>mierde</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hooge Mierde</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hooge Mierde">Ik zie <marker>hooge mierde</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hooge</token><token>Zwaluwe</token></antipattern>
+				<pattern><token>hooge</token><token>zwaluwe</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hooge Zwaluwe</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hooge Zwaluwe">Ik zie <marker>hooge zwaluwe</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Hoog</token><token>Soeren</token></antipattern>
+				<pattern><token>hoog</token><token>soeren</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Hoog Soeren</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Hoog Soeren">Ik zie <marker>hoog soeren</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Huis</token><token>ter</token><token>Heide</token></antipattern>
+				<pattern><token>huis</token><token>ter</token><token>heide</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Huis ter Heide</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Huis ter Heide">Ik zie <marker>huis ter heide</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>It</token><token>Heidenskip</token></antipattern>
+				<pattern><token>it</token><token>heidenskip</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>It Heidenskip</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="It Heidenskip">Ik zie <marker>it heidenskip</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Julianadorp</token><token>aan</token><token>Zee</token></antipattern>
+				<pattern><token>julianadorp</token><token>aan</token><token>zee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Julianadorp aan Zee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Julianadorp aan Zee">Ik zie <marker>julianadorp aan zee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Katwijk</token><token>aan</token><token>den</token><token>Rijn</token></antipattern>
+				<pattern><token>katwijk</token><token>aan</token><token>den</token><token>rijn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Katwijk aan den Rijn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Katwijk aan den Rijn">Ik zie <marker>katwijk aan den rijn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Katwijk</token><token>aan</token><token>Zee</token></antipattern>
+				<pattern><token>katwijk</token><token>aan</token><token>zee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Katwijk aan Zee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Katwijk aan Zee">Ik zie <marker>katwijk aan zee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Klein</token><token>Dochteren</token></antipattern>
+				<pattern><token>klein</token><token>dochteren</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Klein Dochteren</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Klein Dochteren">Ik zie <marker>klein dochteren</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Klein</token><token>Dorregeest</token></antipattern>
+				<pattern><token>klein</token><token>dorregeest</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Klein Dorregeest</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Klein Dorregeest">Ik zie <marker>klein dorregeest</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Kleine</token><token>Huisjes</token></antipattern>
+				<pattern><token>kleine</token><token>huisjes</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Kleine Huisjes</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Kleine Huisjes">Ik zie <marker>kleine huisjes</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Kleine</token><token>Koolwijk</token></antipattern>
+				<pattern><token>kleine</token><token>koolwijk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Kleine Koolwijk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Kleine Koolwijk">Ik zie <marker>kleine koolwijk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Klein</token><token>Haasdal</token></antipattern>
+				<pattern><token>klein</token><token>haasdal</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Klein Haasdal</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Klein Haasdal">Ik zie <marker>klein haasdal</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Klein</token><token>Ulsda</token></antipattern>
+				<pattern><token>klein</token><token>ulsda</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Klein Ulsda</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Klein Ulsda">Ik zie <marker>klein ulsda</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Klein</token><token>Zundert</token></antipattern>
+				<pattern><token>klein</token><token>zundert</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Klein Zundert</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Klein Zundert">Ik zie <marker>klein zundert</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Kolderveense</token><token>Bovenboer</token></antipattern>
+				<pattern><token>kolderveense</token><token>bovenboer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Kolderveense Bovenboer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Kolderveense Bovenboer">Ik zie <marker>kolderveense bovenboer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Koog</token><token>aan</token><token>de</token><token>Zaan</token></antipattern>
+				<pattern><token>koog</token><token>aan</token><token>de</token><token>zaan</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Koog aan de Zaan</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Koog aan de Zaan">Ik zie <marker>koog aan de zaan</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Koudekerk</token><token>aan</token><token>den</token><token>Rijn</token></antipattern>
+				<pattern><token>koudekerk</token><token>aan</token><token>den</token><token>rijn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Koudekerk aan den Rijn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Koudekerk aan den Rijn">Ik zie <marker>koudekerk aan den rijn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Krimpen</token><token>aan</token><token>de</token><token>Lek</token></antipattern>
+				<pattern><token>krimpen</token><token>aan</token><token>de</token><token>lek</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Krimpen aan de Lek</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Krimpen aan de Lek">Ik zie <marker>krimpen aan de lek</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Krimpen</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
+				<pattern><token>krimpen</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Krimpen aan den IJssel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Krimpen aan den IJssel">Ik zie <marker>krimpen aan den ijssel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Lage</token><token>Mierde</token></antipattern>
+				<pattern><token>lage</token><token>mierde</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Lage Mierde</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Lage Mierde">Ik zie <marker>lage mierde</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Lage</token><token>Vuursche</token></antipattern>
+				<pattern><token>lage</token><token>vuursche</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Lage Vuursche</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Lage Vuursche">Ik zie <marker>lage vuursche</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Lage</token><token>Zwaluwe</token></antipattern>
+				<pattern><token>lage</token><token>zwaluwe</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Lage Zwaluwe</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Lage Zwaluwe">Ik zie <marker>lage zwaluwe</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Loenen</token><token>aan</token><token>de</token><token>Vecht</token></antipattern>
+				<pattern><token>loenen</token><token>aan</token><token>de</token><token>vecht</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Loenen aan de Vecht</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Loenen aan de Vecht">Ik zie <marker>loenen aan de vecht</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Loon</token><token>op</token><token>Zand</token></antipattern>
+				<pattern><token>loon</token><token>op</token><token>zand</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Loon op Zand</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Loon op Zand">Ik zie <marker>loon op zand</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Millingen</token><token>aan</token><token>de</token><token>Rijn</token></antipattern>
+				<pattern><token>millingen</token><token>aan</token><token>de</token><token>rijn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Millingen aan de Rijn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Millingen aan de Rijn">Ik zie <marker>millingen aan de rijn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nederhorst</token><token>den</token><token>Berg</token></antipattern>
+				<pattern><token>nederhorst</token><token>den</token><token>berg</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nederhorst den Berg</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nederhorst den Berg">Ik zie <marker>nederhorst den berg</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nes</token><token>aan</token><token>de</token><token>Amstel</token></antipattern>
+				<pattern><token>nes</token><token>aan</token><token>de</token><token>amstel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nes aan de Amstel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nes aan de Amstel">Ik zie <marker>nes aan de amstel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuw</token><token>Bergen</token></antipattern>
+				<pattern><token>nieuw</token><token>bergen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuw Bergen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuw Bergen">Ik zie <marker>nieuw bergen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Krim</token></antipattern>
+				<pattern><token>nieuwe</token><token>krim</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwe Krim</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwe Krim">Ik zie <marker>nieuwe krim</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Meer</token></antipattern>
+				<pattern><token>nieuwe</token><token>meer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwe Meer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwe Meer">Ik zie <marker>nieuwe meer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Niedorp</token></antipattern>
+				<pattern><token>nieuwe</token><token>niedorp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwe Niedorp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwe Niedorp">Ik zie <marker>nieuwe niedorp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuw-</token><token>en</token><token>Sint</token><token>Joosland</token></antipattern>
+				<pattern><token>nieuw-</token><token>en</token><token>sint</token><token>joosland</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuw- en Sint Joosland</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuw- en Sint Joosland">Ik zie <marker>nieuw- en sint joosland</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Pekela</token></antipattern>
+				<pattern><token>nieuwe</token><token>pekela</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwe Pekela</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwe Pekela">Ik zie <marker>nieuwe pekela</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwerkerk</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
+				<pattern><token>nieuwerkerk</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwerkerk aan den IJssel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwerkerk aan den IJssel">Ik zie <marker>nieuwerkerk aan den ijssel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwer</token><token>ter</token><token>Aa</token></antipattern>
+				<pattern><token>nieuwer</token><token>ter</token><token>aa</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwer ter Aa</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwer ter Aa">Ik zie <marker>nieuwer ter aa</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuwe</token><token>Wetering</token></antipattern>
+				<pattern><token>nieuwe</token><token>wetering</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuwe Wetering</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuwe Wetering">Ik zie <marker>nieuwe wetering</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nieuw</token><token>Heeten</token></antipattern>
+				<pattern><token>nieuw</token><token>heeten</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nieuw Heeten</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nieuw Heeten">Ik zie <marker>nieuw heeten</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nij</token><token>Altoenae</token></antipattern>
+				<pattern><token>nij</token><token>altoenae</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nij Altoenae</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nij Altoenae">Ik zie <marker>nij altoenae</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nij</token><token>Beets</token></antipattern>
+				<pattern><token>nij</token><token>beets</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nij Beets</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nij Beets">Ik zie <marker>nij beets</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nijeveense</token><token>Bovenboer</token></antipattern>
+				<pattern><token>nijeveense</token><token>bovenboer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Nijeveense Bovenboer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Nijeveense Bovenboer">Ik zie <marker>nijeveense bovenboer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Noord</token><token>Deurningen</token></antipattern>
+				<pattern><token>noord</token><token>deurningen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Noord Deurningen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Noord Deurningen">Ik zie <marker>noord deurningen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Noordwijk</token><token>aan</token><token>Zee</token></antipattern>
+				<pattern><token>noordwijk</token><token>aan</token><token>zee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Noordwijk aan Zee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Noordwijk aan Zee">Ik zie <marker>noordwijk aan zee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ohé</token><token>en</token><token>Laak</token></antipattern>
+				<pattern><token>ohé</token><token>en</token><token>laak</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ohé en Laak</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ohé en Laak">Ik zie <marker>ohé en laak</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oud</token><token>Ade</token></antipattern>
+				<pattern><token>oud</token><token>ade</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oud Ade</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oud Ade">Ik zie <marker>oud ade</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oud</token><token>Avereest</token></antipattern>
+				<pattern><token>oud</token><token>avereest</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oud Avereest</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oud Avereest">Ik zie <marker>oud avereest</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Leede</token></antipattern>
+				<pattern><token>oude</token><token>leede</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Leede</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Leede">Ik zie <marker>oude leede</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Leije</token></antipattern>
+				<pattern><token>oude</token><token>leije</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Leije</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Leije">Ik zie <marker>oude leije</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Meer</token></antipattern>
+				<pattern><token>oude</token><token>meer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Meer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Meer">Ik zie <marker>oude meer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Niedorp</token></antipattern>
+				<pattern><token>oude</token><token>niedorp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Niedorp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Niedorp">Ik zie <marker>oude niedorp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Pekela</token></antipattern>
+				<pattern><token>oude</token><token>pekela</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Pekela</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Pekela">Ik zie <marker>oude pekela</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ouderkerk</token><token>aan</token><token>de</token><token>Amstel</token></antipattern>
+				<pattern><token>ouderkerk</token><token>aan</token><token>de</token><token>amstel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ouderkerk aan de Amstel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ouderkerk aan de Amstel">Ik zie <marker>ouderkerk aan de amstel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ouderkerk</token><token>aan</token><token>den</token><token>IJssel</token></antipattern>
+				<pattern><token>ouderkerk</token><token>aan</token><token>den</token><token>ijssel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ouderkerk aan den IJssel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ouderkerk aan den IJssel">Ik zie <marker>ouderkerk aan den ijssel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Wetering</token></antipattern>
+				<pattern><token>oude</token><token>wetering</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Wetering</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Wetering">Ik zie <marker>oude wetering</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oude</token><token>Willem</token></antipattern>
+				<pattern><token>oude</token><token>willem</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oude Willem</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oude Willem">Ik zie <marker>oude willem</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oud</token><token>Gastel</token></antipattern>
+				<pattern><token>oud</token><token>gastel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oud Gastel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oud Gastel">Ik zie <marker>oud gastel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oud</token><token>Ootmarsum</token></antipattern>
+				<pattern><token>oud</token><token>ootmarsum</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oud Ootmarsum</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oud Ootmarsum">Ik zie <marker>oud ootmarsum</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oud</token><token>Osdorp</token></antipattern>
+				<pattern><token>oud</token><token>osdorp</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oud Osdorp</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oud Osdorp">Ik zie <marker>oud osdorp</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Oud</token><token>Sabbinge</token></antipattern>
+				<pattern><token>oud</token><token>sabbinge</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Oud Sabbinge</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Oud Sabbinge">Ik zie <marker>oud sabbinge</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Radio</token><token>Kootwijk</token></antipattern>
+				<pattern><token>radio</token><token>kootwijk</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Radio Kootwijk</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Radio Kootwijk">Ik zie <marker>radio kootwijk</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Rotterdam</token><token>Albrands</token></antipattern>
+				<pattern><token>rotterdam</token><token>albrands</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Rotterdam Albrands</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Rotterdam Albrands">Ik zie <marker>rotterdam albrands</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Schin</token><token>op</token><token>Geul</token></antipattern>
+				<pattern><token>schin</token><token>op</token><token>geul</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Schin op Geul</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Schin op Geul">Ik zie <marker>schin op geul</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Agatha</token></antipattern>
+				<pattern><token>sint</token><token>agatha</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Agatha</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Agatha">Ik zie <marker>sint agatha</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Annaparochie</token></antipattern>
+				<pattern><token>sint</token><token>annaparochie</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Annaparochie</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Annaparochie">Ik zie <marker>sint annaparochie</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Anna</token><token>ter</token><token>Muiden</token></antipattern>
+				<pattern><token>sint</token><token>anna</token><token>ter</token><token>muiden</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Anna ter Muiden</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Anna ter Muiden">Ik zie <marker>sint anna ter muiden</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Annen</token></antipattern>
+				<pattern><token>sint</token><token>annen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Annen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Annen">Ik zie <marker>sint annen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Anthonis</token></antipattern>
+				<pattern><token>sint</token><token>anthonis</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Anthonis</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Anthonis">Ik zie <marker>sint anthonis</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Geertruid</token></antipattern>
+				<pattern><token>sint</token><token>geertruid</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Geertruid</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Geertruid">Ik zie <marker>sint geertruid</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Gerlach</token></antipattern>
+				<pattern><token>sint</token><token>gerlach</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Gerlach</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Gerlach">Ik zie <marker>sint gerlach</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Hubert</token></antipattern>
+				<pattern><token>sint</token><token>hubert</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Hubert</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Hubert">Ik zie <marker>sint hubert</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Isidorushoeve</token></antipattern>
+				<pattern><token>sint</token><token>isidorushoeve</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Isidorushoeve</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Isidorushoeve">Ik zie <marker>sint isidorushoeve</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Jansklooster</token></antipattern>
+				<pattern><token>sint</token><token>jansklooster</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Jansklooster</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Jansklooster">Ik zie <marker>sint jansklooster</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Jansteen</token></antipattern>
+				<pattern><token>sint</token><token>jansteen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Jansteen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Jansteen">Ik zie <marker>sint jansteen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Joost</token></antipattern>
+				<pattern><token>sint</token><token>joost</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Joost</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Joost">Ik zie <marker>sint joost</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Kruis</token></antipattern>
+				<pattern><token>sint</token><token>kruis</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Kruis</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Kruis">Ik zie <marker>sint kruis</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Laurens</token></antipattern>
+				<pattern><token>sint</token><token>laurens</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Laurens</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Laurens">Ik zie <marker>sint laurens</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Maarten</token></antipattern>
+				<pattern><token>sint</token><token>maarten</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Maarten</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Maarten">Ik zie <marker>sint maarten</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Maartensbrug</token></antipattern>
+				<pattern><token>sint</token><token>maartensbrug</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Maartensbrug</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Maartensbrug">Ik zie <marker>sint maartensbrug</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Maartensvlotbrug</token></antipattern>
+				<pattern><token>sint</token><token>maartensvlotbrug</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Maartensvlotbrug</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Maartensvlotbrug">Ik zie <marker>sint maartensvlotbrug</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Maartenszee</token></antipattern>
+				<pattern><token>sint</token><token>maartenszee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Maartenszee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Maartenszee">Ik zie <marker>sint maartenszee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Michielsgestel</token></antipattern>
+				<pattern><token>sint</token><token>michielsgestel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Michielsgestel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Michielsgestel">Ik zie <marker>sint michielsgestel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Nicolaasga</token></antipattern>
+				<pattern><token>sint</token><token>nicolaasga</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Nicolaasga</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Nicolaasga">Ik zie <marker>sint nicolaasga</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Odiliënberg</token></antipattern>
+				<pattern><token>sint</token><token>odiliënberg</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Odiliënberg</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Odiliënberg">Ik zie <marker>sint odiliënberg</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Pancras</token></antipattern>
+				<pattern><token>sint</token><token>pancras</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Pancras</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Pancras">Ik zie <marker>sint pancras</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Sint</token><token>Philipsland</token></antipattern>
+				<pattern><token>sint</token><token>philipsland</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Sint Philipsland</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Sint Philipsland">Ik zie <marker>sint philipsland</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Smalle</token><token>Ee</token></antipattern>
+				<pattern><token>smalle</token><token>ee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Smalle Ee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Smalle Ee">Ik zie <marker>smalle ee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ten</token><token>Arlo</token></antipattern>
+				<pattern><token>ten</token><token>arlo</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ten Arlo</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ten Arlo">Ik zie <marker>ten arlo</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ten</token><token>Boer</token></antipattern>
+				<pattern><token>ten</token><token>boer</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ten Boer</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ten Boer">Ik zie <marker>ten boer</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ten</token><token>Esschen</token></antipattern>
+				<pattern><token>ten</token><token>esschen</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ten Esschen</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ten Esschen">Ik zie <marker>ten esschen</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ten</token><token>Post</token></antipattern>
+				<pattern><token>ten</token><token>post</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ten Post</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ten Post">Ik zie <marker>ten post</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ter</token><token>Aar</token></antipattern>
+				<pattern><token>ter</token><token>aar</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ter Aar</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ter Aar">Ik zie <marker>ter aar</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ter</token><token>Aard</token></antipattern>
+				<pattern><token>ter</token><token>aard</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ter Aard</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ter Aard">Ik zie <marker>ter aard</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ter</token><token>Apel</token></antipattern>
+				<pattern><token>ter</token><token>apel</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ter Apel</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ter Apel">Ik zie <marker>ter apel</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ter</token><token>Apelkanaal</token></antipattern>
+				<pattern><token>ter</token><token>apelkanaal</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ter Apelkanaal</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ter Apelkanaal">Ik zie <marker>ter apelkanaal</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ter</token><token>Heijde</token></antipattern>
+				<pattern><token>ter</token><token>heijde</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ter Heijde</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ter Heijde">Ik zie <marker>ter heijde</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Ter</token><token>Idzard</token></antipattern>
+				<pattern><token>ter</token><token>idzard</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Ter Idzard</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Ter Idzard">Ik zie <marker>ter idzard</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Goy</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>goy</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Goy</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Goy">Ik zie <marker>'t goy</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Haagje</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>haagje</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Haagje</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Haagje">Ik zie <marker>'t haagje</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Haantje</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>haantje</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Haantje</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Haantje">Ik zie <marker>'t haantje</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Harde</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>harde</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Harde</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Harde">Ik zie <marker>'t harde</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>The</token><token>Bottom</token></antipattern>
+				<pattern><token>the</token><token>bottom</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>The Bottom</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="The Bottom">Ik zie <marker>the bottom</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Loo</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>loo</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Loo</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Loo">Ik zie <marker>'t loo</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Rooth</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>rooth</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Rooth</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Rooth">Ik zie <marker>'t rooth</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Tull</token><token>en</token><token>'</token><token>t</token><token>Waal</token></antipattern>
+				<pattern><token>tull</token><token>en</token><token>'</token><token>t</token><token>waal</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Tull en 't Waal</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Tull en 't Waal">Ik zie <marker>tull en 't waal</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Veld</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>veld</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Veld</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Veld">Ik zie <marker>'t veld</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Waar</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>waar</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Waar</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Waar">Ik zie <marker>'t waar</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Tweede</token><token>Exloërmond</token></antipattern>
+				<pattern><token>tweede</token><token>exloërmond</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Tweede Exloërmond</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Tweede Exloërmond">Ik zie <marker>tweede exloërmond</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Tweede</token><token>Valthermond</token></antipattern>
+				<pattern><token>tweede</token><token>valthermond</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Tweede Valthermond</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Tweede Valthermond">Ik zie <marker>tweede valthermond</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Zand</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>zand</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Zand</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Zand">Ik zie <marker>'t zand</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>'</token><token>t</token><token>Zandt</token></antipattern>
+				<pattern><token>'</token><token>t</token><token>zandt</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>'t Zandt</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="'t Zandt">Ik zie <marker>'t zandt</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Van</token><token>Ewijcksluis</token></antipattern>
+				<pattern><token>van</token><token>ewijcksluis</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Van Ewijcksluis</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Van Ewijcksluis">Ik zie <marker>van ewijcksluis</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Vuile</token><token>Riete</token></antipattern>
+				<pattern><token>vuile</token><token>riete</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Vuile Riete</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Vuile Riete">Ik zie <marker>vuile riete</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Wehe-den</token><token>Hoorn</token></antipattern>
+				<pattern><token>wehe-den</token><token>hoorn</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Wehe-den Hoorn</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Wehe-den Hoorn">Ik zie <marker>wehe-den hoorn</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Wijk</token><token>aan</token><token>Zee</token></antipattern>
+				<pattern><token>wijk</token><token>aan</token><token>zee</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Wijk aan Zee</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Wijk aan Zee">Ik zie <marker>wijk aan zee</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Wijk</token><token>bij</token><token>Duurstede</token></antipattern>
+				<pattern><token>wijk</token><token>bij</token><token>duurstede</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Wijk bij Duurstede</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Wijk bij Duurstede">Ik zie <marker>wijk bij duurstede</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Wijk</token><token>en</token><token>Aalburg</token></antipattern>
+				<pattern><token>wijk</token><token>en</token><token>aalburg</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Wijk en Aalburg</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Wijk en Aalburg">Ik zie <marker>wijk en aalburg</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Willige</token><token>Langerak</token></antipattern>
+				<pattern><token>willige</token><token>langerak</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Willige Langerak</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Willige Langerak">Ik zie <marker>willige langerak</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Witte</token><token>Paarden</token></antipattern>
+				<pattern><token>witte</token><token>paarden</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Witte Paarden</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Witte Paarden">Ik zie <marker>witte paarden</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Woerdense</token><token>Verlaat</token></antipattern>
+				<pattern><token>woerdense</token><token>verlaat</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Woerdense Verlaat</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Woerdense Verlaat">Ik zie <marker>woerdense verlaat</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Woeste</token><token>Hoeve</token></antipattern>
+				<pattern><token>woeste</token><token>hoeve</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Woeste Hoeve</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Woeste Hoeve">Ik zie <marker>woeste hoeve</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Wouwse</token><token>Plantage-</token></antipattern>
+				<pattern><token>wouwse</token><token>plantage-</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Wouwse Plantage-</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Wouwse Plantage-">Ik zie <marker>wouwse plantage-</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Zevenbergschen</token><token>Hoek</token></antipattern>
+				<pattern><token>zevenbergschen</token><token>hoek</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Zevenbergschen Hoek</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Zevenbergschen Hoek">Ik zie <marker>zevenbergschen hoek</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Zions</token><token>Hill</token></antipattern>
+				<pattern><token>zions</token><token>hill</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Zions Hill</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Zions Hill">Ik zie <marker>zions hill</marker>.</example>
+			</rule>
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Zwarte</token><token>Haan</token></antipattern>
+				<pattern><token>zwarte</token><token>haan</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>Zwarte Haan</suggestion>.</message>
+				<short>Plaatsnaam verkeerd</short>
+				<example correction="Zwarte Haan">Ik zie <marker>zwarte haan</marker>.</example>
+			</rule>
 			
 		</rulegroup>
 
@@ -15925,7 +15927,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		
 		<rulegroup id="GEEN_HOOFDLETTER_NA_GETAL" name="Na getal begint zin niet met hoofdletter.">
-			<!-- geldt niet voor start hoofstuk en zo -->
+			<!-- geldt niet voor start hoofdstuk en zo -->
 			<antipattern>
 					<token postag="SENT_START"/>
 					<token regexp="yes" skip="-1">[0-9]+</token>
