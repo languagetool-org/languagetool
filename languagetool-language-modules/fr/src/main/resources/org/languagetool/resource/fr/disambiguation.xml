@@ -1501,18 +1501,23 @@ RB => Règles Brutes
             <example type="untouched">une nouvelle piste d'atterrissage spécialement aménagée</example>
         </rule>
         <rule>
+            <antipattern>
+                <token inflected="yes">être</token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
                     <exception postag="[NJZ].*|V ppa.*" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V (ind|sub) pres 3 .|J.*" postag_regexp="yes">
                         <exception scope="previous" regexp="yes">&prefixes;</exception>
-                        <exception regexp="yes">fait|fausse</exception></token>
+                        <exception>fait</exception></token>
                 </marker>
                 <token postag="A" min="0"/>
                 <token postag="M.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="V (ind|sub) pres 3 ."/>
+            <example type="untouched">Sa conclusion s'est avérée fausse.</example>
         </rule>
     </rulegroup>
     <rule id="VIOLENT" name="violent">

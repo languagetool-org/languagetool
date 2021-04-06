@@ -153,7 +153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">java</token>
                     </marker>
                 </pattern>
-                <message>S'il s'agit d'un  langage de programmation, il doit être en majuscule.</message>
+                <message>S'il s'agit d'un langage de programmation, il doit être en majuscule.</message>
                 <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="le Java">Des compilateurs compilent ainsi directement <marker>le java</marker> en code objet natif.</example>
             </rule>
@@ -42282,12 +42282,14 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rule id="SAVERER_FAUX" name="s’avérer faux">
             <pattern>
-                <token inflected="yes" skip="2">avérer</token>
+                <marker>
+                    <token inflected="yes" skip="1">avérer</token>
+                </marker>
                 <token regexp="yes">faux|fausses?</token>
             </pattern>
             <message>« S’avérer faux » est une expression fautive.</message>
-            <suggestion>se révéler faux</suggestion>
-            <example correction="se révéler faux"><marker>avérer faux</marker></example>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">révéler</match></suggestion>
+            <example correction="révélée">Sa conclusion s'est <marker>avérée</marker> fausse.</example>
         </rule>
         <rulegroup id="SACCAPARER_DE" name="s’accaparer de">
             <rule>
