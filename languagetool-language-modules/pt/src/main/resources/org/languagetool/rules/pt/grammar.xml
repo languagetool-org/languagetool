@@ -36059,17 +36059,17 @@ ISBN 978-3-8321-7760-7.
   
 	<!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
     <rulegroup id='PP_OBJ_IND' name="Pronome pessoal no dativo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-06 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-06 + 2021-04-07 (17-MAR-2021+)      -->
 	<!--
 pediu a ele → pediu-lhe
 pediu a eles → pediu-lhes	
 	-->
 	  <rule>
 		<pattern>
-			<token negate="yes" regexp='yes'>me|se|ser</token>
+			<token negate="yes" regexp='yes'>me|se|ser|está</token>
 			<marker>
 				<token postag='V.+' postag_regexp='yes'>
-					<exception postag_regexp='yes' postag='AQ0.+|RN'/>
+					<exception postag_regexp='yes' postag='AQ0.+|RN|RG'/>
 				</token>
 				<token regexp='no'>a</token>
 				<token regexp='yes'>el[ae]</token>
@@ -36081,10 +36081,10 @@ pediu a eles → pediu-lhes
 	  </rule>
 	  <rule>
 		<pattern>
-			<token negate="yes" regexp='yes'>me|se|ser</token>
+			<token negate="yes" regexp='yes'>me|se|ser|está</token>
 			<marker>
 				<token postag='V.+' postag_regexp='yes'>
-					<exception postag_regexp='yes' postag='AQ0.+|RN'/>
+					<exception postag_regexp='yes' postag='AQ0.+|RN|RG'/>
 				</token>
 				<token regexp='no'>a</token>
 				<token regexp='yes'>el[ae]s</token>
