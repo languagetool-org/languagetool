@@ -36056,6 +36056,45 @@ ISBN 978-3-8321-7760-7.
       <example correction="tem por base|tenhas por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
     </rule>
   </rulegroup>
+  
+	<!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
+    <rulegroup id='PP_OBJ_IND' name="Pronome pessoal no dativo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-06 (17-MAR-2021+)      -->
+	<!--
+pediu a ele → pediu-lhe
+pediu a eles → pediu-lhes	
+	-->
+	  <rule>
+		<pattern>
+			<token negate="yes" regexp='yes'>me|se|ser</token>
+			<marker>
+				<token postag='V.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='AQ0.+|RN'/>
+				</token>
+				<token regexp='no'>a</token>
+				<token regexp='yes'>el[ae]</token>
+			</marker>
+		</pattern>
+		<message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
+		<suggestion>\2-lhe</suggestion>
+		<example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token negate="yes" regexp='yes'>me|se|ser</token>
+			<marker>
+				<token postag='V.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='AQ0.+|RN'/>
+				</token>
+				<token regexp='no'>a</token>
+				<token regexp='yes'>el[ae]s</token>
+			</marker>
+		</pattern>
+		<message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
+		<suggestion>\2-lhes</suggestion>
+		<example correction="pediu-lhes">O Rui <marker>pediu a eles</marker> para comprarem o livro.</example>
+	  </rule>
+    </rulegroup>
 
   <rulegroup id='PROFANITY' name="5. Profanidade">
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
