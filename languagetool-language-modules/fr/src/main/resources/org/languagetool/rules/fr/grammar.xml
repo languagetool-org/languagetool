@@ -751,6 +751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;</token>
                 <token regexp="yes">plus|mois</token>
+                <token regexp="yes" min="0">loin|tôt|tard</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -888,6 +889,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>à</token>
+                <token>moitié</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>à</token>
                 <token>ce</token>
                 <token>point</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
@@ -977,43 +983,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- ?? -->
-                <token>dites</token>
+                <token regexp="yes">dites|dit</token>
             </antipattern>
             <antipattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">regarder</token>
-            <token>la</token>
-            <token>télévision</token>
-            <token postag="A" min="0" max="3"/>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+                <token postag="_CC"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-            <token postag="_COI"/>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+                <token>(</token>
+                <token regexp="yes">e?s?</token>
+                <token>)</token>
             </antipattern>
             <antipattern>
-            <token postag="_COD"/>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-            <token postag="P"/>
-            </antipattern>
-             <antipattern>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-            <token>(</token>
-            <token regexp="yes">e?s?</token>
-            <token>)</token>
+                <token postag="V ppa.*" postag_regexp="yes" inflected="yes">assoir</token>
             </antipattern>
             <antipattern>
-            <token regexp="yes">déguisée?s?</token>
-            <token postag="P"/>
-            <token postag="N.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-            <token postag="_CC"/>
-            <token postag="A" min="0" max="3"/>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-            <token regexp="yes">maths?</token>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"><exception regexp="yes">appliquées|basique|avancées|moyenne|compliquées|éléemntaires|différentes</exception></token>
+                <token postag="Z.*" postag_regexp="yes"/>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
@@ -1052,7 +1040,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Les avis divergent d'un individu à l'autre.</example>
             <example>Un an à l'origine européenne de pass annuel temporaire.</example>
             <example>Grande cité, grande solitude.</example>
-            <example>Il eût de mes filles conservé la demeure.</example>
+            <example type="triggers_error" reason="literary">Il eût de mes filles conservé la demeure.</example>
             <example>La police dit aux gens de rester chez soi.</example>
             <example>Elles sirotaient une coupe de champagne assises sur des banquettes de cuir rouge.</example>
             <example>Je regardais la télévision à moitié endormi.</example>
@@ -1319,6 +1307,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Le rapport fut assemblé sur la base de données collectées par le Centre de Contrôle des Maladies.</example>
             <example>Thomas passe trois journées enfermé dans son minuscule appartement.</example>
             <example>Le pétrissage du caillé dure environ une heure.</example>
+            <example>Elisabeth Picard complète présentement un document.</example>
+            <example>Le chef du groupe désintègre la voiture contenant Carver.</example>
             <!-- 
         ** Agreement with the subject **
        <example> Elle alla au procès accusée du meurtre de son mari.</example>
@@ -2704,11 +2694,8 @@ though, and has since been slightly modified)-->
                     <token>sa
                         <exception case_sensitive="yes">SA</exception></token>
                 </marker>
-                <or>
-                    <token postag="[VR].*" postag_regexp="yes">
-                        <exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/></token>
-                    <token>fait</token>
-                </or>
+                <token postag="[VR].*" postag_regexp="yes">
+                    <exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/></token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
             <example correction="Ça"><marker>Sa</marker> va ?</example>
@@ -2719,6 +2706,18 @@ though, and has since been slightly modified)-->
             <example>POLYVAP SA est une membrane bitumineuse</example>
             <example>vers la forêt d'Ida suit sa brillante route</example>
             <example>le français préfère afficher sa brillante rouerie et sa sagacité</example>
+        </rule>
+        <rule id="SA_CA_FAIT" name="SA au lieu de ÇA">
+            <pattern>
+                <marker>
+                    <token>sa
+                        <exception case_sensitive="yes">SA</exception></token>
+                </marker>
+                <token>fait</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
+            <example correction="Ça"><marker>Sa</marker> fait mal.</example>
+            <example correction="Ça"><marker>Sa</marker> fait bien long temps</example>
         </rule>
         <rule id="CA_ET_LA" name="ça et là → çà et là">
             <pattern>
