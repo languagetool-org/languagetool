@@ -5080,6 +5080,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>all</token>
             <token postag="CD" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes">th[eo]se|all|many|few</token>
+            <token postag="VB[GD]" postag_regexp="yes" />
+            <token postag="IN" />
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">make</token>
+            <token regexp="yes">th[eo]se|all|many|few</token>
+            <token postag="NNP?S" postag_regexp="yes" />
+            <token postag="JJ" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -5099,6 +5110,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="quality[quality/JJ,quality/NN:UN]" outputform="quality[quality/NN:UN]">Sorry for the poor <marker>quality</marker>.</example>
         <example type="untouched">These real English are nice.</example>
         <example type="untouched">You are just being stupid.</example>
+        <example type="untouched">(2004) Nicaragua: Those Passed By.</example>
         <example type="untouched">Over two years later all six were producing clotting factor.</example>
         <example type="untouched">Adverb. The dog was still barking <marker>outside</marker>.</example>
         <example type="untouched">Adjective. ...there won't be a single building left standing.</example>
@@ -5251,6 +5263,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>other</token>
             <token postag="VBZ" />
         </antipattern>
+        <antipattern><!-- Make these sales possible -->
+            <token inflected="yes">make</token>
+            <token regexp="yes">th[eo]se</token>
+            <token postag="NNP?S" postag_regexp="yes" />
+            <token postag="JJ" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5264,8 +5282,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception postag="RB"/>
                 <exception postag="MD"/>
                 <exception postag="IN"/><!--"by" is NN -->
+                <exception>possible</exception>
             </token>
-            <token postag="SENT_END|VB.|CC" postag_regexp="yes"><exception postag="NN.*" postag_regexp="yes"/><exception>for</exception></token>
+            <token postag="SENT_END|VB.|CC" postag_regexp="yes">
+                <exception postag="NN.*" postag_regexp="yes"/><exception>for</exception>
+                <exception postag="SENT_END" regexp="yes">.*[a-z].*</exception>
+            </token>
         </pattern>
         <disambig action="remove" postag="NN.*"/>
         <example type="ambiguous" inputform="Canadian[Canadian/JJ,Canadian/NNP]" outputform="Canadian[Canadian/JJ]">The <marker>Canadian</marker> Badlands is nice.</example>
@@ -5284,6 +5306,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... that happen after an enemy dies are too slow to matter.</example><!-- #2921 -->
         <example type="untouched">A blonde woman laughs and mucks.</example><!-- #2952 -->
         <example type="untouched">A blonde woman laughs.</example><!-- #2952 -->
+        <example type="untouched">Read Christopher Elliott's "The Travel Tightwad" to get to the bottom of secret surcharges that make those sales possible.</example>
         <example type="untouched">You will see what an American looks like.</example>
         <example type="untouched">This makes my skin crawl.</example><!-- #3092 -->
         <example type="untouched">In a perfect world spreaders don't exist.</example><!-- #3101 -->
@@ -14655,5 +14678,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="PRE_AND_POST_SPELLING" name="ignore spelling of 'pre- and post-Corona'">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">pre|PRE|Pre</token>
+                <token spacebefore="no">-</token>
+            </marker>
+            <token regexp="yes">and|n?or|&amp;</token>
+            <token regexp="yes">post-.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     
 </rules>
