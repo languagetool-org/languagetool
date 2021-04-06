@@ -6070,7 +6070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Está claro por qué le duele el estómago.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESTAS_NO_TILDE" name="estás/estas" default="temp_off">
+        <rulegroup id="ESTAS_NO_TILDE" name="estás/estas">
             <antipattern>
                 <token regexp="yes">estás?</token>
                 <token postag="V.[GP].*" postag_regexp="yes"/>
@@ -6079,6 +6079,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="-1" regexp="yes">estás?</token>
                 <token postag="V.[SI].*" postag_regexp="yes" skip="-1"/>
                 <token postag="[DP][ET].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token regexp="yes">estás?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">estás?</token>
@@ -6111,7 +6115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="CC.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/><exception postag="V.[SI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token regexp="yes">estás?</token>
@@ -6121,6 +6125,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estas">Son verdes <marker>estás</marker> casas.</example>
                 <example correction="estas">Son para María las tres cajas <marker>estás</marker>.</example>
                 <example correction="esta">Es para María <marker>está</marker> caja.</example>
+                <example correction="esta">Te mando <marker>está</marker> oración cuando menos te lo esperes.</example>
+                <example>Mientras estés hablándome está bien.</example>
+                <example>No tengo idea por qué Tom está tan nervioso.</example>
+                <example>Ignoro por qué Mary está tan obsesionada con el número 6.</example>
+                <example type="triggers_error">Taro no siempre está aquí.</example>
+                <example>Yo sé por qué Tom está ocupado.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
