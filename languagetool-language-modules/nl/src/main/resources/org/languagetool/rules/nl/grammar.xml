@@ -33014,16 +33014,12 @@ steenwijk;Steenwijk
 		</rulegroup>  
 		<rulegroup id="ACHTER_OP" name="Achterop of achter op">
 			<rule>
-                <antipattern>
-                    <!-- achterin waar -->
-                    <token>achterin</token>
-                    <token>waar</token>
-                </antipattern>
 				<pattern>
 					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
-					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/></token>
 				</pattern>
-				<message>Hier moet vast een spatie in: <suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>.</message>
+				<message>Hier moet vast een spatie in staan.</message>
+				<suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>
 				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
 				<example correction="achter in">Het bestek ligt <marker>achterin</marker> de lade.</example>
 			</rule>
@@ -33032,12 +33028,33 @@ steenwijk;Steenwijk
 					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
 					<token regexp="yes" >mij|me|jou|je|haar|hem|ons|jullie|hen</token>
 				</pattern>
-				<message>Hier moet vast een spatie in: <suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>.</message>
+				<message>Hier moet vast een spatie in staan.</message>
+				<suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>
 				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
 				<example correction="boven op">Ze ligt <marker>bovenop</marker> hem.</example>
 			</rule>
-
 		</rulegroup>  
+		<rulegroup id="ACHTEROP" name="Achterop of achter op">
+			<rule>
+				<antipattern>
+					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/></token>
+				</antipattern>
+				<antipattern>
+					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
+					<token regexp="yes" >mij|me|jou|je|haar|hem|ons|jullie|hen</token>
+				</antipattern>
+				<pattern>
+					<token regexp="yes">achter|boven|midden|onder</token>
+					<token regexp="yes">in|op</token>
+				</pattern>
+				<message>Hier moet vast geen spatie in.</message>
+				<suggestion>\1\2</suggestion>
+				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
+				<example correction="achterin">Het bestek ligt <marker>achter in</marker> gepropt.</example>
+			</rule>
+		</rulegroup>  
+
 		<rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij">
 			<rule>
 				<pattern>
@@ -35379,7 +35396,7 @@ steenwijk;Steenwijk
 					<marker>
 						<token>alle</token>
 						<token regexp="yes">twee|drie|vier</token>
-						<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_"><exception postag="WKW:TGW:INF|WKW:VTD:ONV" postag_regexp="yes"/></token>
+						<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_"><exception postag="WKW:(TGW|VLT):INF|WKW:VTD:ONV" postag_regexp="yes"/></token>
 					</marker>
 				</pattern>
 				<message>Bedoelt u misschien: <suggestion>\2 \3 de \4</suggestion>.</message>
