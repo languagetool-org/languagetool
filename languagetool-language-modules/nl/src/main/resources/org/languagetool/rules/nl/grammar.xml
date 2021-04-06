@@ -9985,7 +9985,7 @@ onwaarschijnlijk
 					<marker>
 						<token>aan</token>
 						<token>de</token>
-						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="ZNW.*"/></token>
+						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*"/><exception>kant</exception></token>
 					</marker>
 				</pattern>
 				<message>Dit is spreektaal.</message>
@@ -10847,6 +10847,11 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="AANDOEN" name="aandoen → aan doen">
 			<rule>
+                <antipattern>
+                    <!-- ziet er aangedaan uit -->
+                    <token>aangedaan</token>
+                    <token>uit</token>
+                </antipattern>
 				<pattern>
 					<token skip="4" regexp="yes">daar|hier|er</token>
 					<marker>
@@ -11473,7 +11478,7 @@ onwaarschijnlijk
 				</antipattern>
 				<pattern>
 					<token regexp="yes">[0-9]{1,3}</token>
-					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|assig|eiig|rijig|zadig|tonner|ponder|delig|hoekig|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser|polig).*<exception>persoonsgegevens</exception></token>
+					<token regexp="yes">(jar|arm|ben|bloem|cell|ass|ei|rij|zad|del|hoek|tall|tal|stel|ur|pol)(ig|ige|igen)|(duim|daag|kop|persoon|steen|baan)(s|se|sen)|(tonne|ponde|plusse)(r|rs)</token>
 				</pattern>
 				<message>Hier moet vast een koppelteken: <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/80-jarig-80-jarig</url>
@@ -11484,13 +11489,12 @@ onwaarschijnlijk
 				<example correction="10-delige"><marker>10 delige</marker> miniatuur vijlenset!</example>
 				<example correction="4-jarigen">Korte vervanging bij <marker>4 jarigen</marker>.</example>
 				<example correction="14-daagse"><marker>14 daagse</marker> analyses van het water.</example>
-				<example correction="2-baansvak"><marker>2 baansvak</marker> op de linkse rijstrook , ik en voor mij een golf.</example>
 				<example correction="2-daags">Het resultaat was een <marker>2 daags</marker> eetfestijn dat vlekkeloos verliep.</example>
 			</rule>
 			<rule>
 				<pattern>
 					<token postag="GET:MRV" regexp="yes">[a-z]*</token>
-					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|assig|eiig|rijig|zadig|tonner|ponder|delig|hoekig|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser).*</token>
+					<token regexp="yes">(jar|arm|ben|bloem|cell|ass|ei|rij|zad|del|hoek|tall|tal|stel|ur|pol)(ig|ige|igen)|(duim|daag|kop|persoon|steen|baan)(s|se|sen)|(tonne|ponde|plusse)(r|rs)</token>
 				</pattern>
 				<message>Dit hoort vast aan elkaar: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/80-jarig-80-jarig</url>
@@ -33010,6 +33014,11 @@ steenwijk;Steenwijk
 		</rulegroup>  
 		<rulegroup id="ACHTER_OP" name="Achterop of achter op">
 			<rule>
+                <antipattern>
+                    <!-- achterin waar -->
+                    <token>achterin</token>
+                    <token>waar</token>
+                </antipattern>
 				<pattern>
 					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
 					<token postag_regexp="yes" postag="ZNW.*"/>
@@ -37290,6 +37299,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken">
 			<rule>
+				<antipattern><token>:</token><token>-</token><token>)</token></antipattern><!-- smiley -->
 				<pattern>
 					<token regexp="yes">[!?,;:]</token>
 					<token><match no="0"/></token>
@@ -39963,26 +39973,84 @@ steenwijk;Steenwijk
 	<category id="CATCH_REST" name="Catch strange sentences">
 		<rulegroup id="CATCH_4" name="zinnen met 4 woorden" default="temp_off">
 			<rule>
-				<antipattern><token>Ik</token><token regexp="yes">ben|word</token><token postag="GET:MRV"/></antipattern> <!-- Ik ben zesentwintig -->
-				<antipattern><token postag_regexp="yes" postag=".*MRV.*"/><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token postag_regexp="yes" postag=".*ONV"/></antipattern><!-- Restaurants zijn duur. -->
-				<!-- We kunnen los ! -->
-				<!-- Ze zijn leeg. -->
-				<!-- Wij hebben genoten! -->
-				<!-- We zijn blind. -->
-				<!-- Wij dansten samen. -->
-				<!-- Jullie zijn zwanger. -->
-				<!-- Tom ging snorkelen. -->
-				<!-- We kanoden stroomafwaarts. -->
-				<!-- Wij staan klaar! -->
-				<!-- Wie heeft telewerk-faciliteiten? -->
-				<!-- Deze worden meegeleverd. -->
-				<!-- We zijn veranderbaar. -->
-				<!-- Vergeef me alsjeblieft. -->
-				<!-- Buitenlanders zijn interessant. -->
+				<antipattern>
+					<token postag="SENT_START" skip="-1"/>
+					<token skip="-1" postag="UNKNOWN" />
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</antipattern>
+				<antipattern>
+					<!-- Ik ben zesentwintig -->
+					<token postag="SENT_START"/>
+					<token>Ik</token>
+					<token regexp="yes">ben|word</token>
+					<token postag="GET:MRV"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern> 
+				<antipattern>
+					<!-- Restaurants zijn duur. -->
+					<token postag="SENT_START"/>
+					<token postag_regexp="yes" postag=".*MRV.*"/>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
 				<!-- Buitenlanders intrigeren me. -->
-				<!-- Komt u binnen! -->
-				<!-- Ze werd zwanger. -->
-				
+					<token postag="SENT_START"/>
+					<token postag_regexp="yes" postag=".*MRV.*"/>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+					<token regexp="yes">me|mij|hem|haar|hen|ze</token>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
+					<!-- We kunnen los. -->
+					<token postag="SENT_START"/>
+					<token regexp="yes">we|wij|ze|zij</token>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
+					<!-- Tom ging snorkelen.-->
+					<token postag="SENT_START"/>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
+					<!-- Vergeef me alsjeblieft. -->
+					<token postag="SENT_START"/>
+					<token postag="WKW:TGW:1EP"/>
+					<token regexp="yes">me|mij|hem|haar|hen|ze</token>
+					<token postag="TSW"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
+					<!-- Komt u binnen. -->
+					<token postag="SENT_START"/>
+					<token postag="WKW:TGW:3EP"/>
+					<token>u</token>
+					<token postag="BYW"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
+					<!-- Ze werd zwanger. -->
+					<token postag="SENT_START"/>
+					<token regexp="yes">ze|zij|hij|men</token>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+				<antipattern>
+					<!-- Carina werd zwanger. -->
+					<token postag="SENT_START"/>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
+				</antipattern>
+					
 				<pattern case_sensitive="yes">
 					<token postag="SENT_START"/>
 					<marker>
@@ -39993,7 +40061,8 @@ steenwijk;Steenwijk
 					</marker>
 				</pattern>
 				<message>Dit is een ongebruikelijke zinsbouw. Kijk deze nog eens na.</message>
-				<example type="incorrect"><marker>Aap, wil.</marker></example>		
+				<example type="incorrect"><marker>Aapje deur onzin.</marker></example>
+				<example>Ze werd zwanger.</example>
 			</rule>
 		</rulegroup>
 	</category>	
