@@ -189,7 +189,7 @@ public class HunspellRule extends SpellingCheckRule {
           }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
           if (word.startsWith("-")) {
-            if (!isMisspelled(cleanWord.substring(1))) {
+            if (!isMisspelled(cleanWord.substring(1)) || cleanWord.matches("-+")) {
               len += word.length() + 1;
               continue;
             } else {
