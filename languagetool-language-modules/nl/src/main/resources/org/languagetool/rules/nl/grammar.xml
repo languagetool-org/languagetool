@@ -9536,6 +9536,21 @@ onwaarschijnlijk
 	<category id="COMPOUNDING" name="Aaneen of los">
 		
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
+		<rulegroup id="ACHTERIN" name="Achterin/achter in" default="temp_off">
+			<rule>
+				<antipattern>
+					<token regexp="yes">(achter|voor|midden)(op|in)</token>
+					<token postag="SENT_END" regexp="yes">[.?]</token>
+				</antipattern>
+				<pattern>
+					<token regexp="yes">(achter|voor|midden)(op|in)<exception postag="SENT_END"/><exception regexp="yes">[.,;:]</exception></token>
+				</pattern>
+				<message>In de meeste gevallen wordt dit los geschreven.</message>
+				<suggestion><match no="1" regexp_match="(in|op)$" regexp_replace=" $1"/></suggestion>
+				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
+				<example correction="achter in">Het mes ligt <marker>achterin</marker> de la.</example>
+			</rule>			
+		</rulegroup>
 
 		<rulegroup id="VAN_DE_WEGRAKEN" name="wegraken / weg raken" >
 			<antipattern><token>de</token><token>wegwerken</token></antipattern>
