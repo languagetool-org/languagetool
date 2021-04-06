@@ -201,8 +201,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="biblia" name="abreviaturas de libros de la Biblia">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes"
-                    >Ab|Abd|Abdías|Ag|Am|Amós|Ap|Apocalipsis|Azarías|Ba|Bar|Baruc|Bel|Cantares|Canto|Carta|Cnt|Co|Col|Colosenses|Corintios|Cr|Cro|Crónicas|Ct|CtJ|Daniel|Deuteronomio|Dn|DnDC|DnGr|Dt|Ec|Eclesiastés|Eclesiástico|Eclo|Ef|Efesios|Esd|Esdras|Esr|Est|EstDC|Ester|Ex|Ez|Ezequiel|Filemón|Filipenses|Flm|Flp|Ga|Gl|Gn|Gálatas|Génesis|Ha|Hab|Habacuc|Hag|Hageo|Hb|Hch|Heb|Hebreos|Hechos|Is|Isaías|Jb|Jdt|Jer|Jeremías|Jl|Jn|Job|Joel|Jon|Jonás|Jos|Josué|Jr|Juan|Jud|Judas|Judit|Jue|Jueces|Lamentaciones|Lao|Laodicenses|Lc|Levítico|Lm|Lucas|Lv|M|Mac|Macabeos|Mal|Malaquías|Man|Manasés|Marcos|Mateo|Mc|Mi|Miq|Miqueas|Ml|Mt|Na|Nah|Nahúm|Ne|Neh|Nehemías|Nm|Nuevo|Números|Oración|Os|Oseas|P|Pedro|Pr|Proverbios|Qo|R|Reyes|Rm|Ro|Romanos|Rt|Rut|S|Sab|Sabiduría|Sal|Sal151|Salmo|Salmos|Salterio|Samuel|Santiago|Sb|serpiente|Si|SIH|So|Sof|Sofonías|St|Stg|Sus|Susana|Tb|Tesalonicenses|Testamento|Ti|Timoteo|Tit|Tito|Tm|Tobit|Tres|Ts|Tt|Za|Zac|Zacarías|Éxodo</token>
+                <token regexp="yes">Ab|Abd|Abdías|Ag|Am|Amós|Ap|Apocalipsis|Azarías|Ba|Bar|Baruc|Bel|Cantares|Canto|Carta|Cnt|Co|Col|Colosenses|Corintios|Cr|Cro|Crónicas|Ct|CtJ|Daniel|Deuteronomio|Dn|DnDC|DnGr|Dt|Ec|Eclesiastés|Eclesiástico|Eclo|Ef|Efesios|Esd|Esdras|Esr|Est|EstDC|Ester|Ex|Ez|Ezequiel|Filemón|Filipenses|Flm|Flp|Ga|Gl|Gn|Gálatas|Génesis|Ha|Hab|Habacuc|Hag|Hageo|Hb|Hch|Heb|Hebreos|Hechos|Is|Isaías|Jb|Jdt|Jer|Jeremías|Jl|Jn|Job|Joel|Jon|Jonás|Jos|Josué|Jr|Juan|Jud|Judas|Judit|Jue|Jueces|Lamentaciones|Lao|Laodicenses|Lc|Levítico|Lm|Lucas|Lv|M|Mac|Macabeos|Mal|Malaquías|Man|Manasés|Marcos|Mateo|Mc|Mi|Miq|Miqueas|Ml|Mt|Na|Nah|Nahúm|Ne|Neh|Nehemías|Nm|Nuevo|Números|Oración|Os|Oseas|P|Pedro|Pr|Proverbios|Qo|R|Reyes|Rm|Ro|Romanos|Rt|Rut|S|Sab|Sabiduría|Sal|Sal151|Salmo|Salmos|Salterio|Samuel|Santiago|Sb|serpiente|Si|SIH|So|Sof|Sofonías|St|Stg|Sus|Susana|Tb|Tesalonicenses|Testamento|Ti|Timoteo|Tit|Tito|Tm|Tobit|Tres|Ts|Tt|Za|Zac|Zacarías|Éxodo</token>
             </marker>
             <token regexp="yes">[0-9][0-9,.-]*</token>
         </pattern>
@@ -950,6 +949,16 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="AO0CN0"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token>omega</token>
+                <token>3</token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="AQ0CN0" lemma="omega 3"/>
+                <wd pos="AQ0CN0" lemma="omega 3"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="romans_exceptions" name="excepciones números romanos">
         <rule>
@@ -1337,8 +1346,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token>van</token>
-                    <token regexp="yes"
-                        >(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
+                    <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
                 </marker>
             </pattern>
             <disambig action="replace">
@@ -4540,9 +4548,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes"
-                        >bien|pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception
-                        postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">bien|pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -4565,8 +4571,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <and>
-                        <token postag="A.*" postag_regexp="yes" regexp="yes">lata|vivas?|custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?<exception postag="_GN_.*" postag_regexp="yes"
-                            /><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">lata|vivas?|custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
                         <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
@@ -5921,8 +5926,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">qué|cuánto</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes" skip="12">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception
-                        postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes" skip="12">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes" inflected="yes">&unidades_tiempo;|&estaciones_ano;|&meses_ano;|momento|instante|tiempo|rato</token>
             </pattern>
@@ -5938,8 +5942,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">qué|cuánto</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception
-                        postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
                     <token regexp="yes">mucho|poco|muchísimo|poquísimo</token>
                 </marker>
             </pattern>
