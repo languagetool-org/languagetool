@@ -11920,9 +11920,25 @@ onwaarschijnlijk
 				<url>http://woordenlijst.org/#/?q=v.Chr.</url>
 				<example correction="v.Chr.">Het gebeurde 200 <marker>v. Chr.</marker></example>
 			</rule>
-			
 		</rulegroup>
-		<rulegroup id="AFKO_PUNT" name="dr → dr.">
+		<rulegroup id="DR" name="dr / d'r, dr.">
+			<rule>
+				<pattern case_sensitive="yes">
+					<marker>
+						<token>dr</token>
+					</marker>
+					<token negate="yes">.</token>
+				</pattern>
+				<message>Dit kan wat netter, als afkorting, met apostrof, of voluit.</message>
+				<suggestion>dr.</suggestion>
+				<suggestion>d'r</suggestion>
+				<suggestion>daar</suggestion>
+				<suggestion>er</suggestion>
+				<suggestion>haar</suggestion>
+				<example correction="dr.|d'r|daar|er|haar">Het is <marker>dr</marker> auto.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="AFKO_PUNT" name="dhr → dhr.">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL|DIV|DS|dS|FAM|FA|IR|MLD|MR</token></antipattern>
@@ -11934,7 +11950,7 @@ onwaarschijnlijk
 				<antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
 				<pattern>
 					<marker>
-						<token regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|dr|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn|mrs<exception postag="SENT_END"/></token>
+						<token regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn|mrs<exception postag="SENT_END"/></token>
 					</marker>
 					<token negate="yes">.</token>
 				</pattern>
@@ -11947,7 +11963,6 @@ onwaarschijnlijk
 				<example correction="Ca."><marker>Ca</marker> 1 jaar geleden ben ik begonnen met deze blog.</example>
 				<example correction="dhr.">Die vrouw bleek de dochter te zijn van de <marker>dhr</marker> en mevr. Jansen.</example>
 				<example correction="div.">Ik wil graag met één connect softwarepakket met <marker>div</marker> providers werken in binnen en buitenland.</example>
-				<example correction="dr.">Prof. <marker>dr</marker> Maurits Berger is winnaar van de hoofddoekprijs 2011.</example>
 				<example correction="drs.">Larmuseau en <marker>drs</marker> Marc Gabriëls.</example>
 				<example correction="enz.">Bij gebruik van een tent mogen de versieringen (vuurwerk, kaarsen <marker>enz</marker>) geen risico opleveren.</example>
 				<example correction="etc.">Wel vrees ik dat ieder nationalisme kiemen van racisme <marker>etc</marker> in zich houdt.</example>
@@ -17286,6 +17301,11 @@ steenwijk;Steenwijk
 		<rulegroup id="ALLES_DAT" name="geen 'alles dat', maar 'alles wat'">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
+				<antipattern>
+					<!-- regel gaat niet op ald dat hier een voegwoord is -->
+					<token>dat</token>
+					<token regexp="yes">het|dit|dat</token>
+				</antipattern>
 				<pattern>
 					<token>alles</token>
 					<marker>
@@ -20137,7 +20157,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="AD_" name="ad">
 			<rule>
-				<antipattern><token>ad</token><token regexp="yes">hominem|valvas|interim|fundum|fundums|absurdum|pistum|pistums|litem|probationem</token></antipattern>
+				<antipattern><token>ad</token><token regexp="yes">hoc|hominem|valvas|interim|fundum|fundums|absurdum|pistum|pistums|litem|probationem</token></antipattern>
 				<pattern>
 					<token negate="yes">de</token>
 					<marker>
@@ -30914,7 +30934,7 @@ steenwijk;Steenwijk
 				<example correction="hem">En je zet <marker>'m</marker> nog een keer op.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DR" name="d'r">
+		<rulegroup id="D_R" name="d'r">
 			<rule>
 				<pattern>
 					<token regexp="yes">d('|‘)r</token>
@@ -33010,48 +33030,6 @@ steenwijk;Steenwijk
 				<suggestion>\2\3</suggestion>
 				<suggestion>\2e</suggestion>
 				<example correction="18de|18e">Het komt op de <marker>18 de</marker>.</example>
-			</rule>
-		</rulegroup>  
-		<rulegroup id="ACHTER_OP" name="Achterop of achter op">
-			<rule>
-				<pattern>
-					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
-					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/></token>
-				</pattern>
-				<message>Hier moet vast een spatie in staan.</message>
-				<suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>
-				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
-				<example correction="achter in">Het bestek ligt <marker>achterin</marker> de lade.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
-					<token regexp="yes" >mij|me|jou|je|haar|hem|ons|jullie|hen</token>
-				</pattern>
-				<message>Hier moet vast een spatie in staan.</message>
-				<suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>
-				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
-				<example correction="boven op">Ze ligt <marker>bovenop</marker> hem.</example>
-			</rule>
-		</rulegroup>  
-		<rulegroup id="ACHTEROP" name="Achterop of achter op">
-			<rule>
-				<antipattern>
-					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
-					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/></token>
-				</antipattern>
-				<antipattern>
-					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
-					<token regexp="yes" >mij|me|jou|je|haar|hem|ons|jullie|hen</token>
-				</antipattern>
-				<pattern>
-					<token regexp="yes">achter|boven|midden|onder</token>
-					<token regexp="yes">in|op</token>
-				</pattern>
-				<message>Hier moet vast geen spatie in.</message>
-				<suggestion>\1\2</suggestion>
-				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
-				<example correction="achterin">Het bestek ligt <marker>achter in</marker> gepropt.</example>
 			</rule>
 		</rulegroup>  
 
