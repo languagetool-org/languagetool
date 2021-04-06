@@ -39961,10 +39961,28 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>	
 	<category id="CATCH_REST" name="Catch strange sentences">
-		<rulegroup id="CATCH_4" name="zinnen met 4 woorden" >
+		<rulegroup id="CATCH_4" name="zinnen met 4 woorden" default="temp_off">
 			<rule>
-				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
 				<antipattern><token>Ik</token><token regexp="yes">ben|word</token><token postag="GET:MRV"/></antipattern> <!-- Ik ben zesentwintig -->
+				<antipattern><token postag_regexp="yes" postag=".*MRV.*"/><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token postag_regexp="yes" postag=".*ONV"/></antipattern><!-- Restaurants zijn duur. -->
+				<!-- We kunnen los ! -->
+				<!-- Ze zijn leeg. -->
+				<!-- Wij hebben genoten! -->
+				<!-- We zijn blind. -->
+				<!-- Wij dansten samen. -->
+				<!-- Jullie zijn zwanger. -->
+				<!-- Tom ging snorkelen. -->
+				<!-- We kanoden stroomafwaarts. -->
+				<!-- Wij staan klaar! -->
+				<!-- Wie heeft telewerk-faciliteiten? -->
+				<!-- Deze worden meegeleverd. -->
+				<!-- We zijn veranderbaar. -->
+				<!-- Vergeef me alsjeblieft. -->
+				<!-- Buitenlanders zijn interessant. -->
+				<!-- Buitenlanders intrigeren me. -->
+				<!-- Komt u binnen! -->
+				<!-- Ze werd zwanger. -->
+				
 				<pattern case_sensitive="yes">
 					<token postag="SENT_START"/>
 					<marker>
