@@ -698,16 +698,25 @@ RB => Règles Brutes
     <rule id="CRAINDRE_DE_VINF" name="craindre de">
         <pattern>
             <marker>
-                <token postag="V (ind|sub) .*" postag_regexp="yes" inflected="yes">craindre</token>
+                <token postag="V (ind|sub|imp) .*" postag_regexp="yes" inflected="yes">craindre</token>
             </marker>
             <token postag="A" min="0" max="3"/>
             <token>de</token>
             <token postag="V inf"/>
         </pattern>
-        <disambig action="filter" postag="V (ind|sub) .*"/>
+        <disambig action="filter" postag="V (ind|sub|imp) .*"/>
     </rule>
     <!-- END: périphrases verbals -->
     <!-- CATEGORY: périphrases verbe + nom-->
+    <rule name="avoir lieu" id="AVOIR_LIEU">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">avoir</token>
+                <token postag="N m s" postag_regexp="yes" inflected="yes">lieu</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="dire le monde" id="DIRE_LE_MONDE">
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">construire|dire</token>
@@ -984,7 +993,8 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <token postag="V.*" postag_regexp="yes">
-                    <exception inflected="yes" regexp="yes">diverger|venir|remplir|couvrir|entourer|mourir|trembler|manquer|dépendre|douter|servir|moquer|rêver|méfier</exception><exception postag="N.*" postag_regexp="yes"/></token>
+                    <exception inflected="yes" regexp="yes">diverger|venir|remplir|couvrir|entourer|mourir|trembler|manquer|dépendre|douter|servir|moquer|rêver|méfier</exception>
+                    <exception postag="N.*" postag_regexp="yes"/></token>
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
@@ -1462,6 +1472,20 @@ RB => Règles Brutes
     <!-- END: adverbs -->
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rule id="AURA" name="aura (verbe)">
+        <antipattern>
+            <token postag="D [fe] s" postag_regexp="yes"/>
+            <token postag="J [fe] (s|sp)" postag_regexp="yes" min="0"/>
+            <token>aura</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">aura</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+        <example type="untouched">Mon petit conseil pour une belle aura...</example>
+    </rule>
     <rule id="DIVERGENT" name="divergent">
         <!-- <antipattern>
             <token>divergent</token>
@@ -3609,17 +3633,6 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig postag="N f s"/>
-    </rule>
-    <rule name="aura lieu" id="AURA_LIEU">
-        <pattern>
-            <marker>
-                <token>aura</token>
-            </marker>
-            <token>lieu</token>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
-        <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
-        <example type="untouched">Mon petit conseil pour une belle aura...</example>
     </rule>
     <rule id="MEME_ADV" name="même adverbe">
         <pattern>
