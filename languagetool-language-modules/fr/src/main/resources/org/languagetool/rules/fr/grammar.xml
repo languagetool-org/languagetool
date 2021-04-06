@@ -39342,26 +39342,46 @@ though, and has since been slightly modified)-->
                 <example>La vitamine D ou la vitamine C.</example>
             </rule>
         </rulegroup>
-        <rule id="APOS_ESPACE" name="apostrophe + espace">
+        <rulegroup id="APOS_ESPACE" name="apostrophe + espace">
             <antipattern>
                 <token regexp="yes">[«"]</token>
                 <token regexp="yes">[cdjlmnst]|qu|jusqu|lorsqu</token>
                 <token spacebefore="no" regexp="yes">['´‘’′]</token>
                 <token regexp="yes">[»"]</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">(.*[-‑‐])?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
-                <token spacebefore="no" regexp="yes">['´‘’′]</token>
-                <token spacebefore="yes"/>
-            </pattern>
-            <message>Il ne doit pas y avoir d’espace après l’apostrophe.</message>
-            <suggestion>\1\2\3</suggestion>
-            <example correction="d’enfants">Ils ont beaucoup <marker>d’ enfants</marker>.</example>
-            <example>Ils ont beaucoup d’enfants.</example>
-            <example correction="d’œuvre">Un chef-<marker>d’ œuvre</marker></example>
-            <example>Un chef-d’œuvre</example>
-            <example>« qu' »</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(.*[-‑‐])?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
+                    <token spacebefore="no" regexp="yes">['´‘’′]</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Il ne doit pas y avoir d’espace après l’apostrophe.</message>
+                <suggestion>\1\2\3</suggestion>
+                <example correction="d’enfants">Ils ont beaucoup <marker>d’ enfants</marker>.</example>
+                <example>Ils ont beaucoup d’enfants.</example>
+                <example correction="d’œuvre">Un chef-<marker>d’ œuvre</marker></example>
+                <example>Un chef-d’œuvre</example>
+                <example>« qu' »</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(.*[-‑‐])?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
+                        <token spacebefore="yes" regexp="yes">['´‘’′]</token>
+                    </marker>
+                    <!-- <token spacebefore="no"/>-->
+                </pattern>
+                <message>Il ne doit pas y avoir d’espace avant l’apostrophe.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="d’">Ils ont beaucoup <marker>d ’</marker>enfants.</example>
+                <example>Ils ont beaucoup d’enfants.</example>
+                <example correction="d’">Un chef-<marker>d ’</marker>œuvre</example>
+                <example correction="L'"><marker>L '</marker>histoire.</example>
+                <example correction="qu'">« <marker>qu '</marker> »</example>
+                <example>Un chef-d’œuvre</example>
+                <example>« qu' »</example>
+            </rule>
+        </rulegroup>
         <!--
     <rule default="on" id="APOS_TYP" name="apostrophe typographique">
       <pattern>
