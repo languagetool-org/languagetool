@@ -18831,6 +18831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error de puntuación</short>
                 <example correction="? La|?, la">¿Cuándo empieza<marker>? la</marker> semana siguiente.</example>
                 <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
+                <example>—¿Es vodka? —preguntó Margarita con voz débil.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -18846,14 +18847,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">[?!]</token>
-                    <token regexp="yes" min="1" max="3">[¿¡“‘«'"—–‒-]</token>
+                    <token regexp="yes" min="0" max="2">[“‘«'"—–‒-]</token>
+                    <token regexp="yes">[¿¡]</token>
+                    <token regexp="yes" min="0" max="2">[“‘«'"—–‒-]</token>
                     <marker>
                         <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
                     </marker>
                 </pattern>
                 <message>Falta una mayúscula o un signo de puntuación.</message>
-                <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+                <suggestion><match no="5" case_conversion="startupper"/></suggestion>
                 <example correction="Y">¿Qué quieres? "¡<marker>y</marker> qué más!"</example>
+                <example>—¿Es vodka? —preguntó Margarita con voz débil.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">[?!]</token>
+                    <token regexp="yes" min="1" max="2">[“‘«'"]</token>
+                    <marker>
+                        <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta una mayúscula o un signo de puntuación.</message>
+                <suggestion> <match no="3" case_conversion="startupper"/></suggestion>
+                <suggestion>, \3</suggestion>
+                <example correction=" Preguntó|, preguntó">¿Qué quieres?"<marker> preguntó</marker> el espíritu.</example>
+                <example>—¿Es vodka? —preguntó Margarita con voz débil.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
