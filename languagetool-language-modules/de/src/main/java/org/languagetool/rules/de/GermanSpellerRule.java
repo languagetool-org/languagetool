@@ -30,6 +30,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.spelling.CommonFileTypes;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.synthesis.Synthesizer;
@@ -1403,6 +1404,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
+    }
+    if (CommonFileTypes.getSuffixPattern().matcher(words.get(idx)).matches()) {
+      return true;
+    }
+    if (idx+1 < words.size() && (words.get(idx).endsWith(".mp") || words.get(idx).endsWith(".woff")) && words.get(idx+1).equals("")) {
+      // e.g. ".mp3" - the check for the empty string is because digits were removed during
+      // hunspell-style tokenization before
+      return true;
     }
     return ignore || ignoreUncapitalizedWord || ignoreBulletPointCase || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
   }
