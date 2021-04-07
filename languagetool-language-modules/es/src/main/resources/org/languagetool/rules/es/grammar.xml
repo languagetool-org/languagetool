@@ -11032,7 +11032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">piso|puerta|nota|vuelo|sección|artículo|apartado|cláusula|\p{Lu}+|ley|ruta|punto|plata|oro|zona|página|amplitud|esquina|tomo|siglo|calibre|aniversario|cumpleaños|bola|salmo|verso|versículo</token>
+                    <token regexp="yes" inflected="yes">piso|puerta|nota|vuelo|sección|artículo|apartado|cláusula|\p{Lu}+|ley|ruta|punto|plata|oro|zona|página|amplitud|esquina|tomo|siglo|calibre|aniversario|cumpleaños|bola|salmo|verso|versículo|número|decimal|top</token>
                     <token regexp="yes">[\d\.,]+[ºª]?</token>
                 </antipattern>
                 <antipattern>
@@ -11041,7 +11041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[\d\.,]+</token>
-                    <token regexp="yes" inflected="yes">alto|ancho|esquina|factorial|fax|tel|teléfono|este|oeste|norte|sur|piso|inch|ohm|sureste|suroeste|noreste|noroeste</token>
+                    <token regexp="yes" inflected="yes">alto|ancho|esquina|factorial|fax|tel|teléfono|este|oeste|norte|sur|piso|inch|ohm|bar|uma|sureste|suroeste|noreste|noroeste</token>
                 </antipattern>
                 <antipattern>
                     <token postag="DN.*" postag_regexp="yes"/>
@@ -11103,8 +11103,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <!--<token regexp="yes">[\d+\.]*</token>-->
-                    <token regexp="yes">[\.:,;-]</token>
-                    <token regexp="yes" spacebefore="no">[\d+\.]*</token>
+                    <token regexp="yes">[\.:,;\-]</token>
+                    <token regexp="yes" spacebefore="no">[\d+\.]+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[\d+\., ]+</token>
+                    <token regexp="yes">[\-–—]</token>
+                    <token regexp="yes">[\d+\., ]+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[nv]osotr[oa]s|ell[oa]s</token>
@@ -11168,6 +11173,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Con una de 15 sobra.</example>
                 <example>Más del triple de omega 3 suplementado que recomiendo.</example>
                 <example>En el salmo 119 verso 67 dice:</example>
+                <example>datado en 1564–1567 escrito como</example>
+                <example>Abajo vemos el número 5,25 representado en una forma binaria de coma fija.</example>
+                <example>el número decimal 27 codificado en forma binaria en un octeto</example>
+                <example>uno de sus destinos top 10 mundial de 2006</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número">
