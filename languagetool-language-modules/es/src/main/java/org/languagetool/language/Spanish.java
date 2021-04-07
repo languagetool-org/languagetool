@@ -201,6 +201,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "MUCHO_NF": return 25; // greater than AGREEMENT_DET_NOUN
       case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN 
       case "AGREEMENT_DET_NOUN": return 20;
+      case "ETCETERA": return 20; // greater than ESPACIO_DESPUES_DE_PUNTO
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "P_EJ": return 20;
       case "ESPACIO_DESPUES_DE_PUNTO": return 15;
