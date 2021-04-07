@@ -9543,7 +9543,7 @@ onwaarschijnlijk
 					<token postag="SENT_END" regexp="yes">[.?]</token>
 				</antipattern>
 				<pattern>
-					<token regexp="yes">(achter|voor|midden)(op|in)<exception postag="SENT_END"/><exception regexp="yes">[.,;:]</exception></token>
+					<token regexp="yes">(achter|voor|midden)(op|in)<exception postag_regexp="yes" postag="SENT_END|WKW.*"/><exception regexp="yes">[.,;:]|te|en|of|maar|waar</exception></token>
 				</pattern>
 				<message>In de meeste gevallen wordt dit los geschreven.</message>
 				<suggestion><match no="1" regexp_match="(in|op)$" regexp_replace=" $1"/></suggestion>
