@@ -9542,8 +9542,16 @@ onwaarschijnlijk
 					<token regexp="yes">(achter|voor|midden)(op|in)</token>
 					<token postag="SENT_END" regexp="yes">[.?]</token>
 				</antipattern>
+				<antipattern>
+					<token regexp="yes">(achter|voor|midden)(op|in)</token>
+					<token regexp="yes">[.,;:]|te|en|of|maar|waar</token>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">(achter|voor|midden)(op|in)</token>
+					<token postag_regexp="yes" postag="SENT_END|WKW.*"/>
+				</antipattern>
 				<pattern>
-					<token regexp="yes">(achter|voor|midden)(op|in)<exception postag_regexp="yes" postag="SENT_END|WKW.*"/><exception regexp="yes">[.,;:]|te|en|of|maar|waar</exception></token>
+					<token regexp="yes">(achter|voor|midden)(op|in)</token>
 				</pattern>
 				<message>In de meeste gevallen wordt dit los geschreven.</message>
 				<suggestion><match no="1" regexp_match="(in|op)$" regexp_replace=" $1"/></suggestion>
@@ -17952,7 +17960,7 @@ steenwijk;Steenwijk
 				<example correction="beroemdheid|ster">Met zijn boek is hij nu een heuse <marker>celebrity</marker> geworden.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MEETING" name="meeting → bijeenkomst">
+		<rulegroup id="MEETING" name="meeting → bijeenkomst" tags="picky">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -19766,7 +19774,7 @@ steenwijk;Steenwijk
 				<example correction="goed">Lees de tekst <marker>aandachtig</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AAN_DE_HAND_VAN" name="aan de hand van" >
+		<rulegroup id="AAN_DE_HAND_VAN" name="aan de hand van" tags="picky">
 			<rule>
 				<pattern>
 					<token>aan</token><token>de</token><token>hand</token><token>van</token>
@@ -25659,7 +25667,7 @@ steenwijk;Steenwijk
 				<example correction="met|door">De omgrenzing kunt u <marker>met behulp van</marker> onderstaande tekening bepalen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MET_BETREKKING_TOT" name="met betrekking tot">
+		<rulegroup id="MET_BETREKKING_TOT" name="met betrekking tot" tags="picky">
 			<rule>
 				<pattern>
 					<token>met</token><token>betrekking</token><token>tot</token>
@@ -27703,7 +27711,7 @@ steenwijk;Steenwijk
 				<example correction="samenvattend">Dus <marker>resumerend</marker> kun je zeggen dat ontplooiingsliberalen zich niet druk maken om de bovenkant van het loongebouw.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="RETOURNEREN" name="retourneren">
+		<rulegroup id="RETOURNEREN" name="retourneren" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">retourneren</token>
@@ -33048,7 +33056,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>  
 
-		<rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij">
+		<rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij" tags="picky">
 			<rule>
 				<pattern>
 					<token regexp="yes">.{4,}vrije?<exception regexp="yes">(gast)vrije?</exception></token>
