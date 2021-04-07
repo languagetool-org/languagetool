@@ -4940,7 +4940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>den</token>
                     <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" min="0" max="2" />
-                    <token postag="SUB:DAT:PLU:MAS" postag_regexp="yes" />
+                    <token postag="SUB:DAT:PLU:.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <token>den</token>
@@ -11362,7 +11362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Questions|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -19753,6 +19753,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="AN_FUER_SICH" name="an für sich (an und für sich)" default="temp_off">
+            <antipattern>
+                <token>sich</token>
+                <token>zu</token>
+                <token postag="VER:.+" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token skip="3">von</token>
+                <token />
+                <token>an</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Anfang|Beginn</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes" skip="5">fangen|feuern|halten</token>
+                <token>an</token>
+            </antipattern>
+            <pattern>
+                <token>an</token>
+                <token>für</token>
+                <token>sich</token>
+            </pattern>
+            <message>Standardsprachlich ist <suggestion>\1 und für sich</suggestion> korrekt. Alternativ kann hier auch das Synonym <suggestion>eigentlich</suggestion> verwendet werden.</message>
+            <url>https://www.duden.de/rechtschreibung/an_und_fuer_sich</url>
+            <example correction="An und für sich|Eigentlich"><marker>An für sich</marker> hast du recht.</example>
+            <example>Jeder ist verpflichtet, alle Information von Anfang an für sich zu behalten.</example>
+            <example>Es geht darum, sofort eine Mitarbeiterbindung herzustellen und die Leute von der ersten Sekunde an für sich zu begeistern.</example>
+        </rule>
         <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
             <rule>
                 <pattern>
@@ -21235,7 +21265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FRAGE_KLEIN" name="eine frage (Frage)">
             <rule>
                 <pattern>
-                    <token regexp="yes">einer?</token>
+                    <token regexp="yes">k?einer?</token>
                     <marker>
                         <token case_sensitive="yes">frage</token>
                     </marker>
@@ -21308,7 +21338,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DER_UNTERSCHIED" name="der unterschied (Unterschied)">
             <pattern>
-                <token regexp="yes">de[mnr]</token>
+                <token regexp="yes">de[mnr]|k?ein</token>
+                <token postag="ADJ:.+" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zäöü].+
+                    <exception regexp="yes">andere.*</exception>
+                </token>
                 <marker>
                     <token case_sensitive="yes">unterschied</token>
                 </marker>
@@ -21319,7 +21353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EINIGE_FRAGEN" name="einige fragen (Fragen)">
             <pattern>
-                <token regexp="yes">eine|zwei|einige|paar|wenige</token>
+                <token regexp="yes">k?eine|zwei|einige|paar|wenige</token>
                 <marker>
                     <token case_sensitive="yes" regexp="yes">fragen?</token>
                 </marker>
@@ -42087,6 +42121,7 @@ Andere Projekte</example>
                     <token case_sensitive="yes" skip="-1" regexp="yes">
                         Sie|Ihnen
                         <exception scope="next" postag="SUB:.+:PLU:.+" postag_regexp="yes" />
+                        <exception scope="next" postag="SUB:.+:SIN:FEM" postag_regexp="yes" />
                     </token>
                     <token postag="ADV:TMP|KON:NEB|PKT" postag_regexp="yes" />
                     <token min="0">bitte</token>
@@ -42102,6 +42137,7 @@ Andere Projekte</example>
                 <example correction="Sie">Schreiben Sie hier ihren Text oder fügen <marker>sie</marker> ihn einfach hier ein!</example>
                 <example correction="Sie">Wenn Sie Dank erwarten, gehen <marker>sie</marker> zum König!</example>
                 <example>Regelmäßig erhalten Sie alle notwendigen Studienunterlagen zugeschickt und bearbeiten sie in Ihrem individuellen Lerntempo - angepasst an Ihren persönlichen Zeitrahmen.</example>
+                <example>Da Siri, Alexa und Co. mit dem Internet verbunden sind, zaubern Sie Ihnen im Nullkommanichts die Antwort heraus – und sprechen sie womöglich sogar laut vor.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEN_DEM" name="'dem/den' (nur für wenige Verben)">
@@ -49617,7 +49653,7 @@ Andere Projekte</example>
                 <token>by</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
