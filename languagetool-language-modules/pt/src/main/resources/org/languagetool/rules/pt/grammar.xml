@@ -36064,6 +36064,12 @@ ISBN 978-3-8321-7760-7.
 pediu a ele → pediu-lhe
 pediu a eles → pediu-lhes	
 	-->
+	  <antipattern>
+			<token postag='DA.+|DI.+|PI.+' postag_regexp='yes'/>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token regexp='no'>a</token>
+			<token regexp='yes'>el[ae]s?</token>			
+	  </antipattern>	
 	  <rule>
 		<pattern>
 			<token negate="yes" regexp='yes'>me|se|ser|está</token>
@@ -36074,10 +36080,13 @@ pediu a eles → pediu-lhes
 				<token regexp='no'>a</token>
 				<token regexp='yes'>el[ae]</token>
 			</marker>
+			<token negate="yes" regexp='yes'>mesm[ao]s?|própri[ao]s?</token>
 		</pattern>
 		<message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
 		<suggestion>\2-lhe</suggestion>
 		<example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
+		<example>Eu dei muito trabalho a ele.</example>
+		<example>Eu expliquei a regra a ele.</example>		
 	  </rule>
 	  <rule>
 		<pattern>
@@ -36089,6 +36098,7 @@ pediu a eles → pediu-lhes
 				<token regexp='no'>a</token>
 				<token regexp='yes'>el[ae]s</token>
 			</marker>
+			<token negate="yes" regexp='yes'>mesm[ao]s?|própri[ao]s?</token>
 		</pattern>
 		<message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
 		<suggestion>\2-lhes</suggestion>
