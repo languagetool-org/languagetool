@@ -219,9 +219,13 @@ class PipelinePool {
         logger.error("Could not load remote rule configuration", e);
       }
       // modify remote rule configuration: no timeouts, downtime, ...
+
+      // temporary workaround: don't run into check timeout, causes limit enforcement;
+      // extend timeout as long as possible instead
+      long timeout = Math.max(config.getMaxCheckTimeMillis() - 1, 0);
       rules = rules.stream().map(c -> {
         return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
-          0, 0L, 0f,
+          0, timeout, 0f,
           0, 0L, c.getOptions());
       }).collect(Collectors.toList());
       lt.activateRemoteRules(rules);
