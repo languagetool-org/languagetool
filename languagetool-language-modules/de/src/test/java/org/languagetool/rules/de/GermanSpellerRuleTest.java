@@ -597,6 +597,8 @@ public class GermanSpellerRuleTest {
 
     // bullet points in Google Docs:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("\uFEFFAblenkungsfreie Schreibumgebung")).length);
+    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die blablaxx.mp3 und das sdifguds.avi bzw. die XYZXYZ.AVI")).length);
   }
 
   @Test
