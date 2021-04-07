@@ -1649,7 +1649,7 @@ Copyright (C) 2011 Juan Martorell
                 <token>van</token>
             </marker>
         </pattern>
-        <disambig action="replace" postag="NCFS000"></disambig>
+        <disambig action="replace" postag="NCFS000"/>
     </rule>
     <rule id="not_adj" name="not adj">
         <pattern>
@@ -4137,7 +4137,7 @@ Copyright (C) 2011 Juan Martorell
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="D.*|V.P.*|AQ.*" postag_regexp="yes"/>
-                <token postag="[DAN].*|PR.*" postag_regexp="yes"/>
+                <token postag="[DYAN].*|PR.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="SPS00|_GV_"/>
         </rule>
@@ -4262,6 +4262,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="NCFS000"/>
     </rule>
     <rulegroup id="Det_Noun" name="det + nombre">
+        <antipattern>
+            <token>qué</token>
+            <token postag="V.I.*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -4384,7 +4388,7 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|vales?|ganas?|cerca|compruebas?|cuelgas?|figura|forma|tira|giras?|mandas?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*|_GV_" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|vales?|ganas?|cerca|compruebas?|cuelgas?|figura|forma|tira|giras?|mandas?|aceptas?|cobras?|matas?|esperas?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*|_GV_" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="[AND].*"/>
     </rule>
@@ -4553,7 +4557,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*|V.P.*" postag_regexp="yes" regexp="yes">alumbrado|llena|venerando|computador(a|es|as)?|mal|solo|mejor|parejas?|jugador(a|es|as)?|matemáticas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes" regexp="yes">alumbrado|llena|venerando|computador(a|es|as)?|mal|solo|mejor|parejas?|jugador(a|es|as)?|matemáticas|docenas?|cenizas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*|RG|V.G.*" postag_regexp="yes"/>
                 </and>
             </marker>
