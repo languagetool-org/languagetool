@@ -1623,6 +1623,20 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="DOOR_DOR" name="waarschuwing bij gebruik dor i.p.v. door">
 			<rule>
+				<antipattern>
+					   <token>dor</token>
+					   <token postag_regexp="yes" postag="ZNW.*HET"/>
+				</antipattern>
+				<antipattern>
+					   <token>dor</token>
+						<token>en</token>
+					   <token postag_regexp="yes" postag=".*ONV"/>
+				</antipattern>
+				<antipattern>
+					   <token postag_regexp="yes" postag=".*ONV"/>
+						<token>en</token>
+					   <token>dor</token>
+				</antipattern>
 				<pattern>
 					   <token>dor</token>
 				</pattern>
@@ -10032,12 +10046,17 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
 			<antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/></antipattern>
+			<antipattern>
+				<!-- ons beiden -->
+				<token regexp="yes">ons|hen</token>
+				<token>beiden</token>
+			</antipattern>
 			<rule>
 				<pattern>
 					<token>beiden</token>
-					<token postag_regexp="yes" postag=".*MRV.*"/>
+					<token postag_regexp="yes" postag=".*MRV.*"><exception regexp="yes">de|onze</exception></token>
 				</pattern>
-				<message>Voor een meervoud moet het 'beide' zijn.</message>
+				<message>Als het \1 en \2 bij elkaar horen, moet het 'beide' zijn.</message>
 				<suggestion>beide \2</suggestion>
 				<example correction="beide deuren">Ik zie dat <marker>beiden deuren</marker> dicht zijn.</example>
 			</rule>			
@@ -10045,9 +10064,9 @@ onwaarschijnlijk
 				<pattern>
 					<token>beiden</token>
 					<token postag_regexp="yes" postag="BNW.*"/>
-					<token postag_regexp="yes" postag=".*MRV.*"/>
+					<token postag_regexp="yes" postag=".*MRV.*"><exception postag_regexp="yes" postag="WKW.*"/></token>
 				</pattern>
-				<message>Voor een meervoud moet het 'beide' zijn.</message>
+				<message>Als het \1 en \3 bij elkaar horen, moet het 'beide' zijn.</message>
 				<suggestion>beide \2 \3</suggestion>
 				<example correction="beide hoge bruggen">Ik zie dat <marker>beiden hoge bruggen</marker> dicht zijn.</example>
 			</rule>			
@@ -10870,11 +10889,11 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="AANDOEN" name="aandoen → aan doen">
 			<rule>
-                <antipattern>
-                    <!-- ziet er aangedaan uit -->
-                    <token>aangedaan</token>
-                    <token>uit</token>
-                </antipattern>
+				<antipattern>
+					<!-- ziet er aangedaan uit -->
+					<token>aangedaan</token>
+					<token>uit</token>
+				</antipattern>
 				<pattern>
 					<token skip="4" regexp="yes">daar|hier|er</token>
 					<marker>
@@ -11499,6 +11518,7 @@ onwaarschijnlijk
 					<token regexp="yes">[0-9]{1,3}</token>
 					<token>kopstukken</token>
 				</antipattern>
+				<antipattern><token>hoekige</token><token>hoofdletters</token></antipattern>
 				<pattern>
 					<token regexp="yes">[0-9]{1,3}</token>
 					<token regexp="yes">(jar|arm|ben|bloem|cell|ass|ei|rij|zad|del|hoek|tall|tal|stel|ur|pol)(ig|ige|igen)|(duim|daag|kop|persoon|steen|baan)(s|se|sen)|(tonne|ponde|plusse)(r|rs)</token>
@@ -16245,6 +16265,14 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
+				<antipattern>
+					<!-- , god, -->
+					<token></token>
+					<token>,</token>
+					<token></token>
+					<token>god</token>
+					<token>,</token>
+				</antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">god|sinterklaas|kerstman</token>
 				</pattern>
@@ -17111,7 +17139,7 @@ steenwijk;Steenwijk
 				<example correction="hij|i.e.|IE">Daar komt <marker>ie</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EEN_BOEL" name="een boel → veel">
+		<rulegroup id="EEN_BOEL" name="een boel → veel" tags="picky">
 			<rule>
 				<pattern>
 					<token>een</token>
@@ -17325,10 +17353,17 @@ steenwijk;Steenwijk
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<antipattern>
-					<!-- regel gaat niet op ald dat hier een voegwoord is -->
+					<!-- regel gaat niet op als dat hier een voegwoord is -->
 					<token>dat</token>
 					<token regexp="yes">het|dit|dat</token>
 				</antipattern>
+				<antipattern>
+					<token>aan</token>
+					<token regexp="yes">alles|n?iets</token>
+					<token>dat</token>
+					<token regexp="yes">het|dit|dat</token>
+				</antipattern>
+
 				<pattern>
 					<token>alles</token>
 					<marker>
@@ -18061,7 +18096,7 @@ steenwijk;Steenwijk
 				<example correction="praatprogramma">Gebruik de <marker>talkshow</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AIRCO" name="airconditioning → luchtbehandeling">
+		<rulegroup id="AIRCO" name="airconditioning → luchtbehandeling" tags="picky">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -18077,7 +18112,7 @@ steenwijk;Steenwijk
 				<example correction="luchtverfrisser|luchtbehandeling|klimaatregeling">De hotelkamervoorzieningen zijn onder andere <marker>airconditioning</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WEEKEND" name="weekend → weekeinde">
+		<rulegroup id="WEEKEND" name="weekend → weekeinde" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">weekend</token>
@@ -18092,7 +18127,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="CRUISECONTROL" name="cruisecontrol → snelheidsregeling">
+		<rulegroup id="CRUISECONTROL" name="cruisecontrol → snelheidsregeling" tags="picky">
 			<rule>
 				<!-- 2014-08-20 TaalTik -->
 				<pattern>
@@ -18180,14 +18215,19 @@ steenwijk;Steenwijk
 		-->
 		<rulegroup id="DIKKEN_MAN" name="een n te veel">
 			<rule>
-                <antipattern><token>van</token><token min="0" postag="BNW:STL:ONV"/><token>goeden</token><token>huize</token></antipattern>
+				<antipattern>
+					<!-- zoveel levenden -->
+					<token>zoveel</token>
+					<token postag_regexp="yes" postag=".*MRV.*"/>
+				</antipattern>
+				<antipattern><token>van</token><token min="0" postag="BNW:STL:ONV"/><token>goeden</token><token>huize</token></antipattern>
 				<antipattern><token>in</token><token>groten</token><token>getale</token></antipattern>
-                <antipattern><token>off</token><token>the</token><token>beaten</token><token>track</token></antipattern>
-                <antipattern><token>Broeders</token><token>des</token><token>Gemenen</token><token>Levens</token></antipattern>
-                <antipattern><token>gedaagden</token><token>sub</token></antipattern>
-                <antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
+				<antipattern><token>off</token><token>the</token><token>beaten</token><token>track</token></antipattern>
+				<antipattern><token>Broeders</token><token>des</token><token>Gemenen</token><token>Levens</token></antipattern>
+				<antipattern><token>gedaagden</token><token>sub</token></antipattern>
+				<antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
 				<pattern>
-					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden</exception></token>
+					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten</exception></token>
 					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet</exception></token>
 				</pattern>
 				<message>Er staat misschien een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion>.</message>
@@ -18214,9 +18254,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>een</token>
 					<marker>
-						<token postag=".*BNW:.*VRB.*" postag_regexp="yes"><exception regexp="yes">.*n|luxe|online</exception><exception postag="BNW:STL:ONV"/></token>
+						<token postag=".*BNW:.*VRB.*" postag_regexp="yes"><exception regexp="yes">.*n|luxe|online|bos</exception><exception postag="BNW:STL:ONV"/></token>
 					</marker>
-					<token postag_regexp="yes" postag=".*ZNW.*HET.*"><exception postag=".*ZNW.*DE_" postag_regexp="yes"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*HET.*"><exception postag=".*ZNW.*DE_|VRZ" postag_regexp="yes"/></token>
 					<token><exception postag=".*ZNW.*" postag_regexp="yes"/></token>
 				</pattern>
 				<message>U bedoelt vast <suggestion><match no="2" postag="BNW:STL:ONV" postag_regexp="yes"/></suggestion>.</message>
@@ -19820,7 +19860,7 @@ steenwijk;Steenwijk
 				<example correction="Omdat"><marker>Aangezien</marker> het een kubus is, zijn er 3 dimensies (dus 3 variabelen).</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AANMERKELIJK" name="aanmerkelijk">
+		<rulegroup id="AANMERKELIJK" name="aanmerkelijk" tags="picky">
 			<rule>
 				<pattern>
 					<token>aanmerkelijk</token>
@@ -31118,22 +31158,6 @@ steenwijk;Steenwijk
 				<example correction="als hij|dan hij">En toch voelde ik dat ik vlotter liep <marker>als hem</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ALS_JOU" name="als jou">
-			<rule>
-				<pattern>
-					<marker>
-						<token regexp="yes">als|dan</token>
-						<token>jou</token>
-					</marker>
-					<token><exception postag=".*ZNW.*" postag_regexp="yes"/></token>
-				</pattern>
-				<message>Bedoelt u: <suggestion><match no="1"/> jij</suggestion>?</message>
-				<example correction="als jij">Hij is even groot <marker>als jou</marker>.</example>
-				<example correction="als jij">Waarom hebben we juist iemand <marker>als jou</marker> nodig?</example>
-				<example correction="dan jij">Je spreekt respectvol tegen personen die hogergeplaatst zijn <marker>dan jou</marker>.</example>
-				<example correction="als jij">Nee, affectie krijg je niet van die diertjes, ze kennen me evengoed <marker>als jou</marker>.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="AANVAART" name="Aanvaart">
 			<rule>
 				<pattern>
@@ -32840,7 +32864,7 @@ steenwijk;Steenwijk
 		<rulegroup id="BEDOENING" name="Bedoening → bedoeling">
 			<rule>
 				<pattern>
-					<token postag="BNW:STL:VRB"><exception regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze|hele|vrolijke|vreemde|dure|vieze|levendige|chique|krappe|treurige</exception></token>
+					<token postag="BNW:STL:VRB"><exception regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze|hele|vrolijke|vreemde|dure|vieze|levendige|chique|krappe|treurige|bloederige|eenzame</exception></token>
 					<token>bedoening</token>
 				</pattern>
 				<message>Bedoelt u misschien: <suggestion>\1 bedoeling</suggestion> (intentie)?</message>
@@ -32851,7 +32875,7 @@ steenwijk;Steenwijk
 		<rulegroup id="BEDOELING" name="Bedoeling → bedoening">
 			<rule>
 				<pattern>
-					<token regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze|hele|vrolijke|vreemde|dure|vieze|levendige|chique|krappe|treurige</token>
+					<token regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze|hele|vrolijke|vreemde|dure|vieze|levendige|chique|krappe|treurige|kille|koele|nare|zielloze</token>
 					<token>bedoeling</token>
 				</pattern>
 				<message>Bedoelt u misschien: <suggestion>\1 bedoening</suggestion> (toestand, gedoe)?</message>
@@ -33679,7 +33703,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token/>
 					<token><exception postag="BNW:STL:VRB"/></token>
-					<token>bate</token>
+					<token case_sensitive="yes">bate</token>
 					<token/>
 				</pattern>
 				<message>U bedoelt vast <suggestion><match no="1"/> <match no="2"/> baten <match no="4"/></suggestion>, <suggestion><match no="1"/> ten bate van</suggestion> of <suggestion>te <match no="2"/> bate <match no="4"/></suggestion>. Moderniseren is overigens beter.</message>
@@ -34570,7 +34594,7 @@ steenwijk;Steenwijk
 					<token>alles</token>
 					<token>of</token>
 					<token>niets</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|is|spelen|kan</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|is|spelen|kan|was</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -35392,12 +35416,18 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="ALLE_DRIE_WINNAARS" name="Alle drie winnaars → alle drie de winnaars">
 			<rule>
+				<antipattern>
+					<!-- zijn we alle drie soldaten -->
+					<token>zijn</token>
+					<token>we</token>
+					<token>alle</token>
+				</antipattern>
 				<pattern>
 					<token><exception>zijn</exception></token>
 					<marker>
 						<token>alle</token>
 						<token regexp="yes">twee|drie|vier</token>
-						<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_"><exception postag="WKW:(TGW|VLT):INF|WKW:VTD:ONV" postag_regexp="yes"/></token>
+						<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_"><exception postag="WKW:(TGW|VLT):INF|WKW:VTD:ONV|BYW.*" postag_regexp="yes"/></token>
 					</marker>
 				</pattern>
 				<message>Bedoelt u misschien: <suggestion>\2 \3 de \4</suggestion>.</message>
@@ -37180,10 +37210,23 @@ steenwijk;Steenwijk
 				<antipattern><token>agar</token><token>agar</token></antipattern>
 				<antipattern><token>ja</token><token>ja</token></antipattern>
 				<antipattern><token>balletje</token><token>balletje</token></antipattern>
+				<antipattern>
+					<!-- zich om om -->
+					<token>zich</token>
+					<token>om</token>
+					<token>om</token>
+				</antipattern>				
+				<antipattern>
+					<!-- om om hulp te vragen -->
+					<token>om</token>
+					<token skip="4">om</token>
+					<token>te</token>
+					<token postag="WKW:TGW:INF"/>
+				</antipattern>
 				<pattern>
 					<token><exception>’</exception></token>
 					<marker>
-						<token regexp="yes">.*[a-z].*<exception postag="SENT_START"/></token>
+						<token regexp="yes" case_sensitive="yes">.*[a-z].*<exception postag="SENT_START"/></token>
 						<token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het|etc|enz|bling|lepeltje|ja|ha|nou</exception></token>
 					</marker>
 				</pattern>
@@ -39985,102 +40028,6 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>Gebruikelijk is 'iets kleins', maar klopt wat hier staat wel?</message>
 				<example type="incorrect"><marker>blijven kleins</marker>.</example>		
-			</rule>
-		</rulegroup>
-	</category>	
-	<category id="CATCH_REST" name="Catch strange sentences">
-		<rulegroup id="CATCH_4" name="zinnen met 4 woorden" default="temp_off">
-			<rule>
-				<antipattern>
-					<token postag="SENT_START" skip="-1"/>
-					<token skip="-1" postag="UNKNOWN" />
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-				</antipattern>
-				<antipattern>
-					<!-- Ik ben zesentwintig -->
-					<token postag="SENT_START"/>
-					<token>Ik</token>
-					<token regexp="yes">ben|word</token>
-					<token postag="GET:MRV"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern> 
-				<antipattern>
-					<!-- Restaurants zijn duur. -->
-					<token postag="SENT_START"/>
-					<token postag_regexp="yes" postag=".*MRV.*"/>
-					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
-					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-				<!-- Buitenlanders intrigeren me. -->
-					<token postag="SENT_START"/>
-					<token postag_regexp="yes" postag=".*MRV.*"/>
-					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
-					<token regexp="yes">me|mij|hem|haar|hen|ze</token>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-					<!-- We kunnen los. -->
-					<token postag="SENT_START"/>
-					<token regexp="yes">we|wij|ze|zij</token>
-					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
-					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-					<!-- Tom ging snorkelen.-->
-					<token postag="SENT_START"/>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
-					<token postag="WKW:TGW:INF"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-					<!-- Vergeef me alsjeblieft. -->
-					<token postag="SENT_START"/>
-					<token postag="WKW:TGW:1EP"/>
-					<token regexp="yes">me|mij|hem|haar|hen|ze</token>
-					<token postag="TSW"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-					<!-- Komt u binnen. -->
-					<token postag="SENT_START"/>
-					<token postag="WKW:TGW:3EP"/>
-					<token>u</token>
-					<token postag="BYW"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-					<!-- Ze werd zwanger. -->
-					<token postag="SENT_START"/>
-					<token regexp="yes">ze|zij|hij|men</token>
-					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
-					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-				<antipattern>
-					<!-- Carina werd zwanger. -->
-					<token postag="SENT_START"/>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
-					<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
-					<token postag="SENT_END" regexp="yes">[.!]</token>
-				</antipattern>
-					
-				<pattern case_sensitive="yes">
-					<token postag="SENT_START"/>
-					<marker>
-						<token/>
-						<token/>
-						<token/>
-						<token postag="SENT_END" regexp="yes">[.!?]</token>
-					</marker>
-				</pattern>
-				<message>Dit is een ongebruikelijke zinsbouw. Kijk deze nog eens na.</message>
-				<example type="incorrect"><marker>Aapje deur onzin.</marker></example>
-				<example>Ze werd zwanger.</example>
 			</rule>
 		</rulegroup>
 	</category>	
