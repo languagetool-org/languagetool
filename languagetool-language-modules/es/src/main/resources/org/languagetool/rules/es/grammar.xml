@@ -17729,7 +17729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREPOSITIONS" name="Preposiciones">
-        <rule id="EQUIVALENTE_A" name="equivalente a" default="temp_off">
+        <rule id="EQUIVALENTE_A" name="equivalente a">
             <antipattern>
                 <token regexp="yes" skip="-1">equivalentes?</token>
                 <token regexp="yes">al|a|y|e|o</token>
@@ -17838,6 +17838,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion>.</message>
                 <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc...</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token>…</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundancia. Use <suggestion>, etc.</suggestion> o <suggestion>…</suggestion>.</message>
+                <example correction=", etc.|…">Tres, cuatro, cinco<marker>,…etc</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundancia. Use <suggestion>, etc.</suggestion> o <suggestion>…</suggestion>.</message>
+                <example correction=", etc.|…">Tres, cuatro, cinco<marker>,... etc</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>…</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundancia. Use <suggestion>, etc.</suggestion> o <suggestion>…</suggestion>.</message>
+                <example correction=", etc.|…">Tres, cuatro, cinco<marker>…etc</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundancia. Use <suggestion>, etc.</suggestion> o <suggestion>…</suggestion>.</message>
+                <example correction=", etc.|…">Tres, cuatro, cinco<marker>... etc</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
         </rulegroup>
