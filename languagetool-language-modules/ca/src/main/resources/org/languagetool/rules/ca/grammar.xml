@@ -29877,13 +29877,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MA" name="ma/mà">
             <!-- exigir context: davant: article, adjectiu, preposició. O darrere: preposició... -->
+            <antipattern>
+                <token>ma</token>
+                <token>non</token>
+                <token>tropo</token>
+            </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">(?-i)ma</token>
+                    <token postag="N.[FC]S.*|A..[FC]S.*|V.P..SF." postag_regexp="yes"></token>
+                </antipattern>
                 <pattern>
                     <token postag="[ASPD].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">(?-i)ma</token>
                     </marker>
-                    <token><exception postag="N.[FC]S.*|A..[FC]S.*|V.P..SF." postag_regexp="yes"/><exception>non</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
@@ -29893,6 +29901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mà">Aquella <marker>ma</marker>.</example>
                 <example>A ma mare.</example>
                 <example correction="mà">De primera <marker>ma</marker> a les festes.</example>
+                <example correction="mà">Un cop de <marker>ma</marker></example>
                 <example>Aquella mà.</example>
                 <example>Estimava moltíssim ma mare.</example>
                 <example>En tota ma vida.</example>
@@ -29948,12 +29957,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A ma mare.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>ma</token>
+                    <token postag="AQ.[FC]S.*|V.P..SF." postag_regexp="yes"/>
+                    <token regexp="yes">pàtria|iaia|mare|cosina|tia|germana|àvia|besàvia|rebesàvia|bestia|néta|besnéta|rebesnéta</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>ma</token>
                     </marker>
                     <token postag="AQ.[FC]S.*|V.P..SF." postag_regexp="yes"/>
-                    <token><exception regexp="yes">pàtria|iaia|mare|cosina|tia|germana|àvia|besàvia|rebesàvia|bestia|néta|besnéta|rebesnéta</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
