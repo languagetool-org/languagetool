@@ -320,6 +320,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sa</token>
                     <token>fait</token>
                 </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token>tiens</token>
+                    <token>vaut</token>
+                    <token>mieux</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="number"/>
@@ -482,6 +489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Les troupes avaient plein d'armes.</example>
                 <example>Il y a plein d'œufs frais sur la table. </example>
                 <example>Nous en avions toutes connaissance.</example>
+                <example>Un tiens vaut mieux que deux tu l'auras.</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -21944,7 +21952,8 @@ though, and has since been slightly modified)-->
                     <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
                     <marker>
                         <token postag="N .*" postag_regexp="yes"/>
-                        <token>la<exception postag="_GN_FS"/></token>
+                        <token>la
+                            <exception postag="_GN_FS"/></token>
                     </marker>
                 </pattern>
                 <message>Il manque probablement un trait d’union.</message>
@@ -39745,6 +39754,27 @@ though, and has since been slightly modified)-->
                 <example correction="d’enfants">Ils ont beaucoup <marker>d’ enfants</marker>.</example>
                 <example>Ils ont beaucoup d’enfants.</example>
                 <example correction="d’œuvre">Un chef-<marker>d’ œuvre</marker></example>
+                <example>Un chef-d’œuvre</example>
+                <example>« qu' »</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(.*[-‑‐])?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
+                        <token spacebefore="yes" regexp="yes">['´‘’′]</token>
+                        <token spacebefore="yes"/>
+                    </marker>
+                </pattern>
+                <message>Il ne doit pas y avoir d’espace avant ou après l’apostrophe.</message>
+                <suggestion>\1\2\3</suggestion>
+                <example correction="d’enfants">Ils ont beaucoup <marker>d ’ enfants</marker>.</example>
+                <example>Ils ont beaucoup d’enfants.</example>
+                <example correction="d’œuvre">Un chef-<marker>d ’ œuvre</marker></example>
+                <example correction="L'histoire"><marker>L ' histoire</marker>.</example>
                 <example>Un chef-d’œuvre</example>
                 <example>« qu' »</example>
             </rule>
