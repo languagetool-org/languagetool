@@ -4093,7 +4093,7 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example correction="à">La distance <marker>a</marker> vol d’oiseau.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>a</token>
                     <token>lui</token>
@@ -21837,14 +21837,16 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="N .*" postag_regexp="yes">
-                        <exception regexp="yes">est|pas|car</exception>
-                        <exception postag="V.*" postag_regexp="yes"/>
-                        <exception scope="previous">en</exception> </token>
-                    <token regexp="yes">l[àa]</token>
-                    <token postag="M .*" postag_regexp="yes"/>
+                    <token regexp="yes">ce|cet|cette|ces</token>
+                    <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+                    <marker>
+                        <token postag="N .*" postag_regexp="yes"/>
+                        <token regexp="yes">l[àa]</token>
+                        <token postag="M .*" postag_regexp="yes"/>
+                        <!-- TODO: not ending with punctuation? -->
+                    </marker>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+                <message>Voulez-vous dire <suggestion>\3-là</suggestion> ?</message>
                 <example correction="hiver-là">Il faisait froid cet <marker>hiver là.</marker></example>
                 <example correction="hiver-là">Il faisait froid cet <marker>hiver la.</marker></example>
                 <example>Il faisait froid cet <marker>hiver-là.</marker></example>
@@ -21854,6 +21856,7 @@ though, and has since been slightly modified)-->
                 <example>Si là, ce n'est pas fait, Macron et ses successeurs sauront qu'ils peuvent faire ce qu'ils veulent.</example>
                 <example>Il est peu probable que cette affaire en reste là.</example>
                 <example>Le problème est qu'il s'agit d'un circuit en série là.</example>
+                <example>Ça me fait mal là.</example>
             </rule>
             <rule>
                 <pattern>
@@ -42569,6 +42572,7 @@ though, and has since been slightly modified)-->
             <example>C'est de ce fait qu'il est toujours conseillé.</example>
             <example>Tout Paris est de sortie.</example>
             <example>Toutes tes paroles sont de sacrés mensonges.</example>
+            <example>Nous sommes de fieffés bandits, tous.</example>
         </rule>
         <rulegroup id="PIRE_ALLER" name="pire(-)aller">
             <rule>
