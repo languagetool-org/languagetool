@@ -894,7 +894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- better disambiguation of "V ppr" needed -->
                 <token postag="V ppr"/>
-                <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s" postag_regexp="yes"/>
+                <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s|UNKNOWN" postag_regexp="yes"/>
                 <!-- PARA tags? -->
             </antipattern>
             <antipattern>
@@ -1144,7 +1144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">par|d[ue]|en|ce|à</token>
-                <token regexp="yes">nature|genre|exemple|théorie|préférence|sytle|soir|suite|matin|midi|type|hasard|évidence|application|part</token>
+                <token regexp="yes">nature|genre|exemple|théorie|préférence|style|soir|suite|matin|midi|type|hasard|évidence|application|part</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1200,6 +1200,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="Z.*" postag_regexp="yes"/>
                 <token postag="V .* 3 s" postag_regexp="yes"/>
             </antipattern>
+             <antipattern>
+                <token>bon</token>
+                <token>à</token>
+                <token>savoir</token>
+            </antipattern>
+             <antipattern>
+                 <token postag="N.*" postag_regexp="yes"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+                <token>/</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+                <token>partie</token>
+                <token regexp="yes">des?</token>
+                <token min="0" max="1">«</token>
+                <token postag="A.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">NP|CLAVEAU|Claveau</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>fait</token>
+                <token regexp="yes">[«/"/']</token>
+                <token regexp="yes">meuh|cocorico</token>
+            </antipattern>
+             <antipattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>forte</token>
+                <token>puissance</token>
+            </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
                     <exception postag="J e sp|_GN_.*" postag_regexp="yes"/>
@@ -1227,6 +1260,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="chers">Les atlas <marker>cher</marker>.</example>
             <example>Reste attentive à quoi que ce soit qui se présente !</example>
             <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
+            <example>Répartition des CLAVEAU décédés par département de naissance.</example>
+            <example>Le feuilleton télévisé Plus belle la vie met en scène de nombreux acteurs.</example>
+            <example>Presse agrumes construit pour durer.</example>
+            <example>Ils placent la barre toujours plus haut.</example>
+            <example>Elle est la plus importante des NP connues.</example>
+            <example>Il espère ne pas faire partie des « moins bons ».</example>
+            <example>Il utilise un système de climatisation chaud/froid.</example>
+            <example>Il supervise les ventes de l'ensemble des programmes de moteurs forte puissance.</example>
+            <example>A droite la chapelle Saint-Charles.</example>
+            <example>Il est en théorie plus dangereux.</example>
+            <example>Elle présente déjà au dos différentes “étagères”.</example>
+            <example>Cette cuisinière fait 44 pouces de large.</example>
+            <example>La vache fait "meuh" et le coq fait "cocorico".</example>
+            <example>Ta tapisserie fait plutôt du genre tapette.</example>
+            <example>La marque fait attention à la qualité de ses matériaux.</example>
+            <example>Le cache-culbuteurs chromé est une pièce importante dans un véhicule.</example>
+            <example>Nous nous sommes tous ensemble cassé la tête pour rédiger des dissertations intéressantes et utiles.</example>
+            <example>Nos intérêts stratégiques convergent avec ceux des pays alliés.</example>
+            <example>Cette route conduit au parc.</example>
+            <example>La théorie décrit comment il faut faire.</example>
+            <example>L'autorité contraint à l'obéissance.</example>
+            <example>Brève en images consacrée au président.</example>
+            <example>Il devra payer ses fournisseurs et ses employés plus cher.</example>
+            <example>La contrepartie consistant en actionnant le mécanisme.</example>
+            <example>Il apprécie les alcools rares du style chartreuse.</example>
             <example>Si tu rencontres une interprète danois-maltais.</example>
             <example>Site de rencontres adultes mariés.</example>
             <example>Ta femme dit de telles choses.</example>
@@ -1249,6 +1307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La loi contraint tous les citoyens à payer des impôts.</example>
             <example>Vous avez tous deux bien fait.</example>
             <example>La vérité fait mal</example>
+            <example>Une entreprise de construction bon à savoir les constructeurs de maisons préfabriqué.</example>
             <example>Quelle taille fait la ville ?</example>
             <example>Bill fanfaronne puisqu'il a le plus grand véhicule du voisinage.</example>
             <example>Le chef du groupe désintègre la voiture contenant Carver.</example>
@@ -1410,7 +1469,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="amical|amicale">Un prix d'entrée <marker>amicales</marker>.</example>
             <example>Le temple a été plusieurs fois agrandi et réaménagé.</example>
             <example>Se montre alors très agressif.</example>
-            <example>Elle raconte n'avoir jamais été aussi gênée de sa vie.</example>
             <example>Les besoins du plus grand nombre l'emportent sur les nécessités du plus petit.</example>
             <example>L'Espagne produit beaucoup d'oranges.</example>
             <example>Elle devient une petite boule de feu sportive.</example>
