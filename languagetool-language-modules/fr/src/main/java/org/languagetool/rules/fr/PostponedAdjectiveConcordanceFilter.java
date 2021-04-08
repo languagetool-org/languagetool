@@ -109,7 +109,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern LOC_ADV = Pattern.compile("A");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("A");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("et|ou|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("Y|J .*|N .*|D .*|P.*|V ppa .*|M nonfin|UNKNOWN|Z.*|V.* inf");
+  private static final Pattern KEEP_COUNT = Pattern.compile("Y|J .*|N .*|D .*|P.*|V ppa .*|M nonfin|UNKNOWN|Z.*|V.* inf|V ppr");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|et|ou|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile("[;:\\(\\)\\[\\]–—―‒]");
   private static final Pattern PREPOSICIONS = Pattern.compile("P");

@@ -1254,7 +1254,7 @@ RB => Règles Brutes
                     <feature id="gender"/>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux</token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
@@ -1267,7 +1267,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
@@ -1358,6 +1358,20 @@ RB => Règles Brutes
     </rule>
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: adverbs -->
+    <rulegroup name="complément circonstanciel" id="COMPLEMENT_CIRCONSTANTIEL">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">début|milieu|fin|courant</token>
+                    <token postag="Y"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_CC"/>
+                <wd pos="_CC"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="HAUT_ADVERBE" name="haut adverbe">
         <pattern>
             <token postag="V.*" postag_regexp="yes"/>
@@ -1904,7 +1918,7 @@ RB => Règles Brutes
                         <exception>fait</exception></token>
                 </marker>
                 <token postag="A" min="0"/>
-                <token postag="M.*" postag_regexp="yes"/>
+                <token postag="M.*|P" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="V (ind|sub) pres 3 ."/>
             <example type="untouched">Sa conclusion s'est avérée fausse.</example>
@@ -2783,9 +2797,9 @@ RB => Règles Brutes
         </rule>
         <rule name="le/la/les/l'">
             <pattern>
-                <token postag="R pers suj .*" postag_regexp="yes"/>
+                <token postag="R pers suj .*" postag_regexp="yes"><exception regexp="yes">-.*</exception></token>
                 <marker>
-                    <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
+                    <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l'|la|le|les</token>
                 </marker>
             </pattern>
             <disambig>
@@ -3376,7 +3390,7 @@ RB => Règles Brutes
             <marker>
                 <token>suivant</token>
             </marker>
-            <token postag="[DJ].*" postag_regexp="yes"/>
+            <token postag="[DJ].*" postag_regexp="yes"><exception postag="P"/></token>
         </pattern>
         <disambig postag="P"/>
     </rule>
@@ -4659,66 +4673,6 @@ RB => Règles Brutes
                 <token spacebefore="no"/>
             </pattern>
             <disambig action="ignore_spelling"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="COMPLEMENT_CIRCONSTANTIEL_MANIERE" name="complément circonstantiel de manière">
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">âgée?s?</token>
-                    <token>de</token>
-                    <token postag="Y"/>
-                    <token>ans</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_CCM"/>
-                <wd pos="_CCM"/>
-                <wd pos="_CCM"/>
-                <wd pos="_CCM"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>quelques</token>
-                    <token>instants</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_CCM"/>
-                <wd pos="_CCM"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-    <rulegroup name="complément circonstanciel" id="COMPLEMENT_CIRCONSTANTIEL">
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">début|milieu|fin|courant</token>
-                    <token postag="Y"/>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_CC"/>
-                <wd pos="_CC"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>dans</token>
-                    <token>les</token>
-                    <token>années</token>
-                    <token postag="Y"/>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_CC"/>
-                <wd pos="_CC"/>
-                <wd pos="_CC"/>
-                <wd pos="_CC"/>
-            </disambig>
         </rule>
     </rulegroup>
     <rulegroup id="NOMINAL_GROUPS" name="nonimal groups">
