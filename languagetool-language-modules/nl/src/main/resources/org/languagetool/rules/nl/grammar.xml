@@ -7171,6 +7171,7 @@ onwaarschijnlijk
 				<example type="incorrect">75% is meer dan voldoende in het middelbaar <marker>aso</marker>.</example>
 			</rule>
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">spier.*</token></antipattern>
 				<pattern>
 					<token regexp="yes">bot|botten|motorbotten|winterbotten|zomerbotjes</token>
 				</pattern>
@@ -17432,7 +17433,7 @@ steenwijk;Steenwijk
 					<token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-z]$</token>
 					<token spacebefore="no">.</token>
 					<marker>
-						<token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zA-Z].*<exception postag="UNKNOWN"/><exception regexp="yes">dat|doc</exception></token>
+						<token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zA-Z].*<exception postag="UNKNOWN"/><exception regexp="yes">dat|doc|abc</exception></token>
 					</marker>
 				</pattern>
 				<message>Zet een spatie en een hoofdletter bij een zinsovergang.</message>
@@ -17770,7 +17771,7 @@ steenwijk;Steenwijk
 				<example>Je moet <marker>instorten</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CHECKEN" name="checken → controleren" >
+		<rulegroup id="CHECKEN" name="checken → controleren" tags="picky">
 			<!-- 2014-08-21 TaalTik -->
 			<rule>
                 <antipattern><token>in</token><token>te</token><token>checken</token></antipattern>
@@ -17781,7 +17782,7 @@ steenwijk;Steenwijk
 				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">nakijken</match></suggestion>
 				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">controleren</match></suggestion>
 				<suggestion suppress_misspelled="yes"><match no="1" postag="ZNW.*" postag_regexp="yes">controle</match></suggestion>
-				<example correction="nakijken|controleren|controle|controles">Je moet niet <marker>checken</marker>.</example>
+				<example correction="nakijken|controleren|controle|controles|controletje|controletjes">Je moet niet <marker>checken</marker>.</example>
 				<example>Je moet <marker>controleren</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -18499,8 +18500,9 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="OR_EENH_GETAL" name="Tussen eenheid en getal een spatie">
-			<!-- 2014-08-21 TaalTik -->
 			<rule>
+				<antipattern><token postag="SENT_START"/><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
+				<antipattern><token regexp="yes">[0-9]{1,3}[AB]</token><token>en</token><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">(([-]|[+]){0,1}[1-9]{0,1}[0-9]{1,10})(A|mA|V|kV|mm|cm|km|B|MB|GB|TB|°C|°F)</token>
 				</pattern>
@@ -19503,7 +19505,7 @@ steenwijk;Steenwijk
 					<token>eerst</token>
 					<token>dan</token>
 				</pattern>
-				<message>Dit is ouderwets. Gebruik <suggestion>pas dan</suggestion>.</message>
+				<message>Als hier 'eerst' gebruikt wordt als 'pas', dan is moderner: <suggestion>pas dan</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
 				<example correction="Pas dan"><marker>Eerst dan</marker> kunnen immers argumenten hierover worden gewisseld.</example>
 				<example correction="pas dan">In mijn Naam zullen zij besluiten nemen, <marker>eerst dan</marker> zal ik hen zegenen.</example>
@@ -32771,6 +32773,19 @@ steenwijk;Steenwijk
 				<example correction="×|*|bij">Dit <marker>x</marker> 4!</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="X_KEER" name="5x / 5 ×">
+			<rule>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">[0-9]+x</token>
+				</pattern>
+				<message>Wanneer u met de x 'maal' of 'keer' bedoelt dan hoort er een spatie voor en zijn er betere tekens. Of gebruik woorden.</message>
+				<suggestion><match no="1" regexp_match="x" regexp_replace=" ×"/></suggestion>
+				<suggestion><match no="1" regexp_match="x" regexp_replace=" *"/></suggestion>
+				<suggestion><match no="1" regexp_match="x" regexp_replace=" maal"/></suggestion>
+				<suggestion><match no="1" regexp_match="x" regexp_replace=" keer"/></suggestion>
+				<example correction="5 ×|5 *|5 maal|5 keer">Ik heb het al <marker>5x</marker> gezegd.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ONTWARBAAR" name="ontwarbaar → onontwarbaar">
 			<rule>
 				<pattern>
@@ -37193,27 +37208,27 @@ steenwijk;Steenwijk
 	</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
 		<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
+			<antipattern><token postag="VGW"/><token>het</token><token>het</token><token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/></antipattern><!-- alsof het het begin is -->
+			<antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
+			<antipattern><token>de</token><token>een</token><token>een</token><token postag="ZNW:EKV.*" postag_regexp="yes"/></antipattern>
+			<antipattern><token>is</token><token>is</token></antipattern>
+			<antipattern><token>agar</token><token>agar</token></antipattern>
+			<antipattern><token>ja</token><token>ja</token></antipattern>
+			<antipattern><token>balletje</token><token>balletje</token></antipattern>
+			<antipattern>
+				<!-- zich om om -->
+				<token>zich</token>
+				<token>om</token>
+				<token>om</token>
+			</antipattern>				
+			<antipattern>
+				<!-- om om hulp te vragen -->
+				<token>om</token>
+				<token skip="4">om</token>
+				<token>te</token>
+				<token postag="WKW:TGW:INF"/>
+			</antipattern>
 			<rule>
-				<antipattern><token postag="VGW"/><token>het</token><token>het</token><token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/></antipattern><!-- alsof het het begin is -->
-				<antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
-				<antipattern><token>de</token><token>een</token><token>een</token><token postag="ZNW:EKV.*" postag_regexp="yes"/></antipattern>
-				<antipattern><token>is</token><token>is</token></antipattern>
-				<antipattern><token>agar</token><token>agar</token></antipattern>
-				<antipattern><token>ja</token><token>ja</token></antipattern>
-				<antipattern><token>balletje</token><token>balletje</token></antipattern>
-				<antipattern>
-					<!-- zich om om -->
-					<token>zich</token>
-					<token>om</token>
-					<token>om</token>
-				</antipattern>				
-				<antipattern>
-					<!-- om om hulp te vragen -->
-					<token>om</token>
-					<token skip="4">om</token>
-					<token>te</token>
-					<token postag="WKW:TGW:INF"/>
-				</antipattern>
 				<pattern>
 					<token><exception>’</exception></token>
 					<marker>
