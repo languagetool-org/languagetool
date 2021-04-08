@@ -315,6 +315,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">à|aux</token>
             </antipattern>
             <rule id="D_N" name="Concordance du déterminant avec le nom">
+                <antipattern>
+                    <!-- rule SA_CA" -->
+                    <token>sa</token>
+                    <token>fait</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="number"/>
@@ -480,7 +485,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
-            <rule id="D_J" name="Concordance du déterminant avec l’adjectif" default="temp_off">
+            <rule id="D_J" name="Concordance du déterminant avec l’adjectif">
+                <antipattern>
+                    <token>cette</token>
+                    <token>bon</token>
+                    <token>dieu</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="[NJZ] [fe] (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- pers. = personne(s) -->
+                    <token regexp="yes">la|les|une|des</token>
+                    <token>pers</token>
+                    <token>.</token>
+                </antipattern>
                 <antipattern>
                     <token postag="K"/>
                     <token inflected="yes" regexp="yes">diviser|multiplier|élever</token>
@@ -496,9 +514,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
-                    <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+                    <token regexp="yes">1er|[123]?\d</token>
                     <token postag="C coor"/>
-                    <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+                    <token regexp="yes">1er|[123]?\d</token>
                     <token regexp="yes">&mois_annee;</token>
                 </antipattern>
                 <antipattern>
@@ -541,8 +559,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>avec lui, la menaçant de s'en prendre à Paul</example>
                 <example>En attendant, comme le précise Yvon Le Bot.</example>
                 <example>J'ai été plusieurs arnaquée.</example>
-                <example type="triggers_error" reason="ambiguous, impossible to know if it is an abbreviation">En parlant de la manière dont se comporte <marker>une pers</marker>.</example>
-                <example>Les 1er et 2d février.</example>
+                <example>En parlant de la manière dont se comporte <marker>une pers</marker>.</example>
+                <example>Les 1er et 2 février.</example>
                 <example>certains portant le nom Motza</example>
                 <example>sur la base de l'article 19 du TUE</example>
                 <example>Ils se sont juste tous donné le mot.</example>
@@ -551,6 +569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nous avons toute la mort pour nous reposer.</example>
                 <example>En avez-vous tous fini, ici ?</example>
                 <example>Tous sauf neuf mourraient.</example>
+                <example>Je n'arrive pas à me débarrasser de cette bon Dieu de phrase !</example>
             </rule>
         </rulegroup>
         <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
@@ -631,6 +650,203 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quelqu'un d'intelligent remarque tout.</example>
             <example>Bouclier de protection des données Union Européenne-États-Unis</example>
             <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
+        </rule>
+        <rule id="AGREEMENT_NUMERAL_PLURAL_" name="Concordance de nombre suivi de nom" default="temp_off">
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">&mois_annee;</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">multiplié|divisé</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">terminal|master|numéro|variante|option|total|version|taille|étape|leçon|acte|scène</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!--  Peugeot 208 -->
+                <token postag="Z.*" postag_regexp="yes"/>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token>#</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- date 05/12/20 -->
+                <token postag="Y"/>
+                <token spacebefore="no">/</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <!-- p. 75 (page 75) -->
+                <token>p</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- version number: 2.3.2 -->
+                <token regexp="yes">\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- version number: 2.3.2 -->
+                <token regexp="yes" spacebefore="no">\d+\.\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- Star Wars 8  -->
+                <token>Star</token>
+                <token>Wars</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">office|microsoft</token>
+                <token>365</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{5}</token>
+                <token/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">n[°º]</token>
+                <token regexp="yes">\d+</token>
+                <token postag=".*s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- time -->
+                <token regexp="yes">\d{1,2}</token>
+                <token regexp="yes">h|:</token>
+                <token regexp="yes">\d{1,2}</token>
+            </antipattern>
+            <antipattern>
+                <!-- time -->
+                <token regexp="yes">\d{1,2}h</token>
+                <token regexp="yes">\d{1,2}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">du|en|le|Copyright|©</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">au|téléphone|tél|tph|phone</token>
+                <token min="0">.</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <pattern>
+                <token postag="Y">
+                    <exception>1</exception></token>
+                <marker>
+                    <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
+                        <exception postag="[NJ] . (p|sp)|V.* ppa . (p|sp)|V.* 3 s" postag_regexp="yes"/>
+                        <exception>pro</exception></token>
+                </marker>
+            </pattern>
+            <message suppress_misspelled="yes">'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés en nombre.</message>
+            <suggestion><match no="2" postag="([NJ] .|V ppa .) s" postag_regexp="yes" postag_replace="$1 p"/></suggestion>
+            <example correction="amis">10 <marker>ami</marker>.</example>
+            <example correction="vues">Nous avons enregistré 554 000 <marker>vue</marker> ces 3 derniers mois</example>
+            <example correction="enfants">J’ai 4 <marker>enfant</marker>.</example>
+            <example correction="parties">Le pays est découpé en 4 <marker>partie</marker>.</example>
+            <!-- Euro: also lowercase ? -->
+            <example correction="Euros">Cela coûte 1,25 <marker>Euro</marker>.</example>
+            <example>Le cours d'allemand commence le 5 octobre.</example>
+            <example>Il devait arriver à Pékin à 6 h 30 locale.</example>
+            <example>Le quotient de 21 divisé par 7 est 3.</example>
+            <example>2016 touche à sa fin.</example>
+            <example>J’ai 4 enfants.</example>
+            <example>20144 Sainte Lucie de Porto-Vecchio</example>
+            <example>Il est né le 4 <marker>janvier</marker>.</example>
+            <example>Son adresse est 4 <marker>rue</marker> de la gare.</example>
+            <example>Figure 0, page 3 montre sur le pignon du vilebrequin.</example>
+            <example>Il sera élu en 2010 maire de la ville.</example>
+            <example>Le pays est découpé en 4 parties.</example>
+            <example>Une taille 38 imposée aux mannequins.</example>
+            <example>Il a battu le record avec un temps de 3 <marker>min</marker> 18 s.</example>
+            <example>Une Peugeot 208 <marker>fabriquée</marker> en France.</example>
+            <example>L’année 800 fut considérée comme une renaissance de l’Empire romain d’Occident.</example>
+            <example>Contactez-moi au 0101010101 merci beaucoup !</example>
+            <example>Le passeport n° 157208191 délivré le 01/12/2015.</example>
+            <example>L'horaire de cette nouvelle réunion hippique, dimanche, sur l'anneau lavallois a été avancé à 12 h 45 car neuf courses sont au programme.</example>
+            <example>10:44:28 Sujet</example>
+            <example>ÉTAPE 6 LEÇON 2</example>
+            <example>#5397811 est terminé</example>
+            <example>14/05/20 ajouté à la</example>
+            <example>iPhone 11 Pro</example>
+            <example>l’acte 5 scène 4</example>
+            <example>2.3.3 Musique</example>
+            <example>Nous avons enregistré 554 000 vues ces 3 derniers mois</example>
+        </rule>
+        <rule id="AGREEMENT_NUMERAL_SINGULAR_" name="Concordance de 1 suivi de nom" default="temp_off">
+            <antipattern>
+                <!-- n + 1 puissances -->
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">\+|-</token>
+                <token regexp="yes">[0-9]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token>/</token>
+                <token>1</token>
+            </antipattern>
+            <antipattern>
+                <!-- les machines de type 1 utilisées -->
+                <token regexp="yes">type|classe|catégorie</token>
+                <token>1</token>
+            </antipattern>
+            <antipattern>
+                <token>top</token>
+                <token postag="K"/>
+            </antipattern>
+            <antipattern>
+                <token>top</token>
+                <token regexp="yes">[0-9]+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">numéros?</token>
+                <token>1</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">et|ou</token>
+                <token>1</token>
+            </antipattern>
+            <antipattern>
+                <token postag="K"/>
+                <token postag="Y"/>
+            </antipattern>
+            <pattern>
+                <token postag="Y">1</token>
+                <marker>
+                    <token postag="[NJ] . p|V ppa . p" postag_regexp="yes">
+                        <exception postag="[NJ] . (s|sp)|V.* ppa . (p|sp)" postag_regexp="yes"/>
+                        <exception>Corinthiens</exception></token>
+                </marker>
+            </pattern>
+            <message suppress_misspelled="yes">'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés en nombre.</message>
+            <suggestion><match no="2" postag="([NJ] .|V ppa .) p" postag_regexp="yes" postag_replace="$1 s"/></suggestion>
+            <example correction="ami">1 <marker>amis</marker>.</example>
+            <example correction="enfant">J’ai 1 <marker>enfants</marker>.</example>
+            <example>J’ai 1 enfant.</example>
+            <example>Cela coûte 2,1 Euros.</example>
+            <example>Ils sont âgés de 4 et 1 ans.</example>
+            <example>1 fois.</example>
+            <example>L'école acta une séparation filles garçons.</example>
+            <example>J'ai lu cela dans 1 Corinthiens.</example>
+            <example>Tu ne dois jamais écrire deux 1 consécutifs.</example>
+            <example>C'est donc n+1 puissances plus grand.</example>
+            <example>C'est donc n + 1 puissances plus grand.</example>
+            <example>C'est donc n-1 puissances plus grand.</example>
+            <example>C'est donc n - 1 puissances plus grand.</example>
+            <example>Voici deux numéros 1 mondiaux.</example>
+            <example>C'est produit par Day 1 Studios.</example>
+            <example>Les résultats de l'équipe nationale 1 messieurs sont décevants.</example>
+            <example>Les machines de type 1 achetées chez nous sont plus chères.</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -3939,7 +4155,7 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example correction="à">La distance <marker>a</marker> vol d’oiseau.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>a</token>
                     <token>lui</token>
@@ -21667,7 +21883,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">l[àa]</token>
                     <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>là-\2</suggestion> ?</message>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>là-\2</suggestion>
                 <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
                 <example correction="là-bas">Je vais <marker>là bas</marker>.</example>
             </rule>
@@ -21676,21 +21893,26 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">jusque|celles?|celui|ceux</token>
                     <token>là</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\1-là</suggestion>
                 <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="Jusque-là"><marker>Jusque là</marker> tout va bien.</example>
                 <example correction="Celle-là"><marker>Celle là</marker>, elle sait comment faire.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="N .*" postag_regexp="yes">
-                        <exception regexp="yes">est|pas|car</exception>
-                        <exception postag="V.*" postag_regexp="yes"/>
-                        <exception scope="previous">en</exception> </token>
-                    <token regexp="yes">l[àa]</token>
-                    <token postag="M .*" postag_regexp="yes"/>
+                    <token regexp="yes">ce|cet|cette|ces</token>
+                    <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+                    <marker>
+                        <token postag="N .*" postag_regexp="yes"/>
+                        <token regexp="yes">l[àa]</token>
+                        <token postag="M .*" postag_regexp="yes"/>
+                        <!-- TODO: not ending with punctuation? -->
+                    </marker>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\3-là</suggestion>
+                <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="hiver-là">Il faisait froid cet <marker>hiver là.</marker></example>
                 <example correction="hiver-là">Il faisait froid cet <marker>hiver la.</marker></example>
                 <example>Il faisait froid cet <marker>hiver-là.</marker></example>
@@ -21700,6 +21922,36 @@ though, and has since been slightly modified)-->
                 <example>Si là, ce n'est pas fait, Macron et ses successeurs sauront qu'ils peuvent faire ce qu'ils veulent.</example>
                 <example>Il est peu probable que cette affaire en reste là.</example>
                 <example>Le problème est qu'il s'agit d'un circuit en série là.</example>
+                <example>Ça me fait mal là.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ce|cet|cette|ces</token>
+                    <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+                    <marker>
+                        <token postag="N .*" postag_regexp="yes"/>
+                        <token>là</token>
+                    </marker>
+                </pattern>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\3-là</suggestion>
+                <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
+                <example correction="hiver-là">Cet <marker>hiver là</marker> n'est pas un hiver comme les autres</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ce|cet|cette|ces</token>
+                    <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+                    <marker>
+                        <token postag="N .*" postag_regexp="yes"/>
+                        <token>la<exception postag="_GN_FS"/></token>
+                    </marker>
+                </pattern>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\3-là</suggestion>
+                <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
+                <example correction="hiver-là">Cet <marker>hiver la</marker> n'est pas un hiver comme les autres</example>
+                <example>Cet hiver la Maison de la Forêt ouvrira ses portes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -39496,7 +39748,11 @@ though, and has since been slightly modified)-->
                 <example>Un chef-d’œuvre</example>
                 <example>« qu' »</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">(.*[-‑‐])?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
@@ -39540,7 +39796,7 @@ though, and has since been slightly modified)-->
                 <token chunk="containsTypewriterApostrophe" regexp="yes">(.*)'(.*)
                     <exception>'</exception></token>
             </pattern>
-            <message>Employez l’apostrophe typographique.</message>
+            <message>Souhaitez-vous employer l’apostrophe typographique ?</message>
             <suggestion><match no="1" regexp_match="(.*)'(.*)" regexp_replace="$1’$2"/></suggestion>
             <example correction="d’">Ils ont beaucoup <marker>d'</marker>enfants.</example>
             <example correction="C’"><marker>C'</marker>beau.</example>
@@ -42411,6 +42667,7 @@ though, and has since been slightly modified)-->
             <example>C'est de ce fait qu'il est toujours conseillé.</example>
             <example>Tout Paris est de sortie.</example>
             <example>Toutes tes paroles sont de sacrés mensonges.</example>
+            <example>Nous sommes de fieffés bandits, tous.</example>
         </rule>
         <rulegroup id="PIRE_ALLER" name="pire(-)aller">
             <rule>

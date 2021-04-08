@@ -3136,6 +3136,26 @@
       <disambig action="ignore_spelling"/>
     </rule>
   </rulegroup>
+  <rulegroup name="Ignore spelling of domain names" id="IMMUNIZE_DOMAIN_NAMES">
+    <rule>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token regexp="yes" spacebefore="no">[A-Za-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="immunize"/>  
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="immunize"/>  
+    </rule>
+  </rulegroup>
     <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
       <pattern case_sensitive="yes">
           <token regexp="yes">[A-Za-z0-9\-]+</token>
