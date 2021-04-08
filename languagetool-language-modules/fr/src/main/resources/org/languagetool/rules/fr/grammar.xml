@@ -315,6 +315,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">à|aux</token>
             </antipattern>
             <rule id="D_N" name="Concordance du déterminant avec le nom">
+                <antipattern>
+                    <!-- rule SA_CA" -->
+                    <token>sa</token>
+                    <token>fait</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="number"/>
@@ -480,7 +485,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
-            <rule id="D_J" name="Concordance du déterminant avec l’adjectif" default="temp_off">
+            <rule id="D_J" name="Concordance du déterminant avec l’adjectif">
+                <antipattern>
+                    <token>cette</token>
+                    <token>bon</token>
+                    <token>dieu</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="[NJZ] [fe] (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- pers. = personne(s) -->
+                    <token regexp="yes">la|les|une|des</token>
+                    <token>pers</token>
+                    <token>.</token>
+                </antipattern>
                 <antipattern>
                     <token postag="K"/>
                     <token inflected="yes" regexp="yes">diviser|multiplier|élever</token>
@@ -496,9 +514,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
-                    <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+                    <token regexp="yes">1er|[123]?\d</token>
                     <token postag="C coor"/>
-                    <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+                    <token regexp="yes">1er|[123]?\d</token>
                     <token regexp="yes">&mois_annee;</token>
                 </antipattern>
                 <antipattern>
@@ -541,8 +559,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>avec lui, la menaçant de s'en prendre à Paul</example>
                 <example>En attendant, comme le précise Yvon Le Bot.</example>
                 <example>J'ai été plusieurs arnaquée.</example>
-                <example type="triggers_error" reason="ambiguous, impossible to know if it is an abbreviation">En parlant de la manière dont se comporte <marker>une pers</marker>.</example>
-                <example>Les 1er et 2d février.</example>
+                <example>En parlant de la manière dont se comporte <marker>une pers</marker>.</example>
+                <example>Les 1er et 2 février.</example>
                 <example>certains portant le nom Motza</example>
                 <example>sur la base de l'article 19 du TUE</example>
                 <example>Ils se sont juste tous donné le mot.</example>
@@ -551,6 +569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nous avons toute la mort pour nous reposer.</example>
                 <example>En avez-vous tous fini, ici ?</example>
                 <example>Tous sauf neuf mourraient.</example>
+                <example>Je n'arrive pas à me débarrasser de cette bon Dieu de phrase !</example>
             </rule>
         </rulegroup>
         <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
@@ -632,7 +651,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bouclier de protection des données Union Européenne-États-Unis</example>
             <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
         </rule>
-        <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom" default="temp_off">
+        <rule id="AGREEMENT_NUMERAL_PLURAL_" name="Concordance de nombre suivi de nom" default="temp_off">
             <antipattern>
                 <token postag="Y"/>
                 <token regexp="yes">&mois_annee;</token>
@@ -648,7 +667,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!--  Peugeot 208 -->
                 <token postag="Z.*" postag_regexp="yes"/>
-                <token regexp="yes">\d+</token>
+                <token postag="Y"/>
             </antipattern>
             <antipattern>
                 <token>#</token>
@@ -656,9 +675,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- date 05/12/20 -->
-                <token regexp="yes">\d+</token>
+                <token postag="Y"/>
                 <token spacebefore="no">/</token>
-                <token regexp="yes" spacebefore="no">\d+</token>
+                <token postag="Y"/>
             </antipattern>
             <antipattern>
                 <!-- p. 75 (page 75) -->
@@ -702,7 +721,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- time -->
                 <token regexp="yes">\d{1,2}</token>
-                <token>h</token>
+                <token regexp="yes">h|:</token>
                 <token regexp="yes">\d{1,2}</token>
             </antipattern>
             <antipattern>
@@ -711,12 +730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d{1,2}</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\d+</token>
-                <token>:</token>
-                <token regexp="yes">\d+</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">du|en|le</token>
+                <token regexp="yes">du|en|le|Copyright|©</token>
                 <token regexp="yes">\d\d\d\d</token>
             </antipattern>
             <antipattern>
@@ -768,12 +782,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>2.3.3 Musique</example>
             <example>Nous avons enregistré 554 000 vues ces 3 derniers mois</example>
         </rule>
-        <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom" default="temp_off">
+        <rule id="AGREEMENT_NUMERAL_SINGULAR_" name="Concordance de 1 suivi de nom" default="temp_off">
             <antipattern>
                 <!-- n + 1 puissances -->
                 <token regexp="yes">[a-z]</token>
                 <token regexp="yes">\+|-</token>
                 <token regexp="yes">[0-9]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token>/</token>
+                <token>1</token>
             </antipattern>
             <antipattern>
                 <!-- les machines de type 1 utilisées -->
