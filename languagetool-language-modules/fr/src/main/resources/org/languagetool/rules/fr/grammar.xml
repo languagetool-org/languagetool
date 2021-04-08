@@ -913,7 +913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- better disambiguation of "V ppr" needed -->
                 <token postag="V ppr"/>
-                <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s" postag_regexp="yes"/>
+                <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s|V inf|UNKNOWN" postag_regexp="yes"/>
                 <!-- PARA tags? -->
             </antipattern>
             <antipattern>
@@ -1074,9 +1074,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">en|une?|sans|bien|pour|de|tout|fin</token>
-                <token regexp="yes">majeure|petit|peu|aucun|tou[ts]|quelque|bonne|l(e)?|des?|ainsi|grand</token>
-                <token regexp="yes">part(ie)?|peu|cause|doute|points?|égards|moins|manière|dire|monde|heure|nombre|soirée</token>
+                <token regexp="yes">en|une?|sans|bien|pour|de|tout|fin|au</token>
+                <token regexp="yes">majeure|petit|peu|aucun|tou[ts]|quelque|bonne|l(e)?|des?|ainsi|grand|format</token>
+                <token regexp="yes">part(ie)?|peu|cause|doute|points?|égards|moins|manière|dire|monde|heure|nombre|soirée|identité</token>
                 <token postag="A.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
@@ -1201,8 +1201,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ?? -->
                 <token regexp="yes">dites|dit</token>
             </antipattern>
-            <antipattern>
+           <antipattern>
                 <token postag="_CC"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+             <antipattern>
+                <token postag="[NV].*" postag_regexp="yes"/>
+                <token postag="_CCM" min="1" max="2"/>
                 <token postag="A" min="0" max="3"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
@@ -1218,6 +1224,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="Z.*" postag_regexp="yes"/>
                 <token postag="V .* 3 s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">grec|latin</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+             <token>émissions</token>
+            <token>de</token>
+            <token>télé</token>
+            <token postag="J f p|V ppa f p" postag_regexp="yes"/>
+                </antipattern>
+             <antipattern>
+                <token>en</token>
+                <token>termes</token>
+                <token skip="1">de</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
@@ -1248,6 +1271,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
             <example>Si tu rencontres une interprète danois-maltais.</example>
             <example>Site de rencontres adultes mariés.</example>
+            <example>Des idées menus, décoration et cadeaux.</example>
+            <example>Le château a été transformé en un merveilleux musée.</example>
+            <example>C'est efficace à nonante-neuf virgule neuf pour cent.</example>
+            <example>Quand A prête de l'argent à B, B doit rembourser le montant prêté.</example>
+            <example>C'est moi qui étais présent à l'école, hier.</example>
+            <example>Le patient patiente dans la salle d'attente, avant d'être reçu par le médecin.</example>
+            <example>La nationalité est accordée aux enfants nés de parents possédant eux-mêmes la nationalité.</example>
+            <example>Son père ne peut plus supporter de lui donner chaque mois une somme importante.</example>
+            <example>Le droit à l'eau et celui à l'énergie sont au demeurant intimement liés et interdépendants.</example>
+            <example>Les jardins japonais sont d'ordinaire pourvus d'étangs.</example>
+            <example>Tom est de la tête aux pieds programmé pour l'amour.</example>
+            <example>L'utilisation du jeu de la vérité entre Bishop et Ivy est à mes yeux parfaitement placé.</example>
+            <example>Ceux qui nous flinguent dans les rues de Paris ne sont ni des moines bouddhistes, ni des actrices porno.</example>
+            <example>Gérard Lefort de Libération écrit que les films sont captivants.</example>
+            <example>Préférez-vous les émissions de télé sous-titrées ou doublées ?</example>
+            <example>Le terme myoclonie est issu du grec mus, muscle et klonos, agitation.</example>
+            <example>Certains à parler de lui en termes de « faussement naïf ».</example>
+            <example>Quel est le réel degré de préparation et de concertation élus-services avant un conseil municipal ?</example>
+            <example>Il est possible d'appeler la propriété identifiant ProCyclingStats par les raccourcis « PCS » ou « pcs ».</example>
+            <example>Elle a dit qu'elle avait une rencontre parents-enfants et qu'elle serait en retard.</example>
+            <example>L'avare dépense plus mort en un seul jour, qu'il ne le faisait de son vivant.</example>
+            <example>Le mur murant Paris rend Paris murmurant.</example>
+            <example>Aucune chance que quelque chose d'aussi gros tienne sur le porte-bagages d'un vélo.</example>
+            <example>Le père âgé de 35 ans présente des troubles psychologiques.</example>
+            <example>Il faut consommer moins de ressources en un an que ce que la Terre produit.</example>
+            <example>Éthel resta quelques instants pâle et muette.</example>
+            <example>Elle tourbillonnait sur un vieux tapis de Perse.</example>
+            <example>Vous trouvez également des cahiers spirales 180 pages sur notre boutique en ligne.</example>
+            <example>Valeurs actuelles présente ainsi en mars 2018 quelques éléments de l'enquête.</example>
+            <example>Une seule mort, mais plusieurs causes.</example>
+            <example>Notice du Catalogue général de la BNF, section périodiques, en ligne.</example>
+            <example>Vous les trouverez en utilisant les boutons précédent et suivant sur chacune des lignes.</example>
+            <example>Le 500 mètres masculin et le 1 000 mètres féminin ne sont pas des épreuves individuelles identiques.</example>
+            <example>Ça laisse pensif.</example>
+            <example>Marie fait beaucoup plus vieille que son âge.</example>
+            <example>Une solution perdant-perdant par excellence !</example>
+            <example>La marque produit, conditionne et commercialise des légumes frais.</example>
+            <example>a Journée portes ouvertes est aussi une occasion de faire de nouvelles connaissances.</example>
+            <example>Appliquer le matin pour un effet liftant et bonne mine immédiat.</example>
             <example>Ta femme dit de telles choses.</example>
             <example>Vous cherchez une petite décoration vite fait bien fait pour Noël prochain ?</example>
             <example>Quizz de Maths destiné aux élèves de Collège.</example>
