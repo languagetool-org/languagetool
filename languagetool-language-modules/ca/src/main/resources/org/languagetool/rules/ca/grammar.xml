@@ -33701,6 +33701,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <rule id="QUATRE_PUNTS" name=" més de tres punts suspensius" default="temp_off">
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token max="3">.</token>
+            </pattern>
+            <message>N'hi ha prou amb tres punts suspensius.</message>
+            <suggestion>...</suggestion>
+            <suggestion>…</suggestion>
+            <example correction="...|…">Són<marker>....</marker></example>
+        </rule>
         <rulegroup id="CA_INITIAL_QUESTION_MARK" name="Signes de exclamació/interrogació sense parella">
             <antipattern>
                 <token skip="-1">¿<exception scope="next">¿</exception></token>
@@ -35657,7 +35669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="TRESPUNTS_PUNT" name="tres punts + punt">
                 <pattern>
                     <token>…</token>
-                    <token>.</token>
+                    <token min="1" max="3">.</token>
                 </pattern>
                 <message>Error de puntuació.</message>
                 <suggestion>…</suggestion>
@@ -57657,6 +57669,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>,</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>, ... etc.</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token>…</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>,… etc.</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>.</token>
                     <token>.</token>
                     <token>.</token>
@@ -57679,6 +57719,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>…</suggestion>
                 <suggestion>, etc.</suggestion>
                 <example correction="…|, etc.">Tres, quatre, cinc<marker>… etc.</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>,... etc</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token>…</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>,… etc</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>... etc</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>…</token>
+                    <token>etc</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>… etc</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
         </rulegroup>
