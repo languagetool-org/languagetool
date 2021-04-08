@@ -21878,6 +21878,33 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
       <example correction="acerto de contas">Temos de fazer um <marker>asserto de contas</marker>.</example>
     </rule>
 
+	<!-- ASSISTIR (Ver) -->
+    <rule id='ASSISTIR_VER' name="Confusão: Assistir (ver)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-08 (17-MAR-2021+)      -->
+	<!--
+Todos assistiram o filme de Elizabeth Taylor. → Todos assistiram ao filme de Elizabeth Taylor.
+Apenas adultos podem assistir àquele filme.
+	-->
+		<pattern>
+			<token inflected='yes'>assistir</token>
+			<marker>
+				<token negate="yes" regexp='yes'>a|às?|aos?
+					<exception postag_regexp='yes' postag='SPS.+'/>
+				</token>
+			</marker>			
+			<token min="0" max="1" regexp='yes'>uma?|uns|umas</token>
+			<token regexp='yes'>cinema|espetáculos?|filmes?|futebol|jogos?|partidas?|peças?|programas?|shows?|teatro|televisão|TV</token>
+		</pattern>
+		<message>Neste caso o verbo 'assistir' refere-se a 'ver'.</message>
+		<suggestion>a</suggestion>
+		<suggestion>à</suggestion>
+		<suggestion>às</suggestion>
+		<suggestion>ao</suggestion>
+		<suggestion>aos</suggestion>
+		<example correction="a|à|às|ao|aos">Todos assistiram <marker>o</marker> filme de Elizabeth Taylor.</example>
+		<example>Apenas adultos podem assistir àquele filme.</example>
+    </rule>
+
     <rule id='CONTANTO_CONTANDO' name="Confusão: contanto/contando">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
