@@ -21821,7 +21821,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">l[àa]</token>
                     <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>là-\2</suggestion> ?</message>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>là-\2</suggestion>
                 <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
                 <example correction="là-bas">Je vais <marker>là bas</marker>.</example>
             </rule>
@@ -21830,7 +21831,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">jusque|celles?|celui|ceux</token>
                     <token>là</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\1-là</suggestion>
                 <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="Jusque-là"><marker>Jusque là</marker> tout va bien.</example>
                 <example correction="Celle-là"><marker>Celle là</marker>, elle sait comment faire.</example>
@@ -21846,7 +21848,9 @@ though, and has since been slightly modified)-->
                         <!-- TODO: not ending with punctuation? -->
                     </marker>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\3-là</suggestion> ?</message>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\3-là</suggestion>
+                <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="hiver-là">Il faisait froid cet <marker>hiver là.</marker></example>
                 <example correction="hiver-là">Il faisait froid cet <marker>hiver la.</marker></example>
                 <example>Il faisait froid cet <marker>hiver-là.</marker></example>
@@ -21857,6 +21861,35 @@ though, and has since been slightly modified)-->
                 <example>Il est peu probable que cette affaire en reste là.</example>
                 <example>Le problème est qu'il s'agit d'un circuit en série là.</example>
                 <example>Ça me fait mal là.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ce|cet|cette|ces</token>
+                    <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+                    <marker>
+                        <token postag="N .*" postag_regexp="yes"/>
+                        <token>là</token>
+                    </marker>
+                </pattern>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\3-là</suggestion>
+                <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
+                <example correction="hiver-là">Cet <marker>hiver là</marker> n'est pas un hiver comme les autres</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ce|cet|cette|ces</token>
+                    <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+                    <marker>
+                        <token postag="N .*" postag_regexp="yes"/>
+                        <token>la<exception postag="_GN_FS"/></token>
+                    </marker>
+                </pattern>
+                <message>Il manque probablement un trait d’union.</message>
+                <suggestion>\3-là</suggestion>
+                <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
+                <example correction="hiver-là">Cet <marker>hiver la</marker> n'est pas un hiver comme les autres</example>
+                <example>Cet hiver la Maison de la Forêt ouvrira ses portes.</example>
             </rule>
             <rule>
                 <pattern>
