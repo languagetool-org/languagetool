@@ -1326,6 +1326,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N f.*"/>
     </rule>
+    <rule id="FEUILLE" name="feuille">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">feuille</token>
+            </marker>
+            <token regexp="yes">de|du|des|d'</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="MUSEE" name="musée">
         <pattern>
             <token postag="D e p|D m s" postag_regexp="yes"/>
@@ -1360,7 +1369,7 @@ RB => Règles Brutes
                     <feature id="gender"/>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien</token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
@@ -1373,7 +1382,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
