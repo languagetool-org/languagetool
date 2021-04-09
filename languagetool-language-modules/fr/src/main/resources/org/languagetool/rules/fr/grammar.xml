@@ -157,6 +157,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="le Java">Des compilateurs compilent ainsi directement <marker>le java</marker> en code objet natif.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+<exception>1</exception></token>
+                        <token regexp="yes">édition|trimestre</token>
+                    </marker>
+                </pattern>
+                <message>S'il s'agit d'un nombre ordinal, il s'écrit <suggestion>\1ᵉ \2</suggestion></message>
+                <suggestion>\1 \2s</suggestion>
+                <example correction="2ᵉ édition|2 éditions">Paris, <marker>2 édition</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
             <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
@@ -767,6 +778,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>anniversaire</token>
             </antipattern>
             <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">vol|pers</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">isbn|iban</token>
                 <token min="1" max="8" regexp="yes">\d+|-</token>
             </antipattern>
@@ -824,6 +840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>De retour en Angleterre pour un séjour prolongé fin 1943 début 1944.</example>
             <example> le 31 État de l’Union</example>
             <example>la 9 Symphonie de Beethoven</example>
+            <example>Paris, 1731, 2 vol.</example>
         </rule>
         <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom" default="temp_off">
             <antipattern>
