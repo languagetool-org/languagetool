@@ -694,7 +694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="Y"/>
-                <token regexp="yes">multiplié|divisé</token>
+                <token regexp="yes">multiplié|divisé|Avenue|Boulevard</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">terminal|master|numéro|variante|option|total|version|taille|étape|leçon|acte|scène|top|verset|chapitre|vers</token>
@@ -794,7 +794,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token postag="Y">
-                    <exception>1</exception></token>
+                    <exception>1</exception>
+                    <exception regexp="yes">.*\.(\d\d\.)+.*</exception></token>
                 <marker>
                     <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
                         <exception postag="[NJ] . (p|sp)|V.* ppa . (p|sp)|V.* 3 s|_CC" postag_regexp="yes"/>
@@ -842,6 +843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example> le 31 État de l’Union</example>
             <example>la 9 Symphonie de Beethoven</example>
             <example>Paris, 1731, 2 vol.</example>
+            <example>+33(0)3.87.20.05.05 Email</example>
         </rule>
         <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom" default="temp_off">
             <antipattern>
@@ -13254,6 +13256,12 @@ though, and has since been slightly modified)-->
                     <token>)</token>
                     <token regexp="yes">an|ans</token>
                 </antipattern>
+                <antipattern>
+                    <!-- literary expression -->
+                    <token>poids</token>
+                    <token>des</token>
+                    <token>ans</token>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception>par</exception>
@@ -13276,6 +13284,7 @@ though, and has since been slightly modified)-->
                 <example correction="année">Bon <marker>an</marker> !</example>
                 <example correction="année">Chaque <marker>an</marker>, nous allons célébrer dans un grand restaurant.</example>
                 <example correction="années">pendant les bons <marker>ans</marker></example>
+                <example correction="années">suffisamment répétée au fil des <marker>ans</marker></example>
                 <example>Régiments de hussards (an IV).</example>
                 <example>Cinq ans après le diagnostic, 70 % des 15–45 ans survivent.</example>
                 <example>Il est venu chez nous fêter le nouvel an.</example>
@@ -13292,6 +13301,7 @@ though, and has since been slightly modified)-->
                 <example>et tous les deux ans se déroule le Festival international du cirque</example>
                 <example>bon an mal an</example>
                 <example>bon an, mal an</example>
+                <example>Je sens le poids des ans.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -39851,7 +39861,7 @@ though, and has since been slightly modified)-->
                 <example>Un chef-d’œuvre</example>
                 <example>« qu' »</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s</token>
