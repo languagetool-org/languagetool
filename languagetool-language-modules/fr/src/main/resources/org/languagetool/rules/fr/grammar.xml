@@ -37052,18 +37052,19 @@ though, and has since been slightly modified)-->
                     <unify>
                         <feature id="person"/>
                         <feature id="tense"/>
-                        <marker>
                             <token postag="V.*" postag_regexp="yes"/>
                             <unify-ignore>
-                                <token><match no="0"/></token>
+                            <marker>
+                               <token postag="R pers suj.*" postag_regexp="yes">
+                        <exception regexp="yes">vous|nous</exception></token>
+                                </marker>
                             </unify-ignore>
                             <token postag="V.*" postag_regexp="yes"/>
-                        </marker>
                     </unify>
                 </pattern>
-                <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\2, \3 \4</suggestion>
-                <example correction="monte, on descend">On <marker>monte on descend</marker>.</example>
+                <message>Une virgule suivant le verbe semble être requise dans ce contexte.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", on">On monte<marker> on</marker> descend.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37078,10 +37079,10 @@ though, and has since been slightly modified)-->
                     <unify>
                         <feature id="person"/>
                         <feature id="tense"/>
-                        <marker>
                             <token postag="V.*" postag_regexp="yes">
                                 <exception postag="V etre.*" postag_regexp="yes"/>
                                 <exception postag="V avoir.*" postag_regexp="yes"/> </token>
+                                <marker>
                             <token postag="V.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
                                 <exception regexp="yes">casques?|confiance|enceinte</exception></token>
                         </marker>
@@ -37091,9 +37092,9 @@ though, and has since been slightly modified)-->
                         <token postag="V.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\2, \3</suggestion>
-                <example correction="monte, descend">Elle <marker>monte descend</marker> et recule.</example>
+                <message>Une virgule suivant le verbe semble être requise dans ce contexte.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", descend">Elle monte<marker> descend</marker> et recule.</example>
                 <example><marker>Elle prend place</marker> et trouve une feuille.</example>
                 <example><marker>Il aime Sue</marker> et accepte tout pour elle.</example>
                 <example><marker>Il reprend confiance</marker> et retourne au combat.</example>
@@ -37109,18 +37110,18 @@ though, and has since been slightly modified)-->
                     <unify>
                         <feature id="person"/>
                         <feature id="tense"/>
-                        <marker>
                             <token postag="V.*" postag_regexp="yes">
                                 <exception postag="V etre.*" postag_regexp="yes"/></token>
+                                 <marker>
                             <token postag="V.*" postag_regexp="yes">
                                 <exception regexp="yes">a|avoie</exception></token>
+                                  </marker>
                             <token postag="V.*" postag_regexp="yes"/>
-                        </marker>
                     </unify>
                 </pattern>
-                <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\2, \3, \4</suggestion>
-                <example correction="monte, descend, recule">Elle <marker>monte descend recule</marker>.</example>
+                <message>Une virgule semble être requise dans cette énumération.</message>
+                <suggestion>, \3,</suggestion>
+                <example correction=", descend,">Elle monte<marker> descend</marker> recule.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ENUMERATION" name="virgules dans énumération">
@@ -37129,14 +37130,14 @@ though, and has since been slightly modified)-->
                     <unify>
                         <feature id="gender"/>
                         <feature id="number"/>
-                        <marker>
                             <token postag="D.*" postag_regexp="yes">
                                 <exception>des</exception></token>
                             <token postag="N.*" postag_regexp="yes"/>
-                            <token><match no="0"/>
+                             <marker>
+                            <token postag="D.*" postag_regexp="yes">
                                 <exception>des</exception></token>
+                             </marker>
                             <token postag="N.*" postag_regexp="yes"/>
-                        </marker>
                         <unify-ignore>
                             <token>et</token>
                         </unify-ignore>
@@ -37145,9 +37146,9 @@ though, and has since been slightly modified)-->
                         <token postag="N.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1 \2, \3 \4</suggestion>
-                <example correction="un chien, un chat">Elle a <marker>un chien un chat</marker> et un hamster.</example>
+                <message>Une virgule semble être requise après le nom dans cette énumération.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", un">Elle a un chien<marker> un</marker> chat et un hamster.</example>
                 <example>Ce sont <marker>des parasites des mollusques</marker> et des vertébrés d'eau douce.</example>
             </rule>
             <rule>
@@ -37175,37 +37176,37 @@ though, and has since been slightly modified)-->
                         <feature id="gender"/>
                         <feature id="number"/>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <marker>
                             <token postag="J.*" postag_regexp="yes"/>
+                            <marker>
                             <token postag="J.*" postag_regexp="yes"/>
+                            </marker>
                             <token postag="J.*" postag_regexp="yes"/>
-                        </marker>
                         <unify-ignore>
                             <token>et</token>
                         </unify-ignore>
                         <token postag="J.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Des virgules semblent être requises dans ce contexte.</message>
-                <suggestion>\2, \3, \4</suggestion>
-                <example correction="gris, noirs, roux">Elle a des chats <marker>gris noirs roux</marker> et blancs.</example>
+                <message>Des virgules semblent être requises dans cette énumération.</message>
+                <suggestion>, \3,</suggestion>
+                <example correction=", noirs,">Elle a des chats gris<marker> noirs</marker> roux et blancs.</example>
                 <example>C'est un réseau <marker>social libre décentralisé</marker> et Open Source.</example>
                 <example>Cela favorise le développement des forces <marker>nucléaires armées françaises</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="C.* sub" postag_regexp="yes"/>
-                    <marker>
                         <token postag="V.* inf" postag_regexp="yes">
                             <exception>vouloir</exception></token>
+                            <marker>
                         <token postag="V.* inf" postag_regexp="yes"/>
                     </marker>
                     <token>et</token>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </pattern>
-                <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\2, \3</suggestion>
-                <example correction="manger, boire">Il ne fait que <marker>manger boire</marker> et dormir.</example>
+                <message>Une virgule semble être requise dans cette énumération.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", boire">Il ne fait que manger<marker> boire</marker> et dormir.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PAS_DE_VIRGULE" name="pas de virgule">
@@ -37332,16 +37333,16 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <marker>
                         <token regexp="yes">lui-même|elles?-mêmes?|eux-mêmes?|nous-mêmes?|vous-mêmes?</token>
+                        <marker>
                         <token>,</token>
                         <token min="0" postag="R pers obj.*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>La virgule doit être omise dans ce contexte.</message>
-                <suggestion>\2 \5</suggestion>
-                <example correction="Elle-même connait"><marker>Elle-même, connait</marker> la fin de l'histoire.</example>
+                <suggestion> \5</suggestion>
+                <example correction=" connait">Elle-même<marker>, connait</marker> la fin de l'histoire.</example>
                 <example><marker>Lui-même, puis</marker> ses fils, ont ainsi gouverné le royaume.</example>
             </rule>
             <rule>
@@ -37365,16 +37366,16 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">lui|elle|eux|nous|vous|elles</token>
-                    <marker>
                         <token regexp="yes">seule?s?</token>
+                        <marker>
                         <token>,</token>
                         <token min="0" postag="R pers obj.*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>La virgule doit être omise dans ce contexte.</message>
-                <suggestion>\3 \5 \6</suggestion>
-                <example correction="seul me connait">Lui <marker>seul, me connait</marker>.</example>
+                <suggestion> \5 \6</suggestion>
+                <example correction=" me connait">Lui seul<marker>, me connait</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37399,16 +37400,16 @@ though, and has since been slightly modified)-->
                     <token postag="D.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">(?-i)autrement</token>
                         <token>dit</token>
+                        <marker>
                         <token>,</token>
                         <token postag="D.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>La virgule doit être omise dans ce contexte.</message>
-                <suggestion>\1 \2 \4</suggestion>
-                <example correction="autrement dit son">Sa maison <marker>autrement dit, son</marker> lieu de résidence, ne se trouve pas en France.</example>
+                <suggestion> \4</suggestion>
+                <example correction=" son">Sa maison autrement dit<marker>, son</marker> lieu de résidence, ne se trouve pas en France.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VIRGULE_DEBUT_DE_PHRASE" name="virgule début de phrase">
@@ -37574,16 +37575,16 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <marker>
                         <token postag="A">
                             <exception postag="A inte.*" postag_regexp="yes"/>
-                            <exception regexp="yes">[A-Z]$</exception> </token>
+                            <exception regexp="yes">[A-Z]$</exception></token>
+                    <marker>
                         <token>il</token>
                     </marker>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\2, \3</suggestion>
-                <example correction="Dehors, il"><marker>Dehors il</marker> fait beau.</example>
+                <suggestion>, \3</suggestion>
+                <example correction=", il">Dehors<marker> il</marker> fait beau.</example>
                 <example><marker>Combien il</marker> en a pris ?</example>
             </rule>
         </rulegroup>
@@ -37923,32 +37924,32 @@ though, and has since been slightly modified)-->
                     <token postag="D.*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
                             <exception postag="[VA].*" postag_regexp="yes"/>
-                            <exception regexp="yes">peine|mal</exception> </token>
+                            <exception regexp="yes">peine|mal</exception></token>
+                        <marker>
                         <token>à</token>
+                        </marker>
                         <token>savoir</token>
-                    </marker>
                     <token postag="D.*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes">
                         <exception postag="R pers suj.*" postag_regexp="yes"/>
                         <exception regexp="yes">se|s'</exception> </token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1, \2 \3</suggestion>
-                <example correction="famille, à savoir">Il viendra avec sa <marker>famille à savoir</marker> sa femme et ses deux enfants.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", à">Il viendra avec sa famille<marker> à</marker> savoir sa femme et ses deux enfants.</example>
                 <example><marker>Reste à savoir</marker> le prix.</example>
             </rule>
             <rule>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                        <marker>
                         <token>c'est-à-dire</token>
                     </marker>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1, \2</suggestion>
-                <example correction="temps, c'est-à-dire">Il ne réagit pas au <marker>temps c'est-à-dire</marker> aux saisons qui passent.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", c'est-à-dire">Il ne réagit pas au temps<marker> c'est-à-dire</marker> aux saisons qui passent.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37967,18 +37968,18 @@ though, and has since been slightly modified)-->
                     <token max="1" postag="M fin" spacebefore="no">.</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token postag="[VAJ].*" postag_regexp="yes">
                             <exception regexp="yes">ne|ce|ça|cela|alors|bien</exception></token>
+                    <marker>
                         <token>soit</token>
                     </marker>
                     <token postag="M fin" spacebefore="no">.
                         <exception scope="next">.</exception></token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1, \2</suggestion>
-                <example correction="arrive, soit">Il <marker>arrive soit</marker>.</example>
-                <example correction="plus, soit">Il ne le voit <marker>plus soit</marker>.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", soit">Il arrive<marker> soit</marker>.</example>
+                <example correction=", soit">Il ne le voit plus<marker> soit</marker>.</example>
                 <example>Il ne le voit <marker>plus soit</marker>...</example>
                 <example>Il le faut, <marker>alors soit</marker>.</example>
                 <example>Il n'a de conflit avec qui que <marker>cela soit</marker>.</example>
@@ -37991,15 +37992,15 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <marker>
                         <token>soit</token>
+                        <marker>
                         <token postag="R pers suj.*| R.* [123] [sp]|R pers obj.*" postag_regexp="yes">
-                            <exception regexp="yes">[a-z]$</exception> </token>
+                            <exception regexp="yes">[a-z]$</exception></token>
                     </marker>
                 </pattern>
-                <message>Une virgule est conseillée dans ce contexte.</message>
-                <suggestion>\2, \3</suggestion>
-                <example correction="Soit, il"><marker>Soit il</marker> viendra sans toi.</example>
+                <message>Une virgule est conseillée après le terme '\2'.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", il">Soit<marker> il</marker> viendra sans toi.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38022,17 +38023,17 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token skip="-1">soit</token>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
                             <exception regexp="yes">[a-z]$</exception>
                             <exception regexp="yes">ne|quelque|ainsi|tant</exception>
                             <exception postag="C coor.*|[DP].*" postag_regexp="yes"/> </token>
+                    <marker>
                         <token>soit</token>
                     </marker>
                 </pattern>
                 <message>Une virgule est conseillée dans ce contexte.</message>
-                <suggestion>\2, \3</suggestion>
-                <example correction="grand, soit">Il est soit <marker>grand soit</marker> petit.</example>
+                <suggestion>, \3</suggestion>
+                <example correction=", soit">Il est soit grand<marker> soit</marker> petit.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38118,18 +38119,18 @@ though, and has since been slightly modified)-->
                     <token postag="M fin inte"/>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
                             <exception>où</exception></token>
+                    <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
                             <exception postag="V etre.*" postag_regexp="yes"/></token>
                         <token case_sensitive="yes" regexp="yes" spacebefore="no">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                     </marker>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
-                <suggestion>\1, \2\3</suggestion>
+                <suggestion>, \2\3</suggestion>
                 <url>https://bescherelle.ca/virgules/</url>
-                <example correction="pense, dit-elle">Il le <marker>pense dit-elle</marker> mais ce n'est pas vrai.</example>
+                <example correction=", dit-elle">Il le pense<marker> dit-elle</marker> mais ce n'est pas vrai.</example>
                 <example>Quelqu'un <marker>pourrait-il</marker> promener le chien !</example>
                 <example>Il arrive ou <marker>faut-il</marker> que je vienne le chercher ?</example>
                 <example>Il arrive ou <marker>faut-il</marker> que je vienne le chercher ?</example>
@@ -38208,18 +38209,18 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <marker>
                         <token max="1" postag="R pers obj.*|R [123].*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token case_sensitive="yes" regexp="yes" spacebefore="no">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                     </marker>
                 </pattern>
                 <message>Des virgules semblent être requises dans ce contexte.</message>
-                <suggestion>\1, \2 \3\4,</suggestion>
+                <suggestion>, \2 \3\4,</suggestion>
                 <url>https://bescherelle.ca/virgules/</url>
-                <example correction="fait, te dit-elle,">Il le <marker>fait te dit-elle</marker> mais ce n'est pas vrai.</example>
-                <example correction="pense, leur dit-elle,">Il le <marker>pense leur dit-elle</marker> mais ce n'est pas vrai.</example>
+                <example correction=", te dit-elle,">Il le fait<marker> te dit-elle</marker> mais ce n'est pas vrai.</example>
+                <example correction=", leur dit-elle,">Il le pense<marker> leur dit-elle</marker> mais ce n'est pas vrai.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38228,8 +38229,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                     <marker>
                         <token max="1" postag="R.*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token case_sensitive="yes" regexp="yes" spacebefore="no">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
@@ -38238,9 +38239,9 @@ though, and has since been slightly modified)-->
                         <exception postag="M fin inte|M fin excl" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Des virgules semblent être requises dans ce contexte.</message>
-                <suggestion>\1, \2 \3\4</suggestion>
+                <suggestion>, \2 \3\4</suggestion>
                 <url>https://bescherelle.ca/virgules/</url>
-                <example correction="pense, lui dit-elle">Il le <marker>pense lui dit-elle</marker>.</example>
+                <example correction=", lui dit-elle">Il le pense<marker> lui dit-elle</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38281,15 +38282,15 @@ though, and has since been slightly modified)-->
                     <token postag="M fin excl|M fin inte" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <marker>
                         <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <marker>
                         <token postag="R pers suj.*" postag_regexp="yes"/>
                         <token>aussi</token>
                     </marker>
                 </pattern>
                 <message>Des virgules semblent être requises dans ce contexte.</message>
-                <suggestion>\1, \2 \3,</suggestion>
-                <example correction="faisons, nous aussi,">Nous le <marker>faisons nous aussi</marker> pour mardi.</example>
+                <suggestion>, \2 \3,</suggestion>
+                <example correction=", nous aussi,">Nous le faisons<marker> nous aussi</marker> pour mardi.</example>
                 <example>Peut-être l'<marker>apprécie-t-il aussi</marker>.</example>
                 <example>Les <marker>saviez-vous aussi</marker> agiles ?</example>
                 <example>On peut commencer <marker>par elle aussi</marker>.</example>
