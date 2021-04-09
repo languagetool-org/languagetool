@@ -12084,11 +12084,13 @@ though, and has since been slightly modified)-->
     <category id="CAT_GRAMMAIRE" name="Grammaire">
         <rule id="LEURS_LEUR" name="*leurs/leur" default="temp_off">
             <pattern>
-                <token>leurs</token>
-                <token postag="V.* [123].*" postag_regexp="yes"><exception postag="[NJZ].*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>leurs</token>
+                </marker>
+                    <token postag="V.* [123].*" postag_regexp="yes"><exception postag="[NJZ].*" postag_regexp="yes"/></token>
             </pattern>
             <message>Le pronom de la troisième personne du pluriel ('à eux' ou 'à elles') est <suggestion>leur</suggestion>.</message>
-            <example>Cela <marker>leurs</marker> permet d'économiser.</example>
+            <example correction="leur">Cela <marker>leurs</marker> permet d'économiser.</example>
             <example>Cela leur permet d'économiser.</example>
         </rule>
         <rulegroup id="ACCORD_PRONOM_POSSESSIF_LEUR" name="accord pronom possessif leur">
