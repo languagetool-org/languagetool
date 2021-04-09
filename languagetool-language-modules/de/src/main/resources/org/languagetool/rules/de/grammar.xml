@@ -37354,6 +37354,30 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="HALT_MACHEN" name="halt machen (Halt machen / haltmachen)" default="temp_off">
+            <url>https://www.korrekturen.de/wortliste/haltmachen.shtml</url>
+            <rule>
+                <pattern>
+                    <token postag="PRO:.+" postag_regexp="yes" />
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">halt</token>
+                    </marker>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Halt</suggestion> wird hier großgeschrieben.</message>
+                <example correction="Halt">Wir werden hier einen kurzen <marker>halt</marker> machen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>halt</token>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>Dieses Verb wird in der Regel zusammengeschrieben.</message>
+                <suggestion>halt\2</suggestion>
+                <example correction="haltmachen">Wir werden hier kurz <marker>halt machen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="CLICK_AND_COLLECT" name="Click and Collect">
             <antipattern case_sensitive="yes">
                 <token>Click</token>
@@ -37473,7 +37497,7 @@ Andere Projekte</example>
         <rule id="FUER_INBESONDERE" name="für inbesondere (für besonders)">
             <pattern>
                 <marker>
-                    <token regexp="yes">für|(da)?mit|ohne|auf|unter</token>
+                    <token regexp="yes">für|bei|(da)?mit|ohne|auf|unter</token>
                     <token>insbesondere</token>
                 </marker>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" />
