@@ -3068,6 +3068,7 @@ though, and has since been slightly modified)-->
                 <example>Mais ça oui.</example>
                 <example>Je ne toucherais pas à ça si j'étais toi.</example>
                 <example>Je n'ai que ça autour de mon PC.</example>
+                <example>Je ne connais pas si bien que ça Paris.</example>
             </rule>
         </rulegroup>
         <rule id="SA_CA" name="SA au lieu de ÇA">
@@ -16760,6 +16761,7 @@ though, and has since been slightly modified)-->
                 <example>C'est pure folie.</example>
                 <example>Tom est tout ouïe.</example>
                 <example>Cette fiche produit est originalement écrite en anglais.</example>
+                <example>La longue attente à l'aéroport était ennuyeuse.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18109,6 +18111,7 @@ though, and has since been slightly modified)-->
                 <example>Je n’ai pas encore <marker>mangé</marker>.</example>
                 <example>Tu n'as pas bien fait ton chien.</example>
                 <example>u n'as pas encore fait la vaisselle ?</example>
+                <example>Je n'ai pas trop envie d'y aller.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21989,7 +21992,7 @@ though, and has since been slightly modified)-->
                 <example>C’est un va-t-en-guerre.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LA" name="là sans trait d’union">
+        <rulegroup id="LA_BAS" name="là sans trait d’union">
             <rule>
                 <pattern>
                     <token regexp="yes">l[àa]</token>
@@ -22011,6 +22014,16 @@ though, and has since been slightly modified)-->
                 <example correction="Jusque-là"><marker>Jusque là</marker> tout va bien.</example>
                 <example correction="Celle-là"><marker>Celle là</marker>, elle sait comment faire.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="CE_NOM_LA" name="là sans trait d’union">
+            <antipattern>
+                <token regexp="yes">l[àa]</token>
+                <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">jusque|celles?|celui|ceux</token>
+                <token>là</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">ce|cet|cette|ces</token>
@@ -22051,6 +22064,10 @@ though, and has since been slightly modified)-->
                 <example correction="hiver-là">Cet <marker>hiver là</marker> n'est pas un hiver comme les autres</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>la</token>
+                    <token postag="[NV].*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ce|cet|cette|ces</token>
                     <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
@@ -22064,7 +22081,18 @@ though, and has since been slightly modified)-->
                 <suggestion>\3-là</suggestion>
                 <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="hiver-là">Cet <marker>hiver la</marker> n'est pas un hiver comme les autres</example>
+                <example correction="soir-là">Elle finit ce <marker>soir la</marker> en présence de deux gars</example>
                 <example>Cet hiver la Maison de la Forêt ouvrira ses portes.</example>
+                <example>mais ce dernier la suit et s'établit à Marseille</example>
+                <example>En plus on a de la chance, cette année la St Valentin tombe un samedi !</example>
+                <example>Ce dernier la fait passer.</example>
+                <example>alors que ce dernier la devançait de plus de deux points</example>
+                <example>mais le mari de cette dernière la précipite vers la sortie</example>
+                <example>car ces femmes la dégoûtaient</example>
+                <example>Nous accueillons en ce lieu la belle journée d'automne</example>
+                <example>Avec ce projet la CLES a formé une douzaine de jeunes filles</example> 
+                <example>C'est la façon recommandée de lire ce texte la première fois.</example>
+                <example>Cette nouvelle la rendit heureuse.</example>
             </rule>
             <rule>
                 <pattern>
