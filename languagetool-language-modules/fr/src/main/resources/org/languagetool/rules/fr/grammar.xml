@@ -329,6 +329,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule id="D_N" name="Concordance du déterminant avec le nom">
                 <antipattern>
+                    <token>cette</token>
+                    <token>bon</token>
+                    <token>dieu</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="[NJZ] [fe] (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <!-- rule SA_CA" -->
                     <token>sa</token>
                     <token>fait</token>
@@ -503,6 +510,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Il y a plein d'œufs frais sur la table. </example>
                 <example>Nous en avions toutes connaissance.</example>
                 <example>Un tiens vaut mieux que deux tu l'auras.</example>
+                <example>Peux-tu le lire ?</example>
+                <example>Encore faut-il les lire de manière rigoureuse.</example>
+                <example>Aimes-tu les manger en les avalant ?</example>
+                <example>Puis-je les toucher ?</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -15864,6 +15875,12 @@ though, and has since been slightly modified)-->
                     <token postag="C coor|M nonfin" postag_regexp="yes"/>
                     <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                    <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="D . s?p" postag_regexp="yes"/>
                     <token postag="N . p" postag_regexp="yes"/>
@@ -15879,6 +15896,7 @@ though, and has since been slightly modified)-->
                 <example>Des yeux <marker>vert</marker> olive.</example>
                 <example>Ses cheveux étaient noir de jais.</example>
                 <example>les classiques noir, blanc, nude</example>
+                <example>des couronnes blanche et rouge</example>
             </rule>
             <rule>
                 <pattern>
@@ -22045,6 +22063,10 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">jusque|celles?|celui|ceux</token>
                 <token>là</token>
             </antipattern>
+            <antipattern>
+                <token>là</token>
+                <token>où</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">ce|cet|cette|ces</token>
@@ -22083,6 +22105,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\3-là</suggestion>
                 <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="hiver-là">Cet <marker>hiver là</marker> n'est pas un hiver comme les autres</example>
+                <example>Laissez cette boîte là où elle est.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
@@ -37187,6 +37210,11 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="ENUMERATION" name="virgules dans énumération">
             <rule>
+                <antipattern>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <unify>
                         <feature id="gender"/>
@@ -37198,7 +37226,8 @@ though, and has since been slightly modified)-->
                             <token postag="D.*" postag_regexp="yes">
                                 <exception>des</exception></token>
                         </marker>
-                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes">
+                            <exception regexp="yes">&jours_semaine;</exception></token>
                         <unify-ignore>
                             <token>et</token>
                         </unify-ignore>
@@ -37211,6 +37240,8 @@ though, and has since been slightly modified)-->
                 <suggestion>, \3</suggestion>
                 <example correction=", un">Elle a un chien<marker> un</marker> chat et un hamster.</example>
                 <example>Ce sont <marker>des parasites des mollusques</marker> et des vertébrés d'eau douce.</example>
+                <example>On a demandé à chaque étudiant son nom et son lieu de naissance.</example>
+                <example>J'apprends l'anglais le lundi et le vendredi.</example>
             </rule>
             <rule>
                 <antipattern>

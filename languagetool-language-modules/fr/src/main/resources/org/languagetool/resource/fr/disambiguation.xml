@@ -3003,6 +3003,18 @@ RB => Règles Brutes
                 <match no="2" postag_regexp="yes" postag="R pers obj .*"/>
             </disambig>
         </rule>
+        <rule name="le/la/les/l'">
+            <pattern>
+                <token postag="R pers suj .*" postag_regexp="yes" regexp="yes">-.*</token>
+                <marker>
+                    <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l'|la|le|les</token>
+                </marker>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <disambig>
+                <match no="2" postag_regexp="yes" postag="R pers obj .*"/>
+            </disambig>
+        </rule>
         <rule name="ne + le/la/les/l'">
             <pattern>
                 <token postag="R pers suj .*" postag_regexp="yes"/>
