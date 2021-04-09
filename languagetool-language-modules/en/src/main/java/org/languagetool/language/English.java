@@ -406,7 +406,6 @@ public class English extends Language implements AutoCloseable {
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
-      case "FOCUS_IN_2":                return 1;   // prefer over FOCUS_IN (delete this setting and FOCUS_IN after testing)
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
       case "NEEDS_FIXED":               return -1;  // less priority than MISSING_TO_BEFORE_A_VERB
