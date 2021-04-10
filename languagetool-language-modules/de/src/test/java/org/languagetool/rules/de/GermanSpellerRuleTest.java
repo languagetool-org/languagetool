@@ -514,6 +514,7 @@ public class GermanSpellerRuleTest {
     assertEquals(2, lt.check("-Product Development Coordinator").size());
     assertEquals(1, lt.check("\uFEFF-Einx Test").size());
     assertEquals(0, lt.check("\uFEFF-Ein Test").size());
+    assertEquals(0, lt.check("Gratis E\uFEFF-Book").size());
     
     // "-" as bullet point with no space:
     assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
