@@ -67,7 +67,7 @@ public class GermanSynthesizerTest {
   @Test
   public void testMorfologikBug() throws IOException {
     // see https://github.com/languagetool-org/languagetool/issues/586
-    assertThat(synth("anfragen", "VER:1:PLU:KJ1:SFT:NEB"), is("[anfragen, Anfragen]"));
+    assertThat(synth("anfragen", "VER:1:PLU:KJ1:SFT:NEB"), is("[anfragen]"));
   }
 
   private String synth(String word, String posTag) throws IOException {
