@@ -24031,13 +24031,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">optim(a|es)</token>
+                        <token regexp="yes">(solid|optim)(a|es)</token>
                     </marker>
                 </pattern>
-                <message>Si és un adjectiu, s'ha d'accentuar. Correcte si és del v. 'optimar'.</message>
+                <message>Si és un adjectiu, s'ha d'accentuar. Correcte si és del v. '<match no="1" regexp_match="(?iu)(a|es)$" regexp_replace="ar" case_conversion="alllower"/>'.</message>
                 <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ò" case_conversion="preserve"/></suggestion>
                 <example correction="òptimes">Són <marker>optimes</marker>.</example>
                 <example correction="Òptimes"><marker>Optimes</marker> prestacions.</example>
+                <example correction="sòlida">És un fenomen que neix amb alguna base <marker>solida</marker>.</example>
             </rule>
             <rule>
                 <pattern>
