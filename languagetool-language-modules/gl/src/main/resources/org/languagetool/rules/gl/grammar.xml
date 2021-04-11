@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
     <!--
@@ -47,13 +47,14 @@
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|ll?[aeo]s?|vos|che)">
 
     <!ENTITY precede_nome_proprio "(asociación|avenida|balneario|parella?|coalición|colección|cometa|concurso|copa|curso|designación|designado|distribución|escola|estación|estilo|filme|fundación|galardón|xeración|illa|imperio|iniciativa|instituto|titulado|lagoa?|lei|libro|monte|museo|navío|novela|obra|orquestra|praza|premio|programa|proxecto|quinta|rexistro|reino|informe|revista|río|rúa|serra|teatro|tema|tipo|universidade|versión)">
-    <!ENTITY contraccions_MS "(?:ao|d(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|n(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|algún|polo)"><!-- XXX lost 'me+o|che+o|lle+o'-->
-    <!ENTITY contraccions_FS "(?:á|d(?:a|uña|ela|est?a|aquela|outra)|n(?:a|unha|ela|nest?a|aquela|outra)|algunha|pola)"><!-- XXX lost 'me+a|che+a|lle+a'-->
-    <!ENTITY contraccions_MP "(?:aos|d(?:os|uns|eles|est?es|aqueles|outros)|n(?:os|uns|eles|est?es|aqueles|outros)|algúns|polos)"><!-- XXX lost 'me+o|che+o|lle+o'+s-->
-    <!ENTITY contraccions_FP "(?:ás|d(?:as|uñas|elas|est?as|aquelas|outras)|n(?:as|unhas|elas|est?as|aquelas|outras)|algunhas|polas)"><!-- XXX lost 'me+a|che+a|lle+a'+s-->
+    <!ENTITY contraccions_MS "(?:ao|d(?:o|un|el|est?e|aquel|ist?o|aquilo|outro|algún)|n(?:o|un|el|est?e|aquel|ist?o|aquilo|outro|algún)|algún|polo)"><!-- XXX lost 'me+o|che+o|lle+o'-->
+    <!ENTITY contraccions_FS "(?:á|d(?:a|unha|ela|est?a|aquela|outra|algunha)|n(?:a|unha|ela|nest?a|aquela|outra|algunha)|algunha|pola)"><!-- XXX lost 'me+a|che+a|lle+a'-->
+    <!ENTITY contraccions_MP "(?:aos|d(?:os|uns|eles|est?es|aqueles|outros|algúns)|n(?:os|uns|eles|est?es|aqueles|outros|algúns)|algúns|polos)"><!-- XXX lost 'me+o|che+o|lle+o'+s-->
+    <!ENTITY contraccions_FP "(?:ás|d(?:as|unhas|elas|est?as|aquelas|outras|algunhas)|n(?:as|unhas|elas|est?as|aquelas|outras|algunhas)|algunhas|polas)"><!-- XXX lost 'me+a|che+a|lle+a'+s-->
 
     <!ENTITY verbos_auxiliares_part_pasado "(?:ser|estar|ter|haber|ficar)">
-
+    <!ENTITY verbos_non_reflexivos "abrandar|acedar|acougar|adormecer|afrouxar|agrelar|almorzar|apodrecer|apurar|atrasar|baixar|caer|calar|cargar|casar|cicatrizar|coller|comer|curar|deixar|demorar|desfondar|desinchar|dislocar|enfermar|escapar|escordar|esperar|espertar|estreitar|fracturar|inchar|incrementar|marchar|merendar|merar|morrer|murchar|parar|quedar|rachar|rebentar|recordar|rir|romper|sentar|sorrir|terminar|tropezar">
+   
     <!ENTITY abreviaturas "(?:s(?:[eé]c)?|[Ee]tc\.|(?:m[aá]x|m[ií]n|[aA]prox)|(?:[aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)|(?:[Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(?:na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)|(?:[Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)|(?:[Vv]ols?|[Cc]aps?)|(?:[Aa]dmóns?|[aA]d(?:mt)?v[oa]s?)|(?:[pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)|(?:[vV]id|[Cc]fr?)|(?:[Cc]oord|[Ee]d)s?|(?:[Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s|(?:[oO]p|[lL]oc)|cit|[aá]l|vs)"><!-- XXX retrieved from segment.srx, Galician section -->
 
     <!ENTITY MSG_ECV "Posíbel erro de concordancia verbal.">
@@ -2839,45 +2840,51 @@
   </rulegroup>
 
   <rulegroup id="REFLEXIVOS" name="cásome, me caso (caso)">
-    <!--enclíticos-->
+  <!-- Ampliado segundo a listaxe en http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html pero omitindo algúns polos seus usos reflexivos -->
+      <!--enclíticos-->
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token inflected="yes" regexp="yes" postag="V...1S.:PP1.S.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+          <token inflected="yes" regexp="yes" postag="V...1S.:PP1.S.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
       <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchei">Finalmente <marker>marcheime</marker> con Alberte.</example>
     </rule>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token inflected="yes" regexp="yes" postag="V...2S.:PP2.S.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+          <token inflected="yes" regexp="yes" postag="V...2S.:PP2.S.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
       <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchas">Finalmente <marker>márchaste</marker> con Alberte?</example>
     </rule>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token inflected="yes" regexp="yes" postag="V...3[SP].:PP3.N.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+          <token inflected="yes" regexp="yes" postag="V...3[SP].:PP3.N.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
       <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchou">Finalmente <marker>marchouse</marker> con Alberte.</example>
     </rule>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token inflected="yes" regexp="yes" postag="V...1P.:PP1.P.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+          <token inflected="yes" regexp="yes" postag="V...1P.:PP1.P.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
       <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchamos">Finalmente <marker>marchámonos</marker> con Alberte.</example>
     </rule>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token inflected="yes" regexp="yes" postag="V...2P.:PP2.P.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+          <token inflected="yes" regexp="yes" postag="V...2P.:PP2.P.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
       <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchades">Finalmente <marker>marchádesvos</marker> con Alberte.</example>
     </rule>
     <!--proclíticos-->
@@ -2895,10 +2902,11 @@
                             <type id="plural"/>
             </feature>
           <token regexp="yes">me|te|se|nos|vos</token>
-          <token inflected="yes" regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
+          <token inflected="yes" regexp="yes">&verbos_non_reflexivos;</token>
           </unify>
       </pattern>
       <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion>\2</suggestion>?</message>
+      <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="caso">Finalmente non <marker>me caso</marker> con Alberte.</example>
       <example>Finalmente non <marker>caso</marker> con Alberte.</example>
     </rule>
