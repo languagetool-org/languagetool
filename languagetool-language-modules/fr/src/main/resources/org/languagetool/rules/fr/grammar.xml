@@ -4559,6 +4559,18 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>sûres</suggestion> ?</message>
                 <example correction="sûres">Les documents sont en mains <marker>sures</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>bien</token>
+                    <marker>
+                        <token regexp="yes">sure?s?</token>
+                    </marker>
+                </pattern>
+                <message>Le mot 'sur' est une préposition. Vouliez-vous dire <suggestion>sûr</suggestion>, au sens de 'certainement' ?</message>
+                <example correction="sûr">Bien <marker>sur</marker>, on me dira que la vie est dure</example>
+                <example>Comfortablement assis, il se sentait bien sur cette chaise</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SE_CE" name="SE au lieu de CE">
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
