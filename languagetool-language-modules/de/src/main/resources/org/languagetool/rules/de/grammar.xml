@@ -15967,6 +15967,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">ans|im|ins|durchs</token>
                     <token regexp="yes">Gestern|Vorgestern</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="PA2.*" postag_regexp="yes"/>
+                    <token regexp="yes">[,;:—–-]</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
                         <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
@@ -15998,6 +16002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Seit gestern schneit es.</example>
                 <example>Wer im Gestern lebt, verpasst das Heute.</example>
                 <example>Wenn aus dem Morgen ich ins Gestern blicke, bin ich auch schlau.</example>
+                <example>Gestern bestellt, heute da.</example>
             </rule>
             <rule>
                 <antipattern>
