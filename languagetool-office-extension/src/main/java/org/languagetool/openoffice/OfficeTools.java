@@ -18,8 +18,13 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -456,7 +461,6 @@ class OfficeTools {
   
   public static boolean isHeapLimitReached() {
     long usedHeap = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-//    MessageHandler.printToLogFile("Used Heap: " + usedHeap/1048576 + " MB");
     return (LT_HEAP_LIMIT < usedHeap);
   }
   
@@ -468,6 +472,19 @@ class OfficeTools {
         " MB, LT Heap Space Limit: " + ((int) (getHeapLimit(getMaxHeapSpace())/1048576)) + " MB";
   }
 
+  /**
+   * Get LanguageTool Image
+   */
+  public static Image getLtImage() {
+    try {
+      URL url = OfficeTools.class.getResource("/images/LanguageToolSmall.png");
+      return ImageIO.read(url);
+    } catch (IOException e) {
+      MessageHandler.showError(e);
+    }
+    return null;
+  }
+  
   /**
    * Handle logLevel for debugging and development
    */
