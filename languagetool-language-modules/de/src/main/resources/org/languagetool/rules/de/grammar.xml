@@ -37361,7 +37361,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="HALT_MACHEN" name="halt machen (Halt machen / haltmachen)" default="temp_off">
+        <rulegroup id="HALT_MACHEN" name="halt machen (Halt machen / haltmachen)">
             <url>https://www.korrekturen.de/wortliste/haltmachen.shtml</url>
             <rule>
                 <pattern>
@@ -37378,10 +37378,11 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>halt</token>
+                    <token min="0">zu</token>
                     <token inflected="yes">machen</token>
                 </pattern>
                 <message>Dieses Verb wird in der Regel zusammengeschrieben.</message>
-                <suggestion>halt\2</suggestion>
+                <suggestion>halt\2\3</suggestion>
                 <example correction="haltmachen">Wir werden hier kurz <marker>halt machen</marker>.</example>
             </rule>
         </rulegroup>
@@ -39558,28 +39559,28 @@ Andere Projekte</example>
                     <token postag_regexp="yes" postag="VER:(AUX|MOD):.+"/>
                 </antipattern>
                 <pattern>
-                <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
-                <token postag_regexp="yes" postag="ART:.*" />
-                <marker>
-                    <token postag_regexp="yes" postag="VER:.*">
-                        <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
-                        <exception postag="ADJ:.*" postag_regexp="yes"/>
-                        <exception postag="ADV:MOD.*" postag_regexp="yes"/>
-                        <exception postag="VER:MOD:.+" postag_regexp="yes" />
-                        <exception regexp="yes" case_sensitive="yes">[A-ZÄÖÜß].+</exception>
-                        <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|staufische|eindruck</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
-            <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
-            <example correction="kaufen">Ich will das <marker>kaufe</marker>.</example>
-            <example>The Visitors ist das achte und letzte Album der Popgruppe ABBA.</example>
-            <example>Wieso soll das bitte frauenfeindlich sein?</example>
-            <example>Er sollte das können.</example>
-            <example>Wo ist das produziert worden?</example>
-             <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
-        </rule>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
+                    <token postag_regexp="yes" postag="ART:.*" />
+                    <marker>
+                        <token postag_regexp="yes" postag="VER:.*">
+                            <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
+                            <exception postag="ADJ:.*" postag_regexp="yes"/>
+                            <exception postag="ADV:MOD.*" postag_regexp="yes"/>
+                            <exception postag="VER:MOD:.+" postag_regexp="yes" />
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÄÖÜß].+</exception>
+                            <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|staufische|eindruck</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
+                <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
+                <example correction="kaufen">Ich will das <marker>kaufe</marker>.</example>
+                <example>The Visitors ist das achte und letzte Album der Popgruppe ABBA.</example>
+                <example>Wieso soll das bitte frauenfeindlich sein?</example>
+                <example>Er sollte das können.</example>
+                <example>Wo ist das produziert worden?</example>
+                <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
+            </rule>
         </rulegroup>
         <rule id="SENT_START_SIN_PLU" name="Nomen singular + Verb plural am Satzanfang">
             <antipattern>
@@ -43282,8 +43283,12 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="ZEIT_VERRENNT" name="'die Zeit verrennt (verrinnt)'">
-            <regexp>die Zeit verrennt</regexp>
-            <message>Meinten Sie die Redewendung <suggestion>die Zeit verrinnt</suggestion>?</message>
+            <pattern>
+                <token>die</token>
+                <token>Zeit</token>
+                <token regexp="yes">verr?ennt</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>\1 <match no="2" case_conversion="startupper" /> verrinnt</suggestion>?</message>
             <url>https://www.duden.de/rechtschreibung/verrinnen</url>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example correction="Die Zeit verrinnt"><marker>Die Zeit verrennt</marker> so schnell.</example>
