@@ -539,7 +539,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Il serait mieux que tu ne la voies plus maintenant.</example>
                 <example>dans laquelle Pierre Charnier évoque l'idée d'une récompense</example>
                 <example>dans lequel demeure l'homme</example>
-                    
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -991,6 +990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
+                <!-- TODO: more colors -->
                 <token regexp="yes">rouge|gris|blue</token>
                 <token min="0">-</token>
                 <token regexp="yes">vif|foncé|pâle</token>
@@ -1071,6 +1071,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <!-- TODO: other unities -->
+                <token regexp="yes" inflected="yes">.*mètre</token>
+                <token min="0" regexp="yes">carrés?</token>
+                <token regexp="yes">plus|mois</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes" inflected="yes">&unites_temps;</token>
                 <token>plus</token>
                 <token>tard</token>
@@ -1136,15 +1143,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3" postag="A"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
-            <!--<antipattern>
-            <token postag="N.*" postag_regexp="yes" skip="-1"/>
-            <token regexp="yes" skip="-1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-            <token regexp="yes">[‘’\"\/\'«»“”]</token>
-        </antipattern>-->
             <antipattern>
                 <token>pour</token>
                 <token postag="D.*" postag_regexp="yes"/>
@@ -1248,7 +1246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">c[oô]té</token>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
-             <antipattern>
+            <antipattern>
                 <token>dure</token>
                 <token postag="A" min="0" max="3"/>
                 <token postag="Y|UNKNOWN|K" postag_regexp="yes"/>
@@ -1261,7 +1259,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&unites_temps;</token>
                 <token regexp="yes">min(imum)?|max(imum)?</token>
             </antipattern>
-              <antipattern>
+            <antipattern>
+                <!--TODO: complete with more colors, or disambiguate-->
                 <token>couleur</token>
                 <token>châtain</token>
             </antipattern>
@@ -1303,12 +1302,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A" min="0" max="3"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
-            <!-- <antipattern>
-                <token postag="[NV].*" postag_regexp="yes"/>
-                <token postag="_CCM" min="1" max="2"/>
-                <token postag="A" min="0" max="3"/>
-                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-            </antipattern>-->
             <antipattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
                 <token>(</token>
@@ -1318,22 +1311,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="V ppa.*" postag_regexp="yes" inflected="yes">assoir</token>
             </antipattern>
-            <!--<antipattern>
-                <token postag="V.*" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"/>
-                <token regexp="yes">assise?s?</token>
-                <token postag="P"/>
-            </antipattern>-->
             <antipattern>
                 <token postag="Z.*" postag_regexp="yes"/>
                 <token postag="V .* 3 s" postag_regexp="yes"/>
             </antipattern>
-            <!--<antipattern>
-                <token>du</token>
-                <token regexp="yes">grec|latin</token>
-                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-            </antipattern>-->
             <antipattern>
                 <token regexp="yes">de|du|des</token>
                 <token regexp="yes">[«“'"]</token>
@@ -1356,52 +1337,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>à</token>
                 <token>savoir</token>
             </antipattern>
-                      <antipattern>
-            <token regexp="yes">chaud|haut</token>
-            <token regexp="yes">[/]</token>
-            <token regexp="yes">froid|bas</token>
-        </antipattern>
-        <antipattern>
-            <token inflected="yes">de</token>
-            <token>au</token>
-            <token>moins</token>
-            <token postag="_GN_.*" postag_regexp="yes" min="1" max="4"/>
-            <token>plus</token>
-             <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-        </antipattern>
-         <antipattern>
-            <token postag="R.*|A inte" postag_regexp="yes" skip="-1"/>
-            <token>fait</token>
-        </antipattern>
-         <antipattern>
-            <token>langues</token>
-            <token>maternelle</token>
-        </antipattern>
+            <antipattern>
+                <token>chaud</token>
+                <token regexp="yes">[/\-]</token>
+                <token>froid</token>
+            </antipattern>
+            <antipattern>
+                <token>haut</token>
+                <token regexp="yes">[/\-]</token>
+                <token>bas</token>
+            </antipattern>
+            <!--         
           <antipattern>
             <token regexp="yes" skip="-1" inflected="yes">ouvrage|livre|dictionnaire|roman|film|titre</token>
             <token postag="J m .|V ppa m ." postag_regexp="yes"/>
         </antipattern>
          <antipattern>
-            <token regexp="yes">si|garantie|page</token>
-            <token regexp="yes">satisfait|possible|blanche</token>
-        </antipattern>
-         <antipattern>
             <token regexp="yes">tiens|normal</token>
             <token postag="SENT_END"/>
-        </antipattern>
-        <antipattern>
-            <token>tout</token>
-            <token>de</token>
-            <token postag="[JN] m s" postag_regexp="yes"/>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-        </antipattern>
-         <antipattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">marcher|courir|trottiner</token>
-            <token>par</token>
-            <token>les</token>
-            <token>rues</token>
-            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
-        </antipattern>
+        </antipattern>-->
+            <antipattern>
+                <token>satisfait</token>
+                <token>ou</token>
+                <token>remboursé</token>
+            </antipattern>
+            <antipattern>
+                <token>tout</token>
+                <token>de</token>
+                <token postag="[JN] m s" postag_regexp="yes"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes" inflected="yes">vêtir</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">marcher|courir|trottiner</token>
+                <token>par</token>
+                <token>les</token>
+                <token>rues</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
                     <exception postag="J e sp|_GN_.*" postag_regexp="yes"/>
@@ -1430,8 +1402,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Reste attentive à quoi que ce soit qui se présente !</example>
             <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
             <example>Si tu rencontres une interprète danois-maltais.</example>
-             <example>Quelle taille fait donc un cadratin ?</example>
-            <example>Nos collaborateurs traduisent toujours vers leur langues maternelle.</example>
+            <example>Quelle taille fait donc un cadratin ?</example>
+            <example correction="maternelles">Nos collaborateurs traduisent toujours vers leur langues <marker>maternelle</marker>.</example>
             <example>Il participe à la conception graphique de webisodes et de BD interactives publiés sur des sites.</example>
             <example>Il a une climatisation chaud/froid.</example>
             <example>Elle était tout de noir vêtue.</example>
@@ -3289,7 +3261,8 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>Voulez-vous écrire <suggestion>quand</suggestion> ?</message>
             <example correction="Quand"><marker>Quant</marker> il arrive, je suis heureuse.</example>
-            <example>J'ai encore des question quant a vos prix.</example><!-- needs to be found by other rule -->
+            <example>J'ai encore des question quant a vos prix.</example>
+            <!-- needs to be found by other rule -->
         </rule>
         <rulegroup id="NOTRE" name="notre/votre et nôtre/vôtre">
             <url>http://leconjugueur.lefigaro.fr/frhomophonenotre.php</url>
