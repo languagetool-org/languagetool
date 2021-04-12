@@ -846,151 +846,6 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
-    <rulegroup id="FAIT" name="fait (v ind)">
-        <rule id="FAIRE_JEUNE_POUR_SON_AGE" name="faire jeune pour son âge">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="J e s">jeune</token>
-                <token postag="P" skip="1">pour</token>
-                <token postag="N m s">âge</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_GRAND_BRUIT" name="faire grand bruit">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="N m s">grand</token>
-                <token postag="N m s">bruit</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_CORPS_AVEC" name="faire corps avec">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="N m sp">corps</token>
-                <token postag="P">avec</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_DU_TORD" name="faire du tord">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="P.*" postag_regexp="yes">du</token>
-                <token postag="N m s">tord</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_FROID_DANS_LE_DOS" name="faire froid dans le dos">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="N m s">froid</token>
-                <token postag="P">dans</token>
-                <token postag="D m s">le</token>
-                <token postag="N m s">dos</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_NOM_DE" name="faire nom de">
-            <pattern>
-                <marker>
-                    <token postag="V ind pres 3 s">fait</token>
-                </marker>
-                <token regexp="yes">semblant|usage|allusion|face|référence|place|preuve</token>
-                <token regexp="yes">de?|à</token>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule id="FAIRE_IMPRESSION" name="faire impression">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="A" min="0" max="3"/>
-                <token>impression</token>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule id="FAIRE_RAGE" name="faire rage">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="N f s">rage</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_SURFACE" name="faire surface">
-            <pattern>
-                <token postag="V ind pres 3 s">fait</token>
-                <token postag="N f s">surface</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="FAIRE_DE" name="faire de">
-            <pattern>
-                <token postag="N.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V ind pres 3 s">fait</token>
-                </marker>
-                <token postag="P" min="0" max="1"/>
-                <token postag="V.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule id="FAIRE_DE_MEME" name="faire de même">
-            <pattern>
-                <marker> </marker>
-                <token>de</token>
-                <token>même</token>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule id="FAIRE_DES_DEGATS" name="faire des dégâts">
-            <pattern>
-                <marker>
-                    <token postag="V ind pres 3 s">fait</token>
-                </marker>
-                <token postag="A" min="0" max="3"/>
-                <token postag="P"/>
-                <token regexp="yes">bruit|dégâts</token>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule id="FAIRE_L_OBJET_DE" name="faire l'objet de">
-            <pattern>
-                <marker>
-                    <token postag="V ind pres 3 s">fait</token>
-                </marker>
-                <token postag="A" min="0" max="2"/>
-                <token>l'</token>
-                <token>objet</token>
-                <token>de</token>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule id="FATES_ATTENTION" name="faire attention">
-            <pattern>
-                <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
-                <token postag="N f s">attention</token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="V ind pres 3 s">fait</token>
-                </marker>
-                <token regexp="yes">[«“'"]</token>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="[NJZ].*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V ind pres 3 s">fait</token>
-                </marker>
-                <token postag="A"/>
-            </pattern>
-            <disambig action="filter" postag="V ind pres 3 s"/>
-        </rule>
-    </rulegroup>
     <rule id="PRENDRE_PLACE" name="prendre place">
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">prendre</token>
@@ -1297,6 +1152,14 @@ RB => Règles Brutes
         <antipattern>
             <token postag="SENT_START"/>
             <token postag="Z.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="K|Y|D.*" postag_regexp="yes"/>
+            <token>ans</token>
+        </antipattern>
+        <antipattern>
+            <token postag="D f s"/>
+            <token>Pierre</token>
         </antipattern>
         <pattern>
             <token postag="Z.*" postag_regexp="yes"/>
@@ -1794,6 +1657,16 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token min="0">ne</token>
+                <marker>
+                    <token>la</token>
+                </marker>
+            </pattern>
+            <disambig postag="R pers obj 3 f s"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token postag="D f s">la</token>
                 </marker>
@@ -1862,7 +1735,7 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <token postag="P"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes"><exception inflected="yes">lequel</exception></token>
                 <marker>
                     <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>
                 </marker>
@@ -1882,6 +1755,151 @@ RB => Règles Brutes
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rulegroup id="FAIT" name="fait (v ind)">
+        <rule id="FAIRE_JEUNE_POUR_SON_AGE" name="faire jeune pour son âge">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="J e s">jeune</token>
+                <token postag="P" skip="1">pour</token>
+                <token postag="N m s">âge</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_GRAND_BRUIT" name="faire grand bruit">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="N m s">grand</token>
+                <token postag="N m s">bruit</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_CORPS_AVEC" name="faire corps avec">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="N m sp">corps</token>
+                <token postag="P">avec</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_DU_TORD" name="faire du tord">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="P.*" postag_regexp="yes">du</token>
+                <token postag="N m s">tord</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_FROID_DANS_LE_DOS" name="faire froid dans le dos">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="N m s">froid</token>
+                <token postag="P">dans</token>
+                <token postag="D m s">le</token>
+                <token postag="N m s">dos</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_NOM_DE" name="faire nom de">
+            <pattern>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
+                <token regexp="yes">semblant|usage|allusion|face|référence|place|preuve</token>
+                <token regexp="yes">de?|à</token>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule id="FAIRE_IMPRESSION" name="faire impression">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="A" min="0" max="3"/>
+                <token>impression</token>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule id="FAIRE_RAGE" name="faire rage">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="N f s">rage</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_SURFACE" name="faire surface">
+            <pattern>
+                <token postag="V ind pres 3 s">fait</token>
+                <token postag="N f s">surface</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="FAIRE_DE" name="faire de">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
+                <token postag="P" min="0" max="1"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule id="FAIRE_DE_MEME" name="faire de même">
+            <pattern>
+                <marker> </marker>
+                <token>de</token>
+                <token>même</token>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule id="FAIRE_DES_DEGATS" name="faire des dégâts">
+            <pattern>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
+                <token postag="A" min="0" max="3"/>
+                <token postag="P"/>
+                <token regexp="yes">bruit|dégâts</token>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule id="FAIRE_L_OBJET_DE" name="faire l'objet de">
+            <pattern>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
+                <token postag="A" min="0" max="2"/>
+                <token>l'</token>
+                <token>objet</token>
+                <token>de</token>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule id="FATES_ATTENTION" name="faire attention">
+            <pattern>
+                <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
+                <token postag="N f s">attention</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
+                <token regexp="yes">[«“'"]</token>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="[NJZ].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
+                <token postag="A"/>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+    </rulegroup>
     <rule id="DECRIT" name="décrit">
         <pattern>
             <marker>
@@ -2414,15 +2432,6 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig postag="N m sp"/>
-    </rule>
-    <rule name="la (pronom pers))" id="LA_R">
-        <pattern>
-            <token postag="R pers suj.*" postag_regexp="yes"/>
-            <marker>
-                <token>la</token>
-            </marker>
-        </pattern>
-        <disambig postag="R pers obj 3 f s"/>
     </rule>
     <rule id="A_PRIORI" name="a priori (noun/loc adverbial)">
         <pattern>
@@ -3339,13 +3348,13 @@ RB => Règles Brutes
     </rule>
     <rule id="FUT" name="fut">
         <antipattern>
-            <token regexp="yes">un|le</token>
+            <token regexp="yes">un|le|au|du</token>
             <token regexp="yes">fut|fût</token>
         </antipattern>
         <pattern>
-            <token regexp="yes">fut|fût</token>
+            <token regexp="yes" postag="V etre sub impa 3 s">fut|fût</token>
         </pattern>
-        <disambig action="remove" postag="N m s"/>
+        <disambig action="filter" postag="V etre sub impa 3 s"/>
     </rule>
     <rule id="DEVENIR" name="devenir">
         <antipattern>
@@ -4019,14 +4028,6 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig postag="A"/>
-    </rule>
-    <rule id="Pierre" name="Pierre">
-        <pattern case_sensitive="yes">
-            <marker>
-                <token regexp="yes">Pierre|Marie</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="Z.*"/>
     </rule>
     <rulegroup id="LA_UNE" name="la une (des journaux)">
         <rule>
