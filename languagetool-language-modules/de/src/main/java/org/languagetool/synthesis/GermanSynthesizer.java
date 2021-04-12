@@ -46,6 +46,22 @@ public class GermanSynthesizer extends BaseSynthesizer {
   }
 
   @Override
+  protected List<String> lookup(String lemma, String posTag) {
+    List<String> lookup = super.lookup(lemma, posTag);
+    List<String> results = new ArrayList<>();
+    for (String s : lookup) {
+      // don't inflect a lowercase lemma to an uppercase word and vice versa
+      // https://github.com/languagetool-org/languagetool/issues/4712
+      boolean lcLemma = StringTools.startsWithLowercase(lemma);
+      boolean lcLookup = StringTools.startsWithLowercase(s);
+      if (lcLemma == lcLookup || lemma.equals("mein") || lemma.equals("ich")) {  // mein/ich wegen Ihr/Sie
+        results.add(s);
+      }
+    }
+    return results;
+  }
+  
+  @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     String[] result = super.synthesize(token, posTag);
     if (result.length == 0) {

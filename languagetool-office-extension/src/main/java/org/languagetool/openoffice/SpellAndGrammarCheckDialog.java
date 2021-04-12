@@ -21,6 +21,8 @@ package org.languagetool.openoffice;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -856,31 +858,34 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final String ignoreButtonHelp = messages.getString("loDialogIgnoreButtonHelp"); 
     private final String ignoreAllButtonHelp = messages.getString("loDialogIgnoreAllButtonHelp"); 
     private final String deactivateRuleButtonHelp = messages.getString("loDialogDeactivateRuleButtonHelp"); 
+    private final String activateRuleButtonHelp = messages.getString("loDialogActivateRuleButtonHelp"); 
     private final String addToDictionaryHelp = messages.getString("loDialogAddToDictionaryButtonHelp");
     private final String changeButtonHelp = messages.getString("loDialogChangeButtonHelp"); 
     private final String changeAllButtonHelp = messages.getString("loDialogChangeAllButtonHelp"); 
-    private JDialog dialog;
-    private JLabel languageLabel;
-    private JComboBox<String> language;
-    private JComboBox<String> changeLanguage; 
-    private JTextArea errorDescription;
-    private JTextPane sentenceIncludeError;
-    private JLabel suggestionsLabel;
-    private JList<String> suggestions;
-    private JLabel checkTypeLabel;
-    private ButtonGroup checkTypeGroup;
-    private JRadioButton[] checkTypeButtons;
-    private JButton more; 
-    private JButton ignoreOnce; 
-    private JButton ignoreAll; 
-    private JButton deactivateRule;
-    private JComboBox<String> addToDictionary; 
-    private JButton change; 
-    private JButton changeAll; 
-    private JButton help; 
-    private JButton options; 
-    private JButton undo; 
-    private JButton close; 
+    private final JDialog dialog;
+    private final JLabel languageLabel;
+    private final JComboBox<String> language;
+    private final JComboBox<String> changeLanguage; 
+    private final JTextArea errorDescription;
+    private final JTextPane sentenceIncludeError;
+    private final JLabel suggestionsLabel;
+    private final JList<String> suggestions;
+    private final JLabel checkTypeLabel;
+    private final ButtonGroup checkTypeGroup;
+    private final JRadioButton[] checkTypeButtons;
+    private final JButton more; 
+    private final JButton ignoreOnce; 
+    private final JButton ignoreAll; 
+    private final JButton deactivateRule;
+    private final JComboBox<String> addToDictionary; 
+    private final JComboBox<String> activateRule; 
+    private final JButton change; 
+    private final JButton changeAll; 
+    private final JButton help; 
+    private final JButton options; 
+    private final JButton undo; 
+    private final JButton close;
+    private final Image ltImage;
     
     private SingleDocument currentDocument;
     private ViewCursorTools viewCursor;
@@ -925,6 +930,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       undoList = new ArrayList<UndoContainer>();
       setUserDictionaries();
 
+      ltImage = OfficeTools.getLtImage();
+      
       dialog = new JDialog();
       if (dialog == null) {
         MessageHandler.printToLogFile("LtCheckDialog == null");
@@ -932,13 +939,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setName(dialogName);
       dialog.setTitle(dialogName);
       dialog.setLayout(null);
-      dialog.setSize(640, 480);
+      dialog.setSize(640, 485);
+      ((Frame) dialog.getOwner()).setIconImage(ltImage);
 
       languageLabel = new JLabel(labelLanguage);
       Font dialogFont = languageLabel.getFont().deriveFont((float) 12);
       languageLabel.setBounds(begFirstCol, disFirstCol, 180, 30);
       languageLabel.setFont(dialogFont);
       dialog.add(languageLabel);
+
+      changeLanguage = new JComboBox<String> (changeLanguageList);
 
       language = new JComboBox<String>(getPossibleLanguages());
       language.setFont(dialogFont);
@@ -954,7 +964,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       });
       dialog.add(language);
 
-      changeLanguage = new JComboBox<String> (changeLanguageList);
       changeLanguage.setFont(dialogFont);
       changeLanguage.setBounds(begSecondCol, disFirstCol, buttonWidthCol, buttonHigh);
       changeLanguage.setToolTipText(formatToolTipText(changeLanguageHelp));
@@ -1032,17 +1041,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
       suggestionsLabel.setBounds(begFirstCol, yFirstCol, widFirstCol, 15);
       dialog.add(suggestionsLabel);
 
-      yFirstCol += disFirstCol + 15;
+      yFirstCol += disFirstCol + 10;
+      int suggestionsY = yFirstCol;
       suggestions = new JList<String>();
       suggestions.setFont(dialogFont);
       suggestions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       suggestions.setFixedCellHeight((int)(suggestions.getFont().getSize() * 1.2 + 0.5));
       suggestions.setToolTipText(formatToolTipText(suggestionsHelp));
       JScrollPane suggestionsPane = new JScrollPane(suggestions);
-      suggestionsPane.setBounds(begFirstCol, yFirstCol, widFirstCol, 100);
+      suggestionsPane.setBounds(begFirstCol, yFirstCol, widFirstCol, 110);
       dialog.add(suggestionsPane);
       
-      yFirstCol += disFirstCol + 100;
+      yFirstCol += disFirstCol + 105;
       checkTypeLabel = new JLabel(Tools.getLabel(messages.getString("guiOOoCheckTypeLabel")));
       checkTypeLabel.setFont(dialogFont);
       checkTypeLabel.setBounds(begFirstCol, yFirstCol, 3*widFirstCol/16 - 1, 30);
@@ -1165,10 +1175,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
         }
       });
-
       dialog.add(addToDictionary);
       
-      ySecondCol += 4*buttonDistCol + buttonHigh;
+      ySecondCol = suggestionsY;
       change = new JButton (changeButtonName);
       change.setFont(dialogFont);
       change.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
@@ -1187,6 +1196,31 @@ public class SpellAndGrammarCheckDialog extends Thread {
       changeAll.setToolTipText(formatToolTipText(changeAllButtonHelp));
       dialog.add(changeAll);
 
+      ySecondCol += buttonDistCol + buttonHigh;
+      activateRule = new JComboBox<String> ();
+      activateRule.setFont(dialogFont);
+      activateRule.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
+      activateRule.setToolTipText(formatToolTipText(activateRuleButtonHelp));
+      activateRule.addItemListener(e -> {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          int selectedIndex = activateRule.getSelectedIndex();
+          if (selectedIndex > 0) {
+            Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap();
+            int j = 1;
+            for(String ruleId : deactivatedRulesMap.keySet()) {
+              if (j == selectedIndex) {
+                documents.activateRule(ruleId);
+                addUndo(y, "activateRule", ruleId, null);
+                activateRule.setSelectedIndex(0);
+                gotoNextError(true);
+              }
+              j++;
+            }
+          }
+        }
+      });
+      dialog.add(activateRule);
+      
       dialog.addWindowFocusListener(new WindowFocusListener() {
         @Override
         public void windowGainedFocus(WindowEvent e) {
@@ -1418,6 +1452,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
         lastLang = lang.getTranslatedName(messages);
         language.setEnabled(true);
         language.setSelectedItem(lang.getTranslatedName(messages));
+        
+        Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap();
+        if (!deactivatedRulesMap.isEmpty()) {
+          activateRule.removeAllItems();
+          activateRule.addItem(messages.getString("loContextMenuActivateRule"));
+          for (String ruleId : deactivatedRulesMap.keySet()) {
+            activateRule.addItem(deactivatedRulesMap.get(ruleId));
+          }
+          activateRule.setVisible(true);
+        } else {
+          activateRule.setVisible(false);
+        }
         
         if (isSpellError) {
           addToDictionary.setVisible(true);
@@ -2011,6 +2057,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
           currentDocument.removeResultCache(yUndo);
           documents.deactivateRule(lastUndo.ruleId, true);
           documents.removeDisabledRule(lastUndo.ruleId);
+          documents.initDocuments();
+          documents.resetDocument();
+          doInit = true;
+        } else if (action.equals("activateRule")) {
+          currentDocument.removeResultCache(yUndo);
+          documents.deactivateRule(lastUndo.ruleId, false);
+          documents.addDisabledRule(lastUndo.ruleId);
           documents.initDocuments();
           documents.resetDocument();
           doInit = true;

@@ -107,6 +107,11 @@ public class AnnotatedTextBuilder {
     return this;
   }
 
+  /** @since 5.4 */
+  public void add(TextPart part) {
+    parts.add(part);
+  }
+
   /**
    * Create the annotated text to be passed into {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
    */
