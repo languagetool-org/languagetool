@@ -114,9 +114,11 @@ RB => Règles Brutes
     <rule name="taille neuf" id="TAILLE_NEUF">
         <pattern>
             <token postag="N f s">taille</token>
-            <token postag="Y">neuf</token>
+            <marker>
+                <token>neuf</token>
+            </marker>
         </pattern>
-        <disambig action="filterall"/>
+        <disambig action="remove" postag="J m s"/>
     </rule>
     <rule id="NEUF_CHIFFRE" name="neuf chiffre">
         <pattern>
@@ -741,6 +743,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: périphrases verbals -->
     <!-- CATEGORY: périphrases verbe + nom-->
+    <rule id="PORTER_NAISSANCE" name="porter naissance">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">porter</token>
+            </marker>
+            <token>naissance</token>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rule id="PRETER_DE_L_ARGENT" name="prêter de l'argent">
         <pattern>
             <marker>
@@ -754,11 +765,20 @@ RB => Règles Brutes
     </rule>
     <rule id="DONNER_UNE_SOMME" name="donner une somme">
         <pattern>
-            <token postag="V.*" postag_regexp="yes">donner</token>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">donner</token>
             <token postag="D f s">une</token>
             <token postag="N f s">somme</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="DONNER_UNE_SOMME1" name="donner une somme 1">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" skip="-1" inflected="yes">donner</token>
+            <marker>
+                <token postag="N f s">somme</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
     </rule>
     <rule name="avoir lieu" id="AVOIR_LIEU">
         <pattern>
@@ -799,21 +819,52 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="FAIRE_PARTIE" name="faire partie">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
-            <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rule id="FAIT_PARTIE" name="fait partie">
+        <pattern>
+            <marker>
+                <token>faites</token>
+            </marker>
+            <token postag="V inf"/>
+        </pattern>
+        <disambig action="remove" postag="V ppa f p"/>
+    </rule>
+    <rule id="FAIT_PARTIE1" name="fait partie 1">
         <pattern>
             <marker>
                 <token postag="V ind pres 3 s">fait</token>
             </marker>
             <token postag="A" min="0" max="3"/>
             <token postag="N .*" postag_regexp="yes" regexp="yes">mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="FAIT_SUITE" name="fait suite">
+        <pattern>
+            <marker>
+                <token postag="V ind pres 3 s">fait</token>
+            </marker>
+            <token>suite</token>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="FAIRE_DU_PROFIT" name="fait du profit">
+        <pattern>
+            <marker>
+                <token>fait</token>
+            </marker>
+            <token postag="P.*" postag_regexp="yes" regexp="yes">du|de</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule id="SECHER_A" name="sécher à">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>sèche</token>
+            </marker>
+            <token postag="P.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
@@ -909,6 +960,27 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
+    <rule name="langue maternelle" id="LANGUE_MATERNELLE">
+        <pattern>
+            <token postag="N f s">langue</token>
+            <token postag="J f s">maternelle</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="code remise" id="CODE_REMISES">
+        <pattern>
+            <token postag="N m ." postag_regexp="yes" inflected="yes">code</token>
+            <token postag="N f ." postag_regexp="yes" inflected="yes">remise</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="page blanche" id="PAGE_BLANCHE">
+        <pattern>
+            <token postag="N f s">page</token>
+            <token postag="J f s">blanche</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="moteur" id="MOTEUR">
         <pattern>
             <token postag="N.*" postag_regexp="yes" regexp="yes">pannes|préparation</token>
@@ -958,8 +1030,15 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" regexp="yes" inflected="yes">expérience|donnée</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes">expérience</token>
             <token postag="N m s">utilisateur</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="données utilisateurs" id="DONNEES_UTILISATEURS">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">donnée</token>
+            <token postag="N m p">utilisateurs</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1124,6 +1203,40 @@ RB => Règles Brutes
                 </marker>
             </pattern>
             <disambig action="remove" postag="V ppr"/>
+        </rule>
+        <rule id="POSSEDANT" name="possédant">
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes">.*ant</token>
+                </marker>
+                <token min="0" max="1">,</token>
+                <token>en</token>
+            </pattern>
+            <disambig action="filter" postag="V ppr"/>
+        </rule>
+        <rule id="VPPR_ANT" name="v ppr ant">
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes">.*ant</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V ppr"/>
+        </rule>
+        <rule id="EN_TISSU" name="en tissu">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <marker>
+                    <token>tissu</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N m s"/>
         </rule>
         <!--<rule id="POSSEDANT" name="possédant">
             <pattern>
@@ -1781,11 +1894,11 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filterall"/>
         </rule>
-        <rule id="FAIRE_DU_TORD" name="faire du tord">
+        <rule id="FAIRE_DU_TORT" name="faire du tort">
             <pattern>
                 <token postag="V ind pres 3 s">fait</token>
                 <token postag="P.*" postag_regexp="yes">du</token>
-                <token postag="N m s">tord</token>
+                <token postag="N m s">tort</token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -1900,12 +2013,30 @@ RB => Règles Brutes
             <disambig action="filter" postag="V ind pres 3 s"/>
         </rule>
     </rulegroup>
+    <rule id="SE_DECLARANT" name="se déclarant">
+        <pattern>
+            <token>se</token>
+            <marker>
+                <token>déclarant</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V ppr"/>
+    </rule>
     <rule id="DECRIT" name="décrit">
         <pattern>
             <marker>
                 <token postag="V ind pres 3 s">décrit</token>
             </marker>
             <token postag="A inte"/>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="PRESENTE" name="présente">
+        <pattern>
+            <marker>
+                <token postag="V ind pres 3 s">présente</token>
+            </marker>
+            <token postag="D.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
@@ -1990,7 +2121,7 @@ RB => Règles Brutes
             <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
             <token postag="N.*" postag_regexp="yes" min="0" max="1"/>
             <marker>
-                <token postag="V ind pres 3 s" regexp="yes">conduit|survive|séduit</token>
+                <token postag="V ind pres 3 s" regexp="yes">conduit|survive|séduit|fait|laisse</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
@@ -2117,6 +2248,16 @@ RB => Règles Brutes
             <marker>
                 <token postag="V.*" postag_regexp="yes">dure</token>
             </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule name="DURE1" id="DURE1">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">dure</token>
+            </marker>
+            <token postag="[AYK]|D.*" postag_regexp="yes" min="0" max="3"/>
+            <token regexp="yes" inflected="yes">&expressions_temps;|&unites_temps;</token>
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
