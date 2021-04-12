@@ -137,8 +137,7 @@ final class ServerTools {
       return UserLimits.getLimitsFromToken(config, params.get("token"));
     } else if (params.get("username") != null) {
       if (params.get("apiKey") != null && params.get("password") != null) {
-        // TODO: throw exception (but first log to see how often this happens)
-        print("WARN: apiKey AND password was set: " + params.get("apiKey"), System.err);
+        throw new IllegalArgumentException("apiKey AND password was set, set only apiKey");
       }
       if (params.get("apiKey") != null) {
         return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apiKey"));
