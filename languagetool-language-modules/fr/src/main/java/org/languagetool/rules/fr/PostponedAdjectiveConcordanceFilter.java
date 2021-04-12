@@ -49,16 +49,16 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
 
   private final int maxLevels = 4;
   
-  private static final Pattern NOM = Pattern.compile("N .*");
-  private static final Pattern NOM_MS = Pattern.compile("N m s");
-  private static final Pattern NOM_FS = Pattern.compile("N f s");
-  private static final Pattern NOM_MP = Pattern.compile("N m p");
-  private static final Pattern NOM_MN = Pattern.compile("N m sp");
-  private static final Pattern NOM_FP = Pattern.compile("N f p");
-  private static final Pattern NOM_CS = Pattern.compile("N e s");
-  private static final Pattern NOM_CP = Pattern.compile("N e sp");
+  private static final Pattern NOM = Pattern.compile("[NZ] .*");
+  private static final Pattern NOM_MS = Pattern.compile("[NZ] m s");
+  private static final Pattern NOM_FS = Pattern.compile("[NZ] f s");
+  private static final Pattern NOM_MP = Pattern.compile("[NZ] m p");
+  private static final Pattern NOM_MN = Pattern.compile("[NZ] m sp");
+  private static final Pattern NOM_FP = Pattern.compile("[NZ] f p");
+  private static final Pattern NOM_CS = Pattern.compile("[NZ] e s");
+  private static final Pattern NOM_CP = Pattern.compile("[NZ] e sp");
 
-  private static final Pattern NOM_DET = Pattern.compile("N .*|(P\\+)?D .*");
+  private static final Pattern NOM_DET = Pattern.compile("[NZ] .*|(P\\+)?D .*");
   private static final Pattern _GN_ = Pattern.compile("_GN_.*");
   private static final Pattern _GN_MS = Pattern.compile("_GN_MS");
   private static final Pattern _GN_FS = Pattern.compile("_GN_FS");
@@ -77,17 +77,17 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern DET_FP = Pattern.compile("(P\\+)?D f p");
   private static final Pattern DET_CP = Pattern.compile("(P\\+)?D e p"); // NEW for French!!
 
-  private static final Pattern GN_MS = Pattern.compile("N [me] (s|sp)|J [me] (s|sp)|V ppa m s|(P\\+)?D m (s|sp)");
-  private static final Pattern GN_FS = Pattern.compile("N [fe] (s|sp)|J [fe] (s|sp)|V ppa f s|(P\\+)?D f (s|sp)");
-  private static final Pattern GN_MP = Pattern.compile("N [me] (p|sp)|J [me] (p|sp)|V ppa m p|(P\\+)?D m (p|sp)");
-  private static final Pattern GN_FP = Pattern.compile("N [fe] (p|sp)|J [fe] (p|sp)|V ppa f p|(P\\+)?D f (p|sp)");
-  private static final Pattern GN_CP = Pattern.compile("N [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D [fme] (p|sp)");
-  private static final Pattern GN_CS = Pattern.compile("N [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D [fme] (s|sp)");
-  private static final Pattern GN_MN = Pattern.compile("N [me] (s|p|sp)|J [me] (s|p|sp)|(P\\+)?D [me] (s|p|sp)"); // NEW for French!!
-  private static final Pattern GN_FN = Pattern.compile("N [fe] (s|p|sp)|J [fe] (s|p|sp)|(P\\+)?D [fe] (s|p|sp)"); // NEW for French!!
+  private static final Pattern GN_MS = Pattern.compile("[NZ] [me] (s|sp)|J [me] (s|sp)|V ppa m s|(P\\+)?D m (s|sp)");
+  private static final Pattern GN_FS = Pattern.compile("[NZ] [fe] (s|sp)|J [fe] (s|sp)|V ppa f s|(P\\+)?D f (s|sp)");
+  private static final Pattern GN_MP = Pattern.compile("[NZ] [me] (p|sp)|J [me] (p|sp)|V ppa m p|(P\\+)?D m (p|sp)");
+  private static final Pattern GN_FP = Pattern.compile("[NZ] [fe] (p|sp)|J [fe] (p|sp)|V ppa f p|(P\\+)?D f (p|sp)");
+  private static final Pattern GN_CP = Pattern.compile("[NZ] [fme] (p|sp)|J [fme] (p|sp)|(P\\+)?D [fme] (p|sp)");
+  private static final Pattern GN_CS = Pattern.compile("[NZ] [fme] (s|sp)|J [fme] (s|sp)|(P\\+)?D [fme] (s|sp)");
+  private static final Pattern GN_MN = Pattern.compile("[NZ] [me] (s|p|sp)|J [me] (s|p|sp)|(P\\+)?D [me] (s|p|sp)"); // NEW for French!!
+  private static final Pattern GN_FN = Pattern.compile("[NZ] [fe] (s|p|sp)|J [fe] (s|p|sp)|(P\\+)?D [fe] (s|p|sp)"); // NEW for French!!
   
   
-  //private static final Pattern NOM_ADJ = Pattern.compile("N *|J .*|V ppa .*");
+  //private static final Pattern NOM_ADJ = Pattern.compile("[NZ] *|J .*|V ppa .*");
 
   private static final Pattern ADJECTIU = Pattern.compile("J .*|V ppa .*|PX.*");
   private static final Pattern ADJECTIU_MS = Pattern.compile("J [me] (s|sp)|V ppa m s");
@@ -129,10 +129,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-    if (match.getSentence().getText().toString().contains("ou remplacer une plante")) {
-      int i=0;
-      i++;
-    }
+//    if (match.getSentence().getText().toString().contains("la vie réel")) {
+//      int i = 0;
+//      i++;
+//    }
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
     int j;
@@ -301,7 +301,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       // Adjective can't be singular
       if (cN[j] + cD[j] > 0) { // && level>1
-        isPlural = isPlural && cD[j] > 1; // cN[j]>1
+        isPlural = isPlural && cD[j] > 1 && level>1; // cN[j]>1
         canBeP = canBeP || cN[j]>1;
       }
       j++;
@@ -384,7 +384,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       // look into previous words
       j = 1;
       initializeApparitions();
-      while (i - j > 0 && keepCounting(tokens[i - j])) {
+      while (i - j > 0 && keepCounting(tokens[i - j]) && (level > 1 || j < 4)) {
         // there is a previous agreeing noun
         if (!matchPostagRegexp(tokens[i - j], _GN_) && matchPostagRegexp(tokens[i - j], NOM_DET)
             && matchPostagRegexp(tokens[i - j], substPattern)) {
@@ -495,7 +495,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     // punctuation+punctuation
     if ((adverbAppeared && conjunctionAppeared) || (adverbAppeared && punctuationAppeared)
         || (conjunctionAppeared && punctuationAppeared) || (punctuationAppeared && matchPostagRegexp(aTr, PUNTUACIO))
-        || (infinitiveAppeared && matchRegexp(aTr.getToken(), COORDINACIO_IONI))) {
+        || (infinitiveAppeared && matchRegexp(aTr.getToken(), COORDINACIO_IONI))
+        || (infinitiveAppeared && adverbAppeared)) {
       return false;
     }
     return (matchPostagRegexp(aTr, KEEP_COUNT) || matchRegexp(aTr.getToken(), KEEP_COUNT2)
