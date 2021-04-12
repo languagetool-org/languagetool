@@ -37745,6 +37745,20 @@ though, and has since been slightly modified)-->
                 <example correction=", il">Dehors<marker> il</marker> fait beau.</example>
                 <example><marker>Combien il</marker> en a pris ?</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>à</token>
+                    <token>coup</token>
+                  <marker>
+                    <token >sûr</token>
+                  </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="sûr,">à coup <marker>sûr</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
             <rule>
