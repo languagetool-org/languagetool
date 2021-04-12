@@ -1248,18 +1248,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">c[oô]té</token>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
-            <antipattern>
+             <antipattern>
                 <token>dure</token>
-                <token postag="A" min="0" max="1"/>
-                <token postag="Y|UNKNOWN" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="Y|UNKNOWN|K" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="Y" skip="1"/>
+                <token postag="Y|K" postag_regexp="yes" skip="1"/>
                 <token regexp="yes">min(imum)?|max(imum)?</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">&unites_temps;</token>
+                <token regexp="yes" inflected="yes">&unites_temps;</token>
                 <token regexp="yes">min(imum)?|max(imum)?</token>
+            </antipattern>
+              <antipattern>
+                <token>couleur</token>
+                <token>châtain</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">par|d[ue]|en|ce|à</token>
@@ -1352,6 +1356,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>à</token>
                 <token>savoir</token>
             </antipattern>
+                      <antipattern>
+            <token regexp="yes">chaud|haut</token>
+            <token regexp="yes">[/]</token>
+            <token regexp="yes">froid|bas</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">de</token>
+            <token>au</token>
+            <token>moins</token>
+            <token postag="_GN_.*" postag_regexp="yes" min="1" max="4"/>
+            <token>plus</token>
+             <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+         <antipattern>
+            <token postag="R.*|A inte" postag_regexp="yes" skip="-1"/>
+            <token>fait</token>
+        </antipattern>
+         <antipattern>
+            <token>langues</token>
+            <token>maternelle</token>
+        </antipattern>
+          <antipattern>
+            <token regexp="yes" skip="-1" inflected="yes">ouvrage|livre|dictionnaire|roman|film|titre</token>
+            <token postag="J m .|V ppa m ." postag_regexp="yes"/>
+        </antipattern>
+         <antipattern>
+            <token regexp="yes">si|garantie|page</token>
+            <token regexp="yes">satisfait|possible|blanche</token>
+        </antipattern>
+         <antipattern>
+            <token regexp="yes">tiens|normal</token>
+            <token postag="SENT_END"/>
+        </antipattern>
+        <antipattern>
+            <token>tout</token>
+            <token>de</token>
+            <token postag="[JN] m s" postag_regexp="yes"/>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
+         <antipattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">marcher|courir|trottiner</token>
+            <token>par</token>
+            <token>les</token>
+            <token>rues</token>
+            <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+        </antipattern>
             <pattern>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
                     <exception postag="J e sp|_GN_.*" postag_regexp="yes"/>
@@ -1380,6 +1430,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Reste attentive à quoi que ce soit qui se présente !</example>
             <example correction="danoise">Si tu rencontres une interprète <marker>danois</marker>.</example>
             <example>Si tu rencontres une interprète danois-maltais.</example>
+             <example>Quelle taille fait donc un cadratin ?</example>
+            <example>Nos collaborateurs traduisent toujours vers leur langues maternelle.</example>
+            <example>Il participe à la conception graphique de webisodes et de BD interactives publiés sur des sites.</example>
+            <example>Il a une climatisation chaud/froid.</example>
+            <example>Elle était tout de noir vêtue.</example>
+            <example>Ils sont en forme d'amande, de couleur châtain à marron foncé</example>
+            <example>Ni qui veuillent bien marcher sur des pavés si possible !</example>
+            <example>Il le cite dans son ouvrage, Le destin au berceau : inégalités et reproduction sociale, paru en 2013.</example>
+            <example>Les opposants jugeaient Orléans trop petite pour un tel mode de transport.</example>
+            <example>Elle a rendu page blanche.</example>
+            <example>C'est du propre, tiens !</example>
+            <example>Vous pouvez agrandir votre collection de pochettes tissu pour toujours.</example>
+            <example>L'annonceur crée des services à partir des données utilisateurs.</example>
+            <example>Cette reprise des activités fait suite à un accord entre la Direction de la banque et les grévistes.</example>
+            <example>Il faut une pièce d'au moins un mètre carré plus grande.</example>
+            <example>Un combat dure à peu près cinq minutes.</example>
+            <example>La signature de la convention portant naissance de ce relais local a eu lieu lundi.</example>
+            <example>Il lui donne chaque mois une somme importante.</example>
+            <example>La pomme pourrie fait du tort à ses voisines.</example>
+            <example>Non cumulable avec d'autres codes remises.</example>
+            <example>Vous pouvez retourner vos achats, garantie satisfait ou remboursé.</example>
+            <example>Le père âgé de 35 ans présente des «troubles psychologiques ».</example>
+            <example>Le linge sèche au soleil.</example>
+            <example>La part de Français se déclarant tout à fait prêts est faible.</example>
+            <example>Je peux voir que votre entreprise fait du profit.</example>
+            <example>Dans une poêle faites revenir les cubes dans 10g de beurre.</example>
+            <example>Je trottinais par les rues satisfait du monde.</example>
             <example>Une fine couche de graphène appliquée sur son dissipateur lui permet de fonctionner correctement.</example>
             <example>Le Code Civil apparut avec la première ligne de tramway tirée par des chevaux à Montevideo.</example>
             <example>L'appel étant la seule voie de recours ouverte sur les jugements rendus.</example>
