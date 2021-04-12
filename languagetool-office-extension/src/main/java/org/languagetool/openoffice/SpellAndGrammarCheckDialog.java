@@ -117,6 +117,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
     lastLanguage = language;
     locale = LinguisticServices.getLocale(language);
     setLangTool(documents, language);
+    if(!documents.javaVersionOkay()) {
+      return;
+    }
   }
 
   /**
@@ -138,10 +141,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   @Override
   public void run() {
+/*  TODO: Remove after tests
     if (!documents.javaVersionOkay()) {
       MessageHandler.printToLogFile("Wrong Java Version Check Dialog not started");
       return;
     }
+*/
     try {
 //      documents.setLtDialogIsRunning(true);
       LtCheckDialog checkDialog = new LtCheckDialog(xContext);
