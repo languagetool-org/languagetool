@@ -34,6 +34,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -84,6 +86,9 @@ public abstract class SpellingCheckRule extends Rule {
   private boolean convertsCase = false;
   protected final Set<String> wordsToBeIgnored = new THashSet<>();
   protected int ignoreWordsWithLength = 0;
+  
+  private final Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
+  private final Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -283,6 +288,16 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean ignoreWord(String word) throws IOException {
     if (!considerIgnoreWords) {
       return false;
+    } 
+    // Tokens with no letters cannot have spelling errors. So ignore them. 
+    Matcher mHasNoLetter;
+    if (isLatinScript()) {
+      mHasNoLetter = pHasNoLetterLatin.matcher(word);
+    } else {
+      mHasNoLetter = pHasNoLetter.matcher(word);
+    }
+    if (mHasNoLetter.matches()) {
+      return true;
     }
     if (word.endsWith(".") && !wordsToBeIgnored.contains(word)) {
       return isIgnoredNoCase(word.substring(0, word.length()-1));  // e.g. word at end of sentence
@@ -598,6 +613,10 @@ public abstract class SpellingCheckRule extends Rule {
   
   // tokenize words from files spelling.txt, prohibit.txt...
   protected boolean tokenizeNewWords() {
+    return true;
+  }
+
+  protected boolean isLatinScript() {
     return true;
   }
 

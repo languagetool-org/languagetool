@@ -164,4 +164,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
     return speller1;
   }
 
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
 }

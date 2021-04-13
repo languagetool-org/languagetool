@@ -64,6 +64,13 @@ public class HunspellRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
     assertEquals(10 ,rule.match(lt.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getFromPos());
     assertEquals(13 ,rule.match(lt.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getToPos());
+    
+    //assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
+    
   }
 
   @Test
