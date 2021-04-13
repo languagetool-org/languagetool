@@ -1503,15 +1503,53 @@
      </rule>
       -->
     <rule name="no determiner + have as verb/noun -&gt;have/verb" id="NODT_HAVE">
+        <!-- MFU 2021-04-13: These AP are deliberately broken to prevent their affecting the rule -->
+        <antipattern><!-- #4814 auxiliary with perfect tenses -->
+            <token>have</token>
+            <token min="0" max="4" postag="RB"/>
+            <token postag="xVBN"/>
+        </antipattern>
+        <antipattern><!-- #4814 Subject pronouns -->
+            <token regexp="yes">I|you|we|they</token>
+            <token min="0" max="4" postag="RB"/>
+            <token>xhave</token>
+        </antipattern>
         <pattern>
             <token><exception postag="PRP$"/><exception regexp="yes">the|a</exception></token>
             <marker>
                 <token regexp="yes" case_sensitive="yes">[Hh]ave|HAVE</token>
             </marker>
+            <token>
+                <exception>to</exception>
+                </token>
         </pattern>
         <disambig action="replace"><wd lemma="have" pos="VB"/></disambig>
+        <example type="untouched">Are you one of the haves or the have nots?</example>
+        <example type="untouched">The technicians have to regularly check the temperatures and pressures.</example>
+        <example type="untouched">You have to open the window.</example>
+        <example type="untouched">Give the information you have to your manager.</example><!-- 'to' is a preposition, not part of the semi-auxiliary 'have to' -->
+<!-- Should be untouched, but if I add AP, many grammar rules fail:
+        <example type="untouched">The United States have never had a female president.</example>
+        <example type="untouched">The United States/US have never had a female president.</example>
+        <example type="untouched">They have a younger leader.</example>
+        <example type="untouched">I have two terriers.</example>
+        <example type="untouched">We actually have 3 children.</example>
+        <example type="untouched">Nevertheless, you have the time to help, don't you?</example>
+        <example type="untouched">These uninstalls have worked.</example>
+        <example type="untouched">What have you done?</example>
+        <example type="untouched">Many others have been hiding from the police.</example>
+        <example type="untouched">We already have purchased it.</example>
+        <example type="untouched">I know several others that have also had problems.</example>
+        <example type="untouched">If you have 10 stores, would they not have 10 different URLs?</example>
+        <example type="untouched">The 3 SMEs that have already committed to being on film need to be prepared.</example>
+        <example type="untouched">These words have errors.</example>
+-->
+        <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">I thought it would be better to <marker>have</marker> the Cleburne desk at zero.</example><!-- Infinitive after 'to' -->
+        <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">These tests can sometimes <marker>have</marker> unintended consequences.</example><!-- Infinitive after a modal verb -->
+        <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">Will pigs ever <marker>have</marker> wings?</example><!-- Infinitive after a modal verb -->
+        <example type="ambiguous" inputform="Have[have/NN,have/VB,have/VBP]" outputform="Have[have/VB]"><marker>Have</marker> a think, then give me your answer.</example><!-- Imperative -->
+        <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">Lord <marker>have</marker> mercy on me!</example><!-- Imperative -->
     </rule>
-
 
     <rulegroup name="well + past participle -&gt; well + adjective" id="WELL_VBN">
         <rule>
