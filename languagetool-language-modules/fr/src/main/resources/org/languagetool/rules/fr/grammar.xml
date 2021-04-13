@@ -2594,7 +2594,16 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rule id="CHINA_" name="China/Chine" default="temp_off">
+        <rule id="CHINA" name="China/Chine">
+            <antipattern>
+                <token>China</token>
+                <token regexp="yes">Post|Eastern</token>
+            </antipattern>
+            <antipattern>
+                <token>made</token>
+                <token>in</token>
+                <token>China</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token>China</token>
             </pattern>
@@ -4657,7 +4666,7 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>sûres</suggestion> ?</message>
                 <example correction="sûres">Les documents sont en mains <marker>sures</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>bien</token>
@@ -12222,6 +12231,20 @@ though, and has since been slightly modified)-->
             <example correction="leur permet">Cela <marker>leurs permet</marker> d'économiser.</example>
             <example>Cela leur permet d'économiser.</example>
         </rule>
+        <rulegroup id="DEUX_DETERMINATS" name="deux déterminants: la l'">
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token>l'</token>
+                </pattern>
+                <message>Combinaison impossible de déterminants.</message>
+                <suggestion>\2</suggestion>
+                <suggestion>là \2</suggestion>
+                <example correction="l'|là l'">Il sera <marker>la l’</marker>année prochaine.</example>
+                <example correction="l'|là l'">sur le site de <marker>la l'</marker>Agence des droits fondamentaux</example>
+                <example>Il sera là l’année prochaine.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACCORD_PRONOM_POSSESSIF_LEUR" name="accord pronom possessif leur">
             <rule>
                 <pattern>
@@ -12974,16 +12997,26 @@ though, and has since been slightly modified)-->
             <message>Une erreur semble être détectée dans cette phrase interrogative. Souhaitez-vous écrire <suggestion>Quelles</suggestion> ?</message>
             <example correction="Quelles"><marker>Qu'elles</marker> sont tes préoccupations ?</example>
         </rule>
-        <rule id="TOUT_CE_" name="tout ce" default="temp_off">
+        <rule id="TOUT_CE" name="tout ce">
+            <antipattern>
+                <token regexp="yes">nous|vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>tous</token>
+            </antipattern>
+            <antipattern>
+                <token>à</token>
+                <token>tous</token>
+            </antipattern>
             <pattern>
-                <marker>
-                    <token>tous</token>
-                </marker>
-                <token postag="R dem e sp"/>
+                <token>tous</token>
+                <token postag="R dem e sp">ce</token>
             </pattern>
             <message>Dans ce cas précis, le terme "tout" est invariable.</message>
-            <suggestion>tout</suggestion>
-            <example correction="tout">Dis-moi si <marker>tous</marker> ce que tu dis est vrai.</example>
+            <suggestion>tout ce</suggestion>
+            <suggestion>tous ceux</suggestion>
+            <example correction="tout ce|tous ceux">Dis-moi si <marker>tous ce</marker> que tu dis est vrai.</example>
+            <example correction="tout ce|tous ceux">Manifestation ouverte aux motos, voitures, camions et <marker>tous ce</marker> qui roulent.</example> 
+            <example>Je pense que nous savons tous ce qui se passe.</example>
         </rule>
         <rule id="ILS_VERBE_TOUS" name="ils verbe tous">
             <pattern>
@@ -22209,15 +22242,14 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token postag="N .*" postag_regexp="yes"/>
                         <token regexp="yes">l[àa]</token>
-                        <token postag="M .*" postag_regexp="yes"/>
-                        <!-- TODO: not ending with punctuation? -->
                     </marker>
+                    <token postag="M .*" postag_regexp="yes"/>
                 </pattern>
                 <message>Il manque probablement un trait d’union.</message>
                 <suggestion>\3-là</suggestion>
                 <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
-                <example correction="hiver-là">Il faisait froid cet <marker>hiver là.</marker></example>
-                <example correction="hiver-là">Il faisait froid cet <marker>hiver la.</marker></example>
+                <example correction="hiver-là">Il faisait froid cet <marker>hiver là</marker>.</example>
+                <example correction="hiver-là">Il faisait froid cet <marker>hiver la</marker>.</example>
                 <example>Il faisait froid cet <marker>hiver-là.</marker></example>
                 <example>Veux-tu aller là ?</example>
                 <example>Tout est là.</example>
@@ -22274,17 +22306,6 @@ though, and has since been slightly modified)-->
                 <example>C'est la façon recommandée de lire ce texte la première fois.</example>
                 <example>Cette nouvelle la rendit heureuse.</example>
                 <example>Ce fut la plus belle nuit de ma vie.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>la</token>
-                    </marker>
-                    <token>l'</token>
-                </pattern>
-                <message>Voulez-vous dire <suggestion>là</suggestion> ?</message>
-                <example correction="là">Il sera <marker>la</marker> l’année prochaine.</example>
-                <example>Il sera là l’année prochaine.</example>
             </rule>
         </rulegroup>
         <rule id="MA_VOYELLE" name="ma + voyelle">
@@ -40845,7 +40866,7 @@ though, and has since been slightly modified)-->
             <url>https://www.projet-voltaire.fr/regles-orthographe/ils-sont-legions-ou-ils-sont-legion</url>
             <example correction="légion">Les idées sont <marker>légions</marker>.</example>
         </rule>
-        <rulegroup id="ACCORD_JOURS_DE_LA_SEMAINE_" name="accord jours de la semaine" default="temp_off">
+        <rulegroup id="ACCORD_JOURS_DE_LA_SEMAINE" name="accord jours de la semaine">
             <rule>
                 <antipattern>
                     <token regexp="yes">les|des|tous|certains|quelques|plusieurs</token>
