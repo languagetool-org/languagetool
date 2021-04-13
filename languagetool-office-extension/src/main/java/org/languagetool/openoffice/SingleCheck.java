@@ -258,7 +258,7 @@ class SingleCheck {
           tmpChangedParas = paragraphsCache.get(cacheNum).differenceInCaches(oldCache);
           List<Integer> changedParas = new ArrayList<>();
           for (int n : tmpChangedParas) {
-            if (paragraphsCache.get(0).getCacheEntry(n) != null) {
+            if (textIsChanged || paragraphsCache.get(0).getCacheEntry(n) != null) {
               changedParas.add(n);
             }
           }
@@ -478,7 +478,7 @@ class SingleCheck {
       int nPara = nFPara < 0 || docCache == null ? -1 : docCache.getNumberOfTextParagraph(nFPara);
       if (nFPara >= 0 && (pErrors != null || (useQueue && !isDialogRequest && parasToCheck != 0))) {
         if (useQueue && pErrors == null && parasToCheck != 0 && nPara >= 0 && !textIsChanged) {
-          singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), false);
+          singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), textIsChanged);
         }
         return pErrors;
       }

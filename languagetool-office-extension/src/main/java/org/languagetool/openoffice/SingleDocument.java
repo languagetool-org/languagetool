@@ -447,8 +447,15 @@ class SingleDocument {
     if (mDocHandler.isSortedRuleForIndex(nCache)) {
       int nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara >= 0) {
-        int nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
-        int nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
+        int nStart;
+        int nEnd;
+        if (overrideRunning && nCheck > 0) {
+          nStart = nTPara;
+          nEnd = nTPara + 1;
+        } else {
+          nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
+          nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
+        }
         mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, overrideRunning);
       }
     }
