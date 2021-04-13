@@ -1897,10 +1897,11 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
         <rule id="FAIRE_DU_TORT" name="faire du tort">
+            <!-- TODO: more general -->
             <pattern>
                 <token postag="V ind pres 3 s">fait</token>
                 <token postag="P.*" postag_regexp="yes">du</token>
-                <token postag="N m s">tort</token>
+                <token postag="N m s" regexp="yes">tort|bien|jogging</token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -1959,7 +1960,9 @@ RB => Règles Brutes
         </rule>
         <rule id="FAIRE_DE_MEME" name="faire de même">
             <pattern>
-                <marker> </marker>
+                <marker>
+                    <token postag="V ind pres 3 s">fait</token>
+                </marker>
                 <token>de</token>
                 <token>même</token>
             </pattern>
@@ -1989,9 +1992,13 @@ RB => Règles Brutes
             <disambig action="filter" postag="V ind pres 3 s"/>
         </rule>
         <rule id="FATES_ATTENTION" name="faire attention">
+            <!-- TODO: more general! -->
             <pattern>
-                <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
-                <token postag="N f s">attention</token>
+                <marker>
+                    <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
+                </marker>
+                <token min="0" max="2" regexp="yes">de|la</token>
+                <token regexp="yes">attention|gymnastique|appel</token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -2019,7 +2026,7 @@ RB => Règles Brutes
                 <marker>
                     <token postag="V ind pres 3 s">fait</token>
                 </marker>
-                <token postag="A"/>
+                <token postag="A|Z.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="V ind pres 3 s"/>
         </rule>
