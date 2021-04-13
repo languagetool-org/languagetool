@@ -195,6 +195,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
+                   !k.getReplacement().toLowerCase().startsWith("bi ") &&
                    !k.getReplacement().toLowerCase().startsWith("con ") &&
                    !k.getReplacement().startsWith("ins ") && // instable (ins table)
                    !k.getReplacement().toLowerCase().startsWith("pre ") &&
@@ -379,6 +380,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("interweb", Arrays.asList("internet"));
     s.put("interwebs", Arrays.asList("internet"));
     s.put("srilanka", Arrays.asList("Sri Lanka"));
+    s.put("pcs", Arrays.asList("PCs"));
 
     s.put("oconnor", Arrays.asList("O'Connor"));
     s.put("oconor", Arrays.asList("O'Conor"));
