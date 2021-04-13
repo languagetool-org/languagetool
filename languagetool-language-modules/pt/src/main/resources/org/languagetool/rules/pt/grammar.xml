@@ -673,6 +673,27 @@ Uma cliente disse querer pagar com o cartão Auchan.
 		<token postag='NP.+' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-25 + 2021-03-24 (Enhanced) (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-04-13 (17-MAR-2021+) *START* -->
+<!--
+No ponto borboleta, as diferentes superfícies são importantes.
+Não traduza inglês para japonês palavra por palavra.
+Eu comecei a aprender chinês semana passada.
+Eu gosto de comer comida coreana.
+Não tenho nenhum interesse em comer comida inglesa.
+A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.
+-->
+      <antipattern>
+		<token negate="yes" regexp='yes'>o|um</token>
+		<token postag='NCMS000|AQ0MS0' postag_regexp='yes'/>
+		<token postag='NCFS000|AQ0FS0' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+		<token regexp='yes'>o|um</token>
+		<token postag='NCMS000|AQ0MS0' postag_regexp='yes'/>
+		<token postag='NCFS000|AQ0FS0' postag_regexp='yes'/>
+		<token negate="yes" regexp='yes'>[.,!?;():]</token>
+      </antipattern> 	  
+<!-- MARCOAGPINTO 2021-04-13 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -751,6 +772,13 @@ Uma cliente disse querer pagar com o cartão Auchan.
 	  <example>Com a marca, um <marker>exclusivo Auchan</marker>.</example>
 	  <example>Um computador da Dell pode ser integrado com um processador Intel.</example>
 	  <example>Uma cliente disse querer pagar com o cartão Auchan.</example>
+	  
+	  <example type='correct'>No <marker>ponto borboleta</marker>, as diferentes superfícies são importantes.</example>
+	  <example>Não traduza inglês para japonês palavra por palavra.</example>
+	  <example>Eu comecei a aprender chinês semana passada.</example>
+	  <example>Eu gosto de comer comida coreana.</example>
+	  <example>Não tenho nenhum interesse em comer comida inglesa.</example>
+	  <example>A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.</example>
     </rule>
     <rule>
       <pattern>
