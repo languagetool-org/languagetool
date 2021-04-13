@@ -988,7 +988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Une grande"><marker>Un grand</marker> soif</example>
             </rule>
         </rulegroup>
-        <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordance adjectif après les noms" default="temp_off">
+        <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
                 <!-- TODO: more colors -->
                 <token regexp="yes">rouge|gris|blue</token>
@@ -1784,6 +1784,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="réelle|réels">dans un dialogue et la vie <marker>réel</marker>.</example>
             <example>comme langage ou monnaie universels</example>
             <example>dans un dialogue et la vie réelle</example>
+            <example>la France fut à nouveau candidate aux Jeux.</example>
+            <example>L'obligation juridique concernant les transports fut beaucoup moins forte.</example>
+            <example>Lorsqu'il s'agit de débourser de l'argent, le patron fait grise mine.</example>
             <!-- 
         ** Agreement with the subject **
        <example> Elle alla au procès accusée du meurtre de son mari.</example>
@@ -19124,7 +19127,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="SENT_START|C coor" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V.* imp .*" postag_regexp="yes"><exception postag="Z.*" postag_regexp="yes"/></token>
+                        <token postag="V.* imp .*" postag_regexp="yes">
+                            <exception postag="Z.*" postag_regexp="yes"/></token>
                         <token regexp="yes">[nv]ous|lui|y</token>
                     </marker>
                     <token>
@@ -19160,17 +19164,19 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">plus|moins|vaguement</token>
                 </antipattern>
                 <pattern>
-                    <token postag="V.* imp .*" postag_regexp="yes"><exception postag="Z.*" postag_regexp="yes"/></token>
+                    <token postag="V.* imp .*" postag_regexp="yes"/>
                     <token regexp="yes">[mt]oi</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
                 <example correction="Laisse-moi"><marker>Laisse moi</marker> faire comme ça.</example>
+                <example correction="Marie-moi"><marker>Marie moi</marker> et oublie Pierre.</example>
                 <example>Marie toi et moi faisons une bonne équipe.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.* imp .*" postag_regexp="yes"><exception postag="Z.*" postag_regexp="yes"/></token>
+                        <token postag="V.* imp .*" postag_regexp="yes">
+                            <exception postag="Z.*" postag_regexp="yes"/></token>
                         <token regexp="yes">[mt]'</token>
                         <token regexp="yes">en|y</token>
                     </marker>
@@ -19199,7 +19205,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="SENT_START|C coor" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V.* imp .*" postag_regexp="yes"><exception postag="Z.*" postag_regexp="yes"/></token>
+                        <token postag="V.* imp .*" postag_regexp="yes">
+                            <exception postag="Z.*" postag_regexp="yes"/></token>
                         <token regexp="yes">l[ea]</token>
                     </marker>
                     <token>
@@ -19235,7 +19242,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="SENT_START|C coor" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V.* imp .*" postag_regexp="yes"><exception postag="Z.*" postag_regexp="yes"/></token>
+                        <token postag="V.* imp .*" postag_regexp="yes">
+                            <exception postag="Z.*" postag_regexp="yes"/></token>
                         <token>les</token>
                     </marker>
                     <token>
@@ -22181,7 +22189,7 @@ though, and has since been slightly modified)-->
                 <example correction="Celle-là"><marker>Celle là</marker>, elle sait comment faire.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CE_NOM_LA_" name="là sans trait d’union">
+        <rulegroup id="CE_NOM_LA" name="là sans trait d’union">
             <antipattern>
                 <token regexp="yes">l[àa]</token>
                 <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
@@ -22219,7 +22227,7 @@ though, and has since been slightly modified)-->
                 <example>Le problème est qu'il s'agit d'un circuit en série là.</example>
                 <example>Ça me fait mal là.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">ce|cet|cette|ces</token>
                     <token min="0" regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
@@ -22233,8 +22241,9 @@ though, and has since been slightly modified)-->
                 <url>https://www.espacefrancais.com/lemploi-du-trait-dunion/</url>
                 <example correction="hiver-là">Cet <marker>hiver là</marker> n'est pas un hiver comme les autres</example>
                 <example>Laissez cette boîte là où elle est.</example>
+                <example>Ce fut là ma chance.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>la</token>
                     <token postag="[NV].*|UNKNOWN" postag_regexp="yes"/>
@@ -22264,6 +22273,7 @@ though, and has since been slightly modified)-->
                 <example>Avec ce projet la CLES a formé une douzaine de jeunes filles</example>
                 <example>C'est la façon recommandée de lire ce texte la première fois.</example>
                 <example>Cette nouvelle la rendit heureuse.</example>
+                <example>Ce fut la plus belle nuit de ma vie.</example>
             </rule>
             <rule>
                 <pattern>

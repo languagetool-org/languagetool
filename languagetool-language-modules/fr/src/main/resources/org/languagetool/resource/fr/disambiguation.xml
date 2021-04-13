@@ -904,7 +904,7 @@ RB => Règles Brutes
     </rule>
     <rule id="GRISE_MINE" name="grise mine">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes" min="0" max="1">faire</token>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
             <token postag="J f s">grise</token>
             <token postag="N f s">mine</token>
         </pattern>
@@ -1223,6 +1223,16 @@ RB => Règles Brutes
         </antipattern>
         <pattern>
             <token postag="Z.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="Z.*"/>
+    </rule>
+    <rule id="MARIE" name="Marie">
+        <antipattern>
+            <token>Marie</token>
+            <token>moi</token>
+        </antipattern>
+        <pattern>
+            <token postag="Z.*" postag_regexp="yes">Marie</token>
         </pattern>
         <disambig action="filter" postag="Z.*"/>
     </rule>
@@ -1722,6 +1732,16 @@ RB => Règles Brutes
                 <token postag="V ind pres 3 s" skip="5">fait</token>
             </marker>
             <token>effet</token>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="FAIT_GRISE_MINE" name="fait grise mine">
+        <pattern>
+            <marker>
+                <token postag="V ind pres 3 s">fait</token>
+            </marker>
+            <token postag="J f s">grise</token>
+            <token postag="N f s">mine</token>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
@@ -3475,9 +3495,9 @@ RB => Règles Brutes
             <token regexp="yes">fut|fût</token>
         </antipattern>
         <pattern>
-            <token regexp="yes" postag="V etre sub impa 3 s">fut|fût</token>
+            <token regexp="yes" postag="V etre sub impa 3 s|V etre ind psim 3 s" postag_regexp="yes">fut|fût</token>
         </pattern>
-        <disambig action="filter" postag="V etre sub impa 3 s"/>
+        <disambig action="filter" postag="V etre sub impa 3 s|V etre ind psim 3 s"/>
     </rule>
     <rule id="DEVENIR" name="devenir">
         <antipattern>
