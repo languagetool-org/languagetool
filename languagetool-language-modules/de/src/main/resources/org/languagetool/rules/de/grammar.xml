@@ -10106,6 +10106,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="TEIL_NEHMEN" name="teil nehmen (teilnehmen)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">das|[msd]ein|ihr|dieses</token>
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" />
+                <token>teil</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">teil</token>
+                <token min="0">zu</token>
+                <token inflected="yes">nehmen</token>
+            </pattern>
+            <message>Das Verb <suggestion>teil<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="teilnehmen">Ich werde an der Veranstaltung <marker>teil nehmen</marker>.</example>
+            <example>Das Teil nehmen wir mit!</example>
+        </rule>
+        <rulegroup id="ZUTEIL_WERDEN" name="zuteilwerden" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>zu</token>
+                    <token>teil</token>
+                    <token inflected="yes">werden</token>
+                </pattern>
+                <message>Das Verb <suggestion>zuteil<match no="3" case_conversion="alllower" /></suggestion> wird klein- und zusammengeschrieben.</message>
+                <example correction="zuteilgeworden">Eine große Ehre ist beim Gegner FC Fulham bereits Trainer Roy Hodgson <marker>zu teil geworden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zuteil</token>
+                    <token inflected="yes">werden</token>
+                </pattern>
+                <message>Das Verb <suggestion>zuteil<match no="2" case_conversion="alllower" /></suggestion> wird klein- und zusammengeschrieben.</message>
+                <example correction="zuteilgeworden">Eine große Ehre ist beim Gegner FC Fulham bereits Trainer Roy Hodgson <marker>zuteil geworden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">werden</token>
+                    <marker>
+                        <token>zu</token>
+                        <token>teil</token>
+                    </marker>
+                </pattern>
+                <message>Das Verb "zuteilwerden" wird klein- und zusammengeschrieben.</message>
+                <suggestion>zuteil</suggestion>
+                <example correction="zuteil">Eine große Ehre wird mir <marker>zu teil</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ROT_ROT_GRÜN" name="Er wählt 'rot rot grün' (rot-rot-grün)">
             <rule>
                 <pattern>
@@ -20733,6 +20779,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="IST_TEIL" name="teil nehmen (teilnehmen)" default="temp_off">
+            <pattern>
+                <token inflected="yes">sein</token>
+                <token inflected="yes" min="0">ein</token>
+                <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöü].*</token>
+                <marker>
+                    <token case_sensitive="yes">teil</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion>Teil</suggestion> wird großgeschrieben.</message>
+            <example correction="Teil">Ich bin <marker>teil</marker> davon.</example>
+        </rule>
+        <rule id="TEIL_VON" name="teil (Teil) von" default="temp_off">
+            <antipattern>
+                <token>ich</token>
+                <token>teil</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">teil</token>
+                </marker>
+                <token>von</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Teil</suggestion> wird großgeschrieben.</message>
+            <example correction="Teil">Ich bin <marker>teil</marker> von etwas großem.</example>
+        </rule>
+        <rulegroup id="ZUM_TEIL" name="zum teil (Teil)" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/zum_Teil</url>
+            <rule>
+                <pattern>
+                    <token>zum</token>
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöü].*</token>
+                    <marker>
+                        <token case_sensitive="yes">teil</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Teil</suggestion> wird großgeschrieben.</message>
+                <example correction="Teil">Das ist zum <marker>teil</marker> dein Verdienst.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zu</token>
+                    <token>einem</token>
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöü].*</token>
+                    <marker>
+                        <token case_sensitive="yes">teil</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Teil</suggestion> wird großgeschrieben.</message>
+                <example correction="Teil">Das ist zu einem großen <marker>teil</marker> dein Verdienst.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_KAUF_NEHMEN" name="in kauf (Kauf) nehmen">
             <url>https://de.wiktionary.org/wiki/in_Kauf_nehmen</url>
             <rule>
