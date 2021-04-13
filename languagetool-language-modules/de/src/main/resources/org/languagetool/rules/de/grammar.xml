@@ -10106,6 +10106,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="STARK_MACHEN" name="stark machen (starkmachen)" default="temp_off">
+            <antipattern>
+                <token>zu</token>
+                <token>stark</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" skip="8">(da)?für</token>
+                <marker>
+                    <token case_sensitive="yes">stark</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">machen</token>
+                </marker>
+            </pattern>
+            <message>Das Verb <suggestion>stark<match no="3" case_conversion="alllower" /><match no="4" case_conversion="alllower" /></suggestion> (= für etw. einsetzen) wird zusammengeschrieben.</message>
+            <example correction="starkmachen">Ich werde mich dafür <marker>stark machen</marker>.</example>
+            <example>Tom hat den Kaffee zu stark gemacht.</example>
+            <example>Das Foto wurde für Tony Stark gemacht.</example>
+        </rule>
         <rule id="TEIL_NEHMEN" name="teil nehmen (teilnehmen)" default="temp_off">
             <antipattern>
                 <token regexp="yes">das|[msd]ein|ihr|dieses</token>
