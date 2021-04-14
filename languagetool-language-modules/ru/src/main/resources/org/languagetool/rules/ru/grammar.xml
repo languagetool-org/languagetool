@@ -4161,7 +4161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Здорово живешь, соседка, - поздоровался Иван.</example>
             <example correction=", -">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
-        <rule default="temp_off" id="COMMA_DEFIS" name="Запятая и дефис">
+        <rule default="off" id="COMMA_DEFIS" name="Запятая и дефис"> <!-- temp_off -->
             <pattern>
                 <token spacebefore="no">,</token>   
                 <token spacebefore="yes">-</token>
@@ -9479,7 +9479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" tags="picky"> <!-- set temp off -->  <!-- tags="picky" -->
+        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
