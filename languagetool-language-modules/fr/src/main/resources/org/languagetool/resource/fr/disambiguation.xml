@@ -2005,7 +2005,7 @@ RB => Règles Brutes
         <rule id="FAITES_INF" name="faites + infinitif">
             <pattern>
                 <marker>
-                    <token postag="V imp pres 2 p"/>
+                    <token postag="V imp pres 2 p">faites</token>
                 </marker>
                 <token postag="V inf"/>
             </pattern>
@@ -2041,13 +2041,17 @@ RB => Règles Brutes
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
     <rule id="PRESENTE" name="présente">
+        <antipattern>
+            <token inflected="yes">être</token>
+            <token>présente</token>
+        </antipattern>
         <pattern>
             <marker>
-                <token postag="V ind pres 3 s">présente</token>
+                <token postag="V (ind|sub|imp).*" postag_regexp="yes">présente</token>
             </marker>
             <token postag="D.*" postag_regexp="yes"/>
         </pattern>
-        <disambig action="filter" postag="V ind pres 3 s"/>
+        <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
     <rule id="LAISSE" name="laisse">
         <pattern>
