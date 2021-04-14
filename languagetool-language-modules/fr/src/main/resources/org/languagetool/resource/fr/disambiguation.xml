@@ -3481,7 +3481,7 @@ RB => Règles Brutes
     <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
         <pattern>
             <token inflected="yes" regexp="yes">être|avoir</token>
-            <token min="0" max="4" postag="R.*|A" postag_regexp="yes"/>
+            <token min="0" max="4" postag="R.*|A" postag_regexp="yes"><exception regexp="yes">que|qu'</exception></token>
             <marker>
                 <token regexp="yes">fait|mis
                     <exception scope="previous" postag="R.*" postag_regexp="yes" regexp="yes">[^\-].*</exception></token>
@@ -5215,7 +5215,7 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <token postag="D e s"/>
-                <token postag="N f (s|sp)" postag_regexp="yes"/>
+                <token postag="[ZN] f (s|sp)" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
                 <wd pos="_GN_FS"/>

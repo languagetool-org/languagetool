@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY apostrophe "’|´|'|‛|′|‘">
     <!ENTITY mois_annee "janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre">
     <!ENTITY jours_semaine "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche">
-    <!ENTITY unites_temps "journée|an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
+    <!ENTITY unites_temps "matinée|journée|an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
     <!ENTITY expression_deux_mots_trait_union "concertation|rencontre|alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
     <!ENTITY suivi_par_nombre "acte|canal|chapitre|division|exercice|figure|formule|leçon|master|numéro|option|page|phase|saison|scène|section|taille|terminal|tome|top|total|variante|vers|verset|version|volume|zone|épisode|étape|type|classe|catégorie">
@@ -542,6 +542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Il serait mieux que tu ne la voies plus maintenant.</example>
                 <example>dans laquelle Pierre Charnier évoque l'idée d'une récompense</example>
                 <example>dans lequel demeure l'homme</example>
+                <example>Il s'est fait deux Paris-Brest en l'espace de deux jours.</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -717,7 +718,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quelqu'un d'intelligent remarque tout.</example>
             <example>Bouclier de protection des données Union Européenne-États-Unis</example>
             <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
-            <!--<example>et qui regarde les autres manger</example>-->
+            <!--<example>et qui regarde les autres manger</example>
+            Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.-->
         </rule>
         <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom" default="temp_off">
             <antipattern>
@@ -1023,6 +1025,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </unify>
             </antipattern>
             <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token inflected="yes">tel</token>
+                    <token inflected="yes">un</token>
+                </unify>
+            </antipattern>
+            <antipattern>
                 <token>la</token>
                 <token>part</token>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -1068,6 +1078,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<token inflected="yes" skip="4">passer</token>-->
                 <token postag="D.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;|instant|moment</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">tout</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&unites_temps;|instant|moment|temps</token>
+                <token min="0" max="3" postag="A"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1824,7 +1841,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: étasunien is not a good suggestion -->
             <!--<example correction="étasunien|étasunienne|étasuniens">Le système judiciaire et la presse <marker>étasuniennes</marker> sont rocambolesques.</example>-->
             <example correction="tels">Je n'aime pas les sports <marker>tel</marker> que le tennis et le golf.</example>
+            <!--doivent motiver leurs décisions tel que défini par la loi
+            Je veux apprendre à jouer de la guitare tel que tu le fais.-->
             <example>la relation supérieur-subordonné idéale</example>
+            <example>La télé était tout le temps allumée.</example>
+            <example>J’ai passé toute la matinée étendu sur l’herbe.</example>
+            <example>Pourquoi es-tu tout le temps si occupée ?</example>
+            <example correction="phrygienne">l'Ida <marker>phrygien</marker></example>
+            <example>Il courrait dans les rues tel un fou.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -37946,7 +37970,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
                         <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
-                        <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|auquel</exception> </token>
+                        <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|auquel|donc</exception> </token>
                     <marker>
                         <token regexp="yes">(?-i)c'</token>
                         <token postag="V etre.* 3 s" postag_regexp="yes">
