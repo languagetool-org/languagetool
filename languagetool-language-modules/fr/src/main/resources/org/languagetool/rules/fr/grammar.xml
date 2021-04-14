@@ -37238,6 +37238,58 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+    <rulegroup id="A_CHAQUE_FOIS_VIRGULE" name="à chaque fois virgule" default="temp_off">
+        <rule>
+            <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token postag="C coor"/>
+                <token>à</token>
+                <token>chaque</token>
+                <token>fois</token>
+             </antipattern>
+                <pattern>
+                    <token postag="C coor">
+                        <exception>comme</exception>
+                        <exception scope="previous">,</exception>
+                    </token>
+                    <marker>
+                        <token>à</token>
+                    </marker>
+                    <token>chaque</token>
+                    <token>fois</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>, \2</suggestion>
+                <example correction=", à">Elle nous a expliqué le nouveau travail de papa et<marker> à</marker> chaque fois, nous ne comprenons pas.</example>
+                <example>Comme à chaque fois, il arrive en retard.</example>
+                <example>Il obtient la médaille d'or à chaque fois.</example>
+                <example>Il arrive, et à chaque fois repart tôt.</example>
+                </rule>
+                <rule>
+                    <antipattern>
+                        <token postag="C coor"/>
+                        <token>à</token>
+                        <token>chaque</token>
+                        <token>fois</token>
+                        <token postag="V.*" postag_regexp="yes"/>
+                     </antipattern>
+                    <pattern>
+                        <token postag="C coor"/>
+                        <token>à</token>
+                        <token>chaque</token>
+                        <marker>
+                            <token>fois
+                            <exception scope="next" regexp="yes">,|qu[ei]?|o[uù]|dans|de|qu&apostrophe;</exception>
+                            <exception scope="next" postag="SENT_END"/>
+                            </token>
+                        </marker>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="fois,">Elle nous a expliqué le nouveau travail de papa et à chaque <marker>fois</marker> nous ne comprenons pas.</example>
+                <example>Elle a été vandalisée plusieurs fois et à chaque <marker>fois</marker> restaurée.</example>
+                </rule>
+</rulegroup>
         <rulegroup id="FLECHES" name="-&gt; (→)">
             <rule>
                 <pattern>
