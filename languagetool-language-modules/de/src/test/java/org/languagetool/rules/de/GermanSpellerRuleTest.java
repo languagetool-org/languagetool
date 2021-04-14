@@ -573,6 +573,9 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfreies")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("abmantelung")).length);  // only as uppercase in spelling.txt
     assertEquals(1, rule.match(lt.getAnalyzedSentence("- abmantelung")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("machtS")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("All-Inclusive-Preis")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("dRanging")).length);
 
     // originally from spelling.txt:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);

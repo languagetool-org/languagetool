@@ -305,7 +305,7 @@ public abstract class SpellingCheckRule extends Rule {
     return isIgnoredNoCase(word);
   }
 
-  private boolean isIgnoredNoCase(String word) {
+  protected boolean isIgnoredNoCase(String word) {
     return wordsToBeIgnored.contains(word) ||
            (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
            (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);

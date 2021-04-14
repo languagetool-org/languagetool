@@ -1114,7 +1114,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
-    setConvertsCase(true);  // all words also accepted in uppercase (e.g. sentence start, bullet list items)
   }
 
   @Override
@@ -1128,6 +1127,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   public String getId() {
     return RULE_ID;
+  }
+
+  @Override
+  protected boolean isIgnoredNoCase(String word) {
+    return wordsToBeIgnored.contains(word) ||
+      // words from spelling.txt also accepted in uppercase (e.g. sentence start, bullet list items):
+      (word.matches("[A-ZÖÄÜ][a-zöäüß-]+") && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+      (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
   @Override
