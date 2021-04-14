@@ -129,7 +129,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().toString().contains("la vie réel")) {
+//    if (match.getSentence().getText().toString().contains("Le système judiciaire")) {
 //      int i = 0;
 //      i++;
 //    }

@@ -441,6 +441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>contre les Force India</example>
                 <!-- TODO: too many suggestions -->
                 <example correction="aucunes nouvelles|aucun nouveau|aucun nouvel|aucune nouvelle|aucuns nouveaux|aucuns nouvels">Nous n'avons <marker>aucun nouvelles</marker>.</example>
+                <example correction="pareilles situations|pareille situation">L'Histoire regorge de <marker>pareil situations</marker>.</example>
                 <example>Henri VIII rencontre François Ier.</example>
                 <example>Il est né le quatre <marker>janvier</marker>.</example>
                 <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
@@ -716,6 +717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quelqu'un d'intelligent remarque tout.</example>
             <example>Bouclier de protection des données Union Européenne-États-Unis</example>
             <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
+            <!--<example>et qui regarde les autres manger</example>-->
         </rule>
         <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom" default="temp_off">
             <antipattern>
@@ -924,7 +926,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="Y"/>
             </antipattern>
             <pattern>
-                <token postag="Y" regexp="yes">1|[01][,.]\d+</token>
+                <token postag="Y" regexp="yes">1|[01][,.]\d+
+                    <exception regexp="yes">1[.,]\d\d\d</exception></token>
                 <marker>
                     <token postag="[NJ] . p|V ppa . p" postag_regexp="yes">
                         <exception postag="[NJ] . (s|sp)|V.* ppa . (p|sp)" postag_regexp="yes"/>
@@ -952,6 +955,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Les résultats de l'équipe nationale 1 messieurs sont décevants.</example>
             <example>Les machines de type 1 achetées chez nous sont plus chères.</example>
             <example>Tome 1 Généralités et non-métaux, 386 pages et Tome 2 Métaux 700 pages</example>
+            <example>et plus de 1.200 mosquées</example>
+            <example>la relation supérieur-subordonné idéale</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
             <rule>
@@ -1004,6 +1009,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[NJZ].*" postag_regexp="yes"/>
                 <token regexp="yes">[-/]</token>
                 <token postag="[NJZ].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token regexp="yes" inflected="yes">&expression_deux_mots_trait_union;</token>
+                    <unify-ignore>
+                        <token postag="[NJZ].*" postag_regexp="yes"/>
+                        <token regexp="yes">[-/]</token>
+                        <token postag="[NJZ].*" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+                </unify>
             </antipattern>
             <antipattern>
                 <token>la</token>
@@ -1796,8 +1814,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Agreement with the subject-->
             <example type="triggers_error">Elle alla au procès accusée du meurtre de son mari.</example>
             <example type="triggers_error">et ne peuvent détourner leur regard captivés par le spectacle</example>
+            <example type="triggers_error">chaque chose apparaîtrait à l'homme telle qu'elle est</example>
+            <example type="triggers_error">Je veux apprendre à jouer de la guitare tel que tu le fais.</example>
+            <!-- ?? -->
+            <example type="triggers_error">Anderson est retourné à la maison de Linda armé d'un mandat de perquisition</example>
+            <example type="triggers_error">Mais le conquérant qui a brûlé les villes, décimé les peuples, toute la folie, toute la lâcheté humaines se coalisent pour le hisser sur des pavois monstrueux.</example>
             <example>Il avait les cheveux brun foncé.</example>
             <example>de forme oblongue, de couleur brun vernissé</example>
+            <example>Il y a quelques postes de haut niveau disponibles pour vous.</example>
+            <!-- TODO: étasunien is not a good suggestion -->
+            <!--<example correction="étasunien|étasunienne|étasuniens">Le système judiciaire et la presse <marker>étasuniennes</marker> sont rocambolesques.</example>-->
+            <example correction="tels">Je n'aime pas les sports <marker>tel</marker> que le tennis et le golf.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -11924,6 +11951,8 @@ though, and has since been slightly modified)-->
                 <example>L'Yonne.</example>
                 <example>Pour un achat d'un montant d'au moins 50€.</example>
                 <example>L'esclave a sa vanité, il ne veut obéir qu'au plus grand des despotes.</example>
+                <example>L'entrée n'est autorisée qu'aux 18 ans et plus.</example>
+                <example>Faisons-nous un vol sans escale jusqu'aux USA ?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38649,6 +38678,10 @@ though, and has since been slightly modified)-->
                     <token postag="R pers obj.*" postag_regexp="yes" skip="-1"/>
                     <token postag="M fin"/>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="3">quel</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes">
                         <exception postag="C.*" postag_regexp="yes"/></token>
@@ -38668,6 +38701,8 @@ though, and has since been slightly modified)-->
                 <example>Il la voit et à <marker>travers elle</marker> il voit le monde.</example>
                 <example>Ainsi en <marker>est-il</marker> de lui.</example>
                 <example>L'ambition de ce service est de <marker>pouvoir nous</marker> informer.</example>
+                <example>Elle me demanda quel âge j'avais.</example>
+                <example>Tu ne peux jamais dire quelle sorte d'emploi tu vas peut-être trouver.</example>
             </rule>
             <rule>
                 <pattern>

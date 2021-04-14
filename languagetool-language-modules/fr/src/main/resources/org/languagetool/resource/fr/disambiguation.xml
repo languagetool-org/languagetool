@@ -221,6 +221,14 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <!-- CATEGORY: not nous -->
+    <rule id="NOT_NOUNS" name="not nouns">
+        <!-- unless exceptions-->
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" negate_pos="yes" regexp="yes">y|un|une</token>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <!-- CATEGORY: verb + pronoun-->
     <rule id="VERB_PRON" name="verb + pronoun">
         <pattern>
@@ -1307,7 +1315,7 @@ RB => Règles Brutes
                     <feature id="gender"/>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut</token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
@@ -1320,7 +1328,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
@@ -1411,6 +1419,13 @@ RB => Règles Brutes
     </rule>
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: adverbs -->
+    <rule id="PAREIL" name="pareil (not adverb)">
+        <!-- TODO: exceptions -->
+        <pattern>
+            <token postag="[DN].*" postag_regexp="yes">pareil</token>
+        </pattern>
+        <disambig action="remove" postag="A"/>
+    </rule>
     <rule id="ADV_EXCEPTIONS" name="adverbs (exceptions)">
         <pattern>
             <token postag="(P.)?D m s" postag_regexp="yes"/>
@@ -3633,7 +3648,7 @@ RB => Règles Brutes
                     <exception>même</exception>
                     <exception postag="P"/></token>
                 <token postag="N.*|J.*|V ppa.*" postag_regexp="yes">
-                    <exception regexp="yes">a|dans|envers|si|fut|plus|avoir|fait</exception>
+                    <exception regexp="yes">a|dans|envers|si|fut|plus|avoir|fait|autres?</exception>
                     <exception postag="K"/>
                     <exception postag="J e sp"/></token>
             </unify>
