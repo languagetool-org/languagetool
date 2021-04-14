@@ -19678,6 +19678,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es de los 1950s.</example>
                 <example>En los años 30s, 40s y 50s.</example>
             </rule>
+            <rule>
+                <!-- 2ºA -->
+                <pattern>
+                    <token regexp="yes">\d+[ªº][A-Z]+</token>
+                </pattern>
+                <message>Falta un espacio.</message>
+                <suggestion><match no="1" regexp_match="(\d+[ªº])([A-Z]+)" regexp_replace="$1&#8239;$2"/></suggestion>
+                <example correction="2º&#8239;B">El grupo de <marker>2ºB</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DECADAS_1920" name="años *20's/*20s/20" default="on">
             <url>https://www.fundeu.es/recomendacion/decadas-ochenta-no-ochentas/</url>
