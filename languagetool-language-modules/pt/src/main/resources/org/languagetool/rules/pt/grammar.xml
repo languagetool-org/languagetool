@@ -5642,17 +5642,6 @@ Com vontade de apagar estas más recordações morri.
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-10 (2-JUL-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-07-20 (2-JUL-2020+) *START* -->
-<!-- "Pela sua carta entendi que está irritada." -->
-<!-- "Pela tua carta entendi que está irritada." -->
-<!-- "Pela vossa carta entendi que está irritada." -->
-      <antipattern>
-	      <token regexp='yes'>pela|pelo|da|do</token>
-	      <token postag='AP0FS3[SP]|DP3FSS|AP0FS2S|DP2FSS|AP0FS2P|DP2FSP|AP0MS1S|DP1MSS|AP0FS1S|DP1FSS' postag_regexp='yes'/>
-	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
-	      <token postag='VMIS1S0' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-07-20 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-07-20 (2-JUL-2020+) *START* -->
 <!-- "Desde que os produtos derivados da sua utilização sejam igualmente livres." -->
 <!-- "Outras pessoas da rede que já obtiveram o arquivo podem disponibilizá-lo." -->
       <antipattern>
@@ -5791,12 +5780,17 @@ Ao utilizar o discurso oral podem surgir interferências ou ruído.
 Pelo seu quadro passaram médicos ilustres que colaboraram também no Hospital de Angra.
 Da sua obra sobrevivem fragmentos muito curtos sobre os celtas.
 Na nossa vida sempre aparecem desafios.
+Pela sua carta entendi que está irritada.
+Os recentes estudos do autor e da sua obra admitem que o seu pensamento foi mal interpretado historicamente.
+Sobre a sua vida existem poucos dados precisos, sendo as lacunas preenchidas por lendas.
 -->
       <antipattern>
 		<token postag='DP.+' postag_regexp='yes'/>
 		<token min="1" max="2"  postag='NC.+|AQ0.+|NP.+|RG' postag_regexp='yes'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+|CS|DI.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='PP3CN000'/>
+		</token>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-04-14 (17-MAR-2021+) *END* -->
       <pattern>
@@ -5848,7 +5842,10 @@ Na nossa vida sempre aparecem desafios.
 	  
 	  <example type='correct'>Pelo <marker>seu quadro passaram</marker> médicos ilustres que colaboraram também no Hospital de Angra.</example>
 	  <example>Da sua obra sobrevivem fragmentos muito curtos sobre os celtas.</example>
-	  <example>Na nossa vida sempre aparecem desafios.</example>  
+	  <example>Na nossa vida sempre aparecem desafios.</example>
+	  <example>Pela sua carta entendi que está irritada.</example>
+	  <example>Os recentes estudos do autor e da sua obra admitem que o seu pensamento foi mal interpretado historicamente.</example>
+	  <example>Sobre a sua vida existem poucos dados precisos, sendo as lacunas preenchidas por lendas.</example>
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
