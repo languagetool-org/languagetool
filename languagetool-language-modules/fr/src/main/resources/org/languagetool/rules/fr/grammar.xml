@@ -37761,6 +37761,77 @@ though, and has since been slightly modified)-->
                 <example correction="sûr,">Bien <marker>sûr</marker> on me dira que la vie est dure</example>
                 <example>Bien entendu que je comprends cet argument</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">assurément|forcément|réellement|certainement|incontestablement|vraisemblablement|évidemment|probablement
+                            <exception scope="next" postag="P.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\2,</suggestion>
+                <example correction="Incontestablement,"><marker>Incontestablement</marker> ton argument est intéressant</example>
+                <example>Bien entendu que je comprends cet argument</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>à</token>
+                    <token>coup</token>
+                  <marker>
+                    <token >sûr</token>
+                  </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="sûr,">à coup <marker>sûr</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>de</token>
+                    <token>toute</token>
+                  <marker>
+                    <token >évidence</token>
+                  </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="évidence,">de toute <marker>évidence</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>sans</token>
+                    <token>aucun</token>
+                  <marker>
+                    <token>doute</token>
+                  </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="doute,">sans aucun <marker>doute</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>selon</token>
+                    <token>toute</token>
+                  <marker>
+                    <token >vraisemblance</token>
+                  </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="vraisemblance,">selon toute <marker>vraisemblance</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
             <rule>
