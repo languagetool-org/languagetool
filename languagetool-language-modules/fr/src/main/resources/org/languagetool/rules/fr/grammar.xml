@@ -948,6 +948,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Tome 1 Généralités et non-métaux, 386 pages et Tome 2 Métaux 700 pages</example>
         </rule>
         <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
+        <rule default="temp_off">
+         <pattern>
+                <token regexp="yes">[0-1][,.]\d+</token>
+                <marker>
+                    <token postag="[NJ] . p|V ppa . p" postag_regexp="yes">
+                        <exception postag="[NJ] . (s|sp)|V.* ppa . (p|sp)" postag_regexp="yes"/>
+                        <exception>Corinthiens</exception></token>
+                </marker>
+            </pattern>
+            <message suppress_misspelled="yes">'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés en nombre.</message>
+            <suggestion><match no="2" postag="([NJ] .|V ppa .) p" postag_regexp="yes" postag_replace="$1 s"/></suggestion>
+            <example correction="euro">Il coûte 1,25 <marker>euros</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
