@@ -996,10 +996,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
-                <!-- TODO: more colors -->
-                <token regexp="yes">rouge|gris|blue</token>
-                <token min="0">-</token>
-                <token regexp="yes">vif|foncé|pâle</token>
+                <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc</token>
+                <token regexp="yes">clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&expression_deux_mots_trait_union;</token>
@@ -1795,10 +1793,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lorsqu'il s'agit de débourser de l'argent, le patron fait grise mine.</example>
             <example>Quelle taille fait Tom ?</example>
             <example>Les musiciens sortant tous quatre de la Haute École de Jazz.</example>
-            <!-- 
-        ** Agreement with the subject **
-       <example> Elle alla au procès accusée du meurtre de son mari.</example>
-        -->
+            <!-- Agreement with the subject-->
+            <example type="triggers_error">Elle alla au procès accusée du meurtre de son mari.</example>
+            <example type="triggers_error">et ne peuvent détourner leur regard captivés par le spectacle</example>
+            <example>Il avait les cheveux brun foncé.</example>
+            <example>de forme oblongue, de couleur brun vernissé</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -16060,7 +16059,7 @@ though, and has since been slightly modified)-->
                     <token postag="N . p" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">(vert|bleu|noir|brun|gris)(e?s)|(beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille)s|blancs</token>
-                        <token regexp="yes">(clair|foncé)(e?s?)?|(pâle|paille|pétrole|sang|vif|vive|marine)s?</token>
+                        <token regexp="yes">(clair|foncé|vernissé)(e?s?)?|(pâle|paille|pétrole|sang|vif|vive|marine)s?</token>
                     </marker>
                 </pattern>
                 <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
@@ -16074,7 +16073,7 @@ though, and has since been slightly modified)-->
                     <token postag="N [fe] .*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">(verte|bleue|noire|brune|grise|blanche|violette)s?</token>
-                        <token regexp="yes">(clair|foncé)(e?s?)?|(pâle|paille|pétrole|vif|vive|marine)s?</token>
+                        <token regexp="yes">(clair|foncé|vernissé)(e?s?)?|(pâle|paille|pétrole|vif|vive|marine)s?</token>
                     </marker>
                 </pattern>
                 <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
