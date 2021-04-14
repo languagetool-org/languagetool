@@ -104,5 +104,9 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
     return "Проверка орфографии. Только «Ё» (экспериментальное правило).";
   }
   
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
   
 }

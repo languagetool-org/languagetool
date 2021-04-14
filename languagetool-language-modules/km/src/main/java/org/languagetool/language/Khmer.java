@@ -86,7 +86,7 @@ public class Khmer extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-      new HunspellRule(messages, this, userConfig, altLanguages),
+      new KhmerHunspellRule(messages, userConfig),
       // specific to Khmer:
       new KhmerSimpleReplaceRule(messages),
       new KhmerWordRepeatRule(messages, this),

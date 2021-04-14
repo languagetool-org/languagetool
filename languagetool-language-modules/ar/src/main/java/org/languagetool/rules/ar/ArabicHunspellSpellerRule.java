@@ -73,5 +73,10 @@ public final class ArabicHunspellSpellerRule extends HunspellRule {
     String striped = ArabicStringTools.removeTashkeel(word);
     return super.isMisspelled(striped);
   }
+  
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
 
 }

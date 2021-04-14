@@ -563,7 +563,17 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
-    
+
+    // from spelling.txt, also accepted as uppercase variant:
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfrei")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfreies")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfrei")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfreies")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfrei")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfreies")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("abmantelung")).length);  // only as uppercase in spelling.txt
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("- abmantelung")).length);
+
     // originally from spelling.txt:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchens")).length);

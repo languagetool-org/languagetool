@@ -1114,6 +1114,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
+    setConvertsCase(true);  // all words also accepted in uppercase (e.g. sentence start, bullet list items)
   }
 
   @Override

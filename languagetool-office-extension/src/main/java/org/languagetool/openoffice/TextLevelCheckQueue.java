@@ -285,7 +285,7 @@ public class TextLevelCheckQueue {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
-      if (docId.equals(documents.get(n).getDocID()) && !documents.get(n).isDisposed()) {
+      if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed()) {
         QueueEntry queueEntry = documents.get(n).getNextQueueEntry(nPara);
         if (queueEntry != null) {
           return queueEntry;

@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
     <!ENTITY apostrophe "['’´]">
     <!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License|Station">
-    <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy">
+    <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy|Squadron">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|abans-d'ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
@@ -24857,11 +24857,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--  made more general-->
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>ni</token>
-                        <token>massa</token>
-                        <token inflected="yes">poc</token>
-                    </marker>
+                    <token>ni</token>
+                    <token>massa</token>
+                    <token inflected="yes">poc</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>tu</token>
+                    <token>a</token>
+                    <token>tu</token>
                 </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
@@ -24883,6 +24887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>D'hereu a hereu a través de generacions.</example>
                 <example>De dos en dos en l'arbre.</example>
                 <example>No n'hi havia ni massa ni massa pocs</example>
+                <example>Podia tractar qualsevol persona de tu a tu a qualsevol nivell.</example>
                 <!--<exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">a|qui</exception>-->
             </rule>
             <rule>
@@ -29886,7 +29891,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">(?-i)ma</token>
-                    <token postag="N.[FC]S.*|A..[FC]S.*|V.P..SF." postag_regexp="yes"></token>
+                    <token postag="N.[FC]S.*|A..[FC]S.*|V.P..SF." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="[ASPD].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
@@ -61363,13 +61368,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern>
                 <!--<exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
-                <token regexp="yes">probablement|potser|possiblement<exception scope="previous" regexp="yes">quan|si</exception></token>
-                <token min="0" max="4" postag="&pronom_feble;|RN|RG" postag_regexp="yes"><exception>quan</exception></token>
+                <token regexp="yes">probablement|potser|possiblement|segurament<exception scope="previous" regexp="yes">quan|si</exception></token>
+                <token min="0" max="4" postag="&pronom_feble;|RN|RG|PI.*" postag_regexp="yes"><exception>quan</exception></token>
                 <marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Probablement cal usar un verb en indicatiu.</message>
+            <message>Amb un adverbi de probabilitat (<match no="1" case_conversion="alllower"/>) és preferible usar un verb en indicatiu.</message>
             <suggestion><match no="3" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
             <short>Temps verbal incorrecte</short>
             <example correction="tens">Probablement <marker>tinguis</marker> raó.</example>
