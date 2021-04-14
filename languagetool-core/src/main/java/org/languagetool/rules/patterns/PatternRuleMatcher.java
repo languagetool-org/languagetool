@@ -88,11 +88,12 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       RuleMatchFilter maxFilter = new RuleWithMaxFilter();
       List<RuleMatch> filteredMatches = maxFilter.filter(ruleMatches);
       /*if (slowMatchThreshold != null) {
-      long runTime = System.currentTimeMillis() - startTime;
-      if (runTime > slowMatchThreshold) {
-        logger.warn("Slow match for rule " + rule.getFullId() + ": " + runTime + "ms, sentence len: " + sentence.getText().length() + " (threshold: " + slowMatchThreshold + "ms)");
-      }
-    }*/return filteredMatches.toArray(new RuleMatch[0]);
+        long runTime = System.currentTimeMillis() - startTime;
+        if (runTime > slowMatchThreshold) {
+          logger.warn("Slow match for rule " + rule.getFullId() + ": " + runTime + "ms, sentence len: " + sentence.getText().length() + " (threshold: " + slowMatchThreshold + "ms)");
+        }
+      }*/
+      return filteredMatches.toArray(RuleMatch.EMPTY_ARRAY);
     } finally {
       if (key != null) {
         currentlyActiveRules.computeIfPresent(key, (k, v) -> v - 1 > 0 ? v - 1 : null);
@@ -286,7 +287,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             String rightSide = errorMessage.substring(backslashPos + numLen);
             if (matches.length == 1) {
               // if we removed optional token from suggestion then remove leading space from the next word
-              if (matches[0].isEmpty() ) {
+              if (matches[0].isEmpty()) {
                 errorMessage = concatWithoutExtraSpace(leftSide, rightSide);
                 errorMessageProcessed = leftSide.length();
               } else {
@@ -328,10 +329,10 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
     // can't do \\p{Punct} as it catches \2 placeholder
-    if( leftSide.endsWith(" ") && rightSide.matches("[\\s,:;.!?].*") ) {
+    if (leftSide.endsWith(" ") && rightSide.matches("[\\s,:;.!?].*")) {
       return leftSide.substring(0, leftSide.length()-1) + rightSide;
     }
-    if( leftSide.endsWith("suggestion>") && rightSide.startsWith(" ") ) {
+    if (leftSide.endsWith("suggestion>") && rightSide.startsWith(" ")) {
       return leftSide + rightSide.substring(1);
     }
     return leftSide + rightSide;
