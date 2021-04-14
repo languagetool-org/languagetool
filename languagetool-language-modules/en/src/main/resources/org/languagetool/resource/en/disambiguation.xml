@@ -8110,6 +8110,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" min="0" />
             <token postag="VBN" />
         </antipattern>
+        <antipattern><!-- If it is next please let me know -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="PRP|NN.*|RB" postag_regexp="yes" />
+            <token>please</token>
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <token inflected="yes" regexp="yes">be|have</token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes" />
@@ -8125,6 +8131,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="VBN"/>
         <example type="untouched">He has a car.</example>
         <example type="untouched">He is quite <marker>confused</marker> to be in this situation.</example>
+        <example type="untouched">If it is next please let me know.</example>
         <example type="untouched">She was not very <marker>pleased</marker> about the result.</example>
         <example type="untouched">Incorrect grammar. The primary problem was <marker>it's cost</marker>.</example>
         <example type="untouched">Incorrect grammar. ... and have <marker>it's cost calculations</marker> been...?</example>
@@ -14748,6 +14755,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <marker>
                 <token case_sensitive="yes">R$</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_SUPERSCRIPT_NUMBERS" name="ignore spelling of 'mc²'">
+        <pattern>
+            <marker>
+                <token regexp="yes">([a-z]|mc|mi|[dkm]m|sp)[²³]</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
