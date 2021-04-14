@@ -5507,13 +5507,6 @@ Com vontade de apagar estas más recordações morri.
           <token max='2' postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-01-04 *START* -->
-      <antipattern>
-		<token regexp='yes'>nas?|nos?</token>
-		<token postag_regexp='yes' postag='DP1[MF][SP]P'></token>
-		<token postag_regexp='yes' postag='NC[CMF][SP]000'></token>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-01-04 *END* -->
 <!-- MARCOAGPINTO 2020-01-12 *START* -->
 <!-- "Este ano não vou enviar o habitual e-mail de natal." -->
       <antipattern>
@@ -5793,6 +5786,19 @@ Ao utilizar o discurso oral podem surgir interferências ou ruído.
 		<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-25 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-04-14 (17-MAR-2021+) *START* -->
+<!--
+Pelo seu quadro passaram médicos ilustres que colaboraram também no Hospital de Angra.
+Da sua obra sobrevivem fragmentos muito curtos sobre os celtas.
+Na nossa vida sempre aparecem desafios.
+-->
+      <antipattern>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token min="1" max="2"  postag='NC.+|AQ0.+|NP.+|RG' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-04-14 (17-MAR-2021+) *END* -->
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
@@ -5839,6 +5845,10 @@ Ao utilizar o discurso oral podem surgir interferências ou ruído.
 	  
 	  <example>Ao utilizar <marker>o discurso oral surgem</marker> interferências ou ruído.</example>
 	  <example>Ao utilizar o discurso oral podem surgir interferências ou ruído.</example>
+	  
+	  <example type='correct'>Pelo <marker>seu quadro passaram</marker> médicos ilustres que colaboraram também no Hospital de Angra.</example>
+	  <example>Da sua obra sobrevivem fragmentos muito curtos sobre os celtas.</example>
+	  <example>Na nossa vida sempre aparecem desafios.</example>  
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
