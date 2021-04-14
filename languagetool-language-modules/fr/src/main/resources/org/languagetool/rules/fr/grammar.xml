@@ -633,6 +633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En avez-vous tous fini, ici ?</example>
                 <example>Tous sauf neuf mourraient.</example>
                 <example>Je n'arrive pas à me débarrasser de cette bon Dieu de phrase !</example>
+                <example>On peut y ajouter le Jazz, la Soul, et désormais le Funk.</example>
             </rule>
         </rulegroup>
         <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
@@ -837,7 +838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token postag="Y">
-                    <exception>1</exception>
+                    <exception regexp="yes">[10]|[10][,.]\d+</exception>
                     <exception regexp="yes">.*\.(\d\d\.)+.*</exception></token>
                 <marker>
                     <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
@@ -851,8 +852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vues">Nous avons enregistré 554 000 <marker>vue</marker> ces 3 derniers mois</example>
             <example correction="enfants">J’ai 4 <marker>enfant</marker>.</example>
             <example correction="parties">Le pays est découpé en 4 <marker>partie</marker>.</example>
-            <!-- Euro: also lowercase ? -->
-            <example correction="Euros">Cela coûte 1,25 <marker>Euro</marker>.</example>
+            <example>Cela coûte 1,25 Euro.</example>
             <example>Le cours d'allemand commence le 5 octobre.</example>
             <example>Il devait arriver à Pékin à 6 h 30 locale.</example>
             <example>Le quotient de 21 divisé par 7 est 3.</example>
@@ -888,6 +888,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Paris, 1731, 2 vol.</example>
             <example>+33(0)3.87.20.05.05 Email</example>
             <example>Tome 1 Généralités et non-métaux, 386 pages et Tome 2 Métaux 700 pages.</example>
+            <example>0 personnes, 0 personne</example>
+            <example>1,25 euro</example>
+            <example>1.25 euro</example>
         </rule>
         <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom" default="temp_off">
             <antipattern>
@@ -16935,7 +16938,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-                <suggestion><match no="5" postag="(V ppa) f (.*)|(J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+                <suggestion><match no="5" postag="(V ppa|J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
                 <example correction="annoncé">Ce soir, un orage est <marker>annoncée</marker>.</example>
                 <example>Ce soir, un orage est <marker>annoncé</marker>.</example>
                 <example correction="annoncé">Un orage semble <marker>annoncée</marker>.</example>
@@ -16961,6 +16964,7 @@ though, and has since been slightly modified)-->
                 <example>Tom est tout ouïe.</example>
                 <example>Cette fiche produit est originalement écrite en anglais.</example>
                 <example>La longue attente à l'aéroport était ennuyeuse.</example>
+                <example correction="primordial">Le plan est donc <marker>primordiale</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -16978,7 +16982,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-                <suggestion><match no="5" postag="(V ppa) f (.*)|(J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+                <suggestion><match no="5" postag="(V ppa|J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
                 <example correction="annoncé">Pourtant, un orage a été <marker>annoncée</marker>.</example>
                 <example>Pourtant, un orage a été <marker>annoncé</marker>.</example>
                 <example correction="inventés">Les camions ont été <marker>inventées</marker>.</example>
@@ -17001,7 +17005,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le mot féminin « \7 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-                <suggestion><match no="7" postag="(V ppa) f (.*)|(J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+                <suggestion><match no="7" postag="(V ppa|J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
                 <example correction="marié">Antoine n’est pas <marker>mariée</marker>.</example>
                 <example>Antoine n’est pas <marker>marié</marker>.</example>
                 <example correction="fatigué">Ce soir, Antoine n’est pas très <marker>fatiguée</marker>.</example>
@@ -17059,10 +17063,13 @@ though, and has since been slightly modified)-->
                 <example>Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
                 <example correction="fortes">Si les actions sont plus <marker>forts</marker> que les mots.</example>
                 <example>Autour de cette église est créé un enclos paroissial.</example>
-                <example correction="faite" type="triggers_error">Tout sur terre est <marker>fait</marker> d'atomes.</example>
                 <!-- TODO -->
+                <example correction="faite" type="triggers_error">Tout sur terre est <marker>fait</marker> d'atomes.</example>
                 <example>Elle est hors sujet.</example>
                 <example>Cette question est du plus grand intérêt pour le monde entier.</example>
+                <example>Cette possibilité est donc limitée à 10 souscripteurs.</example>
+                <!-- TODO: the suggestion is wrong, improve with filters? -->
+                <example correction="limitées">Cette possibilité est donc <marker>limités</marker> à 10 souscripteurs.</example>
             </rule>
             <rule>
                 <pattern>
