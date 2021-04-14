@@ -17495,6 +17495,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token>(</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<antipattern><token skip="2">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
+				<antipattern><token regexp="yes">["']</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<pattern>
 					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|niet|maar[(]|–</exception></token>
 					<token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token>
@@ -18692,7 +18693,7 @@ steenwijk;Steenwijk
 					<token/>
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte</exception></token>
-						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM.*"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien</exception></token>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM.*"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
 					</marker>
 				</pattern>
 				<message>Als er bij het oplezen een pauze is, dan een komma toevoegen: <suggestion>\2, \3</suggestion>.</message>
