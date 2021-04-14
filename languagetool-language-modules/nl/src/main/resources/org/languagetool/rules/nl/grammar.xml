@@ -9654,7 +9654,7 @@ onwaarschijnlijk
 					</marker>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-				<message>Als dit een samenstelling is (dus een enkel ding) , hoort het aaneengeschreven.</message>
+				<message>Als dit een samenstelling is (dus samen naar een enkel ding verwijst) , hoort het aaneengeschreven.</message>
 				<suggestion>\2\3</suggestion>
 				<url>https://vrttaal.net/taaladvies-spelling/samenstellingen-met-een-eigennaam</url>
 				<example correction="eBayobject">Het is een <marker>eBay object</marker>.</example>
@@ -13251,26 +13251,22 @@ onwaarschijnlijk
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
 				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
-				<!-- <antipattern><token>April</token><token regexp="yes"></token></antipattern> voor eigennaam April-->
-				<antipattern>
-					<token postag="SENT_START"/>
-					<token min="0" regexp="yes">&apostrof;|&quote;</token>
-					<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
-				</antipattern>
+				<antipattern><token postag="SENT_START"/><token regexp="yes">&apostrof;|&quot;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<pattern>
+					<token><exception postag="SENT_START"/></token>
 					<marker>
 						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
 					</marker>
 				</pattern>
-				<message>De dagen van de week en maanden horen met kleine letters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+				<message>De dagen van de week en maanden horen met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
 				<short>Geen hoofdletter</short>
 				<example correction="maandag">Ik heb de pest aan de <marker>Maandag</marker>.</example>
-				<example><marker>Maandag</marker> is een rotdag.</example>
+				<example><marker>Maandag</marker> is altijd een rotdag.</example>
 				<example>"<marker>Maandag</marker> is een rotdag."</example>
 				<example>'<marker>Maandag</marker> is een rotdag.'</example>
 			</rule>
 		</rulegroup>
-		
+
 		<rulegroup id="EIGENNAMEN_PLAATSEN" name="Hoofdletters bij plaatsnamen" type="misspelling">
 			<antipattern><token regexp="yes" case_sensitive="yes">[A-Z]+</token><token regexp="yes" case_sensitive="yes">[A-Z]+</token></antipattern>
 			<rule>
@@ -13954,7 +13950,7 @@ onwaarschijnlijk
 			</rule>
 			-->
 			<rule>
-				<antipattern case_sensitive="yes"><token>De</token><token>Wijk</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern>
+				<antipattern ><token>de</token><token>wijk</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern>
 				<antipattern case_sensitive="yes"><token>De</token><token>Wijk</token></antipattern>
 				<pattern><token>de</token><token>wijk</token></pattern>
 				<message>U bedoelt misschien de plaats <suggestion>De Wijk</suggestion>.</message>
@@ -16273,6 +16269,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
+				<antipattern><token>O</token><token>mijn</token><token>god</token></antipattern>
 				<antipattern>
 					<!-- , god, -->
 					<token></token>
@@ -17509,35 +17506,1089 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
-				<antipattern><token regexp="yes">als|wanneer|indien</token><token regexp="yes">ge|ik|jij|je|hij|zij|ze|men|wij|we|iemand</token><token>maar</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="WKW.*"/><token>maar</token></antipattern>
-				<antipattern><token skip="2">,</token><token>maar</token></antipattern>
-				<antipattern><token>maar</token><token>al</token><token>te</token><token postag="BNW:STL:ONV"/></antipattern>
-				<antipattern><token>maar</token><token>heel</token><token>weinig</token></antipattern>
-				<antipattern><token>er</token><token>is</token><token>een</token><token>maar</token></antipattern>
-				<antipattern><token>en</token><token postag="WKW:TGW:INF"/><token>maar</token><token>.</token></antipattern>				
-				<antipattern><token postag="BNW:STL:ONV"/><token>maar</token><token>waar</token></antipattern>				
-				<antipattern><token>niet</token><token/><token>maar</token></antipattern>				
-				<antipattern><token>langzaam</token><token skip="1">maar</token><token>zeker</token></antipattern>
-				<antipattern><token>om</token><token>maar</token><token regexp="yes">meteen|onmiddelijk|direct</token></antipattern>
-				<antipattern><token>maar</token><token>goed</token><token regexp="yes">ook|dat</token></antipattern>
-				<antipattern><token>alleen</token><token>maar</token></antipattern>
-				<antipattern><token>maar</token><token>ten</token><token>dele</token></antipattern>
-				<antipattern><token>maar</token><token>al</token><token>te</token><token regexp="yes">vaak|graag</token></antipattern>
-				<antipattern><token>maar</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
-				<antipattern><token>maar</token><token regexp="yes">^[0-9]+$</token></antipattern>
-				<antipattern><token>maar</token><token regexp="yes">eens|liefst|even|deels|half|door|verder</token></antipattern>
-				<antipattern><token>blijven</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
-				<antipattern><token>dat</token><token regexp="yes">ge|hij|ik|je|jij|we|wij</token><token>maar</token></antipattern>
-				<antipattern><token>het</token><token regexp="yes">je|zich|me</token><token>maar</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="WKW:.*"/><token>alleen</token><token>maar</token></antipattern>
-				<antipattern><token inflected="yes">kunnen</token><token>maar</token><token>beter</token></antipattern>
-				<antipattern><token>ook</token><token>maar</token><token regexp="yes">een|één|eens|niet|genoeg</token></antipattern>
-				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="WKW:TGW:1EP.*"/><token regexp="yes">mij|hem|haar</token><token>maar</token></antipattern>
-				<antipattern><token regexp="yes">ge|je|ik|hij|zij|u</token><token regexp="yes">je|me|zich|u</token><token>maar</token></antipattern>
-				<antipattern><token regexp="yes">altijd|steeds|zelf|eerst|we|mezelf|nog|dan|alleen|enkel|zo|nu|nou|\.|-|,|\(|toch|ook|van|toe|het|dat|dit|die|er|je|hij|zij|wij|zeg|hem|haar|hen|weinig|echter</token><token>maar</token></antipattern>
-				<antipattern><token skip="10">als</token><token>maar</token></antipattern>
+				<antipattern><token>,</token><token>maar</token></antipattern>
+				<antipattern><token>er</token><token>maar</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>alleen</token><token>al</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>alleen</token><token>is</token><token>maar</token><token>alleen</token></antipattern>
+				<antipattern><token>alles</token><token>om</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>alles</token><token>om</token><token>maar</token><token>te</token><token>voorkomen</token></antipattern>
+				<antipattern><token>als</token><token>ik</token><token>maar</token><token>een</token></antipattern>
+				<antipattern><token>als</token><token regexp="yes">ik|jij|je|hij|men|u</token><token>maar</token><token postag_regexp="yes" postag=".*ONV|BYW.*|VRZ"/></antipattern>
+				<antipattern><token>als</token><token>ik</token><token>maar</token><token>weet</token><token>dat</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token regexp="yes">1|een|één</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>af</token><token>en</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>bereid</token><token>bent</token></antipattern>
+				<antipattern><token>als</token><token regexp="yes">jij|je|hij|men|u</token><token>maar</token><token postag="WKW:TGW:3EP"/></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>de</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>doet</token><token>wat</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>door</token><token>blijft</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>een</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>eerlijk</token><token>bent</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>geduld</token><token>hebt</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>juiste</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>je</token><token>best</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>kan</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>kunt</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>lol</token><token>hebt</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>op</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>op</token><token>tijd</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>oud</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>plezier</token><token>hebt</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>rekening</token><token>houdt</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>snel</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>vaak</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>ver</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>weet</token><token>dat</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>weet</token><token>hoe</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>weet</token><token>waar</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>weet</token><token>wat</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>weet</token><token>welke</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>wilt</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>wilt</token><token>en</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>wilt</token><token>,</token><token>maar</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>zorgt</token><token>dat</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>zorgt</token><token>voor</token></antipattern>
+				<antipattern><token>als</token><token>je</token><token>maar</token><token>zo</token><token>weinig</token></antipattern>
+				<antipattern><token>als</token><token>we</token><token>maar</token><token>bereid</token><token>zijn</token></antipattern>
+				<antipattern><token>als</token><token>we</token><token>maar</token><token>beseffen</token><token>dat</token></antipattern>
+				<antipattern><token>als</token><token>we</token><token>maar</token><token>lang</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>we</token><token>maar</token><token>op</token><token>tijd</token></antipattern>
+				<antipattern><token>als</token><token>we</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>de</token><token>juiste</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>de</token><token>kans</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>doen</token><token>wat</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>even</token><token>de</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>hard</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>in</token><token>een</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>lang</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>niet</token><token>denken</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>niet</token><token>zo</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>op</token><token>een</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>op</token><token>tijd</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>vaak</token><token>genoeg</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>weten</token><token>dat</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>wilden</token></antipattern>
+				<antipattern><token>als</token><token>ze</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>beeld</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>begin</token><token>ik</token><token>maar</token><token>niet</token><token>aan</token></antipattern>
+				<antipattern><token>begrijpen</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>begrijp</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>begrijp</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>aan</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>begonnen</token><token>met</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>eens</token><token>begonnen</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>eens</token><token>gaan</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>eens</token><token>naar</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>even</token><token>gaan</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>gestopt</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>gestopt</token><token>met</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>met</token><token>de</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>naar</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>naar</token><token>huis</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>wat</token><token>blij</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>weer</token><token>aan</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>weer</token><token>gaan</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>weer</token><token>naar</token></antipattern>
+				<antipattern><token>ben</token><token>ik</token><token>maar</token><token>weer</token><token>op</token></antipattern>
+				<antipattern><token>ben</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>ben</token><token>je</token><token>maar</token><token>wat</token><token>blij</token></antipattern>
+				<antipattern><token>bereid</token><token>je</token><token>maar</token><token>vast</token><token>voor</token></antipattern>
+				<antipattern><token>bereid</token><token>je</token><token>maar</token><token>voor</token><token>op</token></antipattern>
+				<antipattern><token>beseffen</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>beseffen</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>besefte</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>besef</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>besef</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>besef</token><token>me</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>besloot</token><token>ik</token><token>maar</token><token>te</token><token>gaan</token></antipattern>
+				<antipattern><token>besloot</token><token>ik</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>besloten</token><token>we</token><token>maar</token><token>om</token><token>een</token></antipattern>
+				<antipattern><token>betaal</token><token>je</token><token>maar</token><token>de</token><token>helft</token></antipattern>
+				<antipattern><token>corrigeer</token><token>me</token><token>maar</token><token>als</token><token>ik</token></antipattern>
+				<antipattern><token>daar</token><token>is</token><token>maar</token><token>één</token><token>antwoord</token></antipattern>
+				<antipattern><token>dan</token><token>is</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token>dan</token><token>nu</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>besloten</token><token>heb</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>beter</token><token>kan</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>beter</token><token>kon</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>beter</token><token>naar</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>de</token><token>helft</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>even</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>ga</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>moest</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>naar</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>eens</token><token>wat</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>andere</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>heel</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>nieuwe</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>even</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>met</token><token>de</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>met</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>moest</token><token>gaan</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>niet</token><token>meer</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>dat</token><token>ik</token><token>maar</token><token>zo</token><token>weinig</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>beter</token><token>ook</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>beter</token><token>ook</token><token>,</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>de</token><token>helft</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>de</token><token>vraag</token><token>,</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>deel</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>fractie</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>heel</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>één</token><token>kant</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>kleine</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>uurtje</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>van</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>één</token><token>van</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>een</token><token>voorbeeld</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>één</token><token>voorbeeld</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>gedeeltelijk</token><token>waar</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>goed</token><token>ook</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>begin</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>topje</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>hoe</token><token>je</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>liefst</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>net</token><token>hoe</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>net</token><token>wat</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>schijn</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>ten</token><token>dele</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>tijdelijk</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>voor</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>zeer</token><token>de</token></antipattern>
+				<antipattern><token>dat</token><token>is</token><token>maar</token><token>zeer</token><token>ten</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>beter</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>beter</token><token>geen</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>beter</token><token>kunt</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>de</token><token>helft</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>een</token><token>beperkt</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>een</token><token>deel</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>één</token><token>kans</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>heel</token><token>weinig</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>beste</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>kunt</token><token>bedenken</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>met</token><token>één</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>moet</token><token>afwachten</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>op</token><token>één</token></antipattern>
+				<antipattern><token>dat</token><token>je</token><token>maar</token><token>voor</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>was</token><token>maar</token><token>goed</token><token>ook</token></antipattern>
+				<antipattern><token>dat</token><token>was</token><token>maar</token><token>goed</token><token>ook</token><token>,</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>beter</token><token>kunnen</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>eens</token><token>moeten</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>met</token><token>een</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>met</token><token>zijn</token></antipattern>
+				<antipattern><token>dat</token><token>we</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>beter</token><token>konden</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>beter</token><token>kunnen</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>dat</token><token>ze</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>deed</token><token>ik</token><token>maar</token><token>wat</token></antipattern>
+				<antipattern><token>denken</token><token>we</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>denken</token><token>we</token><token>maar</token><token>aan</token><token>een</token></antipattern>
+				<antipattern><token>denken</token><token>we</token><token>maar</token><token>aan</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>denk</token><token>ik</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>is</token></antipattern>
+				<antipattern><token>denk</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>denk</token><token>nu</token><token>maar</token><token>niet</token><token>dat</token></antipattern>
+				<antipattern><token>de</token><token>tv</token><token>maar</token><token>aan</token><token>te</token></antipattern>
+				<antipattern><token>de</token><token>vs</token><token>maar</token><token>ook</token><token>in</token></antipattern>
+				<antipattern><token>die</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>die</token><token>ik</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>die</token><token>ik</token><token>maar</token><token>kon</token><token>vinden</token></antipattern>
+				<antipattern><token>die</token><token>ik</token><token>maar</token><token>niet</token><token>kan</token></antipattern>
+				<antipattern><token>die</token><token>ik</token><token>maar</token><token>wat</token><token>graag</token></antipattern>
+				<antipattern><token>die</token><token>is</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>af</token><token>en</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>bedenken</token><token>kunt</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>beter</token><token>kunt</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kan</token><token>bedenken</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kan</token><token>bedenken</token><token>,</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kan</token><token>hebben</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kan</token><token>verzinnen</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kan</token><token>vinden</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kan</token><token>wensen</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kon</token><token>bedenken</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>bedenken</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>bedenken</token><token>,</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>hebben</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>krijgen</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>verzinnen</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>vinden</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>voorstellen</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>kunt</token><token>wensen</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>nodig</token><token>hebt</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>wenst</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>die</token><token>je</token><token>maar</token><token>wilt</token></antipattern>
+				<antipattern><token>die</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>die</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>die</token><token>ze</token><token>maar</token><token>wilden</token></antipattern>
+				<antipattern><token>die</token><token>ze</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>die</token><token>zo</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>fractie</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>greep</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>heel</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>kleine</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>van</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>één</token><token>van</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>voorbeeld</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>één</token><token>voorbeeld</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>een</token><token>voorbeeld</token><token>,</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>goed</token><token>ook</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>goed</token><token>ook</token><token>,</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>ten</token><token>dele</token></antipattern>
+				<antipattern><token>doel</token><token>is</token><token>maar</token><token>een</token><token>middel</token></antipattern>
+				<antipattern><token>doen</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>doen</token><token>we</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token>doe</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>doe</token><token>ik</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token>doe</token><token>ik</token><token>maar</token><token>wat</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>alsof</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>als</token><token>je</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>in</token><token>je</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>lekker</token><token>in</token></antipattern>
+				<antipattern><token>doe</token><token>je</token><token>maar</token><token>thuis</token></antipattern>
+				<antipattern><token>dus</token><token>nu</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>dus</token><token>zo</token><token>maar</token><token>kunnen</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>dan</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>ga</token><token>maar</token><token>door</token></antipattern>
+				<antipattern><token>en</token><token>ga</token><token>maar</token><token>zo</token><token>door</token></antipattern>
+				<antipattern><token>en</token><token>ik</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>en</token><token>ik</token><token>maar</token><token>denken</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>ik</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>is</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>en</token><token>noem</token><token>maar</token><token>op</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>eens</token><token>kijken</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>hopen</token><token>op</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>hopen</token><token>,</token><token>dat</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>kijken</token><token>of</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>wachten</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>wachten</token><token>op</token></antipattern>
+				<antipattern><token>en</token><token>nu</token><token>maar</token><token>wachten</token><token>tot</token></antipattern>
+				<antipattern><token>en</token><token>om</token><token>maar</token><token>meteen</token><token>met</token></antipattern>
+				<antipattern><token>en</token><token>om</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>en</token><token>zo</token><token>maar</token><token>door</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token regexp="yes">1|één|een</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>heel</token><token>weinig</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>plaats</token><token>voor</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>plek</token><token>voor</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>ruimte</token><token>voor</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token></token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>weinig</token><token>bekend</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>weinig</token><token>dat</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>weinig</token><token>nodig</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>weinig</token><token>ruimte</token></antipattern>
+				<antipattern><token>er</token><token>is</token><token>maar</token><token>weinig</token><token>voor</token></antipattern>
+				<antipattern><token>er</token><token>nu</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>er</token><token>nu</token><token>maar</token><token>eens</token><token>van</token></antipattern>
+				<antipattern><token>er</token><token>nu</token><token>maar</token><token>vanuit</token><token>dat</token></antipattern>
+				<antipattern><token>er</token><token>zo</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>er</token><token>zo</token><token>maar</token><token>op</token><token>los</token></antipattern>
+				<antipattern><token>gaan</token><token>we</token><token>maar</token><token>eens</token><token>kijken</token></antipattern>
+				<antipattern><token>gaan</token><token>we</token><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token>gaan</token><token>we</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>gaan</token><token>we</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>gaat</token><token>zo</token><token>maar</token><token>door</token></antipattern>
+				<antipattern><token>gaat</token><token>zo</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token><token>eens</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token><token>van</token><token>uit</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token><token>weer</token><token>naar</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>je</token><token>maar</token><token>ergens</token><token>anders</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>je</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>je</token><token>maar</token><token>naar</token><token>een</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>je</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>je</token><token>maar</token><token>terug</token><token>naar</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>je</token><token>maar</token><token>weg</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>door</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>door</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>door</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>eens</token><token>naar</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>even</token><token>door</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>even</token><token>door</token><token>,</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>verder</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>voort</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>zo</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>geef</token><token>je</token><token>maar</token><token>een</token><token>seintje</token></antipattern>
+				<antipattern><token>geen</token><token>of</token><token>maar</token><token>heel</token><token>weinig</token></antipattern>
+				<antipattern><token>geloof</token><token>me</token><token>maar</token><token>als</token><token>ik</token></antipattern>
+				<antipattern><token>gewoon</token><token>zo</token><token>maar</token><token>ergens</token><token>over</token></antipattern>
+				<antipattern><token>gingen</token><token>we</token><token>maar</token><token>weer</token><token>terug</token></antipattern>
+				<antipattern><token>ging</token><token>ik</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>hadden</token><token>we</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>hadden</token><token>ze</token><token>maar</token><token>niet</token><token>zo</token></antipattern>
+				<antipattern><token>had</token><token>ik</token><token>maar</token><token>een</token></antipattern>
+				<antipattern><token>had</token><token>ik</token><token>maar</token><token>wat</token><token>meer</token></antipattern>
+				<antipattern><token>had</token><token>je</token><token>maar</token><token>beter</token><token>moeten</token></antipattern>
+				<antipattern><token>had</token><token>je</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token>had</token><token>je</token><token>maar</token><token>niet</token><token>moeten</token></antipattern>
+				<antipattern><token>had</token><token>je</token><token>maar</token><token>niet</token><token>zo</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>besloten</token><token>dat</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>besloten</token><token>om</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>gedaan</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>heel</token><token>weinig</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>laten</token><token>zitten</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>niet</token><token>gedaan</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>niet</token><token>gedaan</token><token>,</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>hebben</token><token>we</token><token>maar</token><token>weer</token><token>een</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>besloten</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token regexp="yes">1|één|een</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>even</token><token>een</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>gedaan</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>gelaten</token><token>voor</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>gezegd</token><token>dat</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>niet</token><token>gedaan</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>niet</token><token>gedaan</token><token>,</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>twee</token><token>keer</token></antipattern>
+				<antipattern><token>heb</token><token>ik</token><token>maar</token><token>weer</token></antipattern>
+				<antipattern><token>heb</token><token>je</token><token>maar</token><token>een</token></antipattern>
+				<antipattern><token>heb</token><token>je</token><token>maar</token><token>heel</token><token>weinig</token></antipattern>
+				<antipattern><token>heb</token><token>je</token><token>maar</token><token>weinig</token><token>nodig</token></antipattern>
+				<antipattern><token>heb</token><token>zo</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>idee</token></antipattern>
+				<antipattern><token>herken</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>afwachten</token><token>of</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>afwachten</token><token>wat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>beter</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>beter</token><token>om</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token regexp="yes">1|één|een</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>even</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>geld</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>gelukkig</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>goed</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>goed</token><token>ook</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>goed</token><token>ook</token><token>,</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>goed</token><token>,</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>helemaal</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>is</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>hoe</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>aan</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>hoe</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>hoe</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>hoeveel</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>in</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>met</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>of</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>van</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>vanuit</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>waar</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>wanneer</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>wat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>welke</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>welk</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>net</token><token>wie</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>normaal</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>of</token><token>je</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>om</token><token>aan</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>om</token><token>te</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>sterk</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>te</token><token>hopen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>tijdelijk</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>van</token><token>korte</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>van</token><token>welke</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>vanuit</token><token>welke</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>vanuit</token><token>welk</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>voor</token><token>1</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>voor</token><token>een</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>voor</token><token>één</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>voor</token><token>even</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>voor</token><token>even</token><token>,</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>voor</token><token>twee</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>waar</token><token>je</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>wat</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>wat</token><token>je</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>wat</token><token>men</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>wat</token><token>u</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>wat</token><token>voor</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>zeer</token><token>de</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>is</token><token>maar</token><token>zelden</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>je</token><token>maar</token><token>niet</token><token>lukt</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>je</token><token>maar</token><token>niet</token><token>om</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>me</token><token>maar</token><token>niet</token><token>kwalijk</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>me</token><token>maar</token><token>niet</token><token>om</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>me</token><token>maar</token><token>weten</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>me</token><token>maar</token><token>weten</token><token>als</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>nog</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>nu</token><token>maar</token><token>eens</token><token>afgelopen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>nu</token><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>eens</token><token>kunnen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>eens</token><token>te</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>eens</token><token>uit</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>even</token><token>te</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>even</token><token>uit</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>gebeuren</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>kunnen</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>kunnen</token><token>zijn</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>te</token><token>noemen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>te</token><token>noemen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>te</token><token>noemen</token><token>,</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>te</token><token>zeggen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>te</token><token>zeggen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>te</token><token>zeggen</token><token>,</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>uit</token><token>te</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>zeggen</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>zijn</token><token>dat</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>zo</token><token>maar</token><token>zou</token><token>kunnen</token></antipattern>
+				<antipattern><token>hoef</token><token>ik</token><token>maar</token><token>te</token><token>bellen</token></antipattern>
+				<antipattern><token>hoef</token><token>je</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>hoef</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>hoef</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>hoef</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>hoef</token><token>je</token><token>maar</token><token>te</token><token>kijken</token></antipattern>
+				<antipattern><token>hoop</token><token>ik</token><token>maar</token><token>dat</token></antipattern>
+				<antipattern><token>hoor</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>hopen</token><token>we</token><token>maar</token><token>dat</token><token>de</token></antipattern>
+				<antipattern><token>hopen</token><token>we</token><token>maar</token><token>dat</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>horen</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>houd</token><token>me</token><token>maar</token><token>vast</token><token>aan</token></antipattern>
+				<antipattern><token>hou</token><token>me</token><token>maar</token><token>vast</token><token>aan</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>aan</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>even</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>kijken</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>naar</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>eens</token><token>wat</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/><token>maar</token><token>weer</token><token>even</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>aan</token><token>vast</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>afvragen</token><token>waarom</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>niet</token><token>aan</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>ik</token><token>me</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>ik</token><token>nu</token><token>maar</token><token>even</token><token>een</token></antipattern>
+				<antipattern><token>ik</token><token>ze</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>ik</token><token>zo</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>is</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token>is</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>goed</token><token>dat</token></antipattern>
+				<antipattern><token>is</token><token>nog</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token>is</token><token>nog</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>begin</token></antipattern>
+				<antipattern><token>is</token><token>nu</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token>is</token><token>,</token><token>is</token><token>maar</token><token>de</token><token>vraag</token></antipattern>
+				<antipattern><token>is</token><token>,</token><token>is</token><token>maar</token><token>zeer</token><token>de</token></antipattern>
+				<antipattern><token>is</token><token>,</token><token>om</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>is</token><token>,</token><token>om</token><token>maar</token><token>wat</token><token>te</token></antipattern>
+				<antipattern><token>is</token><token>zo</token><token>maar</token><token>een</token><token>greep</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>bewust</token><token>bent</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>houdt</token><token>aan</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kan</token><token>bedenken</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kan</token><token>inbeelden</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kan</token><token>voorstellen</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kan</token><token>voorstellen</token><token>,</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kan</token><token>wensen</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kunt</token><token>bedenken</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kunt</token><token>bedenken</token><token>,</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kunt</token><token>indenken</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kunt</token><token>voorstellen</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kunt</token><token>voorstellen</token><token>,</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>kunt</token><token>wensen</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>realiseert</token><token>dat</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>maar</token><token>voor</token><token>kunt</token></antipattern>
+				<antipattern><token>je</token><token>weet</token><token>maar</token><token>nooit</token></antipattern>
+				<antipattern><token>je</token><token>ze</token><token>maar</token><token>lang</token><token>genoeg</token></antipattern>
+				<antipattern><token>jij</token><token>je</token><token>maar</token><token>bezig</token><token>met</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>1</token><token>ding</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>beter</token><token>een</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>één</token><token>conclusie</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>een</token><token>ding</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>tot</token><token>één</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>1</token><token>ding</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>de</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>een</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>geen</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>goed</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>in</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>je</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>op</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>beter</token><token>zo</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>kan</token><token>je</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>beste</token></antipattern>
+				<antipattern><token>kan</token><token>me</token><token>maar</token><token>moeilijk</token><token>voorstellen</token></antipattern>
+				<antipattern><token>kan</token><token>zo</token><token>maar</token><token>gebeuren</token><token>dat</token></antipattern>
+				<antipattern><token>kan</token><token>zo</token><token>maar</token><token>zijn</token><token>dat</token></antipattern>
+				<antipattern><token>kan</token><token>zo</token><token>maar</token><token>zo</token><token>zijn</token></antipattern>
+				<antipattern><token>kennen</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>ken</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>kijken</token><token>we</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>kom</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>kom</token><token>je</token><token>maar</token><token>zelden</token><token>tegen</token></antipattern>
+				<antipattern><token>kon</token><token>ik</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>kon</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>kost</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>krijg</token><token>je</token><token>maar</token><token>één</token><token>kans</token></antipattern>
+				<antipattern><token>krijg</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>kunnen</token><token>we</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>kunnen</token><token>we</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>1</token><token>ding</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>aan</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>bij</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>de</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>een</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>even</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>geen</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>gewoon</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>goed</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>in</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>je</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>laten</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>meteen</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>met</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>naar</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>op</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>snel</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>uit</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>van</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>vermijden</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>voor</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>wat</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>weten</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>zorgen</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>beter</token><token>zo</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>een</token><token>beperkt</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>één</token><token>conclusie</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>een</token><token>ding</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token regexp="yes">het|dit|dat</token><token>beste</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>op</token><token>1</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>op</token><token>een</token></antipattern>
+				<antipattern><token>kun</token><token>je</token><token>maar</token><token>op</token><token>één</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>achterwege</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>beginnen</token><token>met</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>even</token><token>buiten</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>even</token><token>in</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>even</token><token>voor</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>in</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>meteen</token><token>met</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>met</token><token>de</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>niet</token><token>beginnen</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>voor</token><token>wat</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>zeggen</token></antipattern>
+				<antipattern><token>laat</token><token>ik</token><token>maar</token><token>zeggen</token><token>dat</token></antipattern>
+				<antipattern><token>laat</token><token>je</token><token>maar</token><token>eens</token><token>goed</token></antipattern>
+				<antipattern><token>laat</token><token>je</token><token>maar</token><token>lekker</token><token>verwennen</token></antipattern>
+				<antipattern><token>laat</token><token>nu</token><token>maar</token><token>eens</token><token>zien</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>doen</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>eens</token><token>zien</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>hun</token><token>gang</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>komen</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>komen</token><token>die</token></antipattern>
+				<antipattern><token>laat</token><token>ze</token><token>maar</token><token>lekker</token><token>in</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>aannemen</token><token>dat</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>beginnen</token><token>met</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>eens</token><token>beginnen</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>eens</token><token>gaan</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>eens</token><token>kijken</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>even</token><token>buiten</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>even</token><token>in</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>even</token><token>voor</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>in</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>meteen</token><token>beginnen</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>meteen</token><token>met</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>voor</token><token>wat</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>zeggen</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>maar</token><token>zeggen</token><token>dat</token></antipattern>
+				<antipattern><token>lukte</token><token>me</token><token>maar</token><token>niet</token><token>om</token></antipattern>
+				<antipattern><token>lukt</token><token>je</token><token>maar</token><token>niet</token><token>om</token></antipattern>
+				<antipattern><token>lukt</token><token>me</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token>lukt</token><token>me</token><token>maar</token><token>niet</token><token>om</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>1</token><token>keer</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>geen</token><token>zorgen</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>geen</token><token>zorgen</token><token>,</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>niet</token><token>druk</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>niet</token><token>druk</token><token>,</token></antipattern>
+				<antipattern><token>maak</token><token>je</token><token>maar</token><token>zin</token></antipattern>
+				<antipattern><token>maak</token><token>me</token><token>maar</token><token>wakker</token><token>als</token></antipattern>
+				<antipattern><token>mag</token><token>je</token><token>maar</token><token>één</token><token>keer</token></antipattern>
+				<antipattern><token>mail</token><token>me</token><token>maar</token><token>als</token><token>je</token></antipattern>
+				<antipattern><token>me</token><token>zo</token><token>maar</token><token>voorstellen</token><token>dat</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>afwachten</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>afwachten</token><token>of</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>denken</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>eens</token><token>gaan</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>eens</token><token>kijken</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>voor</token><token>lief</token></antipattern>
+				<antipattern><token>moeten</token><token>we</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>moeten</token><token>ze</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>moeten</token><token>ze</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>moeten</token><token>ze</token><token>maar</token><token>niet</token><token>zo</token></antipattern>
+				<antipattern><token>moeten</token><token>ze</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>moeten</token><token>ze</token><token>maar</token><token>zorgen</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>afwachten</token><token>of</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>eens</token><token>aan</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>eens</token><token>gaan</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>eens</token><token>naar</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>eens</token><token>wat</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>ik</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>aannemen</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>afwachten</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>afwachten</token><token>of</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>afwachten</token><token>wat</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>denken</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>denken</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>aan</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>bij</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>de</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>gaan</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>goed</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>kijken</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>lezen</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>naar</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>opletten</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>op</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>proberen</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>eens</token><token>wat</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>een</token><token>andere</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>een</token><token>keer</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>even</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>even</token><token>kijken</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>even</token><token>op</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>mee</token><token>leren</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>met</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>naar</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>net</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>net</token><token>weten</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>niet</token><token>op</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>niet</token><token>teveel</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>niet</token><token>zo</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>tegen</token><token>kunnen</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>voor</token><token>lief</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>zien</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>zien</token><token>hoe</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>zien</token><token>of</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>zien</token><token>te</token></antipattern>
+				<antipattern><token>moet</token><token>je</token><token>maar</token><token>zorgen</token><token>dat</token></antipattern>
+				<antipattern><token>moet</token><token>nu</token><token>maar</token><token>eens</token><token>afgelopen</token></antipattern>
+				<antipattern><token>moet</token><token>nu</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>moet</token><token>nu</token><token>maar</token><token>eens</token><token>gedaan</token></antipattern>
+				<antipattern><token>nederland</token><token>is</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>neem</token><token>ik</token><token>maar</token><token>aan</token><token>dat</token></antipattern>
+				<antipattern><token>neem</token><token>ik</token><token>maar</token><token>even</token><token>aan</token></antipattern>
+				<antipattern><token>neem</token><token>ik</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>neem</token><token>ik</token><token>maar</token><token>voor</token><token>lief</token></antipattern>
+				<antipattern><token>nemen</token><token>me</token><token>maar</token><token>zoals</token><token>ik</token></antipattern>
+				<antipattern><token>nemen</token><token>we</token><token>maar</token><token>aan</token><token>dat</token></antipattern>
+				<antipattern><token>nemen</token><token>we</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>nemen</token><token>we</token><token>maar</token><token>voor</token><token>lief</token></antipattern>
+				<antipattern><token>niet</token><token>of</token><token>maar</token><token>gedeeltelijk</token></antipattern>
+				<antipattern><token>niet</token><token>of</token><token>maar</token><token>heel</token><token>beperkt</token></antipattern>
+				<antipattern><token>niet</token><token>of</token><token>maar</token><token>in</token><token>beperkte</token></antipattern>
+				<antipattern><token>niet</token><token>of</token><token>maar</token><token>ten</token><token>dele</token></antipattern>
+				<antipattern><token>niet</token><token>of</token><token>maar</token><token>voor</token><token>een</token></antipattern>
+				<antipattern><token>niet</token><token>of</token><token>maar</token><token>zeer</token><token>beperkt</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>af</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>doen</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>door</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>eentje</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>één</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>een</token><token>beetje</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>even</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>even</token><token>een</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>even</token><token>in</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>even</token><token>naar</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>iets</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>in</token><token>een</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>in</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>met</token><token>een</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>op</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>op</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>op</token><token>een</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>uit</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>uit</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>uit</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>van</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>voor</token><token>de</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>voor</token><token>een</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>wat</token></antipattern>
+				<antipattern><token>niet</token><token>zo</token><token>maar</token><token>weg</token></antipattern>
+				<antipattern><token>noem</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>op</token></antipattern>
+				<antipattern><token>noem</token><token>ze</token><token>maar</token><token>op</token></antipattern>
+				<antipattern><token>noem</token><token>zo</token><token>maar</token><token>op</token></antipattern>
+				<antipattern><token>of</token><token>ik</token><token>maar</token><token>even</token><token>wilde</token></antipattern>
+				<antipattern><token>omdat</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>omdat</token><token>je</token><token>maar</token><token>nooit</token><token>weet</token></antipattern>
+				<antipattern><token>omdat</token><token>we</token><token>maar</token><token>met</token><token>zijn</token></antipattern>
+				<antipattern><token>omdat</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>nog</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>nog</token><token>maar</token><token>te</token><token>zwijgen</token></antipattern>
+				<antipattern><token>om</token><token>zo</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>om</token><token>zo</token><token>maar</token><token>even</token><token>een</token></antipattern>
+				<antipattern><token>om</token><token>zo</token><token>maar</token><token>even</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>zo</token><token>maar</token><token>te</token><token>zeggen</token></antipattern>
+				<antipattern><token>om</token><token>zo</token><token>maar</token><token>te</token><token>zeggen</token><token>,</token></antipattern>
+				<antipattern><token>om</token><token>zo</token><token>maar</token><token>wat</token><token>te</token></antipattern>
+				<antipattern><token>ook</token><token>zo</token><token>maar</token><token>kunnen</token><token>dat</token></antipattern>
+				<antipattern><token>ook</token><token>zo</token><token>maar</token><token>zijn</token><token>dat</token></antipattern>
+				<antipattern><token>probeer</token><token>je</token><token>maar</token><token>eens</token><token>voor</token></antipattern>
+				<antipattern><token>realiseer</token><token>me</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>rot</token><token>je</token><token>maar</token><token>op</token></antipattern>
+				<antipattern><token>rot</token><token>je</token><token>maar</token><token>op</token><token>naar</token></antipattern>
+				<antipattern><token>slaan</token><token>we</token><token>maar</token><token>over</token></antipattern>
+				<antipattern><token>snap</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>spijt</token><token>me</token><token>maar</token><token>ik</token><token>kan</token></antipattern>
+				<antipattern><token>stel</token><token>je</token><token>maar</token><token>eens</token><token>voor</token></antipattern>
+				<antipattern><token>stel</token><token>je</token><token>maar</token><token>voor</token><token>dat</token></antipattern>
+				<antipattern><token>stuur</token><token>me</token><token>maar</token><token>een</token><token>mailtje</token></antipattern>
+				<antipattern><token>terwijl</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>tijd</token><token>om</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>eens</token><token>een</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>een</token><token>voorbeeld</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>een</token><token>voorbeeld</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>iets</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>iets</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>te</token><token>zwijgen</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>wat</token><token>te</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>wat</token><token>te</token></antipattern>
+				<antipattern><token>troost</token><token>me</token><token>maar</token><token>met</token><token>de</token></antipattern>
+				<antipattern><token>'t</token><token>is</token><token>maar</token><token>dat</token><token>je</token></antipattern>
+				<antipattern><token>'t</token><token>is</token><token>maar</token><token>goed</token><token>dat</token></antipattern>
+				<antipattern><token>'t</token><token>is</token><token>maar</token><token>hoe</token><token>je</token></antipattern>
+				<antipattern><token>’t</token><token>is</token><token>maar</token><token>hoe</token><token>je</token></antipattern>
+				<antipattern><token>'t</token><token>is</token><token>maar</token><token>net</token><token>hoe</token></antipattern>
+				<antipattern><token>'t</token><token>is</token><token>maar</token><token>net</token><token>wat</token></antipattern>
+				<antipattern><token>'t</token><token>is</token><token>maar</token><token>wat</token><token>je</token></antipattern>
+				<antipattern><token>verdiep</token><token>je</token><token>maar</token><token>eens</token><token>in</token></antipattern>
+				<antipattern><token>vergeten</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>verwijs</token><token>ik</token><token>maar</token><token>even</token><token>naar</token></antipattern>
+				<antipattern><token>vind</token><token>ik</token><token>maar</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token>vind</token><token>ik</token><token>maar</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token>vindt</token><token>ze</token><token>maar</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/><token>ik</token><token>maar</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token>vond</token><token>ze</token><token>maar</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token>vond</token><token>ze</token><token>maar</token><token regexp="yes">niets|niks</token></antipattern>
+				<antipattern><token>voor</token><token>nu</token><token>maar</token><token>ook</token><token>voor</token></antipattern>
+				<antipattern><token>vraag</token><token>is</token><token>maar</token><token>of</token><token>dat</token></antipattern>
+				<antipattern><token>vraag</token><token>is</token><token>maar</token><token>of</token><token>de</token></antipattern>
+				<antipattern><token>vraag</token><token>je</token><token>maar</token><token>eens</token><token>af</token></antipattern>
+				<antipattern><token>waarmee</token><token>ik</token><token>maar</token><token>wil</token><token>zeggen</token></antipattern>
+				<antipattern><token>waarmee</token><token>ik</token><token>maar</token><token>wil</token><token>zeggen</token><token>,</token></antipattern>
+				<antipattern><token>waar</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>waar</token><token>ik</token><token>maar</token><token>geen</token><token>genoeg</token></antipattern>
+				<antipattern><token>waar</token><token>ik</token><token>maar</token><token>niet</token><token>aan</token></antipattern>
+				<antipattern><token>waar</token><token>ik</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>waar</token><token>ik</token><token>maar</token><token>zin</token><token>in</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>beter</token><token>niet</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>kan</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>keek</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>kijkt</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>kunt</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>niet</token><token>aan</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>wilt</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>wilt</token><token>en</token></antipattern>
+				<antipattern><token>waar</token><token>je</token><token>maar</token><token>zin</token><token>in</token></antipattern>
+				<antipattern><token>waar</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>waar</token><token>ze</token><token>maar</token><token>konden</token></antipattern>
+				<antipattern><token>waar</token><token>ze</token><token>maar</token><token>kunnen</token></antipattern>
+				<antipattern><token>waar</token><token>ze</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>waar</token><token>ze</token><token>maar</token><token>zin</token><token>in</token></antipattern>
+				<antipattern><token>waarvan</token><token>je</token><token>maar</token><token>moet</token><token>afwachten</token></antipattern>
+				<antipattern><token>wachten</token><token>we</token><token>maar</token><token>af</token></antipattern>
+				<antipattern><token>wanneer</token><token>ik</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>wanneer</token><token>je</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>wanneer</token><token>je</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>wanneer</token><token>je</token><token>maar</token><token>wilt</token></antipattern>
+				<antipattern><token>wanneer</token><token>je</token><token>maar</token><token>wilt</token><token>en</token></antipattern>
+				<antipattern><token>wanneer</token><token>je</token><token>maar</token><token>wilt</token><token>,</token><token>zonder</token></antipattern>
+				<antipattern><token>wanneer</token><token>we</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>wanneer</token><token>ze</token><token>maar</token><token>wilden</token></antipattern>
+				<antipattern><token>wanneer</token><token>ze</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>wanneer</token><token>ze</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>was</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>om</token><token>de</token></antipattern>
+				<antipattern><token>was</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>was</token><token>ik</token><token>maar</token><token>bij</token><token>moeder</token></antipattern>
+				<antipattern><token>was</token><token>ik</token><token>maar</token><token>wat</token><token>blij</token></antipattern>
+				<antipattern><token>wat</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wat</token><token>ik</token><token>maar</token><token>even</token></antipattern>
+				<antipattern><token>wat</token><token>ik</token><token>maar</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP">kon</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token postag="WKW:TGW:INF"/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>in</token><token>huis</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>lekker</token><token>vindt</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>nodig</token><token>hebt</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>nodig</token><token>kunt</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wenst</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wil</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wil</token><token>,</token><token>maar</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wilt</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wilt</token><token>en</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wilt</token><token>,</token><token>en</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wilt</token><token>,</token><token>maar</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>wilt</token><token>weten</token></antipattern>
+				<antipattern><token>wat</token><token>je</token><token>maar</token><token>zou</token><token>willen</token></antipattern>
+				<antipattern><token>wat</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wat</token><token>we</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>wat</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wat</token><token>ze</token><token>maar</token><token>te</token><token>pakken</token></antipattern>
+				<antipattern><token>wat</token><token>ze</token><token>maar</token><token>wilden</token></antipattern>
+				<antipattern><token>wat</token><token>ze</token><token>maar</token><token>wilde</token></antipattern>
+				<antipattern><token>wat</token><token>ze</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>wat</token><token>ze</token><token>maar</token><token>willen</token><token>en</token></antipattern>
+				<antipattern><token>weet</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>weet</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>weet</token><token>je</token><token>maar</token><token>nooit</token></antipattern>
+				<antipattern><token>weet</token><token>je</token><token>maar</token><token>nooit</token><token>of</token></antipattern>
+				<antipattern><token>weet</token><token>je</token><token>maar</token><token>nooit</token><token>wat</token></antipattern>
+				<antipattern><token>weet</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>weten</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>weten</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>we</token><token>nu</token><token>maar</token><token>hopen</token><token>dat</token></antipattern>
+				<antipattern><token>wie</token><token>je</token><token>maar</token><token>wilt</token></antipattern>
+				<antipattern><token>wie</token><token>ze</token><token>maar</token><token>willen</token></antipattern>
+				<antipattern><token>wilde</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wilde</token><token>ik</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>willen</token><token>we</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>willen</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>willen</token><token>ze</token><token>maar</token><token>wat</token><token>graag</token></antipattern>
+				<antipattern><token>wil</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wil</token><token>ik</token><token>maar</token><token>zeggen</token></antipattern>
+				<antipattern><token>wil</token><token>ik</token><token>maar</token><token>zeggen</token><token>dat</token></antipattern>
+				<antipattern><token>wil</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wil</token><token>je</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>wil</token><token>je</token><token>maar</token><token>één</token><token>ding</token></antipattern>
+				<antipattern><token>wist</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>wist</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>worden</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zeggen</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zeggen</token><token>en</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zeggen</token><token>-</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zeggen</token><token>,</token><token>die</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zeggen</token><token>,</token><token>en</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zeggen</token><token>,</token><token>maar</token></antipattern>
+				<antipattern><token>zal</token><token>ik</token><token>maar</token><token>zwijgen</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token><token>als</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token><token>dat</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token><token>een</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token><token>je</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token><token>,</token><token>dat</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gebeuren</token><token>,</token><token>je</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>gezegd</token><token>worden</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>overkomen</token></antipattern>
+				<antipattern><token>zal</token><token>je</token><token>maar</token><token>overkomen</token><token>dat</token></antipattern>
+				<antipattern><token>zeg</token><token>ik</token><token>maar</token><token>dat</token><token>ik</token></antipattern>
+				<antipattern><token>zeg</token><token>je</token><token>maar</token><token>tegen</token><token>je</token></antipattern>
+				<antipattern><token>zien</token><token>we</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>zien</token><token>we</token><token>maar</token><token>weer</token><token>dat</token></antipattern>
+				<antipattern><token>zie</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>als</token><token>je</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>alles</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>de</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>deze</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>die</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>een</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>er</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>iedereen</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>ik</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>in</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>je</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>men</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>niet</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>ook</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>we</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>zelfs</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>dat</token><token>ze</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>een</token><token>klein</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>hoe</token><token>belangrijk</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>hoe</token><token>de</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>hoe</token><token>een</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>hoe</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>hoe</token><token>je</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>hoe</token><token>snel</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token></token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>wat</token><token>een</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>wat</token><token>er</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>wat</token><token>je</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>wat</token><token>voor</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>weer</token></antipattern>
+				<antipattern><token>zie</token><token>je</token><token>maar</token><token>zelden</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>even</token><token>gaan</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>gaan</token><token>eten</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>gaan</token><token>slapen</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>met</token><token>de</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>naar</token><token>binnen</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>naar</token><token>de</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>naar</token><token>een</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>naar</token><token regexp="yes">het|dit|dat</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>naar</token><token>huis</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>terug</token><token>naar</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>wat</token><token>blij</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>weer</token><token>eens</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>weer</token><token>naar</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>weer</token><token>op</token></antipattern>
+				<antipattern><token>zijn</token><token>we</token><token>maar</token><token>weer</token><token>terug</token></antipattern>
+				<antipattern><token>zijn</token><token>ze</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>zijn</token><token>ze</token><token>maar</token><token>wat</token><token>blij</token></antipattern>
+				<antipattern><token>zijn</token><token>zo</token><token>maar</token><token>een</token><token>aantal</token></antipattern>
+				<antipattern><token>zijn</token><token>zo</token><token>maar</token><token>een</token><token>paar</token></antipattern>
+				<antipattern><token>zijn</token><token>zo</token><token>maar</token><token>enkele</token><token>voorbeelden</token></antipattern>
+				<antipattern><token>zoek</token><token>je</token><token>maar</token><token>een</token><token>andere</token></antipattern>
+				<antipattern><token>zolang</token><token>ik</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>aan</token><token>de</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>bereid</token><token>bent</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>beseft</token><token>dat</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>binnen</token><token>de</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>de</token><token>juiste</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>in</token><token>de</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>niet</token><token>denkt</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>niet</token><token>de</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>niet</token><token>op</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>weet</token><token>dat</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>weet</token><token>waar</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>weet</token><token>wat</token></antipattern>
+				<antipattern><token>zolang</token><token>je</token><token>maar</token><token>zorgt</token><token>dat</token></antipattern>
+				<antipattern><token>zolang</token><token>we</token><token>maar</token><token>beseffen</token><token>dat</token></antipattern>
+				<antipattern><token>zolang</token><token>ze</token><token>maar</token><token>niet</token><token>in</token></antipattern>
+				<antipattern><token>zolang</token><token>ze</token><token>maar</token><token>niet</token><token>op</token></antipattern>
+				<antipattern><token>zolang</token><token>ze</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>zou</token><token>ik</token><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>zou</token><token>ik</token><token>maar</token><token>eens</token><token>gaan</token></antipattern>
+				<antipattern><token>zou</token><token>ik</token><token>maar</token><token>niet</token><token>doen</token></antipattern>
+				<antipattern><token>zou</token><token>ik</token><token>maar</token><token>niet</token><token>te</token></antipattern>
+				<antipattern><token>zou</token><token>ik</token><token>maar</token><token>wat</token><token>graag</token></antipattern>
+				<antipattern><token>zou</token><token>je</token><token>maar</token><token>gebeuren</token></antipattern>
+				<antipattern><token>zou</token><token>zo</token><token>maar</token><token>eens</token></antipattern>
+				<antipattern><token>zou</token><token>zo</token><token>maar</token><token>kunnen</token></antipattern>
+				<antipattern><token>zoveel</token><token>je</token><token>maar</token><token postag="WKW:TGW:3EP/"/></antipattern>
+				<antipattern><token>zullen</token><token>we</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+
 				
 				<pattern>
 					<token><exception postag="SENT_START"/><exception regexp="yes">&apostrof;|&quote;</exception></token>
@@ -17549,13 +18600,22 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="KOMMA_DAT" name=", dat → dat">
+		<rulegroup id="KOMMA_DAT" name=", dat → dat" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag="TSW"/><token>,</token><token>dat</token></antipattern>
 				<antipattern><token>hey</token><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>Dank</token><token>je</token><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="1"/><token regexp="yes">Bedankt|Ja|Nee|Welnee|Welja|Kijk</token><token>,</token><token>dat</token></antipattern>
+                <antipattern>
+                    <!-- , dat wel, -->
+                    <token></token>
+                    <token>,</token>
+                    <token></token>
+                    <token>dat</token>
+                    <token>wel</token>
+                    <token>,</token>
+                </antipattern>
 				<pattern>
 					<token>,</token>
 					<token>dat</token>
@@ -17646,7 +18706,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief" type="style">
-		<rulegroup id="GOAL" name="goal → doel(punt)">
+		<rulegroup id="GOAL" name="goal → doel(punt)" tags="picky">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -31872,7 +32932,7 @@ steenwijk;Steenwijk
 				<example correction="in gedachten">Helemaal niet wat we <marker>in gedachte</marker> hadden.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TEN_OPZICHTE_VAN" name="ten opzichte van">
+		<rulegroup id="TEN_OPZICHTE_VAN" name="ten opzichte van" tags="picky">
 			<rule>
 				<pattern>
 					<token>ten</token>
@@ -34616,7 +35676,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>alles</token>
 					<token>of</token>
-					<token>niets</token>
+					<token regexp="yes">niets|niks</token>
 					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|is|spelen|kan|was</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion>.</message>
