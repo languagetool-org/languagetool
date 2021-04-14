@@ -1002,7 +1002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
-                <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc</token>
+                <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond</token>
                 <token regexp="yes">clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine</token>
             </antipattern>
             <antipattern>
@@ -1091,6 +1091,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>un</token>
                 <token min="0" max="3" regexp="yes">bon|bout|de</token>
                 <token>temps</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">plupart|majorité</token>
                 <token postag="A" min="0" max="3"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
