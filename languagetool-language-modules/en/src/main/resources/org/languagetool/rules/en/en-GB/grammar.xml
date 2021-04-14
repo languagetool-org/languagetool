@@ -650,4 +650,35 @@ USA
 
     </category>
 
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+
+        <rule id="AIT" name="ait (it)" default="temp_off">
+            <antipattern><!-- Context: island, river -->
+                <token skip="-1" postag="SENT_START"/>
+                <token skip="-1" regexp="yes" postag_regexp="yes" postag="NN.*" inflected="yes">island|river</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Aa]it<exception postag="NNP"/></token>
+            </pattern>
+            <message>The rare word '\1' means a small island in a river.</message>
+            <suggestion>air</suggestion>
+            <suggestion>it</suggestion>
+            <url>https://www.lexico.com/definition/ait</url>
+            <short>Possible typo</short>
+            <example correction="Air|It"><marker>Ait</marker> is a good idea.</example>
+            <example correction="air|it">I need some fresh <marker>ait</marker> to clear my mind.</example>
+            <example>An <marker>ait</marker> is a small island.</example>
+            <example>The AIT is governed by a Committee.</example>
+            <example>Stallergenes Greer's approach to allergen immunotherapy(AIT) is focused on individual patient needs.</example>
+            <example>Welcome to all new and returning AiT members. </example>
+            <example>Santo insists young full-back Rayan Ait-Nouri has their 'confidence and total support'...</example>
+            <example>Restricted access - Isleworth Ait. Birdwatching.</example>
+            <example>Isleworth Ait lies offshore from Heron's place.</example>
+            <example>Visit One Over the Ait Pub and Restaurant in Brentford.</example>
+            <example type="triggers_error">Explore releases from Ait! at Discogs.</example>
+        </rule>
+
+    </category>
+
 </rules>
