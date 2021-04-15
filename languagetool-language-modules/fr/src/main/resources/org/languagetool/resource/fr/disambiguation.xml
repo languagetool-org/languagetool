@@ -132,12 +132,24 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="LA_NOT_NOUN" name="la (not noun)">
+        <antipattern>
+            <token>la</token>
+            <token regexp="yes">majeur|mineur|44\d</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token postag="[RD].*" postag_regexp="yes">la</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m sp"/>
+    </rule>
     <rule id="QUE" name="que">
         <!-- TODO: exceptions?-->
         <pattern>
             <token postag="C sub" regexp="yes">que|qu'</token>
         </pattern>
-        <disambig postag="C sub"></disambig>
+        <disambig postag="C sub"/>
     </rule>
     <rulegroup id="NOS" name="nos">
         <rule>
@@ -462,6 +474,17 @@ RB => Règles Brutes
                 <token postag="V.* ppa .*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">avoir</token>
+                <token>que</token>
+                <token>rarement</token>
+                <marker>
+                    <token postag="V.* ppa .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.* ppa .*"/>
         </rule>
     </rulegroup>
     <rule id="AVIONS" name="avions">
@@ -1799,18 +1822,6 @@ RB => Règles Brutes
     <!-- END: adverbs -->
     <!-- CATEGORY: preposition + noun -->
     <rulegroup name="la (déterminant/pronom)" id="LA_DET_PRON">
-        <rule>
-            <antipattern>
-                <token>la</token>
-                <token regexp="yes">majeur|mineur|44\d</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token postag="[RD].*" postag_regexp="yes">la</token>
-                </marker>
-            </pattern>
-            <disambig action="remove" postag="N m sp"/>
-        </rule>
         <rule>
             <pattern>
                 <marker>
@@ -3508,7 +3519,8 @@ RB => Règles Brutes
     <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
         <pattern>
             <token inflected="yes" regexp="yes">être|avoir</token>
-            <token min="0" max="4" postag="R.*|A" postag_regexp="yes"><exception regexp="yes">que|qu'</exception></token>
+            <token min="0" max="4" postag="R.*|A" postag_regexp="yes">
+                <exception regexp="yes">que|qu'</exception></token>
             <marker>
                 <token regexp="yes">fait|mis
                     <exception scope="previous" postag="R.*" postag_regexp="yes" regexp="yes">[^\-].*</exception></token>
