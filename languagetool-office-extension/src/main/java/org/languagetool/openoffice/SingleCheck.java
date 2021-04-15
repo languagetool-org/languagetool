@@ -196,7 +196,7 @@ class SingleCheck {
       int endPos;
       int footnotesBefore = 0;
       for (int i = startPara; i < endPara; i++) {
-        if (useQueue && !isDialogRequest && mDH.getTextLevelCheckQueue().isInterrupted()) {
+        if (useQueue && !isDialogRequest && (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted())) {
           return;
         }
         int[] footnotePos = docCache.getTextParagraphFootnotes(i);
@@ -245,7 +245,7 @@ class SingleCheck {
         footnotesBefore += footnotePos.length;
       }
       if (useQueue && !isDialogRequest) {
-        if (mDH.getTextLevelCheckQueue().isInterrupted()) {
+        if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
         if (docCursor == null) {

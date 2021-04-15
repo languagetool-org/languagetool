@@ -555,7 +555,7 @@ public class FlatParagraphTools {
       tmpFlatPara = startFlatPara;
       int num = 0;
       int nMarked = 0;
-      while (tmpFlatPara != null && nMarked < changedParas.size()) {
+      while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.textSize()) {
         int nTextPara = docCache.getNumberOfTextParagraph(num);
         if (changedParas.containsKey(num)) {
           addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), nTextPara < 0 ? null : cursor, override);
