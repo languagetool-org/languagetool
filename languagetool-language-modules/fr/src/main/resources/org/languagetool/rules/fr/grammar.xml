@@ -442,6 +442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: too many suggestions -->
                 <example correction="aucunes nouvelles|aucun nouveau|aucun nouvel|aucune nouvelle|aucuns nouveaux|aucuns nouvels">Nous n'avons <marker>aucun nouvelles</marker>.</example>
                 <example correction="pareilles situations|pareille situation">L'Histoire regorge de <marker>pareil situations</marker>.</example>
+                <example correction="notre service|nos services">mais aussi tous <marker>nos service</marker> et avantages</example>
                 <example>Henri VIII rencontre François Ier.</example>
                 <example>Il est né le quatre <marker>janvier</marker>.</example>
                 <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
@@ -723,6 +724,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom" default="temp_off">
             <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>à</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
                 <!-- ordinals: le 31 État de l’Union-->
                 <token>le</token>
                 <token regexp="yes">\d+</token>
@@ -816,7 +822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d{1,2}</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">du|en|le|Copyright|©</token>
+                <token regexp="yes">du|en|le|Copyright|©|halloween|Avent|Carême|Noël|Pentecôte</token>
                 <token regexp="yes">\d\d\d\d</token>
             </antipattern>
             <antipattern>
@@ -897,6 +903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>0 personnes, 0 personne</example>
             <example>1,25 euro</example>
             <example>1.25 euro</example>
+            <example>2002 à 2011 Galerie Saint-Luc.</example>
         </rule>
         <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom" default="temp_off">
             <antipattern>
@@ -1002,6 +1009,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
             <antipattern>
+                <token postag="V.* inf" postag_regexp="yes" skip="4"/>
+                <token>tel</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond</token>
                 <token regexp="yes">clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine</token>
             </antipattern>
@@ -1010,6 +1022,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[NJZ].*" postag_regexp="yes"/>
                 <token regexp="yes">[-/]</token>
                 <token postag="[NJZ].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="[NJZ].*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token skip="8">qui</token>
+                    </unify-ignore>
+                    <token inflected="yes">tel</token>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token inflected="yes">tel</token>
+                    <unify-ignore>
+                        <token>qu'</token>
+                    </unify-ignore>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                </unify>
             </antipattern>
             <antipattern>
                 <unify>
@@ -1833,12 +1867,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lorsqu'il s'agit de débourser de l'argent, le patron fait grise mine.</example>
             <example>Quelle taille fait Tom ?</example>
             <example>Les musiciens sortant tous quatre de la Haute École de Jazz.</example>
+            <example>Je veux apprendre à jouer de la guitare tel que tu le fais.</example>
+            <example>chaque chose apparaîtrait à l'homme telle qu'elle est</example>
             <!-- Agreement with the subject-->
             <example type="triggers_error">Elle alla au procès accusée du meurtre de son mari.</example>
             <example type="triggers_error">et ne peuvent détourner leur regard captivés par le spectacle</example>
-            <example type="triggers_error">chaque chose apparaîtrait à l'homme telle qu'elle est</example>
-            <example type="triggers_error">Je veux apprendre à jouer de la guitare tel que tu le fais.</example>
-            <!-- ?? -->
             <example type="triggers_error">Anderson est retourné à la maison de Linda armé d'un mandat de perquisition</example>
             <example type="triggers_error">Mais le conquérant qui a brûlé les villes, décimé les peuples, toute la folie, toute la lâcheté humaines se coalisent pour le hisser sur des pavois monstrueux.</example>
             <example>Il avait les cheveux brun foncé.</example>
@@ -1855,6 +1888,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Pourquoi es-tu tout le temps si occupée ?</example>
             <example correction="phrygienne">l'Ida <marker>phrygien</marker></example>
             <example>Il courrait dans les rues tel un fou.</example>
+            <example>Je veux apprendre à jouer de la guitare tel que tu le fais.</example>
+            <example> Au-delà, on serait obligé de submerger toutes les infrastructures qui ont été construites autour du lac telles que les chemins de fer, les routes, les habitations.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -18453,7 +18488,7 @@ though, and has since been slightly modified)-->
                 <example correction="arroser">Il est en train d’<marker>arrosé</marker> le jardin.</example>
             </rule>
         </rulegroup>
-        <rule id="COND_FUTUR_AVOIR_AIMERAI" name="avoir + aimé, voulu, préféré, souhaité" default="temp_off">
+        <rule id="COND_FUTUR_AVOIR_AIMERAI" name="avoir + aimé, voulu, préféré, souhaité">
             <antipattern>
                 <token>que</token>
                 <token regexp="yes">l'?|le</token>
@@ -18767,6 +18802,7 @@ though, and has since been slightly modified)-->
                 <example>Et c'est ça le pouvoir.</example>
                 <example>Je vous prie de ne pas laisser ceci se reproduire.</example>
                 <example>Je vais lui en apporter.</example>
+                <example>Est-ce que ceci vous dit quelque chose ?</example>
             </rule>
             <rule name="ça + 1 tokens + Verbe">
                 <pattern>
@@ -18783,6 +18819,7 @@ though, and has since been slightly modified)-->
                 <example>Ça ne fonctionne pas.</example>
                 <example correction="peut">Personne ne <marker>peux</marker> me le dire.</example>
                 <example>Personne ne <marker>peut</marker> me le dire.</example>
+                <example>Pourquoi est-ce que personne ne fait ça ?</example>
             </rule>
             <rule name="il/elle/on + 2 tokens + Verbe">
                 <antipattern>
@@ -22750,6 +22787,7 @@ though, and has since been slightly modified)-->
                 <example>Je souhaite que ces quelques mots vous incitent à m’écrire.</example>
                 <example>Il fallait que les étudiants apprennent la Constitution par cœur.</example>
                 <example>Il faut que les gens nettoient l'environnement de manière urgente.</example>
+                <example>Je veux que vous alliez voir si c'est toujours là.</example>
             </rule>
             <rule>
                 <pattern>
@@ -22884,6 +22922,7 @@ though, and has since been slightly modified)-->
                 <example>Pourvu que tu <marker>réussisses</marker></example>
                 <example>afin qu'en devenant de plus en plus capable</example>
                 <example>Pour que le pouvoir s'accomplisse</example>
+                <example>Elles sont en revanche incolores, sans que leur garantie dans le temps soit totalement assurée.</example>
             </rule>
             <rule>
                 <pattern>

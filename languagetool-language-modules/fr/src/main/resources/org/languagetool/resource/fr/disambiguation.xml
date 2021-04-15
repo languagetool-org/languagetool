@@ -131,6 +131,33 @@ RB => Règles Brutes
         <disambig action="filter" postag="K"/>
     </rule>
     <!-- END: numerals -->
+    <!-- CATEGORY: remove unusual tags -->
+    <rule id="QUE" name="que">
+        <!-- TODO: exceptions?-->
+        <pattern>
+            <token postag="C sub" regexp="yes">que|qu'</token>
+        </pattern>
+        <disambig postag="C sub"></disambig>
+    </rule>
+    <rulegroup id="NOS" name="nos">
+        <rule>
+            <pattern>
+                <token regexp="yes">[dl]es|plusieurs|nombreux</token>
+                <marker>
+                    <token postag="N m p">nos</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N m p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="D e p">nos</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="D e p"/>
+        </rule>
+    </rulegroup>
     <!-- CATEGORY: not prepositions -->
     <rule id="NOT_PREPOSITION" name="not preposition: vous concernant">
         <pattern>
@@ -1248,7 +1275,7 @@ RB => Règles Brutes
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
     <rule id="LA_SOUL" name="la soul (musical genere)">
         <pattern>
-            <token>la</token>
+            <token regexp="yes">la|divas?|chanteurs?|chanteuses?</token>
             <marker>
                 <token>soul</token>
             </marker>
@@ -4401,25 +4428,6 @@ RB => Règles Brutes
                 </marker>
             </pattern>
             <disambig postag="A"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="NOS" name="nos">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>nos</token>
-                </marker>
-            </pattern>
-            <disambig postag="D e p"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[dl]es|plusieurs|nombreux</token>
-                <marker>
-                    <token>nos</token>
-                </marker>
-            </pattern>
-            <disambig postag="N m p"/>
         </rule>
     </rulegroup>
     <rule id="COUR" name="cour">
