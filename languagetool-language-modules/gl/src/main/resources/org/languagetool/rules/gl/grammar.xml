@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
-    <!--
+   <!--
   Galician Grammar and Typo Rules for LanguageTool
   Copyright (C) 2006 Marcin Miłkowski
   Copyright (C) 2009 Susana Sotelo Docío
@@ -53,7 +53,7 @@
     <!ENTITY contraccions_FP "(?:ás|d(?:as|unhas|elas|est?as|aquelas|outras|algunhas)|n(?:as|unhas|elas|est?as|aquelas|outras|algunhas)|algunhas|polas)"><!-- XXX lost 'me+a|che+a|lle+a'+s-->
 
     <!ENTITY verbos_auxiliares_part_pasado "(?:ser|estar|ter|haber|ficar)">
-    <!ENTITY verbos_non_reflexivos "abrandar|acedar|acougar|adormecer|afrouxar|agrelar|almorzar|apodrecer|apurar|atrasar|baixar|caer|calar|cargar|casar|cicatrizar|coller|comer|curar|deixar|demorar|desfondar|desinchar|dislocar|enfermar|escapar|escordar|esperar|espertar|estreitar|fracturar|inchar|incrementar|marchar|merendar|merar|morrer|murchar|parar|quedar|rachar|rebentar|recordar|rir|romper|sentar|sorrir|terminar|tropezar">
+    <!ENTITY verbos_non_reflexivos "a(?:brandar|cedar|cougar|dormecer|frouxar|grelar|lmorzar|podrecer|purar|trasar)|baixar|c(?:a(?:er|lar|rgar|sar)|icatrizar|oller|omer|urar)|d(?:eixar|emorar|esfondar|esinchar|islocar)|e(?:nfermar|scapar|scordar|sperar|spertar|streitar)|fracturar|inchar|incrementar|m(?:archar|erendar|erar|orrer|urchar)|parar|quedar|rachar|rebentar|recordar|rir|romper|sentar|sorrir|terminar|tropezar">
    
     <!ENTITY abreviaturas "(?:s(?:[eé]c)?|[Ee]tc\.|(?:m[aá]x|m[ií]n|[aA]prox)|(?:[aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)|(?:[Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(?:na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)|(?:[Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)|(?:[Vv]ols?|[Cc]aps?)|(?:[Aa]dmóns?|[aA]d(?:mt)?v[oa]s?)|(?:[pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)|(?:[vV]id|[Cc]fr?)|(?:[Cc]oord|[Ee]d)s?|(?:[Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s|(?:[oO]p|[lL]oc)|cit|[aá]l|vs)"><!-- XXX retrieved from segment.srx, Galician section -->
 
@@ -2741,12 +2741,20 @@
 
     <rule id="IR_A_INF" name="ir máis infinitivo">
     <!-- Created by Susana Sotelo Docío -->
+    <!-- Added by Xosé Calvo: False positives with 'a partir de' and 'a pesar de', v.g. 'Irá a partir desta mañá..' -->
+      <antipattern>
+      	<token inflected="yes">ir</token>
+      	<token>a</token>
+      	<token>[partir|pesar]</token>
+      	<token regexp="yes">d(?:algúns?|algunhas?|aquel(es)?|aquelas?|outr[oa]s?|est?as?|est?es?|ist?o|elas?|el(es)?|as?|os?|e|uns?|unha)</token>
+      </antipattern>
       <pattern>
           <token inflected="yes">ir</token>
           <token>a</token>
           <token postag="(VMN0000|VSN0000).*" postag_regexp="yes"/>
       </pattern>
       <message>A perífrase formada polo verbo «ir» máis un infinitivo constrúese sen preposición: <suggestion>\1 \3</suggestion></message>
+      <url>https://gl.wikibooks.org/wiki/Curso_de_lingua_galega/O_verbo/As_per%C3%ADfrases_verbais#Ir_+_infinitivo</url>
       <example correction="Vou saltar"><marker>Vou a saltar</marker> con ela.</example>
     </rule>
 
@@ -2781,31 +2789,20 @@
     </rule>
   </rulegroup>
 
-    <!-- FIXME: cómpre + secuencia de advs + inf: cómpre ademais agora non ignorar as provocacións -->
   <rulegroup id="COMPRE" name="cómpre vs. compre">
-    <!-- compre + VINF (cómpre ignorar a provocación) -->
+    <!-- compre + (até 3 adverbios) + VINF (cómpre ademais agora non ignorar a provocación) -->
     <rule>
     <!-- Created by Susana Sotelo Docío -->
+    <!-- Fixed by Xosé -->
       <pattern>
         <marker>
           <token>compre</token>
         </marker>
+          <token postag="RG|RN" postag_regexp="yes" min="0" max="3"/>
           <token postag="(VMN0000|VSN0000).*" postag_regexp="yes"/>
       </pattern>
-      <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva til para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-      <example correction="cómpre">Agora <marker>compre</marker> analizar o proceso de constitución das listas.</example>
-    </rule>
-    <!-- compre + adverbio + VINF (cómpre agora ignorar a provocación) -->
-    <rule>
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-        <marker>
-          <token>compre</token>
-        </marker>
-          <token postag="RG|RN" postag_regexp="yes"/>
-          <token postag="(VMN0000|VSN0000).*" postag_regexp="yes"/>
-      </pattern>
-      <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva til para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+      <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva acento para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+      <url>https://ciberdubidas.blogspot.com/2010/11/cumpre-compre.html</url>
       <example correction="Cómpre"><marker>Compre</marker> agora analizar o proceso de constitución das listas.</example>
     </rule>
     <!-- compre + que -->
@@ -2817,8 +2814,10 @@
         </marker>
           <token>que</token>
       </pattern>
-      <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva til para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
-      <example correction="Cómpre"><marker>Compre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
+      <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva acento para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
+     <url>https://ciberdubidas.blogspot.com/2010/11/cumpre-compre.html</url>
+     <example correction="Cómpre"><marker>Compre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
+      
     </rule>
   </rulegroup>
 
