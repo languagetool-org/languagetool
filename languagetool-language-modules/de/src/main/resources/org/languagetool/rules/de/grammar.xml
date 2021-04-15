@@ -10106,10 +10106,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="AD_HOC_MITTEILUNG" name="Ad-hoc-Meldung" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>ad</token>
+                    <token>hoc</token>
+                    <token regexp="yes">mitteilung|erklärung|meldung|publizität|interpretation</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Ad-hoc-<match no="3" case_conversion="startupper" /></suggestion> wird zusammengeschrieben.</message>
+                <example correction="Ad-hoc-Meldung">Das Unternehmen veröffentlichte eine <marker>Ad hoc Meldung</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ad-hoc</token>
+                    <token regexp="yes">mitteilung|erklärung|meldung|publizität|interpretation</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Ad-hoc-<match no="2" case_conversion="startupper" /></suggestion> wird zusammengeschrieben.</message>
+                <example correction="Ad-hoc-Meldung">Das Unternehmen veröffentlichte eine <marker>Ad-hoc Meldung</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="STARK_MACHEN" name="stark machen (starkmachen)">
             <antipattern>
                 <token>zu</token>
                 <token>stark</token>
+            </antipattern>
+            <antipattern><!-- Dafür hat mich das stark gemacht -->
+                <token inflected="yes">haben</token>
+                <token regexp="yes">ihn|sie|uns|[dm]ich</token>
+                <token regexp="yes" min="0">das|es</token>
+                <token>stark</token>
+                <token>gemacht</token>
             </antipattern>
             <pattern>
                 <token regexp="yes" skip="8">(da)?für</token>
@@ -10123,6 +10149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="starkmachen">Ich werde mich dafür <marker>stark machen</marker>.</example>
             <example>Tom hat den Kaffee zu stark gemacht.</example>
             <example>Das Foto wurde für Tony Stark gemacht.</example>
+            <example>Stark gemacht!</example>
         </rule>
         <rule id="TEIL_NEHMEN" name="teil nehmen (teilnehmen)">
             <antipattern>
@@ -11422,13 +11449,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Umschau</token>
             </antipattern>
             <antipattern>
+                <token>Admissions</token>
+                <token>Office</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">0|Zero</token>
                 <token>Emissions</token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|.*cessions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -12858,7 +12889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>so</token>
                 </marker>
                 <!-- Jan: TODO: evtl. verallgemeinern -->
-                <token regexp="yes">(gern|gut|lang|oft|schnell|sehr|viel|wenig|wichtig).*|wie</token>
+                <token regexp="yes">(gern|gut|schlecht|lang|oft|schnell|sehr|viel|wenig|wichtig).*|wie</token>
             </pattern>
             <message>&getrennt;: Meinten Sie <suggestion>ebenso</suggestion> (= <suggestion>genauso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
             <url>https://www.duden.de/rechtschreibung/ebenso</url>
@@ -12866,20 +12897,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ebenso|genauso">Wir hätten <marker>eben so</marker> gut in der Uni bleiben können.</example>
             <example>Wir hätten die Aufgabe <marker>eben</marker> so oder so lösen können.</example>
         </rule>
-        <rule id="GENAU_SO" name="'genau so (genauso)'">
-            <pattern>
-                <marker>
-                    <token>genau</token>
-                    <token>so</token>
-                </marker>
-                <token postag="ADJ:.+" postag_regexp="yes"/>
-            </pattern>
-            <message>&getrennt;: Meinten Sie <suggestion>genauso</suggestion> als Adverb (= <suggestion>ebenso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
-            <url>https://www.duden.de/rechtschreibung/genauso</url>
-            <short>&getrennt;.</short>
-            <example correction="genauso|ebenso">Wir hätten <marker>genau so</marker> gut in der Uni bleiben können.</example>
-            <example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt und genau drei Karten im Stock verbleiben.</example>
-        </rule>
+        <rulegroup id="GENAU_SO" name="'genau so (genauso)'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>genau</token>
+                        <token>so</token>
+                    </marker>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&getrennt;: Meinten Sie <suggestion>genauso</suggestion> als Adverb (= <suggestion>ebenso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
+                <url>https://www.duden.de/rechtschreibung/genauso</url>
+                <short>&getrennt;.</short>
+                <example correction="genauso|ebenso">Wir hätten <marker>genau so</marker> gut in der Uni bleiben können.</example>
+                <example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt und genau drei Karten im Stock verbleiben.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>genau</token>
+                        <token>so</token>
+                    </marker>
+                    <token>wie</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie <suggestion>genauso</suggestion> als Adverb (= ebenso, gleichermaßen, in der gleichen Weise)?</message>
+                <url>https://www.duden.de/rechtschreibung/genauso</url>
+                <short>&getrennt;.</short>
+                <example correction="genauso">Das sehe ich <marker>genau so</marker> wie du.</example>
+            </rule>
+        </rulegroup>
         <rule id="LOG_IN" name="'Log in (Log-in)'">
             <antipattern>
                 <token regexp="yes">das|ein|dem</token>
@@ -37477,6 +37523,54 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="AGREEMENT_DER_NEU" name="Der (Das) Haus ist">
+            <!-- Experimental new Agreement rules that only offer one correction that is always correct -->
+            <rule default="temp_off">
+                <antipattern><!-- Ein Arzt der Glück hat / Es gibt immer einen der Glück hat -->
+                    <token postag="(SUB|ADJ):.+:MAS.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):MAS.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="6">.*[a-zäöüß].*</token>
+                    <token>der</token>
+                </antipattern>
+                <antipattern>
+                    <token>der</token>
+                    <token regexp="yes">Recht|Glück|Lust</token>
+                    <token regexp="yes">hat(te)?</token>
+                </antipattern>
+                <antipattern><!-- Der, der Lust hat, kann ... -->
+                    <token>der</token>
+                    <token min="0">,</token>
+                    <token>der</token>
+                </antipattern>
+                <pattern><!-- der Haus ist/war -->
+                    <marker>
+                        <token>der</token>
+                        <token postag="SUB:NOM:SIN:NEU">
+                            <exception postag=".+:NOM:SIN:MAS.*" postag_regexp="yes" />
+                            <exception postag=".+:GEN:PLU:NEU.*" postag_regexp="yes" />
+                            <exception postag=".+:GEN:SIN:FEM.*" postag_regexp="yes" />
+                            <exception regexp="yes">&sprachadj1;</exception>
+                        </token>
+                    </marker>
+                    <token postag="VER:3:SIN:(PRT|PRÄ):NON|VER:MOD:3:SIN:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Test.</message>
+                <suggestion>das \2</suggestion>
+                <example correction="Das Haus"><marker>Der Haus</marker> ist schön.</example>
+                <example>Der Plan der Schule ist es, alle Schüler glücklich zu machen.</example>
+                <example>Der Harz ist ein deutsches Mittelgebirge.</example>
+                <example>Ich möchte jemanden einstellen, der Französisch spricht.</example>
+                <example>Lieber bin ich ein Optimist und Trottel, als ein Pessimist der Recht hat.</example>
+                <example>Nur ein Mensch, der Selbstvertrauen hat, kann das Vertrauen anderer erwerben.</example>
+                <example>La Plata (Ferrocarril General Roca), die Quilmes über Avellaneda mit der Provinzzentrum verband.</example>
+                <example>Jemand, der Geld hat, kann sich alles erlauben.</example>
+                <example>In einer Beziehung gibt es immer einen, der Recht hat, und einen Mann!</example>
+                <example>Wen kennst du noch, der Französisch spricht?</example>
+                <example>Tom ist der Einzige in unserer Familie, der Französisch spricht.</example>
+                <example>Tom ist auf der Suche nach jemandem, der Französisch spricht.</example>
+                <example>Der Hermelin ist das niedlichste Tier aller Zeiten.</example>
+                <example>Tom ist hier nicht der einzige, der Französisch kann.</example>
+                <example>Wer von euch, der Englisch kann, ist denn dazu bereit?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HALT_MACHEN" name="halt machen (Halt machen / haltmachen)">
             <url>https://www.korrekturen.de/wortliste/haltmachen.shtml</url>
             <rule>
@@ -41680,7 +41774,7 @@ Andere Projekte</example>
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
                         <token regexp="yes">[Ddsm]?ein|euer|Euer|ihr|Ihr|unser</token>
-                        <token postag="SUB:(NOM|DAT):SIN:MAS" postag_regexp="yes">
+                        <token postag="SUB:NOM:SIN:MAS"><!-- TODO: catch SUB:DAT:SIN:MAS -->
                             <exception postag="SUB:AKK:SIN:NEU"/>
                             <exception postag="SUB:NOM:SIN:NEU"/>
                             <!-- caught by DE_AGREEMENT: -->
@@ -41689,7 +41783,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
-                <suggestion suppress_misspelled="yes">\2en <match postag="SUB:NOM:SIN:MAS" no="3" /></suggestion>
+                <suggestion suppress_misspelled="yes">\2en \3</suggestion>
                 <example>Die Schädigung seines Wirts ist für <marker>ein Virus</marker> kein vorteilhafter Effekt.</example>
                 <example>Das ist für <marker>meinen Mann</marker>.</example>
                 <example>Das ist für <marker>mein Auto</marker>.</example>
@@ -41708,6 +41802,7 @@ Andere Projekte</example>
                 <example>Was ist das für ein Lärm im Hintergrund?</example>
                 <example>... während die Gräser sich über dem Haupt im Winde wiegen, und der Stille zu lauschen, ohne ein Gestern, ohne ein Morgen, die Zeit und das Leben zu vergessen.</example>
                 <example correction="meinen Mann">Das ist für <marker>mein Mann</marker>.</example>
+                <example correction="deinen Webinar-Titel">Das ist für <marker>dein Webinar-Titel</marker>.</example>
                 <example>130 000 Euro für ein Pinguin Kostüm</example><!-- caught by DE_AGREEMENT-->
                 <example>Was du doch für ein Idiot bist!</example>
                 <example>Was ist das aber für ein Haufen von aufgeregten, gestikulierenden, vorlauten Menschen.</example>
@@ -49825,7 +49920,7 @@ Andere Projekte</example>
                 <token>by</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
