@@ -86,4 +86,8 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
     return ignoreWord(words, idx);
   }
   
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
 }

@@ -243,6 +243,7 @@ public class French extends Language implements AutoCloseable {
       case "JE_M_APPEL": return 1;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 1;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      case "VIRGULE_MAIS_2": return 1;  // higher prio than PLACE_DE_LA_VIRGULE for testing before deactivating PR VIRGULE_MAIS
       //case "D_N": return 1; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated

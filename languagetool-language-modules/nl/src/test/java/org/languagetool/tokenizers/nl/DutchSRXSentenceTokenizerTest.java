@@ -39,11 +39,13 @@ public class DutchSRXSentenceTokenizerTest {
     testSplit("Dit is een zin.");
     testSplit("Dit is een zin. ", "Nog een.");
     testSplit("Een zin! ", "Nog een.");
+    testSplit("‘Dat meen je niet!’ kirde Mandy."); 
     testSplit("Een zin... ", "Nog een.");
+    testSplit("'En nu.. daden!' aan premier Mark Rutte.");
     testSplit("Op http://www.test.de vind je een website.");
     testSplit("De brief is op 3-10 gedateerd.");
     testSplit("De brief is op 31-1 gedateerd.");
-    testSplit("De breif is op 3-10-2000 gedateerd.");
+    testSplit("De brief is op 3-10-2000 gedateerd.");
 
     testSplit("Vandaag is het 13-12-2004.");
     testSplit("Op 24.09 begint het.");

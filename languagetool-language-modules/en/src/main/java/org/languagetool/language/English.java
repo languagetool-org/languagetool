@@ -464,6 +464,13 @@ public class English extends Language implements AutoCloseable {
       case "GONNA_TEMP":                return -3;
       case "PRP_THE":                   return -4;  // prefer other rules (e.g. I_A, PRP_JJ, IF_YOU_ANY, I_AN)
       case "GONNA":                     return -4;  // prefer over spelling rules
+      case "WHATCHA":                   return -4;  // prefer over spelling rules
+      case "DONTCHA":                   return -4;  // prefer over spelling rules
+      case "GOTCHA":                    return -4;  // prefer over spelling rules
+      case "OUTTA":                     return -4;  // prefer over spelling rules
+      case "Y_ALL":                     return -4;  // prefer over spelling rules
+      case "GIMME":                     return -4;  // prefer over spelling rules
+      case "LEMME":                     return -4;  // prefer over spelling rules
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority

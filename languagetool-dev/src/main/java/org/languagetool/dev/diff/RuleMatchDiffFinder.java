@@ -180,15 +180,14 @@ public class RuleMatchDiffFinder {
             "  <tt>new:</tt> " + showTrimSpace(newMatch.getSuggestions()) +
             "</td>\n");
         }
-        fw.write("</tr>\n");
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, null, match);
         fw.write("  <td>" + match.getSuggestions() + "</td>\n");
-        fw.write("</tr>\n");
       }
+      fw.write("</tr>\n");
     }
     printTableEnd(fw);
   }
@@ -427,7 +426,7 @@ public class RuleMatchDiffFinder {
 
   private Map<String, List<RuleMatchDiff>> groupDiffs(List<RuleMatchDiff> diffs) {
     Map<String, List<RuleMatchDiff>> keyToDiffs = new TreeMap<>();
-    String key = "";
+    String key;
     String prevKey = "";
     List<RuleMatchDiff> l = new ArrayList<>();
     for (RuleMatchDiff diff : diffs) {
@@ -548,8 +547,8 @@ public class RuleMatchDiffFinder {
             }
             System.out.println("==== " + file + " =================================");
             File oldFile = new File(dir, file);
-            String outputFile = file3.replace("XX", langCode);
-            diffFinder.run(parser, oldFile, newFile, new File(outputFile), langCode, date);
+            String outputDir = file3.replace("XX", langCode);
+            diffFinder.run(parser, oldFile, newFile, new File(outputDir), langCode, date);
           }
         }
       }

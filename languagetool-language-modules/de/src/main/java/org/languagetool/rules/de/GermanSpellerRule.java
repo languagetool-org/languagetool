@@ -1130,6 +1130,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
+  protected boolean isIgnoredNoCase(String word) {
+    return wordsToBeIgnored.contains(word) ||
+      // words from spelling.txt also accepted in uppercase (e.g. sentence start, bullet list items):
+      (word.matches("[A-ZÖÄÜ][a-zöäüß-]+") && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+      (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
+  }
+
+  @Override
   public List<String> getCandidates(String word) {
     List<List<String>> partList;
     try {

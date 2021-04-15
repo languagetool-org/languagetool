@@ -52,7 +52,7 @@ public class FrenchTagger extends BaseTagger {
   
   @Override
   public boolean overwriteWithManualTagger(){
-    return true;
+    return false;
   }
   
   @Override

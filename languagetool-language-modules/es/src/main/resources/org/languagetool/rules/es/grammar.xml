@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
 <!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License|Station">
-<!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy">
+<!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy|Squadron">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
 <!ENTITY wrong_as_pron_verb "estas|a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
@@ -7395,7 +7395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>entorno</token>
                 <token>de</token>
-                <token regexp="yes">desarrollo|trabajo|bosques?|jardín|jardines</token>
+                <token regexp="yes">desarrollo|trabajo|bosques?|jardín|jardines|escritura</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -19677,6 +19677,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es de los años 50s.</example>
                 <example>Es de los 1950s.</example>
                 <example>En los años 30s, 40s y 50s.</example>
+            </rule>
+            <rule>
+                <!-- 2ºA -->
+                <pattern>
+                    <token regexp="yes">\d+[ªº][A-Z]+</token>
+                </pattern>
+                <message>Falta un espacio.</message>
+                <suggestion><match no="1" regexp_match="(\d+[ªº])([A-Z]+)" regexp_replace="$1&#8239;$2"/></suggestion>
+                <example correction="2º&#8239;B">El grupo de <marker>2ºB</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DECADAS_1920" name="años *20's/*20s/20" default="on">
