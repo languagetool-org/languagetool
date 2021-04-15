@@ -1528,7 +1528,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </rule>
     <rule name="_2-0-ZEGE" id="_2-0-ZEGE">
         <pattern>
-           <token regexp="yes">[0-9][0-9]?[-][0-9][0-9]?[-](uit|thuis)?(zege|winst|verlies|score|stand)</token>
+           <token regexp="yes">[0-9][0-9]?[-][0-9][0-9]?[-](uit|thuis)?(zege|winst|verlies|score|stand|voorsprong)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1569,6 +1569,26 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 			<!-- 150m² -->
         <pattern>
 				<token regexp="yes" case_sensitive="yes">[0-9]*(m|km|cm|mm|dm)[²³]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="MR_X" id="MR_X">
+			<!-- meneer Teach -->
+        <pattern>
+				<token regexp="yes" >meneer|mevrouw|heer|jongeheer|juffrouw|mejuffrouw</token>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z][a-z].*</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="PETER_X" id="PETER_X">
+			<!-- meneer Teach -->
+        <pattern>
+				<token regexp="yes" case_sensitive="yes" postag="ENM:PER:FST">[A-Z][a-z].*</token>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z][a-z].*</token>
+				</marker>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
