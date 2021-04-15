@@ -822,7 +822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d{1,2}</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">du|en|le|Copyright|©|halloween|Avent|Carême|Noël|Pentecôte</token>
+                <token regexp="yes">du|en|le|Copyright|©|halloween|Avent|Carême|Noël|Pentecôte|printemps|automne|hiver|été</token>
                 <token regexp="yes">\d\d\d\d</token>
             </antipattern>
             <antipattern>
@@ -21573,22 +21573,41 @@ though, and has since been slightly modified)-->
                 <example correction="rééditer"><marker>ré éditer</marker>.</example>
                 <example correction="rééditer"><marker>re éditer</marker>.</example>
                 <!--<example correction="rééditer"><marker>ré-éditer</marker>.</example>
-        <example correction="rééditer"><marker>re-éditer</marker>.</example>-->
+                    <example correction="rééditer"><marker>re-éditer</marker>.</example>-->
                 <example correction="réédition"><marker>re-édition</marker>.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="PREFIXE_TRAIT_DUNION" name="préfixe avec trait d'union">
-            <rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>mini</token>
+                    <token min="0">-</token>
+                    <token postag="[VNJ].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="mini$1" case_conversion="preserve"/></suggestion>
+                <example correction="minigolf">Parcours de <marker>mini golf</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">mega|méga</token>
+                    <token min="0">-</token>
+                    <token postag="[VNJ].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="méga$1" case_conversion="preserve"/></suggestion>
+                <example correction="mégahertz">Les <marker>mega hertz</marker>.</example>
+                <example correction="mégaoctets">Les <marker>méga octets</marker>.</example>
+                <example correction="mégafête">Une <marker>méga fête</marker>.</example>
+            </rule>
+            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">méga|mini</token>
                     <!-- TODO: extend -->
                     <token postag="[NJ].*" postag_regexp="yes"/>
                 </pattern>
                 <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
+                <suggestion>\1\2</suggestion>
                 <suggestion>\1-\2</suggestion>
-                <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
-                <example correction="méga-projet">Ce <marker>méga projet</marker>.</example>
-                <example correction="méga-octets">Plusiers <marker>méga octets</marker>.</example>
+                <example correction="miniréfrigérateurs|mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
