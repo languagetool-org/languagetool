@@ -895,6 +895,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
+    <rule id="TRAITE_DE" name="traite de">
+        <pattern>
+            <marker>
+                <token postag="V ind pres 3 s">traite</token>
+            </marker>
+            <token min="0" postag="A"/>
+            <token regexp="yes">de|d'|du|des</token>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
     <rule id="FAIRE_DU_PROFIT" name="fait du profit">
         <pattern>
             <marker>
@@ -1008,6 +1018,15 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
+    <rule id="FRITES" name="frites">
+        <pattern>
+            <token inflected="yes" regexp="yes">(demi-)?(poulet|burger|hamburger)</token>
+            <marker>
+                <token>frites</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="J e sp"/>
+    </rule>
     <rule name="code remise" id="CODE_REMISES">
         <pattern>
             <token postag="N m ." postag_regexp="yes" inflected="yes">code</token>
@@ -2331,8 +2350,8 @@ RB => Règles Brutes
             <marker>
                 <token postag="V.*" postag_regexp="yes">dure</token>
             </marker>
-            <token postag="[AYK]|D.*" postag_regexp="yes" min="0" max="4"/>
-            <token regexp="yes" inflected="yes">&expressions_temps;|&unites_temps;</token>
+            <token postag="[AYK]|D.*" postag_regexp="yes" min="0" max="4"><exception>longtemps</exception></token>
+            <token regexp="yes" inflected="yes">&expressions_temps;|&unites_temps;|longtemps</token>
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>

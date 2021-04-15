@@ -1113,6 +1113,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<token inflected="yes" skip="4">passer</token>-->
                 <token postag="D.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;|instant|moment</token>
+                <token min="0" max="3" postag="A"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>à</token>
+                <token postag="Y|K" postag_regexp="yes"/>
+                <token>ans</token>
+                <token min="0" max="3" postag="A"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1891,6 +1899,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Il courrait dans les rues tel un fou.</example>
             <example>Je veux apprendre à jouer de la guitare tel que tu le fais.</example>
             <example> Au-delà, on serait obligé de submerger toutes les infrastructures qui ont été construites autour du lac telles que les chemins de fer, les routes, les habitations.</example>
+            <example>Le cabinet traite régulièrement des contentieux commerciaux.</example>
+            <example>Toute cette foule, quelques minutes auparavant si tumultueuse,</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -45241,14 +45251,14 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="NOEUDS_PAR_HEURE" name="nœuds par heure → nœuds">
             <pattern>
-                <token regexp="yes">(nœud|noeud)s?</token>
+                <token regexp="yes">(demi-)?(nœud|noeud)s?</token>
                 <token>par</token>
                 <token>heure</token>
             </pattern>
             <message>« nœud » est une unité de vitesse, on ne doit donc pas ajouter « par heure », sauf dans de rares cas où l’on parle de variation de vitesse.</message>
             <suggestion>\1</suggestion>
             <url>https://fr.wikipedia.org/wiki/N%C5%93ud_%28unit%C3%A9%29</url>
-            <example correction="nœud">Le courant est d’un demi-<marker>nœud par heure</marker>.</example>
+            <example correction="demi-nœud">Le courant est d’un <marker>demi-nœud par heure</marker>.</example>
             <example>Le courant est d’un demi-nœud.</example>
         </rule>
         <rule id="HZ_PAR_SECONDE" name="hertz par second → hertz">
