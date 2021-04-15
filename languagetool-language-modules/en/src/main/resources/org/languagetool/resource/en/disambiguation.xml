@@ -14448,17 +14448,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule>
             <pattern>
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">[Dd]e|[Ee]t|[Ee]l|[Uu]n</token>
+                    <token case_sensitive="yes" regexp="yes">[Dd]el?|[Ee]t|[Ee]l|[Uu]n</token>
                 </marker>
-                <token postag="UNKNOWN|NNP" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                <token postag="UNKNOWN|NN.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern>
-                <token postag="UNKNOWN|NNP" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                <token postag="UNKNOWN|NN.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">[Dd]e|[Ee]t</token>
+                    <token case_sensitive="yes" regexp="yes">[Dd]el?|[Ee]t</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -14470,7 +14470,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">[Dd]e|DE</token>
             <token regexp="yes">[Ff]acto|FACTO</token>
         </pattern>
-        <disambig action="remove" postag="DT"/>
+        <disambig action="ignore_spelling"/>
     </rule>
     
     <rulegroup id="IGNORE_SPELLING_MULTIWORDS" name="ignore spelling multiwords">
