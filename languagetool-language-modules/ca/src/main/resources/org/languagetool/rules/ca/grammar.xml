@@ -16315,6 +16315,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="TOTA_ARREU" name="*tota arreu" default="temp_off">
+            <pattern>
+                <token postag="SPS00"/>
+                <marker>
+                    <token>tota</token>
+                </marker>
+                <token>arreu</token>
+            </pattern>
+            <message>Possible confusió. ¿Volíeu dir <suggestion>tot</suggestion>?</message>
+            <example correction="tot">Me'l trobava per <marker>tota</marker> arreu.</example>
+        </rule>
         <rule id="EUROPES" name="Europes/Europees">
             <antipattern>
                 <token postag="D.*" postag_regexp="yes"/>
