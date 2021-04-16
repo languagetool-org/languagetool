@@ -69,7 +69,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "Palavra brasileira";
+    return "Palavra de Português do Brasil";
   }
 
   @Override
