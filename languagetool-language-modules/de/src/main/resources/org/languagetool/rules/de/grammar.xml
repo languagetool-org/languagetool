@@ -16356,13 +16356,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">heiß|heiss|kalt|warm</token>
+                    <token inflected="yes" regexp="yes">heiß|heiss|warm</token>
                     <token inflected="yes">Temperatur</token>
                 </pattern>
                 <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
+                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">hoch</match></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="ADJ.*" postag_regexp="yes">sommerlich</match></suggestion>
                 <short>Semantischer Fehler</short>
-                <example correction="">Bei <marker>warmen Temperaturen</marker> zieht es mich nach draußen.</example>
-                <example correction="">Die <marker>kältesten Temperaturen</marker> werden im Winter erreicht.</example>
+                <example correction="hohen|sommerlichen">Bei <marker>warmen Temperaturen</marker> zieht es mich nach draußen.</example>
+                <example correction="höchsten">Nur bei den <marker>wärmsten Temperaturen</marker> zieht es mich nach draußen.</example>
+                <example>Bei Temperaturen um 25° C ist es warm.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">kalt</token>
+                    <token inflected="yes">Temperatur</token>
+                </pattern>
+                <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
+                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">tief</match></suggestion>
+                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">niedrig</match></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="ADJ.*" postag_regexp="yes">winterlich</match></suggestion>
+                <short>Semantischer Fehler</short>
+                <example correction="tiefen|niedrigen|winterlichen">Die <marker>kalten Temperaturen</marker> werden im Winter erreicht.</example>
+                <example correction="tiefsten|niedrigsten|winterlichsten">Die <marker>kältesten Temperaturen</marker> werden im Winter erreicht.</example>
                 <example>Bei Temperaturen um 25° C ist es warm.</example>
             </rule>
         </rulegroup>
@@ -37099,7 +37115,7 @@ Andere Projekte</example>
                     </marker>
                     <token inflected="yes" regexp="yes">(ver)?mischen</token>
                 </pattern>
-                <message>In dieser Wendung scheinen die Farbnamen als Nomen gebraucht zu werden und sind deshalb großzuschreiben.</message>
+                <message>In dieser Wendung scheinen die Farbnamen als Nomen gebraucht zu werden und werden deshalb großgeschrieben.</message>
                 <suggestion><match case_conversion="startupper" no="1"/> \2 <match case_conversion="startupper" no="3"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Blau und Rot">Er hat <marker>blau und rot</marker> gemischt, um Lila zu erhalten.</example>
@@ -37113,7 +37129,7 @@ Andere Projekte</example>
                         <token case_sensitive="yes" regexp="yes">&farbadj;</token>
                     </marker>
                 </pattern>
-                <message>In dieser Wendung scheinen die Farbnamen als Nomen gebraucht zu werden und sind deshalb großzuschreiben.</message>
+                <message>In dieser Wendung scheinen die Farbnamen als Nomen gebraucht zu werden und werden deshalb großgeschrieben.</message>
                 <suggestion><match case_conversion="startupper" no="2"/> \3 <match case_conversion="startupper" no="4"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Blau und Rot">Er mischte <marker>blau und rot</marker>.</example>
@@ -37814,7 +37830,7 @@ Andere Projekte</example>
             <pattern>
                 <token>insbesonders</token>
             </pattern>
-            <message>Bei "\1" handelt es sich um eine nicht korrekte Kontamination (Verschmelzung) aus <suggestion>insbesondere</suggestion> und <suggestion>besonders</suggestion>.</message>
+            <message>Bei "\1" handelt es sich um eine nicht korrekte Verschmelzung aus <suggestion>insbesondere</suggestion> und <suggestion>besonders</suggestion>.</message>
             <url>https://www.korrekturen.de/beliebte_fehler/insbesonders.shtml</url>
             <example correction="insbesondere|besonders">Er fiel ihnen auf, <marker>insbesonders</marker> durch sein verdächtiges Verhalten.</example>
         </rule>
