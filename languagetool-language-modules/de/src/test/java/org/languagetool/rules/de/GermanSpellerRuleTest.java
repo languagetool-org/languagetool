@@ -470,6 +470,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Second-Hand-Shops", "Secondhandshops", rule, lt);
     assertFirstSuggestion("mediterranischer", "mediterraner", rule, lt);
     assertFirstSuggestion("unterschreibungsfähige", "unterschriftsfähige", rule, lt);
+    
+    assertFirstSuggestion("-Teex", "Tee", rule, lt);
+    assertFirstSuggestion("- Teex", "Tee", rule, lt);
+    assertFirstSuggestion("- Kaffeex", "Kaffee", rule, lt);
+    assertFirstSuggestion("E -Commerce", "E-Commerce", rule, lt);
+    
   }
 
   @Test

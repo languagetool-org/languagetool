@@ -65,11 +65,48 @@ public class HunspellRuleTest {
     assertEquals(10 ,rule.match(lt.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getFromPos());
     assertEquals(13 ,rule.match(lt.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getToPos());
     
-    //assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
+    
+    
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("- Teex"));
+    assertEquals(1, matches.length); 
+    assertEquals("Tee", matches[0].getSuggestedReplacements().get(0).toString());
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(6, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("-Teex"));
+    assertEquals(1, matches.length);
+    //assertEquals("[-tee, -telex, -tees, -teen, -teer, -tee-, -text]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
+    assertEquals("[Tee, Telex, Tees, Teen, Teer, Tee-, Texte, TeX, Text]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
+    assertEquals(1, matches[0].getFromPos());
+    assertEquals(5, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("- Kaffeex"));
+    assertEquals(1, matches.length); 
+    assertEquals("[Kaffee, Kaffees, Kaffee-]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("-Kaffeex"));
+    assertEquals(1, matches.length); 
+    //assertEquals("[-kaffee, -kaffees, -kaffee-, -karaffe, Kaffee]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[Kaffee, Kaffees, Kaffee-]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(1, matches[0].getFromPos());
+    assertEquals(8, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("E -Commerce"));
+    assertEquals(2, matches.length); 
+    assertEquals("[E-Commerce]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(11, matches[0].getToPos());
+    //assertEquals("[E-Commerce, C-centromer]", matches[1].getSuggestedReplacements().toString());
+    assertEquals("[E-Commerce, Comer]", matches[1].getSuggestedReplacements().toString());
+    assertEquals(3, matches[1].getFromPos());
+    assertEquals(11, matches[1].getToPos());
     
   }
 
