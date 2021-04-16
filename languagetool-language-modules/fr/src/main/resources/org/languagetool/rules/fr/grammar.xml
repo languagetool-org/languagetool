@@ -3299,12 +3299,13 @@ though, and has since been slightly modified)-->
                     <token>sa
                         <exception case_sensitive="yes">SA</exception></token>
                 </marker>
-                <token postag="[VR].*" postag_regexp="yes">
+                <token postag="[VR].*|C sub" postag_regexp="yes">
                     <exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/></token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
             <example correction="Ça"><marker>Sa</marker> va ?</example>
             <example correction="Ça"><marker>Sa</marker> fait mal.</example>
+            <example correction="ça">C'est pour <marker>sa</marker> que je les aime.</example>
             <example>Sa voiture est en panne.</example>
             <example>C’est sa préférée.</example>
             <example>Il a pour chef-lieu Carcassonne, avec sa célèbre ville médiévale fortifiée.</example>
@@ -21214,7 +21215,7 @@ though, and has since been slightly modified)-->
                     <token min="0" max="1">ne</token>
                     <marker>
                         <token postag="V .*" postag_regexp="yes">
-                            <exception postag="V .* 3 p" postag_regexp="yes"/></token>
+                            <exception postag="V .* 3 p|V ppa.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Lorsque 'la plupart' est employé seul, sans complément, le verbe devrait être à la 3ᵉ personne du pluriel.</message>
@@ -21223,6 +21224,7 @@ though, and has since been slightly modified)-->
                 <example>La plupart <marker>pensent</marker> qu’il gagnera.</example>
                 <example correction="pensent">La plupart ne <marker>pense</marker> pas qu’il gagnera.</example>
                 <example>La plupart ne <marker>pensent</marker> pas qu’il gagnera.</example>
+                <example>pour la plupart désemparés</example>
             </rule>
             <rule>
                 <pattern>
@@ -21587,7 +21589,7 @@ though, and has since been slightly modified)-->
                     <example correction="rééditer"><marker>re-éditer</marker>.</example>-->
                 <example correction="réédition"><marker>re-édition</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>mini</token>
                     <token min="0">-</token>
@@ -21597,7 +21599,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="mini$1" case_conversion="preserve"/></suggestion>
                 <example correction="minigolf">Parcours de <marker>mini golf</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">mega|méga</token>
                     <token min="0">-</token>

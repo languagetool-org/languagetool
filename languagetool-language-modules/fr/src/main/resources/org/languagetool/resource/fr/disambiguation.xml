@@ -2136,13 +2136,14 @@ RB => Règles Brutes
     </rule>
     <rule id="LAISSE" name="laisse">
         <pattern>
-            <token postag="R dem.*" postag_regexp="yes"/>
+            <token postag="R dem.*|[NZJ].*" postag_regexp="yes"/>
             <marker>
-                <token postag="V ind pres 3 s">laisse</token>
+                <token postag="V (ind|sub) pres 3 s" postag_regexp="yes">laisse</token>
             </marker>
+            <token min="0" postag="A"/>
             <token postag="J .*|V ppa .*" postag_regexp="yes"/>
         </pattern>
-        <disambig action="filter" postag="V ind pres 3 s"/>
+        <disambig action="filter" postag="V (ind|sub) pres 3 s"/>
     </rule>
     <rule id="PATIENTE" name="patiente">
         <pattern>
