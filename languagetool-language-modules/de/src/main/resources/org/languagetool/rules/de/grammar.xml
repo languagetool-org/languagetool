@@ -4812,7 +4812,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Gewehr</token>
                 </marker>
             </pattern>
-            <message>Hinweis: Gewehr = Schusswaffe, <suggestion>Gewähr</suggestion> = Garantie/Gewährleistung/Sicherheit</message>
+            <message>Meinten Sie <suggestion>Gewähr</suggestion> (Garantie/Gewährleistung/Sicherheit)? Ein Gewehr ist eine Schusswaffe.</message>
             <example correction="Gewähr">Alle Angaben ohne <marker>Gewehr</marker>.</example>
         </rule>
         <rulegroup id="SEHEN_STEHEN" name="sehen/stehen">
@@ -8737,7 +8737,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>tik</token>
                 <token>tok</token>
             </pattern>
-            <message>Meinten Sie <suggestion>TikTok</suggestion> (= App)?</message>
+            <message>Meinten Sie <suggestion>TikTok</suggestion> (= App/Videoportal)?</message>
             <url>https://de.wikipedia.org/wiki/TikTok</url>
             <example correction="TikTok"><marker>Tik tok</marker> wurde von ByteDance entwickelt.</example>
         </rule>
@@ -16022,7 +16022,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <message>Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
                 <short>Falsche Zeitform</short>
                 <example correction="">Aber <marker>morgen schien</marker> die Sonne.</example>
                 <example>Morgen wird die Sonne scheinen.</example>
@@ -16041,7 +16041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <message>Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
                 <short>Falsche Zeitform</short>
                 <example correction=""><marker>Morgen schien</marker> die Sonne.</example>
                 <example>Morgen wird die Sonne scheinen.</example>
@@ -16064,7 +16064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <message>Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
                 <short>Falsche Zeitform</short>
                 <example correction=""><marker>Nächstes Wochenende schien</marker> die Sonne.</example>
                 <example>Nächstes Wochenende wird die Sonne scheinen.</example>
@@ -38460,13 +38460,18 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="SCHENKEN_DATIV" name="'Dativ nach 'schenken'">
+          <antipattern>
+            <token>es</token>
+            <token>gibt</token>
+            <token>ihn</token>
+          </antipattern>
           <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes">helfen|geben|schenken|vertrauen|folgen</token>
             <marker><token>ihn</token></marker>
             <token min="0">nicht</token>
             <token postag="PRO:(POS|DEM):AKK:.+|PKT" postag_regexp="yes"/>
           </pattern>
-          <message>Kasusfehler: Das Personalpronomen nach '\1' muss im Dativ stehen (z.B. 'ihm').</message>
+          <message>Bitte prüfen, ob das Personalpronomen nach '\1' im Dativ stehen muss (z.B. 'ihm').</message>
           <suggestion>ihm</suggestion>
           <example correction="ihm">Sie schenkt <marker>ihn</marker> ihre volle Aufmerksamkeit.</example>
           <example correction="ihm">Ich vertraue <marker>ihn</marker> nicht.</example>
