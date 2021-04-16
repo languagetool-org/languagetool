@@ -61,6 +61,18 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Bekommst sogar eine Sicherheitszulage"
+      pos("SENT_START"),
+      posRegex("VER:2:SIN:.*"),
+      posRegex("ART.*|ADV.*|PRO:POS.*")
+    ),
+    Arrays.asList(
+      // "Bringst nicht einmal so etwas Einfaches zustande!"
+      pos("SENT_START"),
+      posRegex("VER:2:SIN:.*"),
+      token("nicht")
+    ),
+    Arrays.asList(
       // "Da machte er auch vor dem eigenen Volk nicht halt."
       new PatternTokenBuilder().token("machen").matchInflectedForms().setSkip(-1).build(),
       token("halt")
