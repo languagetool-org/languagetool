@@ -279,17 +279,13 @@ public class German extends Language implements AutoCloseable {
   }
   
   @Override
-  public String toAdvancedTypography (String input) {
+  public String toAdvancedTypography(String input) {
     String output = super.toAdvancedTypography(input);
-    
     //non-breaking space
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     return output;
   }
-  
-
-
   
   @Override
   public LanguageMaintainedState getMaintainedState() {
