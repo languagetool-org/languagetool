@@ -43,7 +43,8 @@ public class FrenchTagger extends BaseTagger {
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|auto-|re-)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+|V ppa.*");
-  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(demi-|péri-|anti-|géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(mini-|méga-|demi-|péri-|anti-|géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_FOR_NOUN_ADJ = Pattern.compile("(mini|méga)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   //|nord-|sud-
   
   public FrenchTagger() {
@@ -155,6 +156,25 @@ public class FrenchTagger extends BaseTagger {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
           final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      if (!additionalTaggedTokens.isEmpty()) {
+        return additionalTaggedTokens;
+      }
+    }
+  //Any well-formed verb with prefixes is tagged as a verb copying the original tags
+    matcher = PREFIXES_FOR_NOUN_ADJ.matcher(word);
+    if (matcher.matches()) {
+      final String possibleNoun = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleNoun));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = NOUN_ADJ.matcher(posTag);
           if (m.matches()) {
             String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));

@@ -74,6 +74,8 @@ public class FrenchTaggerTest {
     TestTools.myAssert("va-t'en", "va/[aller]V imp pres 2 s|va/[aller]V ind pres 3 s -- -t/[te]R pers obj 2 s -- 'en/[en]R pers obj 3 sp", tokenizer, tagger);
         
     TestTools.myAssert("Al-Qaïda","Al-Qaïda/[Al-Qaïda]Z f sp", tokenizer, tagger);
+    
+    TestTools.myAssert("minitélévision","minitélévision/[minitélévision]N f s", tokenizer, tagger);
   }
 
 }
