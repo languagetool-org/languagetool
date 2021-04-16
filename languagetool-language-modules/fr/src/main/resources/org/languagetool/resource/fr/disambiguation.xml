@@ -1255,6 +1255,18 @@ RB => Règles Brutes
     <rulegroup id="V_PPR" name="prep + v_ppr">
         <!-- gérondif -->
         <rule>
+            <antipattern>
+                <token>mal</token>
+                <token>venant</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>venant</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppr"/>
+        </rule>
+        <rule>
             <pattern>
                 <token postag="P.*" postag_regexp="yes"/>
                 <marker>
