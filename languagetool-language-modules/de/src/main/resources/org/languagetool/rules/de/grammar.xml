@@ -10106,7 +10106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="AD_HOC_MITTEILUNG" name="Ad-hoc-Meldung" default="temp_off">
+        <rulegroup id="AD_HOC_MITTEILUNG" name="Ad-hoc-Meldung">
             <rule>
                 <pattern>
                     <token>ad</token>
@@ -12912,7 +12912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="genauso|ebenso">Wir hätten <marker>genau so</marker> gut in der Uni bleiben können.</example>
                 <example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt und genau drei Karten im Stock verbleiben.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>genau</token>
@@ -37523,38 +37523,44 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="AGREEMENT_DER_NEU" name="Der (Das) Haus ist">
-            <!-- Experimental new Agreement rules that only offer one correction that is always correct -->
-            <rule default="temp_off">
+        <rulegroup id="SIMPLE_AGREEMENT_NEU" name="Der (Das) Haus ist">
+            <short>Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus</short>
+            <antipattern>
+                <token regexp="yes">Recht|Glück</token><!-- Dusel, Zeit, Lust (for other rules) -->
+                <token regexp="yes">hat(te)?</token>
+            </antipattern>
+
+            <!-- TODO: Seiner Haus ist schön -->
+            <!-- TODO: Dieser Haus ist schön -->
+            <!-- TODO: der Haus + SENT_END -->
+            <!-- TODO: die Haus + SENT_END -->
+
+            <rule><!-- der Haus ist/war -->
                 <antipattern><!-- Ein Arzt der Glück hat / Es gibt immer einen der Glück hat -->
-                    <token postag="(SUB|ADJ):.+:MAS.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):MAS.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="6">.*[a-zäöüß].*</token>
+                    <token postag="(SUB|ADJ):.+:MAS.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):MAS.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="5">.*[a-zäöüß].*</token>
                     <token>der</token>
-                </antipattern>
-                <antipattern>
-                    <token>der</token>
-                    <token regexp="yes">Recht|Glück|Lust</token>
-                    <token regexp="yes">hat(te)?</token>
                 </antipattern>
                 <antipattern><!-- Der, der Lust hat, kann ... -->
                     <token>der</token>
                     <token min="0">,</token>
                     <token>der</token>
                 </antipattern>
-                <pattern><!-- der Haus ist/war -->
+                <pattern>
                     <marker>
                         <token>der</token>
                         <token postag="SUB:NOM:SIN:NEU">
                             <exception postag=".+:NOM:SIN:MAS.*" postag_regexp="yes" />
-                            <exception postag=".+:GEN:PLU:NEU.*" postag_regexp="yes" />
+                            <exception postag=".+:GEN:PLU:.*" postag_regexp="yes" />
                             <exception postag=".+:GEN:SIN:FEM.*" postag_regexp="yes" />
                             <exception regexp="yes">&sprachadj1;</exception>
                         </token>
                     </marker>
                     <token postag="VER:3:SIN:(PRT|PRÄ):NON|VER:MOD:3:SIN:.+" postag_regexp="yes" />
                 </pattern>
-                <message>Test.</message>
+                <message>Hier scheint der Artikel nicht korrekt zu sein.</message>
                 <suggestion>das \2</suggestion>
                 <example correction="Das Haus"><marker>Der Haus</marker> ist schön.</example>
+                <example>Das Haus ist schön.</example>
                 <example>Der Plan der Schule ist es, alle Schüler glücklich zu machen.</example>
                 <example>Der Harz ist ein deutsches Mittelgebirge.</example>
                 <example>Ich möchte jemanden einstellen, der Französisch spricht.</example>
@@ -37569,6 +37575,84 @@ Andere Projekte</example>
                 <example>Der Hermelin ist das niedlichste Tier aller Zeiten.</example>
                 <example>Tom ist hier nicht der einzige, der Französisch kann.</example>
                 <example>Wer von euch, der Englisch kann, ist denn dazu bereit?</example>
+            </rule>
+            <rule default="temp_off"><!-- die Haus ist/war -->
+                <antipattern><!-- Eine Ärztin die Glück hat / Es gibt immer eine die Glück hat -->
+                    <token postag="(SUB|ADJ):.+:FEM.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):FEM.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="5">.*[a-zäöüß].*</token>
+                    <token>die</token>
+                </antipattern>
+                <antipattern><!-- Die, die Lust hat, kann ... -->
+                    <token>die</token>
+                    <token min="0">,</token>
+                    <token>die</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>die</token>
+                        <token postag="SUB:NOM:SIN:NEU">
+                            <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
+                            <exception postag=".+:NOM:PLU:.*" postag_regexp="yes" />
+                            <exception regexp="yes">&sprachadj1;</exception>
+                        </token>
+                    </marker>
+                    <token postag="VER:3:SIN:(PRT|PRÄ):NON|VER:MOD:3:SIN:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Hier scheint der Artikel nicht korrekt zu sein.</message>
+                <suggestion>das \2</suggestion>
+                <example correction="Das Haus"><marker>Die Haus</marker> ist schön.</example>
+                <example correction="das Niederland">1621 errichtete sein späterer Schwager Adam Georg Gans Edler von Putlitz (1590–1660) eine Kompanie von 300 Mann, mit der er in <marker>die Niederland</marker> zog.</example>
+                <example>Das Haus ist schön.</example>
+                <example>Sprache, die Wissen schafft.</example>
+                <example>Ich werde die junge Frau einstellen, die Französisch kann.</example>
+                <example>Ich kenne eine die Glück hat.</example>
+                <example>Die Bild kann auch nur berichten, was stattgefunden hat.</example>
+                <example>Maria ist hier nicht die einzige, die Französisch kann.</example>
+            </rule>
+            <rule default="temp_off"><!-- eine Haus ist/war -->
+                <antipattern>
+                    <token skip="2">das</token>
+                    <token>eine</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[dms]eine|ihre</token>
+                    <token postag=".+:NOM:PLU:.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[dms]?eine|ihre</token>
+                        <token postag="SUB:NOM:SIN:NEU">
+                            <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                    <token postag="VER:3:SIN:(PRT|PRÄ):NON|VER:MOD:3:SIN:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Hier scheint der Artikel nicht korrekt zu sein.</message>
+                <suggestion><match no="1" regexp_match="e$" regexp_replace="" /> \2</suggestion>
+                <example correction="Ein Haus"><marker>Eine Haus</marker> ist schön.</example>
+                <example>Das eine Haus ist schön.</example>
+            </rule>
+            <rule default="temp_off"><!-- diese Haus ist/war -->
+                <antipattern><!-- als diese Geld verlor -->
+                    <token postag="KON:UNT" />
+                    <token>diese</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">diese</token>
+                        <token postag="SUB:NOM:SIN:NEU">
+                            <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                    <token postag="VER:3:SIN:(PRT|PRÄ):NON|VER:MOD:3:SIN:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Hier scheint der Artikel nicht korrekt zu sein.</message>
+                <suggestion>dieses \2</suggestion>
+                <example correction="Dieses Haus"><marker>Diese Haus</marker> ist schön.</example>
+                <example>Dieser Tag ist Christus eigen</example>
+                <example>Diesem Auto ist alles egal.</example>
+                <example>... noch bevor diese Geld verliert.</example>
+                <example>1878 wurde er Stadt-Herausgeber von der Zeitung „The World“, aber wurde 1882 gefeuert, als diese Geld verlor.</example>
+                <example>(14 Songs, 2008) Diese CD ist die letzte dieses Ensembles</example>
             </rule>
         </rulegroup>
         <rulegroup id="HALT_MACHEN" name="halt machen (Halt machen / haltmachen)">
@@ -43994,6 +44078,46 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rulegroup id="WENN_DOCH_KOMMA" name="Komma nach 'wenn doch'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT|KON:NEB" postag_regexp="yes" />
+                    <token regexp="yes">wenn|falls</token>
+                    <marker>
+                        <token regexp="yes">doch|ja|nicht</token>
+                    </marker>
+                    <token>dann</token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>\3,</suggestion>
+                <example correction="doch,">Wenn <marker>doch</marker> dann können wir uns auch später treffen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">nicht|doch</token>
+                    <token postag="VER:.*:PRÄ:NON.*" postag_regexp="yes" />
+                    <token postag="PKT|KON:NEB" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START|PKT|KON:NEB" postag_regexp="yes" />
+                    <token regexp="yes">wenn|falls</token>
+                    <marker>
+                        <token regexp="yes">doch|ja|nicht</token>
+                    </marker>
+                    <token postag="VER:IMP.*|VER:(MOD|AUX).*|VER:.*:PRÄ:NON.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">
+                        [a-zäöü].*
+                        <exception regexp="yes" case_sensitive="no">einen?|gar|mal</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>\3,</suggestion>
+                <example correction="doch,">Wenn <marker>doch</marker> würde ich mich nochmal bei Ihnen melden.</example>
+                <example>Es ist schwierig, wenn nicht gar unmöglich, für mich, ihn im Tennis zu schlagen.</example>
+                <example>Wenn nicht gezählt wird, wäre es nicht besser, wenn ich den einfach weglasse?</example>
+                <example>Woher nehmen, wenn nicht stehlen?</example>
+                <example>Aber wenn doch mal was englisches vorkommt, kann ich dir diese Übersetzungsseite empfehlen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="UND_SUB_KOMMA" name="Fehlerhaftes Komma nach 'und/oder'">
             <rule>
                 <antipattern>
