@@ -15140,7 +15140,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="PARA_MI_ERA" name="para mi/mí era" default="temp_off">
+        <rule id="AVECES" name="aveces/a veces" default="temp_off">
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>aveces</token>
+            </antipattern>
+            <pattern>
+                <token>aveces</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>a veces</suggestion>? "Aveces" es una forma correcta del v. 'avezar'.</message>
+            <example correction="A veces"><marker>Aveces</marker> pienso lo mismo.</example>
+            <example>Cuando te aveces, lo entenderás.</example>
+        </rule>
+        <rule id="PARA_MI_ERA" name="para mi/mí era">
             <pattern>
                 <token>para</token>
                 <marker>
@@ -15152,7 +15164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>mí</suggestion>
             <example correction="mí">Para <marker>mi</marker> era el mejor.</example>
         </rule>
-        <rule id="DEBIDO_AUN" name="debido aun/a un" default="temp_off">
+        <rule id="DEBIDO_AUN" name="debido aun/a un">
             <pattern>
                 <token>debido</token>
                 <marker>
@@ -15163,7 +15175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>a un</suggestion>
             <example correction="a un">Fue debido <marker>aun</marker> problema eléctrico.</example>
         </rule>
-        <rule id="HICO" name="hico/hizo" default="temp_off">
+        <rule id="HICO" name="hico/hizo">
             <pattern>
                 <token>hico</token>
             </pattern>
