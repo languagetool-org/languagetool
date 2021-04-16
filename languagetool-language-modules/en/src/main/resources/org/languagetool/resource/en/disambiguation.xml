@@ -1503,11 +1503,10 @@
      </rule>
       -->
     <rule name="no determiner + have as verb/noun -&gt;have/verb" id="NODT_HAVE">
-        <!-- MFU 2021-04-13: These AP are deliberately broken to prevent their affecting the rule -->
         <antipattern><!-- #4814 auxiliary with perfect tenses -->
             <token>have</token>
             <token min="0" max="4" postag="RB"/>
-            <token postag="xVBN"/>
+            <token postag="VBN"/>
         </antipattern>
         <antipattern><!-- #4814 Subject pronouns -->
             <token>
@@ -1544,15 +1543,13 @@
         <example type="untouched">If you have 10 stores, would they not...</example>
 <!--        <example type="untouched">What have you done?</example>
         <example type="untouched">Tell me, who have Mary and your older brother — the one in Manchester — seen?</example> -->
-<!-- Should be untouched, but if I add AP, many grammar rules fail:
         <example type="untouched">The United States have never had a female president.</example>
         <example type="untouched">The United States/US have never had a female president.</example>
         <example type="untouched">These uninstalls have worked.</example>
         <example type="untouched">Many others have been hiding from the police.</example>
         <example type="untouched">I know several others that have also had problems.</example>
         <example type="untouched">The 3 SMEs that have already committed to being on film need to be prepared.</example>
-        <example type="untouched">These words have errors.</example>
--->
+<!--        <example type="untouched">These words have errors.</example> -->
         <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">I thought it would be better to <marker>have</marker> the Cleburne desk at zero.</example><!-- Infinitive after 'to' -->
         <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">These tests can sometimes <marker>have</marker> unintended consequences.</example><!-- Infinitive after a modal verb -->
         <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/VB]">Will pigs ever <marker>have</marker> wings?</example><!-- Infinitive after a modal verb -->
@@ -5323,6 +5320,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNP?S" postag_regexp="yes" />
             <token postag="JJ" />
         </antipattern>
+        <antipattern><!-- #4814 many other have been -->
+            <token postag_regexp="yes" postag="P?DT"/>
+            <token postag_regexp="yes" postag="JJ.?"/>
+            <token chunk="B-VP" postag="VBP">have</token>
+            <token chunk="I-VP" postag="VBN"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5373,6 +5376,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">You can easily get stunning displays, as these beautiful flowers on the counter show.</example><!-- #3672 show/E-NP-singular -->
         <example type="untouched">I have a feeling dogs are so stupid because they trust us humans.</example>
         <example type="untouched">Your screenshot number 2 is taken directly in MS Word?</example><!-- #3991 -->
+        <example type="untouched">Many other have been hiding from the police.</example><!-- #4814 Incorrect grammar -->
     </rule>
 
     <rule name="required to" id="required_to">
@@ -9970,6 +9974,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>other</token>
             <token postag="VBZ" />
         </antipattern>
+        <antipattern><!-- #4814 many other have been -->
+            <token postag_regexp="yes" postag="P?DT"/>
+            <token postag_regexp="yes" postag="JJ.?"/>
+            <token chunk="B-VP" postag="VBP">have</token>
+            <token chunk="I-VP" postag="VBN"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -10040,6 +10050,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 <!--         <example type="untouched">If any professional want to know the new practices of their field it is only a click away.</example>Premium #1564, incorrect grammar. MFU 2020-08-31 I do not know how to make a general antipattern for this sentence. -->
         <example type="untouched">An elder woman points to the boy.</example>
         <example type="untouched">Giving a patient antibiotics will make him feel better.</example>
+        <example type="untouched">Many other have been hiding from the police.</example><!-- #4814 Incorrect grammar -->
     </rule>
 
     <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
