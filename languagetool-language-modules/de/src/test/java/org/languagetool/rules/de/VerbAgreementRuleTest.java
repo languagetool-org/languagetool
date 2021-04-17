@@ -132,6 +132,7 @@ public class VerbAgreementRuleTest {
     assertGood("❌Du fühlst Dich unsicher?");
     assertGood("Bekommst sogar eine Sicherheitszulage");
     assertGood("Bringst nicht einmal so etwas Einfaches zustande!");
+    assertGood("Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

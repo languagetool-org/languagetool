@@ -61,10 +61,9 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      // "Bekommst sogar eine Sicherheitszulage"
-      pos("SENT_START"),
-      posRegex("VER:2:SIN:.*"),
-      posRegex("ART.*|ADV.*|PRO:POS.*")
+      // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
+      token("er"),
+      token("gleich")  // ist hier kein Verb
     ),
     Arrays.asList(
       // "Bringst nicht einmal so etwas Einfaches zustande!"
