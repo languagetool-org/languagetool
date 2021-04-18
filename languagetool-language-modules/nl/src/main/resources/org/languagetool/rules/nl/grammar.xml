@@ -261,6 +261,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+				<antipattern><token regexp="yes">[^a-z]+</token><token regexp="yes">[0-9]+</token><token regexp="yes">[^a-z]+</token></antipattern>
 				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
 				</antipattern>
 				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">en|of</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
@@ -11409,8 +11410,8 @@ onwaarschijnlijk
 			<antipattern><token/><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
 			<rule>
 				<pattern case_sensitive="yes">
-					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M</exception></token>
-					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden</exception></token>
+					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ</exception></token>
+					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception></token>
 				</pattern>
 				<message>Als <match no="1"/> en <match no="2"/> samen één (Nederlandstalig) begrip zijn, dan is het: <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/afkorting-in-samenstelling/</url>
@@ -17507,9 +17508,11 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>maar</token><token>liefst</token></antipattern>
+				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token>laten</token><token>we</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">me|hem|haar|ons|hen</token><token>maar</token></antipattern>
-				<antipattern><token regexp="yes">[,;)(–]|nog|misschien</token><token>maar</token></antipattern>
+				<antipattern><token regexp="yes">[,;)(–-]|&quot;|nog|misschien</token><token>maar</token></antipattern>
 				<antipattern><token regexp="yes">blijf|ga</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>er</token><token>maar</token></antipattern>
 				<antipattern><token>al</token><token>is</token><token>het</token><token>maar</token></antipattern>
@@ -31828,6 +31831,7 @@ steenwijk;Steenwijk
 		<rulegroup id="ZAL_ZUL" name="zal of zul">
 			<rule>
 				<!-- TODO: false positives bestrijden -->
+				<antipattern><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>zal</token></antipattern>
 				<pattern>
 					<token><exception regexp="yes">ik|het|men|hij|zij|ze</exception></token>
 					<marker>
