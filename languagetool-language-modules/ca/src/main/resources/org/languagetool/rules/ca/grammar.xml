@@ -1982,6 +1982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Desmarcar-nos de les estructures tipus supermercats.</example>
             <example>Les paraules llibertat, natura, respecte.</example>
             <example>Amb una goma tipus triatló.</example>
+            <example>Un castell de tal importància aixecat sobre el tossal.</example>
             <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -15321,21 +15322,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Pàg. 23-24.</example>
             <example>Premeu la tecla Av Pàg.</example>
         </rule>
-        <rule id="ADRECA_DIRECCIO" name="*adreça/direcció">
-            <pattern>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes">adreça</token>
-                </marker>
-                <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
-                <token regexp="yes">inter(í|ina|ins|ines)|partits?|moviments?|\p{Lu}+<exception regexp="yes" case_sensitive="yes">RAM|IP|IANA</exception></token>
-            </pattern>
-            <message>Possible error de traducció automàtica.</message>
-            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
-            <example correction="direcció">Forma part de l'<marker>adreça</marker> del PSOE.</example>
-            <example correction="direccions">Les <marker>adreces</marker> dels partits.</example>
-            <example>S'adreça al NW.</example>
-            <example>Sol·licitar una adreça a la IANA.</example>
-        </rule>
+        <rulegroup id="ADRECA_DIRECCIO" name="*adreça/direcció">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes" inflected="yes">adreça</token>
+                    </marker>
+                    <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
+                    <token regexp="yes">inter(í|ina|ins|ines)|partits?|moviments?</token>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
+                <example correction="direccions">Les <marker>adreces</marker> dels partits.</example>
+                <example>S'adreça al NW.</example>
+                <example>Sol·licitar una adreça a la IANA.</example>
+                <example>adreça RAM</example>
+                <example>adreça IANA</example>
+                <example>ADREÇA D'ENVIAMENT.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes" inflected="yes">adreça</token>
+                    </marker>
+                    <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
+                <example correction="direcció">Forma part de l'<marker>adreça</marker> del PSOE.</example>
+                <example correction="direcció">Forma part de l'<marker>adreça</marker> del PP.</example>
+                <example>S'adreça al NW.</example>
+                <example>Sol·licitar una adreça a la IANA.</example>
+                <example>ADREÇA D'ENVIAMENT.</example>
+                <example>adreça IANA</example>
+            </rule>
+        </rulegroup>
         <!--<rule id="ENCARA_AIXI" name="*encara (i) així/així i tot" default="off">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
@@ -19929,7 +19951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">direcció</token>
                     </marker>
                     <token skip="1" regexp="yes">de|d'</token>
-                    <token regexp="yes">IP|internet|correu|xarxa|subxarxa|memòria|bits</token>
+                    <token regexp="yes">IP|internet|correu|xarxa|subxarxa|memòria|bits|enviament|tramesa</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">adreça</match></suggestion>?</message>
                 <example correction="adreça">Una <marker>direcció</marker> de 32 bits.</example>
@@ -35568,6 +35590,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="&#8239;K">A 30<marker>ºK</marker>.</example>
             <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
         </rule>
+        <rulegroup id="MARIA_ABREV" name="Maria/M.">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Ma|Mª</token>
+                    <token>.</token>
+                </pattern>
+                <message>L'abreviació de "Maria" és <suggestion>M.</suggestion></message>
+                <suggestion>Maria</suggestion>
+                <example correction="M.|Maria">Josep <marker>Ma.</marker> Font</example>
+                <example>Ma mare es diu Maria.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Mª</token>
+                </pattern>
+                <message>L'abreviació de "Maria" és <suggestion>M.</suggestion></message>
+                <suggestion>Maria</suggestion>
+                <example correction="M.|Maria">Josep <marker>Mª</marker> Font</example>
+                <example>Ma mare es diu Maria.</example>
+            </rule>
+        </rulegroup>
         <rule id="ORDINALS_SENSE_PUNT" name="ordinals sense punt: *5è./5è">
             <antipattern>
                 <token>.</token>
@@ -48228,7 +48271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes" regexp="yes">tècnic|tecnològic|científic|funcional|lingüístic|administratiu</token>
                 </pattern>
-                <message>Possible anglicisme. "Requeriment" pot ser adequada en llenguatge jurídic.</message>
+                <message>Possible anglicisme. "Requeriment" (instigació verbal o escrita) només és adequat en llenguatge jurídic.</message>
                 <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">requisit</match></suggestion>
                 <example correction="requisits">Els <marker>requeriments</marker> tècnics.</example>
             </rule>
@@ -48245,7 +48288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token skip="2" inflected="yes" regexp="yes">anàlisi|avaluació</token>
+                    <token skip="2" inflected="yes" regexp="yes">anàlisi|avaluació|aprovar|aprovació|avaluar|analitzar</token>
                     <marker>
                         <token inflected="yes">requeriment</token>
                     </marker>

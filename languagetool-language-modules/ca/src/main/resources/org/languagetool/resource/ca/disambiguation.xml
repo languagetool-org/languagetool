@@ -14545,7 +14545,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
-    <rulegroup id="QUE_COMPARATIU" name="'que' com a comparatiu">
+    <rule id="TAL" name="tal (no pronom)">
+        <pattern>
+            <and>
+                <token inflected="yes">tal</token>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </and>
+        </pattern>
+        <disambig action="remove" postag="PD.*|RG.*"/>
+    </rule>
+     <rulegroup id="QUE_COMPARATIU" name="'que' com a comparatiu">
         <!-- Excepcions amb "tenir, haver-hi, trobar..." ?? -->
         <!-- arriba un |moment|instant, tal punt
             no tenia cap altra missió que inculcar-li disciplina,
