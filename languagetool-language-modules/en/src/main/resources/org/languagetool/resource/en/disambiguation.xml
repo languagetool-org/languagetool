@@ -1955,7 +1955,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="NN"/>
         <example type="untouched">It's mine!</example>
-        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/NN]">It's my <marker>mine</marker>!</example>
+        <example type="ambiguous" inputform="mine[I/GEN_1S,mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/NN]">It's my <marker>mine</marker>!</example>
         <example type="untouched">The <marker>mine</marker> car is on the maintenance service!</example>
     </rule>
     <rule name="be + mine (verb/pron) -&gt; mine (pron)" id="BE_MINE">
@@ -1967,9 +1967,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="PRP$"/>
         <example type="untouched">This is a gold mine.</example>
-        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
-        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
-        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]"
+        <example type="ambiguous" inputform="mine[I/GEN_1S,mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[I/GEN_1S,mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[I/GEN_1S,mine/NN,mine/PRP$,mine/VB,mine/VBP]"
                      outputform="mine[mine/PRP$]">The bags to your left are <marker>mine</marker>.</example>
     </rule>
 
@@ -4214,7 +4214,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ"/>
         </pattern>
         <disambig postag="CD"/>
-        <example type="ambiguous" inputform="I[I/PRP]"
+        <example type="ambiguous" inputform="I[I/PRP,I/SUBJ_1S]"
                  outputform="I[I/CD]">Henry <marker>I</marker> is crowned King of England in Westminster Abbey.</example>
     </rule>
 
@@ -8211,7 +8211,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="PRP$"/>
       <example type="untouched">It's a coal mine.</example>
-      <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">It's <marker>mine</marker>.</example>
+      <example type="ambiguous" inputform="mine[I/GEN_1S,mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">It's <marker>mine</marker>.</example>
     </rule>
 
     <rule id="VBP_NN_VBZ" name="company -> noun">
@@ -9652,7 +9652,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig postag="NNP"/>
           <example type="untouched">I am glad!</example>
-          <example type="ambiguous" inputform="I[I/PRP]" outputform="I[I/NNP]">The <marker>I</marker>. A. P. A. is a reflection of the problems.</example>
+          <example type="ambiguous" inputform="I[I/PRP,I/SUBJ_1S]" outputform="I[I/NNP]">The <marker>I</marker>. A. P. A. is a reflection of the problems.</example>
         </rule>
 
         <rule id="I_CHING" name="I Ching">
@@ -9662,7 +9662,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
           <example type="untouched">I am glad!</example>
-          <example type="ambiguous" inputform="I[I/PRP]" outputform="I[I/NNP]">But a tossing of coins, with perhaps the added safeguard of reference to the oracles of the <marker>I</marker> Ching, the Chinese Book Of Changes, dictates the handling of the chosen materials.</example>
+          <example type="ambiguous" inputform="I[I/PRP,I/SUBJ_1S]" outputform="I[I/NNP]">But a tossing of coins, with perhaps the added safeguard of reference to the oracles of the <marker>I</marker> Ching, the Chinese Book Of Changes, dictates the handling of the chosen materials.</example>
         </rule>
 
         <rule name="You guys =>NNS" id="YOU_GUYS">
@@ -14691,277 +14691,4 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rulegroup id="PRP_TAGS_EXTRA" name="more detailed tags for personal pronouns">
-        <rule>
-            <pattern>
-                <token>he</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_3SM"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>her</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_3SF"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>her</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_3SF"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>hers</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_3SF"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>herself</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_3SF"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>him</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_3SM"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>himself</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_3SM"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>his</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_3SM"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>his</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_3SM"/></disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <token>I</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_1S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>it</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_3SN"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>it</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_3SN"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>its</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_3SN"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>its</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_3SN"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>itself</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_3SN"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>me</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_1S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>mine</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_1S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>my</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_1S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>myself</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_1S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>our</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_1P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>ours</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_1P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>ourselves</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_1P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>she</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_3SF"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>their</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_3P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>their</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_3S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>theirs</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_3P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>theirs</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_3S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>them</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_3P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>them</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_3S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>themself</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_3S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>themselves</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_3P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>they</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_3P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>they</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_3S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>us</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_1P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>we</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_1P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>you</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_2P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>you</token>
-            </pattern>
-            <disambig action="add"><wd pos="OBJ_2S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>you</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_2P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>you</token>
-            </pattern>
-            <disambig action="add"><wd pos="SUBJ_2S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>your</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_2P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>your</token>
-            </pattern>
-            <disambig action="add"><wd pos="POSS_2S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>yours</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_2P"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>yours</token>
-            </pattern>
-            <disambig action="add"><wd pos="GEN_2S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>yourself</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_2S"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>yourselves</token>
-            </pattern>
-            <disambig action="add"><wd pos="REFL_2P"/></disambig>
-        </rule>
-    </rulegroup>
-    
 </rules>
