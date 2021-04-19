@@ -849,7 +849,7 @@ RB => Règles Brutes
     <rule name="dire vrai" id="DIRE_VRAI">
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">dire</token>
-            <token postag="N m s">vrai</token>
+            <token postag="N m s" regexp="yes">vrai|adieu|bonjour|stop</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1018,6 +1018,24 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
+    <rule id="IMPRIMANTE" name="imprimante">
+        <pattern>
+            <marker>
+                <token postag="N f.*" postag_regexp="yes" inflected="yes">imprimante</token>
+                <token postag="N m s">jet</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="FORMAT" name="format">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">carré</token>
+                <token postag="N m s">format</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="FRITES" name="frites">
         <pattern>
             <token inflected="yes" regexp="yes">(demi-)?(poulet|burger|hamburger)</token>
@@ -1336,7 +1354,7 @@ RB => Règles Brutes
     <rule id="N_SUIVI_NP" name="N + NP">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée</token>
             </marker>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
@@ -2106,7 +2124,7 @@ RB => Règles Brutes
                     <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
                 </marker>
                 <token min="0" max="2" regexp="yes">de|la</token>
-                <token regexp="yes">attention|gymnastique|appel</token>
+                <token regexp="yes">attention|gymnastique|appel|carrière|profil|semblant</token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -3590,7 +3608,7 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <marker>
-                    <token postag="V ind.*" postag_regexp="yes" regexp="yes">dit|fait
+                    <token postag="V ind.*" postag_regexp="yes" regexp="yes">dit|fait|estime
                         <exception scope="previous" inflected="yes">avoir</exception>
                         <exception scope="previous" regexp="yes">tas|ma</exception>
                         <exception scope="previous" postag="P.*" postag_regexp="yes"/></token>

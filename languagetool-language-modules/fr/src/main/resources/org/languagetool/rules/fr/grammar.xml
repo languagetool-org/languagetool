@@ -708,6 +708,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
@@ -723,13 +729,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- unusually adjective-->
                 <token>bus</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">BMW|Renault</token>
+                <token>coupé</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}.*</token>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="number"/>
                     <feature id="gender"/>
                     <token postag="J .*" postag_regexp="yes">
-                        <exception postag="_GN_.*|V ppr" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">appeler|baptiser</exception>
+                        <exception postag="_GN_.*|V ppr|Z.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">appeler|baptiser|classer</exception>
                         <exception regexp="yes">\p{Lu}+</exception></token>
                     <token postag="[NZ] .*" postag_regexp="yes">
                         <exception postag="J e sp"/></token>
@@ -767,6 +781,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>les 1re et 2e compagnies</example>
             <example>Alternant route goudronnée et sentier</example>
             <example>Avenue Adolphe Max</example>
+            <example>2 Carrés format 13 x 13 cm</example>
+            <example>Chers mesdames et messieurs,</example>
+            <example>Classée patrimoine mondial de l'UNESCO</example>
+            <example>Communauté de Communes Flandre-Lys.</example>
+            <example>Correspondant UE/OTAN à Bruxelles</example>
+            <example>Jean Norton Cru estime qu'il s'agit bien d'un témoignage.</example>
+            <example>Rick Graves demande au général</example>
+            <example>Julien porte des lunettes rondes comme celles de John Lennon.</example>
+            <example>Léonard Mara</example>
+            <example>Maître Armelle Demy accepte de le défendre en cas de procès.</example>
+            <example>Musée Rembrandt à Amsterdam.</example>
+            <example>Musée national de Tokyo.</example>
             <!--<example>et qui regarde les autres manger</example>
             Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.-->
         </rule>
