@@ -16337,7 +16337,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rulegroup id="ESPECIAL_ESPACIAL" name="especial/espacial" default="temp_off">
+        <rule id="ELA_ELS" name="ela/els">
+            <pattern>
+                <token>ela</token>
+                <token postag="N.[MC][PN].*|A..[MC][PN].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Possible error de picatge.</message>
+            <suggestion>els \2</suggestion>
+            <example correction="els clàssics">Aquesta setmana <marker>ela clàssics</marker> de sempre.</example>
+        </rule>
+        <rulegroup id="ESPECIAL_ESPACIAL" name="especial/espacial">
             <rule>
                 <pattern>
                     <token>agència</token>
