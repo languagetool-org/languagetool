@@ -1506,7 +1506,7 @@
         <antipattern><!-- #4814 auxiliary with perfect tenses -->
             <token>have</token>
             <token min="0" max="4" postag="RB"/>
-            <token postag="VBN"/>
+            <token chunk_re=".-VP" postag="VBN"/>
         </antipattern>
         <antipattern><!-- #4814 Subject pronouns -->
             <token>
@@ -1515,6 +1515,13 @@
             <token regexp="yes">I|you|we|they</token>
             <token min="0" max="4" postag="RB"/>
             <token>have</token>
+        </antipattern>
+        <antipattern><!-- #4814 Subject pronouns: have you done...? -->
+            <token>have</token>
+            <token regexp="yes">I|you|we|they</token>
+            <token min="0" max="4" postag="RB"/>
+            <token skip="-1" chunk_re=".-VP" postag="VBN"/>
+            <token>?</token>
         </antipattern>
         <pattern>
             <token>
@@ -1541,8 +1548,9 @@
         <example type="untouched">Nevertheless, you have the time to help, don't you?</example>
         <example type="untouched">We already have purchased it.</example>
         <example type="untouched">If you have 10 stores, would they not...</example>
-<!--        <example type="untouched">What have you done?</example>
-        <example type="untouched">Tell me, who have Mary and your older brother — the one in Manchester — seen?</example> -->
+        <example type="untouched">What have you done?</example>
+        <example type="untouched">How many (or how few) important tests have you already done, my good man?</example>
+<!--        <example type="untouched">Tell me, who have Mary and your older brother — the one in Manchester — seen?</example> -->
         <example type="untouched">The United States have never had a female president.</example>
         <example type="untouched">The United States/US have never had a female president.</example>
         <example type="untouched">These uninstalls have worked.</example>
