@@ -21794,39 +21794,42 @@ though, and has since been slightly modified)-->
                     <example correction="rééditer"><marker>re-éditer</marker>.</example>-->
                 <example correction="réédition"><marker>re-édition</marker>.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>mini</token>
+                    <token regexp="yes">[a-z].*-[a-z].*</token>
+                </antipattern>
+                   <antipattern>
+                    <token>mini</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes">des?</token>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>mini</token>
                     <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">[io].*</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
+                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="mini$1" case_conversion="preserve"/></suggestion>
                 <example correction="minigolf">Parcours de <marker>mini golf</marker>.</example>
                 <example correction="minitélévision">Une <marker>mini télévision</marker>.</example>
+                <example>Une <marker>mini salle</marker> des fêtes.</example>
+                <example>Une <marker>mini idole</marker> est apparue.</example>
+                <example>Un <marker>mini coffre-fort</marker> est indispensable.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">mega|méga</token>
                     <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">[iu].*</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
+                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="méga$1" case_conversion="preserve"/></suggestion>
                 <example correction="mégahertz">Les <marker>mega hertz</marker>.</example>
                 <example correction="mégaoctets">Les <marker>méga octets</marker>.</example>
                 <example correction="mégafête">Une <marker>méga fête</marker>.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token regexp="yes">méga|mini</token>
-                    <!-- TODO: extend -->
-                    <token postag="[NJ].*" postag_regexp="yes"/>
-                </pattern>
-                <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
-                <suggestion>\1\2</suggestion>
-                <suggestion>\1-\2</suggestion>
-                <example correction="miniréfrigérateurs|mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
+                <example>Les <marker>méga ulcères</marker> font très mal.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
