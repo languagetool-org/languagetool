@@ -9000,6 +9000,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" postag="NNS"/>
             <token chunk="E-NP-plural" postag_regexp="yes" postag="NN.*"/>
         </antipattern>
+        <antipattern><!-- ... and how it can increase when several other related factors stays constant. -->
+            <token postag="NNS" chunk_re="E-NP-plural" />
+            <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -9033,6 +9037,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Marketing to Kids Gets More Savvy with New Technologies.</example><!-- #2536 -->
         <example type="untouched">Here is the draft of the needs assessment for global standards.</example><!-- #3356 -->
         <example type="untouched">Yet now the very spirit of the times demands great, courageous purity.</example><!-- #3355 -->
+        <example type="untouched">Incorrect grammar: ... and how it can increase when several other related factors stays constant.</example>
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> fitness.</example>
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> tomorrow's calloused hands!</example>
         <example type="ambiguous" inputform="needs[need/NNS,need/VBZ,needs/RB]" outputform="needs[need/VBZ]">... do it first, because A <marker>needs</marker> assessment sooner than B does.</example>
