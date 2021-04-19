@@ -12517,15 +12517,17 @@ though, and has since been slightly modified)-->
                  <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
             </antipattern>
             <pattern>
-            <token postag="SENT_START"/>
-            <marker>
-                <token postag="Y"/>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token postag="Y"/>
                 </marker>
                 <token regexp="yes" skip="-1">[a-z].*</token>
                 <token regexp='yes'>[\.\!\?]</token>
             </pattern>
             <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
-            <example correction=""><marker>9</marker> manifestants ont été battus.</example>
+            <suggestion><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
+            <example correction="Neuf"><marker>9</marker> manifestants ont été battus.</example>
+            <example correction="Trente-quatre"><marker>34</marker> manifestants ont été battus.</example>
             <example>9 février 2020.</example>
             <example>9 et 10 rue Camus.</example>
             <example>9a est un bon score.</example>
