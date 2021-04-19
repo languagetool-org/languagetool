@@ -16019,6 +16019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
                             <exception regexp="yes">einen?</exception>
+                            <exception postag="VER.*(KJ2|PRÄ)" postag_regexp="yes"/>
                         </token>
                     </marker>
                 </pattern>
@@ -16028,6 +16029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Morgen wird die Sonne scheinen.</example>
                 <example><marker>Morgen scheint</marker> die Sonne.</example>
                 <example>Er hat seine Abreise auf <marker>morgen verschoben</marker>.</example>
+                <example>Aber <marker>morgen sollten</marker> wir trotzdem besser früher aufstehen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -16038,6 +16040,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
                             <exception regexp="yes">einen?</exception>
+                            <exception postag="VER.*(KJ2|PRÄ)" postag_regexp="yes"/>
                         </token>
                     </marker>
                 </pattern>
@@ -16046,8 +16049,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Morgen schien</marker> die Sonne.</example>
                 <example>Morgen wird die Sonne scheinen.</example>
                 <example><marker>Morgen scheint</marker> die Sonne.</example>
+                <example><marker>Morgen sollte</marker> die Sonne scheinen.</example>
             </rule>
-            <rule>
+            <rule default="off"><!-- not a likely L1 mistake, will cause FPs for "Bereits im nächsten Jahr wurde die UNO gegründet:" -->
                 <pattern>
                     <token postag="SENT_START" skip="-1">
                         <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
