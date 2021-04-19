@@ -299,15 +299,17 @@ class SingleCheck {
    * override existing marks
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara) {
-    Map <Integer, SingleProofreadingError[]> changedParasMap = new HashMap<>();
-    for (int nPara : changedParas) {
-      List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
-      for (int i = 0; i < minToCheckPara.size(); i++) {
-        pErrors.add(paragraphsCache.get(i).getMatches(nPara));
+    if (!mDocHandler.isSwitchedOff()) {
+      Map <Integer, SingleProofreadingError[]> changedParasMap = new HashMap<>();
+      for (int nPara : changedParas) {
+        List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
+        for (int i = 0; i < minToCheckPara.size(); i++) {
+          pErrors.add(paragraphsCache.get(i).getMatches(nPara));
+        }
+        changedParasMap.put(nPara, mergeErrors(pErrors, nPara));
       }
-      changedParasMap.put(nPara, mergeErrors(pErrors, nPara));
+      flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
     }
-    flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
   }
   
   /**

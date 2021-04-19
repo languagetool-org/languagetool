@@ -1220,9 +1220,17 @@ public class MultiDocumentsHandler {
         }
         checkDialog.start();
       } else if ("nextError".equals(sEvent)) {
+        if (this.isSwitchedOff()) {
+          MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
+          return;
+        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
       } else if ("refreshCheck".equals(sEvent)) {
+        if (this.isSwitchedOff()) {
+          MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
+          return;
+        }
         resetIgnoredMatches();
         resetDocument();
       } else if ("remoteHint".equals(sEvent)) {
