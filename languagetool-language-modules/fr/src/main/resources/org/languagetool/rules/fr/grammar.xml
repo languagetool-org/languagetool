@@ -874,7 +874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="Y"/>
-                <token regexp="yes">janv?|f[ée]vr?|avr|juill?|sept?|oct|nov|d[eé]c</token>
+                <token regexp="yes">janv?|f[ée]vr?|avr|juill?|sept?|oct|nov|d[eé]c|max(imum)?|min(imum)?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">cedex|stade|bouton|touche|commande|party|.html</token>
@@ -963,6 +963,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">-</token>
                 <token spacebefore="no" regexp="yes">\d+</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)CAC</token>
+                <token>40</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D m s" postag_regexp="yes"/>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">&apostrophe;</token>
+                <token postag="Y"/>
+                <token postag="[NJ] . s|V ppa . s" postag_regexp="yes"><exception>seconde</exception></token>
+            </antipattern>
             <pattern>
                 <token postag="Y">
                     <exception regexp="yes">[10]|[10][,.]\d+</exception>
@@ -978,8 +992,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="amis">10 <marker>ami</marker>.</example>
             <example correction="vues">Nous avons enregistré 554 000 <marker>vue</marker> ces 3 derniers mois.</example>
             <example correction="enfants">J’ai 4 <marker>enfant</marker>.</example>
+            <example correction="enfants">Les 4 <marker>enfant</marker>.</example>
             <example correction="parties">Le pays est découpé en 4 <marker>partie</marker>.</example>
             <example correction="yens">Je n'ai pas plus de 1000 <marker>yen</marker>.</example>
+            <example>Tu as vu le CAC 40 !</example>
+            <example>1er km en 3'25 hyper à l'aise en queue de groupe.</example>
+            <example>Il est disponible en taille 48 maximum.</example>
+            <example>Je serais plus pour recruter un 9 titulaire.</example>
             <example>Cela coûte 1,25 Euro.</example>
             <example>Cela coûte 1,2 Euro.</example>
             <example>Le cours d'allemand commence le 5 octobre.</example>
