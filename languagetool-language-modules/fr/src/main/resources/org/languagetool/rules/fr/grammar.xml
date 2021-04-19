@@ -591,6 +591,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&mois_annee;</token>
                 </antipattern>
                 <antipattern>
+                    <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                    <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="(P\+)?D [fe] (p|sp)" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                    <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token postag="R.*" postag_regexp="yes"/>
                     <token>grâce</token>
                     <token regexp="yes">à|aux</token>
@@ -642,6 +654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tous sauf neuf mourraient.</example>
                 <example>Je n'arrive pas à me débarrasser de cette bon Dieu de phrase !</example>
                 <example>On peut y ajouter le Jazz, la Soul, et désormais le Funk.</example>
+                <example>dans les 2e, 3e et 4e versions</example>
             </rule>
         </rulegroup>
         <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
@@ -683,15 +696,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
                 <token>mi</token>
                 <token>-</token>
+            </antipattern>
+            <antipattern>
+                <!-- unusually adjective-->
+                <token>bus</token>
             </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="number"/>
                     <feature id="gender"/>
                     <token postag="J .*" postag_regexp="yes">
-                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <exception postag="_GN_.*|V ppr" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">appeler|baptiser</exception>
+                        <exception regexp="yes">\p{Lu}+</exception></token>
                     <token postag="[NZ] .*" postag_regexp="yes">
                         <exception postag="J e sp"/></token>
                 </unify>
@@ -704,6 +743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="belles villes|belle ville">Le Japon est rempli de <marker>belle villes</marker>.</example>
             <example correction="beaux hommes|bel homme">C'est un <marker>belle hommes</marker>.</example>
             <example correction="mauvaises raisons|mauvaise raison">bonnes choses pour de <marker>mauvais raisons</marker></example>
+            <example correction="bon appétit|bons appétits">Bonne chance et <marker>bonne appétit</marker> !</example>
             <example>pour en trouver certaines grâce aux aides plus rapides</example>
             <example>les deux parcs éoliens offshore</example>
             <example>Faites attention à ce que je dis.</example>
@@ -723,6 +763,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bouclier de protection des données Union Européenne-États-Unis</example>
             <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
             <example>Dan n'a que rarement prêté attention à Linda.</example>
+            <example>1re et 2e années</example>
+            <example>les 1re et 2e compagnies</example>
+            <example>Alternant route goudronnée et sentier</example>
+            <example>Avenue Adolphe Max</example>
             <!--<example>et qui regarde les autres manger</example>
             Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.-->
         </rule>
@@ -830,10 +874,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d\d\d</token>
             </antipattern>
             <antipattern>
-                <token><exception regexp="yes">plus|mois</exception></token>
+                <token>
+                    <exception regexp="yes">plus|mois</exception></token>
                 <token>de</token>
                 <token regexp="yes">\d\d\d\d</token>
-                <token><exception regexp="yes" inflected="yes">&unites_de_mesure;|&monnaies;</exception></token>
+                <token>
+                    <exception regexp="yes" inflected="yes">&unites_de_mesure;|&monnaies;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">au|téléphone|tél|tph|phone</token>
@@ -950,12 +996,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <unify-ignore>
-                            <token>sur</token>
-                            <token postag="Y"/>
-                        </unify-ignore>
-                        <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token>sur</token>
+                        <token postag="Y"/>
+                    </unify-ignore>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
                 </unify>
             </antipattern>
             <antipattern>
@@ -975,7 +1021,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="Y"/>
                 <token regexp="yes">&apostrophe;</token>
                 <token postag="Y"/>
-                <token postag="[NJ] . s|V ppa . s" postag_regexp="yes"><exception>seconde</exception></token>
+                <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
+                    <exception>seconde</exception></token>
             </antipattern>
             <pattern>
                 <token postag="Y">
@@ -12496,25 +12543,25 @@ though, and has since been slightly modified)-->
     <category id="CAT_GRAMMAIRE" name="Grammaire">
         <rule id="NOMBRE_DEBUT_DE_PHRASE" name="nombre en début de phrase" default="temp_off">
             <antipattern>
-                 <token postag="Y"/>
-                 <token regexp="yes">[a-z]</token>
+                <token postag="Y"/>
+                <token regexp="yes">[a-z]</token>
             </antipattern>
             <antipattern>
-                 <token postag="Y"/>
-                 <token regexp="yes">bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vol|(?-i)CAD|(?-i)AM</token>
+                <token postag="Y"/>
+                <token regexp="yes">bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vol|(?-i)CAD|(?-i)AM</token>
             </antipattern>
             <antipattern>
-                 <token postag="Y"/>
-                 <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
+                <token postag="Y"/>
+                <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                 <token postag="Y"/>
-                 <token regexp="yes">[a-z].*</token>
-                 <token postag="Y"/>
+                <token postag="Y"/>
+                <token regexp="yes">[a-z].*</token>
+                <token postag="Y"/>
             </antipattern>
             <antipattern>
-                 <token postag="Y" skip="-1"/>
-                 <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
+                <token postag="Y" skip="-1"/>
+                <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
@@ -12522,7 +12569,7 @@ though, and has since been slightly modified)-->
                     <token postag="Y"/>
                 </marker>
                 <token regexp="yes" skip="-1">[a-z].*</token>
-                <token regexp='yes'>[\.\!\?]</token>
+                <token regexp="yes">[\.\!\?]</token>
             </pattern>
             <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
             <suggestion><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
@@ -21801,7 +21848,7 @@ though, and has since been slightly modified)-->
                     <token>mini</token>
                     <token regexp="yes">[a-z].*-[a-z].*</token>
                 </antipattern>
-                   <antipattern>
+                <antipattern>
                     <token>mini</token>
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
                     <token regexp="yes">des?</token>
@@ -21810,7 +21857,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token>mini</token>
                     <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">[io].*</exception></token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                        <exception regexp="yes">[io].*</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="mini$1" case_conversion="preserve"/></suggestion>
@@ -21824,7 +21872,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">mega|méga</token>
                     <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">[iu].*</exception></token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                        <exception regexp="yes">[iu].*</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="méga$1" case_conversion="preserve"/></suggestion>
@@ -38193,51 +38242,52 @@ though, and has since been slightly modified)-->
                 <example><marker>Combien il</marker> en a pris ?</example>
             </rule>
         </rulegroup>
-          <rule id="VIRGULE_MAIS_3" name="virgule mais 3" default="temp_off">
-                <antipattern>
-                    <token regexp="yes">mais|car</token>
-                    <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
-                </antipattern>
-                <antipattern>
-                    <token>non</token>
-                    <token regexp="yes">mais|car</token>
-                </antipattern>
-                <antipattern>
-                    <token>incroyable</token>
-                    <token regexp="yes">mais|car</token>
-                    <token>vrai</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">mais|car</token>
-                    <token postag="SENT_END"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">[%€$£]</exception></token>
-                    <token regexp="yes">mais|car</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[–—-]</token>
-                    <token regexp="yes">mais|car</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="[DP].*" postag_regexp="yes"/>
-                    <token>car</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">[^,‘’)\[."\/;\]\|:(\…'«»“”]+
-                        <exception postag="[DP].*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">car|mais</token>
-                    </marker>
-                </pattern>
-                <message>Une virgule est conseillée dans ce contexte.</message>
-                <suggestion>, \2</suggestion>
-                <url>https://bescherelle.ca/virgules/</url>
-                <example correction=", mais">Depuis qu'il me l'a dit, je suis fâchée<marker> mais</marker> je ne lui en veux pas.</example>
-                <example correction=", mais">Nous avons perdu<marker> mais</marker> nous nous sommes amusés.</example>
-                <example correction=", mais">Vas-y<marker> mais</marker> sans moi.</example>
-                <example correction=", mais">Le taux de pauvreté par habitant est de moins de 20 $<marker> mais</marker> il n'est pas représentatif.</example>
-            </rule>
+        <rule id="VIRGULE_MAIS_3" name="virgule mais 3" default="temp_off">
+            <antipattern>
+                <token regexp="yes">mais|car</token>
+                <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+            </antipattern>
+            <antipattern>
+                <token>non</token>
+                <token regexp="yes">mais|car</token>
+            </antipattern>
+            <antipattern>
+                <token>incroyable</token>
+                <token regexp="yes">mais|car</token>
+                <token>vrai</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">mais|car</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token postag="UNKNOWN">
+                    <exception regexp="yes">[%€$£]</exception></token>
+                <token regexp="yes">mais|car</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[–—-]</token>
+                <token regexp="yes">mais|car</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token>car</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[^,‘’)\[."\/;\]\|:(\…'«»“”]+
+                    <exception postag="[DP].*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">car|mais</token>
+                </marker>
+            </pattern>
+            <message>Une virgule est conseillée dans ce contexte.</message>
+            <suggestion>, \2</suggestion>
+            <url>https://bescherelle.ca/virgules/</url>
+            <example correction=", mais">Depuis qu'il me l'a dit, je suis fâchée<marker> mais</marker> je ne lui en veux pas.</example>
+            <example correction=", mais">Nous avons perdu<marker> mais</marker> nous nous sommes amusés.</example>
+            <example correction=", mais">Vas-y<marker> mais</marker> sans moi.</example>
+            <example correction=", mais">Le taux de pauvreté par habitant est de moins de 20 $<marker> mais</marker> il n'est pas représentatif.</example>
+        </rule>
         <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
             <rule>
                 <antipattern>

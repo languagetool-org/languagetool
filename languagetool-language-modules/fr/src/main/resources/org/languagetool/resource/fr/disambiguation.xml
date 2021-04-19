@@ -260,7 +260,7 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <!-- CATEGORY: not nous -->
+    <!-- CATEGORY: not nouns -->
     <rule id="NOT_NOUNS" name="not nouns">
         <!-- unless exceptions-->
         <pattern>
@@ -1327,6 +1327,21 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="BISES" name="bises">
+        <pattern>
+            <token postag="N f p">bises</token>
+        </pattern>
+        <disambig action="remove" postag="J f p"/>
+    </rule>
+    <rule id="N_SUIVI_NP" name="N + NP">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale</token>
+            </marker>
+            <token regexp="yes">\p{Lu}.*</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="LA_SOUL" name="la soul (musical genere)">
         <pattern>
             <token regexp="yes">la|divas?|chanteurs?|chanteuses?</token>
