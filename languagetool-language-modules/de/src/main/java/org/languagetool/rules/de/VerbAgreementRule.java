@@ -67,6 +67,14 @@ public class VerbAgreementRule extends TextLevelRule {
       posRegex("ART.*|ADV.*|PRO:POS.*")
     ),
     Arrays.asList(
+      // "A, B und auch ich"
+      token(","),
+      posRegex("EIG:.*|UNKNOWN"),
+      regex("und|oder"),
+      token("auch"),
+      token("ich")
+    ),
+    Arrays.asList(
       // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
       token("er"),
       token("gleich")  // ist hier kein Verb
