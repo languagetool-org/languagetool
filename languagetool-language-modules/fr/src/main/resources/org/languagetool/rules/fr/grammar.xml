@@ -726,7 +726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<example>et qui regarde les autres manger</example>
             Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.-->
         </rule>
-        <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom" default="temp_off">
+        <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
                 <token>à</token>
@@ -1048,7 +1048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>1 jeune sur 3 âgé de 13 à 16 ans</example>
             <example>Contact : Tel .+209 94 35 54 70 Email</example>
         </rule>
-        <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom" default="temp_off">
+        <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom">
             <antipattern>
                 <!-- n + 1 puissances -->
                 <token regexp="yes">\+|-|×|x</token>
@@ -15001,7 +15001,7 @@ though, and has since been slightly modified)-->
                 <token>social</token>
                 <token>media</token>
             </antipattern>
-            <rule name="nombre singulier suivi du pluriel">
+            <rule name="nombre singulier suivi du pluriel" default="off">
                 <antipattern>
                     <token postag="N [fem] p" postag_regexp="yes"/>
                     <token regexp="yes">aux|à|de|du|d'</token>
@@ -15066,7 +15066,7 @@ though, and has since been slightly modified)-->
                 <example>Les résultats de l'équipe nationale 1 messieurs sont décevants.</example>
                 <example>Les machines de type 1 achetées chez nous sont plus chères.</example>
             </rule>
-            <rule name="nombre pluriel suivi du singulier">
+            <rule name="nombre pluriel suivi du singulier" default="off">
                 <antipattern>
                     <token regexp="yes">terminal|master|numéro|variante|option|total</token>
                     <token regexp="yes">\d+</token>
