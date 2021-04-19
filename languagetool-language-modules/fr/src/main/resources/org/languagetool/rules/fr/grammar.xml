@@ -38193,6 +38193,51 @@ though, and has since been slightly modified)-->
                 <example><marker>Combien il</marker> en a pris ?</example>
             </rule>
         </rulegroup>
+          <rule id="VIRGULE_MAIS_3" name="virgule mais 3" default="temp_off">
+                <antipattern>
+                    <token regexp="yes">mais|car</token>
+                    <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </antipattern>
+                <antipattern>
+                    <token>non</token>
+                    <token regexp="yes">mais|car</token>
+                </antipattern>
+                <antipattern>
+                    <token>incroyable</token>
+                    <token regexp="yes">mais|car</token>
+                    <token>vrai</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">mais|car</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"><exception regexp="yes">[%€$£]</exception></token>
+                    <token regexp="yes">mais|car</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[–—-]</token>
+                    <token regexp="yes">mais|car</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[DP].*" postag_regexp="yes"/>
+                    <token>car</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[^,‘’)\[."\/;\]\|:(\…'«»“”]+
+                        <exception postag="[DP].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">car|mais</token>
+                    </marker>
+                </pattern>
+                <message>Une virgule est conseillée dans ce contexte.</message>
+                <suggestion>, \2</suggestion>
+                <url>https://bescherelle.ca/virgules/</url>
+                <example correction=", mais">Depuis qu'il me l'a dit, je suis fâchée<marker> mais</marker> je ne lui en veux pas.</example>
+                <example correction=", mais">Nous avons perdu<marker> mais</marker> nous nous sommes amusés.</example>
+                <example correction=", mais">Vas-y<marker> mais</marker> sans moi.</example>
+                <example correction=", mais">Le taux de pauvreté par habitant est de moins de 20 $<marker> mais</marker> il n'est pas représentatif.</example>
+            </rule>
         <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
             <rule>
                 <antipattern>
