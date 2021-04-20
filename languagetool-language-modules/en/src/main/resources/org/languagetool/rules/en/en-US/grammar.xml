@@ -287,6 +287,26 @@ USA
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
+        <rule id="ETC_PERIOD" name="period after abbreviation 'etc.'" default="temp_off">
+            <antipattern>
+                <token>etc</token>
+                <token regexp="yes">/|_|…|:</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>etc</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>A period is needed after the abbreviation 'etc.'</message>
+            <suggestion>etc.</suggestion>
+            <example correction="etc.">Tennis, soccer, baseball, <marker>etc</marker> are outdoor games.</example>
+            <example correction="etc.">I use things like Java, Microsoft, Unix, <marker>etc</marker> at work.</example>
+            <example correction="etc.">Make sure you bring your fishing pole, tackle, bait, <marker>etc</marker> as we will not make any stops.</example>
+            <example>Process: 4264 ExecStart=/etc/rc.d/init.d/newrelic-daemon start (code=exited, status=0/SUCCESS)</example>
+            <example>DND_ETC__List1</example>
+            <example>Device Handlers, etc…</example>
+        </rule>
         <rule id="MISSING_COMMA_AFTER_YEAR" name="Potentially missing comma after year">
             <pattern>
                 <token regexp="yes">&months;</token>
