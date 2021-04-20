@@ -3484,6 +3484,19 @@ Estas instruções basearam-se nas várias a que tive acesso.
 		<token regexp='no'></token>
       </antipattern> 	  
 <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *START* -->
+<!--
+Temos no final possíveis cenários para a análise do comportamento.
+Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.
+Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.
+-->
+      <antipattern>
+	    <token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3524,6 +3537,10 @@ Estas instruções basearam-se nas várias a que tive acesso.
 	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
 	  <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
 	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
+	  
+	  <example type='correct'>Temos <marker>no final possíveis cenários</marker> para a análise do comportamento.</example>
+	  <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
+	  <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
 	</rule>
     <rule>
       <antipattern>
