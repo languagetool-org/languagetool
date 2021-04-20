@@ -41417,13 +41417,14 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">lundis?|mardis?|mercredis?|jeudis?|vendredis?|samedis?|dimanches?</token>
                     <marker>
-                        <token>midis</token>
+                        <token regexp="yes">midis|soirs|matins</token>
                     </marker>
                 </pattern>
                 <message>Une erreur d'accord semble être détectée, car le nom '\2' est un adverbe invariable dans ce contexte.</message>
-                <suggestion><match no="3" regexp_match="(?-iu)s" regexp_replace=""/></suggestion>
+                <suggestion><match no="3" regexp_match="(?-iu)s$" regexp_replace=""/></suggestion>
                 <url>https://leconjugueur.lefigaro.fr/frplurieljour.php</url>
                 <example correction="midi">Il va au restaurant tous les lundis <marker>midis</marker>.</example>
+                <example correction="soir">Les dimanches <marker>soirs</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_EXPRESSION_SANS_COMPLEMENT" name="accord expression sans complément">
