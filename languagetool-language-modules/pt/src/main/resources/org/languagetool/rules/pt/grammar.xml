@@ -3339,15 +3339,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		  <token postag='NCFP000' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-03 *END* -->
-<!-- MARCOAGPINTO 2020-06-03 *START* -->
-<!-- "De valor diferenciado por terem como origem fontes imparciais e isentas." -->
-      <antipattern>
-		  <token regexp='yes'>como|na|de|por</token>
-		  <token postag='NC[CF]S000' postag_regexp='yes'/>		  
-		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
-		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>		  
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-03 *END* -->
 <!-- MARCOAGPINTO 2020-06-04 *START* -->
 <!-- "Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal." -->
       <antipattern>
@@ -3489,12 +3480,16 @@ Estas instruções basearam-se nas várias a que tive acesso.
 Temos no final possíveis cenários para a análise do comportamento.
 Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.
 Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.
+O senhor Camargo cria codornas em sua chácara.
+De valor diferenciado por terem como origem fontes imparciais e isentas.
 -->
       <antipattern>
 	    <token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
 		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
 		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+|CC|SPS.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='RN'/>
+		</token>
       </antipattern>  
 <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *END* -->
       <pattern>
@@ -3541,6 +3536,8 @@ Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados di
 	  <example type='correct'>Temos <marker>no final possíveis cenários</marker> para a análise do comportamento.</example>
 	  <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
 	  <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
+	  <example>O senhor Camargo cria codornas em sua chácara.</example>	
+	  <example>De valor diferenciado por terem como origem fontes imparciais e isentas.</example>
 	</rule>
     <rule>
       <antipattern>
