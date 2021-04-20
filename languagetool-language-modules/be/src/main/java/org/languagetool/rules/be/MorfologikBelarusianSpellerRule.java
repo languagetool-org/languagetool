@@ -45,5 +45,10 @@ public final class MorfologikBelarusianSpellerRule extends MorfologikSpellerRule
   public String getId() {
     return "MORFOLOGIK_RULE_BE_BY";
   }
+  
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
 
 }
