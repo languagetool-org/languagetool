@@ -17526,6 +17526,13 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>maar</token><token>weinig</token></antipattern>
+				<antipattern><token>zelf</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>ook</token><token>maar</token><token>een</token></antipattern>
+				<antipattern><token>maar</token><token>al</token><token>te</token></antipattern>
+				<antipattern><token>laten</token><token>we</token><token>het</token><token>voorlopig</token><token>maar</token></antipattern>
+				<antipattern><token>zoek</token><token>het</token><token>maar</token><token>uit</token></antipattern>
+				<antipattern><token>hadden</token><token>we</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:3EP"/><token>u</token><token>maar</token></antipattern>
 				<antipattern><token>om</token><token>zelfs</token><token>maar</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token regexp="yes">het|dit|dat</token><token>maar</token></antipattern>
@@ -17547,7 +17554,7 @@ steenwijk;Steenwijk
 				<antipattern><token>kan</token><token>ik</token><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token>laten</token><token>we</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">me|hem|haar|ons|hen</token><token>maar</token></antipattern>
-				<antipattern><token regexp="yes">[,:;)(–-]|&quot;|nog|misschien</token><token>maar</token></antipattern>
+				<antipattern><token regexp="yes">[,:;.)(–-]|&quot;|nog|misschien</token><token>maar</token></antipattern>
 				<antipattern><token regexp="yes">blijf|ga</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>er</token><token>maar</token></antipattern>
 				<antipattern><token>al</token><token>is</token><token>het</token><token>maar</token></antipattern>
@@ -19414,6 +19421,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW(TGW|VLT):3EP"/></antipattern>
 				<antipattern><token>was</token><token>net</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
@@ -22370,7 +22378,7 @@ steenwijk;Steenwijk
 		<rulegroup id="BRANDING" name="branding">
 			<!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
 			<rule>
-				<antipattern><token regexp="yes">strand|bruis.*|golven|golf|zee|rots|woest|rolt|surfen</token></antipattern>
+				<antipattern><token regexp="yes">strand|bruis.*|.*kust|golven|golf|zee|rots|woest|rolt|surfen</token></antipattern>
 				<pattern>
 					<token skip="10">branding</token>
 				</pattern>
@@ -32900,7 +32908,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">lange|korte</token>
 					<token>termijn</token>
-					<token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB"/></token>
+					<token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB"/><exception regexp="yes">één|een</exception></token>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\1\2\3</suggestion>.</message>
 				<example correction="langetermijngeheugen">QQ <marker>lange termijn geheugen</marker> QQQ.</example>
@@ -35001,6 +35009,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
 			<rule>
+				<antipattern><token>tocht</token><token>der</token><token>tochten</token></antipattern>
 				<antipattern><token>von</token><token>der</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token>in</token><token>der</token><token>eeuwigheid</token></antipattern>
 				<antipattern><token>in</token><token>der</token><token>minne</token></antipattern>
