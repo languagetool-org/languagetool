@@ -811,9 +811,11 @@ public abstract class Language {
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
     }
+    output = output.replaceAll(" '(.)'", " " + getOpeningSingleQuote()+"$1"+getClosingSingleQuote()); //exception single character
     output = output.replaceAll("([\\u202f\\u00a0 «\"\\(])'", "$1" + getOpeningSingleQuote());
     output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
-
+    output = output.replaceAll("‘s\\b", "’s"); // exception genitive
+    
     // double quotes
     if (output.startsWith("\"")) { 
       output = output.replaceFirst("\"", getOpeningDoubleQuote());

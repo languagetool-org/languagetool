@@ -275,4 +275,10 @@ public class JLanguageToolTest {
       return -1;
     }
   }
+  
+  @Test
+  public void testAdvancedTypography() {
+    Language lang = new AmericanEnglish();
+    assertEquals(lang.toAdvancedTypography("The genitive ('s) may be missing."), "The genitive (’s) may be missing.");
+  }
 }
