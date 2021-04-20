@@ -8388,13 +8388,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rulegroup id="ANNALENA_BAERBOCK" name="Annalena Baerbock">
+            <url>https://de.wikipedia.org/wiki/Annalena_Baerbock</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Annalena|ANNALENA</token>
+                <token regexp="yes">Baerbocks?|BAERBOCKS?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ann?[ea]?-?lenn?a</token>
+                    <token regexp="yes">b(ä|ae|e|a)rbocks?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Annalena Baerbock<match no="2" regexp_match=".+bock" regexp_replace="" /></suggestion> (= Politikerin der Grünen).</message>
+                <example correction="Annalena Baerbock"><marker>Anna-Lena Bärbock</marker> ist die Kanzlerkandidatin der Grünen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ann[ae]</token>
+                    <token>lena</token>
+                    <token regexp="yes">b(ä|ae|e)rbocks?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Annalena Baerbock<match no="3" regexp_match=".+bock" regexp_replace="" /></suggestion> (= Politikerin der Grünen).</message>
+                <example correction="Annalena Baerbock"><marker>Anna Lena Bärbock</marker> ist die Kanzlerkandidatin der Grünen.</example>
+            </rule>
+        </rulegroup>
         <rule id="SALVADOR_DALI" name="Salvador Dalí">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Salvador|SALVADOR</token>
                 <token regexp="yes">Dalí|DALÍ</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">Salva[td]ore?</token>
+                <token regexp="yes">Sal?va[td]ore?</token>
                 <token regexp="yes">Dall?[íìi]</token>
             </pattern>
             <message>Meinten Sie den Künstler <suggestion>Salvador Dalí</suggestion>?</message>
@@ -10106,13 +10130,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="NACH_GEBEN" name="nach geben (nachgeben)" default="temp_off">
+        <rule id="NACH_GEBEN" name="nach geben (nachgeben)">
             <antipattern>
-                <token regexp="yes">.*Meinung|.*Wissens?|.*Ansicht|.*Stand(e?s)?|.*Erfahrung|.*Einschätzung</token>
+                <token regexp="yes">.*Meinung|.*Wissens?|.*Ansicht|.*Stand(e?s)?|.*Erfahrung|.*Einschätzung|.*Verständnis(es)?</token>
                 <token>nach</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">[smd]einer|dieser|welcher|unse?rer|ihrer</token>
+                <token regexp="yes">[smd]eine[srnm]|diese[srnm]|welche[srnm]|unse?re[srnm]|ihre[srnm]</token>
                 <token />
                 <token>nach</token>
             </antipattern>
@@ -10128,6 +10152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="nachgegeben">Am Ende hat er dann doch <marker>nach gegeben</marker>.</example>
             <example>Meiner Meinung nach gibt es zwei Gründe.</example>
             <example>Nach geben kommt nehmen.</example>
+            <example>Geschichtlich und dem eigenen Selbstverständnis nach gab es allerdings schon ein Reich, das aus dem alten römischen Reich entstanden war.</example>
         </rule>
         <rulegroup id="AD_HOC_MITTEILUNG" name="Ad-hoc-Meldung">
             <rule>
@@ -14521,13 +14546,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="KLARMACHEN" name="klar machen (klarmachen)">
             <url>https://www.korrekturen.de/beliebte_fehler/klar_machen.shtml</url>
+            <antipattern>
+                <token regexp="yes">na|ja</token>
+                <token>klar</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" />
+                <token>klar</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>klar</token>
+                    <token min="0">zu</token>
                     <token inflected="yes" regexp="yes">kommen|machen|stellen</token>
                 </pattern>
                 <message>Formen des Verbs 'klarmachen' (=erklären) und 'klarkommen' (=zurechtkommen) werden zusammengeschrieben.</message>
-                <suggestion>\1\2</suggestion>
+                <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion>
                 <short>&getrennt;.</short>
                 <example correction="klargemacht">Er hat <marker>klar gemacht</marker>, dass er es nicht will.</example>
             </rule>
@@ -18688,6 +18722,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>unseretwegen</suggestion>
                 <example correction="Unseretwegen"><marker>Wegen uns</marker> kommt er zu spät.</example>
             </rule>
+            <rule default="temp_off">
+                <regexp>\b(wegen) (euch)\b</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
+                <suggestion>euretwegen</suggestion>
+                <example correction="Euretwegen"><marker>Wegen euch</marker> kommt er zu spät.</example>
+            </rule>
+            <rule default="temp_off">
+                <regexp>\b(wegen) (denen)\b</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
+                <suggestion>derentwegen</suggestion>
+                <example correction="Derentwegen"><marker>Wegen denen</marker> kommt er zu spät.</example>
+            </rule>
         </rulegroup>
         <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
         <rule id="FUER_UMSONST" name="'für umsonst'" default="off">
@@ -20894,21 +20940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="AUSSER_KRAFT_SETZEN" name="kraft (Kraft)" default="temp_off">
-            <antipattern>
-                <token skip="-1">kraft</token>
-                <token regexp="yes">amte?s?|gesetz(es)?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">au(ss|ß)er</token>
-                <marker>
-                    <token case_sensitive="yes">kraft</token>
-                </marker>
-            </pattern>
-            <message>Das Nomen <suggestion>Kraft</suggestion> wird großgeschrieben.</message>
-            <example correction="Kraft">Er hat das Gesetz außer <marker>kraft</marker> gesetzt.</example>
-        </rule>
-        <rule id="KRAFT_AMTES" name="Kraft (kraft) Amtes" default="temp_off">
+        <rule id="KRAFT_AMTES" name="Kraft (kraft) Amtes">
             <antipattern>
                 <token postag="SENT_START" />
                 <token>
@@ -20916,12 +20948,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </token>
                 <token case_sensitive="yes">Kraft</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">[mds]?einer|dieser|der|jener|unserer|ihrer|welcher</token>
+                <token postag="ADJ:.*|UNKNOWN" postag_regexp="yes" min="0" />
+                <token>Kraft</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token case_sensitive="yes">Kraft</token>
                 </marker>
                 <token min="0" regexp="yes">[dms]?eine[msnr]|ihre[nsmr]|diese[nsmr]|des</token>
-                <token regexp="yes">Amt(e?s)?|Gesetz(es)?|Gedanken|Vermögens?</token>
+                <token regexp="yes">Amt(e?s)?|Gesetz(es)?</token>
             </pattern>
             <message>In diesem Kontext ist <suggestion><match no="1" case_conversion="alllower" /></suggestion> eine Präposition und sollte kleingeschrieben werden.</message>
             <url>https://www.korrekturen.de/beliebte_fehler/kraft_meines_amtes.shtml</url>
@@ -28281,7 +28318,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
-                    <token regexp="yes">aller|voller|ganzer|letzter|großer|grosser|viel</token>
+                    <token regexp="yes">aller|voller|ganzer|letzter|großer|grosser|viel|wenig|kaum</token>
                     <marker>
                         <token>kraft</token>
                     </marker>
@@ -28289,6 +28326,20 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Kraft</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Kraft">Mit aller <marker>kraft</marker> schlug sie gegen die Tür.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">kraft</token>
+                    <token regexp="yes">amte?s?|gesetz(es)?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">au(ss|ß)er</token>
+                    <marker>
+                        <token case_sensitive="yes">kraft</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Kraft</suggestion> wird großgeschrieben.</message>
+                <example correction="Kraft">Er hat das Gesetz außer <marker>kraft</marker> gesetzt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MACHT_SUBST" name="'keine macht (Macht) der Welt' etc.">
@@ -37607,29 +37658,6 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="ANNALENA_BAERBOCK" name="Annalena Baerbock" default="temp_off">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">Annalena|ANNALENA</token>
-                <token regexp="yes">Baerbocks?|BAERBOCKS?</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">ann?[ea]?-?lenn?a</token>
-                    <token regexp="yes">b(ä|ae|e|a)rbocks?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Annalena Baerbock<match no="2" regexp_match=".+bock" regexp_replace="" /></suggestion> (= Politikerin der Grünen).</message>
-                <example correction="Annalena Baerbock"><marker>Anna-Lena Bärbock</marker> ist die Kanzlerkandidatin der Grünen.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">ann[ae]</token>
-                    <token>lena</token>
-                    <token regexp="yes">b(ä|ae|e)rbocks?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Annalena Baerbock<match no="3" regexp_match=".+bock" regexp_replace="" /></suggestion> (= Politikerin der Grünen).</message>
-                <example correction="Annalena Baerbock"><marker>Anna Lena Bärbock</marker> ist die Kanzlerkandidatin der Grünen.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="SIMPLE_AGREEMENT_NEU" name="Der (Das) Haus ist">
             <short>Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus</short>
             <antipattern>
@@ -37761,7 +37789,7 @@ Andere Projekte</example>
                 <example>1878 wurde er Stadt-Herausgeber von der Zeitung „The World“, aber wurde 1882 gefeuert, als diese Geld verlor.</example>
                 <example>(14 Songs, 2008) Diese CD ist die letzte dieses Ensembles</example>
             </rule>
-            <rule default="temp_off"><!-- dieser Haus ist/war -->
+            <rule><!-- dieser Haus ist/war -->
                 <antipattern><!-- als diese Geld verlor -->
                     <token postag="KON:UNT" />
                     <token>dieser</token>
