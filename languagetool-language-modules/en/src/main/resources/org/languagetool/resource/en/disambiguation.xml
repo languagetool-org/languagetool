@@ -5354,6 +5354,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VBP">have</token>
             <token chunk="I-VP" postag="VBN"/>
         </antipattern>
+        <antipattern><!-- Premium #2626 Tom have been -->
+            <token postag_regexp="yes" postag="NNP"/>
+            <token chunk="B-VP" postag="VBP">have</token>
+            <token chunk="I-VP" postag="VBN"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5405,6 +5410,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I have a feeling dogs are so stupid because they trust us humans.</example>
         <example type="untouched">Your screenshot number 2 is taken directly in MS Word?</example><!-- #3991 -->
         <example type="untouched">Many other have been hiding from the police.</example><!-- #4814 Incorrect grammar -->
+        <example type="untouched">Tom have been places that I've only read about.</example><!-- Premium #2626 Incorrect grammar -->
     </rule>
 
     <rule name="required to" id="required_to">
