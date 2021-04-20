@@ -12589,6 +12589,18 @@ though, and has since been slightly modified)-->
                 <token postag="Y" skip="-1"/>
                 <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
             </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">juil|avr|févr|janv</token>
+            </antipattern>
+             <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">[a-z][a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -12601,6 +12613,9 @@ though, and has since been slightly modified)-->
             <suggestion><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
             <example correction="Neuf"><marker>9</marker> manifestants ont été battus.</example>
             <example correction="Trente-quatre"><marker>34</marker> manifestants ont été battus.</example>
+            <example>01 janv.</example>
+            <example>1 al. 163 CP. 2.1).</example>
+            <example>1.3 Le contrat conclu entre vous et Google inclut également les conditions définies ci-après.</example>
             <example>9 février 2020.</example>
             <example>9 et 10 rue Camus.</example>
             <example>9a est un bon score.</example>
