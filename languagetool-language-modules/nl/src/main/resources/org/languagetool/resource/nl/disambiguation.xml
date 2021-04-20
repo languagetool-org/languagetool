@@ -1528,7 +1528,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </rule>
     <rule name="_2-0-ZEGE" id="_2-0-ZEGE">
         <pattern>
-           <token regexp="yes">[0-9][0-9]?[-][0-9][0-9]?[-](uit|thuis)?(zege|winst|verlies|score|stand|voorsprong|gelijkspel)</token>
+           <token regexp="yes">[0-9][0-9]?[-][0-9][0-9]?[-](uit|thuis)?(zege|winst|verlies|score|stand|voorsprong|gelijkspel|achterstand|overwinning)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1592,4 +1592,22 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="X-VOUDIG" id="X-VOUDIG">
+			<!-- 105-voudig -->
+        <pattern>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[0-9]+[-]voudige?</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="PARA_NUM" id="PARA_NUM">
+			<!-- 1c -->
+        <pattern>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[1-9][0-9]?[a-zA-Z]</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>	 
 </rules>
