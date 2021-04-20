@@ -1018,6 +1018,15 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
+    <rule id="CHARGE_PROJET" name="ondes radio">
+        <pattern>
+            <token regexp="yes">chargée?s?</token>
+            <marker>
+                <token regexp="yes">projets?</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="J e sp"/>
+    </rule>
     <rule id="ONDES_RADIO" name="ondes radio">
         <pattern>
             <token regexp="yes" inflected="yes">onde|signal|écho|émetteur|interféromètre|récepteur|réflecteur|brouilleur|station</token>
