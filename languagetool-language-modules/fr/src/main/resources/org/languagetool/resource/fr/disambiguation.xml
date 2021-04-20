@@ -872,7 +872,7 @@ RB => Règles Brutes
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
             <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">figure||fortune|fureur|horreur|irruption|lecture|erreur|montre|allusion|intrusion|signe|silence|usage|main|part|peur|pression|saillie|mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -995,7 +995,7 @@ RB => Règles Brutes
     <rule id="DONNER_DROIT" name="donner droit">
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">donner</token>
-            <token postag="N m s">droit</token>
+            <token postag="N . s" postag_regexp="yes" regexp="yes">droit|naissance</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1018,6 +1018,13 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
+    <rule id="ENTREE" name="entrée">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">entrée</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">microphone|blog|phono</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="IMPRIMANTE" name="imprimante">
         <pattern>
             <marker>
@@ -1374,7 +1381,7 @@ RB => Règles Brutes
     <rule id="N_SUIVI_NP" name="N + NP">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité</token>
             </marker>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
@@ -4920,7 +4927,7 @@ RB => Règles Brutes
                 <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
             </marker>
         </pattern>
-        <disambig action="remove" postag="N.*"/>
+        <disambig action="remove" postag="[NJZ].*"/>
     </rule>
     <rule id="GRAND_J" name="grand et adjectif">
         <pattern>

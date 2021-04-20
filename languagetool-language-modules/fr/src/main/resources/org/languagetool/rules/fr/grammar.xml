@@ -762,10 +762,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="gender"/>
                     <token postag="J .*" postag_regexp="yes">
                         <exception postag="_GN_.*|V ppr|Z.*" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">appeler|baptiser|classer</exception>
+                        <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler</exception>
                         <exception regexp="yes">\p{Lu}+</exception></token>
                     <token postag="[NZ] .*" postag_regexp="yes">
-                        <exception postag="J e sp"/></token>
+                        <exception postag="J e sp"/>
+                        <exception regexp="yes">.</exception></token>
                 </unify>
             </pattern>
             <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
@@ -819,6 +820,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>et qui regarde les autres manger</example>
             <example>Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.</example>
             <example>Je pense que Tom croit tout ce que dit Marie.</example>
+            <example>Thomas se dit victime d'une machination.</example>
+            <example>Vous faites allusion à moi ?</example>
+            <example>En finale B du 1 000 mètres.</example>
+            <example>Seulement lire un manuel informatique est comme s'entraîner à nager à terre.</example>
         </rule>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
             <rule>
