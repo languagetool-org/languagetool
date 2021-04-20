@@ -796,7 +796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<example>et qui regarde les autres manger</example>
             Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.-->
         </rule>
-        <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
+        <rule id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom" default="temp_off">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
                 <token>à</token>
@@ -938,6 +938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d</token>
                 <token postag="M fin"/>
                 <token regexp="yes">\d</token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\d.+</token>
@@ -946,11 +947,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="Y"/>
-                <token regexp="yes">janv?|f[ée]vr?|avr|juill?|sept?|oct|nov|d[eé]c|max(imum)?|min(imum)?</token>
+                <token regexp="yes">janv?|f[ée]vr?|avr|juill?|sept?|oct|nov|d[eé]c|max(imum)?|min(imum)?|vol|sec|pourcent|art</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">cedex|stade|bouton|touche|commande|party|.html</token>
-                <token regexp="yes">\d</token>
+                <token regexp="yes">cedex|stade|bouton|touche|commande|party|.html|p.?|number|ds|(?-i)GTO|coordonnée|(?-i)France|(?-i)Core</token>
+                <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
                 <token postag="D . s" postag_regexp="yes"/>
@@ -973,17 +974,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="Y"/>
             </antipattern>
             <antipattern>
-                <token min="0" max="1">James</token>
-                <token min="0" max="1">Bond</token>
-                <token postag="Y">OO7</token>
+                <token postag="[DN].*" postag_regexp="yes"/>
+                <token postag="Y">007</token>
             </antipattern>
             <antipattern>
-                <token postag="N . s" postag_regexp="yes"/>
+                <token postag="[NJ] . s" postag_regexp="yes"/>
                 <token>100</token>
                 <token>gratuit</token>
             </antipattern>
             <antipattern>
-                <token postag="UNKNOWN|Y" postag_regexp="yes"/>
+                <token postag="UNKNOWN|Y" postag_regexp="yes" min="0" max="1"/>
                 <token regexp="yes">[/-]</token>
                 <token postag="Y"/>
             </antipattern>
@@ -1040,7 +1040,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>40</token>
             </antipattern>
             <antipattern>
-                <token postag="D m s" postag_regexp="yes"/>
+                <token postag="D m s"/>
                 <token postag="Y"/>
             </antipattern>
             <antipattern>
@@ -1049,6 +1049,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="Y"/>
                 <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
                     <exception>seconde</exception></token>
+            </antipattern>
+            <antipattern>
+                <token postag="Z.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                <token postag="Y" min="1" max="4"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d.*</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+             <antipattern>
+                 <token regexp="yes">(?-i)[A-Z]+</token>
+                <token regexp="yes">\d.*</token>
             </antipattern>
             <pattern>
                 <token postag="Y">
@@ -1068,6 +1080,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="enfants">Les 4 <marker>enfant</marker>.</example>
             <example correction="parties">Le pays est découpé en 4 <marker>partie</marker>.</example>
             <example correction="yens">Je n'ai pas plus de 1000 <marker>yen</marker>.</example>
+            <example>Etude officielle OA 3711 menée en novembre 2019.</example>
+            <example>Poids net: 40 Moteur: 5.5HP.</example>
+            <example>Référentiel 2020 Infirmier.</example>
+            <example> Références spécifiques p 95.</example>
+            <example>Le CPI 2401 2018 000 027 208 délivrée par la CC est incorrect.</example>
+            <example>Mon 007 préféré est un film surprenant.</example>
+            <example>Coefficient : 4 Épreuve écrite n° 4.</example>
+            <example>Elle fait partie du 5.5 Studio.</example>
             <example>Tu as vu le CAC 40 !</example>
             <example>1er km en 3'25 hyper à l'aise en queue de groupe.</example>
             <example>Il est disponible en taille 48 maximum.</example>
