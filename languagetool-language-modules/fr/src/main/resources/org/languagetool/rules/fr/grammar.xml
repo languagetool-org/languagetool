@@ -714,6 +714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="N [me] (p|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <!-- Perhaps better as tags in disambiguation: _GN_... -->
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
@@ -738,10 +739,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V .* 3 s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
                 <token>saints</token>
                 <token regexp="yes">\p{Lu}.*</token>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="V.* ppr" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <unify negate="yes">
@@ -800,6 +809,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Musée Rembrandt à Amsterdam.</example>
             <example>Musée national de Tokyo.</example>
             <example>Saints Cyrille et Méthode.</example>
+            <example>L'ensemble le rend financièrement très compétitif vis-à-vis d'un véhicule individuel.</example>
+            <example>conclue Christophe</example>
             <!--<example>et qui regarde les autres manger</example>
             Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.-->
         </rule>
