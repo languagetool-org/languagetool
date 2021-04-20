@@ -37,7 +37,7 @@ public class BritishReplaceRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new BritishReplaceRule(TestTools.getMessages("en"));
+    rule = new BritishReplaceRule(TestTools.getMessages("en"), "/en/en-GB/replace.txt");
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
   }
 
@@ -53,6 +53,8 @@ public class BritishReplaceRuleTest {
     checkSimpleReplaceRule("Diapers for sale!", "Nappies");
     // inside sentence
     checkSimpleReplaceRule("We have some diapers for sale.", "nappies");
+    // expression
+    checkSimpleReplaceRule("Everyone loves cotton candy.", "candy floss");
   }
 
   /**

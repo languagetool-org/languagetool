@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.Languages;
+import org.languagetool.language.NewZealandEnglish;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -34,20 +34,24 @@ import java.util.ResourceBundle;
  *
  * @author Marcin Miłkowski
  */
-public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
+public class NewZealandReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public static final String NEW_ZEALAND_SIMPLE_REPLACE_RULE = "EN_NZ_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-NZ/replace.txt");
   private static final Locale EN_NZ_LOCALE = new Locale("en-NZ");
+  
+  private final String PATH;
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
+  public List<String> getFileNames() {
+	  return Collections.singletonList(PATH);
   }
 
-  public NewZealandReplaceRule(ResourceBundle messages) throws IOException {
-    super(messages);
+  public NewZealandReplaceRule(ResourceBundle messages, String path) {
+    super(messages, new NewZealandEnglish());
+    this.PATH = Objects.requireNonNull(path);
+    
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("A <marker>sidewalk</marker> is a path along the side of a road."),
                    Example.fixed("A <marker>footpath</marker> is a path along the side of a road."));
@@ -69,13 +73,8 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
   }
   
   @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return "'" + tokenStr + "' is a non-standard expression. Consider using expressions more common to New Zealand English.";
-  }
-
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
+  public String getMessage() {
+	  return "'$match' is a non-standard expression. Consider using expressions more common to New Zealand English.";
   }
 
   @Override

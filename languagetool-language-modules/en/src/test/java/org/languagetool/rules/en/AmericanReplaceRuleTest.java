@@ -22,37 +22,39 @@ package org.languagetool.rules.en;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.NewZealandEnglish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class NewZealandReplaceRuleTest {
+public class AmericanReplaceRuleTest {
 
-  private NewZealandReplaceRule rule;
+  private AmericanReplaceRule rule;
   private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
-    rule = new NewZealandReplaceRule(TestTools.getMessages("en"), "/en/en-NZ/replace.txt");
-    lt = new JLanguageTool(new NewZealandEnglish());
+    rule = new AmericanReplaceRule(TestTools.getMessages("en"), "/en/en-US/replace.txt");
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Walk on the footpath.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Buy some gasoline.")).length);
 
     // incorrect sentences:
-    
+
     // at the beginning of a sentence (Romanian replace rule is case-sensitive)
-    checkSimpleReplaceRule("Sidewalk is not a place to park your car!", "Footpath");
+    checkSimpleReplaceRule("Porridge is full of protein.", "Oatmeal");
     // inside sentence
-    checkSimpleReplaceRule("I walked on the sidewalk", "footpath");
+    checkSimpleReplaceRule("I really like your handbag.", "purse");
+    // expression
+    checkSimpleReplaceRule("I love fish fingers.", "fish sticks");
   }
 
   /**
