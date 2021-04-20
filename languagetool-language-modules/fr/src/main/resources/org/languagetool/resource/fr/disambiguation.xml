@@ -1274,7 +1274,9 @@ RB => Règles Brutes
     <rule id="SUITE_A" name="suite à">
         <pattern>
             <marker>
-                <token>suite<exception scope="previous" inflected="yes">faire</exception><exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                <token>suite
+                    <exception scope="previous" inflected="yes">faire</exception>
+                    <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
             </marker>
             <token regexp="yes">à|au|aux</token>
         </pattern>
@@ -1979,13 +1981,12 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <marker>
-                    <token postag="P.*" postag_regexp="yes">
-                        <exception postag="P\+R rel.*" postag_regexp="yes"/></token>
-                </marker>
+                <token postag="P.*" postag_regexp="yes">
+                    <exception postag="P\+R rel.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes">
-                        <exception postag="R pers suj.*" postag_regexp="yes"/></token>
+                        <exception postag="R pers suj.*" postag_regexp="yes"/>
+                        <exception inflected="yes">autre</exception></token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="R.*"/>
