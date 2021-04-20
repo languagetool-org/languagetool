@@ -14756,6 +14756,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="PUDENT" name="pudent/benestant" default="temp_off">
+            <pattern>
+                <token inflected="yes" regexp="yes">classe|senyor|home|dona|empresari|propietarri|terratinent</token>
+                <marker>
+                    <token inflected="yes">pudent</token>
+                </marker>
+            </pattern>
+            <message>En el sentit de <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">benestant</match></suggestion> és un calc del castellà.</message>
+            <example correction="benestants">Era un membre de les classes <marker>pudents</marker>.</example>
+        </rule>
         <rule id="FER_LES_VEGADES" name="fer les vegades">
             <pattern>
                 <token inflected="yes">fer</token>
@@ -16339,7 +16349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
         <rule id="ELA_ELS" name="ela/els">
             <pattern>
-                <token>ela</token>
+                <token>ela<exception case_sensitive="yes">ELA</exception></token>
                 <token postag="N.[MC][PN].*|A..[MC][PN].*" postag_regexp="yes"/>
             </pattern>
             <message>Possible error de picatge.</message>
@@ -35601,6 +35611,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="MARIA_ABREV" name="Maria/M.">
             <rule>
+                <antipattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[\d .,]+</token>
+                    <token case_sensitive="yes">Ma</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Ma|Mª</token>
                     <token>.</token>
@@ -35609,6 +35628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Maria</suggestion>
                 <example correction="M.|Maria">Josep <marker>Ma.</marker> Font</example>
                 <example>Ma mare es diu Maria.</example>
+                <example>Comprèn el lapse entre 5,3 i 3,4 Ma.</example>
             </rule>
             <rule>
                 <pattern>
@@ -49545,7 +49565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CAMI_TRILLAT" name="*trillat/fressat/gastat">
             <pattern>
-                <token inflected="yes" regexp="yes">camí|idea</token>
+                <token inflected="yes" regexp="yes">camí|idea|metàfora|concepte|imatge</token>
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes">trillar</token>
             </pattern>
             <message>Expressió incorrecta.</message>
