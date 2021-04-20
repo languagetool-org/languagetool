@@ -92,7 +92,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </unification>
     <category name="Concordances" id="AGREEMENT">
         <!-- TODO:
-            - numeral + noun
             - det + nominal group: le grand faim -> la grand faim
             - det + adv + adj: le plus belle
             Mon ancienne professeur d'anglais
@@ -161,7 +160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="le Java">Des compilateurs compilent ainsi directement <marker>le java</marker> en code objet natif.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">\d+
@@ -659,6 +658,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
             <antipattern>
+                <token regexp="yes">\d([eè]|ème|er)</token>
+                <token>personne</token>
+                <token regexp="yes">singulier|pluriel</token>
+            </antipattern>
+            <antipattern>
                 <token>grâce</token>
                 <token regexp="yes">à|aux</token>
             </antipattern>
@@ -825,6 +829,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En finale B du 1 000 mètres.</example>
             <example>Seulement lire un manuel informatique est comme s'entraîner à nager à terre.</example>
             <example>Ils sont juste amis.</example>
+            <!-- better suggestion needed-->
+            <example type="triggers_error">Tom surpris Marie</example>
         </rule>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
             <rule>
@@ -1311,6 +1317,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
+            <antipattern>
+                <token regexp="yes">\d([eè]|ème|er)</token>
+                <token>personne</token>
+                <token regexp="yes">singulier|pluriel</token>
+            </antipattern>
             <antipattern>
                 <token postag="V.* inf" postag_regexp="yes" skip="4"/>
                 <token>tel</token>
@@ -15736,10 +15747,6 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token>pizza</token>
                 <token>hut</token>
-            </antipattern>
-            <antipattern>
-                <token>social</token>
-                <token>media</token>
             </antipattern>
             <antipattern>
                 <token>social</token>
