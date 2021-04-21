@@ -845,7 +845,7 @@ public abstract class Language {
       output= output.replaceFirst("\\\\" + String.valueOf(i), getOpeningDoubleQuote() + preservedStrings.get(i) + getClosingDoubleQuote() );
     }
     
-    return output;
+    return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
   }
 
   /**

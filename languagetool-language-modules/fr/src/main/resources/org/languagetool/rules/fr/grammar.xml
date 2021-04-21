@@ -836,13 +836,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <!-- same rule with participles -->
                 <antipattern>
-                    <token inflected="yes">avoir</token>
+                    <token inflected="yes" regexp="yes">avoir|être</token>
                     <token postag="V ppa .*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">avoir</token>
                     <token postag="A"/>
                     <token regexp="yes">que|qu'</token>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">avoir</token>
+                    <token postag="A|R.*" postag_regexp="yes" min="1" max="4"/>
                     <token postag="V ppa .*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -861,6 +866,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
                 <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
                 <example correction="enthousiasmé garçon|enthousiasmée garçonne|enthousiasmés garçons|enthousiasmées garçonnes">Un <marker>enthousiasmée garçon</marker></example>
+                <example>Ça m'a presque fait peur de ne pas te voir connectée</example>
+                <example>C'est là que vous faites erreur.</example>
+                <example>Son bureau va être fermé faute d'argent.</example>
+                <example>Il n'a pas encore pris conscience de ses fautes.</example>
+                <example>Il n'a pas fait attention à mon conseil.</example>
+                <example>Elle était vêtue tout de noir.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
@@ -14470,7 +14481,8 @@ though, and has since been slightly modified)-->
                     <token>lui</token>
                 </antipattern>
                 <pattern>
-                    <token postag="P"><exception>après</exception></token>
+                    <token postag="P">
+                        <exception>après</exception></token>
                     <token regexp="yes" min="0">me|te|m'|t'|le|la|l'|lui|vous|nous|y|en|les|leur</token>
                     <marker>
                         <token postag="V.* [123].*" postag_regexp="yes" regexp="yes">.*(ez|é|ée)
