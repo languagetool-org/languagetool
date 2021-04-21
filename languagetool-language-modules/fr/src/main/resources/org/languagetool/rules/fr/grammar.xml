@@ -833,271 +833,271 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="triggers_error">Tom surpris Marie</example>
         </rule>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
-            <rule>
-                <antipattern>
-                    <token regexp="yes">\d\d\d\d</token>
-                    <token>à</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                </antipattern>
-                <antipattern>
-                    <!-- ordinals: le 31 État de l’Union-->
-                    <token>le</token>
-                    <token regexp="yes">\d+</token>
-                    <token postag="N [me] (s|sp)" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <!-- ordinals: la 9 Symphonie de Beethoven -->
-                    <token>la</token>
-                    <token regexp="yes">\d+</token>
-                    <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token regexp="yes">&mois_annee;</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">&mois_annee;|années?</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token regexp="yes">anniversaire|multiplié|divisé|Avenue|Boulevard|Quai|Rue|Impasse|chemin</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes" inflected="yes">&suivi_par_nombre;</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <!--  Peugeot 208 -->
-                    <token postag="Z.*" postag_regexp="yes"/>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token>#</token>
-                    <token regexp="yes" spacebefore="no">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <!-- date 05/12/20 -->
-                    <token postag="Y"/>
-                    <token spacebefore="no">/</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <!-- p. 75 (page 75) -->
-                    <token>p</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <!-- version number: 2.3.2 -->
-                    <token regexp="yes">\d+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">\d+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <!-- version number: 2.3.2 -->
-                    <token regexp="yes" spacebefore="no">\d+\.\d+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <!-- Star Wars 8  -->
-                    <token>Star</token>
-                    <token>Wars</token>
-                    <token regexp="yes">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">office|microsoft</token>
-                    <token>365</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d{5}</token>
-                    <token/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">n[°º]</token>
-                    <token regexp="yes">\d+</token>
-                    <token postag=".*s" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <!-- time -->
-                    <token regexp="yes">\d{1,2}</token>
-                    <token regexp="yes">h|:</token>
-                    <token regexp="yes">\d{1,2}</token>
-                </antipattern>
-                <antipattern>
-                    <!-- time -->
-                    <token regexp="yes">\d{1,2}h</token>
-                    <token regexp="yes">\d{1,2}</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">du|en|le|Copyright|©|halloween|Avent|Carême|Noël|Pentecôte|printemps|automne|hiver|été</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                </antipattern>
-                <antipattern>
-                    <token>
-                        <exception regexp="yes">plus|mois</exception></token>
-                    <token>de</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                    <token>
-                        <exception regexp="yes" inflected="yes">&unites_de_mesure;|&monnaies;</exception></token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">au|téléphone|tél|tph|phone</token>
-                    <token regexp="yes">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">au|téléphone|tél|tph|phone|tel</token>
-                    <token min="0" max="2" regexp="yes">[.:\+]</token>
-                    <token postag="Y" min="1" max="6"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token regexp="yes">vol|pers</token>
-                    <token>.</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">isbn|iban</token>
-                    <token min="1" max="8" regexp="yes">\d+|-</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token regexp="yes">[\-—–]</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes" inflected="yes" skip="1">télécharger|windows|version|inox|moyenne</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d</token>
-                    <token postag="M fin"/>
-                    <token regexp="yes">\d</token>
-                    <token regexp="yes">(?-i)[A-Z].*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d.+</token>
-                    <token>saint</token>
-                    <token>-</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token regexp="yes">janv?|f[ée]vr?|avr|juill?|sept?|oct|nov|d[eé]c|max(imum)?|min(imum)?|vol|sec|pourcent|art</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">cedex|stade|bouton|touche|commande|party|.html|p.?|number|ds|(?-i)GTO|coordonnée|(?-i)France|(?-i)Core</token>
-                    <token regexp="yes">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="D . s" postag_regexp="yes"/>
-                    <token regexp="yes" min="1" max="3">(?-i)[A-Z]</token>
-                    <token regexp="yes" min="0" max="1">(?-i)[a-z]</token>
-                    <token>-</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="N . s" postag_regexp="yes"/>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="D f s"/>
-                    <token regexp="yes">\d\d\d</token>
-                    <token postag="J.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">&departement;</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="[DN].*" postag_regexp="yes"/>
-                    <token postag="Y">007</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="[NJ] . s" postag_regexp="yes"/>
-                    <token>100</token>
-                    <token>gratuit</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="UNKNOWN|Y" postag_regexp="yes" min="0" max="1"/>
-                    <token regexp="yes">[/-]</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token>in</token>
-                    <token regexp="yes">-</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token>équivalent</token>
-                    <token postag="P"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[0-1]</token>
-                    <token>sur</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>à</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <!-- ordinals: le 31 État de l’Union-->
+                <token>le</token>
+                <token regexp="yes">\d+</token>
+                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- ordinals: la 9 Symphonie de Beethoven -->
+                <token>la</token>
+                <token regexp="yes">\d+</token>
+                <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">&mois_annee;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&mois_annee;|années?</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">anniversaire|multiplié|divisé|Avenue|Boulevard|Quai|Rue|Impasse|chemin</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&suivi_par_nombre;</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <!--  Peugeot 208 -->
+                <token postag="Z.*" postag_regexp="yes"/>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token>#</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- date 05/12/20 -->
+                <token postag="Y"/>
+                <token spacebefore="no">/</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <!-- p. 75 (page 75) -->
+                <token>p</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- version number: 2.3.2 -->
+                <token regexp="yes">\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- version number: 2.3.2 -->
+                <token regexp="yes" spacebefore="no">\d+\.\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <!-- Star Wars 8  -->
+                <token>Star</token>
+                <token>Wars</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">office|microsoft|word</token>
+                <token regexp="yes">365|95|98|1998</token>
+            </antipattern>
+            <!--<antipattern>
+                <token regexp="yes">\d{5}</token>
+                <token/>
+            </antipattern>-->
+            <antipattern>
+                <token regexp="yes">n[°º]</token>
+                <token regexp="yes">\d+</token>
+                <token postag=".*s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- time -->
+                <token regexp="yes">\d{1,2}</token>
+                <token regexp="yes">h|:</token>
+                <token regexp="yes">\d{1,2}</token>
+            </antipattern>
+            <antipattern>
+                <!-- time -->
+                <token regexp="yes">\d{1,2}h</token>
+                <token regexp="yes">\d{1,2}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">du|en|le|Copyright|©|halloween|Avent|Carême|Noël|Pentecôte|printemps|automne|hiver|été</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token>
+                    <exception regexp="yes">plus|mois</exception></token>
+                <token>de</token>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>
+                    <exception regexp="yes" inflected="yes">&unites_de_mesure;|&monnaies;</exception></token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">au|téléphone|tél|tph|phone</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">au|téléphone|tél|tph|phone|tel</token>
+                <token min="0" max="2" regexp="yes">[.:\+]</token>
+                <token postag="Y" min="1" max="6"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">vol|pers</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">isbn|iban</token>
+                <token min="1" max="8" regexp="yes">\d+|-</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">[\-—–]</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="1">télécharger|windows|version|inox|moyenne</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d</token>
+                <token postag="M fin"/>
+                <token regexp="yes">\d</token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d.+</token>
+                <token>saint</token>
+                <token>-</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">janv?|f[ée]vr?|avr|juill?|sept?|oct|nov|d[eé]c|max(imum)?|min(imum)?|vol|sec|pourcent|art</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">cedex|stade|bouton|touche|commande|party|.html|p.?|number|ds|(?-i)GTO|coordonnée|(?-i)France|(?-i)Core</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D . s" postag_regexp="yes"/>
+                <token regexp="yes" min="1" max="3">(?-i)[A-Z]</token>
+                <token regexp="yes" min="0" max="1">(?-i)[a-z]</token>
+                <token>-</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="N . s" postag_regexp="yes"/>
+                <token postag="Y"/>
+            </antipattern>
+           <!-- <antipattern>
+                <token postag="D f s"/>
+                <token regexp="yes">\d\d\d</token>
+                <token postag="J.*" postag_regexp="yes"/>
+            </antipattern>-->
+            <antipattern>
+                <token regexp="yes">&departement;</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[DN].*" postag_regexp="yes"/>
+                <token postag="Y">007</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . s" postag_regexp="yes"/>
+                <token>100</token>
+                <token>gratuit</token>
+            </antipattern>
+            <antipattern>
+                <token postag="UNKNOWN|Y" postag_regexp="yes" min="0" max="1"/>
+                <token regexp="yes">[/-]</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token regexp="yes">-</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token>équivalent</token>
+                <token postag="P"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[0-1]</token>
+                <token>sur</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">[A-Z]</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[0-1][,.]\d+</token>
+                <token postag="[NJ] . s|V ppa . s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>moyenne</token>
+                <token min="0">de</token>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
                     <token postag="N.*" postag_regexp="yes"/>
-                    <token regexp="yes">[A-Z]</token>
-                    <token>.</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[0-1][,.]\d+</token>
-                    <token postag="[NJ] . s|V ppa . s" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>moyenne</token>
-                    <token min="0">de</token>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <unify>
-                        <feature id="number"/>
-                        <feature id="gender"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <unify-ignore>
-                            <token>sur</token>
-                            <token postag="Y"/>
-                        </unify-ignore>
-                        <token postag="J.*|V ppa.*" postag_regexp="yes"/>
-                    </unify>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[A-Z]+</token>
-                    <token spacebefore="no">-</token>
-                    <token spacebefore="no" regexp="yes">\d+</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">(?-i)CAC</token>
-                    <token>40</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="D m s"/>
-                    <token postag="Y"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="Y"/>
-                    <token regexp="yes">&apostrophe;</token>
-                    <token postag="Y"/>
-                    <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
-                        <exception>seconde</exception></token>
-                </antipattern>
-                <antipattern>
-                    <token postag="Z.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
-                    <token postag="Y" min="1" max="4"/>
-                </antipattern>
+                    <unify-ignore>
+                        <token>sur</token>
+                        <token postag="Y"/>
+                    </unify-ignore>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[A-Z]+</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)CAC</token>
+                <token>40</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D m s"/>
+                <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">&apostrophe;</token>
+                <token postag="Y"/>
+                <token postag="[NJ] . s|V ppa . s" postag_regexp="yes">
+                    <exception>seconde</exception></token>
+            </antipattern>
+            <antipattern>
+                <token postag="Z.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                <token postag="Y" min="1" max="4"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)[A-Z]+</token>
+                <token regexp="yes">\d.*</token>
+            </antipattern>
+            <rule>
                 <antipattern>
                     <token regexp="yes">\d.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">(?-i)[A-Z]+</token>
-                    <token regexp="yes">\d.*</token>
                 </antipattern>
                 <pattern>
                     <token postag="Y">
@@ -1117,6 +1117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="enfants">Les 4 <marker>enfant</marker>.</example>
                 <example correction="parties">Le pays est découpé en 4 <marker>partie</marker>.</example>
                 <example correction="yens">Je n'ai pas plus de 1000 <marker>yen</marker>.</example>
+                <example correction="yens">Ce bureau m'a couté 20000 <marker>yen</marker>.</example>
                 <example>Etude officielle OA 3711 menée en novembre 2019.</example>
                 <example>Poids net: 40 Moteur: 5.5HP.</example>
                 <example>Référentiel 2020 Infirmier.</example>
@@ -1212,6 +1213,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="([NJ] .|V ppa .) s" postag_regexp="yes" postag_replace="$1 p" case_conversion="alllower"/></suggestion>
                 <!-- FIXME: bug, alllower doesn't work here!? -->
                 <example correction="Euros">10 <marker>Euro</marker>.</example>
+                <example correction="Yens">Ce bureau m'a couté 20000 <marker>Yen</marker>.</example>
+                <example>2013 9:33 Heure Foulée des Halles à Vauvert</example>
+                <example>DIMANCHE 22 AVRIL 2012 JOUR DE LA TERRE UNE BONNE PENSÉE</example>
+                <example>J'ai eu 1/2 heure tranquille pour me régaler !</example>
+                <example>dans le cadre de la 25 journée</example>
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_NUMERAL_SINGULAR" name="Concordance de 1 suivi de nom">
