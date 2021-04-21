@@ -16347,10 +16347,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="ENS_ELS" name="ens/els">
+            <pattern>
+                <token>ens<exception case_sensitive="yes">ENS</exception></token>
+                <token postag="N.[MC][PN].*|A..[MC][PN].*|V.P..PM." postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Possible error de picatge.</message>
+            <suggestion>els \2</suggestion>
+            <example correction="els clàssics">Aquesta setmana <marker>ens clàssics</marker> de sempre.</example>
+        </rule>
         <rule id="ELA_ELS" name="ela/els">
             <pattern>
                 <token>ela<exception case_sensitive="yes">ELA</exception></token>
-                <token postag="N.[MC][PN].*|A..[MC][PN].*" postag_regexp="yes"/>
+                <token postag="N.[MC][PN].*|A..[MC][PN].*|V.P..PM." postag_regexp="yes"/>
             </pattern>
             <message>Possible error de picatge.</message>
             <suggestion>els \2</suggestion>
