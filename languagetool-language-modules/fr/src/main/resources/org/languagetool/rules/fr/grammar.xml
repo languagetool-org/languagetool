@@ -1000,7 +1000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="N . s" postag_regexp="yes"/>
                 <token postag="Y"/>
             </antipattern>
-           <!-- <antipattern>
+            <!-- <antipattern>
                 <token postag="D f s"/>
                 <token regexp="yes">\d\d\d</token>
                 <token postag="J.*" postag_regexp="yes"/>
@@ -4580,6 +4580,8 @@ though, and has since been slightly modified)-->
                 <example>Tout ce dont il se souvient a trait à l'espéranto.</example>
                 <example>Tout le monde a ses forces et ses faiblesses.</example>
                 <example>Cela lui a pris trois mois.</example>
+                <example>L'orange a laissé un goût étrange dans ma bouche.</example>
+                <example>La crème a été brûlée avant d’être mise au frais.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17478,22 +17480,23 @@ though, and has since been slightly modified)-->
                             <exception>Bordes-sur-Arize</exception></token>
                     </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
                 <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
-                <example correction="">Le chef du <marker>restaurent</marker>.</example>
+                <example correction="restaurant">Le chef du <marker>restaurent</marker>.</example>
                 <example>Le chef du <marker>restaurant</marker>.</example>
                 <example>Au revoir.</example>
                 <example>Partir aux USA.</example>
                 <example>Les montagnes du <marker>Jura</marker>.</example>
-                <example correction="">Mes <marker>démêles</marker> avec X.</example>
+                <example correction="démêlés|démaillés|femelles|semelles|décelés|démêlé|démêlées|dégelés|démêlée|dételés">Mes <marker>démêles</marker> avec X.</example>
                 <example>Mes <marker>démêlés</marker> avec X.</example>
                 <example>Le son <marker>a</marker> interféré avec l’image.</example>
                 <example>Une irradiation <marker>avec soit</marker> de la lumière ultraviolette, soit des protons.</example>
                 <example>Le glacier du <marker>Trient</marker>.</example>
                 <example>Le glacier des <marker>Bossons</marker>.</example>
                 <example>Ils ont des a priori sur nous.</example>
-                <example correction="">Un <marker>délaie</marker> de paiement.</example>
+                <example correction="délai|délais|délié|délavé|délayé|délacé|délainé|délaité">Un <marker>délaie</marker> de paiement.</example>
                 <example>Un <marker>délai</marker> de paiement.</example>
-                <example correction="">Une <marker>pèle</marker>.</example>
+                <example correction="paille|pillé|pelle|paillé|pelé|peille|pellé|palle|père|belle">Une <marker>pèle</marker>.</example>
                 <example>Une <marker>pelle</marker>.</example>
                 <example>Quelqu’un a pris mon téléphone.</example>
                 <example>L’un vit à Tokyo, l’autre vit à Paris.</example>
@@ -17531,8 +17534,9 @@ though, and has since been slightly modified)-->
                             <exception>Bordes-sur-Arize</exception></token>
                     </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
                 <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
-                <example correction="">Je vais au <marker>marcher</marker>.</example>
+                <example correction="marché|marche|marchés|marches|archer|marcheur|karcher">Je vais au <marker>marcher</marker>.</example>
                 <example>Je vais au marché.</example>
                 <example>Au revoir.</example>
                 <example>Au sortir de la guerre.</example>
@@ -19901,6 +19905,7 @@ though, and has since been slightly modified)-->
                 <example>Regardez le grand immeuble là-bas.</example>
                 <example>Descendez la rue tout droit.</example>
                 <example>Marie la connait bien.</example>
+                <example>Ajoutez la carotte râpée à la farce. </example>
             </rule>
             <rule>
                 <antipattern>
@@ -19926,6 +19931,7 @@ though, and has since been slightly modified)-->
                 <example><marker>Coupez les</marker> trois feuilles.</example>
                 <example correction="plongez-les">Détachez les ravioles et <marker>plongez les</marker> dans le bouillon</example>
                 <example>Marie les connait bien.</example>
+                <example>Respectez les limites de vitesse !</example>
             </rule>
             <rule>
                 <pattern>
@@ -39435,12 +39441,12 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <unify negate="yes">
-                    <feature id="person"/>
-                    <feature id="number"/>
+                        <feature id="person"/>
+                        <feature id="number"/>
                         <token postag="R pers obj [12] p" postag_regexp="yes"/>
-                    <unify-ignore>
-                        <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
-                    </unify-ignore>
+                        <unify-ignore>
+                            <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                        </unify-ignore>
                         <token postag="V .*" postag_regexp="yes"/>
                     </unify>
                 </antipattern>
@@ -41217,7 +41223,7 @@ though, and has since been slightly modified)-->
                 <example correction="">Il est <marker>24h301</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MULTIPLICATION_SIGN" name="Mathématiques: Multiplication: x - × ">
+        <rulegroup id="MULTIPLICATION_SIGN" name="Mathématiques: Multiplication: x - × " tags="picky">
             <!-- Localised from Portuguese by Tiago F. Santos, 2019-09-09  -->
             <rule>
                 <antipattern>

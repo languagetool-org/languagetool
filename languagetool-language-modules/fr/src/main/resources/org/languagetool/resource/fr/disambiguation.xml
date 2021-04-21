@@ -4947,6 +4947,10 @@ RB => Règles Brutes
         </rule>
     </rulegroup>
     <rule id="PRONOM_VERB" name="se montre">
+        <antipattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="[NJZ].*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="R pers.*" postag_regexp="yes">
                 <exception regexp="yes">-.*</exception></token>
