@@ -6824,6 +6824,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic ">
 			<rule>
+				<antipattern><token>tik</token><token>op</token></antipattern>
 				<antipattern><token regexp="yes">een|flinke</token><token>tik</token><token regexp="yes">op|tegen</token></antipattern>
 				<antipattern><token>tik</token><token>van</token><token>de</token><token>molen</token></antipattern>
 				<antipattern><token>tik</token><token>op</token><token/><token>vingers</token></antipattern>
@@ -17526,11 +17527,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):([13]EP|INF)">doet</token><token>maar</token><token regexp="yes">wat|iets</token></antipattern>
 				<antipattern><token>maar</token><token>een</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
 				<antipattern><token>maar</token><token>weinig</token></antipattern>
 				<antipattern><token>zelf</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>ook</token><token>maar</token><token>een</token></antipattern>
-				<antipattern><token>alleen</token><token>maar</token><token>een</token></antipattern>
+				<antipattern><token>alleen</token><token>maar</token></antipattern>
 				<antipattern><token>maar</token><token>al</token><token>te</token></antipattern>
 				<antipattern><token>laten</token><token>we</token><token>het</token><token>voorlopig</token><token>maar</token></antipattern>
 				<antipattern><token>zoek</token><token>het</token><token>maar</token><token>uit</token></antipattern>
@@ -19424,7 +19426,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
-				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW(TGW|VLT):3EP"/></antipattern>
+				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):3EP"/></antipattern>
 				<antipattern><token>was</token><token>net</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
