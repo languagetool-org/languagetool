@@ -18722,7 +18722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>unseretwegen</suggestion>
                 <example correction="Unseretwegen"><marker>Wegen uns</marker> kommt er zu spät.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <regexp>\b(wegen) (euch)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>euretwegen</suggestion>
@@ -32534,6 +32534,32 @@ Andere Projekte</example>
                 <example correction="Ende">Der Schrecken hat ein <marker>ende</marker>.</example>
                 <example correction="Ende">Das Grauen nimmt kein <marker>ende</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">das|dieses|[msdk]?ein|ihr</token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token regexp="yes">vo[mn]|das|,</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <example correction="Ende">Das ist das <marker>ende</marker> vom Lied.</example>
+                <example>Er sagte, dass ende im Desaster.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token>gut</token>
+                    <token min="0">,</token>
+                    <token>alles</token>
+                    <token>gut</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <example correction="Ende">Aber <marker>ende</marker> gut, alles gut.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="REDE_SUBST" name="'rede (Rede)'">
             <rule>
@@ -37904,7 +37930,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
-                <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet)</token>
+                <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst)</token>
             </pattern>
             <message>Das Verb <suggestion><match no="1" regexp_match="(neu)" regexp_replace="$1 " /></suggestion> wird getrennt geschrieben.</message>
             <example correction="neu starten">Er muss seinen Computer erst <marker>neustarten</marker>.</example>
