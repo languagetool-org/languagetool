@@ -13199,6 +13199,21 @@ onwaarschijnlijk
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
 		
+		<rulegroup id="JARIGE_JOB" name="Job/job" type="misspelling">
+			<rule>
+				<pattern>
+						<token>jarige</token>
+						<marker>
+							<token regexp="yes" case_sensitive="yes">Job|Jop|Jet</token>
+						</marker>
+				</pattern>
+				<message>Als de jarige niet écht \2 heet, dan is de hoofdletter overbodig.</message>
+				<suggestion><match no="2" case_conversion="alllower"/></suggestion>
+				<url>https://onzetaal.nl/taaladvies/jarige-job-job-jop/</url>
+				<short>Hoofdletters</short>
+				<example correction="jet">De jarige <marker>Jet</marker> trakteerde.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ORANJES" name="Oranjes/oranjes" type="misspelling">
 			<rule>
 				<pattern>
@@ -19426,8 +19441,6 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
-				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):3EP"/></antipattern>
-				<antipattern><token>was</token><token>net</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
@@ -19438,14 +19451,15 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">het|dit|dat</token>
 					<marker>
-						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo</exception></token>
-						<token postag_regexp="yes" postag="ZNW:.*HET"><exception>weer</exception></token>
+						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was</exception></token>
+						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net</exception></token>
 					</marker>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
 				<message>\2 is een 'de'-woord, maar \3 een het-woord. Het kan dus zijn dat u een spatie te veel hebt gezet.</message>
 				<suggestion>\2\3</suggestion>
 				<example correction="bepalingengedoe">Ik zie het <marker>bepalingen gedoe</marker>.</example>
+				<example>Ik zong door en het leek net of het niet ging.</example>
 			</rule>
 		</rulegroup>
 		<!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
@@ -31471,6 +31485,18 @@ steenwijk;Steenwijk
 		</rulegroup>
 		-->
 
+		<rulegroup id="KINDER" name="Kinder cadeau/kindercadeau" >
+			<rule>
+				<pattern>
+					<token>kinder</token>
+					<token/>
+				</pattern>
+				<message>Kinder kan niet los voorkomen. Het hoort aan het volgende woord vast.</message>
+				<suggestion>\1\2</suggestion>
+				<suggestion>kinderen \2</suggestion>
+				<example correction="kindercadeau|kinderen cadeau">Ik geeft het <marker>kinder cadeau</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DE_ORDENDE" name="De ordende/de geordende" >
 			<rule>
 				<pattern>
