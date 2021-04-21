@@ -65538,9 +65538,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="se'n va|va">Ell <marker>es va</marker> a casa.</example>
                 <example correction="te'n vas|vas">Tu <marker>et vas</marker> a casa.</example>
                 <example correction="se'n puja|puja">Joan <marker>es puja</marker> a la superfície.</example>
+                <example correction="Se'n va|Va"><marker>Es va</marker>.</example>
                 <!--<example>Es puja a la superfície.</example>-->
                 <example>Es van «civilitzar» a Anglaterra.</example>
                 <example>Em pujava del pit a la cara.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">es|se</token>
+                    <token postag="VA.*" postag_regexp="yes">va</token>
+                    <and>
+                        <token inflected="yes" regexp="yes">anar|pujar|venir<exception inflected="yes">vendre</exception><exception postag="VA.*" postag_regexp="yes"/></token>
+                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                    </and>
+                </pattern>
+                <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'. Pot ser correcte si és una frase impersonal.</message>
+                <suggestion><match no="1" regexp_match="(?iu)e?([mts])e?" regexp_replace="$1e'n"/> \2 \3</suggestion>
+                <suggestion>\2 \3</suggestion>
+                <example correction="Se'n va anar|Va anar"><marker>Es va anar</marker> de casa.</example>
+                <example correction="se'n va anar|va anar">El dia que <marker>es va anar</marker> a la ciutat.</example>
+                <example correction="se'n va anar|va anar">Aleshores <marker>es va anar</marker> a la ciutat a presentar una queixa.</example>
+                <example>Es van «civilitzar» a Anglaterra.</example>
+                <example>Em pujava del pit a la cara.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">em|et|me|te|se|es</token>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <and>
+                        <token inflected="yes" regexp="yes">anar|pujar|venir<exception inflected="yes">vendre</exception><exception postag="VA.*" postag_regexp="yes"/></token>
+                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                    </and>
+                </pattern>
+                <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)e?([mts])e?" regexp_replace="$1e'n"/> \2 \3</suggestion>
+                <suggestion>\2 \3</suggestion>
+                <example correction="Te'n vas anar|Vas anar"><marker>Et vas anar</marker> de casa.</example>
+                <example correction="Se'n van anar|Van anar"><marker>Es van anar</marker> de casa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -65649,9 +65683,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">L'home s'<marker>anà</marker> de seguida</example>
                 <example correction="">Es <marker>van</marker> amb una indemnització de 30 milions.</example>
                 <example correction="" reason="ambiguous">La divisió s'ha d'<marker>anar</marker> amb cura per evitar ambigüitats.</example>
-                <example reason="ambiguous">Aleshores es va <marker>anar</marker> a la ciutat a presentar una queixa.</example>
                 <example reason="ambiguous">quan es <marker>pugen</marker>, permeten canviar de feina.</example>
-                <example reason="ambiguous">El dia que es va anar a la ciutat.</example>
                 <example correction="">I es <marker>pujà</marker> al cel.</example>
                 <!-- un portal adovellat pel qual es puja al castell-->
                 <example correction="" type="triggers_error" reason="ambiguous">I, mantenint el contacte amb el caiac, es <marker>puja</marker> a la superfície.</example>

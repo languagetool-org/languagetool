@@ -14554,7 +14554,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="PD.*|RG.*"/>
     </rule>
-     <rulegroup id="QUE_COMPARATIU" name="'que' com a comparatiu">
+    <rulegroup id="QUE_COMPARATIU" name="'que' com a comparatiu">
         <!-- Excepcions amb "tenir, haver-hi, trobar..." ?? -->
         <!-- arriba un |moment|instant, tal punt
             no tenia cap altra missió que inculcar-li disciplina,
@@ -15901,6 +15901,31 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token inflected="yes">es</token>
                 </marker>
                 <token postag="V.[SI].3S.." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_sg"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!-- Es va -->
+            <pattern>
+                <marker>
+                    <token inflected="yes">es</token>
+                </marker>
+                <token postag="VM[SI].3S.." postag_regexp="yes">va</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_sg"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!-- Es va anar-->
+            <pattern>
+                <marker>
+                    <token inflected="yes">es</token>
+                </marker>
+                <token>va</token>
+                <token>anar</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_es_personal_sg"/>
