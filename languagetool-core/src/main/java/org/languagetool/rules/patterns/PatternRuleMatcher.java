@@ -194,6 +194,9 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       //PatternRule rule = (PatternRule) this.rule;
       int sugStart = msg.indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
+      if (msg.contains(PatternRuleHandler.PLEASE_SPELL_ME)) {
+        sugStart += PatternRuleHandler.PLEASE_SPELL_ME.length();
+      }
       for (Match sMatch : suggestionMatches) {
         if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
             && msg.charAt(sugStart) == '\\') {
