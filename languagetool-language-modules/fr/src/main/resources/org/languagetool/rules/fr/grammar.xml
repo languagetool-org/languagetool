@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY unites_temps "matinée|journée|an|année|décade|décennie|h(eure)?|j(our)?|lustre|millénaire|min(ute)?|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
     <!ENTITY expression_deux_mots_trait_union "cycle|concertation|rencontre|alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
-    <!ENTITY suivi_par_nombre "acte|canal|chapitre|division|exercice|figure|formule|leçon|master|numéro|option|page|phase|saison|scène|section|taille|terminal|tome|top|total|variante|vers|verset|version|volume|zone|épisode|étape|type|classe|catégorie">
+    <!ENTITY suivi_par_nombre "acte|canal|chapitre|division|exercice|figure|formule|leçon|master|numéro|option|page|phase|partie|saison|scène|section|taille|terminal|tome|top|total|variante|vers|verset|version|volume|zone|épisode|étape|type|classe|catégorie|ordre|salle|chiffre|nombre|nº|tableau|quai|point|article|mode|niveau|degré|ligne|départementale|nationale">
     <!ENTITY unites_de_mesure "(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?">
     <!ENTITY departement "Ain|Aisne|Allier|Alpes-de-Haute-Provence|Hautes-Alpes|Alpes-Maritimes|Ardèche|Ardennes|Ariège|Aube|Aude|Aveyron|Bouches-du-Rhône|Calvados|Cantal|Charente|Charente-Maritime|Cher|Corrèze|Corse-du-Sud|Haute-Corse|Côte-d'Or|Côtes d'Armor|Creuse|Dordogne|Doubs|Drôme|Eure|Eure-et-Loir|Finistère|Gars|Haute-Garonne|Gers|Gironde|Hérault|Ille-et-Vilaine|Indre|Indre-et-Loire|Isère|Jura|Landes|Loir-et-Cher|Loire|Haute-Loire|Loire-Atlantique|Loiret|Lot|Lot-et-Garonne|Lozère|Maine-et-Loire|Manche|Marne|Haute-Marne|Mayenne|Meurthe-et-Moselle|Meuse|Morbihan|Moselle|Nièvre|Nord|Oise|Orne|Pas-de-Calais|Puy-de-Dôme|Pyrénées-Atlantiques|Hautes-Pyrénées|Pyrénées-Orientales|Bas-Rhin|Haut-Rhin|Rhône|Haute-Saône|Saône-et-Loire|Sarthe|Savoie|Haute-Savoie|Paris|Seine-Maritime|Seine-et-Marne|Yvelines|Deux-Sèvres|Somme|Tarn|Tarn-et-Garonne|Var|Vaucluse|Vandée|Vienne|Haute-Vienne|Vosges|Yonne|Territoire de Belfort|Essonne|Hauts-de-Seine|Seine-St-Denis|Val-de-Marne|Val-D'Oise|Guadeloupe|Martinique|Guyane|La Réunion|Mayotte">
     <!ENTITY monnaies "afghani|rand|lek|d[ie]nar|euro|kwanza|dollar|florin|riyal|peso|dram|manat|taka|rouble|franc|r(h)?oupie|boliviano|mark|pula|couronne|real|(bulgarian)? lev|riel|peso|escudo|yuan|livre|won|kuna|colon|dirham|birr|dalasi|lari|ghana cedi|quetzal|gourde|lempira|forint|rupiah|rial|yen|tenge|shilling|som|kip|rans|loti|lats|litas|pataca|malagasy|ringgit|kwacha|rufiyaa|ouguija|leu|tugrik|metical|kyat|rand|cordoba|naira|soum|balboa|kina|guarani|(nouveau)? sol|zloty|tala|dobra|leone|lilangeni|somoni|baht|pa'anga|manat|hryvnia|vatu|bolivar|dong|kwacha">
@@ -12646,44 +12646,206 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
-        <rule id="NOMBRE_DEBUT_DE_PHRASE" name="nombre en début de phrase" default="temp_off">
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes">[a-z]</token>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes">bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vol|(?-i)CAD|(?-i)AM</token>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes">[a-z].*</token>
-                <token postag="Y"/>
-            </antipattern>
-            <antipattern>
-                <token postag="Y" skip="-1"/>
-                <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
-            </antipattern>
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker>
+        <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" default="temp_off">
+            <rule>
+                <antipattern>
                     <token postag="Y"/>
-                </marker>
-                <token regexp="yes" skip="-1">[a-z].*</token>
-                <token regexp="yes">[\.\!\?]</token>
-            </pattern>
-            <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
-            <suggestion><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
-            <example correction="Neuf"><marker>9</marker> manifestants ont été battus.</example>
-            <example correction="Trente-quatre"><marker>34</marker> manifestants ont été battus.</example>
-            <example>9 février 2020.</example>
-            <example>9 et 10 rue Camus.</example>
-            <example>9a est un bon score.</example>
-        </rule>
+                    <token regexp="yes">[a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vol|(?-i)CAD|(?-i)AM</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z].*</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y" skip="-1"/>
+                    <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">juil|avr|févr|janv</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z][a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d\d\d+</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="Y">
+                            <exception regexp="yes">\d+[,.]\d+</exception></token>
+                    </marker>
+                    <token regexp="yes" skip="-1">[a-z].*</token>
+                    <token regexp="yes">[\.\!\?]</token>
+                </pattern>
+                <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
+                <suggestion><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
+                <example correction="Neuf"><marker>9</marker> manifestants ont été battus.</example>
+                <example correction="Trente-quatre"><marker>34</marker> manifestants ont été battus.</example>
+                <example><marker>30,40</marker> manifestants ont été battus.</example>
+                <example><marker>1004</marker> manifestants ont été battus.</example>
+                <example>01 janv.</example>
+                <example>1 al. 163 CP. 2.1).</example>
+                <example>1.3 Le contrat conclu entre vous et Google inclut également les conditions définies ci-après.</example>
+                <example>9 février 2020.</example>
+                <example>9 et 10 rue Camus.</example>
+                <example>9a est un bon score.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vol|(?-i)CAD|(?-i)AM</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z].*</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y" skip="-1"/>
+                    <token regexp="yes">&unites_de_mesure;|&monnaies;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z][a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="Y" regexp="yes">\d\d\d\d.*</token>
+                    </marker>
+                    <token regexp="yes" skip="-1">[a-z].*</token>
+                    <token regexp="yes">[\.\!\?]</token>
+                </pattern>
+                <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
+                <example correction=""><marker>1004</marker> manifestants ont été battus.</example>
+                <example correction=""><marker>1004.65</marker> manifestants ont été battus.</example>
+                <example>1 al. 163 CP. 2.1).</example>
+                <example>1.3 Le contrat conclu entre vous et Google inclut également les conditions définies ci-après.</example>
+                <example>9 et 10 rue Camus.</example>
+                <example>9a est un bon score.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">min|millions?|millard(s|ième)?|bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vols?|(?-i)CAD|(?-i)AM|ppm|pCi|sacbés?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z].*</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y" skip="-1"/>
+                    <token regexp="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">juil|avr|févr|janv</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes" min="1" max="2">[a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">&suivi_par_nombre;|contre|longueur|hauteur|diamètre|côté|premier|tramway|route|(?-i)Europe|formule</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+[,.]\d+|\d+</token>
+                    <token postag="N.*" postag_regexp="yes" min="0" max="1"/>
+                    <token regexp="yes">à|sur</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">divisible|multiple|incidence|prévalence</token>
+                    <token regexp="yes">par|de</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[a-z].*</token>
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d+</token>
+                    <token>,</token>
+                    <token regexp="yes" skip="-1">\d+</token>
+                    <token>,</token>
+                    <token postag="C coor"/>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[a-z].*</token>
+                    <marker>
+                        <token regexp="yes">\d</token>
+                    </marker>
+                    <token regexp="yes" skip="-1">[a-z].*</token>
+                    <token regexp="yes">[\.\!\?]</token>
+                </pattern>
+                <message>Les chiffres s'écrivent généralement en lettres.</message>
+                <suggestion><match no="2" postag="_spell_number_"/></suggestion>
+                <example correction="neuf">Les <marker>9</marker> garçons ont été jouer au parc.</example>
+                <example>Il roule sur la D <marker>9</marker>.</example>
+                <example><marker>34</marker> jours de pluie.</example>
+                <example><marker>30,40</marker> euros.</example>
+                <example>La PlayStation 2 est arrivée.</example>
+                <example>4 personnes arrivent.</example>
+                <example>Il est passé sur France 2.</example>
+                <example>Le SPIP 3 introduit un nouveau concept.</example>
+                <example>Les 2/3 sont pleins.</example>
+                <example>Il a obtenu la note de 4,4 sur 5.</example>
+                <example>Il est divisible par 2, 3, 4, ou 6.</example>
+                <example>Ils ont gagné 3 buts à 0.</example>
+            </rule>
+        </rulegroup>
         <rule id="LEURS_LEUR" name="*leurs/leur">
             <pattern>
                 <token>leurs</token>
