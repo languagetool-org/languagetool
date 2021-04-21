@@ -898,12 +898,12 @@ RB => Règles Brutes
     <rule id="TRAITE_DE" name="traite de">
         <pattern>
             <marker>
-                <token postag="V ind pres 3 s">traite</token>
+                <token postag="V (ind|sub|imp) .*" postag_regexp="yes">traite</token>
             </marker>
             <token min="0" postag="A"/>
             <token regexp="yes">de|d'|du|des</token>
         </pattern>
-        <disambig action="filter" postag="V ind pres 3 s"/>
+        <disambig action="filter" postag="V (ind|sub|imp) pres .*"/>
     </rule>
     <rule id="FAIRE_DU_PROFIT" name="fait du profit">
         <pattern>

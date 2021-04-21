@@ -872,6 +872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Il n'a pas encore pris conscience de ses fautes.</example>
                 <example>Il n'a pas fait attention à mon conseil.</example>
                 <example>Elle était vêtue tout de noir.</example>
+                <example>Comment as-tu rencontré Mary ?</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
@@ -1851,6 +1852,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si tu rencontres une interprète danois-maltais.</example>
             <example>Quelle taille fait donc un cadratin ?</example>
             <example correction="maternelles">Nos collaborateurs traduisent toujours vers leur langues <marker>maternelle</marker>.</example>
+            <!-- TODO: improve filter for this case -->
+            <example correction="grammaticales">Les erreurs d'orthographe en rouge et les erreurs <marker>grammaticaux</marker> en jaune.</example>
             <example>Il participe à la conception graphique de webisodes et de BD interactives publiés sur des sites.</example>
             <example>Il a une climatisation chaud/froid.</example>
             <example>Elle était tout de noir vêtue.</example>
@@ -2243,6 +2246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="triggers_error">et ne peuvent détourner leur regard captivés par le spectacle</example>
             <example type="triggers_error">Anderson est retourné à la maison de Linda armé d'un mandat de perquisition</example>
             <example type="triggers_error">Mais le conquérant qui a brûlé les villes, décimé les peuples, toute la folie, toute la lâcheté humaines se coalisent pour le hisser sur des pavois monstrueux.</example>
+            <example type="triggers_error">À notre surprise, Tom est venu à notre fête accompagné de Marie.</example>
             <example>Il avait les cheveux brun foncé.</example>
             <example>de forme oblongue, de couleur brun vernissé</example>
             <example>Il y a quelques postes de haut niveau disponibles pour vous.</example>
@@ -12760,6 +12764,7 @@ though, and has since been slightly modified)-->
                 <example>9 février 2020.</example>
                 <example>9 et 10 rue Camus.</example>
                 <example>9a est un bon score.</example>
+                <example type="triggers_error">Sur le panneau est indiqué : "Danger ! 10 000 volts".</example>
             </rule>
             <rule>
                 <antipattern>
@@ -17571,6 +17576,11 @@ though, and has since been slightly modified)-->
                 <example>365 € correspondant à un équivalent par mois</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">ami|ennemi</token>
+                    <token>au</token>
+                    <token postag="V inf"/>
+                </antipattern>
                 <pattern>
                     <token>au</token>
                     <marker>
@@ -17591,6 +17601,7 @@ though, and has since been slightly modified)-->
                 <example>Au sortir de la guerre.</example>
                 <example>Aurons-nous un été chaud ?</example>
                 <example>au fait « d'aller voir ailleurs »</example>
+                <example>Ami au prêter, ennemi au rendre.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe passé">
@@ -19782,6 +19793,7 @@ though, and has since been slightly modified)-->
                 <example>Ne me <marker>présentant</marker> pas comme maire</example>
                 <example>N’<marker>apporte</marker> pas de cadeaux.</example>
                 <example>Ne craignez pas de faire des fautes en parlant anglais.</example>
+                <example>Ne me traite pas d'idiot !</example>
             </rule>
             <rule>
                 <antipattern>
