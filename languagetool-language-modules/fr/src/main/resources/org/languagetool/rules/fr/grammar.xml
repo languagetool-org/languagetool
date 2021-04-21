@@ -656,7 +656,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>dans les 2e, 3e et 4e versions</example>
             </rule>
         </rulegroup>
-        <rule id="J_N" name="Concordance de l’adjectif avec le nom" default="temp_off">
+        <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
                 <token regexp="yes">\d([eè]|ème|er)</token>
                 <token>personne</token>
@@ -760,78 +760,109 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="R.*" postag_regexp="yes"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
-            <pattern>
-                <unify negate="yes">
-                    <feature id="number"/>
-                    <feature id="gender"/>
-                    <token postag="J .*" postag_regexp="yes">
-                        <exception postag="_GN_.*|V ppr|Z.*" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner</exception>
-                        <exception regexp="yes">\p{Lu}+</exception></token>
-                    <token postag="[NZ] .*" postag_regexp="yes">
-                        <exception postag="J e sp"/>
-                        <exception regexp="yes">.</exception></token>
-                </unify>
-            </pattern>
-            <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
-            <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
-            <example correction="joli garçon|jolie garçonne|jolis garçons|jolies garçonnes"><marker>jolie garçon</marker></example>
-            <example correction="grande chienne|grand chien|grands chiens|grandes chiennes">Une très <marker>grand chienne</marker>.</example>
-            <example correction="jolis Christophe|joli Christophe">Le <marker>jolie Christophe</marker></example>
-            <example correction="belles villes|belle ville">Le Japon est rempli de <marker>belle villes</marker>.</example>
-            <example correction="beaux hommes|bel homme">C'est un <marker>belle hommes</marker>.</example>
-            <example correction="mauvaises raisons|mauvaise raison">bonnes choses pour de <marker>mauvais raisons</marker></example>
-            <example correction="bon appétit|bons appétits">Bonne chance et <marker>bonne appétit</marker> !</example>
-            <example>pour en trouver certaines grâce aux aides plus rapides</example>
-            <example>les deux parcs éoliens offshore</example>
-            <example>Faites attention à ce que je dis.</example>
-            <example>De l'Air Force, de la Navy et du Marine Corps dans les décennies à venir.</example>
-            <example>Un prix d'entrée amicales.</example>
-            <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ -->
-            <example>Un prix d'entrée amical.</example>
-            <example>Honoraires inclus charge acquéreur.</example>
-            <example>les classiques noir et blanc</example>
-            <example>porte de plein droit intérêts de retard</example>
-            <example>Le merle bleu porte le ciel sur son dos.</example>
-            <example>Pour sa tenue années cinquante.</example>
-            <example>Le rival du sortant conteste l'affirmation.</example>
-            <example>La moitié des étudiants manque.</example>
-            <example>Elle frappa à la porte d'entrée numéro 23.</example>
-            <example>Quelqu'un d'intelligent remarque tout.</example>
-            <example>Bouclier de protection des données Union Européenne-États-Unis</example>
-            <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
-            <example>Dan n'a que rarement prêté attention à Linda.</example>
-            <example>1re et 2e années</example>
-            <example>les 1re et 2e compagnies</example>
-            <example>Alternant route goudronnée et sentier</example>
-            <example>Avenue Adolphe Max</example>
-            <example>2 Carrés format 13 x 13 cm</example>
-            <example>Chers mesdames et messieurs,</example>
-            <example>Classée patrimoine mondial de l'UNESCO</example>
-            <example>Communauté de Communes Flandre-Lys.</example>
-            <example>Correspondant UE/OTAN à Bruxelles</example>
-            <example>Jean Norton Cru estime qu'il s'agit bien d'un témoignage.</example>
-            <example>Rick Graves demande au général</example>
-            <example>Julien porte des lunettes rondes comme celles de John Lennon.</example>
-            <example>Léonard Mara</example>
-            <example>Maître Armelle Demy accepte de le défendre en cas de procès.</example>
-            <example>Musée Rembrandt à Amsterdam.</example>
-            <example>Musée national de Tokyo.</example>
-            <example>Saints Cyrille et Méthode.</example>
-            <example>L'ensemble le rend financièrement très compétitif vis-à-vis d'un véhicule individuel.</example>
-            <example>conclue Christophe</example>
-            <example>Mais la star du PSG va faire taire ces critiques estime Thiago Silva.</example>
-            <example>et qui regarde les autres manger</example>
-            <example>Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.</example>
-            <example>Je pense que Tom croit tout ce que dit Marie.</example>
-            <example>Thomas se dit victime d'une machination.</example>
-            <example>Vous faites allusion à moi ?</example>
-            <example>En finale B du 1 000 mètres.</example>
-            <example>Seulement lire un manuel informatique est comme s'entraîner à nager à terre.</example>
-            <example>Ils sont juste amis.</example>
-            <!-- better suggestion needed-->
-            <example type="triggers_error">Tom surpris Marie</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="J .*" postag_regexp="yes">
+                            <exception postag="_GN_.*|V ppr|Z.*" postag_regexp="yes"/>
+                            <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner</exception>
+                            <exception regexp="yes">\p{Lu}+</exception></token>
+                        <token postag="[NZ] .*" postag_regexp="yes">
+                            <exception postag="J e sp"/>
+                            <exception regexp="yes">.</exception></token>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <example correction="joli garçon|jolie garçonne|jolis garçons|jolies garçonnes"><marker>jolie garçon</marker></example>
+                <example correction="grande chienne|grand chien|grands chiens|grandes chiennes">Une très <marker>grand chienne</marker>.</example>
+                <example correction="jolis Christophe|joli Christophe">Le <marker>jolie Christophe</marker></example>
+                <example correction="belles villes|belle ville">Le Japon est rempli de <marker>belle villes</marker>.</example>
+                <example correction="beaux hommes|bel homme">C'est un <marker>belle hommes</marker>.</example>
+                <example correction="mauvaises raisons|mauvaise raison">bonnes choses pour de <marker>mauvais raisons</marker></example>
+                <example correction="bon appétit|bons appétits">Bonne chance et <marker>bonne appétit</marker> !</example>
+                <example>pour en trouver certaines grâce aux aides plus rapides</example>
+                <example>les deux parcs éoliens offshore</example>
+                <example>Faites attention à ce que je dis.</example>
+                <example>De l'Air Force, de la Navy et du Marine Corps dans les décennies à venir.</example>
+                <example>Un prix d'entrée amicales.</example>
+                <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ -->
+                <example>Un prix d'entrée amical.</example>
+                <example>Honoraires inclus charge acquéreur.</example>
+                <example>les classiques noir et blanc</example>
+                <example>porte de plein droit intérêts de retard</example>
+                <example>Le merle bleu porte le ciel sur son dos.</example>
+                <example>Pour sa tenue années cinquante.</example>
+                <example>Le rival du sortant conteste l'affirmation.</example>
+                <example>La moitié des étudiants manque.</example>
+                <example>Elle frappa à la porte d'entrée numéro 23.</example>
+                <example>Quelqu'un d'intelligent remarque tout.</example>
+                <example>Bouclier de protection des données Union Européenne-États-Unis</example>
+                <example>plusieurs dizaines de personnes toujours détenues mi-1997</example>
+                <example>Dan n'a que rarement prêté attention à Linda.</example>
+                <example>1re et 2e années</example>
+                <example>les 1re et 2e compagnies</example>
+                <example>Alternant route goudronnée et sentier</example>
+                <example>Avenue Adolphe Max</example>
+                <example>2 Carrés format 13 x 13 cm</example>
+                <example>Chers mesdames et messieurs,</example>
+                <example>Classée patrimoine mondial de l'UNESCO</example>
+                <example>Communauté de Communes Flandre-Lys.</example>
+                <example>Correspondant UE/OTAN à Bruxelles</example>
+                <example>Jean Norton Cru estime qu'il s'agit bien d'un témoignage.</example>
+                <example>Rick Graves demande au général</example>
+                <example>Julien porte des lunettes rondes comme celles de John Lennon.</example>
+                <example>Léonard Mara</example>
+                <example>Maître Armelle Demy accepte de le défendre en cas de procès.</example>
+                <example>Musée Rembrandt à Amsterdam.</example>
+                <example>Musée national de Tokyo.</example>
+                <example>Saints Cyrille et Méthode.</example>
+                <example>L'ensemble le rend financièrement très compétitif vis-à-vis d'un véhicule individuel.</example>
+                <example>conclue Christophe</example>
+                <example>Mais la star du PSG va faire taire ces critiques estime Thiago Silva.</example>
+                <example>et qui regarde les autres manger</example>
+                <example>Ne laisse pas le bruit de l'opinion des autres noyer ta voix intérieure.</example>
+                <example>Je pense que Tom croit tout ce que dit Marie.</example>
+                <example>Thomas se dit victime d'une machination.</example>
+                <example>Vous faites allusion à moi ?</example>
+                <example>En finale B du 1 000 mètres.</example>
+                <example>Seulement lire un manuel informatique est comme s'entraîner à nager à terre.</example>
+                <example>Ils sont juste amis.</example>
+                <!-- better suggestion needed-->
+                <example type="triggers_error">Tom surpris Marie</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- same rule with participles -->
+                <antipattern>
+                    <token inflected="yes">avoir</token>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">avoir</token>
+                    <token postag="A"/>
+                    <token regexp="yes">que|qu'</token>
+                    <token postag="V ppa .*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="V ppa .*" postag_regexp="yes">
+                            <exception postag="_GN_.*|V ppr|Z.*" postag_regexp="yes"/>
+                            <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner</exception>
+                            <exception regexp="yes">\p{Lu}+</exception></token>
+                        <token postag="[NZ] .*" postag_regexp="yes">
+                            <exception postag="J e sp"/>
+                            <exception regexp="yes">.</exception></token>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <example correction="enthousiasmé garçon|enthousiasmée garçonne|enthousiasmés garçons|enthousiasmées garçonnes">Un <marker>enthousiasmée garçon</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
@@ -1198,7 +1229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1 jeune sur 3 âgé de 13 à 16 ans</example>
                 <example>Contact : Tel .+209 94 35 54 70 Email</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="Y">
                         <exception regexp="yes">[10]|[10][,.]\d+</exception>
@@ -1321,7 +1352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Une grande"><marker>Un grand</marker> soif</example>
             </rule>
         </rulegroup>
-        <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms" default="temp_off">
+        <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
             <antipattern>
                 <token regexp="yes">\d([eè]|ème|er)</token>
                 <token>personne</token>
@@ -3866,6 +3897,11 @@ though, and has since been slightly modified)-->
         <rulegroup id="PEUTETRE" name="Peut être au lieu de peut-être">
             <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
             <rule>
+                <antipattern>
+                    <token>peut</token>
+                    <token regexp="yes">[êe]tre</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes">
                         <exception postag="V inf|[NJZ].*" postag_regexp="yes"/>
@@ -3883,6 +3919,7 @@ though, and has since been slightly modified)-->
                 <example>L’Écosse peut être très chaude.</example>
                 <example>L’alcool au volant peut être dangereux.</example>
                 <example>Une intoxication en cours peut être diagnostiquée.</example>
+                <example>Tout ce que vous dites peut être utilisé contre vous.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14433,7 +14470,7 @@ though, and has since been slightly modified)-->
                     <token>lui</token>
                 </antipattern>
                 <pattern>
-                    <token postag="P"/>
+                    <token postag="P"><exception>après</exception></token>
                     <token regexp="yes" min="0">me|te|m'|t'|le|la|l'|lui|vous|nous|y|en|les|leur</token>
                     <marker>
                         <token postag="V.* [123].*" postag_regexp="yes" regexp="yes">.*(ez|é|ée)
@@ -15238,7 +15275,7 @@ though, and has since been slightly modified)-->
             <message>Voulez-vous dire <suggestion>\1 \2s</suggestion> ?</message>
             <example correction="chaque fois">Tu n'as pas à te présenter à <marker>chaque foi</marker>.</example>
         </rule>
-        <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
+        <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre" default="off">
             <antipattern>
                 <token regexp="yes" inflected="yes">&suivi_par_nombre;</token>
                 <token postag="Y"/>
@@ -15379,7 +15416,7 @@ though, and has since been slightly modified)-->
                 <token>social</token>
                 <token>media</token>
             </antipattern>
-            <rule name="nombre singulier suivi du pluriel" default="off">
+            <rule name="nombre singulier suivi du pluriel">
                 <antipattern>
                     <token postag="N [fem] p" postag_regexp="yes"/>
                     <token regexp="yes">aux|à|de|du|d'</token>
@@ -15444,7 +15481,7 @@ though, and has since been slightly modified)-->
                 <example>Les résultats de l'équipe nationale 1 messieurs sont décevants.</example>
                 <example>Les machines de type 1 achetées chez nous sont plus chères.</example>
             </rule>
-            <rule name="nombre pluriel suivi du singulier" default="off">
+            <rule name="nombre pluriel suivi du singulier">
                 <antipattern>
                     <token regexp="yes">terminal|master|numéro|variante|option|total</token>
                     <token regexp="yes">\d+</token>
@@ -15790,7 +15827,7 @@ though, and has since been slightly modified)-->
         <example>Quoi de neuf Docteur ?</example>
       </rule>-->
         </rulegroup>
-        <rulegroup id="ACCORD_GENRE" name="Accord en genre">
+        <rulegroup id="ACCORD_GENRE" name="Accord en genre" default="off">
             <antipattern>
                 <unify negate="yes">
                     <feature id="number"/>
