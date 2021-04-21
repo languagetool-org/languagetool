@@ -14756,7 +14756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
-        <rule id="PUDENT" name="pudent/benestant" default="temp_off">
+        <rule id="PUDENT" name="pudent/benestant">
             <pattern>
                 <token inflected="yes" regexp="yes">classe|senyor|home|dona|empresari|propietarri|terratinent</token>
                 <marker>
@@ -35617,7 +35617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[\d .,]+</token>
+                    <token regexp="yes">\d[\d .,]+</token>
                     <token case_sensitive="yes">Ma</token>
                 </antipattern>
                 <pattern>
@@ -35627,6 +35627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'abreviació de "Maria" és <suggestion>M.</suggestion></message>
                 <suggestion>Maria</suggestion>
                 <example correction="M.|Maria">Josep <marker>Ma.</marker> Font</example>
+                <example correction="M.|Maria">La Dra. <marker>Ma.</marker> Antònia.</example>
                 <example>Ma mare es diu Maria.</example>
                 <example>Comprèn el lapse entre 5,3 i 3,4 Ma.</example>
             </rule>
