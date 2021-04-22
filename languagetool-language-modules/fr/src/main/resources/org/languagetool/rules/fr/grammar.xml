@@ -652,6 +652,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Je n'arrive pas à me débarrasser de cette bon Dieu de phrase !</example>
                 <example>On peut y ajouter le Jazz, la Soul, et désormais le Funk.</example>
                 <example>dans les 2e, 3e et 4e versions</example>
+                <example type="triggers_error">Je vous souhaite à tous bonne chance.</example>
+                <example type="triggers_error">Coaprovel s'est révélé le droit de vente pour tous fictif</example>
             </rule>
         </rulegroup>
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
@@ -1136,6 +1138,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(?-i)[A-Z]+</token>
                 <token regexp="yes">\d.*</token>
             </antipattern>
+            <antipattern>
+                <token postag="Y"/>
+                <token regexp="yes">&prefixes;</token>
+                <token postag="[NJ] . (p|sp)|V.* ppa . (p|sp)" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">\d.*</token>
@@ -1239,6 +1246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>2002 à 2011 Galerie Saint-Luc.</example>
                 <example>1 jeune sur 3 âgé de 13 à 16 ans</example>
                 <example>Contact : Tel .+209 94 35 54 70 Email</example>
+                <example>15 mini embouts 25 mm diamètre</example>
             </rule>
             <rule>
                 <pattern>
@@ -2264,6 +2272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example> Au-delà, on serait obligé de submerger toutes les infrastructures qui ont été construites autour du lac telles que les chemins de fer, les routes, les habitations.</example>
             <example>Le cabinet traite régulièrement des contentieux commerciaux.</example>
             <example>Toute cette foule, quelques minutes auparavant si tumultueuse,</example>
+            <example>Un lapin est en règle générale plus gros qu'un rat.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -3937,6 +3946,20 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">avoir|être
+                        <exception postag="[NJZ].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>peut</token>
+                        <token regexp="yes">[êe]tre</token>
+                    </marker>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+                <example correction="peut-être">Vous avez <marker>peut être</marker> fait appel à une adresse URL erronée ou obsolète.</example>
+                <example correction="peut-être">Vous avez <marker>peut être</marker> remarqué qu'ils trouvent l'amour.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">il|elle|on
                         <exception scope="previous" regexp="yes">à|pour</exception>
                         <exception scope="previous" inflected="yes">être</exception></token>
@@ -5395,18 +5418,20 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">n|non|rendez[-‑‐]vous</exception></token>
                 </marker>
             </pattern>
+            <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
             <message>Un verbe est attendu après le pronom personnel « \1 », pas un nom.</message>
             <example>Anime est le diminutif du mot, lui-même transcription de l'anglais Animation.</example>
             <example>Je <marker>travaille</marker> tard.</example>
-            <example correction="">On <marker>désir</marker> rester ici.</example>
+            <example correction="désire|désira">On <marker>désir</marker> rester ici.</example>
             <example>Nous n'affirmons rien.</example>
             <example>Je compte sur vous mercredi.</example>
             <example>Nous non plus</example>
             <example>Où vous rendez-vous habituellement ?</example>
-            <example correction="">La zone géographique dans laquelle je <marker>vie</marker>.</example>
+            <example correction="vit|voie|vide|vise|lie|vive|nie|vis|oie|vire">La zone géographique dans laquelle je <marker>vie</marker>.</example>
             <example>La zone géographique dans laquelle je vis</example>
             <example>As-tu faim maintenant ?</example>
             <example>J'anime un groupe de jeunes.</example>
+            <example correction="faites|fautes|frites|fuites|frittes|fartes|fuîtes|fîtes|haïtes">Tout indique que vous <marker>faîtes</marker> preuve de sang-froid.</example>
         </rule>
         <rule default="off" id="CETTE_CEST" name="CETTE au lieu de C’EST">
             <pattern>
@@ -18856,6 +18881,8 @@ though, and has since been slightly modified)-->
                 <example>Il est bien fait de sa personne.</example>
                 <!-- a pouvoir -> another error -->
                 <example>Tu es le seul a pouvoir m'aider</example>
+                <example>Les rapports sociaux étant eux-mêmes définis comme des rapports de pouvoir.</example>
+                <example>le peintre est lui-même mis en scène par Branwell</example>
             </rule>
         </rulegroup>
         <rule id="RPERSSUJ_ETRE_V" name="Pronom personel + V être + verbe conjugué">
@@ -22169,8 +22196,8 @@ though, and has since been slightly modified)-->
                     <token postag="[VNJ].*" postag_regexp="yes"/>
                 </pattern>
                 <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
-                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="ré$1" case_conversion="preserve"/></suggestion>
-                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="re$1" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="ré$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="re$1"/></suggestion>
                 <example correction="rééditer"><marker>ré éditer</marker>.</example>
                 <example correction="rééditer"><marker>re éditer</marker>.</example>
                 <!--<example correction="rééditer"><marker>ré-éditer</marker>.</example>

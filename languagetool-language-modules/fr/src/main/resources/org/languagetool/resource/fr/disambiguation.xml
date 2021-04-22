@@ -4953,7 +4953,7 @@ RB => Règles Brutes
         </antipattern>
         <pattern>
             <token postag="R pers.*" postag_regexp="yes">
-                <exception regexp="yes">-.*</exception></token>
+                <exception regexp="yes">-.*|.*-.*</exception></token>
             <marker>
                 <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
             </marker>
@@ -5693,6 +5693,15 @@ RB => Règles Brutes
             <pattern>
                 <marker>
                     <token regexp="yes">\-\d+\-</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <!-- multiplication: 4x4  -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d+x\d+</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
