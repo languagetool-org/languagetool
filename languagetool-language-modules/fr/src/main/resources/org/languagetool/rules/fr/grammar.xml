@@ -1389,7 +1389,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes" inflected="yes">&expression_deux_mots_trait_union;</token>
                 <token postag="[NJZ].*" postag_regexp="yes"/>
-                <token regexp="yes">[-/]</token>
+                <token regexp="yes">[-/]|et</token>
                 <token postag="[NJZ].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -2273,6 +2273,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Le cabinet traite régulièrement des contentieux commerciaux.</example>
             <example>Toute cette foule, quelques minutes auparavant si tumultueuse,</example>
             <example>Un lapin est en règle générale plus gros qu'un rat.</example>
+            <example>en relations candidats et entreprises</example>
+            <example>les tendances consommateurs pour 2021</example>
+            <example>Cette petite fait du bruit.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -4805,6 +4808,17 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example correction="à">Tout <marker>a</marker> coup, j’entendis une explosion.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>mise</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes">jour|l'|pied|niveau|mort|disposition|feu</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> (préposition) ? "a" est une conjugaison du verbe "avoir".</message>
+                <example correction="à">Une mise <marker>a</marker> jour.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12550,6 +12564,9 @@ though, and has since been slightly modified)-->
                 <token regexp="yes" case_sensitive="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*
                     <exception postag="[ZNJ].*" postag_regexp="yes"/></token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">[ICVX]+[ᵉe]?</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">[dljmnst]e|la|jusque|que</token>
@@ -12604,6 +12621,7 @@ though, and has since been slightly modified)-->
                 <example correction="d’Airbus">Selon Dirk Hoke, directeur général <marker>de Airbus</marker> Defence and Space, l'achat de F-35...</example>
                 <example>De Hugo ou de Henry, de Harvard.</example>
                 <example>les films de gangsters « italiens » à la Al Pacino.</example>
+                <example>vers le IVᵉ siècle</example>
             </rule>
             <rule>
                 <pattern>

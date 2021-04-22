@@ -1135,22 +1135,15 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">expérience|documentation</token>
-            <token postag="N m s">utilisateur</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rule name="données utilisateurs" id="DONNEES_UTILISATEURS">
-        <pattern>
-            <token postag="N.*" postag_regexp="yes" inflected="yes">donnée</token>
-            <token postag="N m p">utilisateurs</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">nouveautés|dimensions|fiche|fiches</token>
-            <token postag="N m s">produit</token>
+            <token postag="N *" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -2080,7 +2073,7 @@ RB => Règles Brutes
             <pattern>
                 <token postag="V ind pres 3 s">fait</token>
                 <token postag="P.*" postag_regexp="yes">du</token>
-                <token postag="N m s" regexp="yes">tort|bien|jogging</token>
+                <token postag="N m s" regexp="yes">tort|bien|jogging|bruit</token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
