@@ -12750,7 +12750,7 @@ though, and has since been slightly modified)-->
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
         <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" default="temp_off">
-              <rule>
+            <rule>
                 <antipattern>
                     <token postag="Y"/>
                     <token regexp="yes">[a-z]</token>
@@ -12867,7 +12867,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" skip="-1">\d</token>
-                     <token regexp="yes">\d+[,.]\d+</token>
+                    <token regexp="yes">\d+[,.]\d+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">divisible|multiple|incidence|prévalence|carré</token>
@@ -12875,7 +12875,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">\d</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">.*<exception postag="SENT_START"/></token>
+                    <token>
+                        <exception postag="SENT_START"/></token>
                     <token regexp="yes">(?-i)[A-Z].*</token>
                     <token regexp="yes">\d</token>
                 </antipattern>
@@ -12902,12 +12903,12 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d</token>
-                   <token regexp="yes" inflected="yes" skip="-1">&unites_de_mesure;</token>
-                   <token regexp="yes">\d</token>
+                    <token regexp="yes" inflected="yes" skip="-1">&unites_de_mesure;</token>
+                    <token regexp="yes">\d</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" skip="-1">\d</token>
-                   <token regexp="yes">\d\d+</token>
+                    <token regexp="yes">\d\d+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">une?|l[ae]</token>
@@ -41193,6 +41194,26 @@ though, and has since been slightly modified)-->
                 <example>« qu' »</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TRAIT_UNION_ESPACE" name="trait d'union + espace" default="temp_off">
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="person"/>
+                        <token postag="V.*ind .*" postag_regexp="yes"/>
+                        <unify-ignore>
+                            <token>-</token>
+                        </unify-ignore>
+                        <token postag="R pers suj.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Supprimez les espaces blancs inutiles.</message>
+                <suggestion>\1\2\3</suggestion>
+                <example correction="Vas-tu"><marker>Vas -tu</marker> les regarder à la télévision ?</example>
+                <example correction="Vas-tu"><marker>Vas - tu</marker> les regarder à la télévision ?</example>
+                <example correction="Vas-tu"><marker>Vas- tu</marker> les regarder à la télévision ?</example>
+            </rule>
+        </rulegroup>
         <!--
     <rule default="on" id="APOS_TYP" name="apostrophe typographique">
       <pattern>
@@ -46541,7 +46562,7 @@ though, and has since been slightly modified)-->
                 <token>napoléon</token>
             </pattern>
             <message>S'il s'agit d'un nom propre, il doit être en majuscule.</message>
-            <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
+            <suggestion><match no="1" case_conversion="startupper"/></suggestion>
             <example correction="Napoléon">sous le nom de <marker>napoléon</marker> Ier</example>
         </rule>
         <rulegroup id="HOMO" name="homo/Homo">
