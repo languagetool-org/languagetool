@@ -3760,7 +3760,9 @@ though, and has since been slightly modified)-->
                 <token negate="yes" regexp="yes">a|à|aux?</token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>quand</suggestion> ?</message>
-            <example correction="Quand"><marker>Quant</marker> il arrive, je suis heureuse.</example>
+            <!-- In some contexts: -->
+            <suggestion>quant à</suggestion>
+            <example correction="Quand|Quant à"><marker>Quant</marker> il arrive, je suis heureuse.</example>
             <example>J'ai encore des question quant a vos prix.</example>
             <!-- needs to be found by other rule -->
         </rule>
@@ -4821,6 +4823,17 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>à</suggestion> (préposition) ? "a" est une conjugaison du verbe "avoir".</message>
                 <example correction="à">Une mise <marker>a</marker> jour.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>quant</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <!--<token postag="[DJNZ].*" postag_regexp="yes"/>-->
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> (préposition) ? "a" est une conjugaison du verbe "avoir".</message>
+                <example correction="à">Quelques questions quant <marker>a</marker> la carte.</example>
             </rule>
             <rule>
                 <pattern>
