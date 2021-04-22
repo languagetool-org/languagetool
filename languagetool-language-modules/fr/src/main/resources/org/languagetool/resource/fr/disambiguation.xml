@@ -30,6 +30,7 @@ RB => Règles Brutes
     <!ENTITY prefixes "mini|anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi|mi">
     <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
+    <!ENTITY noms_apres_faire "allusion|appel|attention|carrière|confiance|demi-tour|débat|erreur|faillite|figure|fortune|fureur|gaffe|gymnastique|horreur|intrusion|irruption|lecture|main|mal|mention|montre|part|partie|peur|place|plaisir|pression|preuve|profil|référence|saillie|semblant|signe|silence|suite|usage|écho|étalage">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
@@ -872,7 +873,7 @@ RB => Règles Brutes
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
             <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">faillite|figure|fortune|fureur|horreur|irruption|lecture|erreur|montre|allusion|intrusion|signe|silence|usage|main|part|peur|pression|saillie|mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">&noms_apres_faire;</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -882,16 +883,7 @@ RB => Règles Brutes
                 <token postag="V ind pres 3 s">fait</token>
             </marker>
             <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">faillite|mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
-        </pattern>
-        <disambig action="filter" postag="V ind pres 3 s"/>
-    </rule>
-    <rule id="FAIT_SUITE" name="fait suite">
-        <pattern>
-            <marker>
-                <token postag="V ind pres 3 s">fait</token>
-            </marker>
-            <token>suite</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">&noms_apres_faire;</token>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
@@ -1135,12 +1127,11 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session</token>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client|administrateur</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">tuteur|identité|réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client|administrateur|entreprise</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
             <token postag="N *" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche</token>
@@ -2164,14 +2155,14 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V ind pres 3 s"/>
         </rule>
-        <rule id="FATES_ATTENTION" name="faire attention">
+        <rule id="FAITES_ATTENTION" name="faire attention">
             <!-- TODO: more general! -->
             <pattern>
                 <marker>
                     <token postag="V (ind|imp) pres 2 p" postag_regexp="yes">faites</token>
                 </marker>
                 <token min="0" max="2" regexp="yes">de|la</token>
-                <token regexp="yes">attention|gymnastique|appel|carrière|profil|semblant</token>
+                <token regexp="yes">&noms_apres_faire;</token>
             </pattern>
             <disambig action="filterall"/>
         </rule>

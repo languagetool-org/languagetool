@@ -841,13 +841,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V ppa .*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">avoir</token>
+                    <token inflected="yes" regexp="yes">avoir|être</token>
                     <token postag="A"/>
                     <token regexp="yes">que|qu'</token>
                     <token postag="V ppa .*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">avoir</token>
+                    <token inflected="yes" regexp="yes">avoir|être</token>
                     <token postag="A|R.*" postag_regexp="yes" min="1" max="4"/>
                     <token postag="V ppa .*" postag_regexp="yes"/>
                 </antipattern>
@@ -857,7 +857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="gender"/>
                         <token postag="V ppa .*" postag_regexp="yes">
                             <exception postag="_GN_.*|V ppr|Z.*" postag_regexp="yes"/>
-                            <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner</exception>
+                            <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner|devenir</exception>
                             <exception regexp="yes">\p{Lu}+</exception></token>
                         <token postag="[NZ] .*" postag_regexp="yes">
                             <exception postag="J e sp"/>
@@ -874,6 +874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Il n'a pas fait attention à mon conseil.</example>
                 <example>Elle était vêtue tout de noir.</example>
                 <example>Comment as-tu rencontré Mary ?</example>
+                <example>Nous ne sommes pas allées pêcher</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="Concordance de nombre suivi de nom">
@@ -1418,6 +1419,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify-ignore>
                     <token postag="R pers suj.*" postag_regexp="yes"/>
                 </unify>
+            </antipattern>
+            <antipattern>
+                <!-- missing commas? -->
+                <token regexp="yes">bonjour|bonsoir</token>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <unify>
@@ -2284,6 +2290,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>une section étranger / non étranger</example>
             <example>à 36000 euros net vendeur</example>
             <example>partenariats public-privé</example>
+            <example>Crédit photos</example>
+            <example>vous accéderez à leur galerie photos respective.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
