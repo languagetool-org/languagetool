@@ -13182,8 +13182,8 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
-				<antipattern><token regexp="yes">^(btw|ex|tv)-</token></antipattern>
-				<antipattern><token regexp="yes">-(btw|ex|tv)$</token></antipattern>
+				<antipattern><token regexp="yes">^(&gespeld;)-</token></antipattern>
+				<antipattern><token regexp="yes">-(&gespeld;)$</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
 				<pattern raw_pos="yes"> 
 					<marker>
@@ -17542,7 +17542,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
-				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):([13]EP|INF)">doet</token><token>maar</token><token regexp="yes">wat|iets</token></antipattern>
+				<antipattern><token>Het</token><token>is</token><token>maar</token></antipattern>
+				<antipattern><token>maar</token><token>een</token><token postag_regexp="yes" postag="BNW.*"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):([13]EP|INF)"/><token>maar</token><token regexp="yes">[1-9][0-9]*|een|wat|iets</token></antipattern>
 				<antipattern><token>maar</token><token>een</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
 				<antipattern><token>maar</token><token>weinig</token></antipattern>
 				<antipattern><token>zelf</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
@@ -38468,13 +38470,14 @@ steenwijk;Steenwijk
 				</antipattern>
 				<pattern>
 					<token/>
-					<token spacebefore="yes" regexp="yes">[!?;,:]</token>
+					<token spacebefore="yes" regexp="yes">[!?;,:)]</token>
 				</pattern>
 				<message>Voor dit teken hoort geen spatie <suggestion>\1\2</suggestion>.</message>
 				<short>!</short>
 				<example correction="fout!">Dit is <marker>fout !</marker></example>
 				<example correction="fout?">Is dit <marker>fout ?</marker></example>
 				<example correction="fout,">Dit is <marker>fout ,</marker> toch?</example>
+				<example correction="),">Dit (is<marker>) ,</marker> toch?</example>
 				<example>Dit is :-)</example>
 			</rule>
 		</rulegroup>
