@@ -36965,6 +36965,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="A_TOTA_COSTA" name="a tota costa" default="temp_off">
+            <pattern>
+                <token>a</token>
+                <token>tota</token>
+                <token>costa</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>a tot preu</suggestion>
+            <suggestion>incondicionalment</suggestion>
+            <suggestion>costi el que costi</suggestion>
+            <suggestion>passi el que passi</suggestion>
+            <suggestion>costés el que costés</suggestion>
+            <suggestion>coste el que coste</suggestion>
+            <suggestion>passe el que passe</suggestion>
+            <example correction="a tot preu|incondicionalment|costi el que costi|passi el que passi|costés el que costés|coste el que coste|passe el que passe">Ho havia de fer <marker>a tota costa</marker>.</example>
+        </rule>
         <rule id="ESTAR_EN_EL_CERT" name="estar en el cert">
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes">estar</token>
@@ -61476,30 +61492,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>De manera mínimament ordenada.</example>
             <example>això castigava de manera especialment dura els partits mitjans.</example>
         </rule>
-        <rule id="POTSER_SIGUI" name="potser *sigui/és">
-            <pattern>
-                <!--<exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
-                <token regexp="yes">probablement|potser|possiblement|segurament<exception scope="previous" regexp="yes">quan|si</exception></token>
-                <token min="0" max="4" postag="&pronom_feble;|RN|RG|PI.*" postag_regexp="yes"><exception>quan</exception></token>
-                <marker>
-                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Amb un adverbi de probabilitat (<match no="1" case_conversion="alllower"/>) és preferible usar un verb en indicatiu.</message>
-            <suggestion><match no="3" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
-            <short>Temps verbal incorrecte</short>
-            <example correction="tens">Probablement <marker>tinguis</marker> raó.</example>
-            <example correction="tens">Probablement encara <marker>tinguis</marker> raó.</example>
-            <example correction="agrada">Potser no sempre t'<marker>agradi</marker>.</example>
-            <example correction="estava">ha fet pensar que probablement ja <marker>estigués</marker> feta d'abans</example>
-            <example>Potser arribaren l'any passat.</example>
-            <example>quan probablement es produeixi la prohibició</example>
-            <example>Potser si haguessin pogut desenvolupar-se.</example>
-            <example>Potser trobaré qui m'ho pugui explicar.</example>
-            <example>com si potser no l'hagués de veure més</example>
-            <example>Potser quan s'acabi el curs tornarà</example>
-            <example>La Gioconda, probablement el quadre més famós de la pintura occidental.</example>
-        </rule>
+        <rulegroup id="POTSER_SIGUI" name="potser *sigui/és">
+            <rule>
+                <pattern>
+                    <!--<exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
+                    <token regexp="yes">probablement|potser|possiblement|segurament<exception scope="previous" regexp="yes">quan|si</exception></token>
+                    <token min="0" max="4" postag="&pronom_feble;|RN|RG|PI.*" postag_regexp="yes"><exception>quan</exception></token>
+                    <marker>
+                        <token postag="V.SP.*" postag_regexp="yes"><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb un adverbi de probabilitat (<match no="1" case_conversion="alllower"/>) és preferible usar un verb en indicatiu o en futur.</message>
+                <suggestion><match no="3" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
+                <suggestion><match no="3" postag="(V.)S.(.*)" postag_regexp="yes" postag_replace="$1IF$2"/></suggestion>
+                <short>Temps verbal incorrecte</short>
+                <example correction="tens|tindràs">Probablement <marker>tinguis</marker> raó.</example>
+                <example correction="tens|tindràs">Probablement encara <marker>tinguis</marker> raó.</example>
+                <example correction="agrada|agradarà">Potser no sempre t'<marker>agradi</marker>.</example>
+                <example>Potser arribaren l'any passat.</example>
+                <example>quan probablement es produeixi la prohibició</example>
+                <example>Potser si haguessin pogut desenvolupar-se.</example>
+                <example>Potser trobaré qui m'ho pugui explicar.</example>
+                <example>com si potser no l'hagués de veure més</example>
+                <example>Potser quan s'acabi el curs tornarà</example>
+                <example>La Gioconda, probablement el quadre més famós de la pintura occidental.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!--<exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
+                    <token regexp="yes">probablement|potser|possiblement|segurament<exception scope="previous" regexp="yes">quan|si</exception></token>
+                    <token min="0" max="4" postag="&pronom_feble;|RN|RG|PI.*" postag_regexp="yes"><exception>quan</exception></token>
+                    <marker>
+                        <token postag="V.S[^P].*" postag_regexp="yes"><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb un adverbi de probabilitat (<match no="1" case_conversion="alllower"/>) és preferible usar un verb en indicatiu o en futur.</message>
+                <suggestion><match no="3" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
+                <short>Temps verbal incorrecte</short>
+                <example correction="estava">ha fet pensar que probablement ja <marker>estigués</marker> feta d'abans</example>
+                <example>Potser arribaren l'any passat.</example>
+                <example>quan probablement es produeixi la prohibició</example>
+                <example>Potser si haguessin pogut desenvolupar-se.</example>
+                <example>Potser trobaré qui m'ho pugui explicar.</example>
+                <example>com si potser no l'hagués de veure més</example>
+                <example>Potser quan s'acabi el curs tornarà</example>
+                <example>La Gioconda, probablement el quadre més famós de la pintura occidental.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESPERA_QUE_INDICATIU" name="esperar que + *indicatiu/subjuntiu">
             <!-- Espero que mai no es troben/trobin (cal distingir dialectes) -->
             <antipattern>
@@ -62436,6 +62475,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És molt diferent fer de novel·lista que fer de poeta.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">fer</token>
+                    <token>res</token>
+                    <token>més</token>
+                </antipattern>
                 <pattern>
                     <token postag="N.*|_GN_.*|PI.*" postag_regexp="yes" skip="1">res<exception postag="_GV_|V.*|complement" postag_regexp="yes"/><exception scope="next" regexp="yes" negate="yes">que|més|millor</exception></token>
                     <marker>
@@ -62460,6 +62504,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No tenia res millor que fer un canvi.</example>
                 <example>no hi ha res millor en aquesta vida que menjar, beure i estar content</example>
                 <example>No és el mateix fer servir un nom tradicional que traduir.</example>
+                <example>No fa res més que pensar en la pluja.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBSTANTIUS_JUNTS" name="Dos noms comuns junts">
@@ -65549,7 +65594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es van «civilitzar» a Anglaterra.</example>
                 <example>Em pujava del pit a la cara.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">es|se</token>
                     <token postag="VA.*" postag_regexp="yes">va</token>
@@ -65567,7 +65612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es van «civilitzar» a Anglaterra.</example>
                 <example>Em pujava del pit a la cara.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">em|et|me|te|se|es</token>
                     <token postag="VA.*" postag_regexp="yes"/>
