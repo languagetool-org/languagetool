@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.7" jmeter="2.12 r1636949">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="LanguageTool test plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="LanguageTool" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">25</stringProp>
+        <longProp name="ThreadGroup.start_time">1392897496000</longProp>
+        <longProp name="ThreadGroup.end_time">1392897496000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="language" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">en-US</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">language</stringProp>
+              </elementProp>
+              <elementProp name="text" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">This is an test for the server ands itt should creat an problem.</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">text</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="language" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">pl</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">language</stringProp>
+              </elementProp>
+              <elementProp name="text" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">To jest porąbany test w którym nie ma przecinka.Wpisz tekst lub użyj istniejącego przykładu. To jest przykładowy tekst który pokazuje, jak jak działa LanguageTool. LanguageTool ma jusz korektor psowni, który wyrurznia bledy na czewrono.</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">text</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="language" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">br</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">language</stringProp>
+              </elementProp>
+              <elementProp name="text" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">Lakait amañ ho testenn vrezhonek da vezañ gwiriet. Pe implijit an frazenn-mañ gant meur a fazioù yezhadurel.</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">text</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="language" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">ca-ES</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">language</stringProp>
+              </elementProp>
+              <elementProp name="text" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">Introduïu açí el vostre text. o feu servir aquest texts com a a exemple per a alguns errades que LanguageTool hi pot detectat.</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">text</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="language" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">de-DE</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">language</stringProp>
+              </elementProp>
+              <elementProp name="text" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">Fügen Sie hier Ihren Text ein. oder nutzen Sie diesen Text als Beispiel für ein Paar Fehler , die LanguageTool erkennen kann: Nachdem wir die Problem bemerkten, wurden sie schnell behoben. Ihm wurde Angst und bange, als er davon hörte. ( Eine Rechtschreibprüfun findet findet übrigens auch statt.</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">text</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Zmienne zdefiniowane przez użytkownika" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="language" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">zh</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">language</stringProp>
+              </elementProp>
+              <elementProp name="text" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">早年生活[编辑]  塞尔玛·凯瑟琳·瑞安于1912年3月16日出生在内华达州伊利的一个采矿业小镇，这天正好是圣帕特里克节前一天[1]。她的父亲老威廉·M·瑞安（William M. Ryan Sr.）曾做过水手、淘金矿工和农夫，有爱尔兰血统；母亲凯瑟琳·哈尔伯施塔特是德国移民[1]。“帕特”（Pat）是父亲给女儿起的昵称，指的是她的生辰和爱尔兰血统[1]。1931年报读大学时，她用帕特代替了原本的名字塞尔玛，有时会称这是帕特里夏（Patricia）的简称。不过这样的改名并没有法律效力，只是一种个人偏好[2][3]。 塞尔玛出生后，一家人搬到了加利福尼亚州，于1914年在阿蒂西亚（如今的喜瑞都）的一个小农场定居[4]。塞尔玛·瑞安的高中纪念册页面上写了个叫“巴迪”（Buddy，有“哥们儿”、“好友”之意）的绰号，而且写着她的志向就是经营一间旅舍[5]。 这段时间里，塞尔玛在家里的农场工作，并在当地一家银行看门和记账。1924年，她的母亲因癌症去世[6]。当时还只有12岁的帕特为父亲及两个哥哥小威廉（William Jr.，1910至1997年）和托马斯（Thomas，1911至1992年）承担了所有的家务，她的父亲于1929年因矽肺病去世[1]。此外帕特的母亲之前还曾结过一次婚，所以帕特还有一位同母异父的哥哥马修·本德尔（Matthew Bender，生于1907年）和姐姐内瓦·本德尔（Neva Bender，生于1909年），母亲的前夫在南达科他州的一次山洪暴发中遇难[1]。 教育和职业[编辑]  即使不是绝无仅有，也很少有哪位第一夫人像帕特·尼克松这样在婚后仍然像婚前一样继续工作[1]。1968年大选期间她告诉作家葛罗莉亚·斯坦能：“我从来都没时间好好思考一下自己想成为什么样的人，或是谁让我感到钦佩，或是有一些自己的想法。我也从来没有时间去梦想自己成为另外一个人。我必须要工作。”[7] 1929年高中毕业后，她进入富勒顿专科学校学习。并通过四处打工来支付学费，这些零工包括司机、药店经理、电话接线员和打字员[1]。她还给当地一家银行扫地来挣钱[1]，从1930到1932年，她生活在纽约市，并做过秘书和X射线技师的工作[6]。 1931年，决心要“成就自己一番事业”[8]的帕特进入南加州大学深造，主修商品销售。该校一位前任教授指出，她“从那个年代浑浑噩噩、打扮过度的联谊会女生中脱颖而出，仿佛一个廉价平装本书架上的文学杰作”[9]。她半工半读，在一家百货商店做售货员[10]，还在一所高中教打字和速记[6]，此外还会以临时演员身份在电影业打工[11]。1935年的电影《浮华世界》（Becky Sharp）和1936年的《歌舞大王齐格飞》中都有她短暂露面[12][13]。 1937年，帕特·瑞安以优等成绩从南加州大学毕业并获得商品销售理学士学位[1]。并且获得了在高中任教的证书，南加州大学将该证书与硕士学位等同[14]:48。帕特毕业后接受了惠提尔一所高中的教师工作[11]。 婚姻和家庭[编辑]  在惠提尔生活期间，帕特·瑞安在出演社区舞台剧《黑暗之塔》（The Dark Tower）时结识了同样有参加演出，刚从杜克大学法学院毕业的年轻律师理查德·米尔豪斯·尼克松[6]。后者在两人第一次约会当晚就向帕特求婚，回忆起这件事她说：“我以为他是个疯子什么的！”[15]理查德称红发的帕特是自己的“野性爱尔兰吉普赛人”，他追求了她两年[16]，甚至会开车接送她与其他男人的约会。两人最终于1940年6月21日在里弗赛德的传道院旅馆（Mission Inn）成婚。她表示，自己受年轻的尼克松吸引是因为他“有活力和事业心……他总是有事情可以做”[8]。而之后提及尼克松时她说：“噢！你真不知道他这人有多有趣！他真太有意思了！”[17]:234第二次世界大战期间，理查德进入美国海军服役，帕特则在旧金山从事一份政府经济学家的工作[1]。 合众国际社资深记者海伦·托马斯曾公开表示，尼克松夫妇“日子过得循规蹈矩的”，但私底下，两人“非常亲密”[18]:172。据称，理查德私下里“毫不掩饰的多情”，经常称赞帕特的工作，记得周年纪念并经常送礼物给夫人惊喜[18]:172。他还下令对国宴中的既定程度加以更改，让服务人员先给帕特上菜[18]:173。而帕特则会以保护自己丈夫的脆弱一面加以回报[18]:173。面对批评理查德的声音，她回应道：“林肯受到过最差的评价，他有宽广的心胸对之不加理会，而我的丈夫就是这样的人。”[18]:173 早年竞选活动[编辑] 1946年，理查德参加加利福尼亚州第十二国会选区的联邦众议员选举并成功胜出，走上了从政的道路。帕特这年生下了长女帕特里夏（Patricia，昵称特里西娅），之后又在1948年生下了幺女朱莉（Julie）。面对有关丈夫事业的问题，帕特曾表示：“我唯一能做的就是帮助他，但（政治）并不是我会选择的生活方式。”[19]帕特通过对丈夫的竞争对手，在任联邦众议员杰里·沃里斯进行研究来为理查德的竞选提供帮助[1]。她还撰写并分发了竞选文献[20]。这场选举获胜后，帕特看着自己的丈夫从联邦众议员到成功当选联邦参议员，并于1952年获得共和党提名成为德怀特·艾森豪威尔的副总统候选人。 虽然帕特·尼克松属循道宗，但她会与丈夫一起前往离家最近的新教教堂，特别是当他们搬到首都哥伦比亚特区以后。他们一起到大都会纪念卫理公会教堂，偶尔还会参加葛培理牧师的浸信会仪式并出席诺曼·文森特·皮尔（Norman Vincent Peale）的大理石教堂活动[21]。 美国第二夫人，1953至1961年[编辑]    1957年，副总统夫妇访问加纳 参见：理查德·尼克松#副总统 1952年美国总统选举期间，帕特·尼克松对政治的态度有所改变，当时她的丈夫受到接受支持者提供的政治基金来报销自己政治开销的指控。这样的基金并不违法，但有可能令他受到存在利益冲突的指控。帕特鼓励丈夫与这一指控对抗，后者于1952年9月23日面向全国电视观众发表了演讲，这场演讲也被称之为“跳棋演讲”，名称来源于一位政治支持者送给他们一家人的美卡犬，女儿特里西娅给其取名叫“跳棋”。这是帕特第一次出现在全国观众的面前，她和女儿及“跳棋”都在演讲中有着突出的地位。理查德动情地为自己辩护，自称是个收入微薄的男人，并强调了夫人在速记方面的能力[7]，然后他说：“我应该这样说，帕特连一件貂皮大衣都没有。但她还是有一件尊敬的共和党人布料外套，而且我总是告诉她，她无论穿什么都好看。”[22][23] 理查德担任副总统期间，帕特陪同他一起到国外访问。她出访过53个国家，经常会绕开饭局应酬前去看望医院、孤儿院，甚至包括巴拿马的汉生病疗养院[1]。一次出访委内瑞拉时，尼克松夫妇的轿车被人群投掷石块攻击，人们将两人当作美国政府的代表而向他们吐口水[9]。 1958年11月1日，《西雅图时报》刊登了对帕特的一篇正面报道，这也是媒体对这位未来第一夫人的典型正面评价，其中指出：“新闻报道中的尼克松夫人总是亲切和友好的。她的确很友好，即使是问候一个陌生人，也仿佛他们是朋友一样。她并不仅仅是握一下手，而是用双手环抱着来访者的手。她的态度是直截了当的……而且尼克松任何时候看上去都整洁利落，无论她的这一天过得有多么糟糕。”一年半后理查德竞选总统期间，《纽约时报》称她是“妇道人家美德之典范”，其“高效令其他女性都显得懒惰且天赋平平”[24]。 帕特·尼克松先后被评为1953年的年度杰出主妇，1955年的年度母亲和1957年的全国理想主妇，还承认自己曾在一个晚上把丈夫所有的西装烫平整[8]。“当然，我也可以不去做”，她在接受《纽约时报》采访时表示，“可当没什么事做的时候，我就会想找一些新的事情来做。” 丈夫的竞选活动：1960、1962和1968年[编辑]  完成8年副总统任期的理查德·尼克松于1960年获得共和党提名参选总统，他的民主党对手是联邦参议员约翰·F·肯尼迪。帕特在这场竞选中有突出地位，整个宣传活动都围绕着“选帕特做第一夫人”这样的口号展开[1]。最终理查德以非常微弱的劣势输给了肯尼迪，并且还存在民主党选举舞弊的传闻。帕特曾敦促丈夫要求重新计票，但理查德拒绝了[17]:234。帕特在得知丈夫在选举中落败时难过的表情都被摄像机镜头拍了下来，这让她更是难过，一位记者这样描述道：“数百万电视观众见证了她挣扎着要保持住嘴角的笑容并且不让眼里苦涩的泪水流下来”[8]。这一经历也让帕特·尼克松对政治的看法永久性地变得灰暗[1]。 1962年，尼克松夫妇开始了另一场竞选活动，角逐加利福尼亚州州长一职。帕特的哥哥汤姆·瑞安曾在理查德宣布参选前称：“帕特告诉我说，要是迪克（Dick，理查德·尼克松的绰号）敢竞选州长，她就把鞋子脱下来朝他扔过去。”[14]:205–206她最终还是支持了参选，因为这对自己的丈夫来说意义重大[14]:205-206，但理查德最后还是输掉了这场选举。 6年后，理查德再度出马竞选总统。这已经是继1946年来帕特所面对的第八场选举，对此她很不情愿[14]:235, 237。她的丈夫是个在美国政坛极具争议性的人物[25]，帕特亲眼目睹和感受到了他所受到的赞誉和中伤，而没有给自己树立起一个独立的公众形象[7]。虽然她支持丈夫追求自己的事业，但她也担心他会像1960年输给肯尼迪那样输掉这场选举[14]:235, 237。不过她最后还是同意了，并且陪同丈夫四处竞选[14]:236。理查德·尼克松最终在1968年的大选中击败在任副总统休伯特·汉弗莱当选为第37任美国总统，帕特也因此成为新的第一夫人。 美国第一夫人，1969至1974年[编辑]  重大举措[编辑] 帕特·尼克松认为，第一夫人应该始终成为崇高道德的公众典范和尊严的象征，但她并不会陶醉在自己的地位中[18]:165。她拒绝简单地做一个像前任小瓢虫·约翰逊那样的第一夫人[18]:168，而是决定继续自己的“个人外交”，这意味着她将继续到别的州或国家参观和访问[14]:254。   1969年，帕特·尼克松接待白宫的小游客 她作为第一夫人的其中一项重大举措就是推广志愿精神，鼓励美国人通过在医院、民间组织和康复中心进行志愿活动来解决地方一级的社会问题[26]。她表示：“我们国家的成功，取决于我们是否愿意慷慨地对待自己和他人生活的福祉和富足。”[18]:177她开展了一次“志愿服务背心外套”之旅，走访了十个不同的志愿者活动[18]:177。负责安排第一夫人行程的苏珊·波特（Susan Porter）指出，帕特“视志愿者为没有因其牺牲获得应得鼓励和赞扬的无名英雄”[18]:177。她的第二次志愿者之旅在全国行进了6647公里，确定了并非所有的学生都反对越南战争[18]:181。她自己也参加了几个志愿者团体，其中包括女性社区服务和市政服务联盟[18]:177，还是1973年国内《志愿服务法》的倡导者[1]，该法案旨在通过向一些志愿者组织提供福利来鼓励志愿服务[27]。一些记者认为，与小瓢虫·约翰逊和杰奎琳·肯尼迪任内采取的举措相比，帕特的志愿服务是一个安全而沉闷的选择[28]:125。 帕特·尼克松是总统残疾人就业委员会的成员，还参与到了休闲区和公园的开发，并向致力于改善残疾儿童生活的组织提供支持[1]。在白宫过第一个感恩节时，帕特为225位孤寡老人举办了一场晚宴[18]:178。第二年，她又邀请军队伤员参加白宫的第二次年度感恩节大餐[18]:178。虽然自乔治·华盛顿起的每一位美国总统都会发出感恩节贺电，但帕特却成为了首位这样做的第一夫人[18]:178。 白宫生活[编辑] 1968年理查德在大选中胜出后，帕特·尼克松于12月12日和即将离任的第一夫人小瓢虫·约翰逊见面，并参观了白宫的私人住所[14]:260, 264。她之后邀请室内设计师萨拉·杰克逊·多伊尔（Sarah Jackson Doyle）担任自己的设计顾问。多伊尔早在1965年时就已开始为尼克松夫妇工作，用法国和英国古董装饰了他们位于纽约第五大道的一套十居室公寓[29]。她还聘请国务院的克莱门特·康格（Clement Conger）取代杰奎琳·肯尼迪聘请的詹姆斯·凯彻姆（James Ketchum）担任行政大楼的新任馆长[14]:261, 263。   1970年12月，帕特与一位花商合作布置花束 帕特喜欢往行政大楼中增加文物装饰，并且宣传力度比杰奎琳·肯尼迪还要大。她给白宫增加了超过600件绘画、家具和收藏品，创下了新的纪录，这个纪录截止2013年12月上旬仍然得以保持[1]。她建立了白宫地图室，重新装修了瓷器室，还翻新了另外几个房间[18]:188。她与多位工程师合作，给整个白宫开发出一套新的外部照明系统，令白宫变得名副其实，焕发出柔和的白光[18]:188。她还要求无论总统是否在白宫中，国旗都要日夜保持飞扬的状态[18]:188。 帕特下令给白宫的各个房间提供带有说明性文字的传单，以便游客可以理解所有的信息，并将这些文字翻译成西班牙语、法语、意大利语和俄语来为国外游客提供方便[18]:188，并要求为残疾人准备斜坡。她还要求担任导游的警察出席于温特图尔举行的会议，了解“真正博物馆”里的导游是怎样工作的[18]:188，安排他们穿上看上去不太具威胁性的制服，枪也隐藏在制服之下[18]:188。面对聋哑人群，导游需要放慢语速，以便唇读人士可以理解，帕特还下令允许盲人触摸白宫内的文物[18]:188。   帕特在1972年共和党全国大会上演讲。她是继埃莉诺·罗斯福后首位在党派全国大会上演讲的第一夫人，也是第一位这样做的共和党第一夫人。 帕特对有关白宫只会对富人和名人开放，总统夫妇也只接见这些人的看法深感恼怒[18]:188，她经常会从私人住所中走出来迎接游客，与他们握手，签名留念并一起拍照[18]:187。她的小女儿朱莉回忆道：“她邀请了那么多的团体前来白宫，对他们的成绩表示认可，这些团体都不是那些赫赫有名的，而是些名不见经传的组织”[30]。 她还让白宫在夜间向游客开放，以便公众能够看到已经实施的室内设计工作。而这其中于12月前来参观的游客还可以看到白宫的圣诞节装饰。此外，她还安排艺术家在白宫举行一系列展现多样化美式传统的表演，这其中既有歌剧也有蓝草音乐，1972年还有卡彭特乐队出席。不过这些活动获得的评价不佳[8]。1969年进入白宫后，尼克松一家就开始邀请其他家庭到白宫东厅参加非宗教性质的周日教堂服务[18]:188。她还于1971年监督主办了女儿特丽西娅和爱德华·F·考克斯（Edward F. Cox）的婚礼[31]。 帕特公开表示支持妇女从政，并鼓励丈夫提名一位女性大法官进入联邦最高法院，称“女性的力量是无与伦比的，我在这个国家到处都看到了这一点”[32]。她是第一位公开支持平等权利修正案的美国第一夫人[18]:194，不过她对堕胎的看法则较为复杂。随着最高法院1973年对罗诉韦德案作出判决后，帕特表示自己属选择派[1]，但在1972年时她曾说：“我真不支持堕胎。我觉得这是件私事。”[33] 1972年，帕特成为第一位在党派全国大会上演讲的共和党第一夫人[1]。她积极地参与到为丈夫竞选连任的宣传活动中，到全国各地代表理查德进行演说，这之后也为众多总统候选人的配偶所效仿[1]。 行程[编辑]   在武装警卫陪同下，帕特（最右边）乘直升机抵达南越西貢的獨立宮總統府，成为第一位进入作战区域的美国第一夫人。 帕特·尼克松曾创下美国第一夫人旅行里程的新纪录，直到四分之一个世纪后才被希拉里·罗德姆·克林顿超越[1]。在理查德的第一个总统任期里，帕特走访了50个州中的39个，并且单第一年就与25万人握过手[17]:239。她还对多个国家进行过友好访问，其中第一批出访的国家和地区分别是关岛、印度、菲律宾、印度尼西亚、泰国、巴基斯坦、罗马尼亚和英格兰[18]:171。在这样的行程中帕特拒绝接受随行人员的陪同和服务，认为这会增加不必要的障碍和纳税人的负担[18]:171。很快，帕特在一次前往越南共和国时成为第一位进入作战区域的美国第一夫人[1]。她与阮文绍总统夫人一起喝了茶，参观了一所孤儿院，并坐在配有武装警卫和机枪的开门式直升机中升空，见证美军在下方的丛林里战斗[18]:171。后来她承认自己在“进入作战区域时有过一阵恐惧”，因为正如作家兼历史学家卡尔·斯弗拉扎·安东尼（Carl Sferrazza Anthony）指出的那样：“帕特·尼克松真的是走进了火线之中”[18]:171。她之后还参观了一所陆军医院，并花了两个小时走进病房与每一位傷兵交谈[18]:172。越南共和国第一夫人阮夫人称，帕特·尼克松此行“增强了我们的斗志”[18]:172。   1972年，尼克松夫妇出访中国并走上了长城。 听闻1970年的秘鲁大地震发生并引发雪崩和额外的破坏后，帕特发起了组建美国志愿救援车队的倡议，并亲自飞抵该国协助向地震灾民发放救援物资[18]:185。她参观了受灾地区，并与无家可归的乡民拥抱，他们还看到她爬上废墟堆成的山丘，并从倒塌的横梁下走过[18]:186。世界各地的报纸都报道了她的行程，并为第一夫人出于同情而不顾个人舒适和安危的行为欢呼[8]，而她的出现还能够直接推动政治关系的发展。一位秘鲁官员表示：“她来到这里，比起尼克松总统所能够做的其他任何事情都更有意义”[18]:187，而秘鲁《利马新闻报》（Lima Prensa）的一位编辑则称，秘鲁人民永远都不会忘记帕特·尼克松[18]:187。美联社的弗兰·勒万（Fran Lewine）指出，还没有任何一位第一夫人像帕特这样怀抱着“仁慈的使命”成就而如此惊人的外交效果[18]:187。秘鲁政府因此行而授予她太阳大十字勋章，这是秘鲁的最高荣誉勋章，也是美洲最古老的同类荣誉[1]。 1972年，帕特成为第一位出访非洲的美国第一夫人，在8天的时间里行程达到16093公里，先后到达了加纳、利比里亚和科特迪瓦[18]:196。抵达利比里亚时，她受到了19响礼炮的礼遇，该国本只在接待他国元首时才会有这样的待遇，然后帕特进行了阅兵[18]:196。之后她穿上该国的传统服装并与当地人跳舞。她还被授予利比里亚的最高荣誉，尊贵骑士大绶勋章[18]:196。她也在加纳与当地居民共舞，并对加纳国会发表讲话[18]:196。帕特到达科特迪瓦时受到25万人的迎接，他们还高喊着“尼克松夫人万岁！”的口号[18]:196。她与这三个国家的元首都进行了商谈[18]:196。帕特回国后，白宫幕僚查尔斯·科尔森（Charles Colson）给了尼克松总统一份备忘录，其中写道：“尼克松夫人已经达到了我们所没能达到的突破……人——男人和女人——都认同她，而作为回报，他们也会认同你。”[18]:197 1972年，尼克松夫妇对中华人民共和国进行了一次历史性的访问。当总统与毛泽东、周恩来等中国领导人举行会晤时，帕特就会穿着自己的红色外套游览北京城。据卡尔·斯弗拉扎·安东尼称，中国是帕特·尼克松的“珍贵瞬间”，是她成为美国享有盛名第一夫人的转折点[18]:199–200。这年晚些时候她还陪同丈夫出访苏联与勃列日涅夫举行首脑会议。虽然这一过程中由于安全性的限制她不能像在中国那样随心所欲地在街头行走，但她还是去看望了儿童，并与苏联第一夫人维多利亚·勃列日涅娃手挽手走在一起[18]:199-200。之后，她还于1974年访问了巴西和委内瑞拉，拥有总统个人代表的独特外交地位。尼克松夫妇的最后一次大型出访是在1974年6月，先后访问了澳大利亚、埃及、沙特阿拉伯、叙利亚、以色列和约旦[18]:215。 时尚与风格[编辑]   1970年，帕特·尼克松在白宫摆好拍照的姿势。 时尚媒体往往会对第一夫人特别有兴趣。第一夫人的传统角色是国家的女主人，这让其个人形象和风格备受瞩目，而对帕特的关注也非常生动。《女装日报》（Women&apos;s Wear Daily）称帕特有着一副“好身材和好姿态”，并且有“比其他任何一位公众女性都要漂亮的腿”[34]。一些时尚作家往往对她所穿的那些虽然剪裁讲究，但却有些不伦不类的美国制造服装有意见，对此帕特表示：“我觉得自己有义务穿美国设计师的作品”[35]，她还称自己喜欢这样的衣服是因为：“他们现在用了这么多的料子，让衣服非常适合旅行，因为都不会压坏的。”[18]:192她比较喜欢直接购买成衣而非按订单生产的服装。“我穿10号的衣服”，她在接受《纽约时报》采访时表示：“我可以一边走一边买，已经在各个城市的不同商店里买过东西。我只有一部分衣服是由设计师设计的。”[32]不过在自己的个人购物向导克拉拉·特雷兹（Clara Treyz）建议下，她还是有穿一些知名设计师，特别是杰弗里·比尼（Geoffrey Beene）定制的作品[32]。许多时尚观察家认为，帕特·尼克松并没有大力推进美国的时尚事业。她在丈夫首次就职典礼上穿的那件由哈维·贝林（Harvey Berin）设计的黄色缎袍受到了诸如“一个夜不归宿的教师”这样尖锐的批评，但特雷兹则为第一夫人的衣柜选择辩护称：“尼克松夫人必须保持淑女形象。”[36]此外，帕特还经常佩戴根据自己金色短发发型复制的假发，特别是当政治出访过程中很难找到美发师的时候[37]。 帕特没有追逐20世纪70年代的尖端时尚，因为她担心这样的服饰会给丈夫的政治前景带来不利影响。她表示自己以前总是很喜欢去尝试一些与众不同的高调装扮，但这样的行为举止在那个年代并不受到欣赏，所以自己需要避免显得过于惊人[14]:187。 水门事件[编辑] 更多資料：水门事件 水门事件从媒体上爆发时，帕特“几乎没有注意到”有关水门窃听案的报道[18]:201。之后在面对记者有关水门事件的提问时，她只是简略地回答了一句：“我只知道那些从报纸上看到的东西。”[18]:203。1974年，一位记者问道：“总统的麻烦是记者造成的吗？”她则回敬道：“什么麻烦？”[18]:210私下里，她觉得丈夫幕僚的权力在不断增大，而且总统对政府中所发生的事情也变得缺乏了解[18]:203}。   1974年8月9日，福特总统夫妇送尼克松夫妇登上海军陆战队一号直升机。 帕特·尼克松并不知道丈夫下令在白宫中安装了秘密录音系统。她的女儿朱莉表示，母亲在得知存在这样的录音带后就曾立即要求将之销毁[14]:409–410。她坚决反对公开这些录音带，认为这就像是“私人的情书一样，只属于这一个人”[18]:214。她还相信丈夫是清白的，并鼓励他不要辞职，与所有弹劾指控对抗到底。她曾对自己的朋友海伦·德朗（Helene Drown）说：“迪克为国家做了这么多，为什么会发生这样的事情？”[18]:215 当总统告诉家人自己决定辞职时，帕特问道：“可为什么呢？”[18]:216她联系克莱门特·康格取消所有的新瓷器设计开发，然后开始督导对第一家庭个人物品的打包工作[14]:417–419。1974年8月7日，全家在白宫吃了最后一顿晚饭。帕特坐在沙发边缘，手托住自己的下巴，对丈夫的情况感到紧张[18]:217。当总统走进来后，她站起来环抱并亲吻他，然后说道：“我们都为你感到非常自豪，爸爸。”[18]:217之后帕特对那个晚上所拍下的照片说：“我们的心都碎了，但脸上还是带着微笑。”[14]:424 次日早上，总统在白宫东厅对众幕僚作了经电视直播的20分钟告别演讲，他引用了西奥多·罗斯福的自传并称赞了自己的双亲[38]。第一夫人一直泪流不止，那些摄像机镜头最让她感到不安，因为它们就像1960年丈夫选举失败时那样记录了自己的痛苦。尼克松一家人之后在副总统杰拉尔德·福特和夫人贝蒂·福特的陪同下从南草坪前往海军陆战队一号。路上帕特两手分别挽住丈夫和贝蒂的腰身并对后者说：“你会看到很多这样的红地毯，你会因此而恨它们。”[18]:218直升机将把尼克松一家带到安德鲁斯空军基地，然后他们会从那里飞往加利福尼亚州[39]。 帕特·尼克松之后告诉女儿朱莉：“水门事件是唯一击倒过我的危机……而且我知道自己有生之年都没法看到平反了。”[14]:453 公众看法[编辑]    1972年10月尼克松竞选连任到亚特兰大进行宣传时，帕特从轿车中向一位小女孩伸出手。 历史学家卡尔·斯弗拉扎·安东尼指出，普通市民对帕特持正面态度[18]:187。曾有一群乡下人造访白宫，送给第一夫人一张被子，许多人都感到非常紧张。发现一些人因激动而垂泪时，帕特走上前和每一个人紧紧拥抱，紧张的气氛也就这样化于无形了[18]:187。还曾有位小男孩觉得行政大楼不是第一夫人的家，因为自己找不到洗衣机，帕特于是带着他穿过大厅，再乘电梯到私人住所让他可以看到洗衣房[18]:187。她能与不同种族很好地融合，没有因种族而表现出任何区别对待[18]:197。1972年造访中国期间，中华人民共和国国务院总理周恩来对帕特留下了深刻的印象，之后送给她两只稀有的大熊猫作为来自中国的礼物[18]:199-200。 从1959至1962年和1968至1979年，帕特·尼克松先后十四次入选盖洛普民意调查的十大最受尊敬女性名单[40]，其中1969年排在第三位，1970和1971年排在第二位，1972年排在首位。1979年时距她丈夫辞职已经过了5年，但她仍然保持在前十名内[40]。对于许多人来说，帕特就是“美国梦”的一个典范，出身贫寒，却在“伟大的沉默的大多数”选民中有着最高的知名度[18]:201。美国铸币局局长玛丽·布鲁克斯（Mary Brooks）形容这位第一夫人是“这个国家女性的好榜样……只要她们不是那些什么女性解放组织一分子的话”[8]。此外，合众国际社资深记者海伦·托马斯认为，帕特是“我所报道过最让人感到温暖的第一夫人，也是最深爱人民的一位。我认为，报道过她的新闻记者所看到的都是一个犀利、反应灵敏而有感情的女人”[18]:167。 媒体将帕特框架为冷战期间家庭生活的一个实例，与当时流行的第二波女性主义形成鲜明对比[28]:107–108。记者经常描述她尽责而无私[28]:110–111，首先视自己为他人的妻子，其次才是一个个体[28]:125。《时代》杂志形容她是“完美的妻子和母亲：按压（丈夫的）肩膀，给女儿特里西娅和朱莉做衣服，甚至在身为副总统的夫人时仍自己做家务”[41]。担任第一夫人的最初几年里，她被起了一个叫做“塑料帕特”（Plastic Pat）的贬义绰号，因为一些批评人士指出她脸上永远都带着微笑，极少会有感情流露[42][43]，而她的肢体语言也显得很矜持，有时甚至很做作[44]。一些观察家称帕特·尼克松就像“是个纸娃娃，一个塑料制成，防腐抗菌而没有生命气息的芭比娃娃”，认为她“把自己每一点青春的活力和动力都用在扮演一个角色上，而且她可能已经不再像以前那样认可这个角色了”[8]。 面对这些批评帕特表示：“我是这样的人，以后也会继续保持下去。”[8]1968年，她在一架竞选飞机上接受葛罗莉亚·斯坦能采访时描述了自己生活上的一些观点：“现在，我在全世界所有国家都有朋友。我并不会就这么坐下来思考自己，自己的想法以及想要做些什么，我不会这样，我会一直对人保持兴趣，我会一直工作。现在，就在这架飞机上，我也坚持这样，每当一坐下来，我就会开始写感谢信，每一个人都会收到我的亲笔回信。我没有时间去想什么自己崇拜什么人或是想要成为什么样的人。不像别的任何一个过得很轻松的人，我一直都生活得不容易。”[7] 虽然在大部分人看来，帕特都是一位娴静的公众人物，一位传统的妻子和主妇，但她并不像其批评者所声称的那样谦让和胆小。一位新闻摄影师曾要求她身着围裙摆出另一个姿势拍照，而她坚定地回答道：“我觉得这种厨房照实在是拍得够了，你呢？”[45]包括专栏作家兼白宫记者罗伯特·E·汤普森（Robert E Thompson）在内的一些新闻工作者认为，帕特是1970年代的一个理想平衡，汤普森写道，她证明“女人可以在世界事务中发挥重要作用”的同时，仍然保留“女性化的姿态”[18]:201。还有一些新闻工作者认为帕特代表着《女性的奥秘》的失败，称她已经超前于所在的时代[28]:110。而反对越战的人则将她与尼克松政府的政策联系起来，并因此会偶而对她的演讲活动进行纠察。不过在她与一些人交谈后，一位学生向记者表示“她想要倾听。我觉得这个女人的确在乎我们所做的事情，（这让）我感到惊讶”[18]:182。哥伦比亚广播公司老牌记者迈克·华莱士对自己一直没能对帕特·尼克松进行一场主要采访而感到遗憾[46]。 晚年生活[编辑]    帕特·尼克松的白宫官方肖像，于1978年由亨丽埃特·怀斯·赫德（Henriette Wyeth Hurd）绘制 1974年回到加利福尼亚州圣克莱门特并住下后，帕特·尼克松很少在公众场合露面，也只偶尔接受记者的采访。1975年5月下旬，她回到自己少女时代的小镇阿蒂西亚，给以自己的名字命名的小学演讲[14]:441。她在讲话中说：“我对有这么一所学校以我命名感到自豪。我一直以为只有那些已经离世的人才会有学校以其命名。我很高兴告诉大家，自己还没有离世——我的意思是说，没有真的去世。”[14]:441这是她生活在加利福尼亚州的五年半时间里唯一一次独自在公众场合出现[14]:441。 1976年7月7日，帕特在家中出现了一次中风，导致她整个左半身瘫痪，但经物理治疗后，她最终得以恢复了全部的活动能力[1]。她表示自己的康复是“我在物理上所做过最困难的事情”[14]:451。1979年，她与丈夫搬到了纽约市曼哈顿，住进东65街的一套联排别墅[47]。在这里短暂生活了一段时间后，他们又于1981年搬到新泽西州博根县的萨德尔里弗（Saddle River），住进一套面积为557平方米的房子里[47]。这给了他们充足的空间与自己的孩子和孙辈待在一起[47]。然而到了1983年，帕特又出现了一次中风[14]:458，并于次年出现两次肺部感染[48]。   1991年11月，帕特·尼克松（前排从左往右第二位）出席罗纳德·里根总统图书馆开幕式。 1990年7月19日，帕特又一次出现在公众场合，出席约巴林达理查德·尼克松图书馆与故居（之后更名为尼克松总统图书馆暨博物馆）的开幕式，看起来已经有些“体力不支和轻微驼背”[49]。出席仪式的有50000位朋友和好心人，还包括前总统福特、里根、乔治·H·W·布什及他们的夫人贝蒂、南希和芭芭拉[50]。这个图书馆中有一间帕特·尼克松室和一个帕特·尼克松剧场，还有一个种有红黑帕特·尼克松玫瑰的玫瑰园，这些玫瑰是由一家法国公司于1972年她还是第一夫人时开发的[51]。帕特还于1991年11月到加利福尼亚州西米谷出席了罗纳德·里根总统图书馆的开幕式。前第一夫人芭芭拉·布什回忆道：“我喜欢帕特·尼克松，她是位充满感情、亲切而周到的第一夫人”[52]:97，回忆起在里根图书馆的相见，芭芭拉表示：“这真是件让人伤感的事，帕特·尼克松看上去一点也不好。你可以透过她的笑容看到她正处在巨大的痛苦中，要很辛苦才能把空气吸入肺里”[52]:441。 1991年，尼克松夫妇搬到了新泽西州派克里奇（Park Ridge）。帕特的身体状况仍然在变糟，住进的房子里有装电梯，但面积上比之前的要小[47]。帕特在自己大部分成年时期都有很重的烟瘾，但她从来没有在公众面前吸烟[51]，她患上了口腔癌[53]，肺气肿并最终于1992年12月被确诊为肺癌，同时存在呼吸问题而开始住院治疗[6]。 逝世和葬礼[编辑]  1993年6月22日早上5点45分，塞尔玛·凯瑟琳·“帕特”·瑞安·尼克松在新泽西的家中逝世，享年81岁。这天正好是她和理查德结婚53周年纪念日的后一天，她的丈夫和女儿们都陪在身旁[54]。 帕特·尼克松的葬礼于1993年6月26日在约巴林达的理查德·尼克松图书馆与故居场地举行。包括加利福尼亚州州长皮特·威尔逊（Pete Wilson）、堪萨斯州联邦参议员鲍勃·多尔和葛培理牧师在内的多人在仪式上称颂了这位前任第一夫人。出席葬礼的还包括她的丈夫和直系亲属，前总统罗纳德·里根、杰拉尔德·福特及其夫人南希和贝蒂等[55][56]。小瓢虫·约翰逊由于正因中风住院而未能出席，杰奎琳·肯尼迪也没有出席[55]。前总统尼克松整个葬礼期间悲痛欲绝，当着众人的面痛哭并在仪式过程中数度失控。这位前总统很少表露自己的感情，海伦·麦凯恩·史密斯（Helen McCain Smith）表示，自己从未见过他如此伤心[57]。 帕特·尼克松的墓碑上写的名字是“帕特里夏·瑞安·尼克松”（Patricia Ryan Nixon），这也是她广为人知的名字。她去世10个月后，前总统尼克松于1994年4月22日逝世[58]。帕特的墓志铭上写着： “	即使是那些不懂你语言的人，也能够感觉到您心中的爱意。	” 1994年，加利福尼亚州的喜瑞都成立了帕特·尼克松公园（Pat Nixon Park）。公园所在正是她少女时代的家[26]。1996年4月，喜瑞都市议会经投票决定在公园内为前第一夫人竖立一座雕像，这也是为数不多的几座第一夫人雕像之一[59]。 流行文化[编辑]  多位女演员曾在电影中扮演过帕特·尼克松，其中包括1995年电影《尼克松》中的琼·艾伦[60]，2008年电影《对话尼克松》中的帕特里夏·麦科马克[61]和2009年电影《黑色炸药》中的妮可·沙利文（Nicole Sullivan）[62]。此外还有1987年的歌剧《尼克松在中国》，她的角色由女高音歌唱家卡罗琳·佩琪（Carolann Page）诠释[63][64]。</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">text</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Ergebnisse" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

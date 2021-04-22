@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Ukrainian grammar and typo rules for LanguageTool
+Copyright (C) 2007 Andriy Rysin
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+
+<rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+
+  <!-- part allows us to unify over particles, e.g. стояв би стовп -->
+  <unification feature="number">
+    <equivalence type="s">
+      <token postag=".*?:[smnf](:.*|$)|verb.*?:inf.*|part" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="p">
+      <token postag=".*?:p(:.*|$)|verb.*?:inf.*|part" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <unification feature="gender">
+    <equivalence type="f">
+      <token postag="(noun|adj|numr).*?:f:.*|noun:anim:s:.*?&amp;pron:pers:[21]" postag_regexp="yes" />
+    </equivalence>
+    <equivalence type="m">
+      <token postag="(noun|adj|numr).*?:m:.*|noun:anim:s:.*?&amp;pron:pers:[21]" postag_regexp="yes" />
+    </equivalence>
+    <equivalence type="n">
+      <token postag="(noun|adj|numr).*?:n:.*" postag_regexp="yes" />
+    </equivalence>
+    <equivalence type="pl">
+      <token postag="(noun|adj|numr).*?:p:.*" postag_regexp="yes" />
+    </equivalence>
+  </unification>
+
+  <unification feature="case">
+    <equivalence type="v_naz">
+      <token postag="(noun|adj|numr).*?:v_naz.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_rod">
+      <token postag="(noun|adj|numr).*?:v_rod.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_dav">
+      <token postag="(noun|adj|numr).*?:v_dav.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_zna_ranim">
+      <token postag="noun:(un)?anim:.:v_zna.*|adj:.:v_zna(?!:rinanim).*|numr:.:v_zna.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_zna_rinanim">
+      <token postag="noun:[iu]nanim:.:v_zna.*|adj:.:v_zna(?!:ranim).*|numr:.:v_zna.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_oru">
+      <token postag="(noun|adj|numr).*?:v_oru.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_mis">
+      <token postag="(noun|adj|numr).*?:v_mis.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_kly">
+      <token postag="(noun|adj|numr).*?:v_kly.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+<!-- not used
+  <unification feature="person">
+    <equivalence type="pers_pri">
+      <token postag=".*?:[mfn1](:.*)?$" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pers_sec">
+      <token postag=".*?:[mfn2](:.*)?$" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pers_tri">
+      <token postag=".*?:[mfn3](:.*)?$" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pers_plu">
+      <token postag=".*?:p(:.*)?$" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+-->
+</rules>

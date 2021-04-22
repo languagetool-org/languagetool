@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules targetLang="gl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/bitext.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <category name="Collocations">
+
+        <rule lang="gl" id="FRESH_WATER" name="fresh water (auga doce)">
+            <pattern>
+                <source lang="en">
+                    <token>fresh</token>
+                    <token>water</token>
+                </source>
+                <target>
+                    <token>auga</token>
+                    <token>fresca</token>
+                </target>
+            </pattern>
+            <message>A tradución correcta de 'fresh water' é <suggestion>auga doce</suggestion>.</message>
+            <example type="correct">
+                <srcExample>The source of almost all <marker>fresh water</marker> is precipitation from the atmosphere.</srcExample>
+                <trgExample>Case toda a <marker>auga doce</marker> procede de precipitacións dende a atmósfera.</trgExample>
+            </example>
+            <example type="incorrect">
+                <srcExample>The source of almost all <marker>fresh water</marker> is precipitation from the atmosphere.</srcExample>
+                <trgExample>Case toda a <marker>auga fresca</marker> procede de precipitacións dende a atmósfera.</trgExample>
+            </example>
+        </rule>
+
+        <rule lang="gl" id="REGISTERED_MAIL" name="registered mail (correo certificado)">
+            <pattern>
+                <source lang="en">
+                    <token>registered</token>
+                    <token regexp="yes">(air)?mail</token>
+                </source>
+                <target>
+                    <token>correo</token>
+                    <token>rexistrado</token>
+                </target>
+            </pattern>
+            <message>A tradución correcta de 'registered mail' é <suggestion>correo certificado</suggestion>.</message>
+            <example type="correct">
+                <srcExample><marker>Registered Mail</marker> is a secure method.</srcExample>
+                <trgExample>O <marker>correo certificado</marker> é un método seguro.</trgExample>
+            </example>
+            <example type="incorrect">
+                <srcExample><marker>Registered Mail</marker> is a secure method.</srcExample>
+                <trgExample>O <marker>correo rexistrado</marker> é un método seguro.</trgExample>
+            </example>
+        </rule>
+
+    </category>
+
+</rules>

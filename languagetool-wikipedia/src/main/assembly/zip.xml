@@ -1,0 +1,63 @@
+<!-- documentation can be found at http://maven.apache.org/plugins/maven-assembly-plugin/assembly.html -->
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+        <format>dir</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory></directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>COPYING.txt</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources/third-party-licenses</directory>
+            <outputDirectory>third-party-licenses</outputDirectory>
+        </fileSet>
+    </fileSets>
+    <containerDescriptorHandlers>
+        <!-- both of these handlers are needed so all language-module.properties get merged into one file: -->
+        <containerDescriptorHandler>
+            <handlerName>metaInf-services</handlerName>
+        </containerDescriptorHandler>
+        <containerDescriptorHandler>
+            <handlerName>file-aggregator</handlerName>
+            <configuration>
+                <filePattern>META-INF/org/languagetool/language-module.properties</filePattern>
+                <outputPath>LanguageTool-wikipedia-${project.version}/META-INF/org/languagetool/language-module.properties</outputPath>
+            </configuration>
+        </containerDescriptorHandler>
+    </containerDescriptorHandlers>
+    <dependencySets>
+        <dependencySet>
+            <unpack>false</unpack>
+            <outputDirectory>libs</outputDirectory>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <excludes>
+                <!-- gets unzipped below: -->
+                <exclude>org.languagetool:language-*</exclude>
+                <!-- this is what the user calls, so put it in the top directory: -->
+                <exclude>org.languagetool:languagetool-wikipedia</exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+            <unpack>false</unpack>
+            <outputDirectory></outputDirectory>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.languagetool:languagetool-wikipedia</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <!-- unzip because it makes accessing the grammar.xml rules easier: -->
+            <unpack>true</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.languagetool:language-*</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</assembly>

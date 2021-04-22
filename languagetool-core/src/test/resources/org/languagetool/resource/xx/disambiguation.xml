@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Example Disambiguation Rules for LanguageTool
+-->
+<rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+
+    <rule id="CD" name="Tag numbers">
+        <pattern>
+            <token regexp="yes">\d+</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type="untouched">Ten dollars</example>
+        <example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
+    </rule>
+    
+    <rule id="FILTER1" name="Test filter">
+        <pattern>
+            <token regexp="yes">X\d+</token>
+        </pattern>
+        <filter class="org.languagetool.tagging.disambiguation.rules.xx.DemoDisambiguationFilter" args="fixme:foo"/>
+        <disambig postag="CD"/>
+        <example type="untouched">X8 dollars</example>
+        <example type='ambiguous' inputform="X9[X9]" outputform="X9[X9/CD]"><marker>X9</marker> dollars</example>
+        <example type="untouched">X10 dollars</example>
+    </rule>
+    
+    <rule id="ANTIPATTERN_0" name="Test Antipattern (antipattern match - antipattern overlaps pattern match area)">
+        <antipattern>
+            <token>but</token>
+            <token>this</token>
+            <token>is</token>
+            <token>test</token>
+            <token>no1</token>
+            <token>for</token>
+            <token>sure</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>This</token>
+            </marker>
+            <token>is</token>
+            <token>test</token>
+            <token>no1</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type='untouched'>So, but <marker>this</marker> is test no1 for sure</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_1" name="Test Antipattern (antipattern match, antipattern at beginning of pattern match area)">
+        <antipattern>
+            <token>This</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>This</token>
+            </marker>
+            <token>is</token>
+            <token>test</token>
+            <token>no1</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type='untouched'><marker>This</marker> is test no1</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_2" name="Test Antipattern (antipattern match, antipattern inside pattern match area)">
+        <antipattern>
+            <token>is</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>That</token>
+            </marker>
+            <token>is</token>
+            <token>test</token>
+            <token>no2</token>
+        </pattern>
+        <disambig postag="XX"/>
+        <example type='untouched'><marker>That</marker> is test no2</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_3" name="Test Antipattern (antipattern match, antipattern inside pattern match area)">
+        <antipattern>
+            <token>is</token>
+            <token>test</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>That</token>
+            </marker>
+            <token>is</token>
+            <token>test</token>
+            <token>no3</token>
+        </pattern>
+        <disambig postag="XX"/>
+        <example type='untouched'><marker>That</marker> is test no3</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_4" name="Test Antipattern (antipattern match, antipattern at end of pattern match area)">
+        <antipattern>
+            <token>no4</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>That</token>
+            </marker>
+            <token>is</token>
+            <token>test</token>
+            <token>no4</token>
+        </pattern>
+        <disambig postag="XX"/>
+        <example type='untouched'><marker>That</marker> is test no4</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_5" name="Test Antipattern (no antipattern match, 'foobar' outside pattern match area)">
+        <antipattern>
+            <token>foobar</token>
+        </antipattern>
+        <pattern>
+            <token>This</token>
+            <token>is</token>
+            <token>test</token>
+            <token>no5</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type='ambiguous' inputform="This[This]" outputform="This[This/CD]"><marker>This</marker> is test no5 foobar</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_6" name="Test Antipattern (no antipattern match, 'But' outside pattern match area)">
+        <antipattern>
+            <token>But</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>this</token>
+            </marker>
+            <token>is</token>
+            <token>test</token>
+            <token>no6</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type='ambiguous' inputform="this[this]" outputform="this[this/CD]">But <marker>this</marker> is test no6</example>
+    </rule>
+
+</rules>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<!--
+		* LanguageTool, a natural language style checker * Copyright (c)
+		Marcin Miłkowski, 2010 (http://www.languagetool.org) * * This library
+		is free software; you can redistribute it and/or * modify it under the
+		terms of the GNU Lesser General Public * License as published by the
+		Free Software Foundation; either * version 2.1 of the License, or (at
+		your option) any later version. * * This library is distributed in the
+		hope that it will be useful, * but WITHOUT ANY WARRANTY; without even
+		the implied warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR
+		PURPOSE. See the GNU * Lesser General Public License for more details.
+		* * You should have received a copy of the GNU Lesser General Public *
+		License along with this library; if not, write to the Free Software *
+		Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 *
+		USA Schema for bitext rule files - work in progress
+	-->
+
+	<xs:include schemaLocation="pattern.xsd" />
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> Main element
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="rules">
+		<xs:complexType>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="unification" />
+				<xs:element ref="phrases" />
+				<xs:element ref="category" />
+			</xs:choice>
+			<xs:attribute name="targetLang" type="xs:language" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> Use the category element
+			to group rules. </xs:documentation>
+		<xs:documentation xml:lang="en"> The attribute name shows
+			the category use, e.g. 'Grammar', 'Spelling', 'Style' etc.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="category">
+		<xs:complexType>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="rule" />
+			</xs:choice>
+			<xs:attribute name="default" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="off" />
+						<xs:enumeration value="on" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> The rule element. The
+			unique ID is
+			required only if the rule is not contained in a rule
+			group.
+
+			The rule can be switched by default off (using the default
+			attribute).
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="rule">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pattern" />
+				<xs:element ref="message" />
+				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="lang" type="xs:language" use="required" />
+			<xs:attribute name="default" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="off" />
+						<xs:enumeration value="on" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string" use="optional" />
+			<xs:attribute name="id" type="xs:ID" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="elementPattern" mixed="true">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element ref="token" />
+			<xs:element ref="phraseref" />
+			<xs:element ref="and" />
+			<xs:element ref="unify" />
+			<xs:element ref="marker" minOccurs="0" maxOccurs="1" />
+		</xs:choice>
+		<xs:attribute name="case_sensitive" type="binaryYesNo"
+			use="optional" />
+	</xs:complexType>
+
+	<xs:element name="source">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="elementPattern">
+					<xs:attribute name="lang" type="xs:language" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="target">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="elementPattern"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!--
+		TODO: how to add source="yes" to match element only in the target
+		pattern tokens, but without adding it to the base pattern.xsd?
+		Probably impossible...
+	-->
+
+	<xs:element name="pattern">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+				<xs:element ref="source" />
+				<xs:element ref="target" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> Message shown to the user
+			if a rule matches. </xs:documentation>
+	</xs:annotation>
+	<xs:element name="message" xml:space="preserve">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="suggestion" />
+        <xs:element ref="match" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> Suggestion displayed to
+			the user. </xs:documentation>
+	</xs:annotation>
+	<xs:element name="suggestion">
+		<xs:complexType mixed="true">
+			<xs:sequence minOccurs='0' maxOccurs='unbounded'>
+				<xs:element ref="match" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:complexType name="exampleSentence" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="marker" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:element name="srcExample" type="exampleSentence" />
+	<xs:element name="trgExample" type="exampleSentence" />
+
+	<xs:element name="example" xml:space="preserve">
+    <xs:complexType mixed="true">
+    	<xs:sequence>
+				<xs:element ref="srcExample" />
+				<xs:element ref="trgExample" />
+		</xs:sequence>
+      <xs:attribute name="correction" type="xs:string"
+		use="optional" />
+      <xs:attribute name="type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="correct" />
+            <xs:enumeration value="incorrect" />            
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>      
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

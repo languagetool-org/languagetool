@@ -1,0 +1,358 @@
+This file is short description of tag set used at languagetool fsa Slovak
+dictionary. It uses tags from Slovak National Corpus. For more details, see:
+* http://korpus.juls.savba.sk/morpho_en.html
+
+The tags have been slightly modified:
+* `+' and `-' at the end of tags have been replaced by `P' and `N' - synth dict cannot use `+' in the key
+* in L-participle plural, all genders are unified under the tag `o', since the word forms are identical
+* in L-participle, all the persons are unified under the tag `o', since the word forms are identical 
+
+Modification is done by bin/filter_lft.py.
+
+Information about the tagset follows in Slovak.
+
+-------------------
+
+Tento súbor je krátkym popisom morfologických značiek použitých 
+v slovenskom fsa slovníku pre projekt languagetool. Morfologické značky
+sú prevzaté zo Slovenského národného korpusu. Detailnejšie informácie
+nájdete v týchto dokumentoch:
+* http://korpus.juls.savba.sk/morpho.html
+* http://korpus.juls.savba.sk/attachments/morpho/tagset-www.pdf
+
+Značka vyjadruje hodnoty formálnych kategórií, ktoré sú pre daný token
+relevantné. V Slovenskom národnom korpuse sa používajú tagy s variabilným
+počtom znakov, ich poradie v tagu je však záväzné. Na prvom mieste stojí
+informácia o príslušnosti k slovnému druhu (podľa zaužívanej desaťčlennej
+slovnodruhovej typológie), resp. k slovnej triede (sem patria špecifické
+textové jednotky vrátane interpunkcie a neslovných elementov vyskytujúcich
+sa v bežnom texte). Nasledujú značky pre príslušné gramatické kategórie
+(záväzne), resp. značky pre špeciálne skupiny (nezáväzne – stoja na konci
+tagu po dvojbodke a označujú vlastné mená a chybné zápisy). Podrobnejšie
+informácie o tokenizácii, lematizácii a morfologickej anotácii sú tu
+http://korpus.sk/attachments/publications/2004-garabik-gianitsova-horak-simkova-tokenizacia.pdf
+
+Základný prehľad
+================
+
+Prvý znak	Slovný druh	Príklad
+S 	substantívum 	slovo,
+A	adjektívum	milý
+P 	pronominum 	akýkoľvek
+N	numerále	jeden
+V	verbum	klásť
+G	particípium	robiaci
+D	adverbium	prísne
+E	prepozícia	po
+O	konjunkcia	či
+T	partikula	azda
+J	interjekcia	fíha
+R	reflexívum	sa
+Y	kondicionálová morféma	by
+W 	abreviácie, značky 	km
+Q	neurčiteľný slovný druh	bielo(-čierny)
+%	citátový výraz	take it easy!
+
+
+Detaily
+=======
+
+Substantívum
+------------
+
+Pozícia 	Znak 	Hodnota 	Príklad 
+1. slovný druh 	S 	substantívum 	slovo, ryba, ústav, muž 
+2. paradigma 	S 	substantívna 	chlap, žena, srdce 
+	A 	adjektívna 	hlavný, vedúci, Mastný, starká, Slaná, vstupné 
+	F 	zmiešaná 	kuli, gazdiná 
+	U 	neúplná 	kanoe, kupé 
+3. rod 	m 	mužský životný 	hrdina, hlavný, Mastný 
+	i 	mužský neživotný 	strom, rýľ 
+	f 	ženský 	ulica, pani, vedúca, Slaná, hradská 
+	n 	stredný 	mesto, vysvedčenie, dievča, mláďa 
+4. číslo 	s 	jednotné 	slovo, ryba, ústav, muž 
+	p 	množné 	slová, ryby, ústavy, muži/mužovia 
+5. pád 	1	nominatív 	pán, vedúci, matka, Slaná, more, mláďa 
+	2	genitív 	pána, vedúceho, matky, Slanej, mora, mláďaťa 
+	3	datív 	pánovi, vedúcemu, matke, Slanej, moru, mláďaťu 
+	4	akuzatív 	pána, vedúceho, matku, Slanú, more, mláďa 
+	5	vokatív 	pane, mami, Táni, oci 
+	6	lokál 	pánovi, mame, Slanej, mori, mláďati 
+	7	inštrumentál 	pánom, vedúcim, matkou, Slanou, morom, mláďaťom 
+
+Ukážka: Pripravili ohnisko/SSns4 na grilovanie/SSns4 a o chvíľu/SSfs4 sa už po lúke/SSfs6
+        niesla lahodná vôňa/SSfs1 , ktorá prilákala ďalších stravníkov/SSmp4. V domnení/SSns6 ,
+        že tak zachovajú v Európe/SSfs6:r mier/SSis4 , podpísali zástupcovia/SSmp1 západných 
+        veľmocí/SSfp2 v septembri/SSis6 1938 Mníchovskú dohodu/SSfs4 , ktorou Nemecko/SSns1:r 
+        získalo české Sudety/SSip4:r ( a časti/SSfp4 dnešnej Bratislavy/SSfs2:r ). 
+
+
+Adjektívum
+----------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	A	adjektívum	milý, svieži, priateľkin, psí
+2. paradigma	A	adjektívna	pekný, cudzí, páví
+	F	zmiešaná	otcov, matkin
+	U	neúplná	super, nanič, hoden, rád, rada
+3. kongruencia v rode	m	mužský životný	láskavý (otec), svieži (muž), matkin (známy)
+	i	mužský neživotný	láskavý (pohľad), svieži (vietor), matkin (plášť)
+	f	ženský	prázdna (ulica), dlhá (kampaň), otcova (košeľa)
+	n	stredný	čisté (mesto), super (vysvedčenie), biele (mláďa)
+4. kongruencia v čísle	s	jednotné	láskavý (otec), láskavý (pohľad), otcova (košeľa), super (vysvedčenie), biele (mláďa)
+	p	množné	láskaví (otcovia), láskavé (pohľady), otcove (košele), super (vysvedčenia), biele (mláďatá)
+5. kongruencia v páde	1	nominatív	vzácny (pán), drahá (mama)
+	2	genitív	vzácneho (pána), drahej (mamy)
+	3	datív	vzácnemu (pánovi), drahej (mame)
+	4	akuzatív	vzácneho (pána), drahú (mamu)
+	5	vokatív	vzácny (pane), drahá (mami)
+	6	lokál	vzácnom (pánovi), drahej (mame)
+	7	inštrumentál	vzácnym (pánom), drahou (mamou)
+6. stupeň	x	pozitív	vzácny, drahá, otcov, psí, strešný
+	y	komparatív	vzácnejší, drahší, drevenejší (tanečník)
+	z	superlatív	najvzácnejší, najdrahší, najdrevenejší (tanečník)
+
+Ukážka: V domnení , že tak zachovajú v Európe mier, podpísali zástupcovia západných/AAfp2x
+        veľmocí v septembri 1938 Mníchovskú/AAfs4x:r dohodu , ktorou Nemecko získalo české/AAip4x
+        Sudety ( a časti dnešnej/AAfs2x Bratislavy ). Vybranú knižku podľa vášho gusta si môžete
+        veľmi rýchlo obstarať aj on – line/AUis7x nákupom cez internet – priame/AAfp1x linky vás
+        navedú do kníhkupectva Dunaj. 
+
+
+Pronominum
+-----------
+
+Pozícia 	Znak 	Hodnota 	Príklad 
+1. slovný druh 	P 	pronominum 	akýkoľvek, onen, jeho, kadiaľ 
+2. paradigma 	S 	substantívna 	koľkátka, všetučko 
+	A 	adjektívna 	aký, ktorá, inakšie, samý 
+	P 	zámenná 	ja, ty, my, vy, seba, sebe 
+	F 	zmiešaná 	on, ona, ono, kto, ten, môj, všetok, čo, žiaden 
+	U 	neúplná 	koľko, jeho, jej, ich 
+	D 	príslovková 	ako, kam, kde, kade, vtedy, začo 
+3. rod, resp. kongruencia 	m 	mužský životný 	oni, moji, tí, nejakí (známi) 
+	i 	mužský neživotný 	ony, moje, tie, nejaké (kruhy) 
+	f 	ženský 	ona, moja, tá, nejaká (priateľka) 
+	n 	stredný 	ono, moje, to, nejaké (dieťa) 
+	h 	všeobecný 	ja, ty, my, vy, seba 
+4. číslo, resp. kongruencia 	s 	jednotné 	ja, ktorý, ten, nikto, nejaký 
+	p 	množné 	my, ktorí, tí, všetci, nijakí 
+5. pád, resp. kongruencia 	1	nominatív 	ja, svoj, ktorý, nič, on 
+	2	genitív 	mňa, svojho, ktorého, ničoho, neho 
+	3	datív 	mne, svojmu, ktorému, ničomu, nemu 
+	4	akuzatív 	mňa, svojho, ktorého, nič, oňho 
+	5	vokatív 	môj (pane, priateľu), naša (mami) 
+	6	lokál 	mne, svojom, ktorom, ničom, ňom 
+	7	inštrumentál 	mnou, svojím, ktorým, ničím, ním 
+6. aglutinovanosť 	g 	aglutinované 	preňho, naňho, oň, zaň, doň 
+
+Ukážka: Vybranú knižku podľa vášho/PFns2 gusta si môžete veľmi rýchlo obstarať aj
+        on – line nákupom cez internet – priame linky vás/PPhp4 navedú do kníhkupectva
+        Dunaj. Určite sa uňho/PFms2g nájde práca pre takého/PAms4 bystrého a schopného
+        mladíka , ako som ja/PPhs1. 
+
+Numerále
+--------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	N	numerále	jeden, dva, raz, sto, prvý, dvojmo
+2. paradigma	S	substantívna	nula, milión, státisíce, raz
+	A	adjektívna	jediný, prvý, dvojitý, mnohonásobný, obojaký
+	N	číslovková	dva, dvaja, oba, obaja, obidva, tri, štyri
+	F	zmiešaná	jeden, jedna, jedno
+	U	neúplná	sto, tisíc, päť, šesť, dvanásť, šesťdesiat, dvoje, tisícoro, byľu, veľa, plno, málo, po
+	D	príslovková	prvýkrát, sedemkrát, dvojmo, neraz, mnohorako
+3. rod, resp. kongruencia	m	mužský životný	jeden (muž), jedni, piati (muži/mužovia)
+	i	mužský neživotný	jeden (oblúk), jedny (okuliare), dva (stromy)
+	f	ženský	jedna (láska), jedny (dvere), dve (ženy), piatim (ženám)
+	n	stredný	jedno (oko), jedny (pľúca), dve (polia), päť (sŕdc), (pracovalo) päť (mužov)
+4. číslo, resp. kongruencia	s	jednotné	jeden (muž), druhá (osoba), trojaké (víno)
+	p	množné	jedny (osoby), druhé (miesta), trojaké (vína)
+5. pád, resp. kongruencia	1	nominatív	jeden (pán), druhá (osoba), trojaké (víno)
+	2	genitív	jedného (pána), druhej (osoby), trojakého (vína)
+	3	datív	jednému (pánovi), druhej (osobe), trojakému
+	4	akuzatív	jedného (pána), druhú (osobu), trojaké (víno)
+	5	vokatív	(človeče) jeden!
+	6	lokál	jednom (pánovi), druhej (osobe), trojakom (víne)
+	7	inštrumentál	jedným (pánom), druhou (osobou), trojakým (vínom)
+
+Ukážka: Prvým/NAms7 držiteľom bol Darryl F . Zanuck , ktorý si toto ocenenie odniesol
+        neskôr ešte dva/NNip4 razy/NSip4. Na opravu jedného/NFis2 bytu treba priemerne
+        od 200 - do 400 - tisíc/NUns4 korún , a práve tu štát štátnou prémiou iniciuje
+        občanov k sporiteľským aktivitám.
+
+Verbum
+------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	V	verbum	klásť, čítať, vidieť, činiť
+2. slovesná forma	I	infinitív	byť, hriať, volať, viesť, hovoriť
+	K	prézent (indikatív)	je, hreje, volá, vedie, hovorí
+	M	imperatív	buď!, hrej!, volajte!, veďte!, hovor!
+	H	prechodník	súc, hrejúc, volajúc, vedúc, hovoriac
+	L	l-ové príčastie	bol, hrialo, volali, viedla, hovorili
+	B	futúrum byť	budem, budeš, bude, budeme, budete, budú, poletím, povedú
+3. vid	d	dokonavý	zohrejem, zavolám, povieme
+	e	nedokonavý	budem hriať, volala som, bola by hovorila
+	j	obojvidové sloveso	aplikovať, počuť
+4. číslo	s	jednotné	je, hrialo, bude, poviem
+	p	množné	sú, volali, budeme, hovorili
+5. osoba	a	prvá	som, sme, hrejme!, volali sme, budem hovoriť
+	b	druhá	si, ste, hriali ste, volajte!, budeš viesť, hovoril by si
+	c	tretia	je, sú, hrejú, volalo, povedie, hovoria
+6. kongruencia v rode	m	mužský životný	(otec) prišiel, (priatelia) volali
+	i	mužský neživotný	(strom) rozkvitol, zafúkal (vietor)
+	f	ženský	(známka) sa prilepila, (dievky) tancovali
+	n	stredný	(dielo) vyšlo, (šetrenie) pripísalo (dôležitosť)
+	h	všeobecný	(vy ste) prišli
+	o	neurčený/neurčiteľný	(chlapi, ženy i deti) sa tešili
+7. negácia	–	negácia	nebyť, neprichádzať, nepriateliť sa, nebáť sa
+	+	afirmácia	prichádzať, priateliť sa, rásť
+
+Ukážka: Pri každom jedle sa ho doprosovala/VLescf+ , aby nebol/VLescm- sebecký a aby si
+        uvedomil/VLdscm+ , že malá sestrička je/VKesc+ chorá a takisto potrebuje/VKesc+ 
+        jesť/VIe+ , ale márne . Ak nemáte/VKepb- kontakt na pracovníka STK , 
+        počítajte/VMepb+ s tým , že Vás budú/VBepc+ viaceré autá predbiehať/VIe+ a 
+        strávite/VKdpb+ tam viacero hodín.
+
+Particípium
+-----------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovná trieda	G	particípium	robiaci, sediaci, naložený, zohriaty
+2. druh	k	aktívne	pracujúci, visiaci, píšuci, platiaci
+	t	pasívne	robený, kosený, obratý, zožatý
+3. kongruencia v rode	m	mužský životný	sediaci (otec), pracujúci (muž), vyhodený (známy)
+	i	mužský neživotný	kričiaci (pohľad), pracujúci (stroj), pokrčený (plášť)
+	f	ženský	čistená (ulica), strhujúca (kampaň), ušitá (košeľa)
+	n	stredný	opustené (mesto), písané (potvrdenie), skáčuce (mača)
+4. kongruencia v čísle	s	jednotné	píšuci (otec), uplakaný (pohľad), vypratá (košeľa)
+	p	množné	píšuci (otcovia), vypraté (košele), skáčuce (mačatá)
+5. kongruencia v páde	1	nominatív	kreslený (film), bežiaca (reklama), ušité (sako)
+	2	genitív	kresleného (filmu), bežiacej (reklamy), ušitého (saka)
+	3	datív	kreslenému (filmu), bežiacej (reklame), ušitému (saku)
+	4	akuzatív	kreslený (film), bežiacu (reklamu), ušité (sako)
+	5	vokatív	(synu môj) neveriaci!
+	6	lokál	kreslenom (filme), bežiacej (reklame), ušitom (saku)
+	7	inštrumentál	kresleným (filmom), bežiacou (reklamou), ušitým (sakom)
+6. stupeň	x	pozitív	kričiaci, hodená, skáčuce
+	y	komparatív	uplakanejší, strhujúcejší
+	z	superlatív	najuplakanejší, najstrhujúcejší
+
+Ukážka: Je to oblačnosť súvisiaca/Gkfs1x so spomínaným/Gtis7x studeným frontom.
+        Vie sa len, že sochy budú umiestnené/Gtfp1x na terase v Ulici spievajúceho/Gkns2x mora.
+
+
+Adverbium
+---------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	D	adverbium	prísne, milo, pravidelne, prázdno
+2. stupeň	x	pozitív	draho, vzácne
+	y	komparatív	drahšie, vzácnejšie
+	z	superlatív	najdrahšie, najvzácnejšie
+
+Ukážka: Baghíra sa tváril veľmi/Dx vážne/Dx , keď podišiel bližšie/Dy k Balúovi.
+        A robilo sa tak správne/Dx , lebo sa vyžadovali , najmä na politické účely ,
+        krátke , úsečné slová s jednoznačným významom , rýchlo/Dx vysloviteľné a
+        rezonujúce v mysli rečníka čo najkratšie/Dz .
+
+
+Prepozícia
+----------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	E	prepozícia	po, pre, na, do, cez, medzi
+2. forma	v	vokalizovaná	so, zo, odo, podo
+	u	nevokalizovaná	s, z, od, pod, prostredníctvom
+3. spojenie s pádom	2	genitív	od, do, z
+	3	datív	k, ku
+	4	akuzatív	za, na
+	6	lokál	o, na
+	7	inštrumentál	s, so, medzi
+
+Ukážka: Prezident so/Ev7 svojím spoluhráčom nad/Eu7 súpermi zvíťazili. Zo/Ev2 sna ťa
+        prebudí bozk mládenca , ktorý ťa bude nado/Ev4 všetko ľúbiť. A to najmä v/Eu6
+        súvislosti s/Eu7 cenou vstupného.
+
+
+Konjunkcia
+----------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	O	konjunkcia	a, ale, alebo, či, pretože, že
+2. kondicionálnosť	Y	kondicionálnosť	aby, keby, čoby, žeby
+
+Ukážka: Najhoršie by si počínal , keby/OY to odkladal. Kritika je opodstatnená , ale/O
+        nepáči sa mi , že/O prezident vyšiel z koalície, a/O ako/O autorita by mohol viac
+        využívať svoju funkciu na ovplyvnenie jej činnosti.
+
+
+Partikula
+---------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	T	partikula	azda, nuž, bodaj, sotva, áno, nie
+2. kondicionálnosť	Y	kondicionálnosť	kiežby, žeby
+
+Ukážka: Ozdravenie bánk je nepochybne/T prvým a zrejme/T rozhodujúcim krokom pri vytváraní
+        priaznivého podnikateľského prostredia. STV však/T nie/T je v štandardnej situácii
+        a musí bojovať o každého diváka.
+
+
+Interjekcia
+-----------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovný druh	J	interjekcia	fíha, bác, bums, dokelu, ahoj, cveng, plesk
+
+Ukážka: Ach/J , prosím vás , nekričte tak! Deti sa chytili za ruky , urobili okolo Maji
+        s Vilkom kruh a spievali : dzum/J , dzum/J , dzum/J ... 
+
+
+Reflexívum
+----------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovná trieda	R	reflexívum	sa, si
+
+Ukážka: Ako ľahko by sa/R dalo uveriť , keby sa/R človek nemusel obzerať okolo 
+        seba , pomyslel si/R Winston ... 
+
+
+Kondicionálová morféma
+----------------------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovná trieda	Y	kondicionálová morféma	by
+
+Ukážka: To by/Y sa mali naučiť aj kluby.
+
+
+Abreviácie, značky
+------------------
+
+Pozícia 	Znak 	Hodnota 	Príklad 
+1. slovná trieda 	W 	abreviácie, značky 	km, kg, atď., H2O, SND 
+
+Ukážka: Na prelome júla a augusta , v období tzv/W . psích dní , u nás leto vrcholí.
+
+
+Neurčiteľný slovný druh
+-----------------------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovná trieda	Q	neurčiteľný slovný druh	bielo(-čierny), New (York)
+
+Ukážka: Otvorene vnímam hodnotenie ťažkej sociálno/Q - ekonomickej situácie väčšiny občanov
+        na Slovensku.
+
+
+Citátový výraz
+--------------
+
+Pozícia	Znak	Hodnota	Príklad
+1. slovná trieda	%	citátový výraz	šaj pes dovakeras, take it easy!, náměstí
+
+Ukážka: Johansson potvrdil zrušenie letnej súťaže Intertoto/% cup/% , lebo
+        peniaze investované do nej...

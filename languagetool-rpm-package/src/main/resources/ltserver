@@ -1,0 +1,200 @@
+#!/bin/bash
+
+# This script creates classpath and starts LT server
+
+# Check if config file exists
+if [ -f /etc/languagetool/lt.conf ]; then
+	# Source shell variables for server
+	. /etc/languagetool/lt.conf
+else
+	echo "Configuration file /etc/languagetool/lt.conf was not found, aborting ..."
+	exit 1
+fi
+[ "${LT_DEBUG}" -eq 1 ] && set -x
+
+# Check if LT_HOME was set
+if [ -z ${LT_HOME} ]; then
+	echo "Environment variable LT_HOME, root directory of LT installation, must be set. Aborting ..."
+	exit 1
+fi
+
+# Check if LT_JAVA_HOME was set
+if [ -z ${LT_JAVA_HOME} ]; then
+	echo "Environment variable LT_JAVA_HOME, pointing to Java 8+ installation, must be set. Aborting ..."
+	exit 1
+fi
+
+function create_lt_class_path() {
+	LT_CP=${LT_HOME}/*
+	LT_CP=${LT_CP}:${LT_HOME}/libs/*
+	LT_CP=${LT_CP}:${LT_HOME}/libs/standalone/*
+}
+
+#
+# Init script for a Java application
+#
+
+# Check the application status
+#
+# This function checks if the application is running
+
+check_status() {
+
+  if [ ! -f ${LT_PID_FILE} ]; then
+  	# No PID file, assume server is not running
+  	echo 0
+  else
+  	# PID file exists, take pid from there
+  	LT_PID=`cat ${LT_PID_FILE}`
+  	# Check if such process still exists, or process died
+  	RUNNING_PID=`ps -q ${LT_PID} -o pid= | tr -d [:space:]`
+  	if [ "${LT_PID}" == "${RUNNING_PID}" ]; then
+  		echo ${RUNNING_PID}
+  	else
+  		echo 0
+  	fi
+  fi
+}
+
+# Check directories LT needs - log directory and run directory
+check_lt_dirs() {
+  if [ ! -d /var/log/languagetool ]; then
+    mkdir -p /var/log/languagetool
+    chown ltuser:ltuser /var/log/languagetool
+  fi
+  if [ ! -d /var/run/languagetool ]; then
+    mkdir -p /var/run/languagetool
+    chown ltuser:ltuser /var/run/languagetool
+  fi
+}
+
+# Create options
+function build_lt_options() {
+	LT_OPTIONS="${LT_JAVA_OPTS} -cp ${LT_CP}"
+	if [ ! -z "${LT_SRV_SECURE}" ]; then
+		if [ "${LT_SRV_SECURE}" -eq 1 ]; then
+			LT_OPTIONS="${LT_OPTIONS} org.languagetool.server.HTTPSServer"
+		else
+			LT_OPTIONS="${LT_OPTIONS} org.languagetool.server.HTTPServer"
+		fi
+	else
+		LT_OPTIONS="${LT_OPTIONS} org.languagetool.server.HTTPServer"
+	fi
+	LT_OPTIONS="${LT_OPTIONS} --config /etc/languagetool/server.properties"
+	LT_OPTIONS="${LT_OPTIONS} --port ${LT_PORT}"
+	if [ ! -z "${LT_SRV_PUBLIC}" ]; then
+		if [ "${LT_SRV_PUBLIC}" -eq 1 ]; then
+			LT_OPTIONS="${LT_OPTIONS} --public"
+		fi
+	fi
+	if [ ! -z "${LT_SRV_VERBOSE}" ]; then
+		if [ "${LT_SRV_VERBOSE}" -eq 1 ]; then
+			LT_OPTIONS="${LT_OPTIONS} --verbose"
+		fi
+	fi
+	if [ ! -z "${LT_SRV_LANG_MODEL}" ]; then
+		LT_OPTIONS="${LT_OPTIONS} --languageModel ${LT_SRV_LANG_MODEL}"
+	fi
+	if [ ! -z "${LT_SRV_ALLOW_ORIGIN}" ]; then
+		LT_OPTIONS="${LT_OPTIONS} --allow-origin ${LT_SRV_ALLOW_ORIGIN}"
+	fi
+}
+
+# Starts the application
+start() {
+
+  # At first checks if the application is already started calling the check_status
+  # function
+  pid=$(check_status)
+
+  if [ $pid -ne 0 ] ; then
+    echo "${LT_SRV_NAME} is already running (PID ${pid})."
+    exit 1
+  fi
+
+  check_lt_dirs
+  create_lt_class_path
+  build_lt_options
+
+  if [ ! -f "${LT_LOG_FILE}" ]; then
+    > "${LT_LOG_FILE}"
+  fi
+
+  # Check what server will be started, secure or insecure
+  TSTMP=`date`
+  echo ${TSTMP} "===========" >> ${LT_LOG_FILE}
+
+  if [ ! -z "${LT_SRV_SECURE}"  ]; then
+    echo -n "Starting HTTPS ${LT_SRV_NAME} ... "
+  else
+    echo -n "Starting HTTP ${LT_SRV_NAME} ... "
+  fi
+
+  if [ "${LT_SRV_ALLOW_ORIGIN}" == "*" ]; then
+      # Trick to pass asterisk as argument to "--allow-origin" option
+	  set -o noglob
+  fi
+  # Redirects default and error output to a log file
+  ${LT_JAVA_HOME}/bin/java ${LT_OPTIONS} >> ${LT_LOG_FILE} 2>&1 &
+  echo $! > ${LT_PID_FILE}
+  set +o noglob
+  echo "OK"
+}
+
+# Stops the application
+stop() {
+
+  # Like as the start function, checks the application status
+  pid=$(check_status)
+
+  if [ $pid -eq 0 ] ; then
+    echo "${LT_SRV_NAME} is already stopped."
+    if [ -f ${LT_PID_FILE} ]; then
+      rm -f ${LT_PID_FILE}
+    fi
+    exit 1
+  fi
+
+  # Kills the application process
+  echo -n "Stopping ${LT_SRV_NAME} ..."
+  kill -15 $pid
+  rm -f ${LT_PID_FILE}
+  echo "OK"
+}
+
+# Show the application status
+status() {
+
+  # The check_status function, again ...
+  pid=$(check_status)
+
+  # If the PID was returned means the application is running
+  if [ ${pid} -ne 0 ] ; then
+    echo "${LT_SRV_NAME} is running (PID ${pid})."
+  else
+    echo "${LT_SRV_NAME} is stopped."
+  fi
+
+}
+
+# Main logic, a simple case to call functions
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status
+    ;;
+  restart|reload)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|reload|status}"
+    exit 1
+esac
+
+exit 0

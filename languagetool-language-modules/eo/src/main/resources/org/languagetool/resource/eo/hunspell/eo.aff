@@ -1,0 +1,961 @@
+# Tiu dosiero estas publikigita laŭ GPL Permesilo
+# legu plu sur: http://www.gnu.org
+# 
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# Autoro: Artur Trzewik mail@xdobry.de 
+# 2010-01
+#
+
+LANG eo_EO
+
+SET UTF-8
+FLAG UTF-8
+TRY oaeinsrltkumvjdpbĉgfcĝAŭKMzNhŝSPLDUIVJOTEFHBĵĈRŜCĜZĥGĴĤŬ'-
+WORDCHARS oaeinsrltkumvjdpbĉgfcĝAŭKMzNhŝSPLDUIVJOTEFHBĵĈRŜCĜZĥGĴĤŬ'-
+KEY qwertyuiop|asdfghjkl|zxcvbnm
+
+# this is not useful for OpenOffice, which has its own mechanism for treating interpunction
+# D. Pelle (20130102): added BREAK rules for apostrophes/quotes.
+BREAK 6
+BREAK -
+BREAK --
+BREAK ^'
+BREAK ^‘
+BREAK '$
+BREAK ’$
+
+# common two-letter surrogates for the special Esperanto characters: the "h-convention" and the "x-convention"
+# (this list includes "uh", which is actually not a part of the h-convention, but used (incorrectly) by some authors)
+REP 14
+REP ch ĉ
+REP cx ĉ
+REP gh ĝ
+REP gx ĝ
+REP hh ĥ
+REP hx ĥ
+REP jh ĵ
+REP jx ĵ
+REP sh ŝ
+REP sx ŝ
+REP uh ŭ
+REP ux ŭ
+REP au aŭ
+REP eu eŭ
+
+# some possible single-letter surrogates for the special Esperanto characters (the list does not aim to be complete)
+MAP 6
+MAP cčćĉ
+MAP gĝ
+MAP hĥ
+MAP jĵ
+MAP sšŝ
+MAP uwùúůŭ
+
+NEEDAFFIX X
+
+PFX p Y 4
+PFX p 0 pli .
+PFX p 0 malpli .
+PFX p 0 plimal .
+PFX p 0 mal .
+
+PFX m Y 3
+PFX m 0 mal .
+PFX m 0 ne .
+PFX m 0 nemal .
+
+PFX n Y 1
+PFX n 0 ne .
+
+SFX N Y 8
+SFX N 0 o .
+SFX N 0 on .
+SFX N 0 oj .
+SFX N 0 ojn .
+SFX N 0 a .
+SFX N 0 an .
+SFX N 0 aj .
+SFX N 0 ajn .
+
+SFX Ñ Y 4
+SFX Ñ 0 a .
+SFX Ñ 0 an .
+SFX Ñ 0 aj .
+SFX Ñ 0 ajn .
+
+
+#Nur adverbo
+SFX E Y 1
+SFX E 0 e .
+
+# Adjektiva radiko
+
+SFX A Y 25
+SFX A 0 0/XmNEV .
+SFX A 0 eg/XmNEV .
+SFX A 0 et/XmNEV .
+SFX A 0 ul/XmNE .
+SFX A 0 ulin/XmNE .
+SFX A 0 egul/XmNE .
+SFX A 0 egulin/XmNE .
+SFX A 0 etul/XmNE .
+SFX A 0 etulin/XmNE .
+SFX A 0 ec/XmN .
+SFX A 0 egec/XmN .
+SFX A 0 aĵ/XmN .
+SFX A 0 egaĵ/XmN .
+SFX A 0 aĵeg/XmN .
+SFX A 0 etaĵ/XmN .
+SFX A 0 aĵet/XmN .
+SFX A 0 ig/XpV .
+SFX A 0 ig/XpnN .
+SFX A 0 igat/XpnNE .
+SFX A 0 igot/XpnNE .
+SFX A 0 igit/XpnNE .
+SFX A 0 igant/XpnNE .
+SFX A 0 igont/XpnNE .
+SFX A 0 igint/XpnNE .
+SFX A 0 igil/XpN .
+
+# nur adjektivo kaj adverbo
+
+SFX Å Y 1
+SFX Å 0 0/XNE .
+
+SFX O Y 2
+SFX O 0 ' .
+SFX O 0 0/XN .
+
+# Verba radiko
+
+SFX I Y 14
+SFX I 0 0/XV .
+SFX I 0 0/XnN .
+SFX I 0 ant/XnNE .
+SFX I 0 antin/XnN .
+SFX I 0 ont/XnNE .
+SFX I 0 ontin/XnN .
+SFX I 0 int/XnNE .
+SFX I 0 intin/XnN .
+SFX I 0 em/XnN .
+SFX I 0 emul/XnN .
+SFX I 0 emulin/XnN .
+SFX I 0 pov/XnN .
+SFX I 0 kapabl/XnN .
+SFX I 0 ad/XnN .
+
+SFX G Y 25
+SFX G 0 ig/XV .
+SFX G 0 ig/XnN .
+SFX G 0 igant/XnNE .
+SFX G 0 igantin/XnN .
+SFX G 0 igont/XnNE .
+SFX G 0 igontin/XnN .
+SFX G 0 igint/XnNE .
+SFX G 0 igintin/XnN .
+SFX G 0 igem/XnN .
+SFX G 0 igemul/XnN .
+SFX G 0 igemulin/XnN .
+SFX G 0 igpov/XnN .
+SFX G 0 igkapabl/XnN .
+SFX G 0 igat/XnNE .
+SFX G 0 igatin/XnN .
+SFX G 0 igot/XnNE .
+SFX G 0 igotin/XnN .
+SFX G 0 igit/XnNE .
+SFX G 0 igitin/XnN .
+SFX G 0 igind/XnN .
+SFX G 0 igindaĵ/XnN .
+SFX G 0 igend/XnN .
+SFX G 0 igendaĵ/XnN .
+SFX G 0 igebl/XnN .
+SFX G 0 igeblaĵ/XnN .
+
+# ne transitiva
+SFX D Y 13
+SFX D 0 ad/XV .
+SFX D 0 ad/XnN .
+SFX D 0 adant/XnNE .
+SFX D 0 adantin/XnN .
+SFX D 0 adont/XnNE .
+SFX D 0 adontin/XnN .
+SFX D 0 adint/XnNE .
+SFX D 0 adintin/XnN .
+SFX D 0 adem/XnN .
+SFX D 0 ademul/XnN .
+SFX D 0 ademulin/XnN .
+SFX D 0 adpov/XnN .
+SFX D 0 adkapabl/XnN .
+
+# transitiva ad
+SFX F Y 25
+SFX F 0 ad/XV .
+SFX F 0 ad/XnN .
+SFX F 0 adant/XnNE .
+SFX F 0 adantin/XnN .
+SFX F 0 adont/XnNE .
+SFX F 0 adontin/XnN .
+SFX F 0 adint/XnNE .
+SFX F 0 adintin/XnN .
+SFX F 0 adem/XnN .
+SFX F 0 ademul/XnN .
+SFX F 0 ademulin/XnN .
+SFX F 0 adpov/XnN .
+SFX F 0 adkapabl/XnN .
+SFX F 0 adat/XnNE .
+SFX F 0 adatin/XnN .
+SFX F 0 adot/XnNE .
+SFX F 0 adotin/XnN .
+SFX F 0 adit/XnNE .
+SFX F 0 aditin/XnN .
+SFX F 0 adind/XnN .
+SFX F 0 adindaĵ/XnN .
+SFX F 0 adend/XnN .
+SFX F 0 adendaĵ/XnN .
+SFX F 0 adebl/XnN .
+SFX F 0 adeblaĵ/XnN .
+
+SFX ! Y 13
+SFX ! 0 iĝ/XV .
+SFX ! 0 iĝ/XnN .
+SFX ! 0 iĝant/XnNE .
+SFX ! 0 iĝantin/XnN .
+SFX ! 0 iĝont/XnNE .
+SFX ! 0 iĝontin/XnN .
+SFX ! 0 iĝint/XnNE .
+SFX ! 0 iĝintin/XnN .
+SFX ! 0 iĝem/XnN .
+SFX ! 0 iĝemul/XnN .
+SFX ! 0 iĝemulin/XnN .
+SFX ! 0 iĝpov/XnN .
+SFX ! 0 iĝkapabl/XnN .
+
+SFX ) Y 13
+SFX ) 0 et/XV .
+SFX ) 0 et/XnN .
+SFX ) 0 etant/XnNE .
+SFX ) 0 etantin/XnN .
+SFX ) 0 etont/XnNE .
+SFX ) 0 etontin/XnN .
+SFX ) 0 etint/XnNE .
+SFX ) 0 etintin/XnN .
+SFX ) 0 etem/XnN .
+SFX ) 0 etemul/XnN .
+SFX ) 0 etemulin/XnN .
+SFX ) 0 etpov/XnN .
+SFX ) 0 etkapabl/XnN .
+
+SFX § Y 13
+SFX § 0 eg/XV .
+SFX § 0 eg/XnN .
+SFX § 0 egant/XnNE .
+SFX § 0 egantin/XnN .
+SFX § 0 egont/XnNE .
+SFX § 0 egontin/XnN .
+SFX § 0 egint/XnNE .
+SFX § 0 egintin/XnN .
+SFX § 0 egem/XnN .
+SFX § 0 egemul/XnN .
+SFX § 0 egemulin/XnN .
+SFX § 0 egpov/XnN .
+SFX § 0 egkapabl/XnN .
+
+SFX ? Y 13
+SFX ? 0 um/XV .
+SFX ? 0 um/XnN .
+SFX ? 0 umant/XnNE .
+SFX ? 0 umantin/XnN .
+SFX ? 0 umont/XnNE .
+SFX ? 0 umontin/XnN .
+SFX ? 0 umint/XnNE .
+SFX ? 0 umintin/XnN .
+SFX ? 0 umem/XnN .
+SFX ? 0 umemul/XnN .
+SFX ? 0 umemulin/XnN .
+SFX ? 0 umpov/XnN .
+SFX ? 0 umkapabl/XnN .
+
+SFX % Y 25
+SFX % 0 et/XV .
+SFX % 0 et/XnN .
+SFX % 0 etant/XnNE .
+SFX % 0 etantin/XnN .
+SFX % 0 etont/XnNE .
+SFX % 0 etontin/XnN .
+SFX % 0 etint/XnNE .
+SFX % 0 etintin/XnN .
+SFX % 0 etem/XnN .
+SFX % 0 etemul/XnN .
+SFX % 0 etemulin/XnN .
+SFX % 0 etpov/XnN .
+SFX % 0 etkapabl/XnN .
+SFX % 0 etat/XnNE .
+SFX % 0 etatin/XnN .
+SFX % 0 etot/XnNE .
+SFX % 0 etotin/XnN .
+SFX % 0 etit/XnNE .
+SFX % 0 etitin/XnN .
+SFX % 0 etind/XnN .
+SFX % 0 etindaĵ/XnN .
+SFX % 0 etend/XnN .
+SFX % 0 etendaĵ/XnN .
+SFX % 0 etebl/XnN .
+SFX % 0 eteblaĵ/XnN .
+
+SFX & Y 25
+SFX & 0 eg/XV .
+SFX & 0 eg/XnN .
+SFX & 0 egant/XnNE .
+SFX & 0 egantin/XnN .
+SFX & 0 egont/XnNE .
+SFX & 0 egontin/XnN .
+SFX & 0 egint/XnNE .
+SFX & 0 egintin/XnN .
+SFX & 0 egem/XnN .
+SFX & 0 egemul/XnN .
+SFX & 0 egemulin/XnN .
+SFX & 0 egpov/XnN .
+SFX & 0 egkapabl/XnN .
+SFX & 0 egat/XnNE .
+SFX & 0 egatin/XnN .
+SFX & 0 egot/XnNE .
+SFX & 0 egotin/XnN .
+SFX & 0 egit/XnNE .
+SFX & 0 egitin/XnN .
+SFX & 0 egind/XnN .
+SFX & 0 egindaĵ/XnN .
+SFX & 0 egend/XnN .
+SFX & 0 egendaĵ/XnN .
+SFX & 0 egebl/XnN .
+SFX & 0 egeblaĵ/XnN .
+
+SFX ( Y 25
+SFX ( 0 um/XV .
+SFX ( 0 um/XnN .
+SFX ( 0 umant/XnNE .
+SFX ( 0 umantin/XnN .
+SFX ( 0 umont/XnNE .
+SFX ( 0 umontin/XnN .
+SFX ( 0 umint/XnNE .
+SFX ( 0 umintin/XnN .
+SFX ( 0 umem/XnN .
+SFX ( 0 umemul/XnN .
+SFX ( 0 umemulin/XnN .
+SFX ( 0 umpov/XnN .
+SFX ( 0 umkapabl/XnN .
+SFX ( 0 umat/XnNE .
+SFX ( 0 umatin/XnN .
+SFX ( 0 umot/XnNE .
+SFX ( 0 umotin/XnN .
+SFX ( 0 umit/XnNE .
+SFX ( 0 umitin/XnN .
+SFX ( 0 umind/XnN .
+SFX ( 0 umindaĵ/XnN .
+SFX ( 0 umend/XnN .
+SFX ( 0 umendaĵ/XnN .
+SFX ( 0 umebl/XnN .
+SFX ( 0 umeblaĵ/XnN .
+
+SFX À Y 13
+SFX À 0 iĝad/XV .
+SFX À 0 iĝad/XnN .
+SFX À 0 iĝadant/XnNE .
+SFX À 0 iĝadantin/XnN .
+SFX À 0 iĝadont/XnNE .
+SFX À 0 iĝadontin/XnN .
+SFX À 0 iĝadint/XnNE .
+SFX À 0 iĝadintin/XnN .
+SFX À 0 iĝadem/XnN .
+SFX À 0 iĝademul/XnN .
+SFX À 0 iĝademulin/XnN .
+SFX À 0 iĝadpov/XnN .
+SFX À 0 iĝadkapabl/XnN .
+
+SFX Â Y 13
+SFX Â 0 etad/XV .
+SFX Â 0 etad/XnN .
+SFX Â 0 etadant/XnNE .
+SFX Â 0 etadantin/XnN .
+SFX Â 0 etadont/XnNE .
+SFX Â 0 etadontin/XnN .
+SFX Â 0 etadint/XnNE .
+SFX Â 0 etadintin/XnN .
+SFX Â 0 etadem/XnN .
+SFX Â 0 etademul/XnN .
+SFX Â 0 etademulin/XnN .
+SFX Â 0 etadpov/XnN .
+SFX Â 0 etadkapabl/XnN .
+
+SFX Ã Y 13
+SFX Ã 0 umad/XV .
+SFX Ã 0 umad/XnN .
+SFX Ã 0 umadant/XnNE .
+SFX Ã 0 umadantin/XnN .
+SFX Ã 0 umadont/XnNE .
+SFX Ã 0 umadontin/XnN .
+SFX Ã 0 umadint/XnNE .
+SFX Ã 0 umadintin/XnN .
+SFX Ã 0 umadem/XnN .
+SFX Ã 0 umademul/XnN .
+SFX Ã 0 umademulin/XnN .
+SFX Ã 0 umadpov/XnN .
+SFX Ã 0 umadkapabl/XnN .
+
+SFX Ç Y 13
+SFX Ç 0 etiĝ/XV .
+SFX Ç 0 etiĝ/XnN .
+SFX Ç 0 etiĝant/XnNE .
+SFX Ç 0 etiĝantin/XnN .
+SFX Ç 0 etiĝont/XnNE .
+SFX Ç 0 etiĝontin/XnN .
+SFX Ç 0 etiĝint/XnNE .
+SFX Ç 0 etiĝintin/XnN .
+SFX Ç 0 etiĝem/XnN .
+SFX Ç 0 etiĝemul/XnN .
+SFX Ç 0 etiĝemulin/XnN .
+SFX Ç 0 etiĝpov/XnN .
+SFX Ç 0 etiĝkapabl/XnN .
+
+SFX È Y 13
+SFX È 0 aĉ/XV .
+SFX È 0 aĉ/XnN .
+SFX È 0 aĉant/XnNE .
+SFX È 0 aĉantin/XnN .
+SFX È 0 aĉont/XnNE .
+SFX È 0 aĉontin/XnN .
+SFX È 0 aĉint/XnNE .
+SFX È 0 aĉintin/XnN .
+SFX È 0 aĉem/XnN .
+SFX È 0 aĉemul/XnN .
+SFX È 0 aĉemulin/XnN .
+SFX È 0 aĉpov/XnN .
+SFX È 0 aĉkapabl/XnN .
+
+SFX É Y 25
+SFX É 0 igad/XV .
+SFX É 0 igad/XnN .
+SFX É 0 igadant/XnNE .
+SFX É 0 igadantin/XnN .
+SFX É 0 igadont/XnNE .
+SFX É 0 igadontin/XnN .
+SFX É 0 igadint/XnNE .
+SFX É 0 igadintin/XnN .
+SFX É 0 igadem/XnN .
+SFX É 0 igademul/XnN .
+SFX É 0 igademulin/XnN .
+SFX É 0 igadpov/XnN .
+SFX É 0 igadkapabl/XnN .
+SFX É 0 igadat/XnNE .
+SFX É 0 igadatin/XnN .
+SFX É 0 igadot/XnNE .
+SFX É 0 igadotin/XnN .
+SFX É 0 igadit/XnNE .
+SFX É 0 igaditin/XnN .
+SFX É 0 igadind/XnN .
+SFX É 0 igadindaĵ/XnN .
+SFX É 0 igadend/XnN .
+SFX É 0 igadendaĵ/XnN .
+SFX É 0 igadebl/XnN .
+SFX É 0 igadeblaĵ/XnN .
+
+SFX Ê Y 25
+SFX Ê 0 etad/XV .
+SFX Ê 0 etad/XnN .
+SFX Ê 0 etadant/XnNE .
+SFX Ê 0 etadantin/XnN .
+SFX Ê 0 etadont/XnNE .
+SFX Ê 0 etadontin/XnN .
+SFX Ê 0 etadint/XnNE .
+SFX Ê 0 etadintin/XnN .
+SFX Ê 0 etadem/XnN .
+SFX Ê 0 etademul/XnN .
+SFX Ê 0 etademulin/XnN .
+SFX Ê 0 etadpov/XnN .
+SFX Ê 0 etadkapabl/XnN .
+SFX Ê 0 etadat/XnNE .
+SFX Ê 0 etadatin/XnN .
+SFX Ê 0 etadot/XnNE .
+SFX Ê 0 etadotin/XnN .
+SFX Ê 0 etadit/XnNE .
+SFX Ê 0 etaditin/XnN .
+SFX Ê 0 etadind/XnN .
+SFX Ê 0 etadindaĵ/XnN .
+SFX Ê 0 etadend/XnN .
+SFX Ê 0 etadendaĵ/XnN .
+SFX Ê 0 etadebl/XnN .
+SFX Ê 0 etadeblaĵ/XnN .
+
+SFX Ï Y 25
+SFX Ï 0 umad/XV .
+SFX Ï 0 umad/XnN .
+SFX Ï 0 umadant/XnNE .
+SFX Ï 0 umadantin/XnN .
+SFX Ï 0 umadont/XnNE .
+SFX Ï 0 umadontin/XnN .
+SFX Ï 0 umadint/XnNE .
+SFX Ï 0 umadintin/XnN .
+SFX Ï 0 umadem/XnN .
+SFX Ï 0 umademul/XnN .
+SFX Ï 0 umademulin/XnN .
+SFX Ï 0 umadpov/XnN .
+SFX Ï 0 umadkapabl/XnN .
+SFX Ï 0 umadat/XnNE .
+SFX Ï 0 umadatin/XnN .
+SFX Ï 0 umadot/XnNE .
+SFX Ï 0 umadotin/XnN .
+SFX Ï 0 umadit/XnNE .
+SFX Ï 0 umaditin/XnN .
+SFX Ï 0 umadind/XnN .
+SFX Ï 0 umadindaĵ/XnN .
+SFX Ï 0 umadend/XnN .
+SFX Ï 0 umadendaĵ/XnN .
+SFX Ï 0 umadebl/XnN .
+SFX Ï 0 umadeblaĵ/XnN .
+
+SFX Ë Y 25
+SFX Ë 0 etig/XV .
+SFX Ë 0 etig/XnN .
+SFX Ë 0 etigant/XnNE .
+SFX Ë 0 etigantin/XnN .
+SFX Ë 0 etigont/XnNE .
+SFX Ë 0 etigontin/XnN .
+SFX Ë 0 etigint/XnNE .
+SFX Ë 0 etigintin/XnN .
+SFX Ë 0 etigem/XnN .
+SFX Ë 0 etigemul/XnN .
+SFX Ë 0 etigemulin/XnN .
+SFX Ë 0 etigpov/XnN .
+SFX Ë 0 etigkapabl/XnN .
+SFX Ë 0 etigat/XnNE .
+SFX Ë 0 etigatin/XnN .
+SFX Ë 0 etigot/XnNE .
+SFX Ë 0 etigotin/XnN .
+SFX Ë 0 etigit/XnNE .
+SFX Ë 0 etigitin/XnN .
+SFX Ë 0 etigind/XnN .
+SFX Ë 0 etigindaĵ/XnN .
+SFX Ë 0 etigend/XnN .
+SFX Ë 0 etigendaĵ/XnN .
+SFX Ë 0 etigebl/XnN .
+SFX Ë 0 etigeblaĵ/XnN .
+
+SFX Ì Y 25
+SFX Ì 0 aĉ/XV .
+SFX Ì 0 aĉ/XnN .
+SFX Ì 0 aĉant/XnNE .
+SFX Ì 0 aĉantin/XnN .
+SFX Ì 0 aĉont/XnNE .
+SFX Ì 0 aĉontin/XnN .
+SFX Ì 0 aĉint/XnNE .
+SFX Ì 0 aĉintin/XnN .
+SFX Ì 0 aĉem/XnN .
+SFX Ì 0 aĉemul/XnN .
+SFX Ì 0 aĉemulin/XnN .
+SFX Ì 0 aĉpov/XnN .
+SFX Ì 0 aĉkapabl/XnN .
+SFX Ì 0 aĉat/XnNE .
+SFX Ì 0 aĉatin/XnN .
+SFX Ì 0 aĉot/XnNE .
+SFX Ì 0 aĉotin/XnN .
+SFX Ì 0 aĉit/XnNE .
+SFX Ì 0 aĉitin/XnN .
+SFX Ì 0 aĉind/XnN .
+SFX Ì 0 aĉindaĵ/XnN .
+SFX Ì 0 aĉend/XnN .
+SFX Ì 0 aĉendaĵ/XnN .
+SFX Ì 0 aĉebl/XnN .
+SFX Ì 0 aĉeblaĵ/XnN .
+
+# substantivaj sufiksoj
+
+SFX K Y 2
+SFX K 0 an/XN .
+SFX K 0 anin/XN .
+
+SFX S Y 2
+SFX S 0 ist/XN .
+SFX S 0 istin/XN .
+
+SFX L Y 1
+SFX L 0 il/XN .
+
+SFX J Y 1
+SFX J 0 ej/XN .
+
+SFX U Y 1
+SFX U 0 uj/XN .
+
+SFX M Y 1
+SFX M 0 ism/XN .
+
+SFX R Y 1
+SFX R 0 ar/XN .
+
+SFX P Y 1
+SFX P 0 er/XN .
+
+SFX W Y 1
+SFX W 0 eg/XN .
+
+SFX H Y 1
+SFX H 0 et/XN .
+
+SFX Y Y 1
+SFX Y 0 id/XN .
+
+SFX Ż Y 1
+SFX Ż 0 aĉ/XN .
+
+SFX Q Y 1
+SFX Q 0 in/XN .
+
+SFX Ü Y 1
+SFX Ü 0 aĵ/XN .
+
+SFX Ó Y 2
+SFX Ó 0 estr/XN .
+SFX Ó 0 estrin/XN .
+
+SFX Ł Y 1
+SFX Ł 0 um/XN .
+
+SFX Ą Y 1
+SFX Ą 0 ing/XN .
+
+SFX Ć Y 1
+SFX Ć 0 ul/XN .
+
+SFX Ę Y 1
+SFX Ę 0 ad/XN .
+
+# baza verbo
+SFX V Y 6
+SFX V 0 i .
+SFX V 0 os .
+SFX V 0 is .
+SFX V 0 as .
+SFX V 0 us .
+SFX V 0 u .
+
+# Transitivaj verboj (aldone al I)
+SFX T Y 13
+SFX T 0 at/XnNE .
+SFX T 0 atin/XnN .
+SFX T 0 ot/XnNE .
+SFX T 0 otin/XnN .
+SFX T 0 it/XnNE .
+SFX T 0 itin/XnN .
+SFX T 0 ind/XnNV .
+SFX T 0 indaĵ/XnN .
+SFX T 0 end/XnNV .
+SFX T 0 endaĵ/XnN .
+SFX T 0 ebl/XnNV .
+SFX T 0 eblaĵ/XnN .
+SFX T 0 aĵ/XnN .
+
+# nombroj (ankaux psuedo nombroj kiel "kelk")
+SFX # Y 20
+SFX # 0 0/XNE .
+SFX # 0 op/XNE .
+SFX # 0 obl/XNE .
+SFX # 0 oblig/XNV .
+SFX # 0 obligat/XNE .
+SFX # 0 obligot/XNVE .
+SFX # 0 obligit/XNVE .
+SFX # 0 obligant/XNE .
+SFX # 0 obligont/XNVE .
+SFX # 0 obligint/XNVE .
+SFX # 0 obligil/XN .
+SFX # 0 on/XNE .
+SFX # 0 onig/XNV .
+SFX # 0 onigat/XNE .
+SFX # 0 onigot/XNVE .
+SFX # 0 onigit/XNVE .
+SFX # 0 onigant/XNE .
+SFX # 0 onigont/XNVE .
+SFX # 0 onigint/XNVE .
+SFX # 0 onigil/XN .
+
+# tridek
+
+PFX ' Y 8
+PFX ' 0 du .
+PFX ' 0 tri .
+PFX ' 0 kvar .
+PFX ' 0 kvin .
+PFX ' 0 ses .
+PFX ' 0 sep .
+PFX ' 0 ok .
+PFX ' 0 naŭ .
+
+# tablovortoj
+SFX < Y 16
+SFX < 0 0/N .
+SFX < 0 u .
+SFX < 0 un .
+SFX < 0 uj .
+SFX < 0 ujn .
+SFX < 0 el .
+SFX < 0 e .
+SFX < 0 en .
+SFX < 0 am .
+SFX < 0 om .
+SFX < 0 oma .
+SFX < 0 oman .
+SFX < 0 omaj .
+SFX < 0 omajn .
+SFX < 0 al .
+SFX < 0 es .
+
+# Pronomoj li lia ....
+SFX > Y 5
+SFX > 0 a .
+SFX > 0 an .
+SFX > 0 aj .
+SFX > 0 ajn .
+SFX > 0 n .
+
+# Prefiksoj
+# nombreeblaj
+
+PFX b Y 16
+PFX b 0 unu .
+PFX b 0 du .
+PFX b 0 tri .
+PFX b 0 kvar .
+PFX b 0 kvin .
+PFX b 0 ses .
+PFX b 0 sep .
+PFX b 0 ok .
+PFX b 0 naŭ .
+PFX b 0 dek .
+PFX b 0 cent .
+PFX b 0 mil .
+PFX b 0 kelk .
+PFX b 0 plur .
+PFX b 0 mult .
+PFX b 0 malmult .
+
+PFX r Y 1
+PFX r 0 re .
+
+PFX s Y 1
+PFX s 0 mis .
+
+PFX e Y 1
+PFX e 0 ek .
+
+PFX d Y 1
+PFX d 0 dis .
+
+PFX f Y 1
+PFX f 0 fi .
+
+PFX q Y 1
+PFX q 0 pra .
+
+PFX g Y 1
+PFX g 0 ge .
+
+PFX c Y 1
+PFX c 0 bo .
+
+PFX k Y 1
+PFX k 0 ĉef .
+
+PFX h Y 1
+PFX h 0 eks .
+
+PFX l Y 1
+PFX l 0 mal .
+
+# fino de oficialaj prefiksoj
+
+PFX o Y 1
+PFX o 0 plu .
+
+PFX t Y 1
+PFX t 0 el .
+
+PFX a Y 1
+PFX a 0 sen .
+
+PFX i Y 1
+PFX i 0 en .
+
+PFX ú Y 1
+PFX ú 0 kun .
+
+PFX õ Y 1
+PFX õ 0 inter .
+
+PFX u Y 1
+PFX u 0 for .
+
+PFX v Y 1
+PFX v 0 al .
+
+PFX w Y 1
+PFX w 0 de .
+
+PFX x Y 1
+PFX x 0 sub .
+
+PFX y Y 1
+PFX y 0 pri .
+
+PFX z Y 1
+PFX z 0 sur .
+
+PFX ª Y 1
+PFX ª 0 antaŭ .
+
+PFX µ Y 1
+PFX µ 0 sam .
+
+PFX º Y 1
+PFX º 0 kontraŭ .
+
+PFX ß Y 1
+PFX ß 0 trans .
+
+PFX à Y 1
+PFX à 0 tra .
+
+PFX á Y 1
+PFX á 0 laŭ .
+
+PFX â Y 1
+PFX â 0 bon .
+
+PFX ã Y 1
+PFX ã 0 pli .
+
+PFX ä Y 1
+PFX ä 0 super .
+
+PFX å Y 1
+PFX å 0 duon .
+
+PFX æ Y 1
+PFX æ 0 mem .
+
+PFX ç Y 1
+PFX ç 0 post .
+
+PFX è Y 1
+PFX è 0 ĉirkaŭ .
+
+PFX é Y 1
+PFX é 0 plen .
+
+PFX ì Y 1
+PFX ì 0 ali .
+
+PFX î Y 1
+PFX î 0 fin .
+
+PFX ï Y 1
+PFX ï 0 grand .
+
+PFX ñ Y 1
+PFX ñ 0 tut .
+
+PFX ø Y 1
+PFX ø 0 ekster .
+
+PFX ą Y 1
+PFX ą 0 preter .
+
+PFX ė Y 1
+PFX ė 0 tro .
+
+# Propraj nomoj
+# substantivo estas majuska la adjektivo minuskla
+# Varsovio - varsoviajn (ne Versovioj, ne versonvio)
+
+PFX | Y 29
+PFX | A a A
+PFX | B b B
+PFX | C c C
+PFX | D d D
+PFX | E e E
+PFX | F f F
+PFX | G g G
+PFX | H h H
+PFX | I i I
+PFX | J j J
+PFX | K k K
+PFX | L l L
+PFX | M m M
+PFX | N n N
+PFX | O o O
+PFX | P p P
+PFX | Q q Q
+PFX | R r R
+PFX | S s S
+PFX | T t T
+PFX | U u U
+PFX | V v V
+PFX | Y y Y
+PFX | Z z Z
+PFX | Ŝ s Ŝ
+PFX | Ĉ c Ĉ
+PFX | Ĥ ĥ Ĥ
+PFX | Ĝ ĝ Ĝ
+PFX | Ĵ ĵ Ĵ
+
+
+SFX @ Y 7
+SFX @ 0 o .
+SFX @ 0 on .
+SFX @ 0 e/| .
+SFX @ 0 a/| .
+SFX @ 0 aj/| .
+SFX @ 0 an/| .
+SFX @ 0 ajn/| .
+
+# Landonomoj kun io - Germanio
+
+SFX ~ Y 7
+SFX ~ 0 io .
+SFX ~ 0 ion .
+SFX ~ 0 ie/| .
+SFX ~ 0 ia/| .
+SFX ~ 0 iaj/| .
+SFX ~ 0 ian/| .
+SFX ~ 0 iajn/| .
+
+# Propraj nomoj nur kun substativo: Tomaso, Arturo
+
+SFX + Y 4
+SFX + 0 o .
+SFX + 0 on .
+SFX + 0 oj .
+SFX + 0 ojn .
+
+# Lingvoj
+# germana germane germanlingva (ano) germanparolanto germanisto germanismo
+
+SFX - Y 8
+SFX - 0 a .
+SFX - 0 an .
+SFX - 0 aj .
+SFX - 0 ajn .
+SFX - 0 0/XESM .
+SFX - 0 lingv/XNEK .
+SFX - 0 parolant/X+ .
+SFX - 0 traduk/XN .
