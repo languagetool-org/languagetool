@@ -14501,7 +14501,7 @@ though, and has since been slightly modified)-->
             <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire <suggestion>\3s</suggestion>.</message>
             <example correction="faites">Comme vous le <marker>faite</marker>.</example>
         </rule>
-        <rulegroup id="CONFUSION_PARLEZ_PARLER" name="parlez/parler" default="temp_off">
+        <rulegroup id="CONFUSION_PARLEZ_PARLER" name="parlez/parler">
             <!-- TODO more general: rule for any preposition + inflected personal verb -->
             <rule>
                 <antipattern>
@@ -14512,7 +14512,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="P">
                         <exception>après</exception></token>
-                    <token regexp="yes" min="0">me|te|m'|t'|le|la|l'|lui|vous|nous|y|en|les|leur</token>
+                    <token regexp="yes" min="0">me|te|m'|t'|le|la|l'|lui|nous|y|en|les|leur</token>
                     <marker>
                         <token postag="V.* [123].*" postag_regexp="yes" regexp="yes">.*(ez|é|ée)
                             <exception postag="[NJP].*|V.* ppa.*" postag_regexp="yes"/>
@@ -14521,8 +14521,24 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
                 <example correction="parler">Il est temps de <marker>parlez</marker>.</example>
-                <example correction="parler">Le temps est venu de vous <marker>parlez</marker> de moi-même.</example>
                 <example correction="créer">Où on clique pour <marker>crée</marker> une page ?</example>
+                <example>Plusieurs d'entre eux sont morts.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="P" regexp="yes">à|de|d'|pour</token>
+                    <token>vous</token>
+                    <marker>
+                        <and>
+                            <token postag="V.* [123].*" postag_regexp="yes" regexp="yes">.*(ez|é|ée)
+                                <exception postag="[NJP].*|V.* ppa.*" postag_regexp="yes"/>
+                                <exception regexp="yes">\p{Lu}.*</exception></token>
+                            <token inflected="yes" regexp="yes">.*er</token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
+                <example correction="parler">Le temps est venu de vous <marker>parlez</marker> de moi-même.</example>
                 <example>Plusieurs d'entre eux sont morts.</example>
             </rule>
         </rulegroup>
