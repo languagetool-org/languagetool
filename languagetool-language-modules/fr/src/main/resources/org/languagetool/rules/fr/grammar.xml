@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY jours_semaine "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche">
     <!ENTITY unites_temps "matinée|journée|an|année|décade|décennie|h(eure)?|j(our)?|lustre|millénaire|min(ute)?|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
-    <!ENTITY expression_deux_mots_trait_union "section|cycle|concertation|rencontre|alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
+    <!ENTITY expression_deux_mots_trait_union "situation|partenariat|section|cycle|concertation|rencontre|alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
     <!ENTITY suivi_par_nombre "acte|canal|chapitre|cycle|division|exercice|figure|formule|ligne|leçon|master|numéro|option|page|phase|partie|saison|scène|section|spin|stade|taille|terminal|tome|top|total|variante|vers|verset|version|volume|zone|épisode|étape|type|classe|catégorie|ordre|salle|chiffre|nombre|nº|tableau|quai|point|article|mode|niveau|degré|départementale|nationale">
     <!ENTITY unites_de_mesure "(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?|ms|s|cs|cc|dB">
     <!ENTITY departement "Ain|Aisne|Allier|Alpes-de-Haute-Provence|Hautes-Alpes|Alpes-Maritimes|Ardèche|Ardennes|Ariège|Aube|Aude|Aveyron|Bouches-du-Rhône|Calvados|Cantal|Charente|Charente-Maritime|Cher|Corrèze|Corse-du-Sud|Haute-Corse|Côte-d'Or|Côtes d'Armor|Creuse|Dordogne|Doubs|Drôme|Eure|Eure-et-Loir|Finistère|Gars|Haute-Garonne|Gers|Gironde|Hérault|Ille-et-Vilaine|Indre|Indre-et-Loire|Isère|Jura|Landes|Loir-et-Cher|Loire|Haute-Loire|Loire-Atlantique|Loiret|Lot|Lot-et-Garonne|Lozère|Maine-et-Loire|Manche|Marne|Haute-Marne|Mayenne|Meurthe-et-Moselle|Meuse|Morbihan|Moselle|Nièvre|Nord|Oise|Orne|Pas-de-Calais|Puy-de-Dôme|Pyrénées-Atlantiques|Hautes-Pyrénées|Pyrénées-Orientales|Bas-Rhin|Haut-Rhin|Rhône|Haute-Saône|Saône-et-Loire|Sarthe|Savoie|Haute-Savoie|Paris|Seine-Maritime|Seine-et-Marne|Yvelines|Deux-Sèvres|Somme|Tarn|Tarn-et-Garonne|Var|Vaucluse|Vandée|Vienne|Haute-Vienne|Vosges|Yonne|Territoire de Belfort|Essonne|Hauts-de-Seine|Seine-St-Denis|Val-de-Marne|Val-D'Oise|Guadeloupe|Martinique|Guyane|La Réunion|Mayotte">
@@ -1373,6 +1373,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
             <antipattern>
+                <token>net</token>
+                <token>vendeur</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">\d([eè]|ème|er)</token>
                 <token>personne</token>
                 <token regexp="yes">singulier|pluriel</token>
@@ -2278,6 +2282,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>les tendances consommateurs pour 2021</example>
             <example>Cette petite fait du bruit.</example>
             <example>une section étranger / non étranger</example>
+            <example>à 36000 euros net vendeur</example>
+            <example>partenariats public-privé</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">

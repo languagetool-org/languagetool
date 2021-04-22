@@ -872,7 +872,7 @@ RB => Règles Brutes
         <pattern>
             <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
             <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">figure|fortune|fureur|horreur|irruption|lecture|erreur|montre|allusion|intrusion|signe|silence|usage|main|part|peur|pression|saillie|mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">faillite|figure|fortune|fureur|horreur|irruption|lecture|erreur|montre|allusion|intrusion|signe|silence|usage|main|part|peur|pression|saillie|mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -882,7 +882,7 @@ RB => Règles Brutes
                 <token postag="V ind pres 3 s">fait</token>
             </marker>
             <token postag="A" min="0" max="3"/>
-            <token postag="N .*" postag_regexp="yes" regexp="yes">mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">faillite|mal|partie|appel|référence|attention|confiance|gaffe|demi-tour|place|plaisir|preuve|écho|débat|étalage</token>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
@@ -1135,11 +1135,12 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation</token>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client|administrateur</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
             <token postag="N *" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche</token>
@@ -4237,7 +4238,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token postag="A">
-                    <exception regexp="yes">causa|puis|soit|comme|si|frais|par-derrière</exception></token>
+                    <exception regexp="yes">causa|puis|soit|comme|si|frais|par-derrière|net</exception></token>
             </marker>
         </pattern>
         <disambig postag="A"/>
