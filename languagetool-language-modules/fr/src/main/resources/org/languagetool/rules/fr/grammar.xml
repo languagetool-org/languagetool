@@ -37745,7 +37745,9 @@ though, and has since been slightly modified)-->
                 <example correction=", il">Dehors<marker> il</marker> fait beau.</example>
                 <example><marker>Combien il</marker> en a pris ?</example>
             </rule>
-            <rule default="temp_off">
+        </rulegroup>
+        <rulegroup id="VIRGULE_DEBUT_DE_PHRASE_2" name="virgule début de phrase" default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>bien</token>
@@ -37754,29 +37756,35 @@ though, and has since been slightly modified)-->
                             <exception scope="next" inflected="yes">que</exception>
                         </token>
                     </marker>
-                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <token regexp="yes">[^,‘’–)\[—!."\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\3,</suggestion>
-                <example correction="sûr,">Bien <marker>sûr</marker> on me dira que la vie est dure</example>
-                <example>Bien entendu que je comprends cet argument</example>
+                <example correction="sûr,">Bien <marker>sûr</marker> on me dira que la vie est dure.</example>
+                <example>Bien entendu que je comprends cet argument.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">assurément|forcément|réellement|certainement|incontestablement|vraisemblablement|évidemment|probablement
                             <exception scope="next" postag="P.*" postag_regexp="yes"/>
+                            <exception scope="next" postag="J.*" postag_regexp="yes"/>
+                            <exception scope="next" postag="V ppa.*" postag_regexp="yes"/>
+                            <exception scope="next" inflected="yes">que</exception>
+                            <exception scope="next">pas</exception>
                         </token>
                     </marker>
-                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <token regexp="yes">[^,‘’–)\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\2,</suggestion>
-                <example correction="Incontestablement,"><marker>Incontestablement</marker> ton argument est intéressant</example>
-                <example>Bien entendu que je comprends cet argument</example>
+                <example correction="Incontestablement,"><marker>Incontestablement</marker> ton argument est intéressant.</example>
+                <example>Bien entendu que je comprends cet argument.</example>
+                <example>Probablement intimidé, il déclina l'invitation.</example>
+                <example>Certainement pas !</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>à</token>
@@ -37784,13 +37792,13 @@ though, and has since been slightly modified)-->
                   <marker>
                     <token >sûr</token>
                   </marker>
-                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <token regexp="yes">[^,‘’–)\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\4,</suggestion>
                 <example correction="sûr,">à coup <marker>sûr</marker> cet évènement n'était pas le fruit du hasard.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>de</token>
@@ -37798,27 +37806,32 @@ though, and has since been slightly modified)-->
                   <marker>
                     <token >évidence</token>
                   </marker>
-                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <token regexp="yes">[^,‘’–)\[—!."\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\4,</suggestion>
                 <example correction="évidence,">de toute <marker>évidence</marker> cet évènement n'était pas le fruit du hasard.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>sans</token>
                     <token>aucun</token>
                   <marker>
-                    <token>doute</token>
+                    <token>doute
+                        <exception scope="next">possible</exception>
+                        <exception scope="next" postag="P.*" postag_regexp="yes"/>
+                    </token>
                   </marker>
-                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                    <token regexp="yes">[^,‘’–)\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\4,</suggestion>
                 <example correction="doute,">sans aucun <marker>doute</marker> cet évènement n'était pas le fruit du hasard.</example>
+                <example>Sans aucun doute sur ses compétences, il se présenta à son entretien.</example>
+                <example>Sans aucun doute possible!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>selon</token>
