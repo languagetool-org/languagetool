@@ -4353,7 +4353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="VER:(AUX|MOD):.+" postag_regexp="yes"/>
-                    <token min="0" postag="ADV:MOD"/>
+                    <token min="0" postag="ADV:(MOD|TMP)" postag_regexp="yes" />
                     <marker>
                         <token>wider</token>
                     </marker>
@@ -4363,6 +4363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wieder">Sie ist aber <marker>wider</marker> beschäftigt.</example>
                 <example correction="wieder">Er möchte <marker>wider</marker> nach Hause.</example>
                 <example correction="wieder">Es ist <marker>wider</marker> zum Verzweifeln.</example>
+                <example correction="wieder">Er ist endlich <marker>wider</marker> da!</example>
                 <example>Dieses Buch ist wider Erwarten einfach zu lesen.</example>
                 <example>Das ist wider meiner Religion.</example>
             </rule>
@@ -5278,6 +5279,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="WIDER_WIEDER" name="wider vs wieder" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">immer|nie|jederzeit|gerne</token>
+                    <marker>
+                        <token>wider</token>
+                    </marker>
+                    <token postag="(ADJ|VER):.+|PKT" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>wieder</suggestion> (= erneut)?</message>
+                <example correction="wieder">Er wird nie <marker>wider</marker> kommen.</example>
+                <example correction="wieder">Es ist immer <marker>wider</marker> schön zu sehen.</example>
+                <example>Du stellst dich noch immer wider mein Volk und willst es nicht ziehen lassen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">immer|nie|jederzeit</token>
+                    <marker>
+                        <token>wider</token>
+                    </marker>
+                    <token regexp="yes">gerne|um|damit</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wieder</suggestion> (= erneut)?</message>
+                <example correction="wieder">Immer <marker>wider</marker> gerne.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GOTEN_GUTEN" name="Goten vs. Guten">
             <rule>
                 <pattern>
@@ -14963,6 +14990,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>weit</token>
                     <token>weg</token>
+                </antipattern>
+                <antipattern><!-- Er wird nie wider kommen -->
+                    <token regexp="yes">immer|nie|jederzeit</token>
+                    <token>wider</token>
                 </antipattern>
                 <antipattern>
                     <!-- probably a domain -->
@@ -50243,7 +50274,7 @@ Andere Projekte</example>
                 <token>by</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
