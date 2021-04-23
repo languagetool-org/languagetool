@@ -2248,15 +2248,15 @@ Os que já vieram estão no salão.
     </rule>
 
 	<!-- QUE CADA VEZ SERÃO que serão cada vez -->
-    <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style" default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-22 (17-MAR-2021+)      -->
+    <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-22 + 2021-04-23 (17-MAR-2021+)      -->
 	<!--
 Vamos usar resoluções que cada vez serão mais comuns nos computadores recentes. → Vamos usar resoluções que serão cada vez mais comuns nos computadores recentes.
 	-->
 		<!-- que já há muito tempo conhecia a verdadeira identidade de Aquiles -->
 		<!-- que já publicara o anunciassem -->
 		<!-- que já enfrentaram para salvar a vida de outros. -->
-		<!-- que já era senhora, desde o século XV, -->
+		<!-- que já era senhora, desde o século XV, -->		
 		<antipattern>
 			<token>que</token>
 			<token postag='I' postag_regexp='no'/>
@@ -2272,12 +2272,24 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 			<token postag='SPS.+' postag_regexp='yes'/>
 		</antipattern>		
 		<!-- É melhor estar meio certo que completamente errado. -->
+		<!-- Toda pessoa é uma lua e tem um lado negro que nunca mostra para ninguém. -->
+		<!-- que nunca foi uma colónia penal. -->
+		<!-- Ela desconfiou que talvez tivesse que estudar fora. -->
+		<!-- Guarde o dinheiro, que hoje convido eu. -->		
 		<antipattern>
 			<token>que</token>
 			<token postag='RG' postag_regexp='no'/>
 			<token postag='V.+|AQ0.+|NC.+' postag_regexp='yes'/>
-			<token postag='_PUNCT' postag_regexp='no'/>
-		</antipattern>				
+			<token postag='DI.+|Z0.+|CC|_PUNCT|CS|PP.+' postag_regexp='yes'/>
+		</antipattern>
+		<!-- que até então parece ser mais adequado. -->
+		<antipattern>
+			<token>que</token>
+			<token postag='RG' postag_regexp='no'/>
+			<token postag='RG' postag_regexp='no'/>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='V.+' postag_regexp='yes'/>
+		</antipattern>	
 		<pattern>
 			<token>que</token>
 			<marker>
@@ -2291,7 +2303,7 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 					<exception postag_regexp='yes' postag='RG|CC'/>
 				</token>				
 			</marker>
-			<token negate_pos="yes" postag='V.+|RG|CC|Z0.+|_PUNCT' postag_regexp='yes'/>
+			<token negate_pos="yes" postag='V.+|RG|CC|Z0.+|_PUNCT|RM' postag_regexp='yes'/>
 		</pattern>		
 		<message>Esta frase poderia soar melhor com o verbo antes de \2.</message>
 		<suggestion>\4 \2 \3</suggestion>
@@ -2303,6 +2315,10 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 		<example>Eu sabia que hoje seria divertido.</example>
 		<example>Desde o começo percebi que algo estava mal.</example>
 		<example>É melhor estar meio certo que completamente errado.</example>
+		<example>Toda pessoa é uma lua e tem um lado negro que nunca mostra para ninguém.</example>
+		<example>A Austrália Meridional foi fundada como uma "província livre", que nunca foi uma colónia penal.</example>
+		<example>Ela desconfiou que talvez tivesse que estudar fora.</example>
+		<example>Guarde o dinheiro, que hoje convido eu.</example>		
     </rule>
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
