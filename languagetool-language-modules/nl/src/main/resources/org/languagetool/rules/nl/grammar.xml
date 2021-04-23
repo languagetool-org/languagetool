@@ -31917,7 +31917,7 @@ steenwijk;Steenwijk
 			<rule>
 				<!-- TODO: false positives bestrijden -->
 				<antipattern><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>zal</token></antipattern>
-				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">ik|het|men|hij|zij|ze</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">ik|het|men|hij|zij|ze</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<marker>
 						<token>zal</token>
@@ -31927,6 +31927,7 @@ steenwijk;Steenwijk
 				<message>Velen zien <suggestion>zul</suggestion> nog als beter.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
 				<example correction="zul">Afdingen <marker>zal</marker> je.</example>
+				<example>Ik zal je morgen bezoeken.</example>
 			</rule>
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
@@ -32046,7 +32047,7 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">(giga|mega|super|ultra|über)...*<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt</exception><exception postag="UNKNOWN"/></token>
+					<token regexp="yes">(giga|mega|super|ultra|über)...*<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
 				</pattern>
 				<message>Dit lijkt wat overdreven. Is <suggestion><match no="1" regexp_match="^(giga|mega|super|ultra|über)-?" regexp_replace=""/></suggestion> niet genoeg?</message>
 				<example correction="slim">Ze is <marker>superslim</marker>.</example>
