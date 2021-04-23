@@ -5279,7 +5279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="WIDER_WIEDER" name="wider vs wieder" default="temp_off">
+        <rulegroup id="WIDER_WIEDER" name="wider vs wieder">
             <rule>
                 <pattern>
                     <token regexp="yes">immer|nie|jederzeit|gerne</token>
@@ -19515,8 +19515,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">rechnen</token>
                 </pattern>
                 <message>'Minus rechnen'&umgangsspr;</message>
-                <suggestion>subtrahieren</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag=".*" postag_regexp="yes">subtrahieren</match></suggestion>
                 <example correction="subtrahieren">Du musst <marker>minus rechnen</marker>.</example>
+                <example correction="subtrahiert">Er hat es <marker>minus gerechnet</marker>.</example>
             </rule>
             <rule>
                 <regexp>Minus-Rechnen</regexp>
@@ -19526,13 +19527,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Subtraktion|Subtrahieren"><marker>Minus-Rechnen</marker> ist einfach.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">erstes|zweites|drittes|viertes|sechstes|siebtes|achtes|neuntes|zehntes|\d+</token>
+                    <token min="0">.</token>
+                    <token>mal</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token>mal</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token>mal</token>
-                    <token inflected="yes" regexp="yes">rechnen|nehmen</token>
+                    <token regexp="yes">rechnen|nehmen</token>
                 </pattern>
-                <message>'Mal rechnen'&umgangsspr;</message>
+                <message>'Mal \2'&umgangsspr;</message>
                 <suggestion>multiplizieren</suggestion>
-                <example correction="multiplizieren">Du musst <marker>mal nehmen</marker>.</example>
+                <example correction="multiplizieren">Du musst es <marker>mal nehmen</marker>.</example>
+                <example>Kein zweites mal nehmen wir das in Kauf!.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">erstes|zweites|drittes|viertes|sechstes|siebtes|achtes|neuntes|zehntes|\d+</token>
+                    <token min="0">.</token>
+                    <token>mal</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token>mal</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>mal</token>
+                    <token regexp="yes">gerechnen|genommen</token>
+                </pattern>
+                <message>'Mal \2'&umgangsspr;</message>
+                <suggestion>multipliziert</suggestion>
+                <example correction="multipliziert">Er hat es <marker>mal genommen</marker>.</example>
             </rule>
             <rule>
                 <regexp>Mal-Rechnen</regexp>
@@ -19544,7 +19573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>geteilt</token>
-                    <token inflected="yes">rechnen</token>
+                    <token>rechnen</token>
                 </pattern>
                 <message>'Geteilt rechnen'&umgangsspr;</message>
                 <suggestion>dividieren</suggestion>
@@ -32565,7 +32594,7 @@ Andere Projekte</example>
                 <example correction="Ende">Der Schrecken hat ein <marker>ende</marker>.</example>
                 <example correction="Ende">Das Grauen nimmt kein <marker>ende</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">das|dieses|[msdk]?ein|ihr</token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" />
@@ -32578,7 +32607,7 @@ Andere Projekte</example>
                 <example correction="Ende">Das ist das <marker>ende</marker> vom Lied.</example>
                 <example>Er sagte, dass ende im Desaster.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">ende</token>
