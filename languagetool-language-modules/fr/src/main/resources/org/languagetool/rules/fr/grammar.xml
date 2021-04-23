@@ -658,7 +658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
-                <!-- unsual as adjective before noun --> 
+                <!-- unsual as adjective before noun -->
                 <token inflected="yes" regexp="yes">donnée|participant|distributeur|consommateur</token>
             </antipattern>
             <antipattern>
@@ -739,7 +739,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
-                    <token postag="D.*" postag_regexp="yes"/> <!-- <exception regexp="yes">mon|ton|son</exception>-->
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <!-- <exception regexp="yes">mon|ton|son</exception>-->
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </antipattern>
@@ -800,13 +801,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="beaux hommes|bel homme">C'est un <marker>belle hommes</marker>.</example>
                 <example correction="mauvaises raisons|mauvaise raison">bonnes choses pour de <marker>mauvais raisons</marker></example>
                 <example correction="bon appétit|bons appétits">Bonne chance et <marker>bonne appétit</marker> !</example>
-                <!-- FIXME: with another rule? <example correction="ancien professeur|ancienne professeure|anciens professeurs|anciennes professeures">Mon <marker>ancienne professeur</marker> d'anglais</example>-->
+                <example correction="ancien professeur|ancienne professeure|anciens professeurs|anciennes professeures">Mon <marker>ancienne professeur</marker> d'anglais</example>
+                <example correction="vraies adversaires|vrais adversaires|vrai adversaire|vraie adversaire">Il n'a pas eu de <marker>vrai adversaires</marker>.</example>
+                <example correction="bonnes amies|bon ami|bonne amie|bons amis">Ce sont de <marker>bons amies</marker> à nous.</example>
                 <example>pour en trouver certaines grâce aux aides plus rapides</example>
                 <example>les deux parcs éoliens offshore</example>
                 <example>Faites attention à ce que je dis.</example>
                 <example>De l'Air Force, de la Navy et du Marine Corps dans les décennies à venir.</example>
+                <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ: -->
                 <example>Un prix d'entrée amicales.</example>
-                <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ -->
                 <example>Un prix d'entrée amical.</example>
                 <example>Honoraires inclus charge acquéreur.</example>
                 <example>les classiques noir et blanc</example>
@@ -2129,10 +2132,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Le programme en 25 points adopté le 24 février 1920.</example>
             <example>S'est dit aussi d'une disposition des cheveux adoptée aux XVIIIe et XIXe siècles.</example>
             <example>Lettre de Pierre Charnier adressée à Aubertier.</example>
-            <example correction="adversaire">Il n'a pas eu de vrai <marker>adversaires</marker>.</example>
-            <!-- better done by a rule ADJ + NOUN -->
-            <example correction="amis">Ce sont de bons <marker>amies</marker> à nous.</example>
-            <!-- better done by a rule ADJ + NOUN -->
             <example>un affineur affine le fromage</example>
             <example>Ils ont l'air américains.</example>
             <example>Elle a l'air anxieuse.</example>
@@ -2320,6 +2319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Crédit photos</example>
             <example>vous accéderez à leur galerie photos respective.</example>
             <example>Fiche produit</example>
+            <example>Les phrases qui m'ont le plus touchée.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -38722,8 +38722,7 @@ though, and has since been slightly modified)-->
                     <token>bien</token>
                     <marker>
                         <token regexp="yes">évidemment|sûr|entendu
-                            <exception scope="next" inflected="yes">que</exception>
-                        </token>
+                            <exception scope="next" inflected="yes">que</exception> </token>
                     </marker>
                     <token regexp="yes">[^,‘’–)\?\[—!."\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
@@ -38741,8 +38740,7 @@ though, and has since been slightly modified)-->
                             <exception scope="next" postag="J.*" postag_regexp="yes"/>
                             <exception scope="next" postag="V ppa.*" postag_regexp="yes"/>
                             <exception scope="next" inflected="yes">que</exception>
-                            <exception scope="next">pas</exception>
-                        </token>
+                            <exception scope="next">pas</exception> </token>
                     </marker>
                     <token regexp="yes">[^,‘’–)\?\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
@@ -38758,9 +38756,9 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token>à</token>
                     <token>coup</token>
-                  <marker>
-                    <token >sûr</token>
-                  </marker>
+                    <marker>
+                        <token>sûr</token>
+                    </marker>
                     <token regexp="yes">[^,‘’–)\?\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
@@ -38772,9 +38770,9 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token>de</token>
                     <token>toute</token>
-                  <marker>
-                    <token >évidence</token>
-                  </marker>
+                    <marker>
+                        <token>évidence</token>
+                    </marker>
                     <token regexp="yes">[^,‘’–)\?\[—!."\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
@@ -38786,12 +38784,11 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token>sans</token>
                     <token>aucun</token>
-                  <marker>
-                    <token>doute
-                        <exception scope="next">possible</exception>
-                        <exception scope="next" postag="P.*" postag_regexp="yes"/>
-                    </token>
-                  </marker>
+                    <marker>
+                        <token>doute
+                            <exception scope="next">possible</exception>
+                            <exception scope="next" postag="P.*" postag_regexp="yes"/> </token>
+                    </marker>
                     <token regexp="yes">[^,‘’–)\?\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
@@ -38805,9 +38802,9 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token>selon</token>
                     <token>toute</token>
-                  <marker>
-                    <token >vraisemblance</token>
-                  </marker>
+                    <marker>
+                        <token>vraisemblance</token>
+                    </marker>
                     <token regexp="yes">[^,‘’–)\?\[—."\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
@@ -41386,7 +41383,7 @@ though, and has since been slightly modified)-->
                     </unify>
                 </pattern>
                 <message>Une ou plusieurs espaces semble être détectées dans cette expression interrogative.</message>
-                <suggestion>\1\2<match no="3" case_conversion="alllower"></match></suggestion>
+                <suggestion>\1\2<match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="Vas-tu"><marker>Vas -tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas - tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas- tu</marker> les regarder à la télévision ?</example>

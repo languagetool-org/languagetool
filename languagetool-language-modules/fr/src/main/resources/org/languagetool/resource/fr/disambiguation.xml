@@ -321,6 +321,21 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="LE_PLUS" name="le plus (adv)">
+        <pattern>
+            <token inflected="yes">avoir</token>
+            <!--|être|puovoir|vouloir-->
+            <marker>
+                <token>le</token>
+                <token regexp="yes">plus|moins</token>
+            </marker>
+            <token postag="V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="le plus" pos="A"/>
+            <wd lemma="le plus" pos="A"/>
+        </disambig>
+    </rule>
     <rulegroup id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
         <rule>
             <pattern>
@@ -1482,15 +1497,15 @@ RB => Règles Brutes
     <rulegroup id="BON_ADJ" name="bon (adj)">
         <rule>
             <pattern>
-                <unify>
+                <!-- <unify>
                     <feature id="number"/>
-                    <feature id="gender"/>
-                    <token postag="D.*" postag_regexp="yes"/>
-                    <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">ancien|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
-                    </marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </unify>
+                    <feature id="gender"/>-->
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+                <!--</unify>-->
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -1500,7 +1515,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">ancien|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
