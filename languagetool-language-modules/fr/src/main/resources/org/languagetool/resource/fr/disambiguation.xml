@@ -133,6 +133,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="CLIENT" name="client (not adj)">
+        <!-- They are usually nouns in apposition -->
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">consommateur|utilisateur|client|administrateur|entreprise</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="J.*"/>
+    </rule>
     <rule id="LA_NOT_NOUN" name="la (not noun)">
         <antipattern>
             <token>la</token>
@@ -1134,7 +1143,7 @@ RB => Règles Brutes
     </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N *" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
         </pattern>
         <disambig action="filterall"/>
@@ -5361,7 +5370,8 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="D e s"><exception>mon</exception></token>
+                <token postag="D e s">
+                    <exception>mon</exception></token>
                 <token postag="[ZN] f (s|sp)" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
