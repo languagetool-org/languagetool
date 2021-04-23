@@ -15909,10 +15909,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <!-- Es va -->
             <pattern>
+                <token postag="SENT_START" skip="2"/>
                 <marker>
-                    <token inflected="yes">es</token>
+                    <token inflected="yes">es<exception scope="previous">on</exception></token>
                 </marker>
                 <token postag="VM[SI].3S.." postag_regexp="yes">va</token>
+                <token><exception postag="UNKNOWN|V.[GIS].*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add">
                 <wd pos="_es_personal_sg"/>

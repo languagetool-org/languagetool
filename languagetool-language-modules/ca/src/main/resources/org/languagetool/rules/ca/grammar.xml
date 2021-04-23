@@ -16347,6 +16347,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="LA_SE_VA" name="la se va/la seva">
+            <pattern>
+                <token>la</token>
+                <token>se</token>
+                <token>va</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>la seva</suggestion>?</message>
+            <example correction="la seva">Tot i <marker>la se va</marker> mida petita.</example>
+        </rule>
         <rule id="ENS_ELS" name="ens/els">
             <antipattern>
                 <token>ens</token>
@@ -24425,6 +24434,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="à"/></suggestion>?</message>
                 <example correction="trànsit">Hi havia molt de <marker>transit</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PARIA" name="paria/pària" default="temp_off">
+            <rule>
+                <pattern>
+                    <token  postag="D..MS.|N.MS.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>paria</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>pària</suggestion> (persona o entitat considerada inferior)?</message>
+                <example correction="pària">És un <marker>paria</marker>.</example>
+                <example correction="pària">És un estat <marker>paria</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token  postag="D..MP.|N.MP.*|VSP00PM0" postag_regexp="yes"/>
+                    <marker>
+                        <token>paries</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>pàries</suggestion> (persones o entitats considerades inferiors)?</message>
+                <example correction="pàries">Són uns <marker>paries</marker>.</example>
+                <example correction="pàries">Són estats <marker>paries</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup name="amen/amén" id="AMEN">
@@ -36965,7 +36998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="A_TOTA_COSTA" name="a tota costa" default="temp_off">
+        <rule id="A_TOTA_COSTA" name="a tota costa">
             <pattern>
                 <token>a</token>
                 <token>tota</token>
@@ -65576,6 +65609,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.N.*" postag_regexp="yes"/>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>es</token>
+                    <token>va</token>
+                    <token>en</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">em|et|es|me|te|se</token>
                     <and>
@@ -65593,6 +65631,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example>Es puja a la superfície.</example>-->
                 <example>Es van «civilitzar» a Anglaterra.</example>
                 <example>Em pujava del pit a la cara.</example>
+                <example>Hi ha indicadors que assenyalen per on es va a al mercat o al Consell de Districte.</example>
+                <example>Per on es va a la batllia?</example>
+                <example>Els de dalt volen transmetre la impressió que es va endavant.</example>
+                <example>També es va en romeria a l'ermita de Sant Urbà.</example>
+                <example>A poc a poc es va molt lluny.</example>
             </rule>
             <rule>
                 <pattern>
@@ -65609,8 +65652,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Se'n va anar|Va anar"><marker>Es va anar</marker> de casa.</example>
                 <example correction="se'n va anar|va anar">El dia que <marker>es va anar</marker> a la ciutat.</example>
                 <example correction="se'n va anar|va anar">Aleshores <marker>es va anar</marker> a la ciutat a presentar una queixa.</example>
+                <example correction="se'n va anar|va anar">Però el Lord Nelson <marker>es va anar</marker> per a transportar l'almirall de l'esquadra.</example>
                 <example>Es van «civilitzar» a Anglaterra.</example>
                 <example>Em pujava del pit a la cara.</example>
+                <example type="triggers_error">En la darrera edició, l'any 2016, es va anar un pas més enllà.</example>
             </rule>
             <rule>
                 <pattern>
