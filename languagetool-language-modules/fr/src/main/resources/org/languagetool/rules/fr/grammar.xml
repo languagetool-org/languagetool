@@ -834,7 +834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- better suggestion needed-->
                 <example type="triggers_error">Tom surpris Marie</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- same rule with participles -->
                 <antipattern>
                     <token inflected="yes" regexp="yes">avoir|être</token>
@@ -1376,6 +1376,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
+            <antipattern>
+                <!-- other errors -->
+                <token>suite</token>
+                <token>a</token>
+            </antipattern>
             <antipattern>
                 <token>net</token>
                 <token>vendeur</token>
@@ -4831,7 +4836,7 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example correction="à">Tout <marker>a</marker> coup, j’entendis une explosion.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>mise</token>
                     <marker>
@@ -4843,6 +4848,16 @@ though, and has since been slightly modified)-->
                 <example correction="à">Une mise <marker>a</marker> jour.</example>
             </rule>
             <rule default="temp_off">
+                <pattern>
+                    <token>suite</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> (préposition) ? "a" est une conjugaison du verbe "avoir".</message>
+                <example correction="à">suite <marker>a</marker> la demande</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token>quant</token>
                     <marker>
@@ -5479,6 +5494,7 @@ though, and has since been slightly modified)-->
             <example>As-tu faim maintenant ?</example>
             <example>J'anime un groupe de jeunes.</example>
             <example correction="faites|fautes|frites|fuites|frittes|fartes|fuîtes|fîtes|haïtes">Tout indique que vous <marker>faîtes</marker> preuve de sang-froid.</example>
+            <example type="triggers_error">Nous-mêmes personnes 100% NT(neurotypiques ou normaux) avons de la difficulté à voir les détails d'une situation.</example>
         </rule>
         <rule default="off" id="CETTE_CEST" name="CETTE au lieu de C’EST">
             <pattern>
@@ -14558,6 +14574,10 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token>lui</token>
                 </antipattern>
+                <antipattern>
+                    <token>avec</token>
+                    <token regexp="yes">nous|lui</token>
+                </antipattern>
                 <pattern>
                     <token postag="P">
                         <exception>après</exception></token>
@@ -14572,6 +14592,7 @@ though, and has since been slightly modified)-->
                 <example correction="parler">Il est temps de <marker>parlez</marker>.</example>
                 <example correction="créer">Où on clique pour <marker>crée</marker> une page ?</example>
                 <example>Plusieurs d'entre eux sont morts.</example>
+                <example>Lorsque vous visitez avec nous assurez vous que tout le monde dans votre groupe parte avec un sourire.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -24301,6 +24322,7 @@ though, and has since been slightly modified)-->
                 <example>le vieux quartier Très Cloîttres à Grenoble.</example>
                 <example>Il fait faire très attention.</example>
                 <example>Ça me fait très plaisir.</example>
+                <example>Prestation très pro.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AVOIR_FAIT_V_INF" name="fait + verbe infinitif">
@@ -41231,7 +41253,7 @@ though, and has since been slightly modified)-->
                 <example>« qu' »</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TRAIT_UNION_ESPACE" name="trait d'union + espace" default="temp_off">
+        <rulegroup id="TRAIT_UNION_ESPACE" name="trait d'union + espace">
             <rule>
                 <pattern>
                     <unify>
@@ -41241,14 +41263,15 @@ though, and has since been slightly modified)-->
                         <unify-ignore>
                             <token>-</token>
                         </unify-ignore>
-                        <token postag="R pers suj.*" postag_regexp="yes"/>
+                        <token postag="R pers suj.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">\p{Ll}.*</token>
                     </unify>
                 </pattern>
                 <message>Supprimez les espaces blancs inutiles.</message>
-                <suggestion>\1\2\3</suggestion>
+                <suggestion>\1\2<match no="3" case_conversion="alllower"></match></suggestion>
                 <example correction="Vas-tu"><marker>Vas -tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas - tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas- tu</marker> les regarder à la télévision ?</example>
+                <example>Les Rendez-Vous de l'Erdre pour la jazz.</example>
             </rule>
         </rulegroup>
         <!--
@@ -42105,6 +42128,7 @@ though, and has since been slightly modified)-->
                 <message>Cette expression peut être considérée comme familière en raison de l'omission de la préposition 'à'.</message>
                 <suggestion>\1\2 à \3</suggestion>
                 <example correction="d'ici à une">Il partira <marker>d'ici une</marker> heure.</example>
+                <example>Tu dois partir d'ici tout de suite.</example>
             </rule>
             <rule>
                 <pattern>
@@ -46594,7 +46618,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category name="majuscules" id="CASING">
-        <rule id="NAPOLEON" name="napoléon" default="temp_off">
+        <rule id="NAPOLEON" name="napoléon">
             <pattern case_sensitive="yes">
                 <token>napoléon</token>
             </pattern>
