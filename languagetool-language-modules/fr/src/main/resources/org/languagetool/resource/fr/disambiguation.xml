@@ -3524,6 +3524,15 @@ RB => Règles Brutes
         </rule>
     </rulegroup>
     <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
+        <rule>
+            <pattern>
+                <token regexp="yes">le|un|au|du|[mts]on</token>
+                <marker>
+                    <token>ton</token>
+                </marker>
+            </pattern>
+            <disambig postag="N m s"/>
+        </rule>
         <rule name="mon">
             <pattern>
                 <marker>
@@ -4735,6 +4744,16 @@ RB => Règles Brutes
                 <token postag="V ppa.*" postag_regexp="yes"/>
             </pattern>
             <disambig postag="A"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">une?</token>
+                <marker>
+                    <token>puis</token>
+                </marker>
+                <token postag="D e p"/>
+            </pattern>
+            <disambig postag="C coor"/>
         </rule>
     </rulegroup>
     <rulegroup id="METTEUR_EN_SCENE" name="metteur en scène">
