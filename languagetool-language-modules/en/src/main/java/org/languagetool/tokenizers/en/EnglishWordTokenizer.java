@@ -46,6 +46,11 @@ public class EnglishWordTokenizer extends WordTokenizer {
           Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile("^(['’]t)(was)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
 
+  private final List<Pattern> EXCEPTION_PATTERN = Arrays.asList(
+    Pattern.compile("^Bahá'í$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.CANON_EQ),
+    Pattern.compile("^Baha'i$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.CANON_EQ)
+  );
+
   @Override
   public String getTokenizingCharacters() {
     return super.getTokenizingCharacters() + "–"; // n-dash
@@ -102,6 +107,20 @@ public class EnglishWordTokenizer extends WordTokenizer {
           l.addAll(wordsToAdd(groupStr));
         }
       } else {
+        /**
+         * Check s if EXIST in EXCEPTION_PATTERN
+         * IF found, add to l and remove the match from s
+         */
+        for(Pattern p: EXCEPTION_PATTERN){
+          Matcher m = p.matcher(s);
+          boolean isFound = m.find();
+          if(isFound) {
+            String detectedStr = m.group();
+            l.add(detectedStr);
+            s = s.replaceAll(s, "");
+          }
+        }
+
         l.addAll(wordsToAdd(s));
       }
     }
