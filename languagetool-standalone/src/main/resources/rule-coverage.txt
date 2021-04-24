@@ -1,0 +1,147 @@
+# LanguageTool Rule Coverage
+# Date: 2014-12-01
+#
+# This is a systematic overview of error types. This categorization doesn't
+# adhere to any specific scientific criteria. The goal is threefold:
+#
+# -For languages with a lot of rules: find out what still needs to be done
+# -For languages new to LT: offer a way to add new rules more systematically
+# -Document lack of coverage for users
+#
+# As there are already of lot of examples for errors that are detected
+# (see http://community.languagetool.org/rule/), this document focuses on errors
+# not yet detected.
+#
+# Syntax:
+# category
+#	sub category
+#		language_code: brief description of support
+#		Incorrect sentences not yet detected.
+#
+# Error syntax: error are marked with "{error/correction}", whereas a 0 means no text.
+# For example, {a/an} means that "a" needs to be replaced by "an" to fix the error.
+# {0/the} means that "the" needs to be inserted to fix the error.
+# {the/0} means that "the" needs to be deleted to fix the error.
+
+
+Spelling
+	simple misspelling (teh vs. the)
+		de: full support, i.e. the hunspell-based dictionary by Franz Michael Baumann is used,
+		    suggestions for misspelled compounds are often not good (also see https://github.com/languagetool-org/languagetool/issues/199)
+	misspelling celebrity names (Linux Torvalds)
+		de: partial support
+			Sigmar {Gabriele/Gabriel} ist SPD-Vorsitzender.
+	misspelling names (e.g. names from personal communication)
+		de: partial support, depends on which names are in the dictionary
+	upper/lowercase spelling (john vs John)
+		de: partial support
+			Vor dem Doppelpunkt stand dieser Satz: {schreiben/Schreiben} Sie nach dem Doppelpunkt groß, wenn ein ganzer Satz folgt.
+			Das {Deutsche/deutsche} Volk. (Aber korrekt: 'Julia K., Deutsche Meisterin' - als Titel)
+			@see de/rule-coverage-case.txt
+
+Grammar
+	agreement
+		wrong determiner (esp. in languages with grammatical gender)
+			de: almost full support, based on extended Morphy data: some nouns will be missing, especially new words
+		noun phrase agreement (a bicycles; two bicycle)
+			de: partial support
+				Dort steht {meines Fahrrads/mein Fahrrad}. (Aber, veraltend? Dort steht meines Fahrrads Reifen.)
+				Der Sitz {dem Fahrrad/des Fahrrads} passt gut.
+				{Meiner/Meine} Tante interessiert das wenig.
+				{Meine/Meiner} Tante ist das egal.
+				{Der/Das} große, schöne Haus.
+		verb phrase agreement (he walk; I walks)
+			de: partial support
+				Peter {gehen/geht} nach Hause.
+				Petra und Peter {geht/gehen} nach Hause.
+	word order
+			de: almost no support
+			 	{Ich nach Hause gehe/Ich gehe nach Hause}.
+	missing word
+		missing article
+			de: no support, we need the countable/uncountable data first
+				Ich habe mir {0/ein} Telefon gekauft.
+	superfluous word
+		word repetition
+			de: partial support
+				Die Leute, die {die/0} gerne Kirschen essen. (wegen: Die Leute, die die Veranstaltung verfolgen.)
+	wrong comparative (most oldest)
+		de: n/a
+	wrong preposition (at Thursday vs. on Thursday)
+		de: partial support
+			Ich fahre {auf/nach} Hause.
+			Das Fest ist {auf/am} Donnerstag.
+
+Style
+	incorrect idiom (wash your teeth instead of brush your teeth)
+		de: partial support (e.g. "über die {Strenge/Stränge} schlagen")
+			{Wasch/Putz} Dir regelmäßig die Zähne. (relevant for non-native speakers)
+	redundancy (annual anniversary)
+		de: partial support (e.g. "1970er Jahren des vorigen Jahrhunderts")
+			TODO
+	gender-neutrality (mankind vs. humankind; he vs. they when gender is irrelevant)
+		de: partial support (e.g. "{Kaufmänner/Kaufleute}")
+			Der Nutzer (There's no widely accepted and short alternative. For approaches see https://de.wikipedia.org/wiki/Geschlechtergerechte_Sprache#Sichtbarmachung)
+	lack of precision (see https://en.wikipedia.org/wiki/Weasel_word)
+		de: partial support in 'Wikipedia' category, which is off by default (e.g. "vor kurzem")
+
+Typography
+	missing space
+		de: partial support (e.g. "Was hier fehlt,ist das Leerzeichen.")
+			Hier fehlt:{0/ }das Leerzeichen.
+	superfluous space
+		de: partial support (e.g. "Ein Test , wegen Komma.")
+			Ein Test{ !/!}
+	incorrect use of units (100$ vs. $100)
+		de: partial support (e.g. Es ist {20 °/20°} warm.)
+			TODO
+
+Punctuation
+	missing comma
+		de: partial support
+			Er ist streng{0/,} aber gerecht. [http://canoonet.eu/services/GermanSpelling/Regeln/Interpunktion/Komma/Aufzaehlung.html#Anchor-Vor-49575]
+			Nicht jeder versteht es{0/,} das Leben zu genießen.
+	superfluous comma
+		de: partial support
+			Die Konferenz findet am Sonntag, den 26. August 2012{,/0} statt.
+			Professor{,/0} Doktor Hans Emanuel Grundig
+			Er kaufte gelbe{,/0} und rote Tulpen. [http://canoonet.eu/services/GermanSpelling/Regeln/Interpunktion/Komma/Aufzaehlung.html?MenuId=SpellingRules0730#Anchor-Wenn-35882]
+			Iwan{,/0} der Schreckliche wurde 1533 als Dreijähriger zum Thronfolger ernannt. [http://canoonet.eu/services/GermanSpelling/Regeln/Interpunktion/Komma/Namen.html?MenuId=SpellingRules0736]
+			Wenn es neblig ist{,/0} oder bei Sturmwind fährt die Bahn nicht. [http://canoonet.eu/services/GermanSpelling/Regeln/Interpunktion/Komma/Nebensatz.html?MenuId=SpellingRules0731#Anchor-Wenn-49575]
+			Er tut{0/,} als{,/0} ob er uns nicht kennt.
+			Sie ist genauso schlau{,/0} wie er.
+			Wie schon letztes Jahr{,/0} machten sie auch dieses Jahr wieder mehr Gewinn.
+			Es gibt nichts Schöneres{,/0} als ein gutes Buch.
+			Du wusstest{,/0} dich ausgezeichnet zu beherrschen.
+
+Semantics
+	wrong words
+		confusing homophones (there vs. their)
+			de: partial support, see wrongWordInContext.txt
+				Der Fernseher hat 100 {Herz/Hertz}.
+				Claus Schenk {Graph/Graf} von Stauffenberg
+				Er fährt auf dem {Rat/Rad} zur Arbeit.
+				Ihr {Rad/Rat} war, es langsamer angehen zu lassen.
+				Zu einem Gewissen {Grat/Grad} hat er recht.
+				Ein {Grad/Grat} ist ein scharfer Bergrücken im Hochgebirge.
+		confusing false friends
+			de: partial support, see false-friends.xml
+	local coherency
+		date / day of week
+			de: support for fully specified dates like "Montag, 26.11.2014"
+				Das Event findet am Montag, den 26. November statt. (the current year might be assumed)
+		invalid date (32 July 2014)
+			de: supported for four-digit years
+				Datum: 32. Juli 14
+		invalid salutation (Mr. Julia Meyers)
+			de: not supported
+		wrong tense (tomorrow I went shopping)
+			de: partial support
+				Damals werde ich in die Stadt gehen.
+				Morgen bin ich in die Stadt gegangen.
+				Übermorgen bin ich in die Stadt gegangen.
+	cross-sentence coherency
+		wrong pronouns (Tim drinks tea. She doesn't like coffee.)
+			de: not supported
+	incorrect facts (The earth radius is 100km.)
+		de: not supported

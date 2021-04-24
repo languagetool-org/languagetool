@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!-- 
+ * LanguageTool, a natural language style checker 
+ * Copyright (c) Marcin Miłkowski, 2014 (http://www.languagetool.org)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ 
+ Schema for patterns: used in grammar rules and in disambiguator rules
+ -->
+ 
+ 	<xs:annotation>
+		<xs:documentation xml:lang="en"> Unification declarations
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="unification">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="equivalence" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="feature" type="xs:ID" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="equivalence">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="token"/>
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:ID" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Phrase-related vocabulary</xs:documentation>
+	</xs:annotation>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Phrase definitions</xs:documentation>
+	</xs:annotation>
+	<xs:element name="phrases">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="phrase" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">individual phrase definition</xs:documentation>
+	</xs:annotation>
+	<xs:element name="phrase">
+		<xs:complexType>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="unify" />
+				<xs:element ref="and" />
+				<xs:element ref="token" />
+				<xs:element ref="includephrases" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:ID" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="includephrases">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="phraseref" minOccurs='1' maxOccurs='unbounded' />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">element that points to the defined phrase </xs:documentation>
+	</xs:annotation>
+	<xs:element name="phraseref">
+		<xs:complexType>
+			<xs:attribute name="idref" type="xs:IDREF" use="required" />
+		</xs:complexType>
+	</xs:element>
+ 
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Reference to the pattern's token element.
+		Might be used in a suggestion or in the pattern.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="match">
+	<xs:complexType mixed="true">
+		<xs:attribute name="no" type="xs:nonNegativeInteger" use="required" />
+		<xs:attribute name="regexp_match" type="xs:string" use="optional" />
+		<xs:attribute name="regexp_replace" type="xs:string" use="optional" />
+		<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
+		<xs:attribute name="postag" type="xs:string" use="optional" />
+		<xs:attribute name="postag_replace" type="xs:string" use="optional" />
+		<xs:attribute name="setpos" type="binaryYesNo" use="optional" default="no" />
+		<xs:attribute name="case_conversion" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="startlower" />
+					<xs:enumeration value="startupper" />
+					<xs:enumeration value="allupper" />
+					<xs:enumeration value="alllower" />
+					<xs:enumeration value="preserve" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="include_skipped" type="includeSelector" use="optional" default="none" />
+	</xs:complexType>
+	</xs:element>
+
+	<xs:element name="token">
+	<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="exception" />
+				<xs:element ref="match" />
+			</xs:choice>
+			<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="inflected" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="negate" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="regexp" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="chunk" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<!--
+						For English, the Penn treebank has been used to train the OpenNLP models we use internally:
+						http://bulba.sdsu.edu/jeanette/thesis/PennTags.html#Phrase
+						The first character is used to fit these phrases to our token-based system:
+						B = beginning of phrase, I = inside phrase, E = end of phrase (only for noun phrases)
+						Feel free to add others provided by OpenNLP if you need them.
+						-->
+						<!-- start of noun phrases: -->
+						<xs:enumeration value="B-NP-singular" />
+						<xs:enumeration value="B-NP-plural" />
+						<!-- inside noun phrases: -->
+						<xs:enumeration value="I-NP-singular" />
+						<xs:enumeration value="I-NP-plural" />
+						<!-- end of noun phrases: -->
+						<xs:enumeration value="E-NP-singular" />
+						<xs:enumeration value="E-NP-plural" />
+						<!-- verb phrases: -->
+						<xs:enumeration value="B-VP" />
+						<xs:enumeration value="I-VP" />
+						<!-- prepositional phrases: -->
+						<xs:enumeration value="B-PP" />
+						<xs:enumeration value="I-PP" />
+						<!-- particle -->
+						<xs:enumeration value="B-PRT" />
+						<!-- adjective phrases: -->
+						<xs:enumeration value="B-ADJP" />
+						<xs:enumeration value="I-ADJP" />
+						<!-- adverb phrases: -->
+						<xs:enumeration value="B-ADVP" />
+						<xs:enumeration value="I-ADVP" />
+						<!-- other: -->
+						<xs:enumeration value="B-LST" />
+						<xs:enumeration value="B-SBAR" />
+						<!-- Dealing with typewriter/typographic apostrophe (used in Catalan) -->
+						<xs:enumeration value="containsTypewriterApostrophe" />
+						<xs:enumeration value="containsTypographicApostrophe" />
+						<!--MayMissingYo (used in Russian) -->
+						<xs:enumeration value="MayMissingYO" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="chunk_re" type="xs:token" use="optional" />
+			<xs:attribute name="spacebefore" use="optional" default="ignore">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="yes" />
+						<xs:enumeration value="no" />
+						<xs:enumeration value="ignore" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="postag" type="xs:token" use="optional" />
+			<xs:attribute name="skip" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="-1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="min" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="max" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="-1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Enables logical AND between token elements.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="and">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="token" minOccurs="2" maxOccurs="unbounded" />
+				<xs:element ref="marker" minOccurs="0" maxOccurs="1" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Enables logical OR between token elements.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="or">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="token" minOccurs="2" maxOccurs="unbounded" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Exception to the matched token.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="exception">
+		<xs:complexType mixed="true">			
+			<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="postag" type="xs:string" use="optional" />
+			<xs:attribute name="spacebefore" use="optional" default="ignore">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="yes" />
+						<xs:enumeration value="no" />
+						<xs:enumeration value="ignore" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="inflected" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="scope" use="optional" default="current">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="current" />
+						<xs:enumeration value="next" />
+						<xs:enumeration value="previous" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="regexp" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="negate" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional" />
+		</xs:complexType>
+	</xs:element>
+ 
+ 	<xs:element name="unify">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="feature"/>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="and" />
+					<xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
+					<xs:element ref="token" />
+					<xs:element ref="unify-ignore" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="negate" type="binaryYesNo" use="optional" default="no" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="feature">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="type" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:IDREF" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="type">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:IDREF"/>
+		</xs:complexType>
+	</xs:element>
+ 
+ 
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Helper type for binary choices.</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="binaryYesNo">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="yes" />
+			<xs:enumeration value="no" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Helper type for match[@include_skipped].</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="includeSelector">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="none" />
+			<xs:enumeration value="all" />
+			<xs:enumeration value="following" />
+		</xs:restriction>
+	</xs:simpleType>
+ 
+ 	<xs:annotation>
+		<xs:documentation xml:lang="en">Marks the matched part of the example.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="marker">
+		<xs:complexType mixed="false">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="or" />
+				<xs:element ref="token" />
+				<xs:element ref="unify" />
+				<xs:element ref="and" />
+				<xs:element ref="phraseref" />
+				<xs:element ref="unify-ignore" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Marks the neutral part of the unified sequence.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="unify-ignore">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="and" />
+				<xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="token" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

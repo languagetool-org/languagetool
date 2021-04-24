@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+LanguageTool Grammar rules for Lithuanian language
+Copyright (C) 2006 Mantas Kriaučiūnas (www.openoffice.lt ; mantas@akl.lt)
+
+Should follow rules, described in in government resolution number 60:
+http://www3.lrs.lt/pls/inter3/dokpaieska.showdoc_l?p_id=41265
+Don't forget to check this and next resolutions against these rules ! 
+Partially based on Polish grammar rules, copyright (C) 2006 Marcin Miłkowski
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+<rules lang="lt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+	<category id="CAT1" name="Skyrybos klaidos">
+<!-- Should implement rules, specified in government 
+resolution number N-2 (103) "Dėl Privalomosios skyrybos taisyklių": 
+http://www3.lrs.lt/pls/inter3/dokpaieska.showdoc_l?p_id=283837
+	<category id="CATx" name="Błędy interpunkcyjne">
+-->
+
+		<rulegroup id="BRAK_PRZECINKA_ZE" name="Kablelis prieš jungtuką „kad“">
+		<rule>
+			<pattern>
+<!--			<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli|dlatego<exception postag="SENT_START"/></token>-->
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|o|bet|arba|ir|ar|tačiau|ypač|nebent|juoba|juolab|juo labiau|tuo labiau|būtent|vis tiek|tai yra|taip pat|nei|tiktai<exception postag="SENT_START"/></token>
+				<token>kad</token>
+			</pattern>
+			<message>Prieš jungtuką „kad“ šiuo atveju reiktų kablelio: <suggestion>\1, \2</suggestion>.</message>
+			<example>Jaroslavas pajuto, kad jo geriausias draugas yra Mantas.</example>
+			<example correction="pajuto, kad">Jaroslavas <marker>pajuto kad</marker> jo geriausias draugas yra Mantas.</example>
+		</rule>
+<!--		<rule>
+			<pattern>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|,|a|lecz|ale|albo|lub|ani<exception postag="SENT_START"/></token>
+				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
+				<token regexp="yes">że|iż</token>
+			</pattern>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 że</suggestion>.</message>
+			<example>Przemysław zdradził, mimo że ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził mimo że</marker> ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził pomimo iż</marker> ma na drugie imię Edgar.</example>
+			<example>Mimo że cenię jego śpiew, hymnu śpiewać mu nie pozwolę.</example>
+		</rule>	-->
+		</rulegroup>
+
+		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Kablelis prieš jungtukus „jeigu“, „jei“">
+		<rule>
+			<pattern>
+<!--				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|oraz|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej|tylko|natomiast</exception><exception postag="SENT_START"/></token>-->
+				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">o|lyg|bet|ir|ar|arba|kad|tačiau|nes|netgi|net|tad|taigi|vadinasi|tiktai|ypač</exception><exception postag="SENT_START"/></token>
+				<token regexp="yes" inflected="yes">jei|jeigu</token>
+			</pattern>
+			<message>Prieš jungtuką „jei(gu)“ šiuo atveju reiktų kablelio:<suggestion>\1, \2</suggestion> </message>
+			<example>Tavo kompiuterio negadintų virusai, jeigu tu naudotum Linux sistemą.</example>
+			<example correction="virusai, jeigu">Tavo kompiuterio negadintų <marker>virusai jeigu</marker> tu naudotum Linux sistemą.</example>
+		</rule>
+<!--		<rule>
+			<pattern>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/><exception regexp="yes">a|ale|i|lub|albo|lecz|oraz</exception></token>
+				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|oraz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+			</pattern>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+			<example>Zrobię omleta, nawet jeśli nie poprosisz.</example>
+			<example type="incorrect">Zrobię <marker>omleta nawet jeśli</marker> nie poprosisz.</example>
+		</rule>	-->				
+
+		</rulegroup>
+		<rulegroup id="KABLELIS_O_BET_TACIAU" name="Kablelis prieš jungtukus „o“, „bet“, „tačiau“">
+			<rule>
+				<pattern case_sensitive="yes">
+					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+					<token regexp="yes">o|tačiau</token>
+				</pattern>
+				<message>Prieš jungtuką „\2“ šiuo atveju reiktų kablelio: <suggestion>\1, \2</suggestion> </message>
+				<example>Linux yra geresnė sistema, tačiau dauguma lietuvių jos net nebandė.</example>
+				<example correction="sistema, tačiau">Linux yra geresnė <marker>sistema tačiau</marker> dauguma lietuvių jos net nebandė.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="yes">
+					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+						<marker>
+					    <token>bet</token>
+						</marker>
+					<token regexp="yes" negate="yes">kiek|kas|ko|kam|ką|kuo|kame|kada|kur|kuris|kurio|kuriam|kurį|kuriuo|kuriame|kurie|kurių|kuriems|kuriuos|kuriais|kuriuose|kuri|kurios|kuriai|kurią|kuria|kurioje|kurioms|kurias|kuriomis|kuriose|koks|kokio|kokiam|kokį|kokiu|kokiame|kokie|kokių|kokiems|kokius|kokiais|kokiuose|kokia|kokios|kokiai|kokią|kokioje|kokioms|kokias|kokiomis|kokiose</token>
+				</pattern>
+				<message>Prieš jungtuką „bet“ šiuo atveju reiktų kablelio: <suggestion>\1, \2 \3</suggestion> </message>
+				<example>Aš pasakiau - tave myliu, bet nuėjau pas kitą.</example>
+				<example correction="myliu, bet nuėjau">Aš pasakiau - tave myliu <marker>bet</marker> nuėjau pas kitą.</example>
+			</rule>
+		</rulegroup>		
+
+	</category>
+
+</rules>

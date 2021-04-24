@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Icelandic Grammar and Typo Rules for LanguageTool
+Copyright (C) 2009 Anton Karl Ingason (http://www.hi.is/~antoni/)
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+<rules lang="is" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+    <category id="CAT1" name="Hugsanleg ritvilla">
+        <rule id="ARFLEIFÐ" name="arfleifð">
+            <pattern>
+                <token>arfleið</token>
+            </pattern>
+            <message>Ætlaðir þú að skrifa <suggestion>arfleifð</suggestion>?</message>
+            <short>Hugsanleg ritvilla</short>
+            <example correction="arfleifð">Þessi vandi er <marker>arfleið</marker> nýlendutímans.</example>
+        </rule>
+        <rule id="ÁNNA" name="ánna">
+            <pattern>
+                <token regexp="yes">við|í|neðri|efri|upp|niður|yfir</token>
+                <marker>
+                    <token>ánna</token>
+                </marker>
+            </pattern>
+            <message>Ætlaðir þú að skrifa <suggestion>ána</suggestion> (=fljótið)?</message>
+            <short>Hugsanleg ritvilla</short>
+            <example correction="ána">Veitingastaðurinn við <marker>ánna</marker> var frábær.</example>
+        </rule>
+        <rule id="FARM_FRAM" name="farm (fram)">
+            <pattern>
+                <token>farm</token>
+            </pattern>
+            <message>Ætlaðir þú að skrifa <suggestion>fram</suggestion> (=áfram)?</message>
+            <short>Hugsanleg ritvilla</short>
+            <example correction="fram">Við horfum <marker>farm</marker> á veginn.</example>
+        </rule>
+        <rule id="LEITI" name="leiti">
+            <pattern>
+                <token>á</token>
+                <token>næsta</token>
+                <marker>
+                    <token>leyti</token>
+                </marker>
+            </pattern>
+            <message>Skrifa skal <suggestion>leiti</suggestion> í orðasambandinu: á næsta leiti</message>
+            <short>Einfalt 'i' í: á næsta leiti (=hæð)</short>
+            <example correction="leiti">Breytingar eru á næsta <marker>leyti</marker>.</example>
+        </rule>
+        <rulegroup id="LEYTI" name="leyti">
+            <rule>
+                <pattern>
+                    <token>að</token>
+                    <token regexp="yes">sumu|ýmsu|verulegu|einhverju|ákveðnu|öllu|þessu|því|flestu|miklu</token>
+                    <marker>
+                        <token>leiti</token>
+                    </marker>
+                </pattern>
+                <message>Skrifa skal 'y' í orðasambandinu: að <match no="2"></match> <suggestion>leyti</suggestion></message>
+                <short>Skrifa 'y' í: að [...] leyti</short>
+                <example correction="leyti">Þetta er rétt að sumu <marker>leiti</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>um</token>
+                    <token regexp="yes">það|þetta|svipað|álíka</token>
+                    <marker>
+                        <token>leiti</token>
+                    </marker>
+                </pattern>
+                <message>Skrifa skal 'y' þegar leyti vísar til tíma eins og í orðasambandinu: um <match no="2"></match> <suggestion>leyti</suggestion>.</message>
+                <short>Skrifa skal 'y' í: um [...] leyti</short>
+                <example correction="leyti">Við mætum um svipað <marker>leiti</marker> og þið.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SYNA" name="sýna">
+            <pattern>
+                <token>að</token>
+                <marker>
+                    <token>sína</token>
+                </marker>
+            </pattern>
+            <message>Sögnin <suggestion>sýna</suggestion> er skrifuð með 'ý'</message>
+            <short>Skrifa skal 'ý' í sögninni sýna</short>
+            <example correction="sýna">Hann ætlar að <marker>sína</marker> henni nýju buxurnar.</example>
+        </rule>
+        <rulegroup id="LANGREYÐUR" name="langreyður">
+            <rule>
+                <pattern>
+                    <token>langreiður</token>
+                </pattern>
+                <message>Rita skal <suggestion>langreyður</suggestion> með 'y'</message>
+                <short>Rita skal langreyður með 'y'</short>
+                <example correction="langreyður">Þessi <marker>langreiður</marker> er afar stór.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>langreiði</token>
+                </pattern>
+                <message>Rita skal: <suggestion>langreyði</suggestion> með 'y'</message>
+                <short>Rita skal langreyði með 'y'</short>
+                <example correction="langreyði">Í fyrra rak <marker>langreiði</marker> á Reynisfjöru.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="CAT2" name="Stíll">
+        <rulegroup id="FRAMVINDUHORF" name="framvinduhorf">
+            <rule name="framvinduhorf nútíð">
+                <pattern>
+                    <token skip="1" regexp="yes">er|ert|erum|eruð|eru</token>
+                    <token>ekki</token>
+                    <token>að</token>
+                    <token regexp="yes">skilja|nenna|sjá|átta|eiga|spila|æfa|vilja|geta|finna</token>
+                </pattern>
+                <message>Hér væri ef til vill betra að nota einfalda nútíð sagnarinnar <match no="4"></match> fremur en framvinduhorf (<match no="1"></match> að <match no="4"></match> ...)?</message>
+                <short>Nota frekar einfalda nútíð?</short>
+                <example correction="">Ég <marker>er ekki að skilja</marker> þetta.</example>
+                <example>Ég <marker>skil</marker> þetta ekki.</example>
+            </rule>
+            <rule name="framvinduhorf þátíð">
+                <pattern>
+                    <token skip="1" regexp="yes">var|varst|vorum|voruð|voru</token>
+                    <token>ekki</token>
+                    <token>að</token>
+                    <token regexp="yes">skilja|nenna|sjá|átta|eiga|spila|æfa|vilja|geta|finna</token>
+                </pattern>
+                <message>Hér væri ef til vill betra að nota einfalda þátíð sagnarinnar <match no="4"></match> fremur en framvinduhorf (<match no="1"></match> að <match no="4"></match> ...)?</message>
+                <short>Nota frekar einfalda þátíð?</short>
+                <example correction="">Ég <marker>var ekki að skilja</marker> þetta.</example>
+                <example>Ég <marker>skildi</marker> þetta ekki.</example>
+            </rule>
+            <rule name="framvinduhorf viðtengingarháttur þátíðar">
+                <pattern>
+                    <token skip="1" regexp="yes">væri|værir|værum|væruð|væru</token>
+                    <token>ekki</token>
+                    <token>að</token>
+                    <token regexp="yes">skilja|nenna|sjá|átta|eiga|spila|æfa|vilja|geta|finna</token>
+                </pattern>
+                <message>Hér væri ef til vill betra að nota viðtengingarhátt þátíðar af sögninni <match no="4"></match> fremur en framvinduhorf (<match no="1"></match> að <match no="4"></match> ...)?</message>
+                <short>Nota einfaldan vh.þt. (fremur en: væri að ...)?</short>
+                <example correction="">Þótt ég <marker>væri ekki að skilja</marker> þetta.</example>
+                <example>Þótt ég <marker>skildi</marker> þetta ekki.</example>
+            </rule>
+            <rule name="framvinduhorf viðtengingarháttur nútíðar">
+                <pattern>
+                    <token skip="1" regexp="yes">sé|sért|séum|séuð|séu</token>
+                    <token>ekki</token>
+                    <token>að</token>
+                    <token regexp="yes">skilja|nenna|sjá|átta|eiga|spila|æfa|vilja|geta|finna</token>
+                </pattern>
+                <message>Hér væri ef til vill betra að nota viðtengingarhátt nútíðar af sögninni <match no="4"></match> fremur en framvinduhorf (<match no="1"></match> að <match no="4"></match> ...)?</message>
+                <short>Nota einfaldan vh.nt. (fremur en: sé að ...)?</short>
+                <example correction="">Þótt ég <marker>sért ekki að skilja</marker> þetta.</example>
+                <example>Þótt ég <marker>skildi</marker> þetta ekki.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="CAT3" name="Fast orðasamband">
+        <rule id="AD_GEFNU_TILEFNI" name="að gefnu tilefni">
+            <pattern>
+                <marker>
+                    <token>af</token>
+                </marker>
+                <token>gefnu</token>
+                <token>tilefni</token>
+            </pattern>
+            <message>Rita skal: <suggestion>að</suggestion> gefnu tilefni</message>
+            <short>Fast orðasamband</short>
+            <example correction="að">Ég mun <marker>af</marker> gefnu tilefni gera grein fyrir skoðun minni.</example>
+        </rule>
+        <rule id="AD_ASETTU_RADI" name="að ásettu ráði">
+            <pattern>
+                <marker>
+                    <token>að</token>
+                </marker>
+                <token>ásettu</token>
+                <token>ráði</token>
+            </pattern>
+            <message>Rita skal: <suggestion>af</suggestion> ásettu ráði</message>
+            <short>Fast orðasamband</short>
+            <example correction="af">Glæpurinn var framinn <marker>að</marker> ásettu ráði.</example>
+        </rule>
+        <rule id="ILLAN_BIFUR" name="illan bifur">
+            <pattern>
+                <token>illa</token>
+                <marker>
+                    <token>bifur</token>
+                </marker>
+            </pattern>
+            <message>Rita skal: <suggestion>illan</suggestion> bifur (karlkyn)</message>
+            <short>illan (karlkyn)</short>
+            <example correction="illan">Hún hefur illa <marker>bifur</marker> á súrmat.</example>
+            <example>Hún hefur illan <marker>bifur</marker> á súrmat.</example>
+        </rule>
+        <rule id="LEYSA_UNDAN_KVÖÐ" name="leysa undan kvöð">
+            <pattern>
+                <token regexp="yes" skip="-1">leysa|leysti|leysir|leysum|leysið|leystir|leystu</token>
+                <marker>
+                    <token>frá</token>
+                </marker>
+                <token regexp="yes" skip="1">þeirri|þessari|hinni</token>
+                <token>kvöð</token>
+            </pattern>
+            <message>Betra er: leysa <suggestion>undan</suggestion> kvöð</message>
+            <short>Röng forsetning</short>
+            <example correction="undan">Hann leysti nefndina <marker>frá</marker> þessari miklu kvöð.</example>
+        </rule>
+    </category>
+    <category id="CAT4" name="Hástafur/lágstafur">
+        <rule id="MAL_OG_MENNING" name="Mál og menning">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Mál|Máli|Máls</token>
+                <token>og</token>
+                <marker>
+                    <token regexp="yes">Menning|Menningu|Menningar</token>
+                </marker>
+            </pattern>
+            <message>Stórt 'M' í Mál en lítið 'm' í <suggestion><match case_conversion="alllower" no="3"></match></suggestion></message>
+            <short>Mál og menning (lítið 'm' í menning)</short>
+            <example correction="menning">Bókaforlagið Mál og <marker>Menning</marker> hefur gefið út margar bækur.</example>
+        </rule>
+        <rule id="BLÁA_LÓNIÐ" name="Bláa lónið">
+            <pattern case_sensitive="yes">
+                <token>Bláa</token>
+                <marker>
+                    <token regexp="yes">Lónið|Lóninu|Lónsins</token>
+                </marker>
+            </pattern>
+            <message>Stórt 'B' í Bláa en lítið 'l' í <suggestion><match case_conversion="alllower" no="2"></match></suggestion></message>
+            <short>Lítið 'l' í lónið</short>
+            <example correction="lónið">Mörgum finnst Bláa <marker>Lónið</marker> vera einstakt náttúruundur.</example>
+        </rule>
+        <rule id="RADUNEYTI" name="ráðuneyti">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">([A-Z])([a-záéíúýæþð]*)ráðuneyti([a-zð]*)</token>
+            </pattern>
+            <message>Rita skal lítinn upphafsstaf í <suggestion><match case_conversion="alllower" no="1"></match></suggestion> (og öllum nöfnum ráðuneyta)</message>
+            <short>Hástafur/lágstafur</short>
+            <example correction="menntamálaráðuneytinu">Skýrslan var unnin af starfsmönnum í <marker>Menntamálaráðuneytinu</marker>.</example>
+        </rule>
+        <rule id="EGILS_SAGA" name="Egils saga">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Egils|Njáls|Grettis|Völsunga|Ljósvetninga|Borgfirðinga|Gunnlaugs</token>
+                <token regexp="yes">Saga|Sögu</token>
+            </pattern>
+            <message>Aðeins stór upphafsstafur í fyrsta hluta nafns: <suggestion><match no="1"></match> <match case_conversion="alllower" no="2"></match></suggestion></message>
+            <short>Hástafur/lágstafur</short>
+            <example correction="Egils sögu">Höfundur <marker>Egils Sögu</marker> átti ekki fartölvu.</example>
+        </rule>
+        <rule id="DAGUR_TUNGU" name="dagur íslenskrar tungu">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">Dagur|Dag|Degi|Dags</token>
+                </marker>
+                <token>íslenskrar</token>
+                <token>tungu</token>
+            </pattern>
+            <message>Rita skal lítinn upphafsstaf í: <suggestion><match case_conversion="alllower" no="1"></match></suggestion> íslenskrar tungu (og að jafnaði í öllum nöfnum daga og tímabila)</message>
+            <short>Hástafur/lágstafur</short>
+            <example correction="degi">Verðlaunin voru afhent á <marker>Degi</marker> íslenskrar tungu.</example>
+        </rule>
+    </category>
+    <category id="CAT5" name="Eitt orð eða fleiri">
+        <rule id="ANNAÐHVORT_EÐA" name="annaðhvort ... eða">
+            <pattern>
+                <marker>
+                    <token>annað</token>
+                    <token skip="2">hvort</token>
+                </marker>
+                <token>eða</token>
+            </pattern>
+            <message>Rita skal <suggestion>annaðhvort</suggestion> í einu lagi í fleyguðu tengingunni annaðhvort ... eða</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="annaðhvort">Ég sá <marker>annað hvort</marker> Jón eða Guðmund.</example>
+        </rule>
+        <rule id="ENN_ÞÁ" name="enn þá">
+            <pattern>
+                <token>ennþá</token>
+            </pattern>
+            <message>Rita skal <suggestion>enn þá</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="enn þá">Þú ert <marker>ennþá</marker> í liðinu.</example>
+        </rule>
+        <rule id="ENN_FREMUR" name="enn fremur">
+            <pattern>
+                <token>ennfremur</token>
+            </pattern>
+            <message>Rita skal <suggestion>enn fremur</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="enn fremur">Hún er <marker>ennfremur</marker> ráðin til að stýra nefndinni.</example>
+        </rule>
+        <rule id="BAKA_TIL" name="baka til">
+            <pattern>
+                <token>bakatil</token>
+            </pattern>
+            <message>Rita skal <suggestion>baka til</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="baka til">Kötturinn heldur sig jafnan <marker>bakatil</marker> í garðinum.</example>
+        </rule>
+        <rule id="FYRIR_FRAM" name="fyrir fram">
+            <pattern>
+                <token>fyrirfram</token>
+            </pattern>
+            <message>Rita skal <suggestion>fyrir fram</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="fyrir fram">María fékk verkefnið greitt <marker>fyrirfram</marker>.</example>
+        </rule>
+        <rule id="EINS_OG" name="eins og">
+            <pattern>
+                <token>einsog</token>
+            </pattern>
+            <message>Rita skal <suggestion>eins og</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="eins og">Blómið er gult <marker>einsog</marker> sólin.</example>
+        </rule>
+        <rule id="MEÐ_FRAM" name="með fram">
+            <pattern>
+                <token>meðfram</token>
+            </pattern>
+            <message>Rita skal <suggestion>með fram</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="með fram">Við gengum <marker>meðfram</marker> ströndinni.</example>
+        </rule>
+        <rule id="HÉR_MEÐ" name="hér með">
+            <pattern>
+                <token>hérmeð</token>
+            </pattern>
+            <message>Rita skal <suggestion>hér með</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="hér með">Þær eru <marker>hérmeð</marker> skráðar í sambúð.</example>
+        </rule>
+        <rule id="INN_Í" name="inn í">
+            <pattern>
+                <token>inní</token>
+            </pattern>
+            <message>Rita skal <suggestion>inn í</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="inn í">Börnin örkuðu <marker>inní</marker> skólastofuna.</example>
+        </rule>
+        <rule id="ÚT_FRÁ" name="út frá">
+            <pattern>
+                <token>útfrá</token>
+            </pattern>
+            <message>Rita skal <suggestion>út frá</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="út frá">Það kviknaði í <marker>útfrá</marker> kertaskreytingu.</example>
+        </rule>
+        <rule id="FRAM_HJÁ" name="fram hjá">
+            <pattern>
+                <token>framhjá</token>
+            </pattern>
+            <message>Rita skal <suggestion>fram hjá</suggestion> í tvennu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="fram hjá">Músin læddist <marker>framhjá</marker> kettinum.</example>
+        </rule>
+        <rule id="ÁFRAM" name="áfram">
+            <pattern>
+                <token>á</token>
+                <token>fram</token>
+            </pattern>
+            <message>Rita skal <suggestion>áfram</suggestion> í einu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="áfram">Jón hljóp <marker>á fram</marker> eftir veginum.</example>
+        </rule>
+        <rule id="UMFRAM" name="umfram">
+            <pattern>
+                <token>um</token>
+                <token>fram</token>
+            </pattern>
+            <message>Rita skal <suggestion>umfram</suggestion> í einu lagi</message>
+            <short>Eitt orð eða tvö</short>
+            <example correction="umfram">Hagnaður var <marker>um fram</marker> væntingar.</example>
+        </rule>
+    </category>
+    <category id="CAT6" name="Áköf málvöndun">
+        <rule id="DUGIR" name="dugir">
+            <pattern>
+                <token>dugar</token>
+            </pattern>
+            <message>Betra þykir að rita <suggestion>dugir</suggestion> en dugar (upprunasjónarmið)</message>
+            <short>Betra er: dugir (upprunasjónarmið)</short>
+            <example correction="dugir">Þessi frammistaða <marker>dugar</marker> þeim ekki.</example>
+        </rule>
+        <rule id="AFSTÝRA" name="afstýra">
+            <pattern>
+                <marker>
+                    <token>forða</token>
+                </marker>
+                <token regexp="yes">slysi|stórslysi|gjaldþroti|þroti|hruni|eyðingu|gjöreyðingu|skemmdum|voðaverkum</token>
+            </pattern>
+            <message>Betra þykir: <suggestion>afstýra</suggestion> <match no="2"></match></message>
+            <short>Betra þykir: afstýra</short>
+            <example correction="afstýra">Ekki tókst að <marker>forða</marker> gjaldþroti fyrirtækisins.</example>
+        </rule>
+    </category>
+    <category id="CAT7" name="Slettur">
+        <rule id="ÁRÓSAR" name="Árósar">
+            <pattern>
+                <token>Århus</token>
+            </pattern>
+            <message>Íslenska: <suggestion>Árósar</suggestion></message>
+            <short>Dönskusletta</short>
+            <example correction="Árósar">Heimabær mömmu minnar heitir <marker>Århus</marker>.</example>
+        </rule>
+        <rule id="BRUNCH" name="brunch">
+            <pattern>
+                <token regexp="yes">brunch|bröns</token>
+            </pattern>
+            <message>Íslenska: <suggestion>árdegisverður</suggestion></message>
+            <short>Enskusletta</short>
+            <example correction="árdegisverður">Við fengum okkur hafragraut í <marker>brunch</marker>.</example>
+            <example>Við fengum okkur hafragraut í <marker>árdegisverð</marker>.</example>
+        </rule>
+    </category>
+</rules>

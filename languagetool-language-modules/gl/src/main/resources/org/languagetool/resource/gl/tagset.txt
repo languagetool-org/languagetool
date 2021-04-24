@@ -1,0 +1,132 @@
+The tagset and dictionary used by the Galician tagger on LanguageTool
+is based on Freeling with a few modifications we describe below.
+
+You can find a description of the Freeling tagset in this paper:
+
+  Marcos Garcia, Pablo Gamallo: Análise Morfossintáctica
+    para Português Europeu e Galego: Problemas, Soluções e Avaliação
+
+  http://linguamatica.com/index.php/linguamatica/article/download/56/89
+
+We include here the categories and main attributes with some examples:
+
+Adjective:	A
+
+		type:
+			Q: qualificative
+			O: ordinal
+		gender:
+			M: masculine
+			F: feminine
+			C: common
+
+		example: zarangalleiros/AQ0MP0
+
+Noun:		N
+
+		type:
+			C: common
+			P: proper
+		gender:
+			M: masculine
+			F: feminine
+			C: common
+
+		example: lura/NCFS000
+
+Adverb:		R
+
+		type:
+			G: general
+			N: negative
+
+		example: xa/RG
+
+Verb:		V
+
+		type:
+			main: M
+			semiaux: S
+		mood:
+			indicative: I
+			subjunctive: S
+			imperative: M
+			infinitive: N
+			gerund: G
+			participle: P
+		tense:
+			present: P
+			past: S
+			future: F
+			imperfect: I
+			conditional: C
+			pluperfect: M
+		person: 1, 2, 3
+		number: S (singular), P (plural)
+
+		example: abafarías/VMIC2S0, abafei/VMIS1S0, abafase/VMSI3S0
+
+Preposition:	S
+
+		example: con/SPS00
+
+Determiner:	D
+
+		type:
+			article: A
+			demonstrative: D
+			indefinite: I
+			possessives: P
+
+		example: aquela/DD0FS0, os/DA0MP0, miña/DP1FSS
+
+Conjunction:	C
+
+		type:
+			coordinating: C
+			subordinating: S
+
+		example: e/CC, que/CS
+
+Pronoun:	P
+
+		type:
+			demonstrative: D
+			indefinite: I
+			personal: P
+			possessive: X
+		case:
+			nominative: N
+			accusative: A
+			dative: D
+			oblique: O
+
+		example: lle/PP3CSD00, min/PP1CSO00, esa/PD0FS000
+
+Numerals:	Z
+
+Interjection:	I
+
+		example: carallo/I
+
+
+
+You can use the on-line text analyser to check its results:
+
+http://community.languagetool.org/analysis/index?lang=gl
+
+
+
+The differences between the tagset used in LanguageTool and the Freeling
+tagset are related with enclitic pronouns. Since this phenomenon is
+managed on Freeling by using a set of rules, its dictionary does not include
+verbal forms attached to enclitic pronouns. In the Galician module of
+LanguageTool this dictionary was enlarged with enclitic forms generated
+with lt-expand (Apertium project), and the resulting tag is a union of two
+or more tags.
+
+Example: abafoume/VMIS3S0:PP1CS000
+
+This is applied also to contractions.
+
+Example: ao/SPS00:DA0MS0

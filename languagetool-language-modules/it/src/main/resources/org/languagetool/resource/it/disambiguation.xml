@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Italian Disambiguation Rules for LanguageTool
+Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
+-->
+<!DOCTYPE rules [
+    <!ENTITY days_week "domenica|giovedì|lunedì|martedì|mercoledì|sabato|venerdì">
+    <!ENTITY days_week_abr "do|gi|lu|ma|me|sa|ve">
+    <!ENTITY months_year "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre">
+    <!ENTITY months_year_abr "gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic">
+]>
+
+<rules lang="it" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <unification feature="number">
+        <equivalence type="sg">
+            <token postag="NOUN.*s|ADJ.*\+s|VER:.*\+s|PRO\-.*\-S" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag="NOUN.*p|ADJ.*\+p|VER:.*\+p|PRO\-.*\-P" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="gender">
+        <equivalence type="mas">
+            <token postag="(NOUN-M.*)|(ADJ.*\+m\+.?)" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="fem">
+            <token postag="(NOUN-F.*)|(ADJ.*\+f\+.?)" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="persona">
+        <equivalence type="first">
+            <token postag=".*[-\+]1[-\+].*" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="second">
+            <token postag=".*[-\+]2[-\+].*" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="third">
+            <token postag=".*[-\+]3[-\+].*" postag_regexp="yes"></token>
+        </equivalence>
+    </unification>
+
+    <!-- ============================================================================================================== -->
+    <!-- Adjective Noun phrases unification -->
+    <!-- ============================================================================================================== -->
+
+    <rule name="ADJ-NOUN_1" id="UNIFY_ADJ_NOUN">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"/><feature id="gender"/>
+                    <token postag="ADJ.*" postag_regexp="yes"></token>
+                    <token postag="NOUN.*" postag_regexp="yes"></token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
+    <rulegroup id="IO_VERB" name="io + verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="persona"/>
+                        <token postag="PRO-PERS-[123].*" postag_regexp="yes"></token>
+                        <token postag="VER:.*" postag_regexp="yes"></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="persona"/>
+                        <token postag="PRO-PERS-[123].*" postag_regexp="yes"></token>
+                        <unify-ignore><token postag="PRO-PERS-CLI.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="VER:.*" postag_regexp="yes"></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
+        </rule>
+    </rulegroup>
+	
+</rules>

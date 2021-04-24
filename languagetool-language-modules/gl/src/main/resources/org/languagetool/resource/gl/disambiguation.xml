@@ -1,0 +1,1950 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+    <!--
+  Galician Disambiguation Rules for LanguageTool
+  Copyright © 2011 Susana Sotelo Docío
+  Copyright © 2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+
+  <!DOCTYPE rules [
+
+    <!ENTITY hifen "[-‑]">
+
+    <!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]|\=|\+">
+    <!ENTITY alfabeto_grego "[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜμΩω]">
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
+
+    <!ENTITY numero_por_extenso_CP "tres|catro|cinco|seis|sete|oito|nove|dez|once|doce|trece|catorce|quince|dezaseis|dezasete|dezaoito|dezanove|vinte|trinta|corenta|cincuenta|sesenta|setenta|oitenta|noventa|cen|mil">
+    <!ENTITY numero_por_extenso_MS "un|(mi|bi|tri|cuadri)llón">
+    <!ENTITY numero_por_extenso_FS "unha|decena">
+    <!ENTITY numero_por_extenso_MP "uns|dous|centos?|(douscent|trescent|catrocent|cincocent|seiscent|setecent|oitocent|novecent)os|(mi|bi|tri|cuadri)ll?óne?s">
+    <!ENTITY numero_por_extenso_FP "unhas|dúas|decenas|ducias|centenares|(duzent|trezent|quatrocent|quinhent|seiscent|setecent|oitocent|novecent)as">
+
+    <!ENTITY extensoes_de_ficheiros "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
+    <!ENTITY dominios_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
+
+    <!ENTITY ditongos_chineses "A(?:i|ng?|o)|B(?:(?:(?:(?:ai?|(?:ang?|ao))|ei)|(?:(?:eng?|i)|iang?))|(?:(?:iao|ie)|(?:ing?|(?:o|u))))|C(?:(?:(?:(?:ai?|(?:(?:(?:ang?|ao)|en?)|(?:eng|hai?)))|(?:(?:hang?|(?:hao|hen?))|(?:(?:heng|(?:(?:hi|hong)|hou))|(?:hua?|huai))))|(?:(?:huang?|(?:hui|hun))|huo))|(?:(?:(?:i|ong)|ou)|(?:(?:u|uan)|(?:ui|(?:un|uo)))))|D(?:(?:(?:ai?|(?:(?:(?:(?:ang?|ao)|ei?)|(?:eng?|ia?))|(?:iang?|(?:iao|ie))))|(?:ing|(?:(?:iu|ong)|ou)))|(?:(?:u|uan)|(?:ui|(?:un|uo))))|E(?:i|(?:ng?|r))|F(?:(?:an?|(?:ang|ei))|(?:eng?|(?:(?:iao|ou?)|u)))|G(?:(?:(?:ai?|ang?)|(?:(?:(?:ao|(?:ei?|eng?))|ong)|(?:(?:ou|ua?)|uai)))|(?:(?:uang?|ui)|(?:un|uo)))|H(?:(?:(?:(?:ai?|ang?)|(?:(?:ao|(?:ei?|eng?))|ong))|(?:(?:ou|ua?)|uai))|(?:(?:uang?|ui)|(?:un|uo)))|J(?:(?:(?:(?:ia?|(?:iang?|iao))|ie)|(?:(?:ing?|iong)|iu))|(?:(?:u|uan)|(?:ue|un)))|K(?:(?:(?:(?:ai?|ang?)|(?:(?:ao|(?:ei?|eng?))|ong))|(?:(?:ou|ua?)|uai))|(?:(?:uang?|ui)|(?:un|uo)))|L(?:(?:(?:(?:(?:ai?|ang?)|(?:(?:ao|(?:ei?|eng))|ia?))|(?:(?:iang?|iao)|ie))|(?:(?:(?:ing?|iu)|(?:ong|(?:ou|u)))|uan))|(?:(?:(?:(?:un|uo)|ü)|(?:üan|üe))|ün))|M(?:(?:(?:(?:(?:ai?|ang?)|ao)|(?:ei?|eng?))|(?:i|(?:ian|iao)))|(?:(?:ie|(?:(?:ing?|iu)|ou?))|u))|N(?:(?:(?:(?:(?:ai?|ang?)|ao)|(?:ei?|eng?))|(?:ia?|(?:iang?|iao)))|(?:(?:ie|(?:(?:ing?|iu)|ong))|(?:(?:ou|u)|(?:(?:uan|(?:un|uo))|üe?))))|Ou|P(?:(?:(?:(?:ai?|(?:ang?|ao))|ei)|(?:(?:eng?|i)|ian))|(?:(?:iao|ie)|(?:ing?|(?:ou?|u))))|Q(?:(?:ia?|(?:(?:(?:iang?|iao)|ie)|(?:ing?|iong)))|(?:(?:iu|(?:u|uan))|(?:ue|un)))|R(?:(?:(?:(?:ang?|ao)|en?)|(?:(?:eng|i)|(?:ong|(?:ou|ua?))))|(?:uan|(?:(?:ui|un)|uo)))|S(?:(?:(?:(?:(?:ai?|ang?)|(?:ao|(?:ei?|eng?)))|hai?)|(?:(?:(?:(?:hang?|hao)|hei?)|(?:heng?|hi))|(?:(?:hong|(?:hou|hua?))|(?:huai|(?:(?:huang?|hui)|hun)))))|(?:(?:huo|i)|(?:(?:(?:ong|(?:ou|u))|uan)|(?:(?:ui|un)|uo))))|T(?:(?:(?:(?:(?:ai?|ang?)|(?:ao|(?:ei?|eng)))|(?:i|(?:(?:(?:ian|iao)|ie)|(?:ing|ong))))|(?:ou|(?:u|uan)))|(?:ui|(?:un|uo)))|W(?:(?:(?:ai?|ang?)|ei)|(?:(?:eng?|o)|u))|X(?:(?:(?:(?:ia?|iang?)|iao)|(?:(?:ie|ing?)|(?:iong|(?:iu|u))))|(?:uan|(?:ue|un)))|Y(?:(?:(?:(?:ai?|(?:ang?|ao))|e)|(?:(?:in?|ing)|o))|(?:(?:(?:ong|ou)|(?:u|(?:uan|ue)))|un))|Z(?:(?:(?:(?:(?:(?:ai?|ang?)|ao)|(?:ei?|eng?))|(?:hai?|(?:hang?|hao)))|(?:(?:hei?|(?:(?:heng?|hi)|hong))|(?:(?:hou|hua?)|(?:(?:huai|(?:huang?|hui))|hun))))|(?:(?:(?:huo|i)|ong)|(?:(?:(?:ou|u)|(?:uan|(?:ui|un)))|uo)))">
+
+]>
+
+<rules lang="gl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <unification feature="number">
+    <equivalence type="singular">
+          <token postag="(?:[NZ]..|[ADP]...|V....)[NS].+" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="plural">
+          <token postag="(?:[NZ]..|[ADP]...|V....)[NP].+" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <unification feature="gender">
+    <equivalence type="masc">
+          <token postag="(?:[NZ].|[ADP]..|V.....)[MC].+" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="fem">
+          <token postag="(?:[NZ].|[ADP]..|V.....)[FC].+" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <unification feature="person">
+    <equivalence type="first">
+          <token postag="(?:V...|PP)1.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="second">
+          <token postag="(?:V...|PP)2.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="third">
+          <token postag="(?:V...|PP)3.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <rulegroup id="NOMES_PROPRIOS_MULTIWORD" name="Nomes proprios em multiwords">
+    <!-- 	Rulegroup retrieved from Catalan grammar.xml	-->
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_MS" name="Nome proprio 2 palavras - MS">
+      <pattern>
+          <token postag="&lt;NPMS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_MP" name="Nome proprio 2 palavras - MP">
+      <pattern>
+          <token postag="&lt;NPMP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_FS" name="Nome proprio 2 palavras - FS">
+      <pattern>
+          <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFS000_"/><wd pos="NPFS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_FP" name="Nome proprio 2 palavras - FP">
+      <pattern>
+          <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_CN" name="Nome proprio 2 palavras - CN">
+      <pattern>
+          <token postag="&lt;NPCN.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NPCN.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCN000_"/><wd pos="NPCN000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_CS" name="Nome proprio 2 palavras - CS">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_CP" name="Nome proprio 2 palavras - CP">
+      <pattern>
+          <token postag="&lt;NPCP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NPCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000_"/><wd pos="NPCP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_FS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPFS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPFS000_"/><wd lemma="NP" pos="NPFS000_"/><wd pos="NPFS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-FS-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPFS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFS000_"/><wd pos="NPFS000_"/><wd pos="NPFS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_MS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPMS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPMS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPMS000_"/><wd lemma="NP" pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-MS-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPMS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPMS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMS000_"/><wd pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_CS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPCS000_"/><wd lemma="NP" pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-CS-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_FP" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPFP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPFP000_"/><wd lemma="NP" pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-FP-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPFP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFP000_"/><wd pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_MP" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPMP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPMP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPMP000_"/><wd lemma="NP" pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-MP-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPMP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPMP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMP000_"/><wd pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_CP" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPCP000_"/><wd lemma="NP" pos="NPCP000_"/><wd pos="NPCP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-CP-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000_"/><wd pos="NPCP000_"/><wd pos="NPCP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS_FS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPFS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPFS000_"/><wd lemma="NP" pos="NPFS000_"/><wd lemma="NP" pos="NPFS000_"/><wd pos="NPFS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS-FS-FILTRA" name="Nome proprio 4 palavras">
+      <pattern>
+          <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPFS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFS000_"/><wd pos="NPFS000_"/><wd pos="NPFS000_"/><wd pos="NPFS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS_MS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPMS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPMS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPMS000_"/><wd lemma="NP" pos="NPMS000_"/><wd lemma="NP" pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS-MS-FILTRA" name="Nome proprio 4 palavras">
+      <pattern>
+          <token postag="&lt;NPMS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPMS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMS000_"/><wd pos="NPMS000_"/><wd pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS_FP" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPFP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPFP000_"/><wd lemma="NP" pos="NPFP000_"/><wd lemma="NP" pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS-FP-FILTRA" name="Nome proprio 4 palavras">
+      <pattern>
+          <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPFP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFP000_"/><wd pos="NPFP000_"/><wd pos="NPFP000_"/><wd pos="NPFP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS_MP" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPMP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPMP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPMP000_"/><wd lemma="NP" pos="NPMP000_"/><wd lemma="NP" pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS-MP-FILTRA" name="Nome proprio 4 palavras">
+      <pattern>
+          <token postag="&lt;NPMP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NPMP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMP000_"/><wd pos="NPMP000_"/><wd pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO4PALAVRAS-FILTRA" name="Nome proprio 4 palavras">
+      <pattern>
+          <token postag="&lt;NP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/NP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/><wd pos="NP00000_"/></disambig>
+    </rule>
+  </rulegroup>
+  <rulegroup id="NOME_COMÚM_MULTIWORD" name="Nomes comuns em multiwords">
+    <!-- 	Rulegroup based on Catalan grammar.xml	-->
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_FS" name="Nome proprio 2 palavras - FS">
+      <pattern>
+          <token postag="&lt;NCFS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000_"/><wd pos="AQ0FS0_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_MS" name="Nome proprio 2 palavras - MS">
+      <pattern>
+          <token postag="&lt;NCMS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMS000_"/><wd pos="AQ0MS0_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_CN" name="Nome proprio 2 palavras - CN">
+      <pattern>
+          <token postag="&lt;NCCN.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NCCN.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCCN000_"/><wd pos="NCCN000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_CS" name="Nome proprio 2 palavras - CS">
+      <pattern>
+          <token postag="&lt;NCCS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NCCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCCS000_"/><wd pos="NCCS000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_CP" name="Nome proprio 2 palavras - CP">
+      <pattern>
+          <token postag="&lt;NCCP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NCCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCCP000_"/><wd pos="NCCP000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_FP" name="Nome proprio 2 palavras - FP">
+      <pattern>
+          <token postag="&lt;NCFP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000_"/><wd pos="AQ0FP0_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_MP" name="Nome proprio 2 palavras - MP">
+      <pattern>
+          <token postag="&lt;NCMP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000_"/><wd pos="AQ0MP0_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_MN" name="Nome proprio 2 palavras - MN">
+      <pattern>
+          <token postag="&lt;NCMN.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMN000_"/><wd pos="AQ0MN0_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM3PALAVRAS_CS" name="Nome comum 3 palavras">
+      <pattern>
+          <token postag="&lt;NCCS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NCCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NCCS000_"/><wd lemma="NC" pos="NCCS000_"/><wd pos="NCCS000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM3PALAVRAS-CS-FILTRA" name="Nome comum 3 palavras">
+      <pattern>
+          <token postag="&lt;NCCS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NCCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCCS000_"/><wd pos="NCCS000_"/><wd pos="NCCS000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM3PALAVRAS_CP" name="Nome comum 3 palavras">
+      <pattern>
+          <token postag="&lt;NCCP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NCCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NCCP000_"/><wd lemma="NC" pos="NCCP000_"/><wd pos="NCCP000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM3PALAVRAS-CP-FILTRA" name="Nome comum 3 palavras">
+      <pattern>
+          <token postag="&lt;NCCP.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NCCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCCP000_"/><wd pos="NCCP000_"/><wd pos="NCCP000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM3PALAVRAS_CN" name="Nome comum 3 palavras">
+      <pattern>
+          <token postag="&lt;NCCN.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NCCN.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NCCN000_"/><wd lemma="NC" pos="NCCN000_"/><wd pos="NCCN000_"/></disambig>
+    </rule>
+    <rule id="NOMECOMUM3PALAVRAS-CN-FILTRA" name="Nome comum 3 palavras">
+      <pattern>
+          <token postag="&lt;NCCN.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NCCN.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCCN000_"/><wd pos="NCCN000_"/><wd pos="NCCN000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag="&lt;NCMN.+&gt;"/>
+          <token/>
+          <token postag_regexp='yes' postag="&lt;/NCMN.+&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMN000_"/><wd pos="AQ0MN0_"/><wd pos="AQ0MN0_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;RN&gt;"/>
+          <token postag="&lt;/RN&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="RN"/><wd pos="RN"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;RN&gt;"/>
+          <token/>
+          <token postag="&lt;/RN&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="RN"/><wd pos="RN"/><wd pos="RN"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;RN&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/RN&gt;"/>
+      </pattern>
+      <disambig action="replace"><wd pos="RN"/><wd pos="RN"/><wd pos="RN"/><wd pos="RN"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;RG&gt;"/>
+          <token postag="&lt;/RG&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;RG&gt;"/>
+          <token/>
+          <token postag="&lt;/RG&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;RG&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/RG&gt;"/>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;SP000&gt;"/>
+          <token postag="&lt;/SP000&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="SP000"/><wd pos="SP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;SP000&gt;"/>
+          <token/>
+          <token postag="&lt;/SP000&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="SP000"/><wd pos="SP000"/><wd pos="SP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;SP000&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/SP000&gt;"/>
+      </pattern>
+      <disambig action="replace"><wd pos="SP000"/><wd pos="SP000"/><wd pos="SP000"/><wd pos="SP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;CS&gt;"/>
+          <token postag="&lt;/CS&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="CS"/><wd pos="CS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;CS&gt;"/>
+          <token/>
+          <token postag="&lt;/CS&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="CS"/><wd pos="CS"/><wd pos="CS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;CS&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/CS&gt;"/>
+      </pattern>
+      <disambig action="replace"><wd pos="CS"/><wd pos="CS"/><wd pos="CS"/><wd pos="CS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;I&gt;"/>
+          <token postag="&lt;/I&gt;"/>
+      </pattern>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;I&gt;"/>
+          <token/>
+          <token postag="&lt;/I&gt;"/>
+      </pattern>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;I&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/I&gt;"/>
+      </pattern>
+      <disambig action="add"><wd pos="I"/><wd pos="I"/><wd pos="I"/><wd pos="I"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
+          <token postag="&lt;/(_GN_|L_).*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="_GN_"/><wd pos="_GN_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/(_GN_|L_).*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="_GN_"/><wd pos="_GN_"/><wd pos="_GN_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;(_GN_|L_).*" postag_regexp="yes"/>
+        <marker>
+          <token/>
+        </marker>
+          <token postag="&lt;/(_GN_|L_).*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="_GN_"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="FOREIGN_PROPER_NAMES" name="Nomes estrangeiros">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-18  	-->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>La</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFS000"/><wd pos="NPFS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>Las</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPFP000"/><wd pos="NPFP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>L</token><!-- XXX Le is also FP in Italian, but it is less common in Portuguese texts -->
+          <token regexp='yes'>['’]</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000"/><wd pos="NPMS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>[AEI]l|Le</token><!-- XXX Le is also FP in Italian, but it is less common in Portuguese texts -->
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>Els|Los|Gli</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPMP000"/><wd pos="NPMP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>Les</token>
+          <token postag='UNKNOWN' regexp='yes'>\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000"/><wd pos="NPCP000"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="CHINESE_NAMES" name="Chinese names">
+    <!-- Localized from Portuguese by Tiago F. Santos, 2019-03-16  	-->
+    <!-- https://en.wikipedia.org/wiki/Pinyin_table -->
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?:(?i)(&ditongos_chineses;))?
+            <exception>Time</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)</token>
+          <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" postag='UNKNOWN' case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)
+            <exception>Time</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/></disambig>
+    </rule>
+  </rulegroup>
+
+    <rule id="DET_SUBST_ADX" name="det + subst + adx (unify)">
+      <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
+
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes">
+            <exception regexp="yes">gran|grande</exception></token>
+          <token postag="A.*" postag_regexp="yes"/>
+          </unify>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+
+    <rule id="NON_ADVERB" name="Não como advérbio">
+    <!-- Created by Tiago F. Santos, Portuguese rule translation, 2017-07-28  -->
+      <pattern>
+        <marker>
+          <token>non</token>
+        </marker>
+          <token postag_regexp='yes' postag='(R|V).+'/>
+      </pattern>
+      <disambig action="filter" postag="R.+"/>
+    </rule>
+
+  <rulegroup id="ADVERB_VERB_NOUN" name="Via: Advérbio + Verbo/Nome">
+    <!-- Localized from Portuguese by Tiago F. Santos, 2019-02-27 -->
+    <rule>
+      <pattern>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="C.+" postag_regexp="yes">
+            <exception postag="(A|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/></token>
+          <token postag="R.+" postag_regexp="yes">
+            <exception regexp='yes'>m(?:áis|enos)</exception>
+            <exception postag="(A|C|D|S).+" postag_regexp="yes"/></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes">
+            <exception regexp='yes'>(?:ac?tiva|p(?:arte|resente))s?</exception></token>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="R.+" postag_regexp="yes">
+            <exception scope='previous' postag="(A|C|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/>
+            <exception regexp='yes'>m(?:ais|enos)</exception>
+            <exception postag="(A|C|D|S).+" postag_regexp="yes"/></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes">
+            <exception regexp='yes'>(?:ac?tiva|p(?:arte|resente))s?</exception></token>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="P.+" postag_regexp="yes"/>
+          <token postag="R.+" postag_regexp="yes">
+            <exception postag="(A|C|D|S).+" postag_regexp="yes"/></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+      <example inputform="vía[ver/VMII1S0,ver/VMII3S0,vía/NCFS000]" outputform="vía[ver/VMII1S0,ver/VMII3S0]" type="ambiguous">Hai moito tempo que non <marker>vía</marker> publicacións da Ana.</example> <!-- XXX 'que' is not yet disambiguated -->
+    </rule>
+  </rulegroup>
+
+    <rule id="DET_SUBST" name="det|pron + subst|adx (det + subst|adx)">
+      <pattern>
+          <token>
+            <exception postag="V.*" postag_regexp="yes"/></token>
+        <marker>
+          <token postag="D.*" postag_regexp="yes"/>
+        </marker>
+          <token postag="[NA].*" postag_regexp="yes">
+            <exception postag="V.*" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="filter" postag="D.*"/>
+    </rule>
+
+    <rule id="DET_CANS" name="det + can(s)">
+    <!-- XXX remove after more general disambiguation -->
+      <pattern>
+          <token postag="D.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">cans?</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="N.*"/>
+    </rule>
+
+    <rule id="TANTO_COMO" name="Tanto ... como ...">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-11-15  	-->
+      <pattern>
+        <marker>
+          <token regexp="yes">tan|tanto</token>
+        </marker>
+          <token max='2'/>
+          <token>como</token>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+
+  <rulegroup id="CONTRACAO_L" name="Contracción l'">
+    <!-- Created by Tiago F. Santos, Galician rule, 2017-11-09  	-->
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)M.+" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0MS0"/><wd pos="DA0MS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)F.+" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0FS0"/><wd pos="DA0FS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>l</token>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+        </marker>
+          <token postag="(?:[NZ].|[ADP]..|V.....)C.+|UNKNOWN" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="replace"><wd pos="DA0NS0"/><wd pos="DA0NS0"/></disambig>
+    </rule>
+  </rulegroup>
+
+    <rule id="VOGAIS" name="[^o|letra] e[subst|conx] (e[subst])">
+      <pattern>
+          <token>
+            <exception regexp="yes">o|letra|vogal</exception></token>
+        <marker>
+          <token regexp="yes">[aeo]</token>
+        </marker>
+      </pattern>
+      <disambig action="remove"><wd pos="NCMS000"/></disambig>
+    </rule>
+
+  <rulegroup id="PV" name="PP + VERBO ">
+    <!-- 		Localized from Portuguese by Tiago F. Santos, 2019-03-16		-->
+    <rule>
+      <pattern>
+          <token regexp='yes'>eu|ti|el[ea]s?|[nv]ós|vocês?</token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    <!--Example: Ele casa -->
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes' spacebefore='yes'>che|consigo|las?|lles?|los?|me|te|vos</token><!-- XXX Other as?|nas?|nos?|os?|se -->
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    <!--Example: Ele casa -->
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="PERIFRASES" name="perífrases de infinitivo">
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">haber|ter</token>
+          <token>que</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|botar|comezar|pegar|vir|chegar|voltar|tornar|romper|pór|poñer</token>
+          <token>a</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">deber|haber|deixar|parar|acabar|rematar|terminar|vir|ter</token>
+          <token>de</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">acabar</token>
+          <token>por</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">estar</token>
+          <token>para</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">dar</token>
+          <token>en</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">querer|ir|deber|haber|poder|volver|adoitar|acostumar</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+  </rulegroup>
+
+  <rulegroup  id="NUMBER" name="number">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <rule>
+      <pattern>
+          <token regexp="yes">[1234567890]+</token>
+      </pattern>
+      <disambig postag="Z0CN0"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0CN0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_CP;</token>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0CP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_MP;
+            <exception>uns</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_FP;
+            <exception>unhas</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_MS;
+            <exception>un</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token>un</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0MS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">&numero_por_extenso_FS;
+            <exception>unha</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token>unha</token>
+      </pattern>
+      <disambig action="add"><wd pos="Z0FS0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0[MC][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0[MC][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp="yes" postag='Z0[CF][SPN]0'>
+            <exception regexp='yes'>\d+</exception></token>
+          <token regexp='yes'>e|-</token>
+          <token postag_regexp="yes" postag='Z0F[SPN]0'/>
+      </pattern>
+      <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="PERCENTAGES" name="Porcentaxes">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <rule>
+      <pattern>
+          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
+            <exception regexp='yes'>1[&#37;&#8240;&#8241;]</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">1 ?[&#37;&#8240;&#8241;]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMC000"/></disambig>
+    </rule>
+  </rulegroup>
+
+    <rule id="PUNCT" name="pontuacción">
+    <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
+      <pattern>
+          <token regexp="yes">[.,;:!?…()\[\]&#8209;&#8210;&#8211;&#8212;&#8213;«»”“‘’\-]|[\*×∗·\+\/÷:=]</token>
+      </pattern>
+      <disambig action="add"><wd pos="_PUNCT"/></disambig>
+    </rule>
+
+  <rulegroup name="Quotation marks" id="QUOT">
+    <!-- 		l18n from English disambiguation.xml by Tiago F. Santos		-->
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+        <marker>
+          <token>&quot;</token>
+        </marker>
+      </pattern>
+      <disambig postag="``"/>
+      <example type="untouched">Examplo 'a'</example>
+      <example type="untouched">Examplo &quot;a</example>
+      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>Um teste.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>
+            <exception regexp="yes">\p{Ps}</exception></token>
+        <marker>
+        <and>
+          <token postag="``" spacebefore="no">&quot;</token>
+          <token postag="''" spacebefore="no">&quot;</token>
+        </and>
+        </marker>
+      </pattern>
+      <disambig postag="''"/>
+      <example type="untouched">Examplo 'a'</example>
+      <example type="untouched">Examplo &quot;a</example>
+      <example type="untouched">Examplo (&quot;a</example>
+      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">Um &quot;teste<marker>&quot;</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+        <and>
+          <token postag="''" spacebefore="yes">&quot;</token>
+          <token postag="``" spacebefore="yes">&quot;</token>
+        </and>
+        </marker>
+      </pattern>
+      <disambig postag="``"/>
+      <example type="untouched">Examplo 'a'</example>
+      <example type="untouched">Examplo a&quot;</example>
+      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um <marker>&quot;</marker>teste&quot;.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\p{Ps}</token>
+        <marker>
+        <and>
+          <token postag="``" spacebefore="no">&quot;</token>
+          <token postag="''" spacebefore="no">&quot;</token>
+        </and>
+        </marker>
+      </pattern>
+      <disambig postag="``"/>
+      <example type="untouched">Examplo 'a'</example>
+      <example type="untouched">Examplo &quot;a</example>
+      <example type="untouched">Examplo a&quot;</example>
+      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
+    </rule>
+  </rulegroup>
+
+    <!-- XXX Ignore Spelling Rules XXX -->
+    <rule name="en vogue" id="EN_VOGUE">
+      <pattern>
+          <token>en</token>
+          <token regexp="yes">vogue|gros|masse|passant|détail</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Côte d'Azur" id="COTE_DAZUR">
+      <pattern>
+          <token>Côte</token>
+          <token>d</token>
+          <token regexp="yes">['’]</token>
+          <token>Azur</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Los Angeles" id="LOS_ANGELES">
+      <pattern>
+          <token>Los</token>
+          <token regexp="yes">Alamos|Angeles</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule name="Las Vegas" id="LAS_VEGAS">
+      <pattern case_sensitive="yes">
+          <token>Las</token>
+          <token>Vegas</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule name="Valleys" id="VALLEYS">
+      <pattern case_sensitive="yes">
+          <token regexp="yes">Death|Silicon</token>
+          <token>Valley</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Oak Ridge" id="OAK_RIDGE">
+      <pattern case_sensitive="yes">
+          <token>Oak</token>
+          <token>Ridge</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule name="Mise en scène" id="MISE_EN_SCENE">
+      <pattern>
+          <token>Mise</token>
+          <token>en</token>
+          <token>scène</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule name="Rhythm and Blues" id="RHYTHM_AND_BLUES">
+      <pattern>
+          <token>Rhythm</token>
+          <token>and</token>
+          <token>Blues</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Rock and Roll" id="ROCK_AND_ROLL">
+      <pattern>
+          <token>Rock</token>
+          <token>and</token>
+          <token>Roll</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Alexius Meinong" id="ALEXIUS_MEINONG">
+      <pattern>
+          <token>Alexius</token>
+          <token regexp="yes">Meinongs?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Alfred Nobel" id="ALFRED_NOBEL">
+      <pattern>
+          <token>Alfred</token>
+          <token>Nobel</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Addis Abeba" id="ADDIS_ABEBA">
+      <pattern>
+          <token>Addis</token>
+          <token>Abeba</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="La Paz" id="LA_PAZ">
+      <pattern>
+          <token>La</token>
+          <token>Paz</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Santo Domingo" id="SANTO_DOMINGO">
+      <pattern>
+          <token>Santo</token>
+          <token>Domingo</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Le Havre/Le Mans" id="LE_HAVRE">
+      <pattern>
+          <token>Le</token>
+          <token regexp='yes'>Havre|Mans</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Phnom Penh" id="PHNOM_PENH">
+      <pattern>
+          <token>Phnom</token>
+          <token>Penh</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Open Source" id="OPEN_SOURCE">
+      <pattern>
+          <token>Open</token>
+          <token>Source</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Open-Source-Software" id="OPEN_SOURCE_SOFTWARE">
+      <pattern>
+          <token>Open-Source-Software</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Jungle World" id="JUNGLE_WORLD">
+      <pattern>
+          <token>Jungle</token>
+          <token>World</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Rolling Stones" id="STONES">
+      <pattern>
+          <token>Rolling</token>
+          <token regexp='yes'>Stones?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="à la carte" id="A_LA_CARTE">
+      <pattern>
+          <token>à</token>
+          <token>la</token>
+          <token>carte</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Big Ben" id="BIG_BEN">
+      <pattern>
+          <token>Big</token>
+          <token regexp="yes">Ben|Data|Bang</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="peu à peu" id="PEU_A_PEU">
+      <pattern>
+          <token>peu</token>
+          <token>à</token>
+          <token>peu</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="avant la lettre" id="AVANT_LA_LETTRE">
+      <pattern>
+          <token>avant</token>
+          <token>la</token>
+          <token>lettre</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Coq au Vin" id="COQ_AU_VIN">
+      <pattern>
+          <token>Coq</token>
+          <token>au</token>
+          <token>Vin</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Air Force" id="AIR_FORCE">
+      <pattern>
+          <token>Air</token>
+          <token>Force</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="cui bono" id="CUI_BONO">
+      <pattern>
+          <token>Cui</token>
+          <token>Bono</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Memento mori" id="MEMENTO_MORI">
+      <pattern>
+          <token>Memento</token>
+          <token>mori</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="salva veritate" id="SALVA_VERITATE">
+      <pattern>
+          <token>salva</token>
+          <token>veritate</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Persona non grata" id="PERSONA_NON_GRATA">
+      <pattern>
+          <token>Persona</token>
+          <token min="0">non</token>
+          <token regexp="yes">(in)?grata</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Enfant terrible" id="ENFANT_TERRIBLE">
+      <pattern>
+          <token>Enfant</token>
+          <token>terrible</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Fair Play" id="FAIR_PLAY">
+      <pattern case_sensitive="yes">
+          <token>Fair</token>
+          <token>Play</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="University of" id="UNIVERSITY_OF">
+      <pattern case_sensitive="yes">
+          <token>University</token>
+          <token>of</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Yad Vashem" id="YAD_VASHEM">
+      <pattern>
+          <token>Yad</token>
+          <token>Vashem</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="El Niño" id="EL_NINO">
+      <pattern>
+          <token>El</token>
+          <token>Niño</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="in medias res" id="IN_MEDIAS_RES">
+      <pattern>
+          <token>in</token>
+          <token>medias</token>
+          <token>res</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Facultas Docendi" id="FACULTAS_DOCENDI">
+      <pattern>
+          <token>Facultas</token>
+          <token>Docendi</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Venia Legendi" id="VENIA_LEGENDI">
+      <pattern>
+          <token>Venia</token>
+          <token>Legendi</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Grand Canyon" id="GRAND_CANYON">
+      <pattern>
+          <token>Grand</token>
+          <token regexp='yes'>Canyon|Prix|Slam</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="horribile dictu" id="HORRIBILE_DICTU">
+      <pattern>
+          <token>horribile</token>
+          <token>dictu</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Diabetes mellitus" id="DIABETES_MELLITUS">
+      <pattern>
+          <token>Diabetes</token>
+          <token regexp="yes">mellitus|renalis|insipidus</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="O Blitz" id="O_BLITZ">
+      <pattern>
+          <token regexp="yes">[dn]?o</token>
+          <token regexp="yes">Blitz|Donner</token>
+          <token min='0'>Kebab</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Wall Street" id="WALL_STREET">
+      <pattern>
+          <token regexp="yes">Wall|Downing|Baker</token>
+          <token>Street</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Fifth Avenue" id="FIFTH_AVENUE">
+      <pattern>
+          <token>Fifth</token>
+          <token>Avenue</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="per se" id="PER_SE">
+      <pattern>
+          <token>per</token>
+          <token regexp="yes">capita|procura|rectum|saldo|se</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Pour le Mérite" id="POUR_LE_MERITE">
+      <pattern>
+          <token>Pour</token>
+          <token>le</token>
+          <token>Mérite</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="sui" id="SUI_GENERIS">
+      <pattern>
+          <token>sui</token>
+          <token>generis</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="pacta" id="PACTA_SUNT_SERVANDA">
+      <pattern>
+          <token>pacta</token>
+          <token>sunt</token>
+          <token>servanda</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="virtual" id="VIRTUAL_REALITY">
+      <pattern>
+          <token>Virtual</token>
+          <token regexp="yes">Reality|Environments?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Fethullah Gülen" id="GUELEN">
+      <pattern>
+          <token>Fethullah</token>
+          <token regexp='yes'>Gülens?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Recep Tayyip Erdoğan" id="ERDOGAN">
+      <pattern>
+          <token>Recep</token>
+          <token>Tayyip</token>
+          <token regexp='yes'>Erdoğans?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Hillary Clinton" id="HILLARY_CLINTON">
+      <pattern>
+          <token regexp='yes'>Hillary|Bill</token>
+          <token regexp='yes'>Clintons?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Abu" id="ABU_DHABI">
+      <pattern>
+          <token>Abu</token>
+          <token>Dhabi</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Rocky Mountains" id="ROCKY_MOUNTAINS">
+      <pattern>
+          <token>Rocky</token>
+          <token>Mountains</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Cordon bleu" id="CORDON_BLEU">
+      <pattern>
+          <token>Cordon</token>
+          <token>bleu</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Jour fixe" id="JOUR_FIXE">
+      <pattern>
+          <token regexp="yes">Blanc|Jour|Idée</token>
+          <token>fixe</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Pearl Harbor" id="PEARL_HARBOR">
+      <pattern>
+          <token>Pearl</token>
+          <token>Harbor</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Isle of Man" id="ISLE_OF_MAN">
+      <pattern>
+          <token>Isle</token>
+          <token>of</token>
+          <token regexp="yes">Man|Wight|Arran|Mull</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Human Rights Watch" id="HUMAN_RIGHTS_WATCH">
+      <pattern>
+          <token>Human</token>
+          <token>Rights</token>
+          <token>Watch</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="pater familias" id="PATER_FAMILIAS">
+      <pattern>
+          <token>pater</token>
+          <token>familias</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="con Carne" id="CON_CARNE">
+      <pattern case_sensitive="yes">
+          <token>con</token>
+          <token>Carne</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Scotland Yard" id="SCOTLAND_YARD">
+      <pattern case_sensitive="yes">
+          <token>Scotland</token>
+          <token>Yard</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Buckingham Palace" id="BUCKINGHAM_PALACE">
+      <pattern>
+          <token>Palácio</token>
+          <token>de</token>
+          <token>Buckingham</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Parks" id="PARKS">
+      <pattern case_sensitive="yes">
+          <token regexp="yes">Central|Hyde</token>
+          <token>Park</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Terra incognita" id="TERRA_INCOGNITA">
+      <pattern>
+          <token>Terra</token>
+          <token>incognita</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="non sequitur" id="NON_SEQUITUR">
+      <pattern>
+          <token>non</token>
+          <token>sequitur</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="reductio ad absurdum" id="REDUCTIO_AD_ABSURDUM">
+      <pattern>
+          <token>reductio</token>
+          <token>ad</token>
+          <token>absurdum</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Tertium non datur" id="TERTIUM_NON_DATUR">
+      <pattern>
+          <token>Tertium</token>
+          <token>non</token>
+          <token>datur</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ex nihilo" id="EX_NIHILO">
+      <pattern>
+          <token>ex</token>
+          <token>nihilo</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="suum cuique" id="SUUM_CUIQUE">
+      <pattern>
+          <token>suum</token>
+          <token>cuique</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Urbi et orbi" id="URBI_ORBI">
+      <pattern>
+          <token>Urbi</token>
+          <token>et</token>
+          <token>orbi</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Spiritus Rector" id="SPIRITUS_RECTOR">
+      <pattern>
+          <token>Spiritus</token>
+          <token>Rector</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="in vino veritas" id="VINO_VERITAS">
+      <pattern>
+          <token>in</token>
+          <token>vino</token>
+          <token>veritas</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="sit venia verbo" id="VENIA_VERBO">
+      <pattern>
+          <token>sit</token>
+          <token>venia</token>
+          <token>verbo</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Sex and the City" id="SEX_CITY">
+      <pattern>
+          <token>Sex</token>
+          <token>and</token>
+          <token>the</token>
+          <token>City</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Breaking Bad" id="BREAKING_BAD">
+      <pattern>
+          <token>Breaking</token>
+          <token>Bad</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Visual Studio/Basic" id="VISUAL_STUDIO">
+      <pattern case_sensitive="yes">
+          <token>Visual</token>
+          <token regexp="yes">Studio|Basic</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Google Maps" id="GOOGLE_MAPS">
+      <pattern case_sensitive="yes">
+          <token>Google</token>
+          <token regexp="yes">Ad|Alerts|Analytics|APIs|App|Apps|Art|Attribution|Authenticator|Bookmarks|Business|Calendar|Charts|Checkout|Classroom|Cloud|Compute|Contacts|Cultural|Current|Data|Developers|Docs|Drive|Fit|Flights|Fonts|for|Fusion|Get|Groups|Home|Maps|Mobile|Moderator|My|Ngram|One|Opinion|Photos|Play|Plugin|Primer|Public|Questions|Schemer|Scholar|Search|Search‎|Shopping|Sites|Spaces|Store|Street|Surveys|Sync|Tez|Translate|Translator|URL|Videos|Wallet|Website|WiFi</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="AMPERSANDS" id="Ampersands">
+      <pattern>
+          <token regexp='yes'>C&amp;A|I&amp;D|S&amp;P</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="low cost" id="LOW_COST">
+      <pattern>
+          <token>low</token>
+          <token regexp="yes" spacebefore='no' min='0'>&hifen;</token>
+          <token regexp="yes">costs?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="T-shirts" id="T-SHIRT">
+      <pattern>
+          <token>t</token>
+          <token regexp="yes" spacebefore='no'>&hifen;</token>
+          <token regexp="yes" spacebefore='no'>shirts?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+  <rulegroup id='LOOSE_UPPERCASES' name='Maiúsculas soltas'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
+    <rule>
+      <pattern>
+          <token regexp='yes'>(categoría|paso|grupo|turma|vitamina)s?</token>
+          <token case_sensitive='yes' regexp='yes'>\p{Lu}</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id='SIZES' name='Tamaños de roupa'>
+      <pattern>
+          <token regexp='yes'>tamaños?</token>
+          <token case_sensitive='yes' regexp='yes'>X{0,2}[SLM]|GG?|PP?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
+
+    <rule id='WORDS_WITH_NUMBERS' name='Palavras com números'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
+    <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms|highways -->
+      <pattern>
+          <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|4Chan|G(20|7)|H[₁₂₃₄₅₆₇₈₉₀]|i[357]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+  <rulegroup name="Ignore spellings rule" id="SPELLING_IGNORE_RULE">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-XX  	-->
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag=".+_"/>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="I"/>
+        </marker>
+          <token regexp='yes'>[\!\?]</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="I"/>
+        </marker>
+          <token postag_regexp="yes" postag="I"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token case_sensitive="yes" regexp="yes">\p{Lu}</token>
+        </marker>
+          <token spacebefore='no'>.</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- separators -->
+      <pattern>
+          <token>-</token>
+          <token>-</token>
+          <token>-</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>\d+.[ºª][sˢ]?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- loose letters used in some time formats -->
+      <pattern>
+          <token regexp='yes'>\d{1,2}h(\d{2}m)?(\d{2})?s?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule> <!-- variable in formulas -->
+      <pattern>
+          <token regexp='yes'>\w|&alfabeto_grego;</token><!-- XXX here μ is ok. it can't be micro -->
+          <token regexp='yes'>&operadores_matematicos;</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- variable in formulas -->
+      <pattern>
+          <token regexp='yes'>&operadores_matematicos;</token>
+          <token regexp='yes'>\w|&alfabeto_grego;
+            <exception>μ</exception></token><!-- XXX don't add μ - possible confusion with loose micro -->
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- variable in formulas -->
+      <pattern>
+          <token postag_regexp='yes' postag='Z.+'/>
+        <marker>
+          <token regexp='yes'>\w|&alfabeto_grego;
+            <exception>μ</exception></token><!-- XXX don't add μ - possible confusion with loose micro -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <!--rule>< ignore abbreviations >
+     XXX uncomment after localizing entity
+      <pattern>
+        <marker>
+          <token regexp='yes'>&abreviaturas;</token>
+        </marker>
+          <token spacebefore='no'>.</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule-->
+    <rule><!-- ignore abbreviations -->
+      <pattern>
+          <token>n</token>
+          <token spacebefore='no'>.</token>
+          <token spacebefore='no' regexp='yes'>[ºª]ˢ?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- ignore smileys -->
+      <pattern>
+          <token spacebefore='yes' regexp='yes'>[:;8]</token>
+          <token spacebefore='no' case_sensitive='yes' min='0'>-</token>
+          <token spacebefore='no' regexp='yes' case_sensitive='yes'>[bDoOpPsSxX]</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule><!-- ignore smileys type: X-O-->
+      <pattern>
+          <token spacebefore='yes'>X</token>
+          <token spacebefore='no' case_sensitive='yes'>-</token>
+          <token spacebefore='no' regexp='yes' case_sensitive='yes'>[()/\[bDoOpPsSxX]</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule>
+    <!-- Based on English disambiguation.xml -->
+      <pattern case_sensitive="yes">
+          <token regexp="yes">\/|[\.·\/]|[\d\., ]*\d+</token>
+          <token regexp="yes">&unidades_de_medida;</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">\d[\d ]*[\.,]?\d*(&unidades_de_medida;)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
+    <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
+    <!-- Localized from English by Tiago F. Santos, 2018-09-15  -->
+      <pattern>
+          <token/>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&extensoes_de_ficheiros;</token><!-- For more extensions, refer to https://fileinfo.com -->
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
+      <pattern>
+          <token regexp="yes">@.+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  <rulegroup name="Ignore spelling of #hashtags" id="IGNORE_HASHTAG">
+    <rule>
+      <pattern>
+          <token spacebefore="yes">#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token>#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
+    <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
+      <pattern case_sensitive="yes">
+          <token regexp="yes">[A-Za-z0-9\-]+</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore common chemical formulas" id="IGNORE_COMMON_CHEMICAL_FORMULAS">
+    <!-- Created by Tiago F. Santos, 2019-08-29  -->
+    <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
+      <pattern case_sensitive="yes">
+          <token regexp="yes" case_sensitive='yes'>Ac₂O₃|Ag₂C₂|Ag₂C₂O₄|Ag₂Cl₂|Ag₂CO₃|Ag₂Cr₂O₇|Ag₂CrO₄|Ag₂F|Ag₂MoO₄|Ag₂O|Ag₂S|Ag₂Se|Ag₂SeO₃|Ag₂SeO₄|Ag₂SO₄|Ag₂Te|Ag₃Br₂|Ag₃Br₃|Ag₃Cl₃|Ag₃I₃|Ag₃PO₄|AgBF₄|AgBrO₂|AgBrO₃|AgBrO₄|AgCl₃Cu₂|AgClO₃|AgClO₄|AgF₂|AgIO₂|AgIO₃|AgIO₄|AgMnO₄|AgN₃|AgNO₃|AgPF₆|Al₂BeO₄|Al₂Br₆|Al₂Cl₉K₃|Al₂CoO₄|Al₂F₆|Al₂I₆|Al₂MgO₄|Al₂O|Al₂O₂|Al₂O₃|Al₂O₅Si|Al₂O₇Si₂|Al₂S|Al₂S₃|Al₂Se|Al₂Te|Al₃F₁₄Na₅|Al₄C₃|Al₆BeO₁₀|Al₆O₁₃Si₂|AlBO₃|AlBr₃|AlCl₂F|AlCl₂H|AlCl₃|AlCl₄Cs|AlCl₄K|AlCl₄Na|AlCl₄Rb|AlCl₆K₃|AlCl₆Na₃|AlF₂|AlF₂O|AlF₃|AlF₄K|AlF₄Li|AlF₆K₃|AlF₆Li₃|AlF₆Na₃|AlI₃|AlLiO₂|AlNaO₂|AlO₂|AlPO₄|AlTe₂|As₂I₄|As₂Mg₃|As₂O₃|As₂O₅|As₂P₂|As₂S₄|As₂S₅|As₂Se|As₂Se₃|As₂Se₅|As₃O₄|As₃P|As₄O₃|As₄O₅|As₄S₃|As₄S₄|AsBr₃|AsCl₃|AsCl₃O|AsCl₄F|AsF₃|AsF₅|AsH₃|AsI₃|AsO₂|AsP₃|Au₂O₃|Au₂S|Au₂S₃|Au₂Se₃|AuBr₃|AuCl₃|AuF₃|AuI₃|B₂Cl₄|B₂F₄|B₂H₆|B₂O₃|B₂S₃|B₂Se₃|B₃N₃H₆|B₄C|Ba₂P₂O₇|Ba₂V₂O₇|Ba₂XeO₆|Ba₃N₂|BaB₆|BaBr₂|BaC₂|BaC₂O₄|BaCl₂|BaCO₃|BaCrO₄|BaF₂|BaFeSi₄O₁₀|BaHfO₃|BaHgI₄|BaI₂|BaMnO₄|BaMoO₄|BaN₆|BaNb₂O₆|BaO₂|BaS₂O₃|BaSeO₃|BaSeO₄|BaSi₂|BaSi₂O₅|BaSiF₆|BaSiO₃|BaSnO₃|BaSO₃|BaSO₄|BAsO₄|BaTeO₃|BaTiO₃|BaU₂O₇|BaWO₄|BaZrO₃|BBr₃|BCl₃|Be₂C|Be₃N₂|BeB₂|BeBr₂|BeCl₂|BeCO₃|BeF₂|BeI₂|BeSO₃|BeSO₄|BF₃|Bi₂O₃|Bi₂S₃|Bi₂Se₃|BI₃|BiBO₃|BiBr₃|BiC₆H₅O₇|BiCl₃|BiF₃|BiI₃|BiPO₄|BPO₄|Br₂|Br₂O₅|BrCl₃|BrCl₅|BrF₃|BrF₅|C₁₀H₁₀N₂O|C₁₀H₁₀O₂|C₁₀H₁₀O₄|C₁₀H₁₁N₃O₃S|C₁₀H₁₂N₂|C₁₀H₁₂O|C₁₀H₁₂O₂|C₁₀H₁₂O₃|C₁₀H₁₃N₅O₄|C₁₀H₁₄O|C₁₀H₁₅ON|C₁₀H₁₆|C₁₀H₁₆O|C₁₀H₁₇NO₃|C₁₀H₁₉NO₃|C₁₀H₂₀N₂O₂|C₁₀H₂₂|C₁₀H₇N₃S|C₁₀H₇NO₂|C₁₀H₈|C₁₀H₈O₃|C₁₀H₉N₅O|C₁₀H₉NO₂|C₁₁H₁₁NO₂|C₁₁H₁₂N₂O₂|C₁₁H₁₂O₃|C₁₁H₁₄N₂O|C₁₁H₁₄O₂|C₁₁H₁₉NO₄|C₁₁H₂₄|C₁₁H₈O₂|C₁₂H₁₀|C₁₂H₁₀ClN₂O₅S|C₁₂H₁₁N₅|C₁₂H₁₁N₇|C₁₂H₁₃NO₂|C₁₂H₁₄O₄|C₁₂H₁₅NO|C₁₂H₁₆N₂|C₁₂H₁₆O₃|C₁₂H₁₆O₄|C₁₂H₁₆O₇|C₁₂H₁₈O|C₁₂H₂₂O₁₁|C₁₂H₂₆|C₁₂H₄N₄|C₁₂H₈O₄|C₁₃₁H₂₀₀N₃₀O₄₃S₂|C₁₃H₁₀O|C₁₃H₁₂F₂N₆O|C₁₃H₁₂O|C₁₃H₁₂O₂|C₁₃H₁₄N₂O|C₁₃H₁₆N₂O₂|C₁₃H₁₈O₂|C₁₃H₂₈|C₁₄H₁₀|C₁₄H₁₀O₁₄|C₁₄H₁₂O₃|C₁₄H₁₄Cl₂N₂O|C₁₄H₁₈N₂O₅|C₁₄H₁₈N₄O₃|C₁₄H₃₀|C₁₅₈H₂₅₁N₃₉O₄₆S|C₁₅H₁₀O₄|C₁₅H₁₀O₅|C₁₅H₁₀O₆|C₁₅H₁₀O₇|C₁₅H₁₂N₂O|C₁₅H₁₂N₂O₂|C₁₅H₃₂|C₁₆₁H₂₃₆N₄₂O₄₈|C₁₆₄H₂₅₆Na₂O₆₈S₂|C₁₆H₁₄O₃|C₁₆H₂₈N₂O₆Zn|C₁₆H₃₄|C₁₇H₁₃ClN₄|C₁₇H₁₄F₃N₃O₂S|C₁₇H₁₈N₂O₆|C₁₇H₁₉N₃O₃S|C₁₇H₂₂O₂|C₁₇H₂₄O|C₁₇H₂₄O₉|C₁₇H₃₆|C₁₈H₂₂O₂|C₁₈H₂₄O₂|C₁₈H₂₄O₃|C₁₈H₂₄O₄|C₁₈H₂₇NO₃|C₁₈H₃₂O₂|C₁₈H₃₆O₂|C₁₈H₃₈|C₁₉H₁₆ClNO₄|C₁₉H₂₆O₂|C₁₉H₂₈O₂|C₁₉H₃₀O₂|C₁₉H₄₀|C₂₀H₂₄O₂N₂|C₂₀H₂₇NO₁₁|C₂₀H₂₈O₂|C₂₀H₃₂O₅|C₂₀H₃₄O₅|C₂₀H₄₂|C₂₁H₂₀O₆|C₂₁H₃₀O₂|C₂₁H₃₆N₇O₁₆P₃S|C₂₂H₂₃ClN₂O₂|C₂₃H₁₉ClF₃NO₃|C₂F₄|C₂H₂|C₂H₂O₂|C₂H₃Cl|C₂H₃NO|C₂H₄|C₂H₄Cl₂|C₂H₄N₄|C₂H₄O|C₂H₄O₂|C₂H₅Br|C₂H₅NH₂|C₂H₅NO₂|C₂H₅OCs|C₂H₅OH|C₂H₅OK|C₂H₅ONa|C₂H₅ORb|C₂H₆|C₂H₆OS|C₂H₇NO|C₂H₇NO₂|C₂H₇NO₃S|C₃₀H₁₉NO₉|C₃₄H₄₆O₁₈|C₃₅H₆₀O₆|C₃H₃N|C₃H₄N₂|C₃H₄N₂S|C₃H₄O₃|C₃H₄O₄|C₃H₅N₃|C₃H₅N₃O₉|C₃H₅NO|C₃H₆|C₃H₆O₂|C₃H₆O₂S|C₃H₇N|C₃H₇NO₂|C₃H₇NO₂S|C₃H₇NO₃|C₃H₈|C₃H₈NO₅P|C₃H₈O|C₃H₈O₂|C₃H₈O₃|C₃H₉N₃|C₃HN|C₃N₁₂|C₄₀H₅₆|C₄₄H₆₉N₁₅O₉S|C₄H₁₀|C₄H₁₀O|C₄H₁₀O₂|C₄H₁₀O₃|C₄H₁₁NO₂|C₄H₂|C₄H₂BrClN₂|C₄H₂Cl₂N₂|C₄H₃Cl₂N₃|C₄H₃FN₂O₂|C₄H₄|C₄H₄FN₃O|C₄H₄N₂O₂|C₄H₄N₄|C₄H₄O|C₄H₅N₃O|C₄H₆N₂|C₄H₆N₂S|C₄H₆N₄O|C₄H₆O₂|C₄H₆O₄|C₄H₇BrO₂|C₄H₇KO₃|C₄H₇NaO₃|C₄H₇NO₂|C₄H₇NO₃|C₄H₇NO₄|C₄H₈|C₄H₈N₂O₃|C₄H₈O|C₄H₈O₂|C₄H₈O₃|C₄H₉Li|C₄H₉NO₂|C₄H₉NO₃|C₄H₉OH|C₄HCl₂FN₂|C₄I₂|C₅₅H₇₄IN₃O₂₁S₄|C₅₉H₈₀N₄O₂₂S₄|C₅H₁₀|C₅H₁₀N₂O₃|C₅H₁₀O₂|C₅H₁₀O₄|C₅H₁₁NO₂|C₅H₁₁NO₂S|C₅H₁₂|C₅H₁₂O₂|C₅H₁₂O₄|C₅H₁₂O₅|C₅H₃Br₂N|C₅H₃BrN₂O₂|C₅H₃ClN₂O₂|C₅H₃ClN₄|C₅H₄N₂O₂|C₅H₄N₂O₄|C₅H₄N₄O|C₅H₄N₄O₂|C₅H₄N₄S|C₅H₄NCOOH|C₅H₄O|C₅H₄O₂|C₅H₄O₂S|C₅H₅BrN₂|C₅H₅ClN₂|C₅H₅IN₂|C₅H₅N|C₅H₅N₃O|C₅H₅N₃O₂|C₅H₅N₅|C₅H₅N₅O|C₅H₅NO|C₅H₆BNO₂|C₅H₆N₂|C₅H₆N₂O₂|C₅H₆N₂OS|C₅H₆O|C₅H₆O₅|C₅H₇N₃|C₅H₈O₂|C₅H₉NO₂|C₅H₉NO₄|C₆₂H₈₉CoN₁₃O₁₅P|C₆₃H₈₈CoN₁₄O₁₄P|C₆₃H₉₁CoN₁₃O₁₄P|C₆F₅COOH|C₆H₁₀O₃|C₆H₁₀O₄|C₆H₁₁NO₂|C₆H₁₂|C₆H₁₂O₃|C₆H₁₂O₆|C₆H₁₃NO|C₆H₁₃NO₂|C₆H₁₄|C₆H₁₄N₂O₂|C₆H₁₄N₄O₂|C₆H₁₄O₂|C₆H₁₄O₃|C₆H₁₄O₄|C₆H₁₅NO₃|C₆H₃Br₃O|C₆H₃Cl₃O|C₆H₄BrNO₂|C₆H₄ClN₃|C₆H₄ClNO₂|C₆H₄N₄|C₆H₄O₂|C₆H₅Br|C₆H₅CH₂OH|C₆H₅CHO|C₆H₅Cl|C₆H₅COCl|C₆H₅COOH|C₆H₅F|C₆H₅I|C₆H₅NO₂|C₆H₅NO₃|C₆H₅OH|C₆H₆|C₆H₆BClO₂|C₆H₆BFO₂|C₆H₆IN|C₆H₆N₂O|C₆H₆N₂O₂|C₆H₆O|C₆H₆O₂|C₆H₆O₃|C₆H₇BO₂|C₆H₇CsO₆|C₆H₇KO₆|C₆H₇LiO₆|C₆H₇N₃O|C₆H₇NaO₆|C₆H₇RbO₆|C₆H₈N₂|C₆H₈N₂O₂S|C₆H₈O₇|C₆H₉N₃O₂|C₆H₉N₃O₃|C₆N₄|C₇₂H₁₀₀CoN₁₈O₁₇P|C₇₇H₁₂₀N₁₈O₂₆S|C₇H₁₀N₂|C₇H₁₁NO₅|C₇H₁₂N₂O₄|C₇H₁₂O₄|C₇H₁₄O₆|C₇H₁₆|C₇H₅Br₃O|C₇H₅Cl₃O|C₇H₅F₃O|C₇H₅FO₂|C₇H₅N₃O₂|C₇H₅NO₄|C₇H₅NS₂|C₇H₆N₂|C₇H₆O|C₇H₆O₂|C₇H₆O₃|C₇H₆O₄|C₇H₆O₅|C₇H₇BO₄|C₇H₇N₃|C₇H₇NO₂|C₇H₇NO₃|C₇H₈|C₇H₈ClN₃O₄S₂|C₇H₈N₄O₂|C₇H₉BO₂|C₇H₉BO₃|C₈₃H₁₃₁N₁₉O₂₇S|C₈H₁₀N₄O₂|C₈H₁₁N₅O₃|C₈H₁₁NO|C₈H₁₆O₂|C₈H₁₆O₆|C₈H₁₈|C₈H₅F₃N₂OS|C₈H₅NO₂|C₈H₆BrN|C₈H₆Cl₂O₃|C₈H₆ClN|C₈H₆N₂O|C₈H₆N₂O₂|C₈H₇N|C₈H₇NO|C₈H₈|C₈H₈N₂OS|C₈H₈O₃|C₈H₈O₄|C₈H₉NO₂|C₉H₁₀O|C₉H₁₀O₃|C₉H₁₁NO₂|C₉H₁₁NO₃|C₉H₁₁NO₄|C₉H₁₇NO₂|C₉H₁₈N₂O₂|C₉H₂₀|C₉H₆BrN|C₉H₆N₂|C₉H₆O₃|C₉H₆OS|C₉H₇NO|C₉H₇NO₂|C₉H₈N₂|C₉H₈O₂|C₉H₈O₃|C₉H₈O₄|C₉H₉N|C₉H₉NO|C₉H₉NO₃|Ca₃N₂|Ca₃P₂|CaAl₂O₄|CaB₆|CaBr₂|CaC₂|CaC₂O₄|CaCl₂|CaCN₂|CaCO₃|CaF₂|CaH₂|CaHPO₄|CaI₂|CaMoO₄|CaO₂|CaSeO₃|CaSeO₄|CaSiO₃|CaSO₃|CaSO₄|CaTeO₃|CaTeO₄|CaTiO₃|CaWO₄|CCl₂F₂|CCl₄|Cd₂Nb₂O₇|Cd₃As₂|Cd₃P₂|CdBr₂|CdC₂O₄|CdCl₂|CdCO₃|CdCrO₄|CdF₂|CdI₂|CdMoO₄|CdSeO₃|CdSiO₃|CdSO₃|CdSO₄|CdTeO₄|CdTiO₃|CdWO₄|CdZrO₃|Ce₂C₃|Ce₂O₃|Ce₂S₃|CeB₆|CeBr₃|CeCl₃|CeF₃|CeF₄|CeI₂|CeI₃|CeO₂|CeSi₂|CF₃Cl|CF₄|CFCl₂CF₂Cl|CFCl₃|CH₂CHCHCH₂|CH₂CHOH|CH₂Cl₂|CH₂ClCOOH|CH₂ClF|CH₂CO|CH₂O|CH₂OHCH₂OH|CH₃CCH|CH₃CdCH₃|CH₃CH₂Br|CH₃CH₂CH₂CH₂OH|CH₃CH₂CH₂OH|CH₃CH₂CONH₂|CH₃CH₂COOH|CH₃CH₂OCH₂CH₃|CH₃CH₂OH|CH₃CHCH₂|CH₃CHCHCH₃|CH₃CHO|CH₃Cl|CH₃CN|CH₃COCH₃|CH₃COCl|CH₃CONH₂|CH₃COOCH₂C₆H₅|CH₃COOCH₃|CH₃COOCHCH₂|CH₃COOCs|CH₃COOH|CH₃COOK|CH₃COONa|CH₃COORb|CH₃HgCH₃|CH₃I|CH₃NH₂|CH₃NO|CH₃OCH₃|CH₃OCs|CH₃OH|CH₃OK|CH₃OLi|CH₃ONa|CH₃ORb|CH₃SCH₃|CH₃SH|CH₄|CH₄N₂O₂|CH₅N₃|CHCl₃|CHClF₂|Cl₂|Cl₂O₃|Cl₂O₆|Cl₂O₇|Cl₂O₈|ClF₃|ClF₅|ClO₂|ClO₃F|ClOClO₃|CO₂|Co₂B|Co₂S₃|Co₂SiO₄|Co₂SnO₄|Co₂SO₄|Co₂TiO₄|CO₃|CoAl₂O₄|CoAs₂|CoBr₂|CoC₂O₄|CoCl₂|COCl₂|CoCr₂O₄|CoCrO₄|CoF₂|CoF₃|CoI₂|CoMoO₄|CoS₂|CoSeO₃|CoTiO₃|CoWO₄|Cr₂O₃|Cr₂S₃|Cr₂Se₃|Cr₂Te₃|Cr₃As₂|Cr₃C₂|Cr₃Sb₂|CrBr₂|CrBr₃|CrCl₂|CrCl₃|CrCl₄|CrF₂|CrF₃|CrF₄|CrF₅|CrF₆|CrI₂|CrI₃|CrO₂|CrO₂Cl₂|CrO₃|CrPO₄|CrSi₂|CrVO₄|CS₂|Cs₂C₂O₄|Cs₂CO₃|Cs₂Cr₂O₇|Cs₂CrO₄|Cs₂HPO₃|Cs₂HPO₄|Cs₂MoO₄|Cs₂NbO₃|Cs₂O|Cs₂O₂|Cs₂S|Cs₂SiO₃|Cs₂SO₃|Cs₂SO₄|Cs₂TeO₄|Cs₂TiO₃|Cs₂WO₄|Cs₃PO₃|Cs₃PO₄|Cs₃VO₄|CsBO₂|CsBr₃|CsBrO₂|CsBrO₃|CsBrO₄|CsC₂H₃O₂|CsClO₂|CsClO₃|CsClO₄|CsH₂PO₃|CsH₂PO₄|CsHCO₃|CsHSO₃|CsHSO₄|CsI₃|CsIO₂|CsIO₃|CsIO₄|CsN₃|CsNbO₃|CsNH₂|CsNO₂|CsNO₃|CsO₂|CsSeO₄|CsTaO₃|Cu₂O|Cu₂S|Cu₂Se|Cu₂Te|Cu₃As|Cu₃P|Cu₃Sb|Cu₉S₅|CuBr₂|CuC₂O₄|CuCl₂|CuF₂|CuFe₂O₄|CuFe₂S₃|CuFeS₂|CuIO₃|CuMoO₄|CuSiO₃|CuSO₄|CuTeO₃|CuTiO₃|CuWO₄|D₂O|Dy₂O₃|Dy₂S₃|DyBr₃|DyCl₂|DyCl₃|DySi₂|ErCl₃|ErF₂|ErF₃|ErI₃|ErI₄Na|Eu₂O|Eu₂O₂|Eu₂O₃|Eu₂S|Eu₂S₂|EuCl₂|EuCl₃|EuF₃|EuI₂|EuNb₂O₆|EuNbO₂|EuO₂V|EuO₃Ti|EuO₃V|EuO₄W|EuS₂|EuSO₄|F₁₀Mo₂|F₁₀S₂|F₁₅Mo₃|F₂|F₂Fe|F₂Ga|F₂Gd|F₂Ge|F₂GeO|F₂Hg|F₂Hg₂|F₂Ho|F₂IP|F₂K₂|F₂Kr|F₂La|F₂Li₂|F₂Mg|F₂Mn|F₂Mo|F₂MoO₂|F₂N|F₂N₂O|F₂Na₂|F₂Nd|F₂Ni|F₂O|F₂O₂|F₂O₂S|F₂O₂W|F₂O₅S₃|F₂OS|F₂OSi|F₂OTi|F₂P|F₂Pb|F₂Pt|F₂Pu|F₂S|F₂S₂|F₂S₂W|F₂Sc|F₂Se|F₂Si|F₂Sn|F₂Sr|F₂SW|F₂Th|F₂Ti|F₂Tl₂|F₂W|F₂Xe|F₂Y|F₂Zn|F₂Zr|F₃Fe|F₃Ga|F₃Gd|F₃Ho|F₃La|F₃Li₃|F₃Lu|F₃Mn|F₃Mo|F₃MoO|F₃MoS|F₃N|F₃NaSn|F₃Nd|F₃NO|F₃NO₂S|F₃NO₃S|F₃NS|F₃OP|F₃OTa|F₃OV|F₃P|F₃Pr|F₃PS|F₃Pu|F₃Rh|F₃S|F₃Sb|F₃Sc|F₃Si|F₃Sm|F₃SW|F₃Tb|F₃Th|F₃Ti|F₃Tl|F₃Tm|F₃W|F₃Y|F₃Yb|F₃Zr|F₄Ge|F₄Ge₂|F₄Hf|F₄Mg₂|F₄Mo|F₄MoO|F₄MoS|F₄N₂|F₄Na₂Sn|F₄OOs|F₄OP₂|F₄ORe|F₄OS|F₄OW|F₄OXe|F₄P₂|F₄Pb|F₄Pt|F₄Pu|F₄S|F₄Se|F₄Si|F₄Sn₂|F₄SW|F₄Ti|F₄U|F₄W|F₄Xe|F₄Zr|F₅I|F₅Mo|F₅ORe|F₅P|F₅Pu|F₅S|F₅Sb|F₅Ta|F₅U|F₅W|F₆Fe₂|F₆La₂|F₆Mo|F₆NP₃|F₆Os|F₆Pu|F₆Re|F₆S|F₆Se|F₆Si₂|F₆Sn₃|F₆Te|F₆U|F₆W|F₆Xe|F₇I|F₇NS|F₇Re|F₈Si₃|Fe₂I₂|Fe₂I₄|Fe₂O₁₂S₃|Fe₂O₁₂W₃|Fe₂O₃|Fe₂P|Fe₂SiO₄|Fe₃H₂Na₂O₄₅Si|Fe₃O₄|Fe₃P|Fe₇Si₈O₂₄H₂|FeBr₂|FeBr₃|FeC₁₀H₁₀|FeC₂O₄|FeC₅O₅|FeCl₂|FeCl₃|FeCO₃|FeCr₂O₄|FeF₂|FeI₂|FeI₃|FeMoO₄|FeO₂|FeO₂H|FeO₄S|FeO₄Se|FeO₈H₄P₂|FePO₄|FeS₂|FeTiO₃|FeVO₄|FeWO₄|FeZrO₃|FI₂|FLi₂|FMnO₃|FNa₂|FNO₂|FNO₃|FO₂|FO₃S|FPS₂|Ga₂O₃|Ga₂S₃|Ga₂Te₃|GaAsO₄|GaBr₃|GaCl₂|GaI₂|GaI₃|GaPO₄|GeBr₄|GeH₃COOH|GeI₂|GeI₄|H₂|H₂C₂O₄|H₂C₄H₄O₆|H₂C₈H₄O₄|H₂CO|H₂CO₃|H₂CrO₄|H₂CSO|H₂N₂O₂|H₂NCH₂COOH|H₂NNH₂|H₂O|H₂O₂|H₂S|H₂S₂O₂|H₂S₂O₃|H₂S₂O₄|H₂S₂O₅|H₂S₂O₆|H₂S₂O₇|H₂S₂O₈|H₂SeO₃|H₂SeO₄|H₂SiO₃|H₂SO₃|H₂SO₄|H₂TeO₃|H₂TiO₃|H₃AsO₄|H₃CCH₂CH₃|H₃PO₂|H₃PO₃|H₃PO₄|H₄XeO₆|H₆TeO₆|HBrO₂|HBrO₃|HBrO₄|HC₁₂H₁₇ON₄SCl₂|HC₃H₅O₃|HC₆H₇O₆|HC₉H₇O₄|HClO₂|HClO₃|HClO₄|HCONH₂|HCOONH₄|HfBr₄|HfF₄|Hg₂Br₂|Hg₂Cl₂|Hg₂I₂|HgBr₂|HgCl₂|HgI₂|HgSeO₃|HgTeO₃|HgWO₄|HIO₂|HIO₃|HIO₄|HN₃|HNO₂|HNO₃|I₂|I₂O₅|IBr₃|ICl₃|In₂O₃|In₂S₃|In₂Se₃|In₂Te₃|InBr₂I|InBr₃|InBrI₂|InCl₂|InCl₃|InI₂|InI₃|InPO₄|IrBr₃|K₂CO₃|K₂Cr₂O₇|K₂CrO₄|K₂HAsO₄|K₂HPO₃|K₂HPO₄|K₂MnO₄|K₂N₂O₂|K₂O|K₂O₂|K₂S|K₂S₂O₃|K₂S₂O₅|K₂S₂O₈|K₂SO₃|K₂SO₄|K₃AsO₄|K₃C₆H₅O₇|K₃PO₃|K₃PO₄|KAsO₂|KBrO₂|KBrO₃|KBrO₄|KClO₂|KClO₃|KClO₄|KH₂AsO₄|KH₂PO₃|KH₂PO₄|KHCO₃|KHSO₃|KHSO₄|KIO₂|KIO₃|KIO₄|KMnO₄|KNbO₃|KNO₂|KNO₃|La₂O₃|LaBr₃|LaCl₃|LaI₃|LaPO₄|Li₂CO₃|Li₂Cr₂O₇|Li₂CrO₄|Li₂HAsO₄|Li₂HPO₃|Li₂HPO₄|Li₂MoO₄|Li₂N₂O₂|Li₂NbO₃|Li₂O|Li₂O₂|Li₂S|Li₂SeO₃|Li₂SeO₄|Li₂SiO₃|Li₂SO₃|Li₂SO₄|Li₂TeO₃|Li₂TeO₄|Li₂TiO₃|Li₂WO₄|Li₂ZrO₃|Li₃AsO₄|Li₃PO₃|Li₃PO₄|LiAlH₄|LiBH₄|LiBrO₂|LiBrO₃|LiBrO₄|LiC₂H₅O|LiClO₂|LiClO₃|LiClO₄|LiH₂AsO₄|LiH₂PO₃|LiH₂PO₄|LiHCO₃|LiHSO₃|LiHSO₄|LiIO₂|LiIO₃|LiIO₄|LiNbO₃|LiNO₂|LiNO₃|LiTaO₃|Mg₂P₂O₇|Mg₂SiO₄|Mg₃As₂|Mg₃Bi₂|Mg₃P₂|MgBr₂|MgC₂O₄|MgCl₂|MgCO₃|MgCrO₄|MgF₂|MgHPO₄|MgI₂|MgMoO₄|MgSeO₃|MgSeO₄|MgSiO₃|MgSO₃|MgSO₄|MgTiO₃|MgWO₄|Mn₂O₃|Mn₃As₂|Mn₃O₄|Mn₃P₂|Mn₃Sb₂|MnBr₂|MnCl₂|MnCO₃|MnF₂|MnI₂|MnMoO₄|MnO₂|MnZrO₃|MoBr₂|MoBr₃|MoCl₂|MoCl₃|MoCl₅|MoO₂|MoO₃|MoS₂|MoSe₂|N₂|N₂H₂|N₂H₄|N₂O|N₂O₃|N₂O₄|N₂O₅|N₄H₄|Na₂C₂O₄|Na₂C₆H₆O₇|Na₂CO₃|Na₂HAsO₄|Na₂HPO₃|Na₂HPO₄|Na₂MoS₄|Na₂N₂O₂|Na₂O|Na₂O₂|Na₂S|Na₂S₂O₃|Na₂S₂O₅|Na₂S₂O₈|Na₂S₄|Na₂SeO₃|Na₂SeO₄|Na₂SO₃|Na₂SO₄|Na₂TeO₃|Na₂TeO₄|Na₂TiO₃|Na₂ZnO₂|Na₂ZrO₃|Na₃AlF₆|Na₃AsO₄|Na₃C₆H₅O₇|Na₃PO₃|Na₃PO₄|Na₃VO₄|Na₄V₂O₇|NaAlSi₃O₃|NaAsO₂|NaBrO₂|NaBrO₃|NaBrO₄|NaC₆F₅COO|NaC₆H₅COO|NaC₆H₇O₇|NaCl|NaClO₂|NaClO₃|NaClO₄|NaH₂AsO₄|NaH₂PO₃|NaH₂PO₄|NaHCO₃|NaHSO₃|NaHSO₄|NaIO₂|NaIO₃|NaIO₄|NaNbO₃|NaNH₂C₆H₄SO₃|NaNO₂|NaNO₃|NaSeO₃|NaTaO₃|NaVO₃|Nb₂O₃|NbBr₅|NbCl₃|NbCl₅|NbI₅|NCl₃|Nd₂O₃|NdCl₂|NdI₂|NH₂C₆H₄SO₃H|NH₂CH₂CH₂NH₂|NH₂CH₂CN|NH₂Cl|NH₂CONH₂|NH₂COOH|NH₂OH|NH₃|NH₄Br|NH₄Cl|NH₄ClO₄|NH₄CO₂NH₂|NH₄HS|NH₄NO₃|NH₄OCONH₂|NH₄OH|NHCl₂|Ni₂SiO₄|NI₃|Ni₃Sb₂|NiBr₂|NiCl₂|NiFe₂O₄|NiI₂|NiMoO₄|NiS₂|NiSO₄|NiTiO₃|NiWO₄|NO₂|NO₂Cl|O₂|O₂F₂|O₃|OF₂|P₂I₄|P₂O₅|P₂S₃|P₂Se₃|P₃N₅|PbC₂O₄|PbCl₂|PbCl₄|PbCO₃|PbCrO₄|PbF₂|PbHAsO₄|PbI₂|PbO₂|PbSO₄|PCl₃|PCl₅|PH₃|PoBr₂|PoCl₂|POCl₃|PoCl₄|PoF₆|PoH₂|PoO₂|PoO₃|RaCl₂|Rb₂CO₃|Rb₂HPO₃|Rb₂HPO₄|Rb₂O|Rb₂O₂|Rb₂S|Rb₂SO₃|Rb₂SO₄|Rb₃PO₃|Rb₃PO₄|RbBrO₂|RbBrO₃|RbBrO₄|RbClO₂|RbClO₃|RbClO₄|RbH₂PO₃|RbH₂PO₄|RbHCO₃|RbHSO₃|RbHSO₄|RbIO₂|RbIO₃|RbIO₄|RbNbO₃|RbNO₂|RbNO₃|RnF₂|RuCl₃|RuF₆|RuO₄|S₂Br₂|Sb₂O₃|Sb₂O₅|Sb₂OS₂|Sb₂S₃|Sb₂Se₃|Sb₂Se₅|Sb₂Te₃|SbBr₃|SbCl₃|SbCl₅|SbI₃|SbPO₄|Sc₂O₃|SeBr₄|SeCl₄|SeO₂|SeOCl₂|SeOF₂|SF₄|SF₆|Si₃N₄|SiBr₄|SiCl₄|SiH₄|SiI₄|SiO₂|Sn₃Sb₄|SnBr₂|SnBr₂Cl₂|SnBr₃Cl|SnBr₄|SnBrCl₃|SnCl₂|SnCl₂I₂|SnCl₄|SnI₄|SnO₂|SnS₂|SnSe₂|SnTe₄|SO₂|SO₂Cl₂|SO₂F₂|SO₃|SOF₂|Sr₂RuO₄|SrBr₂|SrC₂O₄|SrCl₂|SrCO₃|SrF₂|SrHfO₃|SrI₂|SrMoO₄|SrSeO₃|SrSeO₄|SrTeO₃|SrTeO₄|SrTiO₃|T₂O|TaBr₃|TaBr₅|TaCl₅|TaI₅|TeBr₂|TeBr₄|TeCl₂|TeCl₄|TeI₂|TeI₄|TeO₂|ThO₂|TiBr₄|TiCl₂I₂|TiCl₃I|TiCl₄|TiH₂|TiI₄|TiO₂|Tl₂MoO₄|Tl₂SeO₃|Tl₂TeO₃|Tl₂WO₄|Tl₃As|TlBr₃|TlC₂H₃O₂|TlCl₃|TlI₃|TlIO₃|TlNO₃|TlPF₆|TmCl₃|U₃O₈|UBr₂|UBr₃|UBr₅|UC₂|UCl₃|UCl₄|UF₄|UF₆|UI₃|UO₂|UO₂Cl₂|UO₂SO₄|UO₃|US₂|USe₂|UTe₂|V₂O₃|V₂O₅|VBr₂|VBr₃|VCl₂|VCl₃|VI₃|VOC₂O₄|VOSO₄|WBr₂|WBr₃|WBr₄|WBr₅|WBr₆|WCl₂|WCl₃|WCl₄|WCl₅|WCl₆|WF₄|WF₅|WF₆|WI₂|WI₄|WO₂|WO₂Br₂|WO₂Cl₂|WO₂I₂|WO₃|WOBr₃|WOBr₄|WOCl₃|WOCl₄|WOF₄|WS₂|WS₃|WSe₂|WTe₂|Y₂O₃|Y₂S₃|Yb₂O₃|Yb₂S₃|Yb₂Se₃|YB₆|YbBr₂|YbBr₃|YbCl₂|YbCl₃|YbF₂|YbF₃|YbI₂|YbI₃|YbPO₄|YBr₃|YbSi₂|YC₂|YCl₃|YF₃|YVO₄|Zn₂P₂O₇|Zn₂SiO₄|Zn₃As₂|Zn₃N₂|Zn₃P₂|Zn₃Sb₂|ZnBr₂|ZnCl₂|ZnCO₃|ZnCr₂O₄|ZnF₂|ZnI₂|ZnMoO₄|ZnO₂|ZnS₂O₃|ZnSeO₃|ZnSeO₄|ZnSnO₃|ZnSO₃|ZnSO₄|ZnTeO₃|ZnTeO₄|ZnTiO₃|ZnWO₄|ZnZrO₃|ZrB₂|ZrBr₄|ZrCl₄|ZrF₄|ZrI₄|ZrO₂|ZrP₂|ZrS₂|ZrSi₂|ZrSiO₄</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+</rules>

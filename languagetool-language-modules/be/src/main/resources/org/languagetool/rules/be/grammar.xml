@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+  Belarusian rules for LanguageTool
+  Copyright (C) 2010 Alex Buloichik (alex73mail@gmail.com)
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+
+<rules lang="be" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+    
+    <category id="CAT1" name="Правапіс">
+        <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[уеыаоэяіюё]у.*</token>
+                </pattern>
+                <message>Пасьля галoсных літараў замест 'у' трэба пісаць 'ў': <suggestion><match no="1" regexp_match="(.*[уеыаоэяію])у(.*)" regexp_replace="$1ў$2" /></suggestion></message>
+                <short>У замест ў</short>
+                <example>Таўэр</example>
+                <example correction="Таўэр"><marker>Тауэр</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[уеыаоэяіюё]</token>
+                    <token regexp="yes">у.*</token>
+                </pattern>
+                <message>Пасьля галoсных літараў замест 'у' трэба пісаць 'ў': <suggestion><match no="1" /> <match no="2" regexp_match="[Уу](.*)" case_conversion="preserve" regexp_replace="ў$1" /></suggestion></message>
+                <short>У замест ў</short>
+                <example>да ўвагі</example>
+                <example correction="да ўвагі"><marker>да увагі</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^уеыаоэяіюё]ў.*</token>
+                </pattern>
+                <message>Пасьля зычных літараў, нялітарных знакаў і знакаў прыпынку трэба пісаць літару 'у': <suggestion><match no="1" regexp_match="(.*[^уеыаоэяію])ў(.*)" regexp_replace="$1у$2" /></suggestion></message>
+                <short>Ў замест у</short>
+                <example>дзядуля</example>
+                <example correction="дзядуля"><marker>дзядўля</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^уеыаоэяіюё]</token>
+                    <token regexp="yes">ў.*</token>
+                </pattern>
+                <message>Пасьля зычных літараў, нялітарных знакаў і знакаў прыпынку трэба пісаць літару 'у' <suggestion><match no="1" /> <match no="2" regexp_match="ў(.*)" regexp_replace="у$1" /></suggestion></message>
+                <short>Ў замест у</short>
+                <example>ён у Полацку</example>
+                <example correction="ён у"><marker>ён ў</marker> Полацку</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="Беларускае і" id="I">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*и.*</token>
+                </pattern>
+                <message>Павінна быць 'і' замест 'и': <suggestion><match no="1" regexp_match="(.*)и(.*)" regexp_replace="$1і$2" /></suggestion></message>
+                <short>И замест і</short>
+                <example>iншыя</example>
+                <example correction="іншыя"><marker>иншыя</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="Щ" id="SCH">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(.*)щ(.*)</token>
+                </pattern>
+                <message>Павінна быць 'шч' замест 'щ': <suggestion><match no="1" regexp_match="(.*)щ(.*)" regexp_replace="$1шч$2" /></suggestion></message>
+                
+                <short>Щ замест шч</short>
+                <example>шчавель</example>
+                <example correction="шчавель"><marker>щавель</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="рі" id="RI">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(.*)рі(.*)</token>
+                </pattern>
+                <message>Неўласьцівае беларускае мове злучэньне літараў: 'рі'.</message>
+                
+                <short>'рі' немагчыма вымавіць</short>
+                <example>крытыка</example>
+                <example correction=""><marker>крітыка</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

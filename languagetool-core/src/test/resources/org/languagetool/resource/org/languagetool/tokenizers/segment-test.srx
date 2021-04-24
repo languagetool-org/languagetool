@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srx xmlns="http://www.lisa.org/srx20" xmlns:okpsrx="http://okapi.sf.net/srx-extensions" version="2.0">
+    <header segmentsubflows="yes" cascade="yes">
+        <formathandle type="start" include="no"/>
+        <formathandle type="end" include="yes"/>
+        <formathandle type="isolated" include="no"/>
+    </header>
+    <body>
+        <languagerules>
+
+            <languagerule languagerulename="ByLineBreak">
+                <rule break="yes">
+                    <beforebreak>\r?\n</beforebreak>
+                    <afterbreak/>
+                </rule>
+            </languagerule>
+            
+            <languagerule languagerulename="ByTwoLineBreaks">
+                <rule break="yes">
+                    <beforebreak>\r?\n\s*\r?\n[\t]*</beforebreak>
+                    <afterbreak/>
+                </rule>
+            </languagerule>
+            
+            <languagerule languagerulename="TestLanguage">
+                <rule break="no">
+                    <beforebreak>\b(fooabbr|barabbr)\.\s</beforebreak>
+                    <afterbreak/>
+                </rule>
+                <rule break="yes">
+                    <beforebreak>[\.!?…]\s</beforebreak>
+                    <afterbreak/>
+                </rule>
+            </languagerule>
+            
+        </languagerules>
+        <maprules>
+            <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"/>
+            <languagemap languagepattern="[a-z]{2}_two" languagerulename="ByTwoLineBreaks"/>
+            <languagemap languagepattern="yy.*" languagerulename="TestLanguage"/>
+        </maprules>
+    </body>
+</srx>

@@ -1,0 +1,94 @@
+<!--
+Simple XML output format for the 'api' option of
+LanguageTool (https://www.languagetool.org). Version 1.5 of the XML, 2016-03-21
+
+*** WARNING ***
+Using this format is deprecated. It is now only used by the '-api' 
+command line call. Please do not rely on it anymore. The server has
+been switched to reply with JSON only: https://languagetool.org/http-api/migration.php
+*** WARNING ***
+-->
+
+<!ELEMENT matches ((language)?, (error)*)>
+
+<!ATTLIST matches software CDATA #REQUIRED>
+<!ATTLIST matches version CDATA #REQUIRED>
+<!ATTLIST matches buildDate CDATA #REQUIRED>
+
+<!-- A (potential) error. -->
+<!ELEMENT error EMPTY>
+
+<!-- The line in which the error starts. Counting starts at 0. -->
+<!ATTLIST error fromy CDATA #REQUIRED>
+<!-- The column in which the error starts. Counting starts at 0. -->
+<!ATTLIST error fromx CDATA #REQUIRED>
+<!-- The line in which the error ends: -->
+<!ATTLIST error toy CDATA #REQUIRED>
+<!-- The column in which the error ends: -->
+<!ATTLIST error tox CDATA #REQUIRED>
+
+<!-- An internal ID that refers to the error rule: -->
+<!ATTLIST error ruleId CDATA #REQUIRED>
+
+<!-- An internal ID that refers to the sub error rule id: -->
+<!ATTLIST error subId CDATA #IMPLIED>
+
+<!-- The message describing the error that will be displayed to the user. -->
+<!ATTLIST error msg CDATA #REQUIRED>
+
+<!-- An optional short version of 'msg' (added in LanguageTool 3.3). -->
+<!ATTLIST error shortmsg CDATA #IMPLIED>
+
+<!-- One or more suggestions to fix the error. If there is more than one
+suggestion, the strings are separated by a "#" character: -->
+<!ATTLIST error replacements CDATA #IMPLIED>
+
+<!-- The context or sentence in which the error occurs. -->
+<!ATTLIST error context CDATA #REQUIRED>
+
+<!-- The position of the start of the error in the 'context'
+attribute. Counting starts at 0. -->
+<!ATTLIST error contextoffset CDATA #REQUIRED>
+
+<!-- The position of the start of the error in the input text.
+Counting starts at 0. (added in LanguageTool 1.9) -->
+<!ATTLIST error offset CDATA #REQUIRED>
+
+<!-- The length of the error in the input text. -->
+<!ATTLIST error errorlength CDATA #REQUIRED>
+
+<!-- The url with additional information that may be given. -->
+<!ATTLIST error url CDATA #IMPLIED>
+
+<!-- The category of the match, if any (added in LanguageTool 1.9). -->
+<!ATTLIST error category CDATA #IMPLIED>
+
+<!-- The id of the category of the match (currently optional; added in LanguageTool 3.3). -->
+<!ATTLIST error categoryid CDATA #IMPLIED>
+
+<!-- Localization Quality Issue Type, according to Internationalization
+ Tag Set (ITS) Version 2.0,
+ see http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues
+ (added in LanguageTool 2.0).
+ *** Please consider this to be a prototypical implementation for now ***
+ -->
+<!ATTLIST error locqualityissuetype CDATA #IMPLIED>
+
+<!-- The language of the match (added in LanguageTool 2.0). -->
+<!ELEMENT language EMPTY>
+
+<!-- The short name of the text language. -->
+<!ATTLIST language shortname CDATA #REQUIRED>
+
+<!-- The English name of the text language. -->
+<!ATTLIST language name CDATA #REQUIRED>
+
+<!-- The short name of the mother tongue. -->
+<!ATTLIST language mothertongueshortname CDATA #IMPLIED>
+
+<!-- The English name of the mother tongue. -->
+<!ATTLIST language mothertonguename CDATA #IMPLIED>
+
+<!-- Note that the XML output may contain XML comments with
+additional information like timing and debugging information.
+These can be ignored. -->

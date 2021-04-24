@@ -1,0 +1,93 @@
+regula esprimo de POS   priskribo kaj ekzemploj
+---------------------   -----------------------
+K                       konjunkcioj (kaj, aŭ, tamen...)
+
+P kak                   prepozicio kiu povis havi akuzativon poste (sur, en, ...)
+P sak                   prepozicio kiu ne povas akuzativon poste (al, de, ...)
+
+N                       nombraj vortetoj (unu, du, tri, kvar, kvin, ...)
+
+D                       Deteminativo (la, l’)
+
+R ... ..                pronomo (mi, ni, ci, vi, li, ŝi, ili, oni, min, nin, ...)
+R ... ..                pronomo (mi, ni, min, nin)
+R ... ..                pronomo (ci, vi, cin, vin)
+R ... ..                pronomo (li, ŝi, ili, lin, ŝin, ilin, oni, onin)
+R ... pl                pronomo plurala (ni, ili)
+R ... np                pronomo singulara (mi, ci, li, ŝi, oni)
+R ... pn                pronomo singulara aŭ pluralo (vi)
+R akz ..                pronomo akuzativa (min, nin, ...)
+R nak ..                pronomo neakuzativa (mi, ni, ...)
+
+V tr .*                 verbo transitiva (havas, ŝanĝas, ...)
+V nt .*                 verbo netransitiva (estas, okazas, iĝas, ...)
+V tn .*                 verbo transitiva aŭ netransitiva.
+V xx .*                 verbo kun nekonta transitiveco.
+V .. as                 verbo kun -as finaĵo
+V .. is                 verbo kun -is finaĵo
+V .. os                 verbo kun -os finaĵo
+V .. us                 verbo kun -us finaĵo
+V .. u                  verbo kun -u finaĵo
+V .. i                  verbo kun -i finaĵo
+
+C ... .. .. . . .       particopo
+C akz .. .. . . .       participo kun akuzativo (-antan)
+C nak .. .. . . .       participo sen akuzativo (-anta)
+C ... pl .. . . .       participo plurala (-antaj)
+C ... np .. . . .       participo neplurala (-anta)
+C ... .. tr . . .       participo kun transitiva verbo
+C ... .. nt . . .       participo kun netransitiva verbo
+C ... .. tn . . .       participo kun verbo ambaŭ transitiva kaj ne transitiva
+C ... .. xx . . .       participo kun verbo nekonata
+C ... .. .. a . .       -ata, -anta
+C ... .. .. i . .       -ita, -inta
+C ... .. .. o . .       -ota, -onta
+C ... .. .. . n .       aktiva participo -anta
+C ... .. .. . - .       pasiva participo -ata
+C ... .. .. . . e       -ante
+C ... .. .. . . a       -anta
+C ... .. .. . . o       -anto
+
+
+O ... ..                o-vorto
+O ... pl                o-vorto plurala
+O ... np                o-vorto singulara
+O akz ..                o-vorto akuzativa
+O nak ..                o-vorto neakuzativa
+     
+A ... ..                a-vorto
+A ... pl                a-vorto plurala     
+A ... np                a-vorto singulara   
+A akz ..                a-vorto akuzativa  
+A nak ..                a-vorto neakuzativa 
+
+E ...                   e-vorto
+E akz                   e-vorto kun akuzativo
+E nak                   e-vorto sen akuzativo
+
+T ... .. . .*                  Tabelvorto: tio, ĉio, kiom, ...
+T ... .. t .*                  Tabelvorto: tio, tiu, tien, ...
+T ... .. k .*                  Tabelvorto: kio, kiu, kien, ...
+T ... .. ĉ .*                  Tabelvorto: ĉio, ĉiu, ĉien, ...
+T ... .. i .*                  Tabelvorto: io, iu, ie, ...
+T ... .. n .*                  Tabelvorto: nenio, neniu, nenie, ...
+T ... pl . .*                  Tabelvorto plurala: tiuj, tiajn, ...
+T ... np . .*                  Tabelvorto singulara : tie, tiu, tion, ...
+T akz .. . .*                  Tabelvorto akuzativa (tien, tion, ...)
+T nak .. . .*                  Tabelvorto neakuzativa (tie, tiuj...)
+T ... .. . (a|e|o|u|el|es|am)  Tabelvorto: tia, kien, ĉion, neniam, ...
+
+_                       aliaj vortoj (ajn, ĉi, des, ja, ke, ol, pli, plej...)
+
+For convenience in pattern matching, postags follow those rules:
+- All postag start with a single uppercase letter.
+  Rationale: allow pattern matching to use things like [AO] for example
+  rather than slower disjunctions (xx|yyy).
+- When a postag can have accusative (-n), "akz" or "nak" is always in second 
+  column using 3 letters.
+  Rationale: allows checking whether token of multiple kinds are in accusative
+  form or not with a simple regex such as: "[AOCT] akz.*".
+- When a postag can have plural form (-j), "pl", "np" or "pn" is always
+  in the 3rd column using 2 letters.
+  Rationale: allow checking whether token of different kind are plural or
+  not with a simple regex such as "[AOCTR] ... pl.*".

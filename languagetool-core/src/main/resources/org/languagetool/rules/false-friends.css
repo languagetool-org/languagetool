@@ -1,0 +1,160 @@
+rulegroup, rulegroup.rule, rules, pattern {
+    display: block;
+    padding-bottom: 20;
+    collapsible: yes;
+}
+
+pattern:before {
+	content: list(attribute, lang,
+		values, "en\A de\A fr\A es\A pl\A sv\A gl\A da\A nl\A pt",
+		rows, 1,
+		selection, single)
+	insert-button()
+	collapser() " ";
+}
+
+translation:before {
+	content: list(attribute, lang,
+		values, "en\A de\A fr\A es\A pl\A sv\A gl\A da\A nl\A pt",
+		rows, 1,
+		selection, single)
+	insert-after-button()
+	collapser() " ";
+	}
+
+exception, token, translation {
+    display: block;
+    font-size: smaller;
+    padding: 1px; /* Needed to display the red border of the selection */
+}
+
+exception:before {
+	display: inline-block;
+	content: "Exception: "
+			check-box(label, "negated"
+				attribute, negate,
+                checked-value, "yes",
+                remove-value, "yes")
+				check-box(label, "regexp", 
+					   attribute, regexp, 
+                       checked-value, "yes",
+                       remove-value, "yes")
+				check-box(label, "inflected", 
+					   attribute, inflected, 
+                       checked-value, "yes",
+                       remove-value, "yes")
+				check-box(label, "postag_regexp", 
+					   attribute, postag_regexp, 
+                       checked-value, "yes",
+                       remove-value, "yes")
+				text-field(attribute, postag,
+					columns, 15)
+                remove-attribute-button(attribute, postag)				
+				check-box(label, "negated POS", 
+					attribute, negate_pos,
+                    checked-value, "yes",
+                    remove-value, "yes")
+				radio-buttons(attribute, scope,
+					values, "current\A next\A previous",
+					checked-value, "current")						
+				;
+			background-color: rgb(195, 217, 255);			
+}
+
+token:before {
+	display: inline-block;
+	content: "Token: "
+				insert-before-button()
+				check-box(label, "negated"
+				attribute, negate,
+                       checked-value, "yes",
+                       remove-value, "yes")
+				check-box(label, "regexp", 
+					   attribute, regexp, 
+                       checked-value, "yes",
+                       remove-value, "yes")
+				check-box(label, "inflected", 
+					   attribute, inflected, 
+                       checked-value, "yes",
+                       remove-value, "yes")
+				check-box(label, "postag_regexp", 
+					   attribute, postag_regexp, 
+                       checked-value, "yes",
+                       remove-value, "yes")
+				text-field(attribute, postag,
+					columns, 15)
+                remove-attribute-button(attribute, postag)									
+				check-box(label, "negated POS", 
+					attribute, negate_pos,
+                    checked-value, "yes",
+                       remove-value, "yes")
+				"skip: "				
+				number-field(attribute, skip,
+				data-type, int, columns, 1,
+				remove-value, "yes")				
+				insert-after-button()
+				insert-button()
+				;
+}
+
+example:before {
+	content: insert-before-button()
+	"Example: ";
+	font-size:smaller;
+	display:block;
+}
+
+example {	
+	border: 1 solid gray;
+	collapsible:yes;
+	padding: 2;
+    display: block;
+}
+
+example:after {
+	content:
+		"Type: "
+		radio-buttons(attribute, type,
+		values, "correct\A incorrect",
+		checked-value, "incorrect"),
+		insert-after-button();				
+	font-size: small;
+	collapsible:yes;
+	display:block;		
+}
+ 
+rulegroup:before {
+	content: text-field(attribute, id
+				columns, 10,
+           		missing-color, gray),
+			check-box(label, "Turn by default off", 
+				attribute, default,
+                checked-value, "off",
+                remove-value, "yes"),
+            insert-button();
+	display: block;
+}					
+
+rulegroup.rule:before {
+	content: "R" 
+	insert-button(),
+	insert-after-button();
+	display:block;
+	}
+
+rulegroup:after {
+	padding: 10px;
+	}
+
+* {
+    content: value-editor();
+}
+
+* {
+    display: block;
+    collapsible: yes;
+    not-collapsible-head: 1;
+    border: 1 solid gray;
+    padding: 1;
+    margin: 8 4;
+}

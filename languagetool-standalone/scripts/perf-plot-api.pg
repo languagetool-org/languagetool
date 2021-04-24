@@ -1,0 +1,25 @@
+#!/usr/bin/gnuplot
+
+reset
+set datafile separator ";"
+set terminal png size 1000,800
+set title "API Performance"
+set ylabel "seconds"
+set xlabel "date"
+set yrange [0:4]
+
+set timefmt "%Y-%m-%d %H:%M:%S"
+set xdata time
+#set timefmt "%Y%m%d"
+set format x "%d"
+
+#set key reverse Left outside
+#set grid
+
+set style data boxes
+
+plot [:] [0:] "/home/languagetool/languagetool.org/languagetool-website-2018/public/regression-tests/performance-api-recent.log" using 1:2 title "HTTP API access time" lc rgb "#ff6666", \
+  '' using 1:2 title "HTTP API access time" smooth bezier lc rgb "#000000"
+
+#plot  "/home/languagetool/languagetool.org/languagetool-website/www/regression-tests/performance-api.log" using 0:1
+#plot  "/tmp/performance-api-test.log" using 0:1

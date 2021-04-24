@@ -1,0 +1,27 @@
+# Juegos de confusión para español
+# Fuente original: data/rules/homophonedb.txt de `After the Deadline`
+# URL: http://openatd.wordpress.com/ ó https://openatd.svn.wordpress.org/atd-server/data/rules/homophonedb.txt
+# Licencia: GNU GENERAL PUBLIC LICENSE Version 2
+#
+# Formato por línea:
+# <palabra1>|<descripción1>; <palabra2>|<descripción2>; <factor>   # comentario opcional
+#   <palabra1> y <palabra2> son palabras que se pueden confundir
+#   <descripción> (opcional) definición de la palabra
+#   <factor> el factor de probabilidad de considerar el texto
+#            potencialmente correcto. Un valor alto ofrece mayor
+#            precisión aunque menos intrusión.
+#   Los valores precisión (p) e intrusión (r) [del inglés "recall"] salen de ConfusionRuleEvaluator
+#   y están basados en datos extraídos de Wikipedia, Tatoeba y Enron, normalmente de
+#   1000 oraciones aleatorias (si llegan las oraciones disponibles para el par).
+#   El número que viene tras el valor de intrusión r es el número de oraciones
+#   empleadas para la evaluación del par.
+# El orden es relevante para casos de ambigüedad como 'a', 'ah' y 'ha', donde se emplea
+# el emparejamiento que aparezca primero en este archivo.
+
+a|preposición; ah|exclamación; 10
+hala|exclamación;ala|extensión de vuelo;
+sien|parte de la cabeza;cien|número; 10
+vaca|animal;baca|dispositivo; 10
+vaya|verbo;baya|fruto;10
+cociente;coeficiente;10
+baca; vaca; 10000000;                                                                            # p=0.994, r=0.363, f0.5=0.738, 26+431, 3grams, 2019-11-29

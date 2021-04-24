@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Slovak Grammar and Typo Rules for LanguageTool
+Copyright (C) 2010 Zdenko Podobný (http://www.sk-spell.sk.cx/),
+Luboš Lehotský lubo.lehotsky (at) gmail (dot) com,
+Miloš Šrámek milos.sramek (at) soit.sk
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details. 
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+<rules lang="sk" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!--  ======================================== -->
+
+    <category id="TYPOGRAPHY" name="Typografia">
+        <rulegroup id="POCITACOVE_UVODZOVKY" name="Zameňte počítačové úvodzovky (&quot;) za slovenské">
+	    <!-- pravidlo pre uvádzacie úvodzovky -->
+            <rule>
+                <pattern>
+                    <token regexp="yes" spacebefore="yes">[\[\(]</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+
+                <message>Na tomto mieste by mali byť dolné (uvádzacie) úvodzovky: <suggestion>„</suggestion>.</message>
+
+                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
+                <example correction="„" type="incorrect">Toto je (<marker>"</marker>test").</example>
+                <example type="correct">Toto je („test“).</example>
+            </rule>
+
+	    <!-- pravidlo pre prípad medzery nasledovanej úvodzovkou'" ', 
+		 ktorý sa nedá vyriešiť pomocou regulárneho výrazu
+	    -->
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">"</token>
+                </pattern>
+
+                <message>Na tomto mieste by mali byť dolné (uvádzacie) úvodzovky: <suggestion>„</suggestion>.</message>
+
+                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
+                <example correction="„" type="incorrect">Toto je <marker>"</marker>test".</example>
+                <example type="correct">To jest „test“.</example>
+            </rule>
+
+	    <!-- pravidlo pre ukončovacie úvodzovky -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*\p{L}</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+		    <token regexp="yes" spacebefore="no">[.,:;\)\]\}\/]</token>
+                </pattern>
+
+                <message>Na tomto mieste by mali byť horné (ukončovacie) úvodzovky: <suggestion>“</suggestion>.</message>
+
+                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
+                <example correction="“" type="incorrect">Toto je („test<marker>"</marker>).</example>
+                <example type="correct">Toto je („test“).</example>
+                <example correction="“" type="incorrect">Toto je „test<marker>"</marker>.</example>
+                <example type="correct">Toto je „test“.</example>
+            </rule>
+
+	    <!-- pravidlo pre prípad úvodzovky nasledovanej medzerou '" ', 
+		 ktorý sa nedá vyriešiť pomocou regulárneho výrazu
+	    -->
+	    <rule>
+                <pattern>
+                    <token regexp="yes">.*\p{L}</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token spacebefore="yes"></token>
+                </pattern>
+
+                <message>Na tomto mieste by mali byť horné (ukončovacie) úvodzovky:
+                    <suggestion>“</suggestion>.</message>
+
+                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
+                <example correction="“" type="incorrect">Toto je „test<marker>"</marker> spoľahlivosti.</example>
+                <example type="correct">Toto je „test“ spoľahlivosti.</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <!--  ======================================== -->
+	<!-- Spojovník sa neoddeľuje medzerami -->
+	<rulegroup id="SPOJOVNIK" name="Nesprávne použitie spojovníka">
+            <rule id="SPOJOVNIK_1" name="Nesprávne použitie spojovníka 1">
+                <pattern>
+                    <!-- napr. žlto - zelený -->
+                    <token regexp="yes">.*\p{L}</token>
+                    <token>-</token>
+                    <token regexp="yes">.*\p{L}</token>
+                </pattern>
+
+                <message>Spojovník nemá byť oddelený medzerou. Odstráňte medzery (<suggestion>\1-\3</suggestion>) alebo ho nahraďte pomlčkou (<suggestion>\1 – \3</suggestion>).</message>
+
+
+                <short>Typografická chyba, spojovník sa neoddeľuje medzerou. Odstráňte medzery alebo ho nahraďte pomlčkou.</short>
+                <example correction="test-alebo|test – alebo" type="incorrect">Toto je <marker>test - alebo</marker> aj nie.</example>
+                <example type="correct">Toto je test – alebo aj nie.</example>
+                <example correction="zeleno-žltý|zeleno – žltý" type="incorrect">Toto je <marker>zeleno - žltý</marker> dres.</example>
+                <example type="correct">Toto je zeleno-žltý dres.</example>
+            </rule>
+
+            <rule id="SPOJOVNIK_2" name="Nesprávne použitie spojovníka 2">
+                <pattern>
+                    <!-- napr. žlto -zelený -->
+                    <token regexp="yes">.*\p{L}</token>
+                    <token regexp="yes">(-)(\D.*)</token> <!-- pozor na záporné čísla -->
+                </pattern>
+
+		<!-- POZN: zátvorky () v regulárnom výraze definujú skupinu a zabezpečia, 
+		     že príslušná časť reťazca sa uloží do premennej. 
+		     Premennú môžeme neskôr použiť vo forme $X, kde X je poradové číslo skupiny 
+		-->
+		<message>Spojovník nemá byť oddelený medzerou. 
+			Odstráňte úvodnú medzeru (<suggestion>\1\2</suggestion>) 
+			alebo ho nahraďte pomlčkou a medzerou 
+			(<suggestion>\1 <match no="2" regexp_match="(-)(\D.*)" regexp_replace="– $2"/></suggestion>).
+		</message>
+
+                <short>Typografická chyba, spojovník sa neoddeľuje medzerou. Odstráňte medzeru alebo ho nahraďte pomlčkou a medzerou.</short>
+                <example correction="test-alebo|test – alebo" type="incorrect">Toto je <marker>test -alebo</marker> aj nie.</example>
+                <example type="correct">Toto je test – alebo aj nie.</example>
+                <example correction="zeleno-žltý|zeleno – žltý" type="incorrect">Toto je <marker>zeleno -žltý</marker> dres.</example>
+                <example type="correct">Toto je zeleno-žltý dres.</example>
+            </rule>
+
+            <rule id="SPOJOVNIK_3" name="Nesprávne použitie spojovníka 3">
+                <pattern>
+                    <!-- napr. žlto- zelený -->
+                    <token regexp="yes">(.*\S)(-)</token>
+                    <token regexp="yes">.*\p{L}</token>
+                </pattern>
+
+		<message>Spojovník nemá byť oddelený medzerou. 
+			Odstráňte medzeru (<suggestion>\1\2</suggestion>) 
+			alebo ho nahraďte medzerou a pomlčkou
+			(<suggestion><match no="1" regexp_match="(.*\S)(-)" regexp_replace="$1 –"/> \2</suggestion>) alebo odstráňte medzeru
+		</message>
+
+                <short>Typografická chyba, spojovník sa neoddeľuje medzerou. Odstráňte medzeru alebo ho nahraďte medzerou a pomlčkou.</short>
+                <example correction="test-alebo|test – alebo" type="incorrect">Toto je <marker>test- alebo</marker> aj nie.</example>
+                <example type="correct">Toto je test – alebo aj nie.</example>
+                <example correction="zeleno-žltý|zeleno – žltý" type="incorrect">Toto je <marker>zeleno- žltý</marker> dres.</example>
+                <example type="correct">Toto je zeleno-žltý dres.</example>
+            </rule>
+        </rulegroup>
+
+        <!--  ======================================== -->
+	<!-- Pomlčka sa oddeľuje medzerami -->
+	<rulegroup id="POMLCKA" name="Nesprávne použitie pomlčky">
+
+            <rule id="POMLCKA_1" name="Nesprávne použitie pomlčky 1">
+                <pattern>
+		    <!-- Napr. Rakúsko–Uhorská -->
+                    <token regexp="yes">(.*\S)([–—])(\S.*)</token>
+                </pattern>
+
+		<message>Pomlčka sa oddeľuje medzerami.
+			Pridajte medzery 
+			(<suggestion><match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1 $2 $3"/></suggestion>)
+			alebo ju nahraďte spojovníkom 
+			(<suggestion><match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"/></suggestion>).
+		</message>
+
+                <short>Typografická chyba, pomlčka sa oddeľuje medzerou. Pridajte medzery alebo ju nahraďte spojovníkom.</short>
+		<example correction="Pondelok – piatok|Pondelok-piatok" type="incorrect">
+			<marker>Pondelok–piatok</marker>.
+		</example>
+		<example type="correct"> Pondelok – piatok.</example>
+            </rule>
+	    <!-- FIXME pridať prípady X— X a X —X-->
+        </rulegroup>
+
+        <!--  ======================================== -->
+
+        <rulegroup id="TRIBODKY" name="Zameňte tri bodky trojbodkou">
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </pattern>
+
+                <message>Na tomto mieste by mal byť znak trojbodka: <suggestion>…</suggestion></message>
+
+                <short>Typografická chyba. Zameňte tri bodky jedným znakom trojbodka</short>
+                <example correction="…" type="incorrect">Toto je test<marker>...</marker></example>
+                <example type="correct">Toto je test…</example>
+            </rule>
+        </rulegroup>
+
+        <!--  ======================================== -->
+
+        <rulegroup id="CIARKA_CITOSLOVCE" name="Citoslovcia sa oddeľujú čiarkou">
+            <rule name="Čiarka za citoslovcom">
+		<!-- Hľadáme len citoslovcia na začiatku vety. Ak sú v strede, čiarkou ich neoddeľujeme -->
+		<!-- POZN: prvá výnimka vylučuje tie citoslovcia, ktoré sú súčastne aj iný slovný druh (a, na,...) -->
+		<!-- POZN: postag S.* znamená: podstatné meno (S) vo všetkých formách (.*) -->
+		<!-- POZN: druhá výnimka vylučuje citoslovcia na konci vety a spojenia typu "Bum sa ozvalo zo skrine." -->
+                <pattern>
+		    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="J" postag_regexp="yes"><exception postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*)" postag_regexp="yes"></exception></token>
+                        <token><exception regexp="yes">sa|[,.!?]</exception></token>
+                    </marker>
+                </pattern>
+
+                <message>Pridajte čiarku za citoslovce <suggestion>\2, \3</suggestion></message>
+
+                <short>Zrejme chyba interpunkcie. Pridajte čiarku za citoslovce</short>
+                <example correction="Bum, ozvalo" type="incorrect"><marker>Bum ozvalo</marker> sa zo skrine.</example>
+                <example type="correct">Bum, ozvalo sa zo skrine.</example>
+                <example type="correct">Bum sa ozvalo zo skrine.</example>
+            </rule>
+            <rule name="Čiarka pred citoslovcom">
+		<!-- Hľadáme len citoslovcia na konci vety. Ak sú v strede, čiarkou ich neoddeľujeme -->
+		<!-- POZN: výnimka vylučuje tie citoslovcia, ktoré sú súčastne aj iný slovný druh (a, na,...) -->
+		<!-- POZN: postag S.* znamená: podstatné meno (S) vo všetkých formách (.*) -->
+                <pattern>
+		    <token/> <!-- hocičo, okrem začiatku vety -->
+		    <marker>
+                    	<token><exception>,</exception></token>
+                    	<token postag="J" postag_regexp="yes"><exception postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*)" postag_regexp="yes"></exception></token>
+	    	    </marker>	
+		    <token postag="SENT_END"/>
+                </pattern>
+
+                <message>Pridajte čiarku pred citoslovce <suggestion>\2, \3</suggestion></message>
+
+                <short>Zrejme chyba interpunkcie. Pridajte čiarku pred citoslovce</short>
+		<example correction="hriešni, božemôj" type="incorrect">Však sme <marker>hriešni božemôj</marker>!</example>
+                <example type="correct">Však sme hriešni, božemôj!</example>
+            </rule>
+
+        </rulegroup>
+
+        <!--  ======================================== -->
+
+        <rulegroup id="ZNAK_NASOBENIA" name="Zameňte písmeno x za znak násobenia × ">
+            <rule id="ZNAK_NASOBENIA_1" name="Zameňte písmeno x za znak násobenia × 1">
+                <pattern>
+                    <token regexp="yes">\d+x\d+</token>
+                </pattern>
+
+                <message>Zameňte písmeno 'x' za znak násobenia: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)" regexp_replace="$1×$2"/></suggestion>.</message>
+
+                <short>Typografická chyba. Zameňte písmeno x za znak násobenia ×</short>
+                <example correction="800×600" type="incorrect">Rozlíšenie obrazovky
+                    <marker>800x600</marker></example>
+                <example type="correct">Rozlíšenie obrazovky 800×600</example>
+            </rule>
+
+            <rule id="ZNAK_NASOBENIA_2" name="Zameňte písmeno x za znak násobenia × 2">
+                <pattern>
+                    <token regexp="yes">\d+x\d+x\d+</token>
+                </pattern>
+
+                <message>Zameňte písmeno 'x' za znak násobenia: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)x(\d+)" regexp_replace="$1×$2×$3"/></suggestion>.</message>
+
+                <short>Typografická chyba. Zameňte písmeno x za znak násobenia ×</short>
+                <example correction="800×600×400" type="incorrect">Rozlíšenie obrazovky <marker>800x600x400</marker></example>
+                <example type="correct">Rozlíšenie obrazovky 800×600×400</example>
+            </rule>
+        </rulegroup>
+
+        <!--  ======================================== -->
+        <rulegroup id="UVODZOVKY_PO_TZV" name="Odstráňťe úvodzovky po skratke tzv.">
+            <rule id="tzv" name="Úvodzovky po tzv.">
+                <pattern>
+                    <token>tzv</token>
+                    <token>.</token>
+                    <marker>
+                        <token regexp="yes">[„&quot;]</token>
+                        <token skip="-1"></token>
+                        <token regexp="yes">[“&quot;]</token>
+                    </marker>
+                </pattern>
+
+                <message>Odstránte úvodzovky po skratke tzv. <suggestion><match no="4"/></suggestion>.</message>
+
+                <short>Chybná interpunkcia. Odstráňťe úvodzovky po skratke tzv.</short>
+                <example correction="testík" type="incorrect">Toto je tzv. <marker>„testík“</marker> slova pomoc.</example>
+                <example type="correct">Toto je tzv. testík slova pomoc.</example>
+            </rule>
+        </rulegroup>
+
+    </category>
+</rules>

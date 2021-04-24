@@ -1,0 +1,211 @@
+^0 zero
+1 one
+2 two
+3 three
+4 four
+5 five
+6 six
+7 seven
+8 eight
+9 nine
+10 ten
+11 eleven
+12 twelve
+13 thirteen
+15 fifteen
+18 eighteen
+1(\d) $1teen
+2(\d) twenty[-$1]
+3(\d) thirty[-$1]
+4(\d) forty[-$1]
+5(\d) fifty[-$1]
+8(\d) eighty[-$1]
+(\d)(\d) $1ty[-$2]
+
+# separator function
+:0+     # one million
+:0*\d?\d " and "  # one million and twenty-two
+:\d+ ", "   # one million, one thousand
+
+(\d)(\d\d) $1 hundred[ and $2]    # one hundred and one [:en-AU:] [:en-GB:] [:en-IE:] [:en-NZ:]
+(\d)(\d\d) $1 hundred[ $2]    # default: one hundred one
+(\d{1,2})([1-9]\d\d) $1 thousand[ $2] # ten thousand two hundred
+
+(\d{1,2})(\d{3}) $1 thousand$(:\2)$2  # [:en-IN:] one hundred thousand, two hundred
+(\d{1,2})(000\d\d) $1 lakh$(:\2)$2  # [:en-IN:] one lakh and two
+(\d{1,2})(\d{5}) $1 lakh[ $2]   # [:en-IN:] one lakh two hundred
+(\d{1,4})(\d{7}) $1 crore$(:\2)$2 # [:en-IN:]
+
+(\d{1,3})(\d{3}) $1 thousand$(:\2)$2  # one hundred thousand, two hundred
+(\d{1,3})(\d{6}) $1 million$(:\2)$2
+(\d{1,3})(\d{9}) $1 billion$(:\2)$2
+(\d{1,3})(\d{12}) $1 trillion$(:\2)$2
+(\d{1,3})(\d{15}) $1 quadrillion$(:\2)$2
+(\d{1,3})(\d{18}) $1 quintillion$(:\2)$2
+(\d{1,3})(\d{21}) $1 sextillion$(:\2)$2
+(\d{1,3})(\d{24}) $1 septillion$(:\2)$2
+(\d{1,3})(\d{27}) $1 octillion$(:\2)$2
+(\d{1,3})(\d{30}) $1 nonillion$(:\2)$2
+(\d{1,3})(\d{33}) $1 decillion$(:\2)$2
+(\d{1,3})(\d{36}) $1 undecillion$(:\2)$2
+(\d{1,3})(\d{39}) $1 duodecillion$(:\2)$2
+(\d{1,3})(\d{42}) $1 tredecillion$(:\2)$2
+
+# negative number
+
+[-−](\d+) negative |$1
+
+# decimals
+
+0[.,] point
+([-−]?\d+)[.,] $1| point
+([-−]?\d+[.,]\d*)(\d) $1| |$2
+
+# currency
+
+# unit/subunit singular/plural
+
+us:([^,]*),([^,]*),([^,]*),([^,]*) \1
+up:([^,]*),([^,]*),([^,]*),([^,]*) \2
+ss:([^,]*),([^,]*),([^,]*),([^,]*) \3
+sp:([^,]*),([^,]*),([^,]*),([^,]*) \4
+
+AUD:(\D+) $(\1: Australian dollar, Australian dollars, cent, cents)
+BGN:(\D+) $(\1: lev, leva, stotinka, stotinki)
+BWP:(\D+) $(\1: pula, pula, thebe, thebe)
+CAD:(\D+) $(\1: Canadian dollar, Canadian dollars, cent, cents)
+CHF:(\D+) $(\1: Swiss franc, Swiss francs, centime, centimes)
+CNY:(\D+) $(\1: Chinese yuan, Chinese yuan, fen, fen)
+CZK:(\D+) $(\1: Czech koruna, Czech koruny, halér, halére)
+EEK:(\D+) $(\1: kroon, kroonid, sent, senti)
+EUR:(\D+) $(\1: euro, euro, cent, cents)
+GBP:(\D+) $(\1: pound sterling, pounds sterling, penny, pence)
+GHS:(\D+) $(\1: Ghana cedi, Ghana cedis, pesewa, pesewas)
+GMD:(\D+) $(\1: dalasi, dalasi, butut, bututs)
+HKD:(\D+) $(\1: Hong Kong dollar, Hong Kong dollars, cent, cents)
+HRK:(\D+) $(\1: kuna, kuna, lipa, lipa)
+HUF:(\D+) $(\1: forint, forint, fillér, fillér)
+INR:(\D+) $(\1: Indian rupee, Indian rupees, paisa, paise)
+JMD:(\D+) $(\1: Jamaica dollar, Jamaica dollars, cent, cents)
+JPY:(\D+) $(\1: Japanese yen, Japanese yen, sen, sen)
+KES:(\D+) $(\1: Kenyan shilling, Kenyan shillings, cent, cents)
+KRW:(\D+) $(\1: Korean won, Korean won, jeon, jeon)
+LRD:(\D+) $(\1: Liberian dollar, Liberian dollars, cent, cents)
+LSL:(\D+) $(\1: loti, maloti, sente, lisente)
+LTL:(\D+) $(\1: litas, litai, centas, centai)
+LVL:(\D+) $(\1: lats, lati, santims, santimi)
+MGA:(\D+) $(\1: ariary, ariaries, iraimbilanja, iraimbilanja)
+MUR:(\D+) $(\1: Mauritian rupee, Mauritian rupees, cent, cents)
+MXN:(\D+) $(\1: Mexican peso, Mexican pesos, centavo, centavos)
+MWK:(\D+) $(\1: Malawian kwacha, Malawian kwacha, tambala, tambala)
+MYR:(\D+) $(\1: Ringgit, Ringgit, cent, cents)
+NAD:(\D+) $(\1: Namibian dollar, Namibian dollars, cent, cents)
+NGN:(\D+) $(\1: naira, naira, kobo, kobo)
+NZD:(\D+) $(\1: New Zealand dollar, New Zealand dollars, cent, cents)
+PGK:(\D+) $(\1: kina, kina, toea, toea)
+PHP:(\D+) $(\1: Philippine peso, Philippine pesos, centavo, centavos)
+PKR:(\D+) $(\1: Pakistani rupee, Pakistani rupees, paisa, paise)
+PLN:(\D+) $(\1: zloty, zlotys, grosz, groszy)
+RON:(\D+) $(\1: Romanian leu, Romanian lei, ban, bani)
+RSD:(\D+) $(\1: Serbian dinar, Serbian dinars, para, para)
+RUB:(\D+) $(\1: Russian ruble, Russian rubles, kopek, kopeks)
+RWF:(\D+) $(\1: Rwandese franc, Rwandese francs, centime, centimes)
+SDG:(\D+) $(\1: Sudanese pound, Sudanese pounds, piastre, piastres)
+SGD:(\D+) $(\1: Singapore dollar, Singapore dollars, cent, cents)
+SLL:(\D+) $(\1: leone, leones, cent, cents)
+SZL:(\D+) $(\1: lilangeni, emalangeni, cent, cents)
+THB:(\D+) $(\1: baht, baht, satang, satang)
+TRY:(\D+) $(\1: Turkish lira, Turkish lira, kurus, kurus)
+TTD:(\D+) $(\1: Trinidad and Tobago dollar, Trinidad and Tobago dollars, cent, cents)
+TZS:(\D+) $(\1: Tanzanian shilling, Tanzanian shillings, cent, cents)
+UAH:(\D+) $(\1: hryvnia, hryvnia, kopiyka, kopiyka)
+UGX:(\D+) $(\1: Uganda shilling, Uganda shillings, cent, cents)
+USD:(\D+) $(\1: U.S. dollar, U.S. dollars, cent, cents)
+X[AO]F:(\D+) $(\1: CFA franc, CFA francs, centime, centimes)
+ZAR:(\D+) $(\1: South African rand, South African rand, cent, cents)
+ZMK:(\D+) $(\1: Zambian kwacha, Zambian kwacha, ngwee, ngwee)
+ZWL:(\D+) $(\1: Zimbabwe dollar, Zimbabwe dollars, cent, cents)
+
+"(JPY [-−]?\d+)[.,](\d\d)0" $1
+"(JPY [-−]?\d+[.,]\d\d)(\d)" $1 $2 rin
+
+"([A-Z]{3}) ([-−]?1)([.,]00?)?" $2$(\1:us)
+"([A-Z]{3}) ([-−]?\d+)([.,]00?)?" $2$(\1:up)
+
+"(CNY [-−]?\d+)[.,](\d)0?" $1 $2 jiao
+"(CNY [-−]?\d+[.,]\d)(\d)" $1 $2 fen
+
+"((MGA|MRO) [-−]?\d+)[.,]0" $1
+"((MGA|MRO) [-−]?\d+)[.,]2" $1 and |$(1)$(\2:ss)
+"((MGA|MRO) [-−]?\d+)[.,]4" $1 and |$(2)$(\2:sp)
+"((MGA|MRO) [-−]?\d+)[.,]6" $1 and |$(3)$(\2:sp)
+"((MGA|MRO) [-−]?\d+)[.,]8" $1 and |$(4)$(\2:sp)
+
+"(([A-Z]{3}) [-−]?\d+)[.,](01)" $1 and |$(1)$(\2:ss)
+"(([A-Z]{3}) [-−]?\d+)[.,](\d)" $1 and |$(\30)$(\2:sp)
+"(([A-Z]{3}) [-−]?\d+)[.,](\d\d)" $1 and |$3$(\2:sp)
+
+== money ==
+
+"(JPY [-−]?\d+)[.,](\d\d)0" $1
+"(JPY [-−]?\d+[.,]\d\d)(\d)" $1 $2 rin
+
+"([A-Z]{3}) ([-−]?1)([.,]00?)?" $2$(\1:us)
+"([A-Z]{3}) ([-−]?\d+)([.,]00?)?" $2$(\1:up)
+
+"(CNY [-−]?\d+)[.,](\d)0?" $1 $2 jiao
+"(CNY [-−]?\d+[.,]\d)(\d)" $1 $2 fen
+
+"(MGA|MRO) ([-−]?\d+)[.,]0" $2$(\1:us)
+"(MGA|MRO) ([-−]?\d+)[.,]2" $2 and 1/5$(\1:us)
+"(MGA|MRO) ([-−]?\d+)[.,]4" $2 and 2/5$(\1:up)
+"(MGA|MRO) ([-−]?\d+)[.,]6" $2 and 3/5$(\1:up)
+"(MGA|MRO) ([-−]?\d+)[.,]8" $2 and 4/5$(\1:up)
+
+"([A-Z]{3}) ([-−]?1)" $2$(\1:us)
+"([A-Z]{3}) ([-−]?\d+)" $2$(\1:up)
+"(([A-Z]{3}) ([-−]?\d+))[.,](01)" $3 and 1/100$(\2:us)
+"(([A-Z]{3}) ([-−]?\d+))[.,](\d)" $3 and \40/100$(\2:up)
+"(([A-Z]{3}) ([-−]?\d+))[.,](\d\d)" $3 and \4/100$(\2:up)
+"(([A-Z]{3}) ([-−]?\d+))[.,](\d\d\d)" $3 and \4/1000$(\2:up)
+
+== ordinal ==
+
+# convert to text, and recall to convert
+# cardinal names to ordinal ones
+
+([-−]?\d+) $(ordinal |$1)
+
+(.*)one \1first
+(.*)two \1second
+(.*)three \1third
+(.*)five  \1fifth
+(.*)eight \1eighth
+(.*)nine  \1ninth
+(.*)twelve  \1twelfth
+(.*)y \1ieth
+(.*)  \1th
+
+== ordinal-number ==
+
+(.*1\d) \1th
+(.*1) \1st
+(.*2) \1nd
+(.*3) \1rd
+(.*)  \1th
+
+== year ==
+
+(1[1-9])00 $1 hundred
+(1[1-9])([0-9][0-9]) $1 $2
+(.*) $(year-remove-and $1)
+
+== year-remove-and ==
+
+"(.*) and (.*)" \1 \2
+(.*) \1
+
+== help ==
+
+"" $(1)|, $(2), $(3)\n$(\0 ordinal)$(\0 ordinal-number)year: $(year 1999), two thousand, $(year 2001)\ncurrency \(for example, USD\): $(USD 2.5)\nmoney USD: $(money USD 2.5)
+"(ordinal(-number)?|USD)" \1: $(\1 1), $(\1 2), $(\1 3)\n
