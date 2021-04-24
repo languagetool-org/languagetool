@@ -1,1 +1,0 @@
-This directory contains only Python an UNIX shell scripts. Their sole purpose is to process various bits and pieces in dictionary creation process.
