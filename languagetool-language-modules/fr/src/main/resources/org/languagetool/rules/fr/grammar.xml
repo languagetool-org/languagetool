@@ -659,7 +659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
                 <!-- unsual as adjective before noun -->
-                <token inflected="yes" regexp="yes">donnée|participant|distributeur|consommateur</token>
+                <token inflected="yes" regexp="yes">entreprise|donnée|participant|distributeur|consommateur|pro</token>
             </antipattern>
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -804,6 +804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ancien professeur|ancienne professeure|anciens professeurs|anciennes professeures">Mon <marker>ancienne professeur</marker> d'anglais</example>
                 <example correction="vraies adversaires|vrais adversaires|vrai adversaire|vraie adversaire">Il n'a pas eu de <marker>vrai adversaires</marker>.</example>
                 <example correction="bonnes amies|bon ami|bonne amie|bons amis">Ce sont de <marker>bons amies</marker> à nous.</example>
+                <example correction="vraies pros|vrais pros|vrai pro|vraie pro">Excellent site, ce sont de <marker>vrai pros</marker>.</example>
                 <example>pour en trouver certaines grâce aux aides plus rapides</example>
                 <example>les deux parcs éoliens offshore</example>
                 <example>Faites attention à ce que je dis.</example>
@@ -4866,7 +4867,11 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>à</suggestion> (préposition) ? "a" est une conjugaison du verbe "avoir".</message>
                 <example correction="à">Une mise <marker>a</marker> jour.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token>suite</token>
+                </antipattern>
                 <pattern>
                     <token>suite</token>
                     <marker>
@@ -4875,6 +4880,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>à</suggestion> (préposition) ? "a" est une conjugaison du verbe "avoir".</message>
                 <example correction="à">suite <marker>a</marker> la demande</example>
+                <example>la suite a plutôt démontré que leurs intérêts</example>
             </rule>
             <rule>
                 <pattern>
@@ -14613,7 +14619,7 @@ though, and has since been slightly modified)-->
                 <example>Plusieurs d'entre eux sont morts.</example>
                 <example>Lorsque vous visitez avec nous assurez vous que tout le monde dans votre groupe parte avec un sourire.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="P" regexp="yes">à|de|d'|pour</token>
                     <token>vous</token>
@@ -20104,6 +20110,7 @@ though, and has since been slightly modified)-->
                 <example>Descendez la rue tout droit.</example>
                 <example>Marie la connait bien.</example>
                 <example>Ajoutez la carotte râpée à la farce. </example>
+                <example>Baisse le ton, Tom !</example>
             </rule>
             <rule>
                 <antipattern>
@@ -41388,6 +41395,7 @@ though, and has since been slightly modified)-->
                 <example correction="Vas-tu"><marker>Vas - tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas- tu</marker> les regarder à la télévision ?</example>
                 <example>Les Rendez-Vous de l'Erdre pour la jazz.</example>
+                <example>Sans une once de m'as-tu-vu.</example>
             </rule>
         </rulegroup>
         <!--
