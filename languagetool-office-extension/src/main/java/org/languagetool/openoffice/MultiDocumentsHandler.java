@@ -118,6 +118,7 @@ public class MultiDocumentsHandler {
   
   private boolean useOrginalCheckDialog = false;  // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean isNotTextDodument = false;
+  private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
   
 
@@ -1352,7 +1353,8 @@ public class MultiDocumentsHandler {
    * return false if heap space is to small 
    */
   public boolean isEnoughHeapSpace() {
-    if (OfficeTools.isHeapLimitReached()) {
+    double heapRatio = OfficeTools.getCurrentHeapRatio();
+    if (heapRatio >= 1.0) {
       heapLimitReached = true;
       setConfigValues(config, lt);
       MessageHandler.showMessage(messages.getString("loExtHeapMessage"));
@@ -1361,6 +1363,12 @@ public class MultiDocumentsHandler {
         document.setDocumentCache(null);
       }
       return false;
+    } else {
+      if (heapRatio < 0.5) {
+        heapCheckInterval = HEAP_CHECK_INTERVAL;
+      } else if (heapRatio > 0.9) {
+        heapCheckInterval = (int) (HEAP_CHECK_INTERVAL / (1.0 - heapCheckInterval));
+      }
     }
     return true;
   }
@@ -1370,7 +1378,7 @@ public class MultiDocumentsHandler {
    */
   private void testHeapSpace() {
     if (!heapLimitReached && config.getNumParasToCheck() != 0) {
-      if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
+      if (numSinceHeapTest > heapCheckInterval) {
         isEnoughHeapSpace();
         numSinceHeapTest = 0;
       } else {

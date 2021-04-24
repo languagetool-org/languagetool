@@ -252,7 +252,31 @@ class SingleCheck {
           docCursor = new DocumentCursorTools(xComponent);
         }
         flatPara = singleDocument.setFlatParagraphTools(xComponent);
-
+        
+        List<Integer> changedParas = new ArrayList<>();
+        if (oldCache != null) {
+          for (int nText = startPara; nText < endPara; nText++) {
+            int nFlat = docCache.getFlatParagraphNumber(nText);
+            if (textIsChanged || paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
+              if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getCacheEntry(nFlat), oldCache.getCacheEntry(nFlat))) {
+                changedParas.add(nFlat);
+              }
+            }
+          }
+          if (!changedParas.isEmpty()) {
+            if (debugMode > 1) {
+              MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara + ": " + changedParas.size() 
+                  + " changes, nTPara: " + nTPara + " changes, nFPara: " + nFPara);
+              String tmpText = "";
+              for (int n : changedParas) {
+                tmpText += n + " ";
+              }
+              MessageHandler.printToLogFile(tmpText);
+            }
+            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+          }
+        }
+/*        
 //        if (override) {     //  TODO: remove after tests
           List<Integer> tmpChangedParas;
           tmpChangedParas = paragraphsCache.get(cacheNum).differenceInCaches(oldCache);
