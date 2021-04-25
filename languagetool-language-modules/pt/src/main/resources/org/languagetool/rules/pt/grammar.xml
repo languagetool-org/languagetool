@@ -2291,6 +2291,17 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 			<token postag='V.+' postag_regexp='yes'/>
 			<token postag='V.+' postag_regexp='yes'/>
 		</antipattern>	
+		<!-- Deixe a linguiça assando mais um pouco, que ainda está crua. -->
+		<!-- Meu pai, que nunca foi gentil comigo, veio me ver. -->
+		<antipattern>
+			<token postag='_PUNCT|RG' postag_regexp='yes'/>
+			<token>que</token>
+			<token postag='RG' postag_regexp='no'/>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='AQ0.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='VMP00.+|I'/>
+			</token>
+		</antipattern>	
 		<pattern>
 			<token>que</token>
 			<marker>
@@ -2320,7 +2331,9 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 		<example>A Austrália Meridional foi fundada como uma "província livre", que nunca foi uma colónia penal.</example>
 		<example>Ela desconfiou que talvez tivesse que estudar fora.</example>
 		<example>Guarde o dinheiro, que hoje convido eu.</example>
-		<example>Pensei que hoje era segunda.</example>		
+		<example>Pensei que hoje era segunda.</example>
+		<example>Deixe a linguiça assando mais um pouco, que ainda está crua.</example>
+		<example>Meu pai, que nunca foi gentil comigo, veio me ver.</example>
     </rule>
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
