@@ -10607,13 +10607,24 @@ Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
     </rule>
 
     <rule id='A_QUANDO' name="Confusão: a quando/aquando">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-25 (Enhanced) (17-MAR-2021+)      -->
+<!-- MARCOAGPINTO 2021-04-25 (17-MAR-2021+) *START* -->
+<!--
+Eu comprei-a quando fui à loja.
+-->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+	    <token regexp='yes' spacebefore='no'>&hifen;</token>
+		<token regexp='no' spacebefore='no'>a</token>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-04-25 (17-MAR-2021+) *END* -->	
       <pattern>
           <token>a</token>
           <token>quando</token>
       </pattern>
       <message>Substitua por <suggestion>aquando</suggestion>.</message>
       <example correction="aquando">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
+	  <example>Eu comprei-a quando fui à loja.</example>
     </rule>
 
     <rule id='A_QUE_SERVE_ISTO_ISSO' name="Para que serve isto/isso">

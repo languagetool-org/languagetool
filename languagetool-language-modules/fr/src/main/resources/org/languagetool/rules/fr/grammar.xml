@@ -659,12 +659,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
                 <!-- unsual as adjective before noun -->
-<<<<<<< HEAD
-                <token inflected="yes" regexp="yes">donnée|participant|distributeur|consommateur</token>
-=======
                 <token inflected="yes" regexp="yes">entreprise|donnée|participant|distributeur|consommateur|pro</token>
                 <token postag="[NZ].*" postag_regexp="yes"/>
->>>>>>> upstream/master
             </antipattern>
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -726,9 +722,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
-                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="N [fe] (p|s|sp)" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="N [me] (p|s|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="N [me] (p|s|sp)" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="N [fe] (p|s|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="J [fe] (p|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <!-- Perhaps better as tags in disambiguation: _GN_... -->
@@ -794,7 +808,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception regexp="yes">\p{Lu}+</exception></token>
                         <token postag="[NZ] .*" postag_regexp="yes">
                             <exception postag="J e sp"/>
-                            <exception regexp="yes">.</exception></token>
+                            <exception regexp="yes">.</exception>
+                            <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner</exception></token>
                     </unify>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
@@ -812,6 +827,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <<<<<<< HEAD
 =======
                 <example correction="vraies pros|vrais pros|vrai pro|vraie pro">Excellent site, ce sont de <marker>vrai pros</marker>.</example>
+<<<<<<< HEAD
+>>>>>>> upstream/master
+=======
+                <example correction="vraie religion|vraies religions">comme la seule <marker>vrai religion</marker></example>
+                <example correction="meilleures choses|meilleure chose">avec toutes les <marker>meilleurs choses</marker> à faire</example>
 >>>>>>> upstream/master
                 <example>pour en trouver certaines grâce aux aides plus rapides</example>
                 <example>les deux parcs éoliens offshore</example>
@@ -862,6 +882,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ils sont juste amis.</example>
                 <example>violation de données Facebook</example>
                 <example>Antoine et son complice condamnés à verser</example>
+                <example>de 5 mètres de haut appelée îlot de la Tortue</example>
+                <example>pour découvrir les meilleures date et heure</example>
+                <example type="triggers_error" reason="error: heur/heure">pour découvrir les meilleures date et heur</example>
                 <!-- better suggestion needed-->
                 <example type="triggers_error">Tom surpris Marie</example>
             </rule>
@@ -3132,6 +3155,20 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="HEUR_HEURE" name="heur/heure" default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="2">avoir</token>
+                <token>l'</token>
+                <token>heur</token>
+                <token regexp="yes">de|du|d'</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">heurs?</token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(?iu)heur" case_conversion="preserve" regexp_replace="heure"/></suggestion> ?</message>
+            <example correction="heure">pour découvrir les meilleurs date et <marker>heur</marker></example>
+            <example>Je n'ai pas eu l'heur de lui plaire.</example>
+        </rule>
         <rule id="CHINA" name="China/Chine">
             <antipattern>
                 <token>China</token>
@@ -23181,7 +23218,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <antipattern>
                     <token>la</token>
-                    <token postag="[NV].*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="[NVJ].*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">ce|cet|cette|ces</token>
