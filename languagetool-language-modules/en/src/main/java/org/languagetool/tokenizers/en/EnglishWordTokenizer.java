@@ -46,6 +46,10 @@ public class EnglishWordTokenizer extends WordTokenizer {
           Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile("^(['’]t)(was)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
 
+  /** 
+   * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/2096 
+   * Store the exception pattern
+   */
   private final List<Pattern> EXCEPTION_PATTERN = Arrays.asList(
     Pattern.compile("^Bahá'í$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.CANON_EQ),
     Pattern.compile("^Baha'i$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.CANON_EQ)
