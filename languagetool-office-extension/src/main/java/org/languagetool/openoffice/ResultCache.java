@@ -195,7 +195,11 @@ class ResultCache implements Serializable {
    * Compares to Entries
    * true if the both entries are identically
    */
+<<<<<<< HEAD
   private boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
+=======
+  static boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
+>>>>>>> upstream/master
     if (newEntries == null || oldEntries == null) {
       return true;
     }
