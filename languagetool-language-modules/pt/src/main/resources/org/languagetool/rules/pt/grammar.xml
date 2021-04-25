@@ -15387,7 +15387,16 @@ Sim, tia Ana.
   <rulegroup id="REGARDS_COMMA" name="Pontuação: Despedidas formais: 'Os melhores cumprimentos,'">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-virgula-na-formula-com-os-melhores-cumprimentos/27998</url>
-      <short>Erro de pontuação</short>
+      <short>Erro de pontuação</short> 
+<!-- MARCOAGPINTO 2021-04-25 (17-MAR-2021+) *START* -->
+<!--
+Obrigado!
+-->
+      <antipattern>
+		<token regexp='yes'>obrigad[ao]</token>
+	    <token regexp="yes" postag='SENT_END'>[.!]</token>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-04-25 (17-MAR-2021+) *END* --> 
     <rule>
       <pattern>
           <token postag="SENT_START"/>
