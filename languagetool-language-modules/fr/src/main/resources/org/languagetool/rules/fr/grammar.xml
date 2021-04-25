@@ -41826,6 +41826,22 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rule default="temp_off">
+           <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <marker>
+                    <token>à</token>
+                </marker>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>\1 \2 \3 \4 \5» est une expression fautive.</message>
+            <suggestion>de</suggestion>
+            <example correction="de">c'est la voiture <marker>à</marker> la voisine.</example>
+            <example>aimes-tu la barbe à papa ?</example>
+            <example>elle joue à la corde à sauter</example>
+        </rule>
         <rulegroup id="BARBARISME_TU" name="barbarisme tu">
             <rule>
                 <antipattern>
