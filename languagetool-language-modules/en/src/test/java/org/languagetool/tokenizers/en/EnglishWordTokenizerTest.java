@@ -112,10 +112,10 @@ public class EnglishWordTokenizerTest {
     assertEquals("[Do, n't,  , do,  , it]", tokens.toString());
     assertEquals(6, tokens.size()); 
   }
-  
+
   /** CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/2096 */
   @Test
-  public void testToken13(){
+  public void testToken14(){
     String oneToken = " Bahá'í  Baha'i  Bahá'í";
     List<String> oneTokenList = Arrays.asList(
       " ", "Bahá'í", " ", " ", "Baha'i", " ", " ","Bahá'í"
