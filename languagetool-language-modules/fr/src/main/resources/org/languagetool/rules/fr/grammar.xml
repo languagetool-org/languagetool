@@ -38147,7 +38147,20 @@ though, and has since been slightly modified)-->
             <example correction="recherche">Pense à rajouter une <marker>search</marker> pour les deux éléments.</example>
         </rule>
     </category>
-    <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+    <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical"><rulegroup id="PONCTUATION_SUR_ABREVIATIONS" name="Abréviations" default="temp_off">
+    <rule>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">cf</token>
+            </marker>
+        <token regexp="yes">[^\.]+</token>
+        </pattern>
+        <message>Si <suggestion>cf.</suggestion> désigne l'abréviation de "confère", il convient d'ajouter un point.</message>
+        <example correction="cf.">Nous avons déjà vu cette notion, <marker>cf</marker> le cours précédent.</example>
+        <example>Nous avons déjà vu cette notion, <marker>cf</marker>. le cours précédent.</example>
+
+    </rule>
+</rulegroup>
         <rulegroup id="FLECHES" name="-&gt; (→)">
             <rule>
                 <pattern>
