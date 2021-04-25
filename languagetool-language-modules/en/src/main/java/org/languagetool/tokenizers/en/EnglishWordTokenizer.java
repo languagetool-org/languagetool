@@ -108,6 +108,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
         }
       } else {
         /**
+         * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/2096
          * Check s if EXIST in EXCEPTION_PATTERN
          * IF found, add to l and remove the match from s
          */

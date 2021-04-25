@@ -112,16 +112,19 @@ public class EnglishWordTokenizerTest {
     assertEquals("[Do, n't,  , do,  , it]", tokens.toString());
     assertEquals(6, tokens.size()); 
   }
-
+  
+  /** CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/2096 */
   @Test
-  public void testToken14(){
-    String oneToken = "Bahá'í";
-    List<String> oneTokenList = Arrays.asList("Bahá'í");
+  public void testToken13(){
+    String oneToken = " Bahá'í  Baha'i  Bahá'í";
+    List<String> oneTokenList = Arrays.asList(
+      " ", "Bahá'í", " ", " ", "Baha'i", " ", " ","Bahá'í"
+    );
     final List <String> tokens = wordTokenizer.tokenize(oneToken);
     assertEquals(oneTokenList, tokens);
-    assertEquals(1, tokens.size());
+    assertEquals(8, tokens.size());
   }
-  /** test case for issue #2096 */
+  /** CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/2096 */
   @Test
   public void testToken15(){
     String oneToken = "‘Swindon's Baha'i religious group’";
@@ -132,15 +135,5 @@ public class EnglishWordTokenizerTest {
     assertEquals(oneTokenList, tokens);
     assertEquals(10, tokens.size());
   }
-  /** test case for issue #2096 */
-  @Test
-  public void testToken16(){
-    String oneToken = " Bahá'í  Baha'i  Bahá'í";
-    List<String> oneTokenList = Arrays.asList(
-      " ", "Bahá'í", " ", " ", "Baha'i", " ", " ","Bahá'í"
-    );
-    final List <String> tokens = wordTokenizer.tokenize(oneToken);
-    assertEquals(oneTokenList, tokens);
-    assertEquals(8, tokens.size());
-  }
+  
 }
