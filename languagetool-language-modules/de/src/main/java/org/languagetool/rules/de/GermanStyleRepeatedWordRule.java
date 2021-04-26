@@ -125,12 +125,26 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           (testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText)
           || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
           && (!isFalsePair(testTokenText, tokenText, "lang", "klang"))
+          && (!isFalsePair(testTokenText, tokenText, "lag", "schlag"))
           && (!isFalsePair(testTokenText, tokenText, "Art", "Artefakt"))
           && (!isFalsePair(testTokenText, tokenText, "kommen", "kommentier"))
           && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
           || testTokenText.length() > tokenText.length() + 3)
           || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
         );
+  }
+
+  /* 
+   *  true if is an exception of token pair
+   *  note: method is called after two tokens are tested to share the same lemma
+   */
+  @Override
+  protected boolean isExceptionPair(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+    if ((token1.hasLemma("nah") && token1.hasLemma("nächst") && !token2.hasLemma("nächst")) || 
+        (token2.hasLemma("nah") && token2.hasLemma("nächst") && !token1.hasLemma("nächst"))) {
+      return true;
+    }
+    return false;
   }
 
   /* 
