@@ -5367,10 +5367,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VBP">have</token>
             <token chunk="I-VP" postag="VBN"/>
         </antipattern>
+        <antipattern><!-- #4885 Chunker error: Tom swims as -->
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="NNP"/>
+            <token chunk="E-NP-plural" postag="VBZ"/>
+            <token chunk="B-ADVP" postag="RB"/>
+        </antipattern>
+        <antipattern><!-- #4885 Incorrect grammar: two new offered service have -->
+            <token chunk_re="[BI]-NP-singular" postag="CD"/>
+            <token min="0" max="4" chunk="I-NP-singular"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
-                    <token postag="JJ.?|P?DT|PRP.?" postag_regexp="yes">
+                    <token  postag="JJ.?|P?DT|PRP.?" postag_regexp="yes"><!-- #4885 To use chunk_re="[BI]-NP-.*" here, the rule must be re-written. Refer to the 'by' example. -->
                         <exception case_sensitive="yes">US</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -5391,6 +5403,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="Canadian[Canadian/JJ,Canadian/NNP]" outputform="Canadian[Canadian/JJ]">The <marker>Canadian</marker> Badlands is nice.</example>
         <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
         <example type="ambiguous" inputform="period[period/JJ,period/NN]" outputform="period[period/JJ]">This is a splendid collection of fine <marker>period</marker> furniture.</example>
+        <example type="ambiguous" inputform="by[by/IN,by/JJ,by/NN,by/RP]" outputform="by[by/IN,by/JJ,by/RP]">Were the boys see <marker>by</marker> security?</example><!-- #4885 incorrect grammar -->
+        <example type="ambiguous" inputform="good[good/JJ,good/NN:U]" outputform="good[good/JJ]">A very <marker>good</marker> knowledge showed that she had studied carefully.</example><!-- #4885 -->
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">Earlier, at the AGM he said a few other US power producing majors have shown interest.</example>
         <example type="untouched">The important thing is not to win, but that the other loses.</example>
@@ -5419,6 +5433,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Your screenshot number 2 is taken directly in MS Word?</example><!-- #3991 -->
         <example type="untouched">Many other have been hiding from the police.</example><!-- #4814 Incorrect grammar -->
         <example type="untouched">Tom have been places that I've only read about.</example><!-- Premium #2626 Incorrect grammar -->
+        <example type="untouched">Tom swims as well as Mary does.</example><!-- #4885 swims/E-NP-plural-->
+        <example type="untouched">These two new offered service have been set up for Egan Hub.</example><!-- #4885 Incorrect grammar -->
+        <example type="untouched">A small number of new untested service show how we can increase market share very cheaply.</example><!-- #4885 Incorrect grammar -->
     </rule>
 
     <rule name="required to" id="required_to">
