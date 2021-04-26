@@ -295,7 +295,7 @@ class ResultCache implements Serializable {
   /**
    * Class of serializable cache entries
    */
-  private class CacheEntry implements Serializable {
+  public class CacheEntry implements Serializable {
     private static final long serialVersionUID = 2L;
     final SerialProofreadingError[] errorArray;
     List<Integer> nextSentencePositions = null;
