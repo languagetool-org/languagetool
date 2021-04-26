@@ -1399,6 +1399,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="LES_PLUS" name="les plus">
+        <pattern>
+            <marker>
+                <token postag="D e p">les</token>
+            </marker>
+            <token regexp="yes">plus|mois</token>
+        </pattern>
+        <disambig action="filter" postag="D e p"/>
+    </rule>
     <rule id="VUE" name="vue (noun)">
         <pattern>
             <token inflected="yes">point</token>

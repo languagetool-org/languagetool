@@ -1425,6 +1425,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
             <antipattern>
+                <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                    <unify-ignore>
+                        <token regexp="yes">plus|moins</token>
+                        <token postag="A"/>
+                    </unify-ignore>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
                 <!-- other errors -->
                 <token>suite</token>
                 <token>a</token>
@@ -2346,6 +2365,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>vous accéderez à leur galerie photos respective.</example>
             <example>Fiche produit</example>
             <example>Les phrases qui m'ont le plus touchée.</example>
+            <example>Ces habits sont déclinés dans de jolies couleurs, des tendres beige ou blanc aux dynamiques rouge ou vert.</example>
+            <example>Les qualités les plus fréquemment évoquées à son sujet.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -3149,12 +3170,17 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rule id="HEUR_HEURE" name="heur/heure" default="temp_off">
+        <rule id="HEUR_HEURE" name="heur/heure">
             <antipattern>
                 <token inflected="yes" skip="2">avoir</token>
                 <token>l'</token>
                 <token>heur</token>
                 <token regexp="yes">de|du|d'</token>
+            </antipattern>
+            <antipattern>
+                <token>heur</token>
+                <token regexp="yes">et|ou</token>
+                <token>malheur</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">heurs?</token>
