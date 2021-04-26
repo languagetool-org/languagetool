@@ -1043,6 +1043,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag="J e sp"/>
     </rule>
+    <rule id="TAILLE" name="taille">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">taille</token>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">adolescent</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="ONDES_RADIO" name="ondes radio">
         <pattern>
             <token regexp="yes" inflected="yes">onde|signal|écho|émetteur|interféromètre|récepteur|réflecteur|brouilleur|station</token>
@@ -3699,7 +3708,7 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <marker>
-                    <token postag="V ind.*" postag_regexp="yes" regexp="yes">dit|fait|estime
+                    <token postag="V (ind|sub).*" postag_regexp="yes" regexp="yes">dit|fait|estime|précise
                         <exception scope="previous" inflected="yes">avoir</exception>
                         <exception scope="previous" regexp="yes">tas|ma</exception>
                         <exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
@@ -3707,7 +3716,7 @@ RB => Règles Brutes
                 <token min="0" max="4" postag="A"/>
                 <token regexp="yes">que|qu'|:|tout|à|aux</token>
             </pattern>
-            <disambig action="filter" postag="V ind.*"/>
+            <disambig action="filter" postag="V (ind|sub).*"/>
         </rule>
     </rulegroup>
     <rule id="RIEN" name="rien">
@@ -5540,6 +5549,24 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V (ind|sub) pres 3 ."/>
             <example type="untouched">Sa conclusion s'est avérée fausse.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token inflected="yes">être</token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
+                    <exception postag="[NJZ].*|V ppa.*|_GN_.*" postag_regexp="yes" negate_pos="yes"/></token>
+                <marker>
+                    <token postag="V (ind|sub) pres 3 s" postag_regexp="yes">
+                        <exception scope="previous" regexp="yes">&prefixes;</exception>
+                        <exception>fait</exception>
+                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V (ind|sub) pres 3 s"/>
         </rule>
     </rulegroup>
     <rulegroup name="RB : Préposition" id="PREPOSITIONS">
