@@ -39733,7 +39733,7 @@ though, and has since been slightly modified)-->
                     <token postag="M fin"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">lequel|laquelle|lesquels|lesquelles</token>
+                    <token regexp="yes">lequel|laquelle|lesquels|lesquelles|quel(le)?s?</token>
                     <token postag="N.*" postag_regexp="yes"/>
                     <token postag="R pers suj.*" postag_regexp="yes" skip="-1"/>
                     <token postag="M fin"/>
@@ -39805,6 +39805,16 @@ though, and has since been slightly modified)-->
                     <token postag="R pers suj.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">[vn]ous</token>
+                    <token postag="K"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">en|à</token>
+                    <token regexp="yes">aucune?</token>
+                    <token regexp="yes">cas|moment|circonstance</token>
+                    <token postag="R pers suj.*|R pers obj [12] p" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <unify negate="yes">
                         <feature id="person"/>
                         <feature id="number"/>
@@ -39829,6 +39839,11 @@ though, and has since been slightly modified)-->
                 <url>https://bescherelle.ca/virgules/</url>
                 <example correction=", je">Ces photos<marker> je</marker> les aime beaucoup.</example>
                 <example correction=", nous">Ces photos<marker> nous</marker> les aimons beaucoup.</example>
+                <example>En aucun cas elles ne sauraient être considérées comme exhaustives.</example>
+                <example>À aucun moment nous n'avons rendu votre lettre.</example>
+                <example>En aucune circonstance nous ne pouvons accepter les chèques.</example>
+                <example>Vous n'avez rien en commun vous deux.</example>
+                <example>Quelle comère vous faites.</example>
                 <example>Ces photos<marker> nous</marker> semblent floues.</example>
                 <example>Ces photos<marker> nous</marker> ont impressionnées.</example>
                 <example>La <marker>municipalité elle-même</marker> les aime beaucoup.</example>
@@ -39933,6 +39948,13 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="3">quel</token>
                     <token postag="R pers suj.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                        <token>il</token>
+                        <token>y</token>
+                        <token postag="V avoir.*" postag_regexp="yes" skip="1"/>
+                        <token regexp="yes" inflected="yes">&unites_temps;|temps</token>
+                </antipattern>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes">
                         <exception postag="C.*" postag_regexp="yes"/></token>
@@ -39947,6 +39969,7 @@ though, and has since been slightly modified)-->
                 <url>https://bescherelle.ca/virgules/</url>
                 <example correction=", je">Ces photos<marker> je</marker> les aime beaucoup.</example>
                 <example correction=", elle">Quand elle veut quelque chose<marker> elle</marker> met en marche la machine à pleurs.</example>
+                <example>Quand tu as dévoilé son nom il y a quelques temps, je l'ai acheté sans tarder.</example>
                 <example>La <marker>municipalité elle-même</marker> les aime beaucoup.</example>
                 <example>Il lui explique combien d'<marker>hommes il</marker> devra tuer pour cela.</example>
                 <example>Si <marker>transfert il</marker> y a eu.</example>
