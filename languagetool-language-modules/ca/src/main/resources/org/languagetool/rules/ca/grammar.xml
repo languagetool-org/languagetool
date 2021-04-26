@@ -7817,31 +7817,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hi pot començar a haver problemes.</example>
                 <example>Hi deu començar a haver problemes.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VA.*" postag_regexp="yes">ha<exception postag="_obligacio|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a</suggestion> o <suggestion>ha de</suggestion>?</message>
+                <example correction="a|ha de">Ho diu un dels advocats que van defensar el dret dels neonazis <marker>ha</marker> manifestar-se.</example>
+            </rule>
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>que</token>
-                        <token>hi</token>
-                        <token regexp="yes">ha|havia</token>
-                        <token postag="V.G.*" postag_regexp="yes"/>
-                    </marker>
+                    <token>que</token>
+                    <token>hi</token>
+                    <token regexp="yes">ha|havia</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>ha</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
                 </antipattern>
                 <pattern>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="1">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/><exception scope="next" postag="RG.*|.*LOC_ADV.*|V.[NG].*|PP3CN000|SENT_END|PARA_END|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/></token>
+                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.[NG].*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>Hi falta un participi o la preposició 'de'.</message>
-                <suggestion><match no="2" postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
-                <suggestion>de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="3" postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
+                <suggestion>de <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
                 <short>Hi falta un participi</short>
                 <example correction="realitzat|de realitzar">No s'ha <marker>realitzar</marker>.</example>
                 <example correction="realitzat|de realitzar">Ells han <marker>realitzar</marker>.</example>
                 <example correction="realitzat|de realitzar">No s'hi ha <marker>realitzar</marker>.</example>
                 <example correction="votat|de votar">Tot i haver <marker>votar</marker> amb la resta.</example>
-                <example correction="votat|de votar">Tot i haver-hi <marker>votar</marker> amb la resta.</example>
                 <example correction="realitzat|de realitzar">Aquell hi ha gairebé <marker>realitzar</marker>.</example>
                 <example correction="generat|de generar">que hagen <marker>generant</marker> per tant un resultat</example>
                 <example correction="cantat|de cantar">Hem <marker>cantant</marker>.</example>
@@ -7854,6 +7869,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que hi ha hagut, coincidint amb</example>
                 <example>on hi ha, dominant el poble,</example>
                 <example>amb uns nens que hi havia jugant al carrer</example>
+            </rule>
+            <!-- Error de picatge comú amb infinitiu o gerundi -->
+            <rule>
+                <pattern>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/></token>
+                    <token min="1" max="2" postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.[NG].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Hi falta un participi o la preposició 'de'.</message>
+                <suggestion><match no="4" postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
+                <suggestion>de <match no="4" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <example correction="votat|de votar">Tot i haver-hi <marker>votar</marker> amb la resta.</example>
             </rule>
             <rule>
                 <pattern>
