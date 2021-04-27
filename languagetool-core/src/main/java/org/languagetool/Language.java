@@ -799,7 +799,7 @@ public abstract class Language {
     while (m.find(offset)) {
       String group = m.group(1);
       preservedStrings.add(group);
-      output = output.replaceFirst("<suggestion>" + group + "</suggestion>", "\\\\" + String.valueOf(countPreserved));
+      output = output.replaceFirst("<suggestion>" + Matcher.quoteReplacement(group) + "</suggestion>", "\\\\" + String.valueOf(countPreserved));
       countPreserved++;
       offset = m.end();
     }
