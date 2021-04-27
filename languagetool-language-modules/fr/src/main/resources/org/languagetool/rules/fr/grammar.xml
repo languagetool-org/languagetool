@@ -659,7 +659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
                 <!-- unsual as adjective before noun -->
-                <token inflected="yes" regexp="yes">roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie</token>
+                <token inflected="yes" regexp="yes">roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat</token>
                 <token postag="[NZ].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -687,7 +687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">conditionnel|subjonctif</token>
-                <token regexp="yes">prés</token>
+                <token>prés</token>
                 <!--<token>.</token>-->
             </antipattern>
             <antipattern>
@@ -827,14 +827,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
-                    <token postag="R pers subj 3 .*"/>
+                    <token postag="R pers subj 3 .*" postag_regexp="yes"/>
                     <token inflected="yes">seul</token>
                 </unify>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">avoir|être</token>
+                <token inflected="yes" regexp="yes" skip="2">avoir|être</token>
                 <token postag="V ppa .*" postag_regexp="yes"/>
-                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <rule>
@@ -949,6 +949,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le roi prête serment devant les Cortes.</example>
                 <example>Tu as pour partie raison et pour partie tort.</example>
                 <example>La rivière partage la ville en partie est et partie ouest.</example>
+                <example>Je n'ai jamais tué, ni blessé personne.</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
