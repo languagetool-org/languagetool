@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -324,13 +325,9 @@ class SingleCheck {
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara) {
     if (!mDocHandler.isSwitchedOff()) {
-      Map <Integer, SingleProofreadingError[]> changedParasMap = new HashMap<>();
+      Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int nPara : changedParas) {
-        List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
-        for (int i = 0; i < minToCheckPara.size(); i++) {
-          pErrors.add(paragraphsCache.get(i).getMatches(nPara));
-        }
-        changedParasMap.put(nPara, mergeErrors(pErrors, nPara));
+        changedParasMap.put(nPara, getSentenceErrosAsList(nPara));
       }
       flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
     }
@@ -718,5 +715,48 @@ class SingleCheck {
     return pError;
   }
   
+  /**
+   * get all errors of a Paragraph as list
+   */
+  private List<SentenceErrors> getSentenceErrosAsList(int numberOfParagraph) {
+    List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
+    CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
+    List<Integer> nextSentencePositions = null;
+    if (entry != null) {
+      nextSentencePositions = entry.nextSentencePositions;
+    }
+    if (nextSentencePositions == null) {
+      nextSentencePositions = new ArrayList<Integer>();
+    }
+    if (nextSentencePositions.size() == 0 && docCache != null) {
+      nextSentencePositions.add(docCache.getFlatParagraph(numberOfParagraph).length());
+    }
+    int startPosition = 0;
+    for (int nextPosition : nextSentencePositions) {
+      List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+      for (ResultCache cache : paragraphsCache) {
+        errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition));
+      }
+      sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, mergeErrors(errorList, numberOfParagraph)));
+      startPosition = nextPosition;
+    }
+    return sentenceErrors;
+  }
+
+  /**
+   * Class of proofreading errors of one sentence
+   */
+  class SentenceErrors {
+    final int sentenceStart;
+    final int sentenceEnd;
+    final SingleProofreadingError[] sentenceErrors;
+    
+    SentenceErrors(int start, int end, SingleProofreadingError[] errors) {
+      sentenceStart = start;
+      sentenceEnd = end;
+      sentenceErrors = errors;
+    }
+  }
+
   
 }
