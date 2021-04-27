@@ -807,7 +807,7 @@ RB => Règles Brutes
     <rule id="CONTINUER_A" name="continuer à">
         <pattern>
             <marker>
-                <token postag="V (ind|sub|imp).*" postag_regexp="yes" inflected="yes">continuer</token>
+                <token postag="V (ind|sub|imp).*" postag_regexp="yes" inflected="yes" regexp="yes">continuer|prêter</token>
             </marker>
             <token regexp="yes" skip="1">à</token>
             <token postag="V.* inf" postag_regexp="yes"/>
@@ -854,6 +854,22 @@ RB => Règles Brutes
             <token postag="N f s">somme</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="PRETER_SERMENT" name=" prêter serment">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">prêter</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">allégeance|conseil|serment|aide|assistance|attention|foi|garde|hommage|main|main-forte|renfort|appui|secours</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="PRETER_UNE" name=" prêter">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" skip="1">prêter</token>
+            </marker>
+            <token inflected="yes" regexp="yes">flanc|oreille|concours|allégeance|conseil|serment|aide|assistance|attention|foi|garde|hommage|main|main-forte|renfort|appui|secours</token>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
     </rule>
     <rule name="avoir lieu" id="AVOIR_LIEU">
         <pattern>
@@ -1456,7 +1472,7 @@ RB => Règles Brutes
     </rule>
     <rule id="VUE" name="vue (noun)">
         <pattern>
-            <token inflected="yes">point</token>
+            <!--<token inflected="yes" regexp="yes">point|prise</token>-->
             <token>de</token>
             <marker>
                 <token postag="N f s">vue</token>
@@ -1482,7 +1498,7 @@ RB => Règles Brutes
     <rule id="N_SUIVI_NP" name="N + NP">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise|sortie</token>
             </marker>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
@@ -1491,6 +1507,7 @@ RB => Règles Brutes
     <rule id="LA_SOUL" name="la soul (musical genere)">
         <pattern>
             <token regexp="yes">la|divas?|chanteurs?|chanteuses?</token>
+            <token min="0">de</token>
             <marker>
                 <token>soul</token>
             </marker>
@@ -1557,7 +1574,7 @@ RB => Règles Brutes
                     <feature id="gender"/>-->
                 <token postag="D.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
+                    <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes">
                     <exception inflected="yes">vrai</exception></token>
@@ -1571,7 +1588,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
