@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
+import org.languagetool.rules.el.ReplaceHomonymsRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -82,6 +83,7 @@ public class Greek extends Language {
             new MultipleWhitespaceRule(messages, this),
             new WordRepeatBeginningRule(messages, this),
             new WordRepeatRule(messages, this),
+            new ReplaceHomonymsRule(messages, this),
             new NumeralStressRule(messages)
     );
   }
@@ -115,6 +117,6 @@ public class Greek extends Language {
 
   @Override
   public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
-  }
+		return LanguageMaintainedState.ActivelyMaintained;
+	}
 }
