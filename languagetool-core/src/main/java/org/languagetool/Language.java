@@ -842,7 +842,7 @@ public abstract class Language {
     
     //restore suggestions
     for (int i=0; i<preservedStrings.size(); i++) {
-      output= output.replaceFirst("\\\\" + String.valueOf(i), getOpeningDoubleQuote() + preservedStrings.get(i) + getClosingDoubleQuote() );
+      output= output.replaceFirst("\\\\" + String.valueOf(i), getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
     }
     
     return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
