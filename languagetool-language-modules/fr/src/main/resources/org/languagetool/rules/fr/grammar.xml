@@ -659,7 +659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
                 <!-- unsual as adjective before noun -->
-                <token inflected="yes" regexp="yes">entreprise|donnée|participant|distributeur|consommateur|pro</token>
+                <token inflected="yes" regexp="yes">entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée</token>
                 <token postag="[NZ].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -667,9 +667,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">maximum|minimum|anti-.*</token>
             </antipattern>
             <antipattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">max|min</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <!-- missing comma -->
+                <token regexp="yes">enchantée?</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">\d([eè]|ème|er)</token>
                 <token>personne</token>
                 <token regexp="yes">singulier|pluriel</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">conditionnel|subjonctif</token>
+                <token regexp="yes">prés</token>
+                <!--<token>.</token>-->
             </antipattern>
             <antipattern>
                 <token>grâce</token>
@@ -697,13 +712,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>inclus</token>
             </antipattern>
             <antipattern>
-                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (p|sp)" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
@@ -712,37 +727,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
-                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (p|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (s|sp)" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
-                <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (s|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="N [fe] (p|s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (p|s|sp)" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
-                <token postag="N [me] (p|s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (p|s|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="N [me] (p|s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (p|s|sp)" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
-                <token postag="N [fe] (p|s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (p|s|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="J [fe] (p|sp)|V ppa f s" postag_regexp="yes"/>
-                <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (s|sp)" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
-                <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (s|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <!-- Perhaps better as tags in disambiguation: _GN_... -->
@@ -883,6 +898,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- better suggestion needed-->
                 <example type="triggers_error">Tom surpris Marie</example>
                 <example>Je l'ai à peine vue sourire.</example>
+                <example>permettant aux entreprises GSM la gestion</example>
+                <example>le transparent laisse seulement passer</example>
+                <example>Produit vaisselle et savon mains.</example>
+                <example>partie HTML</example>
+                <example>points clés ou indicateurs clés</example>
+                <example>Chers Violaine et Xavier</example>
+                <example>Enchantée Jean-Noël</example>
+                <example>Rentrée Mars 2021</example>
+                <example>Puissance de Sortie Max.: 15 W</example>
+                <example>Accessoires Barista</example>
+                <example>Acheteur projets</example>
+                <example>Employée libre-service</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->

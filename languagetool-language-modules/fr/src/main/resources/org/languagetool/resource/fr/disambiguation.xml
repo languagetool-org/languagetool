@@ -31,6 +31,7 @@ RB => Règles Brutes
     <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
     <!ENTITY noms_apres_faire "allusion|appel|attention|carrière|confiance|demi-tour|débat|erreur|faillite|figure|fortune|fureur|gaffe|gymnastique|horreur|intrusion|irruption|lecture|main|mal|mention|montre|part|partie|peur|place|plaisir|pression|preuve|profil|référence|saillie|semblant|signe|silence|suite|usage|écho|étalage">
+    <!ENTITY mois_annee "jan(v?ier)?|f[eé]v(rier)?|mars|avril|mai|juin|jui(llet)?|ao[uû]t|sept?(embre)?|oct(obre)?|nov(embre)?|d[eé]c(embre)?">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
@@ -137,7 +138,7 @@ RB => Règles Brutes
         <!-- They are usually nouns in apposition -->
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">utilisateur|client|administrateur|entreprise|identifiant</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="J.*"/>
@@ -742,10 +743,10 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
-    <rulegroup id="POUVOIR_INFINITIF" name="pouvoir + infinitif">
+    <rulegroup id="POUVOIRINITIF" name="pouvoir + infinitif">
         <rule>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer|laisser</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </pattern>
             <disambig action="filterall"/>
@@ -758,7 +759,7 @@ RB => Règles Brutes
         <token>?</token>
       </antipattern>-->
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer|laisser</token>
                 <token postag="R pers obj.*|A" postag_regexp="yes"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </pattern>
@@ -766,7 +767,7 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer|laisser</token>
                 <token postag="A"/>
                 <token postag="R pers obj.*" postag_regexp="yes"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
@@ -1036,7 +1037,7 @@ RB => Règles Brutes
     <!-- CATEGORY: appositions -->
     <rule id="CHARGE_PROJET" name="ondes radio">
         <pattern>
-            <token regexp="yes">chargée?s?</token>
+            <token regexp="yes">chargée?s?|acheteurs?</token>
             <marker>
                 <token regexp="yes">projets?|qualité</token>
             </marker>
@@ -1169,6 +1170,33 @@ RB => Règles Brutes
         <pattern>
             <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche|retour|photo|recherche|image</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rulegroup name="points clés" id="POINTS_CLES">
+        <rule>
+            <pattern>
+                <token postag="N.* (s|sp)" postag_regexp="yes"/>
+                <marker>
+                    <token>clé</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="J e s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.* (p|sp)" postag_regexp="yes"/>
+                <marker>
+                    <token>clés</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="J e p"/>
+        </rule>
+    </rulegroup>
+    <rule name="produit vaisselle" id="PRODUIT_VAISSELLE">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">vaisselle</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1408,6 +1436,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="RENTREE" name="rentrée">
+        <pattern>
+            <marker>
+                <token postag="N f s">rentrée</token>
+            </marker>
+            <token regexp="yes">&mois_annee;</token>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+    </rule>
     <rule id="LES_PLUS" name="les plus">
         <pattern>
             <marker>
@@ -1445,7 +1482,7 @@ RB => Règles Brutes
     <rule id="N_SUIVI_NP" name="N + NP">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise</token>
             </marker>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
@@ -2153,7 +2190,7 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filterall"/>
         </rule>
-        <rule id="FAITES_INF" name="faites + infinitif">
+        <rule id="FAITES" name="faites + infinitif">
             <pattern>
                 <marker>
                     <token postag="V imp pres 2 p">faites</token>
