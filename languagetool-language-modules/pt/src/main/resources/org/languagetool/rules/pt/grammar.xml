@@ -2249,23 +2249,27 @@ Os que já vieram estão no salão.
 
 	<!-- QUE CADA VEZ SERÃO que serão cada vez -->
     <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 + 2021-04-27 (17-MAR-2021+)      -->
 	<!--
 Vamos usar resoluções que cada vez serão mais comuns nos computadores recentes. → Vamos usar resoluções que serão cada vez mais comuns nos computadores recentes.
 	-->	
 		<pattern>
-			<token>que</token>
+			<token postag='CS' postag_regexp='no'>
+				<exception postag_regexp='yes' postag='V.+'/>
+			</token>			
 			<marker>
 				<token postag='RG' postag_regexp='no'>
-					<exception regexp='yes'>aí|ainda|ali|aqui|até|completamente|dificilmente|hoje|já|nunca|onde|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
+					<exception regexp='yes'>aí|ainda|ali|aqui|até|completamente|dificilmente|embora|hoje|já|nunca|onde|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
+					<exception regexp='yes'>basicamente|bastante|em|muito|não|tal|tão</exception>
 					<exception postag_regexp='yes' postag='CC|AQ0.+|NC.+|V.+|SPS.+|PI.+|Z0.+'/>
 				</token>
 				<token min="0" max="1" postag='RG' postag_regexp='no'>
-					<exception regexp='yes'>aí|ainda|ali|aqui|até|completamente|dificilmente|hoje|já|nunca|onde|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
+					<exception regexp='yes'>aí|ainda|ali|aqui|até|completamente|dificilmente|embora|hoje|já|nunca|onde|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
+					<exception regexp='yes'>basicamente|bastante|em|muito|não|tal|tão</exception>
 					<exception postag_regexp='yes' postag='CC|AQ0.+|NC.+|V.+|SPS.+|PI.+|Z0.+'/>
 				</token>
 				<token postag='V.+' postag_regexp='yes'>
-					<exception postag_regexp='yes' postag='RG|CC'/>
+					<exception postag_regexp='yes' postag='RG|CC|Z0.+'/>
 				</token>				
 			</marker>
 			<token negate_pos="yes" postag='V.+|RG|CC|Z0.+|_PUNCT|RM' postag_regexp='yes'/>
@@ -2289,6 +2293,11 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 		<example>Meu pai, que nunca foi gentil comigo, veio me ver.</example>
 		<example>Diz-se que aqui é quente.</example>
 		<example>Diz-se que aqui está quente.</example>
+		<example>Eram eles que tão lamentavelmente gemiam.</example>
+		<example>Não seja tão impaciente!</example>
+		<example>Como sempre que posso.</example>
+		<example>Ela o cumprimentou alegremente como sempre fez.</example>
+		<example>Seja sempre feita a vontade de Deus.</example>		
     </rule>
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
