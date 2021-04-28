@@ -451,6 +451,7 @@ public class English extends Language implements AutoCloseable {
       case "METRIC_UNITS_EN_GB":        return -1;  // prefer MILE_HYPHEN
       case "COMMA_COMPOUND_SENTENCE":   return -1;  // prefer other rules
       case "COMMA_COMPOUND_SENTENCE_2": return -1;  // prefer other rules
+      case "REPEATED_VERBS":            return -1;  // prefer other rules
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
