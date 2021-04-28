@@ -1985,6 +1985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Les paraules llibertat, natura, respecte.</example>
             <example>Amb una goma tipus triatló.</example>
             <example>Un castell de tal importància aixecat sobre el tossal.</example>
+            <example>Gaudí accepta, no cal dir-ho.</example>
             <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -7634,6 +7635,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Em passa|Hem de passar"><marker>Hem passa</marker> el mateix.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token inflected="yes">acostumar</token>
+                    <marker>
+                        <token>ha</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és una preposició (i no és del v. 'haber'), s'escriu <suggestion>a</suggestion>.</message>
+                <example correction="a">Acostumava <marker>ha</marker> haver-hi de tot.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token>ens</token>
@@ -7822,7 +7834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VA.*" postag_regexp="yes">ha<exception postag="_obligacio|V.P.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception postag="[DP].*" postag_regexp="yes"/></token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
                 </pattern>
@@ -7844,7 +7856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="VA.*" postag_regexp="yes" inflected="yes">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/></token>
-                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception postag="[DP].*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.[NG].*" postag_regexp="yes"/>
                     </marker>
@@ -7869,6 +7881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que hi ha hagut, coincidint amb</example>
                 <example>on hi ha, dominant el poble,</example>
                 <example>amb uns nens que hi havia jugant al carrer</example>
+                <example>N'hi ha prou extraient 3 protons.</example>
             </rule>
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
@@ -24471,7 +24484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PARIA" name="paria/pària">
             <rule>
                 <pattern>
-                    <token  postag="D..MS.|N.MS.*" postag_regexp="yes"/>
+                    <token postag="D..MS.|N.MS.*" postag_regexp="yes"/>
                     <marker>
                         <token>paria</token>
                     </marker>
@@ -24482,7 +24495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token  postag="D..MP.|N.MP.*|VSP00PM0" postag_regexp="yes"/>
+                    <token postag="D..MP.|N.MP.*|VSP00PM0" postag_regexp="yes"/>
                     <marker>
                         <token>paries</token>
                     </marker>
@@ -37031,6 +37044,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EMA" name="Agència Europea de Medicaments" default="temp_off">
+            <pattern>
+                <token>Agència</token>
+                <token regexp="yes">Europea|Espanyola</token>
+                <token>de</token>
+                <token>l</token>
+                <token>Medicament</token>
+            </pattern>
+            <message>La denominació incorrecta.</message>
+            <suggestion>Agència <match no="2" case_conversion="startupper"/> de Medicaments</suggestion>
+            <url>https://esadir.cat/Nomspropis/Entitats/Internacional/Agencia_Europea_de_Medicaments</url>
+            <example correction="Agència Europea de Medicaments">Decidit per l'<marker>Agència europea del Medicament</marker></example>
+        </rule>
         <rule id="A_TOTA_COSTA" name="a tota costa">
             <pattern>
                 <token>a</token>
@@ -56689,7 +56715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>don</token>
                     </marker>
-                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">(?-i)Joan|Quixot</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">(?-i)Joan|Quixot|Juan|Quijote</exception></token>
                 </pattern>
                 <message>Val més usar una altra expressió. "Don" pot ser un tractament honorífic històric.</message>
                 <suggestion>en</suggestion>
