@@ -1567,6 +1567,11 @@ RB => Règles Brutes
         <disambig action="filterall"/>
     </rule>
     <rulegroup id="BON_ADJ" name="bon (adj)">
+        <antipattern>
+            <token regexp="yes">ne|n'</token>
+            <token postag="V.*" postag_regexp="yes"/>
+            <token>pas</token>
+        </antipattern>
         <rule>
             <pattern>
                 <!-- <unify>
