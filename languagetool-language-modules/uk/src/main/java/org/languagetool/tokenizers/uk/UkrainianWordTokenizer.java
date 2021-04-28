@@ -44,9 +44,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
             + "\u2400-\u27FF"                                                       // Control Pictures
-            + String.valueOf(Character.toChars(0x1F300)) + "-" + String.valueOf(Character.toChars(0x1F64F))          // Emojis
-            + "\ufeff\uffa0\ufff9\ufffa\ufffb"
-            + "\ufe00-\uffff"
+            + String.valueOf(Character.toChars(0x1F000)) + "-" + String.valueOf(Character.toChars(0x1FFFF))          // Emojis
+            + "\uf000-\uffff" // private unicode area: U+E000..U+F8FF
             + "\uE110]";
 
   private static final Pattern SPLIT_CHARS_REGEX = Pattern.compile(SPLIT_CHARS);
@@ -131,13 +130,13 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2";
 
   // скорочення що не можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
-      + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
-      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
+  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|австрал|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
+      + "|держ|див|діал|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зневажл?|зовн|ім|івр|ісп|іст|італ"
+      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|[Нн]апр|нац|образн|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|прикм|присл|пров|пром|просп"
+      + "|[Рр]ед|[Рр]еж|розд|розм|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\h\\v]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) ін|(та|й|і) под|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
+  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) ін|(та|й|і) под|інш|атм|відс|гр|е|коп|обл|р|рр|РР|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\h\\v]+т)\\.([\\h\\v]*(д|п|ін))\\.");
   private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\h\\v]+т)\\.([\\h\\v]*(зв))\\.");
 
@@ -277,6 +276,14 @@ public class UkrainianWordTokenizer implements Tokenizer {
       }
     }
 
+    // leave only potential hashtags together
+    text = text.replace("#", BREAKING_PLACEHOLDER + "#");
+    // leave numbers with following % together
+    if( text.indexOf('%') >= 0 ) {
+      text = text.replaceAll("%([^-])", "%" + BREAKING_PLACEHOLDER + "$1");
+    }
+
+    
     text = COMPOUND_WITH_QUOTES.matcher(text).replaceAll("$1\uE109$2\uE109$3");
     
     // if period is not the last character in the sentence

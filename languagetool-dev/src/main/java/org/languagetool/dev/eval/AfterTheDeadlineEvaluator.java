@@ -95,8 +95,8 @@ class AfterTheDeadlineEvaluator {
   }
 
   private List<Rule> getRules(Language lang) throws IOException {
-    JLanguageTool langTool = new JLanguageTool(lang);
-    return langTool.getAllActiveRules();
+    JLanguageTool lt = new JLanguageTool(lang);
+    return lt.getAllActiveRules();
   }
 
   private boolean queryAtDServer(IncorrectExample example) {

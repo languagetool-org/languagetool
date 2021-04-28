@@ -490,6 +490,10 @@ public final class StringTools {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
     return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
   }
+  
+  public static String normalizeNFKC(String str) {
+    return Normalizer.normalize(str, Normalizer.Form.NFKC);
+  }
 
   @Nullable
   public static String asString(CharSequence s) {

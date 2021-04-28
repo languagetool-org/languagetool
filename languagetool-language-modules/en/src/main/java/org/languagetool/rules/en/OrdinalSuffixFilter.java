@@ -19,19 +19,15 @@
 package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.RegexRuleFilter;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 /**
- * Fixes the suggestion for ordinal suffixes, like "1nd" -> "1st".
+ * Fixes the suggestion for ordinal suffixes, like "1nd" -&gt; "1st".
  * @since 5.3
  */
 public class OrdinalSuffixFilter extends RuleFilter {

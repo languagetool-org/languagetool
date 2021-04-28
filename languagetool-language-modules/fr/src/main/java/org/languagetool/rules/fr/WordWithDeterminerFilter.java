@@ -20,6 +20,7 @@ package org.languagetool.rules.fr;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -44,15 +45,17 @@ public class WordWithDeterminerFilter extends RuleFilter {
   private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
   private static JLanguageTool lt = new JLanguageTool(new French());
 
-  private static final String determinerRegexp = "(P.)?D .*";
+  private static final String determinerRegexp = "(P.)?D .*|J .*|V.* ppa .*";
   private static final Pattern DETERMINER = Pattern.compile(determinerRegexp);
   private static final String wordRegexp = "[ZNJ] .*|V.* ppa .*";
   private static final Pattern WORD = Pattern.compile(wordRegexp);
 
   // 0=MS, 1=FS, 2=MP, 3=FP
   private static final String[] GenderNumber = { "(m|e) (s|sp)", "(f|e) (s|sp)", "(m|e) (p|sp)", "(f|e) (p|sp)" };
-  private static final String determiner = "(P.)?D ";
+  private static final String determiner = "((P.)?D |J |V.* ppa )";
 
+  private static final List<String> exceptionsDeterminer = Arrays
+      .asList(new String[] { "bels", "fols", "mols", "nouvels" });
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
@@ -118,7 +121,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
 
     for (Rule r : lt.getAllRules()) {
       if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
-          || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")) {
+          || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")
+          || r.getId().equals("VIEUX")) {
         lt.enableRule(r.getId());
       } else {
         lt.disableRule(r.getId());
@@ -130,6 +134,9 @@ public class WordWithDeterminerFilter extends RuleFilter {
     for (int i = 0; i < 4; i++) {
       for (int cw = 0; cw < wordForms[i].length; cw++) {
         for (int cd = 0; cd < determinerForms[i].length; cd++) {
+          if (exceptionsDeterminer.contains(determinerForms[i][cd])) {
+            continue;
+          }
           if (determinerForms[i][cd] != null && wordForms[i][cw] != null) {
             String determiner = determinerForms[i][cd];
             String word = wordForms[i][cw];

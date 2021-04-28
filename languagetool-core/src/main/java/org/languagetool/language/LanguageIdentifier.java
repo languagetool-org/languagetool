@@ -51,7 +51,6 @@ public class LanguageIdentifier {
   private static final int SHORT_ALGO_THRESHOLD = 50;
   // texts shorter than this will *only* consider preferred languages (if set):
   private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
-  private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
@@ -102,6 +101,7 @@ public class LanguageIdentifier {
         .withTextFilter(ImprovedUrlTextFilter.getInstance())
         .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
         .withTextFilter(new RemoveEMailSignatureFilter())
+        .withTextFilter(new RemoveMentionFilter())
         .withTextFilter(new RemoveNonBreakingSpaces())
         .build();
     } catch (IOException e) {
@@ -226,8 +226,9 @@ public class LanguageIdentifier {
         // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
         shortText = ImprovedUrlTextFilter.getInstance().filter(shortText);
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
+        shortText = new RemoveMentionFilter().filter(shortText);
         shortText = new RemoveNonBreakingSpaces().filter(shortText);
-        shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
+        shortText = shortText.replaceAll("\uFEFF+", " ").trim();  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         Map<String, Double> scores;
         boolean usingFastText = false;
         if ((text.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && ngram != null) {
@@ -327,9 +328,18 @@ public class LanguageIdentifier {
   }
 
   static class RemoveEMailSignatureFilter implements TextFilter {
+    private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
     @Override
     public String filter(CharSequence text) {
       return SIGNATURE.matcher(text.toString()).replaceFirst("");
+    }
+  }
+
+  static class RemoveMentionFilter implements TextFilter {
+    private static final Pattern MENTION = Pattern.compile("@[A-Za-z0-9_]+");
+    @Override
+    public String filter(CharSequence text) {
+      return MENTION.matcher(text.toString()).replaceFirst("");
     }
   }
 

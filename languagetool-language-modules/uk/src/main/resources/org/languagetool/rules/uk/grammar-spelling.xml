@@ -110,6 +110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>За правописом 2019 «пів» з іменниками пишемо окремо, якщо це слово не становить єдине поняття</message>
         <suggestion><match no="1" regexp_match="(пів)([а-яіїєґ'].*)" regexp_replace="$1 $2" /></suggestion>
         <example correction="пів огірка">з'їв <marker>півогірка</marker>.</example>
+        <example correction="пів року">цілих <marker>півроку</marker>.</example>
         <example>півколо</example>
         <example>південноафриканський</example>
       </rule>
@@ -160,6 +161,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="хабаря">дав <marker>хабара</marker>.</example>
         <example correction="хабарем"><marker>хабаром</marker>.</example>
         <example>хабарі</example>
+      </rule>
+
+      <rule id="vitra" name="Вітра">
+        <antipattern>
+          <token regexp="yes" inflected="yes">шукати|ловити</token>
+          <token min="0" regexp="yes">би?</token>
+          <token min="0" postag_regexp="yes" postag="adv(?!p).*"/>
+          <token>вітра</token>
+        </antipattern>
+        <pattern>
+          <token>вітра</token>
+        </pattern>
+        <message>За винятком декількох сталих зворотів р.в. від слова «вітер» є <suggestion>вітру</suggestion></message>
+        <example correction="вітру">десь <marker>вітра</marker>.</example>
+        <example>шукав вітра в полі</example>
+        <example>шукай тепер вітра в полі</example>
       </rule>
 
       <rule>
@@ -256,6 +273,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Це слово пишеться через дефіс: <suggestion>\1-\2-\3</suggestion></message>
         <example correction="пліч-о-пліч">і <marker>пліч о пліч</marker> билися зі своїми.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">Нь?ю</token>
+          <token>Йорк</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>Нью-\2</suggestion></message>
+        <example correction="Нью-Йорк">у <marker>Нью Йорк</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -1026,6 +1052,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
+          <token regexp="yes" case_sensitive="yes">МН-?17</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion><match no="1" regexp_match="МН(.*)" regexp_replace="MH$1"/></suggestion>
+        <example correction="MH-17">рейс <marker>МН-17</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">АІ-[а-яіїєґ].*</token>
         </pattern>
         <message>Потенційна помилка: українські літери замість латинських</message>
@@ -1057,6 +1091,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Потенційна помилка: українські літери замість латинських</message>
         <suggestion><match no="1" regexp_match="МАС(.*)" regexp_replace="MAC$1"/></suggestion>
         <example correction="MAC-адреса"><marker>МАС-адреса</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">СО</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion>CO</suggestion>
+        <example correction="CO">рівень <marker>СО</marker> в крові.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">СО2</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion>CO2</suggestion>
+        <example correction="CO2">рівень <marker>СО2</marker> в крові.</example>
       </rule>
     </rulegroup>
 
@@ -1348,7 +1398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів">
+    <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів" default="off">
       <pattern>
         <token regexp="yes">([кдсмн]|мк)?м[23]</token>
       </pattern>
@@ -1368,6 +1418,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
       <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
       <example>20 ОС</example>
+    </rule>
+
+    <rule id="vytupaye" name="Витупає і виступає">
+      <pattern>
+        <token regexp="yes">витупа(є|ють|ємо?)</token>
+      </pattern>
+      <message>Можливо, ви мали на увазі <suggestion><match no="1" regexp_match="витупа(є|ють|ємо?)" regexp_replace="виступа$1"/></suggestion>?</message>
+      <example correction="виступає">він <marker>витупає</marker> завтра.</example>
     </rule>
   </category>
 

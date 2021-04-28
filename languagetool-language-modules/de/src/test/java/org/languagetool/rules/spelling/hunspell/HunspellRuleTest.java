@@ -43,27 +43,71 @@ public class HunspellRuleTest {
   @Test
   public void testRuleWithGerman() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    commonGermanAsserts(rule, langTool);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    commonGermanAsserts(rule, lt);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
     // ignore URLs:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht was.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("dasdassda http://foo.org/bar steht was.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht dasdassda.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Unter http://foo.org/bar steht was.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("dasdassda http://foo.org/bar steht was.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Unter http://foo.org/bar steht dasdassda.")).length);
     
     // check the correct calculation of error position
     // note that emojis have string length 2 or 3
-    assertEquals(6 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getFromPos());
-    assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getToPos());
-    assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getFromPos());
-    assertEquals(12 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getToPos());
-    assertEquals(11 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getFromPos());
-    assertEquals(14 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getToPos());
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gut😂.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
-    assertEquals(10 ,rule.match(langTool.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getFromPos());
-    assertEquals(13 ,rule.match(langTool.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getToPos());
+    assertEquals(6 ,rule.match(lt.getAnalyzedSentence("Hallo men Schatz!"))[0].getFromPos());
+    assertEquals(9 ,rule.match(lt.getAnalyzedSentence("Hallo men Schatz!"))[0].getToPos());
+    assertEquals(9 ,rule.match(lt.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getFromPos());
+    assertEquals(12 ,rule.match(lt.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getToPos());
+    assertEquals(11 ,rule.match(lt.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getFromPos());
+    assertEquals(14 ,rule.match(lt.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getToPos());
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Mir geht es 😂gut😂.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
+    assertEquals(10 ,rule.match(lt.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getFromPos());
+    assertEquals(13 ,rule.match(lt.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getToPos());
+    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
+    
+    
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("- Teex"));
+    assertEquals(1, matches.length); 
+    assertEquals("Tee", matches[0].getSuggestedReplacements().get(0).toString());
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(6, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("-Teex"));
+    assertEquals(1, matches.length);
+    //assertEquals("[-tee, -telex, -tees, -teen, -teer, -tee-, -text]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
+    assertEquals("[Tee, Telex, Tees, Teen, Teer, Tee-, Texte, TeX, Text]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
+    assertEquals(1, matches[0].getFromPos());
+    assertEquals(5, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("- Kaffeex"));
+    assertEquals(1, matches.length); 
+    assertEquals("[Kaffee, Kaffees, Kaffee-]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("-Kaffeex"));
+    assertEquals(1, matches.length); 
+    //assertEquals("[-kaffee, -kaffees, -kaffee-, -karaffe, Kaffee]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[Kaffee, Kaffees, Kaffee-]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(1, matches[0].getFromPos());
+    assertEquals(8, matches[0].getToPos());
+    
+    matches = rule.match(lt.getAnalyzedSentence("E -Commerce"));
+    assertEquals(2, matches.length); 
+    assertEquals("[E-Commerce]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(11, matches[0].getToPos());
+    //assertEquals("[E-Commerce, C-centromer]", matches[1].getSuggestedReplacements().toString());
+    assertEquals("[E-Commerce, Comer]", matches[1].getSuggestedReplacements().toString());
+    assertEquals(3, matches[1].getFromPos());
+    assertEquals(11, matches[1].getToPos());
+    
   }
 
   @Test
@@ -117,34 +161,34 @@ public class HunspellRuleTest {
   @Test
   public void testRuleWithAustrianGerman() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-AT"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    commonGermanAsserts(rule, langTool);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    commonGermanAsserts(rule, lt);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
   }
 
   @Test
   public void testRuleWithSwissGerman() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-CH"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    commonGermanAsserts(rule, langTool);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    commonGermanAsserts(rule, lt);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
   }
 
-  private void commonGermanAsserts(HunspellRule rule, JLanguageTool langTool) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Arbeitnehmer")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Verhaltensänderung")).length);
+  private void commonGermanAsserts(HunspellRule rule, JLanguageTool lt) throws IOException {
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Arbeitnehmer")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Verhaltensänderung")).length);
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestdftgedgs")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
-    assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestdftgedgs")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
+    assertEquals(2, rule.match(lt.getAnalyzedSentence("Der asdegfue orkt")).length);
   }
 
   @Ignore("just for internal performance testing, thus ignored by default")
@@ -152,12 +196,12 @@ public class HunspellRuleTest {
   public void testPerformance() throws Exception {
     List<Language> allLanguages = Languages.get();
     for (Language language : allLanguages) {
-      JLanguageTool langTool = new JLanguageTool(language);
+      JLanguageTool lt = new JLanguageTool(language);
       //HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), language);
-      langTool.check("warmup");  // make sure everything is initialized when actually testing
-      langTool.check("anotherwarmup");
+      lt.check("warmup");  // make sure everything is initialized when actually testing
+      lt.check("anotherwarmup");
       long startTime = System.currentTimeMillis();
-      langTool.check("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
+      lt.check("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
       //String[] w = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
       //AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
       //rule.match(analyzedSentence);

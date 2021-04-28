@@ -17,11 +17,11 @@
 
   <groupId>org.languagetool</groupId>
   <artifactId>languagetool-parent</artifactId>
-  <version>5.3-SNAPSHOT</version>
+  <version>5.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-      <languagetool.version>5.3-SNAPSHOT</languagetool.version>
+      <languagetool.version>5.4-SNAPSHOT</languagetool.version>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
@@ -37,15 +37,6 @@
   
   <build>
       
-      <extensions>
-		  <!-- needed to deploy to https://repository-languagetool.forge.cloudbees.com/snapshot/ -->
-          <extension>
-              <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-webdav</artifactId>
-              <version>1.0-beta-2</version>
-          </extension>
-      </extensions>
-
       <pluginManagement>
           <plugins>
 
@@ -137,17 +128,6 @@
           </plugins>
       </pluginManagement>
   </build>
-
-  <distributionManagement>
-    <repository>
-      <id>community-release</id>
-      <url>dav:https://repository-languagetool.forge.cloudbees.com/release/</url>
-    </repository>
-    <snapshotRepository>
-      <id>community-snapshot</id>
-      <url>dav:https://repository-languagetool.forge.cloudbees.com/snapshot/</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <profiles>
     <!-- taken from https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven -->

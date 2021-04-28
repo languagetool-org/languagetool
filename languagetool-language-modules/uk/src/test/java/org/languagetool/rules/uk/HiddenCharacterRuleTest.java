@@ -33,15 +33,15 @@ public class HiddenCharacterRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    final HiddenCharacterRule rule = new HiddenCharacterRule(TestTools.getMessages("uk"));
-    final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    HiddenCharacterRule rule = new HiddenCharacterRule(TestTools.getMessages("uk"));
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("сміття")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("сміття")).length);
 
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смі\u00ADття"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("смі\u00ADття"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("сміття"), matches[0].getSuggestedReplacements());

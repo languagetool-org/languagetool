@@ -160,6 +160,8 @@ This is also useful for most multi word rules, because of 'inversion' of the sen
 			</rule>
 			<rule>
 				<antipattern><token regexp="yes">de|een|geen</token><token>pint</token></antipattern>
+				<antipattern><token skip="-1">pint</token><token>bier</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="GET:RNG|.*VRB"/><token regexp="yes">pint?</token></antipattern>
 				<pattern>
 					<token inflected="yes" >pinnen<exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:1EP"/></token>
 				</pattern>

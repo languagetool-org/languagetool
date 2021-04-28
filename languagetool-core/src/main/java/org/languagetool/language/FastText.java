@@ -57,7 +57,7 @@ public class FastText {
       if (buffer == null) {
         // hack to see if this helps us debug the rare case of readLine() returning null:
         try {
-          logger.warn("fasttextIn.readLine() returned null, trying again after short delay for input '" + text + "'");
+          logger.warn("fasttextIn.readLine() returned null, trying again after short delay");
           Thread.sleep(10);
           buffer = fasttextIn.readLine();
           if (buffer == null) {

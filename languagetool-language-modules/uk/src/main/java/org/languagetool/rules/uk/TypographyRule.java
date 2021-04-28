@@ -76,8 +76,11 @@ public class TypographyRule extends Rule {
         ruleMatches.add(potentialRuleMatch);
       }
       else if( "\u2014".equals(tokens[i].getToken()) || "\u2013".equals(tokens[i].getToken()) ) {
-        boolean noSpaceLeft = i > 1 && ! tokens[i].isWhitespaceBefore() && ! ",".equals(tokens[i-1].getToken());
-        boolean noSpaceRight = i < tokens.length - 1 && ! tokens[i+1].isWhitespaceBefore();
+        boolean noSpaceLeft = i > 1 && ! tokens[i].isWhitespaceBefore() 
+            && ! ",".equals(tokens[i-1].getToken())
+            && ! "«".equals(tokens[i-1].getToken());
+        boolean noSpaceRight = i < tokens.length - 1 && ! tokens[i+1].isWhitespaceBefore()
+            && ! ">".equals(tokens[i+1].getToken());
 
         if( noSpaceLeft || noSpaceRight ) {
 

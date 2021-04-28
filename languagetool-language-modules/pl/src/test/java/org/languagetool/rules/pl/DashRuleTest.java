@@ -34,13 +34,13 @@ import static org.junit.Assert.assertNotNull;
 
 public class DashRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private Rule rule;
 
   @Before
   public void setUp() throws Exception {
     Language lang = new Polish();
-    langTool = new JLanguageTool(lang);
+    lt = new JLanguageTool(lang);
     rule = new DashRule(JLanguageTool.getMessageBundle(lang));
   }
 
@@ -68,9 +68,9 @@ public class DashRuleTest {
    * @param expSuggestions the expected suggestions
    */
   private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", langTool);
+    assertNotNull("Please initialize langTool!", lt);
     assertNotNull("Please initialize 'rule'!", rule);
-    RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
+    RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
     assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
         expectedErrors, ruleMatches.length);
     if (expSuggestions != null && expectedErrors != 1) {

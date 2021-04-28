@@ -176,6 +176,14 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
 
   /* 
+   *  true if is an exception of token pair
+   *  note: method is called after two tokens are tested to share the same lemma
+   */
+  protected boolean isExceptionPair(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+    return false;
+  }
+
+  /* 
    * Set a URL to a synonym dictionary for a token
    */
   protected URL setURL(AnalyzedTokenReadings token ) throws MalformedURLException {
@@ -234,7 +242,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     for (int i = 0; i < tokens.length; i++) {
       if (i != notCheck && isTokenToCheck(tokens[i])) {
-        if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[0]))) 
+        if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[0])) && !isExceptionPair(testToken, tokens[i])) 
             || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
           if (notCheck >= 0) {
             if (notCheck == i - 2) {

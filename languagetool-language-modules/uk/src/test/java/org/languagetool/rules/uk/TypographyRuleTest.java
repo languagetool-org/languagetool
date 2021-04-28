@@ -34,61 +34,61 @@ public class TypographyRuleTest {
   @Test
   public void testRule() throws IOException {
     TypographyRule rule = new TypographyRule(TestTools.getMessages("uk"));
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("як-небудь")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("як-небудь")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("А\u2013Т")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("А\u2013Т")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ХХ\u2013ХХІ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ХХ\u2013ХХІ")).length);
     
     //incorrect sentences:
     // TODO: does not work when word is the last in the sentence: "яскраво\u2013рожевий"
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("яскраво\u2013рожевий."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("яскраво\u2013рожевий."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("яскраво-рожевий", "яскраво \u2014 рожевий"), matches[0].getSuggestedReplacements());
 
     // test unknown word
-    matches = rule.match(langTool.getAnalyzedSentence("яскраво\u2013шуруровий."));
+    matches = rule.match(lt.getAnalyzedSentence("яскраво\u2013шуруровий."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("яскраво-шуруровий", "яскраво \u2014 шуруровий"), matches[0].getSuggestedReplacements());
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ХХ\u2014ХХІ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ХХ\u2014ХХІ")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Вовка,— волкова")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Вовка,— волкова")).length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Вовка\u2014Волкова."));
+    matches = rule.match(lt.getAnalyzedSentence("Вовка\u2014Волкова."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Вовка-Волкова", "Вовка \u2014 Волкова"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("цукерок —знову низька"));
+    matches = rule.match(lt.getAnalyzedSentence("цукерок —знову низька"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("цукерок-знову", "цукерок \u2014 знову"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("—знову низька"));
+    matches = rule.match(lt.getAnalyzedSentence("—знову низька"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("\u2014 знову"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("знову—"));
+    matches = rule.match(lt.getAnalyzedSentence("знову—"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("знову \u2014"), matches[0].getSuggestedReplacements());
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("\u2014 Київ, 1994")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("\u2014 Київ, 1994")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("\u2013 Київ, 1994")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("\u2013 Київ, 1994")).length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("важливіше \u2013потенційні"));
+    matches = rule.match(lt.getAnalyzedSentence("важливіше \u2013потенційні"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("важливіше-потенційні", "важливіше \u2014 потенційні"), matches[0].getSuggestedReplacements());
     
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Рахунки 1 класу –")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Рахунки 1 класу –")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("\u2013")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("\u2013")).length);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(" \u2013")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(" \u2013")).length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("любили ,—люби"));
+    matches = rule.match(lt.getAnalyzedSentence("любили ,—люби"));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
   }

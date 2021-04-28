@@ -180,15 +180,14 @@ public class RuleMatchDiffFinder {
             "  <tt>new:</tt> " + showTrimSpace(newMatch.getSuggestions()) +
             "</td>\n");
         }
-        fw.write("</tr>\n");
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, null, match);
         fw.write("  <td>" + match.getSuggestions() + "</td>\n");
-        fw.write("</tr>\n");
       }
+      fw.write("</tr>\n");
     }
     printTableEnd(fw);
   }
@@ -321,7 +320,7 @@ public class RuleMatchDiffFinder {
     fw.write("<table class='sortable_table'>\n");
     fw.write("<thead>\n");
     fw.write("<tr>\n");
-    fw.write("  <th>Change</th>\n");
+    fw.write("  <th style='width:60px'>Change</th>\n");
     fw.write("  <th>File</th>\n");
     fw.write("  <th class='small'>Rule ID</th>\n");
     fw.write("  <th>Message and Text</th>\n");
@@ -427,7 +426,7 @@ public class RuleMatchDiffFinder {
 
   private Map<String, List<RuleMatchDiff>> groupDiffs(List<RuleMatchDiff> diffs) {
     Map<String, List<RuleMatchDiff>> keyToDiffs = new TreeMap<>();
-    String key = "";
+    String key;
     String prevKey = "";
     List<RuleMatchDiff> l = new ArrayList<>();
     for (RuleMatchDiff diff : diffs) {
@@ -476,7 +475,6 @@ public class RuleMatchDiffFinder {
     fw.write("<script>\n" +
       "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
       "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
-      "    col_0: 'select',\n" +
       "    col_1: 'select',\n" +
       "    auto_filter: { delay: 100 },\n" +
       "    grid_layout: false,\n" +
@@ -548,8 +546,8 @@ public class RuleMatchDiffFinder {
             }
             System.out.println("==== " + file + " =================================");
             File oldFile = new File(dir, file);
-            String outputFile = file3.replace("XX", langCode);
-            diffFinder.run(parser, oldFile, newFile, new File(outputFile), langCode, date);
+            String outputDir = file3.replace("XX", langCode);
+            diffFinder.run(parser, oldFile, newFile, new File(outputDir), langCode, date);
           }
         }
       }

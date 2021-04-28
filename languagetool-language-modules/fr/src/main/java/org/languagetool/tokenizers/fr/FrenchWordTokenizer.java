@@ -68,13 +68,17 @@ public class FrenchWordTokenizer extends WordTokenizer {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  
+  private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
+      "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",
+      "rendez-vous", "garde-à-vous", "chez-eux", "chez-moi", "chez-nous", "chez-soi", "chez-toi", "chez-vous", "m'as-tu-vu");
 
   public FrenchWordTokenizer() {
     
     tagger = new FrenchTagger();
 
     // words not to be split
-    patterns[0] = Pattern.compile("^(add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[0] = Pattern.compile("^(m'as-tu-vu|c'est-à-dire|add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[1] = Pattern.compile(
         "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -141,6 +145,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
             + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
             + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
             + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-·™®"
+            + "\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
             + "\u2032", // prime...
         true);
     String s;
@@ -184,10 +189,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
-          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
-              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
-              || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaïda")) {
+          else if (doNotSplit.contains(s.toLowerCase())) {
             l.add(s);
           } else {
             // if not found, the word is split

@@ -2438,6 +2438,105 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 -->
 
+    <rule name="Раза з дробовими числівниками" id="raza_with_fractions">
+      <antipattern>
+        <token regexp="yes">([0-9.,—–-]+)?[0-9]+[.,][0-9]+|півтора</token>
+        <token>раза</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">[0-9]+[.,][0-9]+([0-9.,—–-]+)?|півтора</token>
+        <token>раза</token>
+      </antipattern>
+      <antipattern>
+        <token>половиною</token>
+        <token>раза</token>
+      </antipattern>
+      <antipattern>
+        <token>раза</token>
+        <token min="0" regexp="yes">[ву]</token>
+        <token regexp="yes">півтора(-.*)?</token>
+      </antipattern>
+      <pattern>
+        <token>раза
+          <exception case_sensitive="yes">Раза</exception>
+        </token>
+      </pattern>
+      <message>«\1» вживаємо лише після дробових числівників</message>
+      <suggestion>рази</suggestion>
+      <suggestion>разів</suggestion>
+      <suggestion>разу</suggestion>
+      <url>https://kulturamovy.org.ua/movni-trudnoshhi/r-movni-trudnoshhi/raz/</url>
+      <example correction="рази|разів|разу">Два <marker>раза</marker> прочитав.</example>
+      <example>1,5 раза.</example>
+      <example>раза півтора-два</example>
+      <example>у 2,3–2,5 раза</example>
+      <example>2,5–5 раза</example>
+      <example>Юсуф Раза Гілані</example>
+      <example>два з половиною раза</example>
+    </rule>
+
+
+    <rulegroup id="chyselnyi_chyslennyi" name="Чисельний і численний">
+      <rule>
+        <pattern>
+          <marker>
+              <token regexp="yes" inflected="yes">(не)?чисельний</token>
+          </marker>
+          <token regexp="yes" inflected="yes">асортимент|армія|верства|військо|ворог|гарнізон|глядач|громада|гурт|делегація|духовенство|заява|звернення|колектив|контингент|мітинг|нація|народ|організація|осередок|порушення|представництво|пікет|протест|прошарок|публікація|родина|сім'я|супротивник|товариство</token>
+        </pattern>
+        <message>Численний — який складається з великої кількості, чисельний — який стосується числа, кількості</message>
+        <suggestion><match no="1" regexp_match="(не)?(чисельн)(.*)" regexp_replace="$1численн$3"/></suggestion>
+        <example correction="численним">з <marker>чисельним</marker> військом</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">(най)?(більш|менш)е?|доволі|досить|дуже|настільки</token>
+          <marker>
+              <token inflected="yes" regexp="yes">(не)?чисельний</token>
+          </marker>
+        </pattern>
+        <message>Численний — який складається з великої кількості, чисельний — який стосується числа, кількості</message>
+        <suggestion><match no="2" regexp_match="(не)?(чисельн)(.*)" regexp_replace="$1численн$3"/></suggestion>
+        <example correction="численним">стає більш <marker>чисельним</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+              <token regexp="yes" inflected="yes">(не)?численний</token>
+          </marker>
+          <token regexp="yes" inflected="yes">вигляд|диференціювання|зріст|зростання|інтегрування|масштаб|метод|наростання|приріст|різниця|розв'язання|співвідношення|стан</token>
+        </pattern>
+        <message>Численний — який складається з великої кількості, чисельний — який стосується числа, кількості</message>
+        <suggestion><match no="1" regexp_match="(не)?(численн)(.*)" regexp_replace="$1числов$3"/></suggestion>
+        <suggestion><match no="1" regexp_match="(не)?(численн)(.*)" regexp_replace="$1чисельн$3"/></suggestion>
+        <example correction="числовому|чисельному">і <marker>численному</marker> методу</example>
+      </rule>
+
+      <!-- only singular -->
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <marker>
+              <token regexp="yes" inflected="yes">(не)?численний</token>
+            </marker>
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:.*?:[mnf].*">алгоритм|аналіз|експеримент|значення|критерій|масив|моделювання|опис|прогноз|розв'язок|розв'язання|ряд|спосіб|рішення|характеристика</token>
+          </unify>
+        </pattern>
+        <message>Численний — який складається з великої кількості, чисельний — який стосується числа, кількості</message>
+        <suggestion><match no="1" regexp_match="(не)?(численн)(.*)" regexp_replace="$1числов$3"/></suggestion>
+        <suggestion><match no="1" regexp_match="(не)?(численн)(.*)" regexp_replace="$1чисельн$3"/></suggestion>
+        <example correction="числовому|чисельному">і <marker>численному</marker> експерименті</example>
+        <example>тестували на численних експериментах</example>
+        <example>численні переваги</example>
+      </rule>
+
+      <!--  both ok: кількість, перевага, більшість, меншість -->
+    </rulegroup>
+
   </category>
 
   <category id="LOGICAL_ERRORS" name="Логічні помилки">

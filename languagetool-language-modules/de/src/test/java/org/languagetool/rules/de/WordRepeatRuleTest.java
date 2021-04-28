@@ -52,12 +52,12 @@ public class WordRepeatRuleTest {
     assertBad("Sie sie gehen nach Hause.", lt);
   }
 
-  private void assertGood(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertGood(String text, JLanguageTool lt) throws IOException {
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
-  private void assertBad(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  private void assertBad(String text, JLanguageTool lt) throws IOException {
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

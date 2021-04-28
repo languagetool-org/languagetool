@@ -38,9 +38,9 @@ public class Example {
     System.out.println("Using LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     System.out.println("Supported languages: " + realLanguages.size());
     for (Language language : realLanguages) {
-      JLanguageTool langTool = new JLanguageTool(language);
+      JLanguageTool lt = new JLanguageTool(language);
       String input = "And the the";
-      List<RuleMatch> result = langTool.check(input);
+      List<RuleMatch> result = lt.check(input);
       System.out.println("Checking '" + input + "' with " + language + ":");
       for (RuleMatch ruleMatch : result) {
         System.out.println("    " + ruleMatch);

@@ -35,11 +35,11 @@ public class MorfologikAsturianSpellerRuleTest {
   public void testMorfologikSpeller() throws IOException {
     Asturian language = new Asturian();
     MorfologikAsturianSpellerRule rule = new MorfologikAsturianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("¿Festeyate colos correutores gramaticales?")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("¿Festeyate colos correutores gramaticales?")).length);
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("¿Afáyeste colos correutores gramaticales?"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("¿Afáyeste colos correutores gramaticales?"));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getFromPos());
     assertEquals(9, matches[0].getToPos());

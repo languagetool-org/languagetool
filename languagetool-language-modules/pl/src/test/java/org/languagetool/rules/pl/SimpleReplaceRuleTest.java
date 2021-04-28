@@ -36,24 +36,24 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("pl"));
-    langTool = new JLanguageTool(new Polish());
+    lt = new JLanguageTool(new Polish());
   }
 
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Wszystko w porządku.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wszystko w porządku.")).length);
 
      // no checking lemmas:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Pola lodowe")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Pola lodowe")).length);
 
     //with immunized tokens:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Witamy prez. Komorowskiego!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Witamy prez. Komorowskiego!")).length);
 
     // incorrect sentences:
     // at the beginning of a sentence (Romanian replace rule is case-sensitive)
@@ -69,7 +69,7 @@ public class SimpleReplaceRuleTest {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
         + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

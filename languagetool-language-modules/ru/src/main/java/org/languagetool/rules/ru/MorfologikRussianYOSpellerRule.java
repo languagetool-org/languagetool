@@ -24,12 +24,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Arrays;
+
+
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.SuggestedReplacement;
+
 
 
 /**
@@ -44,6 +52,12 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
 
   private static final String RESOURCE_FILENAME = "/ru/hunspell/ru_RU_yo.dict";
   private static final Pattern RUSSIAN_LETTERS = Pattern.compile("[-а-яёо́а́е́у́и́ы́э́ю́я́о̀а̀ѐу̀ѝы̀э̀ю̀я̀ʼА-ЯЁ]*");
+  
+  private final static Set <String> lcDoNotSuggestWords = new HashSet <> (Arrays.asList(
+    // words with 'NOSUGGEST' flag:
+    "блоггер",
+    "елка"      
+ ));
 
   public MorfologikRussianYOSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
@@ -61,6 +75,13 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
   public String getId() {
     return RULE_ID;
   }
+  
+  
+ @Override
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l.stream().filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());
+  }
+
 
   @Override
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
@@ -83,5 +104,9 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
     return "Проверка орфографии. Только «Ё» (экспериментальное правило).";
   }
   
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
   
 }

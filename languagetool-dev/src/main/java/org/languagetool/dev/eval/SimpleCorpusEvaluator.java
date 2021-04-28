@@ -61,16 +61,16 @@ public class SimpleCorpusEvaluator {
   private int goodMatches;
   private int matchCount;
 
-  public SimpleCorpusEvaluator(File indexTopDir) throws IOException {
+  public SimpleCorpusEvaluator(File indexTopDir) {
     evaluator = getEvaluator(indexTopDir);
   }
-
-  public SimpleCorpusEvaluator(File... indexTopDirs) throws IOException {
+  
+  public SimpleCorpusEvaluator(File... indexTopDirs) {
     evaluator = getEvaluator(indexTopDirs);
   }
 
   @NotNull
-  private Evaluator getEvaluator(File... indexTopDirs) throws IOException {
+  private Evaluator getEvaluator(File... indexTopDirs) {
     return new NgramLanguageToolEvaluator(indexTopDirs);
   }
 
@@ -195,11 +195,11 @@ public class SimpleCorpusEvaluator {
 
   static class NgramLanguageToolEvaluator implements Evaluator {
 
-    private final JLanguageTool langTool;
+    private final JLanguageTool lt;
     private final LanguageModel languageModel;
-
-    NgramLanguageToolEvaluator(File... indexTopDirs) throws IOException {
-      langTool = new JLanguageTool(new English());
+    
+    NgramLanguageToolEvaluator(File... indexTopDirs) {
+      lt = new JLanguageTool(new English());
       disableAllRules();
       List<LanguageModel> lms = new ArrayList<>();
       for (File indexTopDir : indexTopDirs) {
@@ -210,7 +210,7 @@ public class SimpleCorpusEvaluator {
       System.out.println("Using Lucene language model from " + languageModel);
       probabilityRule = new EnglishNgramProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
       probabilityRule.setDefaultOn();
-      langTool.addRule(probabilityRule);
+      lt.addRule(probabilityRule);
     }
 
     @Override
@@ -221,14 +221,14 @@ public class SimpleCorpusEvaluator {
     }
 
     private void disableAllRules() {
-      for (Rule rule : langTool.getAllActiveRules()) {
-        langTool.disableRule(rule.getId());
+      for (Rule rule : lt.getAllActiveRules()) {
+        lt.disableRule(rule.getId());
       }
     }
 
     @Override
     public List<RuleMatch> check(AnnotatedText annotatedText) throws IOException {
-      return langTool.check(annotatedText);
+      return lt.check(annotatedText);
     }
   }
 

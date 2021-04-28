@@ -279,14 +279,14 @@ public final class Main {
   }
 
   private void showOptions() {
-    JLanguageTool langTool = ltSupport.getLanguageTool();
-    List<Rule> rules = langTool.getAllRules();
+    JLanguageTool lt = ltSupport.getLanguageTool();
+    List<Rule> rules = lt.getAllRules();
     ConfigurationDialog configDialog = getCurrentConfigDialog();
     boolean configChanged = configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     if(configChanged) {
       Configuration config = ltSupport.getConfig();
       try { //save config - needed for the server
-        config.saveConfiguration(langTool.getLanguage());
+        config.saveConfiguration(lt.getLanguage());
       } catch (IOException e) {
         Tools.showError(e);
       }
@@ -1040,9 +1040,9 @@ public final class Main {
   }
 
   private void tagTextAndDisplayResults() {
-    JLanguageTool langTool = ltSupport.getLanguageTool();
+    JLanguageTool lt = ltSupport.getLanguageTool();
     // tag text
-    List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+    List<String> sentences = lt.sentenceTokenize(textArea.getText());
     StringBuilder sb = new StringBuilder();
     if(taggerShowsDisambigLog) {
       sb.append("<table>");
@@ -1057,7 +1057,7 @@ public final class Main {
       boolean odd = true;
       try {
         for (String sent : sentences) {
-          AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          AnalyzedSentence analyzed = lt.getAnalyzedSentence(sent);
           odd = appendTagsWithDisambigLog(sb, analyzed, odd);
         }
       } catch (Exception e) {
@@ -1067,7 +1067,7 @@ public final class Main {
     } else {
       try {
         for (String sent : sentences) {
-          AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          AnalyzedSentence analyzed = lt.getAnalyzedSentence(sent);
           String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
                   replace("&lt;S&gt;", "&lt;S&gt;<br>").
                   replace("[", "<font color='" + TAG_COLOR + "'>[").

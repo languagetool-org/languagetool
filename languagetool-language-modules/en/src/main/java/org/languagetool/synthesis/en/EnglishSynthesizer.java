@@ -73,8 +73,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag)
-      throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
       return super.synthesize(token, posTag);
     }
@@ -94,12 +93,11 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @since 2.5
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag,
-      boolean posTagRegExp) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
       return synthesize(token, posTag);
     }
-    if (posTag != null && posTagRegExp) {
+    if (posTagRegExp) {
       String myPosTag = posTag;
       String det = "";
       if (posTag.endsWith(ADD_IND_DETERMINER)) {
@@ -123,7 +121,6 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       }
       return removeExceptions(results.toArray(new String[0]));
     }
-
     return removeExceptions(synthesize(token, posTag));
   }
 
@@ -139,7 +136,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     return w.startsWith("'") || exceptions.contains(w);  
   }
   
-  private String[] removeExceptions(String words[]) {
+  private String[] removeExceptions(String[] words) {
     List<String> results = new ArrayList<>();
     for (String word : words) {
       if (!isException(word)) {

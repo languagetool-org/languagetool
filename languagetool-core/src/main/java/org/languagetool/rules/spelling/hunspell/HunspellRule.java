@@ -70,7 +70,7 @@ public class HunspellRule extends SpellingCheckRule {
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   //300 most common Portuguese words. They are used to avoid wrong split suggestions
-  private final List<String> commonPortugueseWords = Arrays.asList("de", "e", "a", "o", "da", "do", "em", "que", "uma", "um", "com", "no", "se", "na", "para", "por", "os", "foi", "como", "dos", "as", "ao", "mais", "sua", "das", "não", "ou", "km", "seu", "pela", "ser", "pelo", "são", "também", "anos", "cidade", "entre", "era", "tem", "mas", "habitantes", "nos", "seus", "área", "até", "ele", "onde", "foram", "população", "região", "sobre", "nas", "nome", "parte", "quando", "ano", "aos", "grande", "mesmo", "pode", "primeiro", "segundo", "sendo", "suas", "ainda", "dois", "estado", "está", "família", "já", "muito", "outros", "americano", "depois", "durante", "maior", "primeira", "forma", "apenas", "banda", "densidade", "dia", "então", "município", "norte", "tempo", "após", "duas", "num", "pelos", "qual", "século", "ter", "todos", "três", "vez", "água", "acordo", "cobertos", "comuna", "contra", "ela", "grupo", "principal", "quais", "sem", "tendo", "às", "álbum", "alguns", "assim", "asteróide", "bem", "brasileiro", "cerca", "desde", "este", "localizada", "mundo", "outras", "período", "seguinte", "sido", "vida", "através", "cada", "conhecido", "final", "história", "partir", "país", "pessoas", "sistema", "terra", "teve", "tinha", "época", "administrativa", "censo", "departamento", "dias", "esta", "filme", "francesa", "música", "província", "série", "vezes", "além", "antes", "eles", "eram", "espécie", "governo", "podem", "vários", "censos", "distrito", "estão", "exemplo", "hoje", "início", "jogo", "lhe", "lugar", "muitos", "média", "novo", "numa", "número", "pois", "possui", "sob", "só", "todo", "tornou", "trabalho", "algumas", "devido", "estava", "fez", "filho", "fim", "grandes", "há", "isso", "lado", "local", "morte", "orbital", "outro", "passou", "países", "quatro", "representa", "seja", "sempre", "sul", "várias", "capital", "chamado", "começou", " enquanto", "fazer", "lançado", "meio", "nova", "nível", "pelas", "poder", "presidente", "redor", "rio", "tarde", "todas", "carreira", "casa", "década", "estimada", "guerra", "havia", "livro", "localidades", "maioria", "muitas", "obra", "origem", "pai", "pouco", "principais", "produção", "programa", "qualquer", "raio", "seguintes", "sucesso", "título", "aproximadamente", "caso", "centro", "conhecida", "construção", "desta", "diagrama", "faz", "ilha", "importante", "mar", "melhor", "menos", "mesma", "metros", "mil", "nacional", "populacional", "quase", "rei", "sede", "segunda", "tipo", "toda", "uso", "velocidade", "vizinhança", "volta", "base", "brasileira", "clube", "desenvolvimento", "deste", "diferentes", "diversos", "empresa", "entanto", "futebol", "geral", "junto", "longo", "obras", "outra", "pertencente", "política", "português", "principalmente", "processo", "quem", "seria", "têm", "versão", "TV", "acima", "atual", "bairro", "chamada", "cinco", "conta", "corpo", "dentro", "deve");
+  private final List<String> commonPortugueseWords = Arrays.asList("eu", "ja", "so", "de", "e", "a", "o", "da", "do", "em", "que", "uma", "um", "com", "no", "se", "na", "para", "por", "os", "foi", "como", "dos", "as", "ao", "mais", "sua", "das", "não", "ou", "km", "seu", "pela", "ser", "pelo", "são", "também", "anos", "cidade", "entre", "era", "tem", "mas", "habitantes", "nos", "seus", "área", "até", "ele", "onde", "foram", "população", "região", "sobre", "nas", "nome", "parte", "quando", "ano", "aos", "grande", "mesmo", "pode", "primeiro", "segundo", "sendo", "suas", "ainda", "dois", "estado", "está", "família", "já", "muito", "outros", "americano", "depois", "durante", "maior", "primeira", "forma", "apenas", "banda", "densidade", "dia", "então", "município", "norte", "tempo", "após", "duas", "num", "pelos", "qual", "século", "ter", "todos", "três", "vez", "água", "acordo", "cobertos", "comuna", "contra", "ela", "grupo", "principal", "quais", "sem", "tendo", "às", "álbum", "alguns", "assim", "asteróide", "bem", "brasileiro", "cerca", "desde", "este", "localizada", "mundo", "outras", "período", "seguinte", "sido", "vida", "através", "cada", "conhecido", "final", "história", "partir", "país", "pessoas", "sistema", "terra", "teve", "tinha", "época", "administrativa", "censo", "departamento", "dias", "esta", "filme", "francesa", "música", "província", "série", "vezes", "além", "antes", "eles", "eram", "espécie", "governo", "podem", "vários", "censos", "distrito", "estão", "exemplo", "hoje", "início", "jogo", "lhe", "lugar", "muitos", "média", "novo", "numa", "número", "pois", "possui", "sob", "só", "todo", "tornou", "trabalho", "algumas", "devido", "estava", "fez", "filho", "fim", "grandes", "há", "isso", "lado", "local", "morte", "orbital", "outro", "passou", "países", "quatro", "representa", "seja", "sempre", "sul", "várias", "capital", "chamado", "começou", " enquanto", "fazer", "lançado", "meio", "nova", "nível", "pelas", "poder", "presidente", "redor", "rio", "tarde", "todas", "carreira", "casa", "década", "estimada", "guerra", "havia", "livro", "localidades", "maioria", "muitas", "obra", "origem", "pai", "pouco", "principais", "produção", "programa", "qualquer", "raio", "seguintes", "sucesso", "título", "aproximadamente", "caso", "centro", "conhecida", "construção", "desta", "diagrama", "faz", "ilha", "importante", "mar", "melhor", "menos", "mesma", "metros", "mil", "nacional", "populacional", "quase", "rei", "sede", "segunda", "tipo", "toda", "uso", "velocidade", "vizinhança", "volta", "base", "brasileira", "clube", "desenvolvimento", "deste", "diferentes", "diversos", "empresa", "entanto", "futebol", "geral", "junto", "longo", "obras", "outra", "pertencente", "política", "português", "principalmente", "processo", "quem", "seria", "têm", "versão", "TV", "acima", "atual", "bairro", "chamada", "cinco", "conta", "corpo", "dentro", "deve");
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -177,6 +177,7 @@ public class HunspellRule extends SpellingCheckRule {
       int misspelledButEnglish = 0;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
+        int dashCorr = 0;
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
           prevStartPos = len;
           len += word.length() + 1;
@@ -187,10 +188,19 @@ public class HunspellRule extends SpellingCheckRule {
             misspelledButEnglish++;
           }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
+          if (word.startsWith("-")) {
+            if (!isMisspelled(cleanWord.substring(1)) || cleanWord.matches("-+")) {
+              len += word.length() + 1;
+              continue;
+            } else {
+              dashCorr++;
+            }
+          }
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
             boolean ignoreSplitting = false;
-            if (this.language.getShortCode().equals("pt") && commonPortugueseWords.contains(prevWord.toLowerCase())) {
+            if (this.language.getShortCode().equals("pt") && (commonPortugueseWords.contains(prevWord.toLowerCase())
+                || commonPortugueseWords.contains(word.toLowerCase()))) {
               ignoreSplitting = true;
             }
             if (!ignoreSplitting && prevWord.length() > 0) {
@@ -216,14 +226,15 @@ public class HunspellRule extends SpellingCheckRule {
           }
           
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
-            len, len + cleanWord.length(),
+            len + dashCorr, len + cleanWord.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
+          String cleanWord2 = cleanWord.substring(dashCorr);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             ruleMatch.setLazySuggestedReplacements(() -> {
               try {
-                return calcSuggestions(word, cleanWord);
+                return calcSuggestions(word, cleanWord2);
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }
@@ -251,7 +262,7 @@ public class HunspellRule extends SpellingCheckRule {
             }
           }
         }
-        prevStartPos = len;
+        prevStartPos = len + dashCorr;
         len += word.length() + 1;
       }
     } finally {
@@ -261,6 +272,18 @@ public class HunspellRule extends SpellingCheckRule {
     }
     /*if (sentence.getErrorLimitReached()) {
       return toRuleMatchArray(Collections.emptyList());
+    }*/
+    /*if (language.getShortCode().equals("de")) {
+      for (RuleMatch ruleMatch : ruleMatches) {
+        int i = 1;
+        for (String repl : ruleMatch.getSuggestedReplacements()) {
+          if (i <= 5 && repl.matches("[A-ZÖÄÜ][a-zöäüß]+ [a-zöäüß]+")) {
+            // potential word with "Deppenleerzeichen":
+            System.out.println("repl: " + sentence.getText().substring(ruleMatch.getFromPos(), ruleMatch.getToPos()) + " => " +  repl + " - " + i);
+          }
+          i++;
+        }
+      }
     }*/
     return toRuleMatchArray(ruleMatches);
   }

@@ -22,8 +22,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -53,6 +55,7 @@ import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
@@ -79,7 +82,7 @@ public class MultiDocumentsHandler {
 
   private static boolean debugMode = false;   //  should be false except for testing
   
-  private SwJLanguageTool langTool = null;
+  private SwJLanguageTool lt = null;
   private Language docLanguage = null;
   private Language fixedLanguage = null;
   private Language langForShortName;
@@ -94,12 +97,12 @@ public class MultiDocumentsHandler {
   private SortedTextRules sortedTextRules;
   private Set<String> disabledRulesUI;        //  Rules disabled by context menu or spell dialog
   private final List<Rule> extraRemoteRules;  //  store of rules supported by remote server but not locally
-  private LtDictionary dictionary;            //  internal dictionary of LT defined words 
+  private final LtDictionary dictionary;      //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;      //  LT spelling and grammar check dialog
   private boolean dialogIsRunning = false;    //  The dialog was started     
   
   private XComponentContext xContext;         //  The context of the document
-  private List<SingleDocument> documents;     //  The List of LO documents to be checked
+  private final List<SingleDocument> documents;  //  The List of LO documents to be checked
   private XComponent goneContext = null;      //  save component of closed document
   private boolean recheck = true;             //  if true: recheck the whole document at next iteration
   private int docNum;                         //  number of the current document
@@ -114,7 +117,10 @@ public class MultiDocumentsHandler {
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
   
   private boolean useOrginalCheckDialog = false;  // use original spell and grammar dialog (LT check dialog does not work for OO)
+  private boolean isNotTextDodument = false;
+  private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
+  
 
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
     this.xContext = xContext;
@@ -177,17 +183,17 @@ public class MultiDocumentsHandler {
       boolean isSameLanguage = true;
       if (fixedLanguage == null || langForShortName == null) {
         langForShortName = getLanguage(locale);
-        isSameLanguage = langForShortName.equals(docLanguage) && langTool != null;
+        isSameLanguage = langForShortName.equals(docLanguage) && lt != null;
       }
       if (!isSameLanguage || recheck) {
-        boolean initDocs = langTool == null || recheck;
+        boolean initDocs = lt == null || recheck;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           this.locale = locale;
           extraRemoteRules.clear();
         }
-        langTool = initLanguageTool(!isSameLanguage);
-        initCheck(langTool, locale);
+        lt = initLanguageTool(!isSameLanguage);
+        initCheck(lt, locale);
         if (initDocs) {
           initDocuments();
         }
@@ -198,8 +204,8 @@ public class MultiDocumentsHandler {
       return paRes;
     }
     testHeapSpace();
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool);
-    if (langTool.doReset()) {
+    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt);
+    if (lt.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
       MessageHandler.showMessage(messages.getString("loRemoteSwitchToLocal"));
       config.setRemoteCheck(false);
@@ -218,14 +224,27 @@ public class MultiDocumentsHandler {
    */
   public SingleDocument getCurrentDocument() {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+    isNotTextDodument = false;
     if (xComponent != null) {
       for (SingleDocument document : documents) {
         if (xComponent.equals(document.getXComponent())) {
           return document;
         }
       }
+      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      if (curDoc == null) {
+        MessageHandler.printToLogFile("Is document, but not a text document!");
+        isNotTextDodument = true;
+      }
     }
     return null;
+  }
+  
+  /**
+   * return true, if a document was found but is not a text document
+   */
+  boolean isNotTextDocument() {
+    return isNotTextDodument;
   }
   
   /**
@@ -311,6 +330,39 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   *  get all disabled rules by context menu or spell dialog
+   */
+  Map<String, String> getDisabledRulesMap() {
+    Map<String, String> disabledRulesMap = new HashMap<>();
+    List<Rule> allRules = lt.getAllRules();
+    for (String disabledRule : disabledRulesUI) {
+      String ruleDesc = null;
+      for (Rule rule : allRules) {
+        if (disabledRule.equals(rule.getId())) {
+          ruleDesc = rule.getDescription();
+          break;
+        }
+      }
+      if (ruleDesc != null) {
+        disabledRulesMap.put(disabledRule, ruleDesc);
+      }
+    }
+    for (String disabledRule : config.getDisabledRuleIds()) {
+      String ruleDesc = null;
+      for (Rule rule : allRules) {
+        if (disabledRule.equals(rule.getId())) {
+          ruleDesc = rule.getDescription();
+          break;
+        }
+      }
+      if (ruleDesc != null) {
+        disabledRulesMap.put(disabledRule, ruleDesc);
+      }
+    }
+    return disabledRulesMap;
+  }
+  
+  /**
    *  set disabled rules by context menu or spell dialog
    */
   void setDisabledRules(Set<String> ruleIds) {
@@ -321,13 +373,13 @@ public class MultiDocumentsHandler {
    *  get LanguageTool
    */
   SwJLanguageTool getLanguageTool() {
-    if (langTool == null) {
+    if (lt == null) {
       if (docLanguage == null) {
         docLanguage = getLanguage();
       }
-      langTool = initLanguageTool();
+      lt = initLanguageTool();
     }
-    return langTool;
+    return lt;
   }
   
   /**
@@ -474,9 +526,9 @@ public class MultiDocumentsHandler {
   /**
    *  Set configuration Values for all documents
    */
-  private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
+  private void setConfigValues(Configuration config, SwJLanguageTool lt) {
     this.config = config;
-    this.langTool = langTool;
+    this.lt = lt;
     if (textLevelQueue != null && (heapLimitReached || config.getNumParasToCheck() == 0)) {
       textLevelQueue.setStop();
       textLevelQueue = null;
@@ -568,10 +620,7 @@ public class MultiDocumentsHandler {
       newDocument.setLanguage(docLanguage);
       newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
     }
-    
-//    if (debugMode) {
-      MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
-//    }
+    MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
     return documents.size() - 1;
   }
 
@@ -625,7 +674,7 @@ public class MultiDocumentsHandler {
   }
 
   SwJLanguageTool initLanguageTool(Language currentLanguage, boolean setService) {
-    SwJLanguageTool langTool = null;
+    SwJLanguageTool lt = null;
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
       noBackgroundCheck = config.noBackgroundCheck();
@@ -633,7 +682,7 @@ public class MultiDocumentsHandler {
         linguServices = new LinguisticServices(xContext);
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
-      if (this.langTool == null) {
+      if (this.lt == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
       }
@@ -645,9 +694,9 @@ public class MultiDocumentsHandler {
         currentLanguage = docLanguage;
       }
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
+      lt = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
-      config.initStyleCategories(langTool.getAllRules());
+      config.initStyleCategories(lt.getAllRules());
       /* The next row is only for a single line break marks a paragraph
       docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
        */
@@ -655,7 +704,7 @@ public class MultiDocumentsHandler {
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), currentLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
-          langTool.activateLanguageModelRules(ngramDirectory);
+          lt.activateLanguageModelRules(ngramDirectory);
           if (debugMode) {
             MessageHandler.printToLogFile("ngram Model activated for language: " + currentLanguage.getShortCode());
           }
@@ -665,12 +714,12 @@ public class MultiDocumentsHandler {
       if (word2VecDirectory != null) {
         File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
         if (word2VecLangDir.exists()) {  // user might have word2vec data only for some languages and that's okay
-          langTool.activateWord2VecModelRules(word2VecDirectory);
+          lt.activateWord2VecModelRules(word2VecDirectory);
         }
       }
-      for (Rule rule : langTool.getAllActiveOfficeRules()) {
+      for (Rule rule : lt.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
-          langTool.disableRule(rule.getId());
+          lt.disableRule(rule.getId());
           if (rule.useInOffice()) {
             // set default off so it can be re-enabled by user configuration
             rule.setDefaultOff();
@@ -678,23 +727,23 @@ public class MultiDocumentsHandler {
         }
       }
       recheck = false;
-      return langTool;
+      return lt;
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    return langTool;
+    return lt;
   }
 
   /**
    * Enable or disable rules as given by configuration file
    */
-  void initCheck(SwJLanguageTool langTool, Locale locale) {
+  void initCheck(SwJLanguageTool lt, Locale locale) {
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
       List<String> list = new ArrayList<>(disabledRuleIds);
       for (String id : list) {
-        langTool.disableRule(id);
+        lt.disableRule(id);
       }
     }
     Set<String> disabledCategories = config.getDisabledCategoryNames();
@@ -702,7 +751,7 @@ public class MultiDocumentsHandler {
       // copy as the config thread may access this as well
       List<String> list = new ArrayList<>(disabledCategories);
       for (String categoryName : list) {
-        langTool.disableCategory(new CategoryId(categoryName));
+        lt.disableCategory(new CategoryId(categoryName));
       }
     }
     Set<String> enabledRuleIds = config.getEnabledRuleIds();
@@ -710,12 +759,12 @@ public class MultiDocumentsHandler {
       // copy as the config thread may access this as well
       List<String> list = new ArrayList<>(enabledRuleIds);
       for (String ruleName : list) {
-        langTool.enableRule(ruleName);
+        lt.enableRule(ruleName);
       }
     }
     if (disabledRulesUI != null) {
       for (String id : disabledRulesUI) {
-        langTool.disableRule(id);
+        lt.disableRule(id);
       }
     }
     handleLtDictionary();
@@ -725,8 +774,8 @@ public class MultiDocumentsHandler {
    * Initialize single documents, prepare text level rules and start queue
    */
   void initDocuments() {
-    setConfigValues(config, langTool);
-    sortedTextRules = new SortedTextRules(langTool, config, disabledRulesUI);
+    setConfigValues(config, lt);
+    sortedTextRules = new SortedTextRules(lt, config, disabledRulesUI);
     for (SingleDocument document : documents) {
       document.resetCache();
     }
@@ -862,6 +911,17 @@ public class MultiDocumentsHandler {
   }
 
   /**
+   * Deactivate a rule by rule iD
+   */
+  public void activateRule(String ruleId) {
+    if (ruleId != null) {
+      removeDisabledRule(ruleId);
+      deactivateRule(ruleId, true);
+      resetDocument();
+    }
+  }
+  
+  /**
    * Deactivate a rule as requested by the context menu
    */
   public void deactivateRule() {
@@ -901,7 +961,7 @@ public class MultiDocumentsHandler {
    * reset sorted text level rules
    */
   public void resetSortedTextRules() {
-    sortedTextRules = new SortedTextRules(langTool, config, disabledRulesUI);
+    sortedTextRules = new SortedTextRules(lt, config, disabledRulesUI);
   }
 
   /**
@@ -928,15 +988,15 @@ public class MultiDocumentsHandler {
    * activate all rules stored under a given index related to the list of getNumMinToCheckParas
    * deactivate all other text level rules
    */
-  public void activateTextRulesByIndex(int index, SwJLanguageTool langTool) {
-    sortedTextRules.activateTextRulesByIndex(index, langTool);
+  public void activateTextRulesByIndex(int index, SwJLanguageTool lt) {
+    sortedTextRules.activateTextRulesByIndex(index, lt);
   }
 
   /**
    * reactivate all text level rules
    */
-  public void reactivateTextRules(SwJLanguageTool langTool) {
-    sortedTextRules.reactivateTextRules(langTool);;
+  public void reactivateTextRules(SwJLanguageTool lt) {
+    sortedTextRules.reactivateTextRules(lt);
   }
 
   /**
@@ -967,7 +1027,7 @@ public class MultiDocumentsHandler {
       if (lang == null) {
         return;
       }
-      SwJLanguageTool lTool = langTool;
+      SwJLanguageTool lTool = lt;
       if (!lang.equals(docLanguage)) {
         docLanguage = lang;
         lTool = initLanguageTool();
@@ -1124,6 +1184,9 @@ public class MultiDocumentsHandler {
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
         resetDocument();
+      } else if (sEvent.startsWith("activateRule_")) {
+        String ruleId = sEvent.substring(13);
+        activateRule(ruleId);
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (useOrginalCheckDialog) {
           if ("checkDialog".equals(sEvent) ) {
@@ -1152,15 +1215,25 @@ public class MultiDocumentsHandler {
             }
           }
           resetIgnoredMatches();
-          resetDocument();
         }
         if (debugMode) {
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
         }
         checkDialog.start();
       } else if ("nextError".equals(sEvent)) {
+        if (this.isSwitchedOff()) {
+          MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
+          return;
+        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
+      } else if ("refreshCheck".equals(sEvent)) {
+        if (this.isSwitchedOff()) {
+          MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
+          return;
+        }
+        resetIgnoredMatches();
+        resetDocument();
       } else if ("remoteHint".equals(sEvent)) {
         if (getConfiguration().useOtherServer()) {
           MessageHandler.showMessage(MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), 
@@ -1279,16 +1352,23 @@ public class MultiDocumentsHandler {
    * Change to single paragraph mode if not
    * return false if heap space is to small 
    */
-  public boolean runHeapSpaceTest() {
-    if (OfficeTools.isHeapLimitReached()) {
+  public boolean isEnoughHeapSpace() {
+    double heapRatio = OfficeTools.getCurrentHeapRatio();
+    if (heapRatio >= 1.0) {
       heapLimitReached = true;
-      setConfigValues(config, langTool);
+      setConfigValues(config, lt);
       MessageHandler.showMessage(messages.getString("loExtHeapMessage"));
       for (SingleDocument document : documents) {
         document.resetCache();
         document.setDocumentCache(null);
       }
       return false;
+    } else {
+      if (heapRatio < 0.5) {
+        heapCheckInterval = HEAP_CHECK_INTERVAL;
+      } else if (heapRatio > 0.9) {
+        heapCheckInterval = (int) (HEAP_CHECK_INTERVAL / (1.0 - heapCheckInterval));
+      }
     }
     return true;
   }
@@ -1298,8 +1378,8 @@ public class MultiDocumentsHandler {
    */
   private void testHeapSpace() {
     if (!heapLimitReached && config.getNumParasToCheck() != 0) {
-      if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
-        runHeapSpaceTest();
+      if (numSinceHeapTest > heapCheckInterval) {
+        isEnoughHeapSpace();
         numSinceHeapTest = 0;
       } else {
         numSinceHeapTest++;

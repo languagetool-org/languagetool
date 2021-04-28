@@ -96,7 +96,7 @@ public abstract class RemoteRule extends Rule {
 
   /**
    * @param request returned by prepareRequest
-   * @param timeoutMilliseconds timeout for this operation, <=0 -> unlimited
+   * @param timeoutMilliseconds timeout for this operation, &lt;=0 -&gt; unlimited
    * @return callable that sends request, parses and returns result for this remote rule
    * @throws TimeoutException if timeout was exceeded
    */

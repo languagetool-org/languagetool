@@ -33,13 +33,13 @@ import static org.junit.Assert.assertEquals;
 
 public class UkrainianWordRepeatRuleTest {
   
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private UkrainianWordRepeatRule rule;
 
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(new Ukrainian());
-    rule = new UkrainianWordRepeatRule(TestTools.getMessages("uk"), langTool.getLanguage());
+    lt = new JLanguageTool(new Ukrainian());
+    rule = new UkrainianWordRepeatRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
   
   @Test
@@ -54,14 +54,14 @@ public class UkrainianWordRepeatRuleTest {
     assertEmptyMatch("Відповідно до ст. ст. 3, 7, 18.");
     assertEmptyMatch("Не можу сказати ні так, ні ні.");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("без без повного розрахунку")).length);
-    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("Верховної Ради І і ІІ скликань"));
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("без без повного розрахунку")).length);
+    RuleMatch[] match = rule.match(lt.getAnalyzedSentence("Верховної Ради І і ІІ скликань"));
     assertEquals(1, match.length);
     assertEquals(2, match[0].getSuggestedReplacements().size());
   }
 
   private void assertEmptyMatch(String text) throws IOException {
-    assertEquals(text, Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
+    assertEquals(text, Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(lt.getAnalyzedSentence(text))));
   }
 
 }

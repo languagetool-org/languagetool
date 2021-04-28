@@ -219,9 +219,13 @@ class PipelinePool {
         logger.error("Could not load remote rule configuration", e);
       }
       // modify remote rule configuration: no timeouts, downtime, ...
+
+      // temporary workaround: don't run into check timeout, causes limit enforcement;
+      // extend timeout as long as possible instead
+      long timeout = Math.max(config.getMaxCheckTimeMillis() - 1, 0);
       rules = rules.stream().map(c -> {
         return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
-          0, 0L, 0f,
+          0, timeout, 0f,
           0, 0L, c.getOptions());
       }).collect(Collectors.toList());
       lt.activateRemoteRules(rules);
@@ -241,22 +245,22 @@ class PipelinePool {
     return lt;
   }
 
-  private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
+  private void configureFromRulesFile(JLanguageTool lt, Language lang) throws IOException {
     ServerTools.print("Using options configured in " + config.getRulesConfigFile());
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
     if (config.getRulesConfigFile() != null) {
-      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile()
+      org.languagetool.gui.Tools.configureFromRules(lt, new Configuration(config.getRulesConfigFile()
         .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));
     } else {
       throw new RuntimeException("config.getRulesConfigFile() is null");
     }
   }
 
-  private void configureFromGUI(JLanguageTool langTool, Language lang) throws IOException {
+  private void configureFromGUI(JLanguageTool lt, Language lang) throws IOException {
     Configuration config = new Configuration(lang);
     if (internalServer && config.getUseGUIConfig()) {
       ServerTools.print("Using options configured in the GUI");
-      org.languagetool.gui.Tools.configureFromRules(langTool, config);
+      org.languagetool.gui.Tools.configureFromRules(lt, config);
     }
   }
 

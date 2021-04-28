@@ -35,31 +35,25 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private static final int maxPatterns = 4;
-  private final Pattern[] patterns = new Pattern[maxPatterns];
-  private final EnglishTagger tagger;
+  private final EnglishTagger tagger = new EnglishTagger();
+  
+  private final List<Pattern> patternList = Arrays.asList(
+      Pattern.compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
+      Pattern.compile(
+          "^(['’]?)(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai|ought|might|need|may|am|dare|das|dass|hai|used|use)(n['’]t)$",
+          Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
+      Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
+          Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
+      Pattern.compile("^(['’]t)(was)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
 
   @Override
   public String getTokenizingCharacters() {
     return super.getTokenizingCharacters() + "–"; // n-dash
   }
 
-  public EnglishWordTokenizer() {
-
-    tagger = new EnglishTagger();
-
-    // words not to be split
-    patterns[0] = Pattern.compile("^(fo['’]c['’]sle|rec['’]d|OK['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    // + not
-    patterns[1] = Pattern.compile(
-        "^(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai|ought|might|need|may)(n['’]t)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    patterns[2] = Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    // split in two tokens
-    patterns[3] = Pattern.compile("^(['’]t)(was)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  }
+//  public EnglishWordTokenizer() {
+//
+//  }
 
   /**
    * Tokenizes text. The English tokenizer differs from the standard one in two
@@ -72,7 +66,6 @@ public class EnglishWordTokenizer extends WordTokenizer {
    * </ol>
    * 
    * @param text String of words to tokenize.
-   * @throws IOException
    */
   @Override
   public List<String> tokenize(String text) {
@@ -93,12 +86,15 @@ public class EnglishWordTokenizer extends WordTokenizer {
           .replaceAll("\u0001\u0001APOSTYPOG\u0001\u0001", "’");
           //.replaceAll("\u0001\u0001HYPHEN\u0001\u0001", "-");
       boolean matchFound = false;
-      int j = 0;
       Matcher matcher = null;
-      while (j < maxPatterns && !matchFound) {
-        matcher = patterns[j].matcher(s);
-        matchFound = matcher.find();
-        j++;
+      if (s.contains("'") || s.contains("’")) {
+        for (Pattern pattern : patternList) {
+          matcher = pattern.matcher(s);
+          matchFound = matcher.find();
+          if (matchFound) {
+            break;
+          }
+        }
       }
       if (matchFound) {
         for (int i = 1; i <= matcher.groupCount(); i++) {

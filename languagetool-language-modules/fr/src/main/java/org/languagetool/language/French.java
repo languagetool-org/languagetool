@@ -226,21 +226,31 @@ public class French extends Language implements AutoCloseable {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) { 
+      case "FR_COMPOUNDS": return 50; // greater than agreement rules
+      case "AGREEMENT_EXCEPTIONS": return 10; // greater than D_N
+      case "EXPRESSIONS_VU": return 10; // greater than A_ACCENT_A
       case "SA_CA": return 10; // greater than D_N
+      case "MA": return 10; // greater than D_J
       case "A_INFINITIF": return 10;
+      case "LEURS_LEUR": return 10; // greater than N_V
       case "DU_DU": return 10; // greater than DU_LE
       case "ACCORD_CHAQUE": return 10; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 10; // greater than A_A_ACCENT
       case "ESPACE_UNITES": return 1; // needs to have higher priority than spell checker
       case "BYTES": return 1; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 1; // needs to be higher than spell checker for style suggestion
-      case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
+      case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
       case "JE_M_APPEL": return 1;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 1;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      //case "D_N": return 1; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher
+      //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
+      case "FR_SIMPLE_REPLACE": return -10;
+      case "IMP_PRON": return -10; // less than D_N
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
+      case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "FR_SPELLING_RULE": return -100;
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "UPPERCASE_SENTENCE_START": return -300;

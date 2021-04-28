@@ -82,9 +82,9 @@ public class MultiThreadedJLanguageToolTest {
     lt.shutdown();
   }
 
-  private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
+  private List<String> getRuleMatchIds(JLanguageTool lt) throws IOException {
     String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
-    List<RuleMatch> matches = langTool.check(input);
+    List<RuleMatch> matches = lt.check(input);
     List<String> ruleMatchIds = new ArrayList<>();
     for (RuleMatch match : matches) {
       ruleMatchIds.add(match.getRule().getId());

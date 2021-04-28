@@ -54,19 +54,19 @@ public class EnglishDisambiguationRuleTest {
   @Test
   public void testChunker() throws IOException {
     TestTools.myAssert("I cannot have it.",
-        "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]VB  /[null]null it/[it]PRP ./[.]PCT", 
+      "/[null]SENT_START I/[I]PRP|I/[I]PRP_S1S  /[null]null cannot/[can]MD  /[null]null have/[have]VB  /[null]null it/[it]PRP|it/[it]PRP_O3SN|it/[it]PRP_S3SN ./[.]PCT",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("I cannot have it.",
-        "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]NN|have/[have]VB|have/[have]VBP  /[null]null it/[it]PRP ./[null]null", 
+      "/[null]SENT_START I/[I]PRP|I/[I]PRP_S1S  /[null]null cannot/[can]MD  /[null]null have/[have]NN|have/[have]VB|have/[have]VBP  /[null]null it/[it]PRP|it/[it]PRP_O3SN|it/[it]PRP_S3SN ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("He is to blame.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]VB ./[.]PCT", 
+      "/[null]SENT_START He/[he]PRP|He/[he]PRP_S3SM  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]VB ./[.]PCT",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("He is to blame.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]JJ|blame/[blame]NN:UN|blame/[blame]VB|blame/[blame]VBP ./[null]null", 
+      "/[null]SENT_START He/[he]PRP|He/[he]PRP_S3SM  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]JJ|blame/[blame]NN:UN|blame/[blame]VB|blame/[blame]VBP ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("He is well known.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]JJ|well/[well]NN|well/[well]RB|well/[well]UH|well/[well]VB|well/[well]VBP  /[null]null known/[know]VBN|known/[known]NN ./[null]null", 
+      "/[null]SENT_START He/[he]PRP|He/[he]PRP_S3SM  /[null]null is/[be]VBZ  /[null]null well/[well]JJ|well/[well]NN|well/[well]RB|well/[well]UH|well/[well]VB|well/[well]VBP  /[null]null known/[know]VBN|known/[known]NN ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("The quid pro quo.",
         "/[null]SENT_START The/[the]DT  /[null]null quid/[quid pro quo]NN  /[null]null pro/[quid pro quo]NN  /[null]null quo/[quid pro quo]NN ./[.]PCT", 

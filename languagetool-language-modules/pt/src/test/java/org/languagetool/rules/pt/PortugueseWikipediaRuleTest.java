@@ -38,19 +38,19 @@ import static org.junit.Assert.assertEquals;
 public class PortugueseWikipediaRuleTest {
 
   private PortugueseWikipediaRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new PortugueseWikipediaRule(TestTools.getMessages("pt"));
-    langTool = new JLanguageTool(new Portuguese());
+    lt = new JLanguageTool(new Portuguese());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Estas frase não tem erros comuns na Wikipédia.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Estas frase não tem erros comuns na Wikipédia.")).length);
 
     // incorrect sentences:
 
@@ -66,7 +66,7 @@ public class PortugueseWikipediaRuleTest {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

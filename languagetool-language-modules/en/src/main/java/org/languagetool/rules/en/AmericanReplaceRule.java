@@ -18,40 +18,38 @@
  */
 package org.languagetool.rules.en;
 
-import com.google.common.base.Suppliers;
 import org.languagetool.Languages;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.en.EnglishSynthesizer;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.function.Supplier;
+import java.util.*;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
  * correct ones instead.
  * @author Marcin Miłkowski
  */
-public class AmericanReplaceRule extends AbstractSimpleReplaceRule {
+public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String BRITISH_SIMPLE_REPLACE_RULE = "EN_US_SIMPLE_REPLACE";
+  public static final String AMERICAN_SIMPLE_REPLACE_RULE = "EN_US_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-US/replace.txt");
-  private static final Supplier<Synthesizer> synth = Suppliers.memoize(() -> new EnglishSynthesizer(Languages.getLanguageForShortCode("en")));
   private static final Locale EN_US_LOCALE = new Locale("en-US");
 
+  private final String PATH;
+
   @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
+  public List<String> getFileNames() {
+	  return Collections.singletonList(PATH);
   }
 
-  public AmericanReplaceRule(ResourceBundle messages) {
-    super(messages);
+  public AmericanReplaceRule(ResourceBundle messages, String path) {
+    super(messages, new AmericanEnglish());
+    this.PATH = Objects.requireNonNull(path);
+    
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Are baked <marker>crisps</marker> healthy?"),
                    Example.fixed("Are baked <marker>chips</marker> healthy?"));
@@ -59,7 +57,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public final String getId() {
-    return BRITISH_SIMPLE_REPLACE_RULE;
+    return AMERICAN_SIMPLE_REPLACE_RULE;
   }
 
   @Override
@@ -73,23 +71,14 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule {
   }
   
   @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return "'" + tokenStr + "' is a common British expression. Consider using expressions more common to American English.";
+  public String getMessage() {
+	  return "'$match' is a common British expression. Consider using expressions more common to American English.";
   }
 
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
-  }
 
   @Override
   public Locale getLocale() {
     return EN_US_LOCALE;
-  }
-
-  @Override
-  public Synthesizer getSynthesizer() {
-    return synth.get();
   }
 
 }

@@ -35,6 +35,7 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
+import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,6 +132,28 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       int startPos = token.getStartPos();
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
+      
+      /*String normalizedWord = StringTools.normalizeNFKC(word);
+      if (word.length() > 1 && !word.equals(normalizedWord) && !normalizedWord.contains(" ")
+          && isMisspelled(speller1, word)) {
+        if (!isMisspelled(speller1, normalizedWord)) {
+          // The normalized word is a good suggestion
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
+              messages.getString("spelling"), messages.getString("desc_spelling_short"));
+          ruleMatch.addSuggestedReplacement(normalizedWord);
+          ruleMatches.add(ruleMatch);
+        } else {
+          // Try to find suggestions from the normalized word.
+          List<String> suggestions = speller1.getSuggestions(normalizedWord);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
+              messages.getString("spelling"), messages.getString("desc_spelling_short"));
+          ruleMatch.addSuggestedReplacements(suggestions);
+          ruleMatches.add(ruleMatch);
+        }
+        // Keep it simple. Don't do translations, split words, etc.
+        continue;
+      }*/   
+      
       int newRuleIdx = ruleMatches.size();
       Pattern pattern = tokenizingPattern();
       if (pattern == null) {
@@ -613,4 +636,5 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       this.endPos = endPos;
     }
   }
+  
 }

@@ -33,10 +33,10 @@ public class MultipleWhitespaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    final MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), new Polish());
-    final JLanguageTool langTool = new JLanguageTool(new Polish());
-    assertEquals(0, getMatches("To jest test.", rule, langTool));
-    assertEquals(1, getMatches("To jest   test.", rule, langTool));
+    MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), new Polish());
+    JLanguageTool lt = new JLanguageTool(new Polish());
+    assertEquals(0, getMatches("To jest test.", rule, lt));
+    assertEquals(1, getMatches("To jest   test.", rule, lt));
   }
 
   private int getMatches(String input, MultipleWhitespaceRule rule, JLanguageTool lt) throws IOException {

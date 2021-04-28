@@ -39,33 +39,33 @@ public class MorfologikMalayalamSpellerRuleTest {
             new MorfologikMalayalamSpellerRule (TestTools.getMessages("ml"), language, null, Collections.emptyList());
 
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("എന്തുകൊണ്ട്‌ അംഗത്വം")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("എങ്ങനെ അംഗമാകാം?")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("എന്തുകൊണ്ട്‌ അംഗത്വം")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("എങ്ങനെ അംഗമാകാം?")).length);
     //test for "LanguageTool":
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
 
     //incorrect sentences:
 
-    matches = rule.match(langTool.getAnalyzedSentence("Aagohw"));
+    matches = rule.match(lt.getAnalyzedSentence("Aagohw"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
     assertTrue(matches[0].getSuggestedReplacements().isEmpty());
 
-    matches = rule.match(langTool.getAnalyzedSentence("എaങ്ങനെ"));
+    matches = rule.match(lt.getAnalyzedSentence("എaങ്ങനെ"));
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(7, matches[0].getToPos());
     assertEquals(matches[0].getSuggestedReplacements().get(0), "എങ്ങനെ");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("a")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("a")).length);
   }
 
 }

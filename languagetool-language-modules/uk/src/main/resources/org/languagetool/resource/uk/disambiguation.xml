@@ -104,7 +104,7 @@
         <!-- правильно: (з)воротний, народний, природний, бездвірний, зворотний, заможний, заробітний, пружний
         забу́тній/забутни́й
         але дорожній, дочірній, незабутній -->
-        <token postag_regexp="yes" postag="adj(?!.*:bad).*" regexp="yes">.*(воротн|двірн|дорожн|додатн|забутн|заможн|західн|заробітн|народн|погодн|приватн|природн|пружн|сухопутн|східн)(і[йм]?)</token>
+        <token postag_regexp="yes" postag="adj(?!.*:bad).*" regexp="yes">.*(воротн|двірн|дорожн|додатн|забутн|заможн|західн|заробітн|народн|погодн|приватн|природн|пружн|самотн|сухопутн|східн)(і[йм]?)</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="adj.*?:bad.*" />
@@ -628,9 +628,10 @@
     <example type="untouched">проголосували проти та одна утрималася</example>
   </rule>
 
+<!--  moved to the POSTag dict + rule
   <rule name="Раза з дробовими числівниками" id="RAZA_WITH_FRACTIONS">
     <pattern>
-      <token regexp="yes">[0-9]+,[1-9]+|півтора</token>
+      <token regexp="yes">[0-9]+,[0-9]+|півтора</token>
       <marker>
         <token>раза</token>
       </marker>
@@ -644,6 +645,7 @@
         outputform="раза[раз/noun:inanim:m:v_rod]">Аж в 1,2 <marker>раза</marker>.</example>
     <example type="untouched">От така за раза.</example>
   </rule>
+-->
 
   <rule name="Короткого метру" id="KOROTKOGO_METRU">
     <pattern>
@@ -796,6 +798,7 @@
     <example type="untouched">Такого великого шолома.</example>
   </rule>
 
+<!--
   <rule name="Ловити вітра" id="LOVYTY_VITRA">
     <pattern>
       <token inflected="yes" regexp="yes">ловити|шукати|виглядати</token>
@@ -809,7 +812,7 @@
         outputform="вітра[вітер/noun:inanim:m:v_rod]">шукай <marker>вітра</marker> в полі.</example>
     <example type="untouched">Швидкого вітра.</example>
   </rule>
-
+-->
 
   <rule name="Розуміється - insert" id="rozumiyetsa-insert">
     <pattern>
@@ -1746,7 +1749,7 @@
     </pattern>
     <disambig action="add">
       <wd pos="&lt;prop_noun&gt;"></wd>
-      <wd pos="null"></wd>
+      <wd lemma="" pos=""></wd>
       <wd pos="&lt;/prop_noun&gt;"></wd>
     </disambig>
     <example type="ambiguous" 
@@ -3285,6 +3288,21 @@
         inputform="назву[назва/noun:inanim:f:v_zna,назвати/verb:perf:futr:s:1]" 
         outputform="назву[назва/noun:inanim:f:v_zna]">мав <marker>назву</marker>.</example>
     <example type="untouched">я назву два з них</example>
+  </rule>
+
+
+  <rule name="Родом - не ім'я" id="rodom_not_a_name">
+    <pattern>
+      <token postag="SENT_START"/>
+      <marker>
+        <token case_sensitive="yes">Родом</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_oru.*" />
+    <example type="ambiguous"
+        inputform="Родом[Род/noun:anim:m:v_oru:prop:fname,рід/noun:inanim:m:v_oru]"
+        outputform="Родом[рід/noun:inanim:m:v_oru]"><marker>Родом</marker> я з Києва.</example>
+    <example type="untouched">але Родом керувала помста</example>
   </rule>
 
   <!--

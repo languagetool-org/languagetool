@@ -711,6 +711,9 @@ public abstract class Language {
    * @since 3.6
    */
   protected int getPriorityForId(String id) {
+    if (id.equalsIgnoreCase("TOO_LONG_SENTENCE")) {
+      return -101;  // don't hide spelling errors
+    }
     if (id.equalsIgnoreCase("STYLE")) {  // category
       return -50;  // don't let style issues hide more important errors
     }
@@ -783,9 +786,23 @@ public abstract class Language {
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
-      return input;
+      return input.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
     }
     String output = input;
+   
+    //Preserve content inside <suggestion></suggestion>
+    final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
+    List<String> preservedStrings = new ArrayList<>();
+    int countPreserved = 0; 
+    Matcher m = INSIDE_SUGGESTION.matcher(output);
+    int offset = 0;
+    while (m.find(offset)) {
+      String group = m.group(1);
+      preservedStrings.add(group);
+      output = output.replaceFirst("<suggestion>" + Pattern.quote(group) + "</suggestion>", "\\\\" + String.valueOf(countPreserved));
+      countPreserved++;
+      offset = m.end();
+    }
     
     // Ellipsis (for all languages?)
     output = output.replaceAll("\\.\\.\\.", "…");
@@ -808,9 +825,11 @@ public abstract class Language {
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
     }
+    output = output.replaceAll(" '(.)'", " " + getOpeningSingleQuote()+"$1"+getClosingSingleQuote()); //exception single character
     output = output.replaceAll("([\\u202f\\u00a0 «\"\\(])'", "$1" + getOpeningSingleQuote());
     output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
-
+    output = output.replaceAll("‘s\\b([^’])", "’s$1"); // exception genitive
+    
     // double quotes
     if (output.startsWith("\"")) { 
       output = output.replaceFirst("\"", getOpeningDoubleQuote());
@@ -821,7 +840,12 @@ public abstract class Language {
     output = output.replaceAll("([ \\(])\"", "$1" + getOpeningDoubleQuote());
     output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
     
-    return output;
+    //restore suggestions
+    for (int i=0; i<preservedStrings.size(); i++) {
+      output= output.replaceFirst("\\\\" + String.valueOf(i), getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
+    }
+    
+    return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
   }
 
   /**

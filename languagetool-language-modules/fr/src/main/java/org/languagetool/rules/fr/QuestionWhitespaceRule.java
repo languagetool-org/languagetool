@@ -116,10 +116,12 @@ public class QuestionWhitespaceRule extends Rule {
     String prevPrevToken = "";
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
-      if (tokens[i].isImmunized()) {
+      String token = tokens[i].getToken();
+      if (tokens[i].isImmunized() || prevToken.equals("(") || prevToken.equals("[")) {
+        prevPrevToken = prevToken;
+        prevToken = token;
         continue;
       }
-      String token = tokens[i].getToken();
       String msg = null;
       String suggestionText = null;
       int iFrom = i - 1;

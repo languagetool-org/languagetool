@@ -37,11 +37,11 @@ import java.util.List;
  */
 class LanguageToolEvaluator implements Evaluator {
 
-  private final JLanguageTool langTool;
+  private final JLanguageTool lt;
   private final LanguageModel languageModel;
 
   LanguageToolEvaluator(File indexTopDir) throws IOException {
-    langTool = new JLanguageTool(new BritishEnglish());
+    lt = new JLanguageTool(new BritishEnglish());
     disableRules();
     if (indexTopDir != null) {
       if (indexTopDir.isDirectory()) {
@@ -50,7 +50,7 @@ class LanguageToolEvaluator implements Evaluator {
         EnglishConfusionProbabilityRule probabilityRule =
                 new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
         //new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new File("/tmp/languagetool_network.net"));
-        langTool.addRule(probabilityRule);
+        lt.addRule(probabilityRule);
       } else {
         throw new RuntimeException("Does not exist or not a directory: " + indexTopDir);
       }
@@ -69,22 +69,22 @@ class LanguageToolEvaluator implements Evaluator {
   private void disableRules() {
     // The Pedler corpus has some real errors that have no error markup, so we disable
     // some rules that typically match those:
-    langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
-    langTool.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
-    langTool.disableRule("EN_QUOTES");
-    langTool.disableRule("I_LOWERCASE");
+    lt.disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    lt.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
+    lt.disableRule("EN_QUOTES");
+    lt.disableRule("I_LOWERCASE");
     //langTool.disableRule("MORFOLOGIK_RULE_EN_GB");  // disabling spell rule improves precision 0.77 -> 0.88 (as of 2014-07-18)
     // turn off style rules:
-    langTool.disableRule("LITTLE_BIT");
-    langTool.disableRule("ALL_OF_THE");
-    langTool.disableRule("SOME_OF_THE");
+    lt.disableRule("LITTLE_BIT");
+    lt.disableRule("ALL_OF_THE");
+    lt.disableRule("SOME_OF_THE");
     // British English vs. American English - not clear whether the corpus contains only BE:
-    langTool.disableRule("EN_GB_SIMPLE_REPLACE");
-    langTool.disableRule("APARTMENT-FLAT");
+    lt.disableRule("EN_GB_SIMPLE_REPLACE");
+    lt.disableRule("APARTMENT-FLAT");
   }
 
   @Override
   public List<RuleMatch> check(AnnotatedText annotatedText) throws IOException {
-    return langTool.check(annotatedText);
+    return lt.check(annotatedText);
   }
 }

@@ -67,16 +67,155 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("ha"),
       token("ha")
     ),
+    Arrays.asList(
+      token("teils"),
+      token("teils")
+    ),
+    Arrays.asList(
+      token("Marsch"),
+      token("Marsch")
+    ),
+    Arrays.asList(
+      token("hip"),
+      token("hip"),
+      token("hurra")
+    ),
+    Arrays.asList(
+      token("möp"),
+      token("möp")
+    ),
+    Arrays.asList(
+      token("piep"),
+      token("piep")
+    ),
+    Arrays.asList(
+      token("bla"),
+      token("bla")
+    ),
+    Arrays.asList(
+      token("blah"),
+      token("blah")
+    ),
+    Arrays.asList(
+      token("oh"),
+      token("oh")
+    ),
+    Arrays.asList(
+      token("klopf"),
+      token("klopf")
+    ),
+    Arrays.asList(
+      token("ne"),
+      token("ne")
+    ),
+    Arrays.asList(
+      token("Fakten"),
+      token("Fakten"),
+      token("Fakten")
+    ),
+    Arrays.asList(
+      token("Top"),
+      token("Top"),
+      token("Top")
+    ),
+    Arrays.asList(
+      token("Toi"),
+      token("Toi"),
+      token("Toi")
+    ),
+    Arrays.asList(
+      token("und"),
+      token("und"),
+      token("und")
+    ),
+    Arrays.asList(
+      token("man"),
+      token("man"),
+      token("man")
+    ),
+    Arrays.asList(
+      token("Arbeit"),
+      token("Arbeit"),
+      token("Arbeit")
+    ),
+    Arrays.asList( // Art Direktor*in in der ...
+      tokenRegex("\\*|:|\\/"),
+      token("in"),
+      token("in")
+    ),
+    Arrays.asList(
+      token("Üben"),
+      token("Üben"),
+      token("Üben")
+    ),
+    Arrays.asList(
+      token("cha"),
+      token("cha")
+    ),
+    Arrays.asList(
+      token("zack"),
+      token("zack")
+    ),
+    Arrays.asList(
+      token("sapiens"),
+      token("sapiens")
+    ),
+    Arrays.asList(
+      token("peng"),
+      token("peng")
+    ),
+    Arrays.asList(
+      token("bye"),
+      token("bye")
+    ),
+    Arrays.asList( // Man kann nicht nicht kommunizieren
+      token("nicht"),
+      token("nicht"),
+      token("kommunizieren")
+    ),
     Arrays.asList( // Phi Phi Islands
       token("Phi"),
       token("Phi")
     ),
+    Arrays.asList( // Ich weiß, wer wer ist!
+      tokenRegex(",|wei(ß|ss)|nicht"),
+      token("wer"),
+      token("wer"),
+      tokenRegex("war|ist|sein")
+    ),
     Arrays.asList( // Wahrscheinlich ist das das Problem.
-      tokenRegex("ist|war"),
+      tokenRegex("ist|war|wäre?|für|dass"),
       token("das"),
       token("das"),
-      token(".*SUB.*"),
-      token("SENT_END")
+      posRegex(".*SUB:.*NEU.*")
+    ),
+    Arrays.asList( // Wahrscheinlich ist das das Problem.
+      tokenRegex("ist|war|wäre?|für|dass"),
+      token("das"),
+      token("das"),
+      posRegex("ADJ:.*"),
+      posRegex(".*SUB:.*NEU.*")
+    ),
+    Arrays.asList( // Wahrscheinlich ist das das Problem.
+      tokenRegex("ist|war|wäre?|für|dass"),
+      token("das"),
+      token("das"),
+      posRegex("ADJ:.*NEU.*"),
+      posRegex("UNKNOWN")
+    ),
+    Arrays.asList( // Als wir das das erste Mal
+      tokenRegex("als|wenn"),
+      posRegex("(PRO|EIG):.*"),
+      token("das"),
+      token("das"),
+      posRegex("ADJ:.*NEU.*"),
+      posRegex(".*SUB:.*NEU.*")
+    ),
+    Arrays.asList( // Werden sie sie töten?
+      tokenRegex("werden|würden|sollt?en|müsst?en|könnt?en"),
+      token("sie"),
+      token("sie"),
+      posRegex("VER:1:PLU:.*")
     ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
@@ -84,10 +223,9 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build()
     ),
     Arrays.asList(// "Alle die die"
-      csToken("alle"),
+      tokenRegex("alle|nur|obwohl|lediglich|für|zwar|aber"),
       new PatternTokenBuilder().csToken("die").build(),
-      new PatternTokenBuilder().csToken("die").setSkip(-1).build(),
-      new PatternTokenBuilder().posRegex("UNKNOWN|VER:.*").build()
+      new PatternTokenBuilder().csToken("die").build()
     ),
     Arrays.asList(// "Das Haus, in das das Kind läuft."
       csToken(","),
@@ -98,6 +236,15 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Er will sein Leben leben"
       csToken("Leben"),
       csToken("leben")
+    ),
+    Arrays.asList(// "Die markierten Stellen stellen die Aufnahmepunkte dar."
+      csToken("Stellen"),
+      csToken("stellen")
+    ),
+    Arrays.asList(// "Wir reisen in die ferne Ferne."
+      token("die"),
+      csToken("ferne"),
+      csToken("Ferne")
     ),
     Arrays.asList(// "Er muss sein Essen essen"
       csToken("Essen"),

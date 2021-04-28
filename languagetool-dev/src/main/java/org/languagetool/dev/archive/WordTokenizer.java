@@ -45,26 +45,20 @@ public final class WordTokenizer {
   }
 
   private void run(final String lang) throws IOException {
-    JLanguageTool langTool = new JLanguageTool(
-            Languages.getLanguageForShortCode(lang));
-    BufferedReader in = null;
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(lang));
     BufferedWriter out = null;
-    try {
-      in = new BufferedReader(new InputStreamReader(System.in));
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in))) {
       out = new BufferedWriter(new OutputStreamWriter(System.out));
       String line;
       while ((line = in.readLine()) != null) {
-        AnalyzedTokenReadings[] atr = langTool.getRawAnalyzedSentence(line).
-                getTokensWithoutWhitespace();
+        AnalyzedTokenReadings[] atr = lt.getRawAnalyzedSentence(line).
+          getTokensWithoutWhitespace();
         for (AnalyzedTokenReadings a : atr) {
           out.write(a.getToken());
           out.write('\n');
         }
       }
     } finally {
-      if (in != null) {
-        in.close();
-      }
       if (out != null) {
         out.flush();
         out.close();

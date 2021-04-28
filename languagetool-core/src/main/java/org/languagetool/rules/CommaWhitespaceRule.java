@@ -34,7 +34,6 @@ import static org.languagetool.tools.StringTools.isEmpty;
  * 
  * @author Daniel Naber
  */
-/* need better messages */
 public class CommaWhitespaceRule extends Rule {
 
   private boolean quotesWhitespaceCheck;
@@ -63,7 +62,6 @@ public class CommaWhitespaceRule extends Rule {
     this.quotesWhitespaceCheck = true;
   }
 
-
   @Override
   public String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
@@ -79,8 +77,6 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   /**
-   * @param tokens
-   * @param tokenIdx
    * @return Returns true if there exception to this rule
    * @since 5.3
    */

@@ -1813,7 +1813,6 @@ public class ConfigurationDialog implements ActionListener {
             specialOptionPanel.setVisible(true);
           } else {
             specialOptionPanel.setVisible(false);
-            rule = null;
           }
         } else if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;

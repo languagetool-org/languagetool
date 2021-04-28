@@ -18,8 +18,13 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -90,7 +95,7 @@ class OfficeTools {
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
   
-  private static final double LT_HEAP_LIMIT_FACTOR = 0.95;
+  private static final double LT_HEAP_LIMIT_FACTOR = 0.9;
   private static double MAX_HEAP_SPACE = -1;
   private static double LT_HEAP_LIMIT = -1;
 
@@ -454,9 +459,12 @@ class OfficeTools {
     return LT_HEAP_LIMIT;
   }
   
+  public static double getCurrentHeapRatio() {
+    return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / LT_HEAP_LIMIT;
+  }
+  
   public static boolean isHeapLimitReached() {
     long usedHeap = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-//    MessageHandler.printToLogFile("Used Heap: " + usedHeap/1048576 + " MB");
     return (LT_HEAP_LIMIT < usedHeap);
   }
   
@@ -468,6 +476,19 @@ class OfficeTools {
         " MB, LT Heap Space Limit: " + ((int) (getHeapLimit(getMaxHeapSpace())/1048576)) + " MB";
   }
 
+  /**
+   * Get LanguageTool Image
+   */
+  public static Image getLtImage() {
+    try {
+      URL url = OfficeTools.class.getResource("/images/LanguageToolSmall.png");
+      return ImageIO.read(url);
+    } catch (IOException e) {
+      MessageHandler.showError(e);
+    }
+    return null;
+  }
+  
   /**
    * Handle logLevel for debugging and development
    */

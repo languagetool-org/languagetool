@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -126,7 +127,7 @@ class DictionaryBuilder {
   protected void readFreqList(File freqListFile) {
     try (
       FileInputStream fis = new FileInputStream(freqListFile.getAbsoluteFile());
-      InputStreamReader reader = new InputStreamReader(fis, "utf-8");
+      InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(reader)
     ) {
       String line;
@@ -218,7 +219,6 @@ class DictionaryBuilder {
                   + inputFile + ": " + line + " => ignoring");
         }
       }
-      scanner.close();
     }
     return outputFile;
   }

@@ -130,6 +130,11 @@ public class VerbAgreementRuleTest {
     assertGood("Das bekomme ich nicht hin.");
     assertGood("Dies betreffe insbesondere Nietzsches Aussagen zu Kant und der Evolutionslehre.");
     assertGood("❌Du fühlst Dich unsicher?");
+    assertGood("Bekommst sogar eine Sicherheitszulage");
+    assertGood("Bringst nicht einmal so etwas Einfaches zustande!");
+    assertGood("Bekommst sogar eine Sicherheitszulage");
+    assertGood("Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.");
+    assertGood("Tinne, Elvis und auch ich werden gerne wiederkommen!");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

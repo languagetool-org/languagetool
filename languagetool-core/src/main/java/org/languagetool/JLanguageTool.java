@@ -25,6 +25,7 @@ import org.languagetool.broker.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.markup.TextPart;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
@@ -68,7 +69,7 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "5.3-SNAPSHOT";
+  public static final String VERSION = "5.4-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -896,6 +897,7 @@ public class JLanguageTool {
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
       Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
+    annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     return checkInternal(annotatedText, paraMode, listener, mode, level, remoteRulesThreadPool, textSessionID, sentences, analyzedSentences).getRuleMatches();
@@ -903,6 +905,7 @@ public class JLanguageTool {
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
                              Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
+    annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     return checkInternal(annotatedText, paraMode, listener, mode, level, remoteRulesThreadPool, textSessionID, sentences, analyzedSentences);
@@ -919,6 +922,30 @@ public class JLanguageTool {
     return sentences;
   }
 
+  private AnnotatedText cleanText(AnnotatedText annotatedText) {
+    AnnotatedTextBuilder atb = new AnnotatedTextBuilder();
+    annotatedText.getGlobalMetaData().forEach((key, value) -> atb.addGlobalMetaData(key, value));
+    annotatedText.getCustomMetaData().forEach((key, value) -> atb.addGlobalMetaData(key, value));
+    List<TextPart> parts = annotatedText.getParts();
+    for (TextPart part : parts) {
+      if (part.getType() == TextPart.Type.TEXT) {
+        String byteOrderMark = "\uFEFF";  // BOM or zero-width non-breaking space
+        StringTokenizer st = new StringTokenizer(part.getPart(), byteOrderMark, true);
+        while (st.hasMoreElements()) {
+          Object next = st.nextElement();
+          if (next.equals(byteOrderMark)) {
+            atb.addMarkup(byteOrderMark);
+          } else {
+            atb.addText(next.toString());
+          }
+        }
+      } else {
+        atb.add(part);
+      }
+    }
+    return atb.build();
+  }
+  
   private CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
                                         Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool,
                                         @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {

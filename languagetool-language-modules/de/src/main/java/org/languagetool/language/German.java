@@ -279,17 +279,13 @@ public class German extends Language implements AutoCloseable {
   }
   
   @Override
-  public String toAdvancedTypography (String input) {
+  public String toAdvancedTypography(String input) {
     String output = super.toAdvancedTypography(input);
-    
     //non-breaking space
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     return output;
   }
-  
-
-
   
   @Override
   public LanguageMaintainedState getMaintainedState() {
@@ -301,6 +297,8 @@ public class German extends Language implements AutoCloseable {
     switch (id) {
       // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "DE_COMPOUNDS": return 10;
+      case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
       case "RESOURCE_RESSOURCE": return 1;  // better error than DE_CASE
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
@@ -328,6 +326,7 @@ public class German extends Language implements AutoCloseable {
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       // default is 0
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
+      case "GEFEATURED": return -1; // prefer over spell checker
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)

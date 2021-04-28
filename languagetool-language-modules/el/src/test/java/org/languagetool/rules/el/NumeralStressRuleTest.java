@@ -38,12 +38,12 @@ import static org.junit.Assert.assertEquals;
 public class NumeralStressRuleTest {
 
   private NumeralStressRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
     rule = new NumeralStressRule(TestTools.getMessages("el"));
-    langTool = new JLanguageTool(new Greek());
+    lt = new JLanguageTool(new Greek());
   }
 
   @Test
@@ -71,12 +71,12 @@ public class NumeralStressRuleTest {
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence, String correction) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals(correction, matches[0].getSuggestedReplacements().get(0));
