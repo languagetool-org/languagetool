@@ -10157,6 +10157,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ALL_ZU" name="allzu" default="temp_off">
+            <antipattern>
+                <token>im</token>
+                <token>All</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">all</token>
+                    <token>zu</token>
+                </marker>
+                <token regexp="yes">oft|selten|häufig|lange?|gro(ß|ss)|menschlich|bald|früh|gern|gut|schlecht|leicht|schwer</token>
+            </pattern>
+            <message>Das Adverb <suggestion>allzu</suggestion> wird in der Regel zusammengeschrieben.</message>
+            <example correction="allzu">Keine Sorge, die Reise dauert nicht <marker>all zu</marker> lange.</example>
+        </rule>
         <rule id="NACH_GEBEN" name="nach geben (nachgeben)">
             <antipattern>
                 <token regexp="yes">.*Meinung|.*Wissens?|.*Ansicht|.*Stand(e?s)?|.*Erfahrung|.*Einschätzung|.*Verständnis(es)?</token>
@@ -10354,6 +10369,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Bedürfnis|Verlangen</token>
                 <token>durch</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">denke|dachte</token>
+                <token>ich</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">denken|dachten</token>
+                <token>wir</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">denkt|dachte</token>
+                <token regexp="yes">er|sie</token>
+            </antipattern>
             <pattern>
                 <token>durch</token>
                 <!-- many verbs missing -->
@@ -10364,6 +10391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Du musst da durch steigen, um an die Oberfläche zu kommen.</example>
             <example>Quer durch geht nicht immer gut.</example>
             <example>Ich habe ständig das Bedürfnis durch klicken und halten der linken Mouse-Taste den Activity Tracker drehen zu wollen.</example>
+            <example>Du bist einfach nur durch denke ich.</example>
         </rule>
         <rulegroup id="ALL_IN_ONE" name="All-in-one-Soundsystem">
             <rule>
@@ -11534,7 +11562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|.*cessions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|.*cessions|Therions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -20020,7 +20048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz" default="temp_off">
+        <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(Sieben|7)-Tages-(Inzidenz(en)?|Trends?|Wochen?)</token>
             </pattern>
@@ -21000,6 +21028,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="RUF_SUBST" name="sein ruf (Ruf)" default="temp_off">
+            <pattern>
+                <token postag="PRO:.+" postag_regexp="yes" />
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">[a-zöäü].*</token>
+                <marker>
+                    <token case_sensitive="yes">ruf</token>
+                </marker>
+                <token postag="PKT|VER:.+" postag_regexp="yes" />
+            </pattern>
+            <message>Das Nomen <suggestion>Ruf</suggestion> wird großgeschrieben.</message>
+            <example correction="Ruf">Sein <marker>ruf</marker> eilt ihm voraus.</example>
+            <example correction="Ruf">Der <marker>ruf</marker> ist jetzt schon ruiniert.</example>
+            <example>Das ruf ich ihr zu!</example>
+        </rule>
         <rule id="KRAFT_AMTES" name="Kraft (kraft) Amtes">
             <antipattern>
                 <token postag="SENT_START" />
@@ -21176,7 +21218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>JU</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">Tim|Mark|Woody|van</token>
+                <token regexp="yes">Tim|Mark|Woody|van|Lilly</token>
                 <token>Allen</token>
             </antipattern>
             <antipattern>
