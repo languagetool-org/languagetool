@@ -51,7 +51,6 @@ public class LanguageIdentifier {
   private static final int SHORT_ALGO_THRESHOLD = 50;
   // texts shorter than this will *only* consider preferred languages (if set):
   private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
-  private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
@@ -327,6 +326,7 @@ public class LanguageIdentifier {
   }
 
   static class RemoveEMailSignatureFilter implements TextFilter {
+    private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
     @Override
     public String filter(CharSequence text) {
       return SIGNATURE.matcher(text.toString()).replaceFirst("");
