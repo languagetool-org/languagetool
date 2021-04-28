@@ -739,13 +739,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
+                <!-- better disambiguation of "V ppr" needed -->
+                <token postag="V ppr"/>
+                <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s|V inf|UNKNOWN|R pers suj.*|R m p" postag_regexp="yes"/>
+                <!-- PARA tags? -->
+            </antipattern>
+            <antipattern>
                 <!-- unsual as adjective before noun -->
-                <token inflected="yes" regexp="yes">roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat</token>
+                <token inflected="yes" regexp="yes">produit|roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat</token>
                 <token postag="[NZ].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
-                <token regexp="yes">maximum|minimum|anti-.*|top</token>
+                <token regexp="yes">maximum|minimum|anti-.*|top|sport|western</token>
             </antipattern>
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -795,6 +801,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- telegraphic writing -->
                 <token>honoraires</token>
                 <token>inclus</token>
+            </antipattern>
+            <antipattern>
+                <!-- telegraphic writing -->
+                <token>total</token>
+                <token regexp="yes">produits|ventes</token>
             </antipattern>
             <antipattern>
                 <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
@@ -1031,6 +1042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tu as pour partie raison et pour partie tort.</example>
                 <example>La rivière partage la ville en partie est et partie ouest.</example>
                 <example>Je n'ai jamais tué, ni blessé personne.</example>
+                <example>Les titres originaux non traduits commençant par « The ».</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -1581,6 +1593,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
+            <antipattern>
+                <!-- telegraphic writing -->
+                <token>total</token>
+                <token regexp="yes">produits|ventes</token>
+            </antipattern>
             <antipattern>
                 <token postag="J [me] (p|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="N [me] (s|sp)" postag_regexp="yes"/>

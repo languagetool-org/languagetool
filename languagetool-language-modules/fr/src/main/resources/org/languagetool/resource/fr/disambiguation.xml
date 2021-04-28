@@ -1212,7 +1212,7 @@ RB => Règles Brutes
     <rule name="produit vaisselle" id="PRODUIT_VAISSELLE">
         <pattern>
             <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
-            <token postag="N.*" postag_regexp="yes" inflected="yes">vaisselle</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">vaisselle|déco|maquillage</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1498,7 +1498,7 @@ RB => Règles Brutes
     <rule id="N_SUIVI_NP" name="N + NP">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise|sortie</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">produit|avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise|sortie</token>
             </marker>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
