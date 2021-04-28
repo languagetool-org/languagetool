@@ -76,8 +76,9 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     Arrays.asList(
       // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
+      // "Sie fragte, ob er bereit für die zweite Runde ist."
       token("er"),
-      token("gleich")  // ist hier kein Verb
+      tokenRegex("gleich|bereit")  // ist hier kein Verb
     ),
     Arrays.asList(
       // "Bringst nicht einmal so etwas Einfaches zustande!"
