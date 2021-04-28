@@ -31803,6 +31803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
         <rulegroup id="PRONOMS_FEBLES_ORDENACIO" name="Ordenació dels pronoms febles: *li se, *hi us">
+            <!-- TODO: repeticions: 'ns ens...-->
             <rule>
                 <pattern>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">['-].+|jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
@@ -31994,6 +31995,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">portar<marker>-ho-li</marker>.</example>
                 <example>Li ho fan.</example>
                 <example>veure-ho li agradarà</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">li|els|'ls|'l|el|la|les|ens|'ns</token>
+                    <marker>
+                        <token spacebefore="yes">ens</token>
+                    </marker>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles. ¿Volíeu dir <suggestion>en</suggestion>?</message>
+                <example correction="en">Se'ns <marker>ens</marker> pot anar avall.</example>
+                <example correction="en">No se'ls <marker>ens</marker> pot donar divendres.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_DAVANT_VERB" name="Formes incorrectes davant de verb: *se omple, *se'l emporta">
