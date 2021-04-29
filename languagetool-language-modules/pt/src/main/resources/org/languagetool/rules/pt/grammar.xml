@@ -12377,23 +12377,41 @@ Eu comprei-a quando fui à loja.
     </rule>
 	
 	<!-- PARA QUE SAIBAM para saberem -->
-    <rule id='PARA_QUE_VERB' name="Para que + Verbo → Para + Verbo ">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 (17-MAR-2021+)      -->
+    <rulegroup id='PARA_QUE_VERB' name="Para que + Verbo → Para + Verbo ">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 (17-MAR-2021+)      -->
 	<!--
 Isto é para que saibam o que acontece. → Isto é para saberem o que acontece.
+E para que eles pudessem aplicá-la a problemas já existentes. → E para eles poderem aplicá-la a problemas já existentes.
+E para que estes pudessem aplicá-la a problemas já existentes. → E para estes poderem aplicá-la a problemas já existentes.
 	-->
+	  <rule>
 		<pattern>
 			<token>para</token>
 			<marker>
 				<token>que</token>
-				<token postag='VMSP...' postag_regexp='yes'/>
+				<token postag='VMS[PI]...' postag_regexp='yes'/>
 			</marker>
 			<token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
 		</pattern>		
 		<message>Esta perífrase pode ser simplificada.</message>
-		<suggestion suppress_misspelled="yes"><match no='3' postag='(VMSP)(...)' postag_regexp="yes" postag_replace='VMN0$2'/></suggestion>
+		<suggestion suppress_misspelled="yes"><match no='3' postag='(VMS[PI])(...)' postag_regexp="yes" postag_replace='VMN0$2'/></suggestion>
 		<example correction="saberem">Isto é para <marker>que saibam</marker> o que acontece.</example>
-    </rule>	
+      </rule>
+	  <rule>
+		<pattern>
+			<token>para</token>
+			<marker>
+				<token>que</token>
+				<token postag='PD.+|PP.+' postag_regexp='yes'/>
+				<token postag='VMS[PI]...' postag_regexp='yes'/>
+			</marker>
+			<token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Esta perífrase pode ser simplificada.</message>
+		<suggestion suppress_misspelled="yes">\3 <match no='4' postag='(VMS[PI])(...)' postag_regexp="yes" postag_replace='VMN0$2'/></suggestion>
+		<example correction="eles saberem">Isto é para <marker>que eles saibam</marker> o que acontece.</example>
+	  </rule>
+    </rulegroup>	
 	
     <!-- 	QUE + VERB + COM verb_inf + com -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-14 (21-OCT-2020+)     -->
