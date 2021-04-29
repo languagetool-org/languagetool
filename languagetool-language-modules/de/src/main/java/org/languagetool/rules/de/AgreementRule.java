@@ -1039,6 +1039,13 @@ public class AgreementRule extends Rule {
       csRegex("machte?|ergibt|ergab|stiftete?"),
       csToken("das"),
       csToken("Sinn")
+    ),
+    Arrays.asList( // Das sind beides Lichtschalter
+      token("das"),
+      csRegex("sind|waren"),
+      csToken("beides"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:NOM:PLU:.*")
     )
   );
 
