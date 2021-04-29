@@ -138,7 +138,7 @@ RB => Règles Brutes
         <!-- They are usually nouns in apposition -->
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">ordinateur|conducteur|utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="J.*"/>
@@ -1177,8 +1177,8 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">identifiant|tuteur|identité|réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session</token>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client|administrateur|entreprise</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">identifiant|tuteur|identité|réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session|garantie|réglage</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client|administrateur|entreprise|conducteur|constructeur</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1186,6 +1186,28 @@ RB => Règles Brutes
         <pattern>
             <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche|retour|photo|recherche|image</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="atelier découverte" id="ATELIR_DECOUVERTE">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">atelier|stage|vol</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">découverte</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="portière passager" id="PORTIERE_PASSAGER">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">portière</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">passager|conducteur</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="service informatique" id="SERVICE_INFORMATIQUE">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">service</token>
+            <!-- NOT PLURAL: informatiques (J e p) -->
+            <token postag="N.*" postag_regexp="yes">informatique</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
