@@ -1606,21 +1606,6 @@ Entristece-me ao ouvir isso.
 		  <token postag='VMN0000' postag_regexp='no'/>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2021-01-11 + 2021-01-12 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-02-23 + 2021-03-07 (1-JAN-2021+) *START* -->
-<!--
-O mundo espiritual aparece-nos na sua realidade prática.
-Ainda resta-nos muita comida.
-Amar quem nos odeia liberta-nos.
-Mas uma voz interior diz-me que ainda não é a teoria certa.
-A cerâmica oriental interessa-me.
--->
-      <antipattern>
-	    <token postag='V.+|RG|AQ0.+|I' postag_regexp='yes'/>
-		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
-		<token regexp='yes' spacebefore='no'>&hifen;</token>
-		<token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-02-23 + 2021-03-07 (1-JAN-2021+) *END* -->
 <!-- MARCOAGPINTO 2021-03-07 (1-JAN-2021+) *START* -->
 <!--
 O Facebook pergunta-me o que vai na minha mente.
@@ -1636,6 +1621,25 @@ O nome vem-lhe de um painel de azulejos com um ramo de girassóis, colocado onde
 		  <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2021-03-07 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-04-29 (Enhanced) (17-MAR-2021+) *START* -->
+<!--
+O mundo espiritual aparece-nos na sua realidade prática.
+Ainda resta-nos muita comida.
+Amar quem nos odeia liberta-nos.
+Mas uma voz interior diz-me que ainda não é a teoria certa.
+A cerâmica oriental interessa-me.
+-->
+      <antipattern>
+		<token negate_pos="yes" postag='V.+|SPS.+|NP.+' postag_regexp='yes'/>
+	    <token postag='V.+|RG|AQ0.+|I|NC.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NP.+'/>
+		 </token>
+		<token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+		<token regexp='yes' spacebefore='no'>&hifen;</token>
+		<token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-04-29 (Enhanced) (17-MAR-2021+) *END* -->
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
@@ -1660,15 +1664,15 @@ O nome vem-lhe de um painel de azulejos com um ramo de girassóis, colocado onde
 	  <example>Dói-nos dizer isso, mas você está demitido.</example>	  
 	  <example>Dói-me ao ouvir isso.</example>
 	  <example>Entristece-me ao ouvir isso.</example>
+	  	  
+	  <example>O Facebook <marker>pergunta-me</marker> o que vai na minha mente.</example>
+	  <example>O nome vem-lhe de um painel de azulejos com um ramo de girassóis, colocado onde deveria estar a pedra de armas.</example>	  
 	  
 	  <example>O mundo espiritual <marker>aparece-nos</marker> na sua realidade prática.</example>
 	  <example>Ainda resta-nos muita comida.</example>
 	  <example>Amar quem nos odeia liberta-nos.</example>
 	  <example>Mas uma voz interior diz-me que ainda não é a teoria certa.</example>
-	  <example>A cerâmica oriental interessa-me.</example>
-	  
-	  <example>O Facebook <marker>pergunta-me</marker> o que vai na minha mente.</example>
-	  <example>O nome vem-lhe de um painel de azulejos com um ramo de girassóis, colocado onde deveria estar a pedra de armas.</example>	  
+	  <example>A cerâmica oriental interessa-me.</example>	  
     </rule>
     <!--    <rule>
       <antipattern>
