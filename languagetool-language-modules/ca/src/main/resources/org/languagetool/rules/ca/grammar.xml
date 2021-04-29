@@ -24825,11 +24825,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>que</token>
                 </pattern>
-                <message>Probablement cal escriure <suggestion>pot ser</suggestion>.</message>
+                <message>Probablement cal escriure <suggestion>pot ser</suggestion>. En un registre col·loquial, 'potser que + subjuntiu' és vàlid per a expressar un suggeriment.</message>
                 <short>Possible confusió</short>
                 <example correction="Pot ser"><marker>Potser</marker> que vingui demà.</example>
                 <example>Pot ser que vingui demà.</example>
                 <example>per considerar potser que era així</example>
+                <example type="triggers_error">Potser que li comprem alguna cosa per l'aniversari!</example>
             </rule>
             <rule>
                 <pattern>
@@ -24850,10 +24851,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>—Pot ser –va dir en Harry.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">ho|no|que|qui|què|quan|on|com|si</token>
+                    <token>pot</token>
+                    <token>ser</token>
+                </antipattern>
                 <pattern>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"/>
+                    <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="PT.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>pot<exception scope="previous" regexp="yes">ho|no|que|qui|què|quan|on|com|si</exception><exception scope="previous" postag="RG_anteposat"/></token>
+                        <token>pot<exception scope="previous" postag="RG_anteposat"/></token>
                         <token>ser</token>
                     </marker>
                     <token postag="SENT_END"><exception>:</exception></token>
@@ -24868,6 +24874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És estrany: com pot ser?</example>
                 <example>I explica de quantes maneres ho pot ser.</example>
                 <example>Ho farem, si pot ser.</example>
+                <example>No sé què dimonis pot ser.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALMENYS" name="al menys/almenys">
@@ -37056,7 +37063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="EMA" name="Agència Europea de Medicaments" default="temp_off">
+        <rule id="EMA" name="Agència Europea de Medicaments">
             <pattern>
                 <token>Agència</token>
                 <token regexp="yes">Europea|Espanyola</token>
@@ -37064,7 +37071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>l</token>
                 <token>Medicament</token>
             </pattern>
-            <message>La denominació incorrecta.</message>
+            <message>Denominació incorrecta.</message>
             <suggestion>Agència <match no="2" case_conversion="startupper"/> de Medicaments</suggestion>
             <url>https://esadir.cat/Nomspropis/Entitats/Internacional/Agencia_Europea_de_Medicaments</url>
             <example correction="Agència Europea de Medicaments">Decidit per l'<marker>Agència europea del Medicament</marker></example>
