@@ -24406,7 +24406,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.*" postag_regexp="yes">
                         <exception postag="V.* inf" postag_regexp="yes"/>
                         <exception postag="[^V].*" postag_regexp="yes"/>
-                        <exception regexp="yes">anim[eé]|entre|fait|hue|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée|(?-i)\p{Lu}.*</exception></token>
+                        <exception regexp="yes">google|anim[eé]|entre|fait|hue|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée|(?-i)\p{Lu}.*</exception></token>
                 </marker>
             </pattern>
             <message>Le verbe « \2 » devrait être à l’infinitif après la préposition « \1 »</message>
@@ -24431,6 +24431,7 @@ though, and has since been slightly modified)-->
             <example>Le coup de grâce est donné par Roland et Sabrina</example>
             <example>Un adhésif double face est posé au dos du pictogramme.</example>
             <example>Je n'ai rien trouvé d'équivalent comme parure de fenêtre sur mesure dans le marché.</example>
+            <example>Laisse-moi chercher cela sur google pour toi.</example>
         </rule>
         <rule id="DOUBLE_NEG" name="Double négation">
             <pattern>
@@ -46838,6 +46839,25 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category name="majuscules" id="CASING">
+        <rule id="GOOGLE" name="Google" default="temp_off">
+            <antipattern>
+                <token regexp="yes">je|il|elle</token>
+                <token>google</token>
+            </antipattern>
+            <antipattern>
+                <!-- ?? -->
+                <token  postag="[NZ].*" postag_regexp="yes"/>
+                <token>google</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">google</token>
+            </pattern>
+                <message>S'il s'agit d'un nom propre, il doit être en majuscule.</message>
+                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+            <example correction="Google">Laisse-moi chercher cela sur <marker>google</marker> pour toi.</example>
+            <example>Je google.</example>
+            <example>Quand ma sœur google</example>
+        </rule>
         <rule id="NAPOLEON" name="napoléon">
             <pattern case_sensitive="yes">
                 <token>napoléon</token>
