@@ -19293,6 +19293,7 @@ though, and has since been slightly modified)-->
                 <example>Les rapports sociaux étant eux-mêmes définis comme des rapports de pouvoir.</example>
                 <example>le peintre est lui-même mis en scène par Branwell</example>
                 <example>Je ne suis pas prête à mourir.</example>
+                <example>Ma montre est plus précise que la tienne.</example>
             </rule>
         </rulegroup>
         <rule id="RPERSSUJ_ETRE_V" name="Pronom personel + V être + verbe conjugué">
@@ -38409,6 +38410,18 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+        <rule id="OE" name="oe / œ">
+            <pattern>
+                <and>
+                    <token regexp="yes">.*oe.*</token>
+                    <token regexp="yes" inflected="yes">.*œ.*</token>
+                </and>
+            </pattern>
+            <message>Variante typographique déconseillée de <suggestion><match no="1" regexp_match="(?iu)oe" regexp_replace="œ" case_conversion="preserve"/></suggestion>.</message>
+            <example correction="sœur">Ma <marker>soeur</marker>.</example>
+            <example correction="SŒUR">MA <marker>SOEUR</marker>.</example>
+            <example correction="trompe-l'œil"><marker>trompe-l'oeil</marker></example>
+        </rule>
         <rulegroup id="ABREVIATIONS_ET_PONCTUATION" name="Abréviations et ponctuation">
             <rule>
                 <pattern>
