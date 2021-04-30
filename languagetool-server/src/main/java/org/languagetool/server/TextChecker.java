@@ -282,7 +282,7 @@ abstract class TextChecker {
     List<String> preferredVariants = getPreferredVariants(parameters);
     if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-      throw new IllegalArgumentException("You can specify 'noopLanguages' only when also using 'language=auto'");
+      throw new BadRequestException("You can specify 'noopLanguages' only when also using 'language=auto'");
     }
     List<String> noopLangs = parameters.get("noopLanguages") != null ?
             Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();
@@ -327,7 +327,7 @@ abstract class TextChecker {
         altLanguages.add(altLang);
         if (altLang.hasVariant() && !altLang.isVariant()) {
           ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-          throw new IllegalArgumentException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
+          throw new BadRequestException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
         }
       }
     }
@@ -339,11 +339,11 @@ abstract class TextChecker {
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=true");
+      throw new BadRequestException("You cannot specify disabled rules or categories using enabledOnly=true");
     }
     if (enabledRules.isEmpty() && enabledCategories.isEmpty() && useEnabledOnly) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-      throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
+      throw new BadRequestException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 
     boolean enableTempOffRules = "true".equals(parameters.get("enableTempOffRules"));
@@ -569,7 +569,7 @@ abstract class TextChecker {
 
   protected void checkParams(Map<String, String> parameters) {
     if (parameters.get("text") == null && parameters.get("data") == null) {
-      throw new IllegalArgumentException("Missing 'text' or 'data' parameter");
+      throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
   }
 
@@ -591,7 +591,7 @@ abstract class TextChecker {
 
     if (parameters.get("sourceText") != null) {
       if (parameters.get("sourceLanguage") == null) {
-        throw new IllegalArgumentException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
+        throw new BadRequestException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
       }
       Language sourceLanguage = Languages.getLanguageForShortCode(parameters.get("sourceLanguage"));
       JLanguageTool sourceLt = new JLanguageTool(sourceLanguage);
@@ -731,13 +731,13 @@ abstract class TextChecker {
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
         if (!preferredVariant.contains("-")) {
-          throw new IllegalArgumentException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
+          throw new BadRequestException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
         if (preferredVariantLang.equals(lang.getShortCode())) {
           lang = Languages.getLanguageForShortCode(preferredVariant);
           if (lang == null) {
-            throw new IllegalArgumentException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
+            throw new BadRequestException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
           }
         }
       }
@@ -789,7 +789,7 @@ abstract class TextChecker {
       this.mode = Objects.requireNonNull(mode);
       this.level = Objects.requireNonNull(level);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
-        throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
+        throw new BadRequestException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }
       this.callback = callback;
       this.inputLogging = inputLogging;

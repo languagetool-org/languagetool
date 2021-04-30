@@ -282,10 +282,10 @@ class DatabaseAccess {
   
   private void validateWord(String word) {
     if (word == null || word.trim().isEmpty()) {
-      throw new IllegalArgumentException("Invalid word, cannot be empty or whitespace only");
+      throw new BadRequestException("Invalid word, cannot be empty or whitespace only");
     }
     if (word.matches(".*\\s.*")) {
-      throw new IllegalArgumentException("Invalid word, you can only words that don't contain spaces: '" + word + "'");
+      throw new BadRequestException("Invalid word, you can only words that don't contain spaces: '" + word + "'");
     }
   }
 
