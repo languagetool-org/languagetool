@@ -183,6 +183,20 @@ title="Easy editing stylesheet" ?>
     <!-- 		Brazilian Portuguese has some inverted colocations  -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
       <short>Erro de colocação pronominal</short>
+<!-- MARCOAGPINTO 2021-04-30 (17-MAR-2021+) *START* -->
+<!--
+E se estamos em modo de edição no campo.
+-->
+      <antipattern>	
+		<token/>
+		<!-- <token postag='CC' postag_regexp='no'/> -->
+		<token>se</token>
+		<token postag='VM..[12].+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VM..3.+'/>
+		</token>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-04-30 (17-MAR-2021+) *END* -->	  
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
