@@ -228,11 +228,11 @@ public class LanguageIdentifier {
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
         shortText = new RemoveMentionFilter().filter(shortText);
         shortText = new RemoveNonBreakingSpaces().filter(shortText);
-        shortText = shortText.replaceAll("\uFEFF+", " ").trim();  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
+        shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         Map<String, Double> scores;
         boolean usingFastText = false;
         if ((text.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && ngram != null) {
-          scores = ngram.detectLanguages(shortText, additionalLangs);
+          scores = ngram.detectLanguages(shortText.trim(), additionalLangs);
         } else {
           usingFastText = true;
           scores = fastText.runFasttext(shortText, additionalLangs);
