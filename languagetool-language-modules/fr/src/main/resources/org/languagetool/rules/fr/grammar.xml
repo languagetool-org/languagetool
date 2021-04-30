@@ -443,6 +443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aucunes nouvelles|aucun nouveau|aucun nouvel|aucune nouvelle|aucuns nouveaux|aucuns nouvels">Nous n'avons <marker>aucun nouvelles</marker>.</example>
                 <example correction="pareilles situations|pareille situation">L'Histoire regorge de <marker>pareil situations</marker>.</example>
                 <example correction="notre service|nos services">mais aussi tous <marker>nos service</marker> et avantages</example>
+                <example correction="diverses préparations|diverse préparation">On trouve bien sûr des desserts mélangeant <marker>divers préparations</marker>.</example>
                 <example>Henri VIII rencontre François Ier.</example>
                 <example>Il est né le quatre <marker>janvier</marker>.</example>
                 <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
@@ -1044,7 +1045,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La rivière partage la ville en partie est et partie ouest.</example>
                 <example>Je n'ai jamais tué, ni blessé personne.</example>
                 <example>Les titres originaux non traduits commençant par « The ».</example>
-                <example>garanties conducteur ; garantie conducteur ; garanties conducteur ; garanties individuelles conducteur ; garantie individuelle conducteur ; garanties individuelles conducteur ; réglages constructeur ; réglage constructeur ; réglages constructeur ; ateliers découverte ; atelier découverte ; ateliers découverte ; stages découverte ; stage découverte ; stages découverte ; vols découverte ; vol découverte ; vols découverte ; ampoules graisseur ; ampoule graisseur ; ampoules graisseur ; vitesse grand V ; vitesse grand V ; services informatique ; service informatique ; services informatique ; sacoches ordinateur ; sacoche ordinateur ; sacoches ordinateur ; designers textile ; designer textile ; designers textile ; portières passager ; portière passager ; portières passager ; portières conducteur ; portière conducteur ; portières conducteur ; visas longue durée ; visa longue durée ; visas longue durée ; visas courte durée ; visa courte durée ; visas courte durée</example>
+                <example>garanties conducteur ; garantie conducteur ; garanties conducteur ; garanties individuelles conducteur ; garantie individuelle conducteur ; garanties individuelles conducteur ; réglages constructeur ; réglage constructeur ; réglages constructeur ; ateliers découverte ; atelier découverte ; ateliers découverte ; stages découverte ; stage découverte ; stages découverte ; vols découverte ; vol découverte ; vols découverte ; ampoules graisseur ; ampoule graisseur ; ampoules graisseur ; vitesse grand V ; vitesse grand V ; services informatique ; service informatique ; services informatique ; sacoches ordinateur ; sacoche ordinateur ; sacoches ordinateur ; designers textile ; designer textile ; designers textile ; portières passager ; portière passager ; portières passager ; portières conducteur ; portière conducteur ; portières conducteur ; visas longue durée ; visa longue durée ; visas longue durée ; visas courte durée ; visa courte durée ; visas courte
+                    durée</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -5349,7 +5351,7 @@ though, and has since been slightly modified)-->
                 <example>Il a été aux États-Unis.</example>
                 <example correction="a">Paul <marker>à</marker> travaillé tard.</example>
                 <example correction="a">Tom <marker>à</marker> dit qu'il mange.</example>
-                <example correction="a">M. Waters les <marker>à</marker> surprises.</example> 
+                <example correction="a">M. Waters les <marker>à</marker> surprises.</example>
                 <example>Je suis tout à fait d’accord.</example>
                 <example>Un crayon à pointe fine.</example>
                 <example>Les familles à revenus modestes</example>
@@ -14622,7 +14624,7 @@ though, and has since been slightly modified)-->
                         <token>cents</token>
                         <token regexp="yes">\d*\-\d*</token>
                         <token regexp="yes">\w*\-\w*</token>
-                       <!-- <token regexp="yes">\d+</token>-->
+                        <!-- <token regexp="yes">\d+</token>-->
                         <token postag="D e p|K|Y" postag_regexp="yes">
                             <exception regexp="yes">des|les|quelques|plusieurs|nouvel|ses|ces|aux|par</exception></token>
                     </or>
@@ -46868,17 +46870,23 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <!-- ?? -->
-                <token  postag="[NZ].*" postag_regexp="yes"/>
+                <token postag="[NZ].*" postag_regexp="yes"/>
                 <token>google</token>
+            </antipattern>
+            <antipattern>
+                <token>google</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no"/>
             </antipattern>
             <pattern>
                 <token case_sensitive="yes">google</token>
             </pattern>
-                <message>S'il s'agit d'un nom propre, il doit être en majuscule.</message>
-                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+            <message>S'il s'agit d'un nom propre, il doit être en majuscule.</message>
+            <suggestion><match no="1" case_conversion="startupper"/></suggestion>
             <example correction="Google">Laisse-moi chercher cela sur <marker>google</marker> pour toi.</example>
             <example>Je google.</example>
             <example>Quand ma sœur google</example>
+            <example>books.google.fr</example>
         </rule>
         <rule id="NAPOLEON" name="napoléon">
             <pattern case_sensitive="yes">
