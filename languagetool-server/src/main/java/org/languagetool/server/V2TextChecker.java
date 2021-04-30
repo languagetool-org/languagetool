@@ -83,19 +83,19 @@ class V2TextChecker extends TextChecker {
   protected void checkParams(Map<String, String> parameters) {
     super.checkParams(parameters);
     if (StringTools.isEmpty(parameters.get("language"))) {
-      throw new IllegalArgumentException("Missing 'language' parameter, e.g. 'language=en-US' for American English or 'language=fr' for French");
+      throw new BadRequestException("Missing 'language' parameter, e.g. 'language=en-US' for American English or 'language=fr' for French");
     }
     if (parameters.get("enabled") != null) {
-      throw new IllegalArgumentException("You specified 'enabled' but the parameter is now called 'enabledRules' in v2 of the API");
+      throw new BadRequestException("You specified 'enabled' but the parameter is now called 'enabledRules' in v2 of the API");
     }
     if (parameters.get("disabled") != null) {
-      throw new IllegalArgumentException("You specified 'disabled' but the parameter is now called 'disabledRules' in v2 of the API");
+      throw new BadRequestException("You specified 'disabled' but the parameter is now called 'disabledRules' in v2 of the API");
     }
     if (parameters.get("preferredvariants") != null) {
-      throw new IllegalArgumentException("You specified 'preferredvariants' but the parameter is now called 'preferredVariants' (uppercase 'V') in v2 of the API");
+      throw new BadRequestException("You specified 'preferredvariants' but the parameter is now called 'preferredVariants' (uppercase 'V') in v2 of the API");
     }
     if (parameters.get("autodetect") != null) {
-      throw new IllegalArgumentException("You specified 'autodetect' but automatic language detection is now activated with 'language=auto' in v2 of the API");
+      throw new BadRequestException("You specified 'autodetect' but automatic language detection is now activated with 'language=auto' in v2 of the API");
     }
   }
   
@@ -124,7 +124,7 @@ class V2TextChecker extends TextChecker {
     if (parameters.get("preferredVariants") != null) {
       preferredVariants = Arrays.asList(parameters.get("preferredVariants").split(",\\s*"));
       if (!"auto".equals(parameters.get("language")) && (parameters.get("multilingual") == null || parameters.get("multilingual").equals("false"))) {
-        throw new IllegalArgumentException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
+        throw new BadRequestException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
       }
     } else {
       preferredVariants = Collections.emptyList();
