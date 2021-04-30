@@ -41914,6 +41914,32 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="DE_MA_FAUTE" name= "utiliser -ma faute- plutôt que -de ma faute-">
+            <rule>
+                <pattern>
+                    <token regexp="yes">pas|rien|jamais|cas|point|tout</token>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">[mts]a|[nv]otre|leur</token>
+                        <token>faute</token>
+                    </marker>
+                </pattern>
+                <message>Préférez <suggestion><match no="3"/> <match no="4"/></suggestion>.</message>
+                <example correction="ma faute">Ce n'est pas <marker>de ma faute</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V etre.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">[mts]a|[nv]otre|leur</token>
+                        <token>faute</token>
+                    </marker>
+                </pattern>
+                <message>Préférez <suggestion><match no="3"/> <match no="4"/></suggestion>.</message>
+                <example correction="sa faute">à l'écouter, rien n’est <marker>de sa faute</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BARBARISME_TU" name="barbarisme tu">
             <rule>
                 <antipattern>
