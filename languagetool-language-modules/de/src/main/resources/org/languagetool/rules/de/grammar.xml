@@ -37828,8 +37828,12 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>das</token>
-                    <token>Zufall</token>
+                    <token regexp="yes">Zufall|Schwachsinn|Leichtsinn|Unfug</token>
                     <token>ist</token>
+                </antipattern>
+                <antipattern><!-- Die Umstellung auf das Meter wurde ... -->
+                    <token>auf</token>
+                    <token>das</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -37848,6 +37852,8 @@ Andere Projekte</example>
                 <example>Er sucht etwas das Computer zerstören wird.</example>
                 <example>Ich glaube nicht, dass das Zufall ist.</example>
                 <example>Das Morgen ist noch fern, lasst uns das Heute meistern.</example>
+                <example>Zur Vereinfachung und besseren Akzeptanz der Umstellung auf das Meter wurde im 19. Jahrhundert da und dort versucht, das alte Fußmaß auf runde Werte des neuen Systems zu bringen.</example>
+                <example>Ich finde aber, dass das Schwachsinn ist!</example>
             </rule>
             <rule><!-- eine Tisch ist/war -->
                 <antipattern><!-- der eine Server -->
@@ -37855,12 +37861,12 @@ Andere Projekte</example>
                     <token>eine</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[dms]eine|ihre</token>
+                    <token regexp="yes">[dmsk]eine|ihre|unsere</token>
                     <token postag=".+:NOM:PLU:.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[dms]?eine|ihre|unsere</token>
+                        <token regexp="yes">[dmsk]?eine|ihre|unsere</token>
                         <token postag="SUB:NOM:SIN:MAS">
                             <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
                         </token>
@@ -37965,7 +37971,7 @@ Andere Projekte</example>
                     <token>eine</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[dms]eine|ihre</token>
+                    <token regexp="yes">[dmsk]eine|ihre|unsere</token>
                     <token postag=".+:NOM:PLU:.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
@@ -37974,7 +37980,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[dms]?eine|ihre|unsere</token>
+                        <token regexp="yes">[dmsk]?eine|ihre|unsere</token>
                         <token postag="SUB:NOM:SIN:NEU">
                             <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
                         </token>
