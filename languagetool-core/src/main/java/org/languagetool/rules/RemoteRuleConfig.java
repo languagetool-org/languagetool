@@ -49,6 +49,8 @@ public class RemoteRuleConfig {
   private static final int DEFAULT_RETRIES = 0;
   private static final long DEFAULT_BASE_TIMEOUT = 1000;
   private static final float DEFAULT_TIMEOUT_PER_CHAR = 0;
+  private static final long DEFAULT_TIMEOUT_LIMIT_INTERVAL = 60_000;
+  private static final long DEFAULT_TIMEOUT_LIMIT_TOTAL = 10_000;
   private static final int DEFAULT_FALL = 1;
   private static final int DEFAULT_DOWN = 5000;
 
@@ -75,6 +77,9 @@ public class RemoteRuleConfig {
   private final Integer fall;
   private final Long downMilliseconds;
 
+  private final Long timeoutLimitTotalMilliseconds;
+  private final Long timeoutLimitIntervalMilliseconds;
+
 
   private final Map<String, String> options;
 
@@ -89,6 +94,8 @@ public class RemoteRuleConfig {
                           @JsonProperty("timeoutPerCharacterMilliseconds") Float timeoutPerCharacterMilliseconds,
                           @JsonProperty("fall") Integer fall,
                           @JsonProperty("downMilliseconds") Long downMilliseconds,
+                          @JsonProperty("timeoutLimitTotalMilliseconds") Long timeoutLimitTotalMilliseconds,
+                          @JsonProperty("timeoutLimitIntervalMilliseconds") Long timeoutLimitIntervalMilliseconds,
                           @JsonProperty("options") Map<String, String> options) {
     this.ruleId = ruleId;
     this.url = url;
@@ -98,6 +105,8 @@ public class RemoteRuleConfig {
     this.timeoutPerCharacterMilliseconds = timeoutPerCharacterMilliseconds;
     this.fall = fall;
     this.downMilliseconds = downMilliseconds;
+    this.timeoutLimitTotalMilliseconds = timeoutLimitTotalMilliseconds;
+    this.timeoutLimitIntervalMilliseconds = timeoutLimitIntervalMilliseconds;
     this.options = Collections.unmodifiableMap(options != null ? options : Collections.emptyMap());
   }
 
@@ -127,6 +136,14 @@ public class RemoteRuleConfig {
     return timeoutPerCharacterMilliseconds != null ? timeoutPerCharacterMilliseconds : DEFAULT_TIMEOUT_PER_CHAR;
   }
 
+  public Long getTimeoutLimitIntervalMilliseconds() {
+    return timeoutLimitIntervalMilliseconds != null ? timeoutLimitIntervalMilliseconds : DEFAULT_TIMEOUT_LIMIT_INTERVAL;
+  }
+
+  public Long getTimeoutLimitTotalMilliseconds() {
+    return timeoutLimitTotalMilliseconds != null ? timeoutLimitTotalMilliseconds : DEFAULT_TIMEOUT_LIMIT_TOTAL;
+  }
+
   public Map<String, String> getOptions() {
     return options;
   }
@@ -150,6 +167,8 @@ public class RemoteRuleConfig {
       .append(maxRetries, that.maxRetries)
       .append(baseTimeoutMilliseconds, that.baseTimeoutMilliseconds)
       .append(timeoutPerCharacterMilliseconds, that.timeoutPerCharacterMilliseconds)
+      .append(timeoutLimitIntervalMilliseconds, that.timeoutLimitIntervalMilliseconds)
+      .append(timeoutLimitTotalMilliseconds, that.timeoutLimitTotalMilliseconds)
       .append(fall, that.fall)
       .append(downMilliseconds, that.downMilliseconds)
       .append(options, that.options)
@@ -165,6 +184,8 @@ public class RemoteRuleConfig {
       .append(maxRetries)
       .append(baseTimeoutMilliseconds)
       .append(timeoutPerCharacterMilliseconds)
+      .append(timeoutLimitIntervalMilliseconds)
+      .append(timeoutLimitTotalMilliseconds)
       .append(fall)
       .append(downMilliseconds)
       .append(options)
@@ -180,6 +201,8 @@ public class RemoteRuleConfig {
       .append("maxRetries", maxRetries)
       .append("baseTimeout", baseTimeoutMilliseconds)
       .append("timeoutPerCharacter", timeoutPerCharacterMilliseconds)
+      .append("timeoutLimitTotal", timeoutLimitTotalMilliseconds)
+      .append("timeoutLimitInterval", timeoutLimitIntervalMilliseconds)
       .append("fall", fall)
       .append("down", downMilliseconds)
       .append("options", options)
