@@ -32003,16 +32003,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Li ho fan.</example>
                 <example>veure-ho li agradarà</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>els</token>
+                    <token>ens</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">li|els|'ls|'l|el|la|les|ens|'ns</token>
                     <marker>
                         <token spacebefore="yes">ens</token>
                     </marker>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles. ¿Volíeu dir <suggestion>en</suggestion>?</message>
                 <example correction="en">Se'ns <marker>ens</marker> pot anar avall.</example>
                 <example correction="en">No se'ls <marker>ens</marker> pot donar divendres.</example>
+                <example>Els ens locals membres de la Xarxa.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_DAVANT_VERB" name="Formes incorrectes davant de verb: *se omple, *se'l emporta">
