@@ -226,7 +226,7 @@ class PipelinePool {
       rules = rules.stream().map(c -> {
         return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
           0, timeout, 0f,
-          0, 0L, c.getOptions());
+          0, 0L, 0L, 0L, c.getOptions());
       }).collect(Collectors.toList());
       lt.activateRemoteRules(rules);
     } else {

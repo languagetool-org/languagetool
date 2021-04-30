@@ -45,7 +45,7 @@ public class GRPCRuleTest {
   public void setUp() throws Exception {
     config = new RemoteRuleConfig(RULE_ID, "localhost", 50000,
       0, 0L, 0.0f,
-      1, 0L, Collections.emptyMap());
+      1, 0L, 0L, 0L, Collections.emptyMap());
 
     rule = new GRPCRule(new Demo(), JLanguageTool.getMessageBundle(), config, true) {
       @Override
