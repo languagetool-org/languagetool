@@ -38427,17 +38427,23 @@ though, and has since been slightly modified)-->
             <example correction="œils-de-bœuf"><marker>oeils-de-boeuf</marker></example>
             <example>autoentrepreneur et microentrepreneur</example>
         </rule>
-        <rulegroup id="ABREVIATIONS_ET_PONCTUATION" name="Abréviations et ponctuation">
+        <rulegroup id="ABREVIATIONS_ET_PONCTUATION" name="Abréviations et ponctuation" default="temp_off">
             <rule>
+                <antipattern>
+                    <token regexp="yes">[._]</token>
+                    <token spacebefore="no">[Cc]f</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Cc]f</token>
                     </marker>
-                    <token regexp="yes">[^\.]+</token>
+                <token regexp="yes">[^.…]+</token>
                 </pattern>
                 <message>Si <suggestion>cf.</suggestion> désigne l'abréviation de "confer", il convient d'ajouter un point.</message>
                 <example correction="cf.">Nous avons déjà vu cette notion, <marker>cf</marker> le cours précédent.</example>
                 <example>Nous avons déjà vu cette notion, cf. le cours précédent.</example>
+                <example>Nous savons déjà cela, cf… nos expériences passées.</example>
+                <example>Consultez le site www.administration.cf</example>
             </rule>
         </rulegroup>
         <rulegroup id="FLECHES" name="-&gt; (→)">
