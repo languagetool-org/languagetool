@@ -284,6 +284,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Zu viele"><marker>Zuviele</marker> Eier sind gar nicht gesund.</example>
             </rule>
         </rulegroup>
+        <rule id="ALARM_AUSLOSEN" name="Alarm auslosen (auslösen)">
+            <pattern>
+                <token regexp="yes">.*alarm</token>
+                <marker>
+                    <token inflected="yes">auslosen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="o" regexp_replace="ö"/></suggestion>?</message>
+            <example correction="ausgelöst">Es wurde sofort Großalarm <marker>ausgelost</marker>.</example>
+            <example correction="ausgelöst">Ich habe den Alarm <marker>ausgelost</marker>.</example>
+        </rule>
         <rule id="VERTREIB_VERTRIEB" name="der Vertreib (Vertrieb)">
             <pattern>
                 <token regexp="yes">der|ein</token>
