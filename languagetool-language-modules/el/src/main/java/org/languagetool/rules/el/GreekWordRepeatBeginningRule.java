@@ -33,18 +33,12 @@ import java.util.stream.*;
  */
 public class GreekWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
-	/**
-	* Class constructor.
-	*/
   public GreekWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
     addExamplePair(Example.wrong("Επίσης, παίζω ποδόσφαιρο. <marker>Επίσης</marker>, παίζω μπάσκετ."),
                    Example.fixed("Επίσης, παίζω ποδόσφαιρο. <marker>Επιπλέον</marker>, παίζω μπάσκετ."));
   }
   
-  /**
-   * @return the id of the class
-   */
   @Override
   public String getId() {
     return "GREEK_WORD_REPEAT_BEGINNING_RULE";
@@ -75,25 +69,12 @@ public class GreekWordRepeatBeginningRule extends WordRepeatBeginningRule {
 	EXPLAIN_ADVERBS.add("Συγκεκριμένα");
   }
 
-  /**
-   * Checks if a token is exception of the rule.
-   * @param the token to be checked
-   * @return <code>true</code> if the token is and exception;
-   *         <code>false</code> otherwise.
-   */
   @Override
   public boolean isException(String token) {
     return super.isException(token) || token.equals("Ο") || token.equals("Η") || token.equals("Το") ||
     	   token.equals("Οι")|| token.equals("Τα");
   }
 
-
-  /**
-   * Checks if a token is one of the saved adverbs for the rule.
-   * @param the token to be checked
-   * @return <code>true</code> if the token is one of the saved adverbs;
-   *         <code>false</code> otherwise.
-   */
   @Override
   protected boolean isAdverb(AnalyzedTokenReadings token) {
     return ADD_ADVERBS.contains(token.getToken()) || 
@@ -101,12 +82,7 @@ public class GreekWordRepeatBeginningRule extends WordRepeatBeginningRule {
     	   EXPLAIN_ADVERBS.contains(token.getToken());
   }
 
-  /**
-   * Gives suggestions for the given token.
-   * @param the token to get suggestions
-   * @return a List of suggested adverbs to replace the given token, if it is an adverb;
-   *         an empty List if the given token is not an adverb.
-   */
+
   @Override
   protected List<String> getSuggestions(AnalyzedTokenReadings token) {
 	  String tok = token.getToken();
@@ -123,7 +99,7 @@ public class GreekWordRepeatBeginningRule extends WordRepeatBeginningRule {
 		  			.filter(adv -> !adv.equals(tok))
 		  			.collect(Collectors.toList());
 	  }
-      return Collections.emptyList();
+	  return Collections.emptyList();
   }
 
 }
