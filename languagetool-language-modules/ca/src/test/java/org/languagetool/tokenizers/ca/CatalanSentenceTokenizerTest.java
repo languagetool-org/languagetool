@@ -100,6 +100,8 @@ public class CatalanSentenceTokenizerTest {
     testSplit("fins al curs de 8è. ", "\"No es pot oblidar allò\"");
     testSplit("fins al curs de 8è. ", "-No es pot oblidar allò");
     testSplit("Aprovació (ca. 2010), suspensió (c. 2011), segle (ca. XIX)");
+    testSplit("La Dra. Ma. Victòria.");
+    testSplit("la projectada Sta. Ma. de Gàllecs");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");

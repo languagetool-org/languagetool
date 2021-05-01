@@ -6804,6 +6804,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="pyayetsia" name="Питається">
+      <url>http://yak-my-hovorymo.wikidot.com/pytayetsya-postaye-vynykaye-pytannya-spytaty-b</url>
+
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token min="0">а</token>
+          <marker>
+            <token>питається</token>
+          </marker>
+          <token regexp="yes">[,:—–-]</token>
+        </pattern>
+        <message>Дієслово питатися в українській мові стоїть завжди в особовій формі</message>
+        <suggestion>постає питання</suggestion>
+        <suggestion>от питання</suggestion>
+        <suggestion>спитати б</suggestion>
+        <example correction="Постає питання|От питання|Спитати б"><marker>Питається</marker>, що робити.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[,:—–-]</token>
+          <token min="0">а</token>
+          <marker>
+            <token>питається</token>
+          </marker>
+          <token>,</token>
+        </pattern>
+        <message>Дієслово питатися в українській мові стоїть завжди в особовій формі</message>
+        <suggestion>постає питання</suggestion>
+        <suggestion>от питання</suggestion>
+        <suggestion>спитати б</suggestion>
+        <example correction="постає питання|от питання|спитати б">і, <marker>питається</marker>, що робити.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[,—–-]</token>
+          <marker>
+            <token>питається</token>
+          </marker>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Дієслово питатися в українській мові стоїть завжди в особовій формі</message>
+        <suggestion>постає питання</suggestion>
+        <suggestion>от питання</suggestion>
+        <suggestion>спитати б</suggestion>
+        <example correction="постає питання|от питання|спитати б">хто це зробив, <marker>питається</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="de_ne_vizmys" name="Де (звідки) не візьмись">
       <pattern>
         <token regexp="yes">де|звідки</token>

@@ -26,6 +26,6 @@ import org.languagetool.Language;
 public class FrenchSynthesizer extends BaseSynthesizer {
 
   public FrenchSynthesizer(Language lang) {
-    super("/fr/french_synth.dict", "/fr/french_tags.txt", lang);
+    super("fr/fr.sor", "/fr/french_synth.dict", "/fr/french_tags.txt", lang);
   }
 }

@@ -137,6 +137,9 @@ public class PronomFebleDuplicateRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Ho deu continuar dient-ho."));
     assertEquals(1, matches.length);
     
+    matches = rule.match(lt.getAnalyzedSentence("S'està rebel·lant-se."));
+    assertEquals(1, matches.length);
+    
   }
     
     private void assertCorrect(String sentence) throws IOException {

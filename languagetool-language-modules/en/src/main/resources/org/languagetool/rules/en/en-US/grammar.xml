@@ -287,6 +287,31 @@ USA
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
+        <rule id="ETC_PERIOD" name="period after abbreviation 'etc.'">
+            <antipattern>
+                <token>etc</token>
+                <token regexp="yes">/|_|…|#</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">etc</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>A period is needed after the abbreviation 'etc.'</message>
+            <suggestion>etc.</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/etc.</url>
+            <example correction="etc.">Tennis, soccer, baseball, <marker>etc</marker> are outdoor games.</example>
+            <example correction="etc.">I use things like Java, Microsoft, Unix, <marker>etc</marker> at work.</example>
+            <example correction="etc.">Make sure you bring your fishing pole, tackle, bait, <marker>etc</marker> as we will not make any stops.</example>
+            <example correction="etc.">No check engine lights <marker>etc</marker>?</example>
+            <example correction="etc.">Removed the alarm listener and replaced with lights, <marker>etc</marker>, etc.</example>
+            <example>Process: 4264 ExecStart=/etc/rc.d/init.d/newrelic-daemon start (code=exited, status=0/SUCCESS)</example>
+            <example>DND_ETC__List1</example>
+            <example>Device Handlers, etc…</example>
+            <example>root@de1lvapp098p:/etc# ls -l /dev/disk/by-uuid</example>
+            <example>Diversity Dick Liebert reported that questions for the ETC survey are currently being developed.</example>
+        </rule>
         <rule id="MISSING_COMMA_AFTER_YEAR" name="Potentially missing comma after year">
             <pattern>
                 <token regexp="yes">&months;</token>
@@ -303,7 +328,7 @@ USA
             <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
             <example>My birthday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
         </rule>
-        <rulegroup id="US_ONE_ENTITY" name="the United States are (is) 245 years old" default="temp_off">
+        <rulegroup id="US_ONE_ENTITY" name="the United States are (is) 245 years old">
             <antipattern>
                 <token postag="IN|RB|TO|V.*|J.*" postag_regexp="yes" />
                 <token min="0">that</token>

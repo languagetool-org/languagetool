@@ -43,6 +43,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Écoute-moi.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("35%")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("20$")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("4x4")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("300 000 yen")).length);   
     assertEquals(0, rule.match(lt.getAnalyzedSentence("20°C")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("même s'il coûte 10.000 yens")).length);

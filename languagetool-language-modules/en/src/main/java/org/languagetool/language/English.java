@@ -317,6 +317,7 @@ public class English extends Language implements AutoCloseable {
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "LIFE_COMPOUNDS":            return 1;
+      case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
       case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
       case "HER_S":                     return 1;   // higher prio than THEIR_S
       case "COVID_19":                  return 1;
@@ -450,6 +451,7 @@ public class English extends Language implements AutoCloseable {
       case "METRIC_UNITS_EN_GB":        return -1;  // prefer MILE_HYPHEN
       case "COMMA_COMPOUND_SENTENCE":   return -1;  // prefer other rules
       case "COMMA_COMPOUND_SENTENCE_2": return -1;  // prefer other rules
+      case "REPEATED_VERBS":            return -1;  // prefer other rules
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)

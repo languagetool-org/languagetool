@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -252,7 +253,31 @@ class SingleCheck {
           docCursor = new DocumentCursorTools(xComponent);
         }
         flatPara = singleDocument.setFlatParagraphTools(xComponent);
-
+        
+        List<Integer> changedParas = new ArrayList<>();
+        if (oldCache != null) {
+          for (int nText = startPara; nText < endPara; nText++) {
+            int nFlat = docCache.getFlatParagraphNumber(nText);
+            if (textIsChanged || paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
+              if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getCacheEntry(nFlat), oldCache.getCacheEntry(nFlat))) {
+                changedParas.add(nFlat);
+              }
+            }
+          }
+          if (!changedParas.isEmpty()) {
+            if (debugMode > 1) {
+              MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara + ": " + changedParas.size() 
+                  + " changes, nTPara: " + nTPara + " changes, nFPara: " + nFPara);
+              String tmpText = "";
+              for (int n : changedParas) {
+                tmpText += n + " ";
+              }
+              MessageHandler.printToLogFile(tmpText);
+            }
+            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+          }
+        }
+/*        
 //        if (override) {     //  TODO: remove after tests
           List<Integer> tmpChangedParas;
           tmpChangedParas = paragraphsCache.get(cacheNum).differenceInCaches(oldCache);
@@ -299,15 +324,13 @@ class SingleCheck {
    * override existing marks
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara) {
-    Map <Integer, SingleProofreadingError[]> changedParasMap = new HashMap<>();
-    for (int nPara : changedParas) {
-      List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
-      for (int i = 0; i < minToCheckPara.size(); i++) {
-        pErrors.add(paragraphsCache.get(i).getMatches(nPara));
+    if (!mDocHandler.isSwitchedOff()) {
+      Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
+      for (int nPara : changedParas) {
+        changedParasMap.put(nPara, getSentenceErrosAsList(nPara));
       }
-      changedParasMap.put(nPara, mergeErrors(pErrors, nPara));
+      flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
     }
-    flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
   }
   
   /**
@@ -545,13 +568,13 @@ class SingleCheck {
     SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
-    String msg = ruleMatch.getMessage()
-        .replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningDoubleQuote())
-        .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingDoubleQuote())
-        .replaceAll("([\r]*\n)", " ");
+    String msg = ruleMatch.getMessage();
     if (docLanguage != null) {
       msg = docLanguage.toAdvancedTypography(msg);
     }
+    msg = msg.replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningDoubleQuote())
+        .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingDoubleQuote())
+        .replaceAll("([\r]*\n)", " "); 
     aError.aFullComment = msg;
     // not all rules have short comments
     if (!StringTools.isEmpty(ruleMatch.getShortMessage())) {
@@ -692,5 +715,48 @@ class SingleCheck {
     return pError;
   }
   
+  /**
+   * get all errors of a Paragraph as list
+   */
+  private List<SentenceErrors> getSentenceErrosAsList(int numberOfParagraph) {
+    List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
+    CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
+    List<Integer> nextSentencePositions = null;
+    if (entry != null) {
+      nextSentencePositions = entry.nextSentencePositions;
+    }
+    if (nextSentencePositions == null) {
+      nextSentencePositions = new ArrayList<Integer>();
+    }
+    if (nextSentencePositions.size() == 0 && docCache != null) {
+      nextSentencePositions.add(docCache.getFlatParagraph(numberOfParagraph).length());
+    }
+    int startPosition = 0;
+    for (int nextPosition : nextSentencePositions) {
+      List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+      for (ResultCache cache : paragraphsCache) {
+        errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition));
+      }
+      sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, mergeErrors(errorList, numberOfParagraph)));
+      startPosition = nextPosition;
+    }
+    return sentenceErrors;
+  }
+
+  /**
+   * Class of proofreading errors of one sentence
+   */
+  class SentenceErrors {
+    final int sentenceStart;
+    final int sentenceEnd;
+    final SingleProofreadingError[] sentenceErrors;
+    
+    SentenceErrors(int start, int end, SingleProofreadingError[] errors) {
+      sentenceStart = start;
+      sentenceEnd = end;
+      sentenceErrors = errors;
+    }
+  }
+
   
 }

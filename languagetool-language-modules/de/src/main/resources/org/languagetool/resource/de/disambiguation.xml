@@ -2946,7 +2946,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="American Dream" id="AMERICAN_DREAM">
         <pattern case_sensitive="yes">
             <token>American</token>
-            <token regexp="yes">Airlines|Dream|Express|Football|Horror|Dad</token>
+            <token regexp="yes">Airlines|Dreams?|Express|Football|Horror|Dad|Cookies?|Ways?|Bar</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -4240,4 +4240,40 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup name="Englische Namen" id="ENGLISH_NAMES">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Tt]he</token>
+                <token regexp="yes" min="0">[A-Z].*</token>
+                <token regexp="yes">[A-Z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
+                <token regexp="yes">[Oo]f|[Ff]or</token>
+                <token regexp="yes" min="0">[Tt]he</token>
+                <token regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Advanced|Black|White|Blue|Big|Little|Travel|Director|Social|My|Deep|Dead|Dark|European|American|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence</token>
+                <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
+                <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
+                <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
+                <token regexp="yes">Day|School|One|Black|Advanced|Air|Dark|Health|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

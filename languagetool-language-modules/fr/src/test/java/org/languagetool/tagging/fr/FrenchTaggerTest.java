@@ -76,6 +76,9 @@ public class FrenchTaggerTest {
     TestTools.myAssert("Al-Qaïda","Al-Qaïda/[Al-Qaïda]Z f sp", tokenizer, tagger);
     
     TestTools.myAssert("minitélévision","minitélévision/[minitélévision]N f s", tokenizer, tagger);
+    
+    TestTools.myAssert("soeur","soeur/[sœur]N f s", tokenizer, tagger);
+    TestTools.myAssert("oeils-de-boeuf","oeils-de-boeuf/[œils-de-bœuf]N m p", tokenizer, tagger);
   }
 
 }

@@ -498,26 +498,26 @@ abstract class TextChecker {
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
-            ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
-            + res.size() + " matches, "
-            + computationTime + "ms, agent:" + agent + version
-            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
-            + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
-            + ", m:" + ServerTools.getModeForLog(mode) + skipLimits);
-
-    int matchCount = res.size();
+    
+    int matchCount = 0;
     Map<String, Integer> ruleMatchCount = new HashMap<>();
     for (CheckResults r : res) {
       for (RuleMatch ruleMatch : r.getRuleMatches()) {
+        matchCount++;
         String ruleId = ruleMatch.getRule().getId();
         ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
       }
     }
-
+    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+        ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
+        + matchCount + " matches, "
+        + computationTime + "ms, agent:" + agent + version
+        + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
+        + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
+        + ", m:" + ServerTools.getModeForLog(mode) + skipLimits);
     ServerMetricsCollector.getInstance().logCheck(
       lang, computationTime, textSize, matchCount, mode);
-
+    
     if (!config.isSkipLoggingChecks()) {
       DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
         lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());

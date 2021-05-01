@@ -201,6 +201,7 @@ public class CaseRuleTest {
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
+    assertBad("Ich habe Heute keine Zeit.");
     assertBad("Ä Was?");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");

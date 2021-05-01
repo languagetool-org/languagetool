@@ -256,6 +256,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" sh") &&
                    !k.getReplacement().endsWith(" st") &&
                    !k.getReplacement().endsWith(" ward") &&
+                   !k.getReplacement().endsWith(" ability") && // interruptability
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
                    !k.getReplacement().endsWith(" ions") && // sealions

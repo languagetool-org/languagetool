@@ -459,6 +459,10 @@ class OfficeTools {
     return LT_HEAP_LIMIT;
   }
   
+  public static double getCurrentHeapRatio() {
+    return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / LT_HEAP_LIMIT;
+  }
+  
   public static boolean isHeapLimitReached() {
     long usedHeap = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
     return (LT_HEAP_LIMIT < usedHeap);

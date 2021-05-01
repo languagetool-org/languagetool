@@ -372,7 +372,7 @@
       <example type='correct'>A vaca está no prado.</example>
     </rule>
 
-    <rule default='off' id='A_WORD_A' name="Concordancia de género: A + palavra terminada em A">
+    <rule default='off' id='A_WORD_A' name="Concordancia de xénero: A + palavra terminada em A">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <pattern>
           <token regexp='yes'>a</token>
@@ -385,7 +385,7 @@
       <example correction="O dogma"><marker>A dogma</marker> de quen sabe moito.</example>
     </rule>
 
-  <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordancia: SER + adjetivo + nome">
+  <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordancia: SER + adxectivo + nome">
     <!--      Created by Tiago F. Santos, 2017-09-06      -->
     <rule>
       <pattern>
@@ -451,7 +451,7 @@
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordancia de género: O + Feminino">
+    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordancia de xénero: O + Feminino">
       <pattern>
         <marker>
           <token>o</token>
@@ -469,7 +469,7 @@
       <example type='correct'>A cadela está no prado.</example>
     </rule>
 
-  <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordancia de Número: Xeral">
+  <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordancia de número: Xeral">
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
@@ -738,7 +738,7 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordancia Verbal: Xeral">
+  <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordancia verbal: Xeral">
     <!-- Localized from Portuguese rule by Tiago F. Santos, 2019-04-06  -->
       <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <antipattern>
@@ -1072,21 +1072,20 @@
           <token regexp="yes">\d+\d{3}(?:,\d+)?</token>
         </marker>
       </pattern>
-      <message>Se non é un ano, os algarismos deben ser agrupados en grupos de 3.</message>
-        <suggestion><match no="2" regexp_match="(\d+)(\d{3})(,\d+)?" regexp_replace="$1 $2$3"/></suggestion>
-      <example correction='10 341'>En 2016, Portugal rexistrou <marker>10341</marker> miles de habitantes.</example>
-      <example correction='1 034'><marker>1034</marker> 133 corresponde a un décimo dos habitantes portugueses</example>
+      <message>Se non é un ano, os algarismos deben ser escritos en grupos de 3.</message>
+      <suggestion><match no="2" regexp_match="(\d+)(\d{3})(,\d+)?" regexp_replace="$1 $2$3"/></suggestion>
+      <url>https://wikidog.xunta.gal/index.php/Escrita_dos_n%C3%BAmeros</url>
+      <example correction='1 034'>A poboación no ano 2020 era de <marker>1034</marker> 133 habitantes.</example>
       <example>O ano ten exactamente 365,24219858156 días.</example>
       <example>É o ano de <marker>1989</marker>.</example>
-      <example>É o ano de <marker>1989</marker></example>
       <example>ISBN 0-522-85317-X.</example>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">\d+\,\d{3}\d+</token>
       </pattern>
-      <message>Os algarismos deben ser agrupados en grupos de 3.</message>
-        <suggestion><match no="3" regexp_match="(\d+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
+      <message>Os algarismos deben ser escritos en grupos de 3.</message>
+      <suggestion><match no="3" regexp_match="(\d+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
       <example correction='17,103 41'>A media exacta é de <marker>17,10341</marker> valores.</example>
       <example correction='365,242 19858156'>O ano ten exactamente <marker>365,24219858156</marker> días.</example>
     </rule>
@@ -1110,12 +1109,12 @@
       <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
     <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
-      <example correction="25 °C">Fan <marker>25°C</marker>.</example>
-      <example correction="-25 °C">Fan <marker>-25°C</marker>.</example>
-      <example correction="25,5 °F">Fan <marker>25,5°F</marker>.</example>
-      <example>Fan <marker>25,5 °C</marker>.</example>
-      <example>Fan <marker>25,5 °Ra</marker>.</example>
-      <example>Son <marker>5 km</marker> gelaufen.</example>
+      <example correction="25 °C">A temperatura é de <marker>25°C</marker>.</example>
+      <example correction="-25 °C">A temperatura é de <marker>-25°C</marker>.</example>
+      <example correction="25,5 °F">A temperatura é de <marker>25,5°F</marker>.</example>
+      <example>A temperatura é de <marker>25,5 °C</marker>.</example>
+      <example>A temperatura é de <marker>25,5 °Ra</marker>.</example>
+      <example>Son <marker>5 km</marker> de distancia.</example>
       <example correction="5 km">Son <marker>5km</marker> de distancia.</example>
       <example>Son <marker>5 ZiB</marker> de datos.</example>
       <example correction="5 ZiB">Son <marker>5ZiB</marker> de datos.</example>
@@ -1578,7 +1577,7 @@
       </pattern>
       <message>En diálogos e enumeracións debe utilizar trazo longo.</message>
         <suggestion>—</suggestion>
-      <short>Aquí utilice o trazo longo.</short>
+      <short>Aquí utilice o trazo longo</short>
       <example correction='—'><marker>-</marker> Que é iso, mamá?</example>
       <example correction='—'>« <marker>-</marker> Que é iso, mamá?</example>
       <example>— É o teu presente de aniversario, miña filla.</example>
@@ -1601,7 +1600,7 @@
       </pattern>
       <message>Termine a frase parentética cun trazo longo.</message>
         <suggestion>—</suggestion>
-      <short>Aquí utilice o trazo longo.</short>
+      <short>Aquí utilice o trazo longo</short>
       <example correction='—'>como dixen <marker>-</marker>,…</example>
     </rule>
     <rule>
@@ -1618,7 +1617,7 @@
       </pattern>
       <message>Se non pretende unir dúas palabras, debe utilizar trazo longo.</message>
         <suggestion>—</suggestion>
-      <short>Aquí debería utilizar un trazo longo.</short>
+      <short>Aquí debería utilizar un trazo longo</short>
       <example correction='—'>Neses establecementos de ensino existían matrículas <marker>-</marker> a maioría de ensino fundamental — e un total de docentes.</example>
       <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Asociación de promoción cultural da Compañía de Xesús en Macau</example>
       <example>Na porción centro-oeste e noroeste presentan maiores elevacións, podendo atinxir 500 metros por enriba do nivel do mar, destacándose a Serra do Tumucumaque e a Serra Lombarda.</example>
@@ -1656,7 +1655,7 @@
       <message>Se pretende indicar un intervalo temporal ou numérico, debe utilizar o medio-trazo.</message>
         <suggestion>\1 – \3</suggestion>
         <suggestion>\1–\3</suggestion>
-      <short>En intervalos numéricos/temporais, debe utilizar o medio-trazo.</short>
+      <short>En intervalos numéricos/temporais, debe utilizar o medio-trazo</short>
       <example correction='1812 – 1888|1812–1888'>Antonio Casares Rodríguez (<marker>1812 - 1888</marker>) — primeiro catedrático de Química da USC.</example>
   <!--example correction='10 – 20%|10–20%'><marker>10-20%</marker></example--> <!-- XXX add half dash to tokenizer split characters and uncomment -->
       <example>1466–1469 — Gran Guerra Irmandiña</example>
@@ -1758,7 +1757,7 @@
       <message>Se pretende unir dúas palabras, non debe espazar e debe utilizar o guión. En caso contrario, utilice espazos e un trazo longo.</message>
         <suggestion>\1-\3</suggestion>
         <suggestion>\1 — \3</suggestion>
-      <short>Erro tipográfico.</short>
+      <short>Erro tipográfico</short>
       <example correction='Tras-os|Tras — os'>Alfándega da Fe fica en <marker>Tras -os</marker>-Montes.</example>
       <example>Ayer, A. J.— As Ideas de Bertrand Russel.</example>
     </rule>
@@ -1781,12 +1780,12 @@
       <message>Se pretende unir dúas palabras, non debe espazar e debe utilizar o guión. En caso contrario, utilice espazos e un trazo longo.</message>
         <suggestion>\1-\3</suggestion>
         <suggestion>\1 — \3</suggestion>
-      <short>Erro tipográfico.</short>
+      <short>Erro tipográfico</short>
       <example correction='Tras-os|Tras — os'>Alfándega da Fe fica en <marker>Tras- os</marker>-Montes.</example>
     </rule>
   </rulegroup>
 
-    <rule id='ENUMERATION_AND_DASHES' name="Enumerações com travessões: 1.2.-">
+    <rule id='ENUMERATION_AND_DASHES' name="Enumeracións com trazos: 1.2.-">
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
@@ -2115,7 +2114,7 @@
       <message>Carácter incorrecto. Utilice antes o apóstrofe ou revise a acentuación.</message>
         <suggestion>’</suggestion>
         <suggestion/>
-      <short>Carácter incorreto.</short>
+      <short>Carácter incorrecto</short>
       <example correction="’|">Non e<marker>´</marker> común encontrar erros deste tipo.</example>
     </rule>
 
@@ -2345,7 +2344,7 @@
       </pattern>
       <message>Os símbolos monetarios internacionais sepáranse cun espazo: <suggestion>\1\2</suggestion>.</message>
       <url>https://gl.wikipedia.org/wiki/Euro</url>
-      <short>Retirar espazo</short>
+      <short>Espazo incorrecto</short>
       <example correction="$100">Débese <marker>$ 100</marker>.</example>
     </rule>
 
@@ -2355,7 +2354,7 @@
       </pattern>
       <message>Os símbolos monetarios do euro (€) sepáranse cun espazo<suggestion><match no="1" regexp_match="(\d+)([€\u8371])" regexp_replace="$1 $2"/></suggestion>.</message>
       <url>https://gl.wikipedia.org/wiki/Euro</url>
-      <short>Erro tipográfico</short>
+      <short>Espazo incorrecto</short>
       <example correction="100 €">Débese <marker>100€</marker>.</example>
     </rule>
 
@@ -2745,7 +2744,7 @@
       <antipattern>
       	<token inflected="yes">ir</token>
       	<token>a</token>
-      	<token>[partir|pesar]</token>
+      	<token regexp="yes">partir|pesar</token>
       	<token regexp="yes">d(?:algúns?|algunhas?|aquel(es)?|aquelas?|outr[oa]s?|est?as?|est?es?|ist?o|elas?|el(es)?|as?|os?|e|uns?|unha)</token>
       </antipattern>
       <pattern>
@@ -2753,8 +2752,9 @@
           <token>a</token>
           <token postag="(VMN0000|VSN0000).*" postag_regexp="yes"/>
       </pattern>
-      <message>A perífrase formada polo verbo «ir» máis un infinitivo constrúese sen preposición: <suggestion>\1 \3</suggestion></message>
+      <message>A perífrase formada polo verbo «ir» máis un infinitivo constrúese sempre sen preposición: <suggestion>\1 \3</suggestion></message>
       <url>https://gl.wikibooks.org/wiki/Curso_de_lingua_galega/O_verbo/As_per%C3%ADfrases_verbais#Ir_+_infinitivo</url>
+      <short>Perífrase «ir + infinitivo»</short>
       <example correction="Vou saltar"><marker>Vou a saltar</marker> con ela.</example>
     </rule>
 
@@ -2769,8 +2769,9 @@
         </marker>
           <token postag="VMN.*|VSN.*|VMP.*|VSP.*|VMG.*|VSG.*" postag_regexp="yes"/>
       </pattern>
-      <message>A palabra «<match no="1"/>» seguida dunha forma non temporal adoita ser do verbo «vir» e, polo tanto, leva til diacrítico para diferenciala da forma homónima do verbo «ver». Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="é"/></suggestion>?</message>
-      <short>Forma incorrecta</short>
+      <message>A palabra «<match no="1"/>» seguida dunha forma non temporal adoita ser do verbo «vir» e, polo tanto, leva acento diacrítico para diferenciala da forma homónima do verbo «ver». Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="é"/></suggestion>?</message>
+      <url>http://www.aprendogalego.com/APRENDO/5-Verbofin/verbos_regulares.html</url>    
+      <short>Problema cun acento</short>
       <example correction="vén">O neno <marker>ven</marker> saltando polo camiño.</example>
     </rule>
 
@@ -2783,8 +2784,9 @@
           <token>de</token>
           <token postag="(VMN0000|VSN0000).*" postag_regexp="yes"/>
       </pattern>
-      <message>A forma «<match no="1"/>» seguida de infinitivo adoita ser do verbo «vir» e, polo tanto, leva til diacrítico para diferenciala da forma homónima do verbo «ver». Quería vostede dicir <suggestion>vén</suggestion>?</message>
-      <short>Cando é do verbo vir, «ven» leva til</short>
+      <message>A forma «<match no="1"/>» seguida de infinitivo adoita ser do verbo «vir» e, polo tanto, leva acento diacrítico para diferenciala da forma homónima do verbo «ver». Quería vostede dicir <suggestion>vén</suggestion>?</message>
+      <url>http://www.aprendogalego.com/APRENDO/5-Verbofin/verbos_regulares.html</url>      
+      <short>Problema cun acento</short>
       <example correction="vén">A caixa <marker>ven</marker> de sanear a carteira de créditos.</example>
     </rule>
   </rulegroup>
@@ -2803,6 +2805,7 @@
       </pattern>
       <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva acento para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
       <url>https://ciberdubidas.blogspot.com/2010/11/cumpre-compre.html</url>
+      <short>Problema cun acento</short>
       <example correction="Cómpre"><marker>Compre</marker> agora analizar o proceso de constitución das listas.</example>
     </rule>
     <!-- compre + que -->
@@ -2816,8 +2819,8 @@
       </pattern>
       <message>A forma «compre», cando é do verbo «cumprir» (ser necesario), leva acento para distinguila do verbo «comprar». Quería vostede dicir <suggestion>cómpre</suggestion>?</message>
      <url>https://ciberdubidas.blogspot.com/2010/11/cumpre-compre.html</url>
-     <example correction="Cómpre"><marker>Compre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>
-      
+     <short>Problema cun acento</short>
+     <example correction="Cómpre"><marker>Compre</marker> que a arquitectura das Nacións Unidas se axuste a ese concepto.</example>      
     </rule>
   </rulegroup>
 
@@ -2832,6 +2835,7 @@
           </marker>
       </pattern>
       <message>Os pronomes clíticos non poden ir en galego no inicio da oración. Por favor, empregue o verbo seguido do pronome (por exemplo: «díxenvolo» no canto de «volo dixen»).</message>
+      <url>https://gl.wikipedia.org/wiki/Colocaci%C3%B3n_do_pronome_%C3%A1tono_en_galego</url>
       <short>O pronome debe ir posposto ao verbo</short>
       <example correction=""><marker>Volo dixen</marker> e non me quixestes facer caso.</example>
       <example><marker>Díxenvolo</marker> e non me quixestes facer caso.</example>
@@ -2839,6 +2843,7 @@
   </rulegroup>
 
   <rulegroup id="REFLEXIVOS" name="cásome, me caso (caso)">
+        <short>Verbos sen construción reflexiva</short>
   <!-- Ampliado segundo a listaxe en http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html pero omitindo algúns polos seus usos reflexivos -->
       <!--enclíticos-->
     <rule>
@@ -2923,6 +2928,7 @@
           </token>
       </pattern>
       <message>A forma «nos» ao comezo da oración e seguida por un verbo adoita ser un pronome suxeito e leva til. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>?</message>
+      <url>http://www.aprendogalego.com/APRENDO/4-pronomebac/colocacin_do_pronome_tono.html</url>
       <short>Acentuación de pronomes suxeito</short>
       <example correction="Nós"><marker>Nos</marker> cremos que a lingua é un tesouro.</example>
     </rule>
@@ -2938,11 +2944,13 @@
           </token>
       </pattern>
       <message>A forma «vos» ao comezo da oración e seguida por un verbo adoita ser un pronome suxeito e leva til. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>?</message>
+      <url>http://www.aprendogalego.com/APRENDO/4-pronomebac/colocacin_do_pronome_tono.html</url>
       <short>Acentuación de pronomes suxeito</short>
       <example correction="Vós"><marker>Vos</marker> sabedes o que come?</example>
     </rule>
 
   <rulegroup id="REXIME_VERBAL" name="construción verbal">
+  <short>Falta a preposición</short>
     <!-- Verbs with pattern: SUBJanim Verb PP(que).
                SUBJ must be animate/human, otherwise the subordinate could act as subject (and
                it would be a false positive:
@@ -2958,6 +2966,7 @@
           <token>que</token>
       </pattern>
       <message>O verbo «\1» constrúese normalmente coa preposición «de». Quería vostede dicir <suggestion>\1 de \2</suggestion>?</message>
+      <url>https://gl.wikibooks.org/wiki/Sintaxe_da_lingua_galega/Suplemento</url>
       <example correction="informaron de que">Os servizos de emerxencia <marker>informaron que</marker> habería fortes ventos na costa.</example>
     </rule>
     <!-- V + en + que: insistir, confiar -->
@@ -2968,6 +2977,7 @@
           <token>que</token>
       </pattern>
       <message>O verbo «\1» constrúese normalmente coa preposición «en». Quería vostede dicir <suggestion>\1 en \2</suggestion>?</message>
+      <url>https://gl.wikibooks.org/wiki/Sintaxe_da_lingua_galega/Suplemento</url>
       <example correction="insistiron en que">Os servizos de emerxencia <marker>insistiron que</marker> habería fortes ventos na costa.</example>
       <example correction="Confío en que"><marker>Confío que</marker> actuarán de xeito consecuente.</example>
     </rule>
@@ -2988,10 +2998,12 @@
           <token>fora</token>
         </marker>
       </pattern>
-      <message>A palabra «\2» semella corresponderse neste contexto co adverbio «fóra», que leva til para diferenciarse das formas dos verbos 'ser' ou 'ir'. Quería vostede dicir <suggestion>fóra</suggestion>?</message>
+      <message>A palabra «\2» semella corresponderse neste contexto co adverbio «fóra», que leva acento para o diferenciar das formas dos verbos «ser» ou «ir». Quería vostede dicir <suggestion>fóra</suggestion>?</message>
+      <url>https://academia.gal/dicionario/-/termo/fóra</url>
+	  <short>Acento diacrítico</short>
       <example correction="fóra">O novo profesor é de <marker>fora</marker>.</example>
     </rule>
-    <!-- cando os deixaran fora terrible
+    <!-- cando os deixaran fora terrible TODO: Complete rule with verbs
     <rule>
     < Created by Susana Sotelo Docío >
       <pattern mark_from="1">
@@ -3011,14 +3023,18 @@
           <token>quenes</token>
       </pattern>
       <message>O pronome «quen» carece de plural. Empregue mellor <suggestion>quen</suggestion> ou <suggestion>os que</suggestion> segundo o contexto.</message>
+      <url>https://dubidasdogalego.wordpress.com/2011/12/22/quenes/</url>
+      <short>«quen» utilízase en singular e en plural</short>
       <example correction="quen|os que">Non saben <marker>quenes</marker> son os encargados.</example>
       <example>Non saben <marker>quen</marker> son os encargados.</example>
       <example correction="quen|os que">Seguramente <marker>quenes</marker> máis protestan serán os que máis se beneficien.</example>
       <example>Seguramente <marker>os que</marker> máis protestan serán os que máis se beneficien.</example>
     </rule>
 
-  <rulegroup id="GRAN" name="gran día" default="off">
-    <rule>
+  <rulegroup id="APOCOPES" name="gran día" default="off">
+  	<url>http://www.blogoteca.com/dubidas/index.php?cod=14611</url>
+  	<short>Apócopes</short>
+    <rule name="grande">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
@@ -3032,7 +3048,7 @@
       <example correction="gran">Resultou ser un <marker>grande</marker> curso.</example>
       <example>Resultou ser un <marker>gran</marker> curso.</example>
     </rule>
-    <rule>
+    <rule name="gran">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
@@ -3044,8 +3060,9 @@
       <example correction="grande">Resultou ser un <marker>gran</marker> amigo.</example>
       <example>Resultou ser un <marker>grande</marker> amigo.</example>
     </rule>
-    <rule>
+    <rule name="malo">
     <!-- Created by Susana Sotelo Docío -->
+    <!-- FIXME: This rule isn't working. -->
       <pattern>
         <marker>
           <token>malo</token>
@@ -3057,7 +3074,8 @@
       <example>Resultou ser un <marker>mal</marker> ano.</example>
     </rule>
     <!-- FIXME: que pasa se comeza por h- // FIXME: santo cristo/san cristo -->
-    <rule>
+    <!-- FIXME: This rule isn't working. -->
+    <rule name="san">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
@@ -3069,7 +3087,7 @@
       <example correction="santo">Foi á romaría de <marker>san</marker> André.</example>
       <example>Foi á romaría de <marker>santo</marker> André.</example>
     </rule>
-    <rule>
+    <rule name="santo">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
@@ -3084,6 +3102,7 @@
   </rulegroup>
 
   <rulegroup id="CARA" name="cara a">
+    <short>Pode faltar a preposición «a»</short>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern case_sensitive="yes">
@@ -3171,7 +3190,7 @@
           <token regexp="yes">aos?|ós?|ás?</token>
       </pattern>
       <message>A preposición «\1» non vai seguida da preposición «a». Quería vostede dicir <suggestion>\1 <match no="2" postag="SPS00:(.*)" postag_replace="$1">o</match></suggestion>?</message>
-      <short>Forma incorrecta</short>
+      <short>Pode sobrar o artigo</short>
       <example correction="até a">Xogaron tamén un papel importante <marker>até á</marker> conquista romana.</example>
     </rule>
   </rulegroup>
@@ -3182,7 +3201,9 @@
                       *Pero, logo, cándo comeza o curso?
                       Sabes cando comeza o curso?
         -->
-  <rulegroup id="INTERROG" name="qué,cál,cómo (que,cal,como)">
+  <rulegroup id="INTERROGATIVE_PRONOUNS" name="qué,cál,cómo (que,cal,como)">
+  <url>http://aprendogalego.com/APRENDO/6-Conxfin/interrogativos_e_exclamativos.html</url>
+  <short>Acento innecesario</short>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
@@ -3259,7 +3280,7 @@
 
     <!-- FIXED: 'demais' can function without article: "versionado en galego, catalán e demais linguas" -->
   <rulegroup id="DEMAIS" name="demais e de mais">
-    <rule>
+    <rule name="demais">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
     <!-- Exceptions: o, mailo + o, por + o, de + o, en + o, todos + o, con + o, ca + o, a + o    //   e, ou -->
@@ -3273,7 +3294,7 @@
       <example>Foi xogar cos <marker>demais</marker> rapaces.</example>
     </rule>
 
-    <rule>
+    <rule name="de mais">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>de</token>
@@ -3289,7 +3310,7 @@
           * Cando vai seguido de pronome, verbo ou coma é erro con certeza, confundido con 'se non': "Senón existe esa singularidade"; "Senón o sabes pregunta"; "senón, pregunta". Isto vale seguramente tamén para a posición interna na oración. [comprobar]
         -->
   <rulegroup id="SENON" name="se non, senón">
-    <rule id="SE_SENON_QUE" name="se non que (senón que)">
+    <rule id="SE_NON_QUE" name="se non que (senón que)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token skip="-1">non
@@ -3353,7 +3374,6 @@
   </rulegroup>
 
   <rulegroup id="CONTRACCIONS" name="contraccións">
-
     <!-- fuzzy -->
     <rule id="POR_O" name="por o (polo)">
     <!-- Created by Susana Sotelo Docío -->
@@ -3362,6 +3382,7 @@
           <token regexp="yes">[oa]s?</token>
       </pattern>
       <message>A preposición «por» e o artigo «<match no="2"/>» contraen. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)r$" regexp_replace="l"/>\2</suggestion>?</message>
+      <short>Contracción</short>
       <example correction="Polo"><marker>Por o</marker> mar abaixo vai unha troita de pé.</example>
     </rule>
 
@@ -3373,6 +3394,7 @@
           <token regexp="yes">[oa]s?</token>
       </pattern>
       <message>A conxunción «e mais» e o artigo «<match no="3"/>» contraen. Quería vostede dicir <suggestion>e mail\3</suggestion>?</message>
+      <short>Contracción posíbel</short>
       <example correction="e maila">Foron ao cine ela <marker>e mais a</marker> súa irmá.</example>
     </rule>
 
@@ -3398,6 +3420,7 @@
           <token regexp='yes'>l[oa]s?</token>
       </pattern>
       <message>As formas «e mais», «ambos», «entrambos», «por», «tras» e «todos» non marcan a segunda forma do artigo mediante un trazo. Quería vostede dicir <suggestion>\1\3</suggestion>?</message>
+      <short>Trazo innecesario</short>
       <example correction="Tódolos"><marker>Tódo-los</marker> días vou mercar á praza.</example>
     </rule>
 
@@ -3483,7 +3506,7 @@
           <token>miña</token>
       </pattern>
       <message>A expresión «\1 miña» é incorrecta. Empregue mellor <suggestion>\1 de min</suggestion> no seu lugar.</message>
-      <short>Un posesivo non pode complementar un adverbio.</short>
+      <short>Un posesivo non pode complementar un adverbio</short>
       <example correction="detrás de min">Vén xusto <marker>detrás miña</marker>.</example>
     </rule>
     <rule id="DETRAS_TUA" name="detrás túa (detrás de ti)">
@@ -3493,7 +3516,7 @@
           <token>túa</token>
       </pattern>
       <message>A expresión «\1 túa» é incorrecta. Empregue mellor <suggestion>\1 de ti</suggestion> no seu lugar.</message>
-      <short>Un posesivo non pode complementar un adverbio.</short>
+      <short>Un posesivo non pode complementar un adverbio</short>
       <example correction="detrás de ti">Mira <marker>detrás túa</marker>, un mono con tres cabezas!</example>
     </rule>
     <rule id="DETRAS_NOSA_VOSA" name="detrás nosa (detrás de nós)">
@@ -3503,7 +3526,7 @@
           <token regexp="yes">nosa|vosa</token>
       </pattern>
       <message>A expresión «\1 \2» é incorrecta. Empregue mellor <suggestion>\1 de <match no="2" regexp_match="([vn])osa" regexp_replace="$1ós"/></suggestion> no seu lugar.</message>
-      <short>Un posesivo non pode complementar un adverbio.</short>
+      <short>Un posesivo non pode complementar un adverbio</short>
       <example correction="detrás de vós">Mirade <marker>detrás vosa</marker>, un mono con tres cabezas!</example>
     </rule>
     <rule id="DETRAS_SUA" name="detrás súa (detrás del/dela/deles/delas)">
@@ -3513,7 +3536,7 @@
           <token>súa</token>
       </pattern>
       <message>A expresión «\1 súa» é incorrecta. Empregue mellor, dependendo do referente, <suggestion>\1 del</suggestion>, <suggestion>\1 dela</suggestion>, <suggestion>\1 deles</suggestion>, <suggestion>\1 delas</suggestion>, <suggestion>\1 de vostede</suggestion> ou <suggestion>\1 de vostedes</suggestion> no seu lugar.</message>
-      <short>Un posesivo non pode complementar un adverbio.</short>
+      <short>Un posesivo non pode complementar un adverbio</short>
       <example correction="detrás del|detrás dela|detrás deles|detrás delas|detrás de vostede|detrás de vostedes">Ese Presidente da Xunta que leva <marker>detrás súa</marker> a todo o séquito de acólitos coma avésporas chuchonas.</example>
       <example>Ese Presidente da Xunta que leva <marker>detrás del</marker> a todo o séquito de acólitos coma avésporas chuchonas.</example>
     </rule>
@@ -3633,7 +3656,7 @@
           <token regexp="yes">rachas?</token>
       </pattern>
       <message>Unha racha é unha fenda ou ben un anaco de pedra ou madeira. A forma correcta para facer referencia a un golpe forte de vento é <suggestion>refacho</suggestion> (masculino).</message>
-      <short>Posíbel confusión con homónima.</short>
+      <short>Posíbel confusión con homónima</short>
       <example correction="refacho">Había <marker>rachas</marker> de vento na costa.</example>
       <example>Había <marker>refachos</marker> de vento na costa.</example>
     </rule>
@@ -4546,7 +4569,7 @@
           <token>reollo</token>
       </pattern>
       <message>A locución «de reollo» é un castelanismo. Empregue no seu sitio <suggestion>de esguello</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="de esguello">Observeina <marker>de reollo</marker>.</example>
     </rule>
 
@@ -4557,7 +4580,7 @@
           <token>bo</token>
       </pattern>
       <message>A locución «visto bo» non é propia do galego. Empregue mellor <suggestion>visto e prace</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="visto e prace">Patrimonio apraza o seu <marker>visto bo</marker> á recuperación das mámoas de Castiñeiras.</example>
     </rule>
 
@@ -4569,7 +4592,7 @@
           <token regexp="yes">p(re|er)xu[íi](ci|z)os</token>
       </pattern>
       <message>A expresión «danos e \3» non é correcta en galego. Empregue mellor <suggestion>danos e perdas</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="danos e perdas">Tivo que pagarlle <marker>danos e perxuízos</marker> polo incidente.</example>
     </rule>
 
@@ -4581,7 +4604,7 @@
           <token>aro</token>
       </pattern>
       <message>A expresión «\1 polo aro» non é correcta en galego. Empregue mellor <suggestion><match no="1" postag="(.*)" postag_replace="$1">vir</match> ao rego</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="veu ao rego">O alumnado non <marker>pasou polo aro</marker> cando o responsable presentou as súas propostas.</example>
     </rule>
 
@@ -4593,7 +4616,7 @@
           <token>recibo</token>
       </pattern>
       <message>A expresión «\1 de recibo» non é correcta en galego. Empregue mellor <suggestion>xustificante de recepción</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="xustificante de recepción">Deberá presentar o <marker>acuse de recibo</marker> cuberto e selado.</example>
     </rule>
 
@@ -4605,7 +4628,7 @@
           <token>demanda</token>
       </pattern>
       <message>A expresión «\1 \2 demanda» non é aconsellábel en galego. Empregue mellor <suggestion>admitir \2 demanda</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="admitir a demanda">O xuíz <marker>estimou a demanda</marker> das traballadoras.</example>
       <example>O xuíz <marker>admitiu a demanda</marker> das traballadoras.</example>
     </rule>
@@ -4618,7 +4641,7 @@
           <token>pagos</token>
       </pattern>
       <message>A expresión «\1 de pagos» non é aconsellábel en galego. Empregue mellor <suggestion>\1 de pagamentos</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="balanza de pagamentos">A situación actual é de déficit na <marker>balanza de pagos</marker>.</example>
     </rule>
 
@@ -4630,7 +4653,7 @@
           <token>suxerencias</token>
       </pattern>
       <message>A expresión «\1 de suxerencias» non é correcta en galego. Empregue mellor <suggestion>caixa de suxestións</suggestion>.</message>
-      <short>Locución incorrecta.</short>
+      <short>Locución incorrecta</short>
       <example correction="caixa de suxestións">O cliente ten á súa disposición un <marker>buzón de suxerencias</marker>.</example>
       <example>O cliente ten á súa disposición unha <marker>caixa de suxestións</marker>.</example>
     </rule>
@@ -4638,7 +4661,7 @@
 
  </category>
 
- <category id='REPETITIONS' name='Repetições' type='duplication'>
+ <category id='REPETITIONS' name='Repeticións' type='duplication'>
 
     <rule id='CONJUNCTION_REPETITION' name="Repetición de conxunción">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
@@ -4693,7 +4716,7 @@
           <token><match no="2"/></token>
       </pattern>
       <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2 \3</suggestion>.</message>
-      <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+      <example correction="do final de">Hepatoloxía <marker>do final de do final de</marker> século.</example>
       <example>Un amigo dun amigo de seu pai non é necesariamente un amigo.</example>
     </rule>
     <rule>
@@ -4711,9 +4734,9 @@
           <token><match no="1"/></token>
       </pattern>
       <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2</suggestion>.</message>
-      <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
-      <example correction="colocou o">El volveu novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro em cima da mesa.</example>
-      <example correction="vén da">A carruaje con accesibilidade para deficientes motores <marker>vén da vén da</marker> Universidade do Porto.</example>
+      <example correction="do final">Hepatoloxía <marker>do final do final</marker> de século.</example>
+      <example correction="colocou o">El volveu novamente ao estudo e <marker>colocou o colocou o</marker> candeeiro em cima da mesa.</example>
+      <example correction="vén da">O transporte adaptado <marker>vén da vén da</marker> Universidade do Porto.</example>
       <example>Todo o que eles querían era ficar tranquilos, e ollar e ollar e ollar.</example>
       <example>As instrucións son executadas paso a paso a partir do comezo da lista.</example>
       <example>…integrar o día a día a partir de o…</example>
@@ -4834,7 +4857,7 @@
 
  </category>
 
- <category id="PUNCTUATION" name="Puntuación" default="off" type="typographical">
+ <category id="PUNCTUATION" name="Puntuación" type="typographical" default="off">
 
     <rule id="FINAL_PUNCTUATION" name="Puntuación final ausente">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
@@ -4859,11 +4882,12 @@
           <token postag="SENT_END" regexp="yes">[a-záàâéêíóú][a-záàâéêíóú]+</token>
         </marker>
       </pattern>
-      <message>Puntuación final ausente.</message>
+      <message>Parece que falta a puntuación final.</message>
         <suggestion>\4.</suggestion>
         <suggestion>\4?</suggestion>
         <suggestion>\4!</suggestion>
         <suggestion>\4:</suggestion>
+      <short>Puntuación</short>
       <example correction="casa.|casa?|casa!|casa:">Vou en dirección a <marker>casa</marker></example>
     </rule>
 
@@ -4881,7 +4905,7 @@
       </pattern>
       <message>De acordo coa versión inglesa do E-Prime, evitar formas verbais dos verbos «ser» e «estar» torna a comunicación máis clara, precisa, e menos dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
       <url>https://litemind.com/e-prime/</url>
-      <short>Considere evitar os verbos «ser» e «estar».</short>
+      <short>Considere evitar os verbos «ser» e «estar»</short>
       <example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
       <example>Isto non se <marker>xustifica</marker> co meu coñecemento actual…</example>
       <example>Os datos non <marker>confirman</marker> esa afirmación…</example>
@@ -4918,7 +4942,7 @@
           <token postag='UNKNOWN'/>
       </pattern>
       <message>Palabra non identificada.</message>
-      <example correction=''>De acordo co teorema central do límite, a distribución normal aborda o comportamento <marker>assentótico</marker> de varias distribucións de probabilidade.</example>
+      <example correction=''>De acordo co teorema central do límite, a distribución normal aborda o comportamento <marker>asentótico</marker> de varias distribucións de probabilidade.</example>
       <example>Xuros do 0,2% ao ano.</example>
     </rule>
 

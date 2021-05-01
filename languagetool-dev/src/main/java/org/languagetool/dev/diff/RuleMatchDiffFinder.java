@@ -320,7 +320,7 @@ public class RuleMatchDiffFinder {
     fw.write("<table class='sortable_table'>\n");
     fw.write("<thead>\n");
     fw.write("<tr>\n");
-    fw.write("  <th>Change</th>\n");
+    fw.write("  <th style='width:60px'>Change</th>\n");
     fw.write("  <th>File</th>\n");
     fw.write("  <th class='small'>Rule ID</th>\n");
     fw.write("  <th>Message and Text</th>\n");
@@ -475,7 +475,6 @@ public class RuleMatchDiffFinder {
     fw.write("<script>\n" +
       "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
       "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
-      "    col_0: 'select',\n" +
       "    col_1: 'select',\n" +
       "    auto_filter: { delay: 100 },\n" +
       "    grid_layout: false,\n" +

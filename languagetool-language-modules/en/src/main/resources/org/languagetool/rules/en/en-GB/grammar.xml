@@ -197,6 +197,11 @@ USA
             <example correction="petrol">More <marker>gas</marker>.</example>
         </rule>
         <rule id="LICENCE_LICENSE_NOUN_SINGULAR" name="License/Licence (noun)">
+            <antipattern>
+                <token postag="TO|MD" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token>license</token>
+            </antipattern>
             <pattern>
                 <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">license</token>
             </pattern>
