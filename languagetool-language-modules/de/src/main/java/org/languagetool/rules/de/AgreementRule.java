@@ -1046,6 +1046,12 @@ public class AgreementRule extends Rule {
       csToken("beides"),
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       posRegex("SUB:NOM:PLU:.*")
+    ),
+    Arrays.asList( // Heinrich von der Haar (https://de.wikipedia.org/wiki/Heinrich_von_der_Haar)
+      token("Heinrich"),
+      token("von"),
+      token("der"),
+      csRegex("Haars?")
     )
   );
 

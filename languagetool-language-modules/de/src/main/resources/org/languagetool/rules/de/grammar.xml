@@ -1098,6 +1098,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="ET" name="et (er)">
+            <antipattern case_sensitive="yes">
+                <token postag="UNKNOWN|(SUB|EIG):.*" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+                <token>et</token>
+                <token postag="UNKNOWN|(SUB|EIG):.*" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>et</token>
@@ -1107,6 +1112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>er</suggestion>?</message>
             <example correction='Er'><marker>Et</marker> hat das aber so gesagt.</example>
             <example>Miller <marker>et</marker> al. zeigten das 2010.</example>
+            <example>Mare et Martin</example>
         </rule>
         <rule id="KEINE_KLEINE" name="ein paar keine (kleine)">
             <pattern>
@@ -16219,8 +16225,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
                         <exception scope="next">Seit</exception>
                     </token>
+                    <token regexp="yes">((vor)?vor)?gestern|vorhin</token>
                     <marker>
-                        <token regexp="yes">((vor)?vor)?gestern|vorhin</token>
                         <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
                             <exception inflected="yes">haben</exception>
                             <exception inflected="yes">sein</exception>
@@ -16233,16 +16239,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">blieb|wurde</exception>
                     </token>
                 </pattern>
-                <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
+                <message suppress_misspelled="yes">Falsche Zeitform? Meinten Sie <suggestion><match no="3" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
                 <short>Falsche Zeitform</short>
-                <example correction="Vorvorgestern besuchte|Vorvorgestern besuchtet"><marker>Vorvorgestern besucht</marker> er seine Oma.</example>
-                <example correction="Gestern schneite|Gestern schneitet"><marker>Gestern schneit</marker> es ein wenig.</example>
+                <example correction="besuchte|besuchtet">Vorvorgestern <marker>besucht</marker> er seine Oma.</example>
+                <example correction="schneite|schneitet">Gestern <marker>schneit</marker> es ein wenig.</example>
                 <example>Ich habe mein Rad <marker>gestern</marker> repariert.</example>
                 <example>Rate mal, wer mich <marker>gestern besucht</marker> hat.</example>
                 <example>Yoko ging <marker>gestern einkaufen</marker>.</example>
                 <example>Mein Auto, das gestern stehen blieb.</example>
                 <example>Seit gestern schneit es.</example>
                 <example>Wer im Gestern lebt, verpasst das Heute.</example>
+                <example>Das Telefonat von vorhin darf niemand mitbekommen.</example>
                 <example>Wenn aus dem Morgen ich ins Gestern blicke, bin ich auch schlau.</example>
                 <example>Gestern bestellt, heute da.</example>
             </rule>
@@ -19198,7 +19205,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich|eigentlich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -19212,7 +19219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>machte</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich|eigentlich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -19226,7 +19233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich</token>
+                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -19239,7 +19246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>machte</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich</token>
+                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -19252,7 +19259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -19265,7 +19272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>machte</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -19278,7 +19285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl|viel</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl|viel|eigentlich</token>
                     <token>Sinn</token>
                     <token>machen</token>
                 </pattern>
@@ -19291,7 +19298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">einfach|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token min="0" regexp="yes">einfach|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl|eigentlich</token>
                     <token regexp="yes">keinen|wenig|kaum|nicht</token>
                     <token>Sinn</token>
                 </pattern>
@@ -19306,7 +19313,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>machte</token>
-                    <token min="0" regexp="yes">einfach|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token min="0" regexp="yes">einfach|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl|eigentlich</token>
                     <token regexp="yes">keinen|wenig|kaum|nicht</token>
                     <token>Sinn</token>
                 </pattern>
@@ -19345,7 +19352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token regexp="yes">es|das|dies</token>
-                        <token regexp="yes" min="0">wirklich|überhaupt|wohl|natürlich|doch|kaum|durchaus|möglicherweise|jetzt|nun|total</token>
+                        <token regexp="yes" min="0">wirklich|überhaupt|wohl|natürlich|doch|kaum|durchaus|möglicherweise|jetzt|nun|total|eigentlich</token>
                         <token>Sinn</token>
                         <token>macht</token>
                     </marker>
@@ -19384,7 +19391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>macht</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -19400,7 +19407,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>machte</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -37797,7 +37804,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="SIMPLE_AGREEMENT_MAS" name="Die (Der) Tisch ist" default="temp_off">
+        <rulegroup id="SIMPLE_AGREEMENT_MAS" name="Die (Der) Tisch ist">
             <short>Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus</short>
 
             <rule><!-- die Tisch ist/war -->
@@ -37912,6 +37919,12 @@ Andere Projekte</example>
                     <token>der</token>
                     <token min="0">,</token>
                     <token>der</token>
+                </antipattern>
+                <antipattern>
+                    <token>Heinrich</token>
+                    <token>von</token>
+                    <token>der</token>
+                    <token>Haar</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -41963,7 +41976,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
+                <suggestion>dem \3 <match no="4" postag=".+" postag_replace="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
                 <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
                 <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
             </rule>
@@ -41977,7 +41990,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>einem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <suggestion>einem \3 <match no="4" postag=".+" postag_replace="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
                 <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
                 <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
             </rule>
@@ -46226,6 +46239,10 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="PLURAL_APOSTROPH" name="AGB's (AGBs) etc.">
             <antipattern>
+                <token skip="4">the</token>
+                <token>s</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">King|Queen</token>
                 <token regexp="yes">'|’|`|´|‘</token>
                 <token>s</token>
@@ -46264,6 +46281,7 @@ Andere Projekte</example>
                 <!-- vgl. http://web.archive.org/web/20110214064020/http://www.duden.de/deutsche_sprache/sprachberatung/newsletter/archiv.php?id=54 -->
                 <example>Der <marker>Girls’</marker> Day findet jährlich statt.</example>
                 <example>„Versuch’s doch.“</example>
+                <example>The Old King's Tale</example>
             </rule>
         </rulegroup>
         <rulegroup id="APOSTROPH_S" name="Apostroph vor Genitiv-s">
@@ -50512,6 +50530,10 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="F_ANSTATT_PH" name="Worte mit F anstatt Ph">
+            <antipattern>
+                <token skip="1" regexp="yes">the|of</token>
+                <token regexp="yes">.*ph.*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Phantas.*</token>
@@ -50532,7 +50554,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
+                    <token regexp="yes">.*pho[nt]ograph.*|biography|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
