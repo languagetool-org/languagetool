@@ -1,0 +1,18 @@
+name: languagetool
+type: "java:8"
+
+disk: 2048
+
+hooks:
+    build: |
+        mvn clean
+        mvn --projects languagetool-standalone --also-make package -DskipTests
+
+mounts:
+    "ngrams": "shared:files/ngrams"
+
+web:
+    commands:
+        start: |
+            cd languagetool-standalone/target/LanguageTool-5.4-SNAPSHOT/LanguageTool-5.4-SNAPSHOT
+            java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port "$PORT" --allow-origin "*"

@@ -34,9 +34,9 @@
       <lucene.version>5.5.5</lucene.version>
       <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss Z</maven.build.timestamp.format>
   </properties>
-  
+
   <build>
-      
+
       <pluginManagement>
           <plugins>
 
@@ -62,7 +62,7 @@
                       </execution>
                   </executions>
               </plugin>
-              
+
               <plugin>
                   <groupId>pl.project13.maven</groupId>
                   <artifactId>git-commit-id-plugin</artifactId>
@@ -77,11 +77,12 @@
                       </execution>
                   </executions>
                   <configuration>
+                      <failOnNoGitDirectory>false</failOnNoGitDirectory>
                       <generateGitPropertiesFile>true</generateGitPropertiesFile>
                       <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
                   </configuration>
               </plugin>
-              
+
               <plugin>
                   <artifactId>maven-compiler-plugin</artifactId>
                   <version>3.8.1</version>
@@ -146,7 +147,7 @@
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.6</version>
             <configuration>
-              <useAgent>true</useAgent>  
+              <useAgent>true</useAgent>
             </configuration>
             <executions>
               <execution>
@@ -162,7 +163,7 @@
       </build>
     </profile>
   </profiles>
-    
+
   <modules>
     <module>languagetool-core</module>
     <module>languagetool-language-modules/en</module>
