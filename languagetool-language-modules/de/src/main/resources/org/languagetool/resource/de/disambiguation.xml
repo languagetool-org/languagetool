@@ -4252,16 +4252,24 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
+                <token regexp="yes">An?</token>
+                <token regexp="yes" postag="UNKNOWN|SUB:.*" postag_regexp="yes" min="0">[A-Z].*</token>
+                <token regexp="yes" postag="UNKNOWN|SUB:.*" postag_regexp="yes">[A-Z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
                 <token regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">[Oo]f|[Ff]or</token>
-                <token regexp="yes" min="0">[Tt]he</token>
+                <token regexp="yes">[Oo]f|[Ff]or|[Bb]y|[Tt]o</token>
+                <token regexp="yes" min="0">[Tt]he|[Mm]y|[Yy]our|[Hh]is|[Hh]er|[Oo]ur|[A-Z][a-z]+|[A-Z]+</token>
                 <token regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Advanced|Black|White|Blue|Big|Little|Travel|Director|Social|My|Deep|Dead|Dark|European|American|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence</token>
+                <token regexp="yes">Advanced|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -4271,9 +4279,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">Day|School|One|Black|Advanced|Air|Dark|Health|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence</token>
+                <token regexp="yes">Day|School|One|Black|Green|Blue|White|World|Society|Advanced|Air|Dark|Health|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    
+    <rule id="ABBREVATIONS_SEPARATED_BY_DOT" name="Abkürzungen mit Punkten">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-ZÜÄÖ]</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">[A-ZÜÄÖ]</token>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
