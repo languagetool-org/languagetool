@@ -57,6 +57,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return "DE_SIMPLE_REPLACE";
   }
 
+
+  @Override
+  public String getDescription() {
+    return "Prüft auf bestimmte falsche Wörter/Phrasen";
+  }
+
   @Override
   public boolean isCaseSensitive() {
     return false;
