@@ -17643,6 +17643,10 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe" default="temp_off">
+            <antipattern>
+                <token>Pearl</token>
+                <token regexp="yes">Harbou?r</token>
+            </antipattern>
             <!-- je -->
             <rule>
                 <pattern>
@@ -17844,6 +17848,211 @@ though, and has since been slightly modified)-->
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \5 » n’est pas un verbe.</message>
                 <example correction="sortes|sortis|sors">Tu ne t'en <marker>sorts</marker> pas.</example>
+                <example>Je ne l’<marker>abandonne</marker> pas.</example>
+                <example>Je parie qu'il ne s'en est pas sorti.</example>
+            </rule>
+            <!-- il, elle, on -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|elle|on
+                        <exception scope="previous">-</exception></token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
+                <example correction="sort|sorte">Il <marker>sorts</marker> ce soir.</example>
+                <example correction="vit|voie|vide|vise|lie|vive|nie|oie|vire|fie">La zone géographique dans laquelle il <marker>vie</marker>.</example>
+                <example correction="dit|dicte|dicta|dît">Elle <marker>dix</marker> la vérité.</example>
+                <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
+                <example>The Attack On Pearl Harbor</example>
+                <example>Je ne suis pas un artiste.</example>
+                <example>J'ai dix fois plus de livres que tu en as.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|elle|on</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \3 » n’est pas un verbe.</message>
+                <example correction="sort|sorte">Il la <marker>sorts</marker> ce soir.</example>
+                <example correction="abandonne|abandonna|abandonnait">Elle l’<marker>abandonné</marker>.</example>
+                <example correction="impressionne|impressionnait">On l'<marker>impressionnée</marker> de devenir dingue.</example>
+                <example correction="sort|sorte">Il ne <marker>sorts</marker> pas ce soir.</example>
+                <example correction="dit|dicte|dicta|dît">Elle ne <marker>dix</marker> rien.</example>
+                <example correction="assoupit|assoupît">Il s'<marker>assoupie</marker>.</example>
+                <example>Je ne <marker>donne</marker> rien.</example>
+                <example>Je ne <marker>dis</marker> rien.</example>
+                <example>Je ne sale pas leus plats.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|elle|on</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \4 » n’est pas un verbe.</message>
+                <example correction="sort|sorte">Elle m'en <marker>sorts</marker>.</example>
+                <example>Je l’<marker>abandonne</marker>.</example>
+                <example>Je l’<marker>est</marker> que durant l’élection.</example>
+                <example>On dirait qu'il s'en fait rarement pour moi, n'est-ce pas ?</example>
+                <example>Il s'en est sorti indemne.</example>
+                <example>Il s'en est déjà allé.</example>
+                <example>moins il nous en reste</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|elle|on</token>
+                    <token inflected="yes">ne</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \4 » n’est pas un verbe.</message>
+                <example correction="sort|sorte">Elle ne la <marker>sorts</marker> pas ce soir.</example>
+                <example correction="abandonne|abandonnera">Il ne l’<marker>abandonner</marker> pas.</example>
+                <example>Je ne la voie pas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|elle|on</token>
+                    <token>ne</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception>est</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \5 » n’est pas un verbe.</message>
+                <example correction="sort|sorte">Elle ne s'en <marker>sorts</marker> pas.</example>
+                <example>Je ne l’<marker>abandonne</marker> pas.</example>
+                <example>Je parie qu'il ne s'en est pas sorti.</example>
+            </rule>
+            <!-- ils, elles -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles
+                        <exception scope="previous">-</exception></token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*3.P removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
+                <example correction="">Ils <marker>sorts</marker> ce soir.</example>
+                <example correction="">La zone géographique dans laquelle ils <marker>vie</marker>.</example>
+                <example correction="">Elles <marker>dix</marker> la vérité.</example>
+                <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
+                <example>The Attack On Pearl Harbor</example>
+                <example>Je ne suis pas un artiste.</example>
+                <example>J'ai dix fois plus de livres que tu en as.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \3 » n’est pas un verbe.</message>
+                <example correction="">Ils la <marker>sorts</marker> ce soir.</example>
+                <example correction="">Elles l’<marker>abandonné</marker>.</example>
+                <example correction="">Elles l'<marker>impressionnée</marker> de devenir dingue.</example>
+                <example correction="">Ils ne <marker>sorts</marker> pas ce soir.</example>
+                <example correction="">Elles ne <marker>dix</marker> rien.</example>
+                <example>Je ne <marker>donne</marker> rien.</example>
+                <example>Je ne <marker>dis</marker> rien.</example>
+                <example>Je ne sale pas leus plats.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \4 » n’est pas un verbe.</message>
+                <example correction="">Elles m'en <marker>sorts</marker>.</example>
+                <example>Je l’<marker>abandonne</marker>.</example>
+                <example>Je l’<marker>est</marker> que durant l’élection.</example>
+                <example>On dirait qu'il s'en fait rarement pour moi, n'est-ce pas ?</example>
+                <example>Il s'en est sorti indemne.</example>
+                <example>Il s'en est déjà allé.</example>
+                <example>moins il nous en reste</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles</token>
+                    <token inflected="yes">ne</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \4 » n’est pas un verbe.</message>
+                <example correction="">Elles ne la <marker>sorts</marker> pas ce soir.</example>
+                <example correction="">Ils ne l’<marker>abandonner</marker> pas.</example>
+                <example>Je ne la voie pas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles</token>
+                    <token>ne</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception>est</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>« \5 » n’est pas un verbe.</message>
+                <example correction="">Elles ne s'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
@@ -19842,7 +20051,7 @@ though, and has since been slightly modified)-->
                     <token min="0" max="3" postag="R pers obj.*" postag_regexp="yes">
                         <exception postag="R pers suj.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 1 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -19908,7 +20117,7 @@ though, and has since been slightly modified)-->
                     <token min="0" inflected="yes">ne</token>
                     <token min="0" max="3" postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V.*(ind|sub|con) .* 2 s" postag_regexp="yes"/>
                             <exception>suis</exception></token>
                     </marker>
@@ -19960,7 +20169,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" postag="P"/>
                         <exception scope="previous">et</exception></token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 sp?" postag_regexp="yes"/>
                             <exception postag="V.* ppa .* sp?" postag_regexp="yes"/>
                             <exception postag="V.* ppr.*" postag_regexp="yes"/></token>
@@ -19990,7 +20199,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START|C coor" postag_regexp="yes"/>
                     <token>ça</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20024,7 +20233,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[lmnst]e|la|les|[nv]ous|leur|lui|en|y
                         <exception postag="R pers suj.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20051,7 +20260,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">ça|(celui|celle)-là|personne</token>
                     <token>ne</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20077,7 +20286,7 @@ though, and has since been slightly modified)-->
                     <token min="0" inflected="yes">ne</token>
                     <token min="0" max="3" postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20103,7 +20312,7 @@ though, and has since been slightly modified)-->
                     <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
                     <token min="1" max="3" postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s|V.* inf" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20124,7 +20333,7 @@ though, and has since been slightly modified)-->
                     <token min="0" inflected="yes">ne</token>
                     <token min="1" max="3" postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s|V .* ppr" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20154,7 +20363,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[lmts]'</token>
                     <token regexp="yes">en|y</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20182,7 +20391,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">-.*</exception></token>
                     <token min="0" max="1">ne</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 1 p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20212,7 +20421,7 @@ though, and has since been slightly modified)-->
                     <token min="0" max="1">ne</token>
                     <token postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 1 p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20234,7 +20443,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">-.*</exception></token>
                     <token min="0" max="1">ne</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 2 p|V.* inf" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20263,7 +20472,7 @@ though, and has since been slightly modified)-->
                     <token min="0" max="1">ne</token>
                     <token postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 2 p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20296,7 +20505,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" postag="P"/></token>
                     <token min="0" max="1" regexp="yes">[lmnst]e|la|les|[nv]ous|leur|lui|en|y</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 s?p|V .* ppr|V.* ppa .* s?p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20335,7 +20544,7 @@ though, and has since been slightly modified)-->
                     <token min="0" inflected="yes">ne</token>
                     <token min="1" max="2" postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20366,7 +20575,7 @@ though, and has since been slightly modified)-->
                     <token min="0" inflected="yes">ne</token>
                     <token min="1" max="2" postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -20395,7 +20604,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[lmts]'</token>
                     <token regexp="yes">en|y</token>
                     <marker>
-                        <token postag="V .*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 3 p" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -38637,7 +38846,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <antipattern>
                     <token regexp="yes">[._]</token>
-                    <token spacebefore="no">[Cc]f</token>
+                    <token spacebefore="no" regexp="yes">[Cc]f</token>
                 </antipattern>
                 <pattern>
                     <marker>
