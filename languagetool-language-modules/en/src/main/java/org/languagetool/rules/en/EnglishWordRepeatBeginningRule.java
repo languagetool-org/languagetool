@@ -45,6 +45,8 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return "ENGLISH_WORD_REPEAT_BEGINNING_RULE";
   }
   
+  	//==================== ADVERBS ======================
+  
 	// adverbs used to add to what the previous sentence mentioned
 	private static final Set<String> ADD_ADVERBS = new HashSet<>();
 
@@ -56,7 +58,16 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
 	// adverbs used to explain what the previous sentence mentioned
 	private static final Set<String> EXPLAIN_ADVERBS = new HashSet<>();
-
+	
+	//==================== EXPRESSIONS ======================
+	// the expressions will be used only as additional suggestions
+	
+	// linking expressions that can be used instead of the ADD_ADVERBS
+	private static final List<String> ADD_EXPRESSIONS = Arrays.asList("In addition", "As well as");
+	
+	// linking expressions that can be used instead of the CONTRAST_ADVERBS
+	private static final List<String> CONTRAST_EXPRESSIONS = Arrays.asList("Even so", "On the other hand");
+	
 	static {
 		// based on https://www.pinterest.com/pin/229542912245527548/
 		ADD_ADVERBS.add("Additionally");
@@ -64,10 +75,8 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
 		ADD_ADVERBS.add("Furthermore");
 		ADD_ADVERBS.add("Moreover");
 		ADD_ADVERBS.add("Also");
-		CONTRAST_ADVERBS.add("Unlike");
 		CONTRAST_ADVERBS.add("Nevertheless");
 		CONTRAST_ADVERBS.add("Nonetheless");
-		CONTRAST_ADVERBS.add("Despite");
 		CONTRAST_ADVERBS.add("Alternatively");
 		EMPHASIS_ADVERBS.add("Undoubtedly");
 		EMPHASIS_ADVERBS.add("Indeed");
@@ -103,9 +112,13 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
 			return Arrays.asList("Furthermore, " + adaptedToken, "Likewise, " + adaptedToken,
 					"Not only that, but " + adaptedToken);
 		} else if (ADD_ADVERBS.contains(tok)) {
-			return getDifferentAdverbsOfSameCategory(tok, ADD_ADVERBS);
+			List<String> addSuggestions = getDifferentAdverbsOfSameCategory(tok, ADD_ADVERBS);
+			addSuggestions.addAll(ADD_EXPRESSIONS);
+			return addSuggestions;
 		} else if (CONTRAST_ADVERBS.contains(tok)) {
-			return getDifferentAdverbsOfSameCategory(tok, CONTRAST_ADVERBS);
+			List<String> contrastSuggestions = getDifferentAdverbsOfSameCategory(tok, CONTRAST_ADVERBS);
+			contrastSuggestions.addAll(CONTRAST_EXPRESSIONS);
+			return contrastSuggestions;
 		} else if (EMPHASIS_ADVERBS.contains(tok)) {
 			return getDifferentAdverbsOfSameCategory(tok, EMPHASIS_ADVERBS);
 		} else if (EXPLAIN_ADVERBS.contains(tok)) {
