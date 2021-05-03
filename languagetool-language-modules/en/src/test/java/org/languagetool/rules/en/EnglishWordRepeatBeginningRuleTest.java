@@ -66,6 +66,8 @@ public class EnglishWordRepeatBeginningRuleTest {
     assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Besides")));
     assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Furthermore")));
     assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Moreover")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("In addition")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("As well as")));
   }
 
 }
