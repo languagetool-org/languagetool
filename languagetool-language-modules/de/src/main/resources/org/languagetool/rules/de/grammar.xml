@@ -16212,12 +16212,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GESTERN_MIT_PRAESENS" name="Zeitform: 'gestern' etc. mit Präsens">
             <rule>
                 <antipattern case_sensitive="yes">
-                    <token regexp="yes">ans|im|ins|durchs</token>
+                    <token regexp="yes">ans|im|ins|durchs|das|dem|des</token>
                     <token regexp="yes">Gestern|Vorgestern</token>
                 </antipattern>
                 <antipattern>
                     <token postag="PA2.*" postag_regexp="yes"/>
                     <token regexp="yes">[,;:—–-]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token regexp="yes">((vor)?vor)?gestern|vorhin</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
@@ -16252,6 +16256,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das Telefonat von vorhin darf niemand mitbekommen.</example>
                 <example>Wenn aus dem Morgen ich ins Gestern blicke, bin ich auch schlau.</example>
                 <example>Gestern bestellt, heute da.</example>
+                <example>Wir möchten heute das Gestern feiern.</example>
+                <example>Das mit gestern tut mir Leid.</example>
             </rule>
             <rule>
                 <antipattern>
