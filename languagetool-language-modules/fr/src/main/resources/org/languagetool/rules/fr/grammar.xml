@@ -17643,14 +17643,29 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="NON_V" name="pronom sujet + nom/adj">
-            <antipattern>
-                <token>Pearl</token>
-                <token regexp="yes">Harbou?r</token>
-            </antipattern>
+        <antipattern>
+        <token>sur</token>
+        <token>-</token>
+        <token postag="V.*" postag_regexp="yes"/>
+        </antipattern>
             <rule>
+            <antipattern>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
+            <antipattern>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+            <token postag="C coor"/>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers obj 2 s"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes"/>
+            </antipattern>
                 <pattern>
-                    <token regexp="yes">je|tu|ils?|on
-                        <exception scope="previous">-</exception></token>
+                        <token postag="R pers suj.*" postag_regexp="yes">
+                            <exception scope="previous">-</exception></token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
                             <exception postag="V.*" postag_regexp="yes"/>
@@ -17662,6 +17677,7 @@ though, and has since been slightly modified)-->
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Tu <marker>sorts</marker> ce soir.</example>
                 <example>Tu <marker>sors</marker> ce soir.</example>
+                <example>Ne travaillerait t'il pas dans l'horlogerie…</example>
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>Il ou elle se trouve là.</example>
                 <example correction="dit|dis|dicte|dicta|dît">Il <marker>dix</marker> la vérité.</example>
@@ -17676,12 +17692,13 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">je|tu|ils?|on</token>
-                    <token inflected="yes">ne</token>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+                                <token inflected="yes">ne</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
                             <exception postag="V.*" postag_regexp="yes"/>
-                            <exception postag="R pers obj.*" postag_regexp="yes"/></token>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                             <exception regexp="yes">sur-.*|pas|jamais|plus</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
@@ -17699,13 +17716,14 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">je|tu|ils?|on</token>
-                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+                                <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
                             <exception postag="V.*" postag_regexp="yes"/>
                             <exception postag="R pers obj.*" postag_regexp="yes"/>
-                            <exception regexp="yes">a|as</exception></token>
+                            <exception regexp="yes">a|as</exception>
+                            <exception inflected="yes">ne</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
@@ -17714,6 +17732,7 @@ though, and has since been slightly modified)-->
                 <example correction="abandonne|abandonna">Je l’<marker>abandon</marker>.</example>
                 <example correction="impressionne|impressionna">Je l'<marker>impression</marker> de devenir dingue.</example>
                 <example>Tu ne la <marker>sors</marker> pas ce soir.</example>
+                <example>Je ne veux pas que tu te sur-entraînes.</example>
                 <example>On ne la paie pas.</example>
                 <example>Cela fait dix ans que l'on ne s'est pas vus.</example>
                 <example>Es-tu sûr que tu ne l'as jamais rencontré ?</example>
@@ -17725,8 +17744,8 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">je|tu|ils?|[nv]ous|on</token>
-                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+                                <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
                     <token regexp="yes">y|en</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
@@ -17746,8 +17765,8 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">je|tu|ils?|on</token>
-                    <token inflected="yes">ne</token>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+                                <token inflected="yes">ne</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
@@ -17773,8 +17792,8 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">je|tu|ils?|[nv]ous|on</token>
-                    <token>ne</token>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+                                <token>ne</token>
                     <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
                     <token regexp="yes">y|en</token>
                     <marker>
