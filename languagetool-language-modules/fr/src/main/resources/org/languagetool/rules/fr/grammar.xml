@@ -13172,146 +13172,150 @@ though, and has since been slightly modified)-->
                 <example><marker>9</marker> personnes sont attendues.</example>
             </rule>
         </rulegroup>
-        <rule id="NOMBRES_EN_LETTRES_2" name="nombres en lettres 2">
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes">gr|roues?|[mp]ers|points?|juil|avr|févr|janv|min|millions?|millards?|milliardième|bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vols?|(?-i)CAD|(?-i)AM|ppm|pCi|sacbés?</token>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
-                <token postag="Y"/>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes">[a-z].*</token>
-                <token postag="Y"/>
-            </antipattern>
-            <antipattern>
-                <token postag="Y" skip="-1"/>
-                <token regexp="yes" inflected="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes" min="1" max="2">[a-z]</token>
-            </antipattern>
-            <antipattern>
-                <token postag="Y"/>
-                <token regexp="yes">(?-i)[A-Z].*</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" inflected="yes">&suivi_par_nombre;|no|cents|contre|longueur|hauteur|diamètre|côté|premier|tramway|route|(?-i)Europe|formule|(?-i)France</token>
-                <token postag="Y"/>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START"/>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d+[,.]\d+|\d+</token>
-                <token postag="N.*" postag_regexp="yes" min="0" max="1"/>
-                <token regexp="yes">à|sur</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="-1">\d+[,.]\d+</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="-1">\d</token>
-                <token regexp="yes">\d+[,.]\d+</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">divisible|multiple|incidence|prévalence|carré</token>
-                <token regexp="yes">par|de</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token>
-                    <exception postag="SENT_START"/></token>
-                <token regexp="yes">(?-i)[A-Z].*</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="-1">\d+</token>
-                <token>,</token>
-                <token regexp="yes" skip="-1">\d+</token>
-                <token>,</token>
-                <token postag="C coor"/>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="-1">\d</token>
-                <token regexp="yes">[+=©x]</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="1">\d</token>
-                <token regexp="yes">[/]</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d</token>
-                <token postag="C coor"/>
-                <token regexp="yes">\d+[a-z]</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d</token>
-                <token regexp="yes" inflected="yes" skip="-1">&unites_de_mesure;</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="-1">\d</token>
-                <token regexp="yes">\d\d+</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">une?|l[ae]</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token>internet</token>
-                <token>explorer</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">[a-z].*|[\(]</token>
-                <marker>
+        <rule id="NOMBRES_EN_LETTRES_2" name="nombres en lettres 2" default="temp_off">
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">gr|roues?|[mp]ers|points?|juil|avr|févr|janv|min|millions?|millards?|milliardième|bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vols?|(?-i)CAD|(?-i)AM|ppm|pCi|sacbés?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token postag="UNKNOWN|Z.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">[a-z].*</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">[a-z].*|/</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token postag="M.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y" skip="-1"/>
+                    <token regexp="yes" inflected="yes">&mois_annee;|&unites_de_mesure;|&monnaies;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes" min="1" max="2">[a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y"/>
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
                     <token regexp="yes">\d</token>
-                </marker>
-                <token regexp="yes" skip="-1">[a-z].*</token>
-                <token regexp="yes">[\.\!\?]</token>
-            </pattern>
-            <message>Les chiffres s'écrivent généralement en lettres.</message>
-            <suggestion><match no="2" postag="_spell_number_"/></suggestion>
-            <example correction="neuf">Les <marker>9</marker> garçons ont été jouer au parc.</example>
-            <example>Le navigateur internet explorer 2 n'est plus utilisé.</example>
-            <example>Ce 1 kilo (2,2 lb) est à votre service.</example>
-            <example>Il est l'auteur de 2 buts en 13 apparitions cette saison.</example>
-            <example>9 cm de profondeur et 7 de hauteur.</example>
-            <example>Il est de 8,5 millimètres de longueur par 6 millimètres de largeur.</example>
-            <example>Je viendrai entre 8 et 10h.</example>
-            <example>Il roule sur la D <marker>9</marker>.</example>
-            <example><marker>34</marker> jours de pluie.</example>
-            <example><marker>30,40</marker> euros.</example>
-            <example>Il est ouvert 7 jours/7.</example>
-            <example>Après le survol de Saturne, Voyager 2 effectuera un retour sur Terre.</example>
-            <example>Il affirme que 1 goutte = 0,00 litre.</example>
-            <example>Il faut ajouter une quantité d'eau de 1 litre / h.</example>
-            <example>Voici le prix pour 2 pers/min.</example>
-            <example>La PlayStation 2 est arrivée.</example>
-            <example>4 personnes arrivent.</example>
-            <example>Il est passé sur France 2.</example>
-            <example>Le SPIP 3 introduit un nouveau concept.</example>
-            <example>Les 2/3 sont pleins.</example>
-            <example>Il a obtenu la note de 4,4 sur 5.</example>
-            <example>Il est divisible par 2, 3, 4, ou 6.</example>
-            <example>Ils ont gagné 3 buts à 0.</example>
-        </rule>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">&suivi_par_nombre;|no|cents|contre|longueur|hauteur|diamètre|côté|premier|tramway|route|(?-i)Europe|formule|(?-i)France</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+[,.]\d+|\d+</token>
+                    <token postag="N.*" postag_regexp="yes" min="0" max="1"/>
+                    <token regexp="yes">à|sur</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d+[,.]\d+</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d</token>
+                    <token regexp="yes">\d+[,.]\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">divisible|multiple|incidence|prévalence|carré</token>
+                    <token regexp="yes">par|de</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token>
+                        <exception postag="SENT_START"/></token>
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d+</token>
+                    <token>,</token>
+                    <token regexp="yes" skip="-1">\d+</token>
+                    <token>,</token>
+                    <token postag="C coor"/>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d</token>
+                    <token regexp="yes">[+=©x]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="1">\d</token>
+                    <token regexp="yes">[/]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d</token>
+                    <token postag="C coor"/>
+                    <token regexp="yes">\d+[a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d</token>
+                    <token regexp="yes" inflected="yes" skip="-1">&unites_de_mesure;</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d</token>
+                    <token regexp="yes">\d\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">une?|l[ae]</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token>internet</token>
+                    <token>explorer</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d<exception scope="previous" regexp="yes">[.\|\…]+</exception></token>
+                    </marker>
+                    <token regexp="yes" skip="-1">[a-z].*</token>
+                    <token regexp="yes">[\.\!\?]</token>
+                </pattern>
+                <message>Les chiffres s'écrivent généralement en lettres.</message>
+                <suggestion><match no="1" postag="_spell_number_"/></suggestion>
+                <example correction="neuf">Les enfants (<marker>9</marker> garçons) ont été jouer au parc.</example>
+                <example>Le navigateur internet explorer 2 n'est plus utilisé.</example>
+                <example>Ce 1 kilo (2,2 lb) est à votre service.</example>
+                <example>Il est l'auteur de 2 buts en 13 apparitions cette saison.</example>
+                <example>9 cm de profondeur et 7 de hauteur.</example>
+                <example>Il est de 8,5 millimètres de longueur par 6 millimètres de largeur.</example>
+                <example>Je viendrai entre 8 et 10h.</example>
+                <example>Il roule sur la D <marker>9</marker>.</example>
+                <example><marker>34</marker> jours de pluie.</example>
+                <example><marker>30,40</marker> euros.</example>
+                <example>Il est ouvert 7 jours/7.</example>
+                <example>Après le survol de Saturne, Voyager 2 effectuera un retour sur Terre.</example>
+                <example>Il affirme que 1 goutte = 0,00 litre.</example>
+                <example>Il faut ajouter une quantité d'eau de 1 litre / h.</example>
+                <example>Voici le prix pour 2 pers/min.</example>
+                <example>La PlayStation 2 est arrivée.</example>
+                <example>4 personnes arrivent.</example>
+                <example>Il est passé sur France 2.</example>
+                <example>Le SPIP 3 introduit un nouveau concept.</example>
+                <example>Les 2/3 sont pleins.</example>
+                <example>Il a obtenu la note de 4,4 sur 5.</example>
+                <example>Il est divisible par 2, 3, 4, ou 6.</example>
+                <example>Ils ont gagné 3 buts à 0.</example>
+            </rule>
         <rule id="LEURS_LEUR" name="*leurs/leur">
             <pattern>
                 <token>leurs</token>
