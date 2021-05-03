@@ -1614,6 +1614,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="V_CHYSLI" name="В числі">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token>числі</token>
+          </marker>
+          <token postag_regexp="yes" postag="num.*" min="0" max="2"/>
+          <token postag_regexp="yes" postag="(noun|adj).*:v_rod.*">
+            <exception>Пі</exception>
+          </token>
+        </pattern>
+        <message>Правильно: <suggestion>серед</suggestion>, <suggestion>поміж</suggestion></message>
+        <example correction="серед|поміж"><marker>в числі</marker> яких</example>
+        <example correction="серед|поміж"><marker>у числі</marker> 11 найвпливовіших</example>
+        <example correction="серед|поміж"><marker>у числі</marker> двох найкращих</example>
+        <example correction="серед|поміж">Українці були <marker>в числі</marker> 15 тис. радянських військовополонених</example>
+        <example>серед яких</example>
+        <example>у числі 13 є дві цифри</example>
+        <example>в числі Пі</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">і?з</token>
+            <token>числа</token>
+          </marker>
+          <token postag_regexp="yes" postag="num.*" min="0" max="2"/>
+          <token postag_regexp="yes" postag="(noun|adj).*v_rod.*"/>
+        </pattern>
+        <message>Правильно: <suggestion>з-поміж</suggestion></message>
+        <example correction="з-поміж">навіть <marker>із числа</marker> її знайомих</example>
+        <example correction="з-поміж">навіть <marker>з числа</marker> французьких акторів</example>
+        <example correction="з-поміж"><marker>з числа</marker> 3,5 тис. польських військових</example>
+        <example>з числа 33 викреслюємо останню цифру</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="vyrazhaty" name="Виражати">
       <rule>
         <pattern>
@@ -4338,42 +4377,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="облиплий">Штани <marker>в обтяжку</marker>.</example>
     </rule>
 
-    <rulegroup id="V_CHYSLI" name="В числі">
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">[ву]</token>
-            <token>числі</token>
-          </marker>
-          <token postag_regexp="yes" postag="num.*" min="0"/>
-          <token postag_regexp="yes" postag="(noun|adj).*:v_rod.*">
-            <exception>Пі</exception>
-          </token>
-        </pattern>
-        <message>Правильно: <suggestion>серед</suggestion>, <suggestion>поміж</suggestion></message>
-        <example correction="серед|поміж"><marker>в числі</marker> яких</example>
-        <example correction="серед|поміж"><marker>у числі</marker> 11 найвпливовіших</example>
-        <example correction="серед|поміж"><marker>у числі</marker> двох найкращих</example>
-        <example>серед яких</example>
-        <example>у числі 13 є дві цифри</example>
-        <example>в числі Пі</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">і?з</token>
-            <token>числа</token>
-          </marker>
-          <token postag_regexp="yes" postag="num.*" min="0"/>
-          <token postag_regexp="yes" postag="(noun|adj).*v_rod.*"/>
-        </pattern>
-        <message>Правильно: <suggestion>з-поміж</suggestion></message>
-        <example correction="з-поміж">навіть <marker>із числа</marker> її знайомих</example>
-        <example correction="з-поміж">навіть <marker>з числа</marker> французьких акторів</example>
-        <example>з числа 33 викреслюємо останню цифру</example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id="bilshe_togo" name="Більше того">
       <rule>
         <pattern>
@@ -6867,6 +6870,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>коли це</suggestion>
       <suggestion>звідкись (не знати звідки, казна-звідки) узявся</suggestion>
       <example correction="де не взявся|де взявся|аж ось і|коли це|звідкись (не знати звідки, казна-звідки) узявся"><marker>де не візьмись</marker> прийшов він.</example>
+    </rule>
+
+    <rule id="z_opaskoyu" name="З опаскою">
+      <pattern>
+        <token regexp="yes">і?з</token>
+        <token>опаскою</token>
+      </pattern>
+      <message>Правильно: <suggestion>з побоюванням</suggestion></message>
+      <suggestion>з острахом</suggestion>
+      <suggestion>бережко</suggestion>
+      <example correction="з побоюванням|з острахом|бережко">поглядав <marker>з опаскою</marker>.</example>
     </rule>
 
     <rule id="derzhatysia_v_storoni" name="Держатися(триматися, бути) в стороні">

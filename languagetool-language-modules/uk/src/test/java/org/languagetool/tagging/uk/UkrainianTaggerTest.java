@@ -115,9 +115,9 @@ public class UkrainianTaggerTest {
   @Test
   public void testTaggingWithDots() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]number -- р./[р.]noun:inanim:f:v_dav:nv:abbr|р./[р.]noun:inanim:f:v_mis:nv:abbr|р./[р.]noun:inanim:f:v_naz:nv:abbr|р./[р.]noun:inanim:f:v_oru:nv:abbr"
-        +"|р./[р.]noun:inanim:f:v_rod:nv:abbr|р./[р.]noun:inanim:f:v_zna:nv:abbr|р./[р.]noun:inanim:m:v_dav:nv:abbr|р./[р.]noun:inanim:m:v_mis:nv:abbr"
-        +"|р./[р.]noun:inanim:m:v_naz:nv:abbr|р./[р.]noun:inanim:m:v_oru:nv:abbr|р./[р.]noun:inanim:m:v_rod:nv:abbr|р./[р.]noun:inanim:m:v_zna:nv:abbr"
+      "300/[300]number -- р./[р.]noun:inanim:f:v_dav:nv:abbr:xp2|р./[р.]noun:inanim:f:v_mis:nv:abbr:xp2|р./[р.]noun:inanim:f:v_naz:nv:abbr:xp2|р./[р.]noun:inanim:f:v_oru:nv:abbr:xp2"
+        +"|р./[р.]noun:inanim:f:v_rod:nv:abbr:xp2|р./[р.]noun:inanim:f:v_zna:nv:abbr:xp2|р./[р.]noun:inanim:m:v_dav:nv:abbr:xp1|р./[р.]noun:inanim:m:v_mis:nv:abbr:xp1"
+        +"|р./[р.]noun:inanim:m:v_naz:nv:abbr:xp1|р./[р.]noun:inanim:m:v_oru:nv:abbr:xp1|р./[р.]noun:inanim:m:v_rod:nv:abbr:xp1|р./[р.]noun:inanim:m:v_zna:nv:abbr:xp1"
         +" -- до/[до]noun:inanim:n:v_dav:nv|до/[до]noun:inanim:n:v_kly:nv|до/[до]noun:inanim:n:v_mis:nv|до/[до]noun:inanim:n:v_naz:nv|до/[до]noun:inanim:n:v_oru:nv"
         +"|до/[до]noun:inanim:n:v_rod:nv|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_kly:nv|до/[до]noun:inanim:p:v_mis:nv"
         +"|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep"
@@ -128,7 +128,7 @@ public class UkrainianTaggerTest {
        tokenizer, tagger);
 
     TestTools.myAssert("300 тис. гривень", 
-        "300/[300]number -- тис./[тис.]noun:inanim:f:v_dav:nv:&&numr:abbr|тис./[тис.]noun:inanim:f:v_mis:nv:&&numr:abbr|тис./[тис.]noun:inanim:f:v_naz:nv:&&numr:abbr|тис./[тис.]noun:inanim:f:v_oru:nv:&&numr:abbr|тис./[тис.]noun:inanim:f:v_rod:nv:&&numr:abbr|тис./[тис.]noun:inanim:f:v_zna:nv:&&numr:abbr|тис./[тис.]noun:inanim:p:v_dav:nv:&&numr:abbr|тис./[тис.]noun:inanim:p:v_mis:nv:&&numr:abbr|тис./[тис.]noun:inanim:p:v_naz:nv:&&numr:abbr|тис./[тис.]noun:inanim:p:v_oru:nv:&&numr:abbr|тис./[тис.]noun:inanim:p:v_rod:nv:&&numr:abbr|тис./[тис.]noun:inanim:p:v_zna:nv:&&numr:abbr -- гривень/[гривня]noun:inanim:p:v_rod",
+        "300/[300]number -- тис./[тис.]numr:p:v_dav:nv:abbr|тис./[тис.]numr:p:v_mis:nv:abbr|тис./[тис.]numr:p:v_naz:nv:abbr|тис./[тис.]numr:p:v_oru:nv:abbr|тис./[тис.]numr:p:v_rod:nv:abbr|тис./[тис.]numr:p:v_zna:nv:abbr -- гривень/[гривня]noun:inanim:p:v_rod",
          tokenizer, tagger);
 
     TestTools.myAssert("Валерій (міліціонер-пародист. – Авт.) стане пародистом.",
