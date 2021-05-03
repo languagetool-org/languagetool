@@ -4252,17 +4252,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">An?</token>
-                <token regexp="yes" postag="UNKNOWN|SUB:.*" postag_regexp="yes" min="0">[A-Z].*</token>
-                <token regexp="yes" postag="UNKNOWN|SUB:.*" postag_regexp="yes">[A-Z].*</token>
-            </pattern>
-            <disambig action="ignore_spelling"/>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
                 <token regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token regexp="yes">[Oo]f|[Ff]or|[Bb]y|[Tt]o</token>
-                <token regexp="yes" min="0">[Tt]he|[Mm]y|[Yy]our|[Hh]is|[Hh]er|[Oo]ur|[A-Z][a-z]+|[A-Z]+</token>
+                <token regexp="yes" min="0">[Tt]he|[Mm]y|[Yy]our|[Tt]heir|[Hh]is|[Hh]er|[Oo]ur|[A-Z][a-z]+|[A-Z]+</token>
                 <token regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -4276,10 +4268,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
-            <pattern>
+            <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">Day|School|One|Black|Green|Blue|White|World|Society|Advanced|Air|Dark|Health|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence</token>
+                <token regexp="yes">Day|School|One|Black|Green|Blue|White|World|Society|Advanced|Air|Dark|Health|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
