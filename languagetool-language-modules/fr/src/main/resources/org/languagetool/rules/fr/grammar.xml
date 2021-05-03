@@ -17674,7 +17674,7 @@ though, and has since been slightly modified)-->
             <!-- je -->
             <rule>
                 <pattern>
-                    <token>je
+                    <token regexp="yes">je|j'
                         <exception scope="previous">-</exception></token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
@@ -17816,6 +17816,7 @@ though, and has since been slightly modified)-->
                 <example>Je ne <marker>donne</marker> rien.</example>
                 <example>Je ne <marker>dis</marker> rien.</example>
                 <example>Je ne sale pas leus plats.</example>
+                <example>Je ne veux pas que tu te sur-entraînes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18103,7 +18104,7 @@ though, and has since been slightly modified)-->
                     <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="R pers suj.*" postag_regexp="yes">
+                    <token regexp="yes">je|tu|ils?|elles?|on
                         <exception scope="previous">-</exception></token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
@@ -18128,10 +18129,16 @@ though, and has since been slightly modified)-->
                 <example>Qu'y-a-t-il dans le nid ?</example>
                 <!-- Triggers another rule-->
                 <example>Il n'en fait pas.</example>
+                <example>Je ne suis pas d'accord avec vous à ce sujet.</example>
+                <example>Pensez-vous que l'argent compte vraiment pour moi ?</example>
+                <example>Vous et moi avons quelque chose en commun.</example>
+                <example>Quel temps faisait-il lorsque tu es sorti ce matin ?</example>
+                <example>Combien de temps faut-il selon vous pour arriver jusque là ?</example>
+                <example>Es-tu Étasunien?</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token regexp="yes">je|tu|ils?|elles?|on</token>
                     <token inflected="yes">ne</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
@@ -18155,7 +18162,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token regexp="yes">je|tu|ils?|elles?|on</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
@@ -18180,10 +18187,11 @@ though, and has since been slightly modified)-->
                 <example>Il ne s'auto-mutile pas !</example>
                 <example>On vous en offre une.</example>
                 <example>Il n'en fait qu'à sa tête !</example>
+                <example>Connaissez-vous la différence entre un microscope et un télescope ? </example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token regexp="yes">je|tu|ils?|elles?|on|[nv]ous</token>
                     <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
                     <token regexp="yes">y|en</token>
                     <marker>
@@ -18201,10 +18209,11 @@ though, and has since been slightly modified)-->
                 <example>Il s'en est sorti indemne.</example>
                 <example>Il s'en est déjà allé.</example>
                 <example>moins il nous en reste</example>
+                <example>Pourquoi les yeux d'un chat brillent-ils dans l'obscurité ? </example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token regexp="yes">je|tu|ils?|elles?|on</token>
                     <token inflected="yes">ne</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
                     <marker>
@@ -18231,7 +18240,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token regexp="yes">je|tu|ils?|elles?|on</token>
                     <token>ne</token>
                     <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
                     <token regexp="yes">y|en</token>
