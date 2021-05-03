@@ -39,7 +39,7 @@
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
 
-    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min|ha)">
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|°[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min|ha)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectár(eas)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 	
@@ -1519,7 +1519,7 @@
       <example correction="349,5">1 999 <marker>349'5</marker></example>
       <example>1,23'2</example>
       <example>41° 22'44.</example>
-      <example>41º 12’12” N.</example>
+      <example>41° 12’12” N.</example>
     </rule>
 
     <rule id='PERCENT_WITHOUT_SPACE' name="Matemático: Remover espazo en percentagens (3%)" default="on">
@@ -1741,7 +1741,7 @@
       <example>---------------------------------------</example>
     </rule>
 
-  <rulegroup id='HIPHEN_SPACE_RULES' name="Espaçamento en hífens e travessões" default="on">
+  <rulegroup id='HIPHEN_SPACE_RULES' name="Espazamento en guións e trazos" default="on">
     <!-- Created by Tiago F. Santos, 2017-XX-XX -->
     <rule>
       <antipattern>
@@ -2057,7 +2057,7 @@
       </pattern>
       <message>As abreviaturas de unidades de medida estándar non teñen plural.</message>
         <suggestion><match no='2' regexp_match='(&unidades_de_medida;)s' regexp_replace='$1'/></suggestion>
-      <example correction="kg">Son 2 <marker>kgs</marker> de maças.</example>
+      <example correction="kg">Son 2 <marker>kgs</marker> de mazás.</example>
     </rule>
 
     <rule id='KELVIN' name="Matemático: Kelvin (sem graus)">
@@ -2593,7 +2593,7 @@
       <example type="incorrect">«Non me incomode con súa leria infantil<marker>;»</marker> dixen Maria; «eu escribo versos inmortais.»</example>
     </rule>
 
-  <rulegroup id="PARENTESESE_AND_QUOTES_SPACING" name="Espaçamento en volta de comiñas ou paréntesis">
+  <rulegroup id="PARENTESESE_AND_QUOTES_SPACING" name="Espazamento en volta de comiñas ou parénteses">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
     <rule>
       <antipattern>
@@ -3031,45 +3031,53 @@
       <example>Seguramente <marker>os que</marker> máis protestan serán os que máis se beneficien.</example>
     </rule>
 
-  <rulegroup id="APOCOPES" name="gran día" default="off">
+  <rulegroup id="APOCOPES" name="Apócopes" default="on">
   	<url>http://www.blogoteca.com/dubidas/index.php?cod=14611</url>
-  	<short>Apócopes</short>
-    <rule name="grande">
-    <!-- Created by Susana Sotelo Docío -->
+  	<short>Apócope</short>
+    <rule name="grande" default="off">
+    <!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
+    <!-- FIXME Deactivated until a good grammar reference is found - too many dubious corrections to my ear (Xosé Calvo) -->
+    <antipattern>
+    	<token>grande</token>
+    	<token regexp="yes">de|que|co|có|ca|cá|coa|como|do|da|dos|das|para</token> <!-- Shouldn't be necessary but the postag seems to have loopholes -->
+    </antipattern>
+    <antipattern>
+    	<token>casa</token>
+    	<token>grande</token>
+    </antipattern>
       <pattern>
         <marker>
           <token>grande</token>
         </marker>
           <token postag="NC.S000" postag_regexp="yes">
-            <exception regexp="yes">[aeiouáéíóú].*</exception>
+            <exception regexp="yes">[aeiouáéíóúhH].*</exception>
           </token>
       </pattern>
-      <message>O adxectivo «grande» vai apocopado cando precede a un substantivo (agás cando este comeza por vogal). Quería vostede dicir <suggestion>gran</suggestion>?</message>
+      <message>O adxectivo «grande» vai apocopado cando precede a un substantivo (agás cando este comeza por vogal). Non haberá que empregar <suggestion>gran</suggestion>?</message>
       <example correction="gran">Resultou ser un <marker>grande</marker> curso.</example>
       <example>Resultou ser un <marker>gran</marker> curso.</example>
     </rule>
     <rule name="gran">
-    <!-- Created by Susana Sotelo Docío -->
+    <!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
       <pattern>
         <marker>
           <token>gran</token>
         </marker>
-          <token postag="NC.S000" postag_regexp="yes" regexp="yes">^[aeiouáéíóú].*</token>
-      </pattern>
-      <message>O adxectivo «grande» non vai nunca apocopado cando precede a un substantivo que comeza por vogal. Quería vostede dicir <suggestion>grande</suggestion>?</message>
+          <token postag="NC.S000" postag_regexp="yes" regexp="yes">^[aeiouáéíóúh].*</token>
+        </pattern>
+      <message>O adxectivo «grande» non vai nunca apocopado cando precede a un substantivo que comeza por vogal. Non haberá que empregar <suggestion>grande</suggestion>?</message>
       <example correction="grande">Resultou ser un <marker>gran</marker> amigo.</example>
       <example>Resultou ser un <marker>grande</marker> amigo.</example>
     </rule>
     <rule name="malo">
     <!-- Created by Susana Sotelo Docío -->
-    <!-- FIXME: This rule isn't working. -->
       <pattern>
         <marker>
           <token>malo</token>
         </marker>
           <token postag="NCMS000"/>
       </pattern>
-      <message>O adxectivo «malo» vai apocopado cando precede a un substantivo masculino singular. Quería vostede dicir <suggestion>mal</suggestion>?</message>
+      <message>O adxectivo «malo» vai apocopado cando precede a un substantivo masculino singular. Non haberá que empregar <suggestion>mal</suggestion>?</message>
       <example correction="mal">Resultou ser un <marker>malo</marker> ano.</example>
       <example>Resultou ser un <marker>mal</marker> ano.</example>
     </rule>
@@ -3081,24 +3089,43 @@
         <marker>
           <token>san</token>
         </marker>
-          <token regexp="yes">^[aeiouáéíóú].*</token>
+          <token regexp="yes">^[AEIOUÁÉÍÓÚH].*</token>
       </pattern>
-      <message>O adxectivo «santo» non vai apocopado cando precede a palabras que comezan por vogal. Quería vostede dicir <suggestion>santo</suggestion>?</message>
+      <message>O adxectivo «santo» non vai apocopado cando precede palabras que comezan por vogal. Non haberá que empregar <suggestion>santo</suggestion>?</message>
       <example correction="santo">Foi á romaría de <marker>san</marker> André.</example>
       <example>Foi á romaría de <marker>santo</marker> André.</example>
     </rule>
     <rule name="santo">
-    <!-- Created by Susana Sotelo Docío -->
+    <!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
+      <antipattern>
+        <token>santo</token>
+        <token regexp="yes">de|e|ou|é</token>
+      </antipattern>
+      <antipattern>
+      	<token>santo</token>
+      	<token regexp="yes">patrón|Cristo|xacobeo</token>
+      </antipattern>
+      <antipattern>
+ 		<token regexp="yes">día|Deus|Espírito</token>
+    	<token>santo</token>
+    </antipattern>
+      <antipattern>
+      	<token>santo</token><token postag="SENT_END" />
+      </antipattern>
+      <antipattern>
+      	<token>santo</token><token postag="A.*|R.*|SP.*|V.*|_PUNCT" postag_regexp="yes" /> <!-- The problem with negating a postag for nouns is that many aren't tagged (see rule ToméTomásToribio) -->
+      </antipattern>    
       <pattern>
         <marker>
           <token>santo</token>
         </marker>
-          <token regexp="yes" negate="yes">^[aeiouáéíóú].*</token>
+          <token regexp="yes" negate="yes">[AEIOUÁÉÍÓÚH].*</token>
       </pattern>
-      <message>O adxectivo «santo» vai apocopado cando precede a palabras que comezan por consoante. Quería vostede dicir <suggestion>san</suggestion>?</message>
-      <example correction="san">Foi á romaría de <marker>santo</marker> Domingo.</example>
-      <example>Foi á romaría de <marker>san</marker> Domingo.</example>
+      <message>O adxectivo «santo» vai apocopado cando precede palabras que comezan por consoante. Quería vostede dicir <suggestion>san</suggestion>?</message>
+      <example correction="san">Foi á romaría de <marker>santo</marker> Rosendo.</example>
+      <example>Foi á romaría de <marker>san</marker> Rosendo.</example>
     </rule>
+  
   </rulegroup>
 
   <rulegroup id="CARA" name="cara a">
