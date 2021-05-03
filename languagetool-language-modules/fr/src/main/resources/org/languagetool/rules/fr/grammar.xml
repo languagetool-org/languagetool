@@ -13099,8 +13099,8 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">pares$|antis$|géos$|exs$|similis$|écos$|hydros$|infras$|intras$|métas$|primos$|cardios$|cos$|agros$|hospitalos$|musculos$|socios$|psychos$|aéros$|supras$|inters$|intraminis$|prés$|néos$|mégas$|ultras$|pros$|inters$$|rés$|hypers$|protos$|multis$|nons$|quasis$</token>
-                        <!-- mis$| -->
+                        <token regexp="yes" case_sensitive="yes">pares|antis|géos|exs|similis|écos|hydros|infras|intras|métas|primos|cardios|cos|agros|hospitalos|musculos|socios|psychos|aéros|supras|inters|intraminis|néos|mégas|ultras|pros|rés|hypers|protos|multis|nons|quasis</token>
+                        <!-- mis$| |prés -->
                     </marker>
                     <token min="0" max="1">-</token>
                     <token regexp="yes">[a-z].*</token>
@@ -13110,11 +13110,12 @@ though, and has since been slightly modified)-->
                 <example correction="quasi">Les <marker>quasis</marker> certitudes ne sont pas acceptables.</example>
                 <example>Est-ce que tu sais par hasard où j'ai mis mes clés ?</example>
                 <example>Une série d'explosions mis le laboratoire en ruine.</example>
+                <example>Ils ont décidé de dépasser les prés carrés.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">archis$|bis$|semis$|mis$|exs$|m[ia]cros$|monos$|extras$|autos$|intraminis$|antis$|prés$|nords$|suds$|pros$|inters$|hauts$|rés$|supers$|vices$|hypers$|protos$|grands$</token>
+                        <token regexp="yes" case_sensitive="yes">archis|bis|semis|mis|exs|m[ia]cros|monos|extras|autos|intraminis|antis|prés|nords|suds|pros|inters|hauts|rés|supers|vices|hypers|protos|grands</token>
                     </marker>
                     <token>-</token>
                     <token regexp="yes">[a-z].*</token>
@@ -17681,16 +17682,25 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">Harbou?r</token>
             </antipattern>
             <antipattern>
-                <token>chez</token>
-                <token regexp="yes">elle|il|elles|ils</token>
+                <token regexp="yes">chez|et</token>
+                <token regexp="yes">elle|elles</token>
             </antipattern>
             <antipattern>
                 <token postag="P"/>
-                <token regexp="yes">elle|il|elles|ils</token>
+                <token regexp="yes">elle|elles</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">elle|il|elles|ils</token>
+                <token regexp="yes">elle|elles</token>
                 <token>aussi</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="4">plus|mois</token>
+                <token regexp="yes">que|qu'</token>
+                <token regexp="yes">elle|elles</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">elle|elles</token>
+                <token>et</token>
             </antipattern>
             <!-- je -->
             <rule>
@@ -17713,6 +17723,7 @@ though, and has since been slightly modified)-->
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
                 <example>J'ai dix fois plus de livres que tu en as.</example>
+                <example>J'entre en transe.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17900,7 +17911,7 @@ though, and has since been slightly modified)-->
             <!-- il, elle, on -->
             <rule>
                 <pattern>
-                    <token regexp="yes">il|elle|on
+                    <token regexp="yes">il|on <!--|elle-->
                         <exception scope="previous">-</exception></token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
@@ -17913,7 +17924,8 @@ though, and has since been slightly modified)-->
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="sort|sorte">Il <marker>sorts</marker> ce soir.</example>
                 <example correction="vit|voie|vide|vise|lie|vive|nie|oie|vire|fie">La zone géographique dans laquelle il <marker>vie</marker>.</example>
-                <example correction="dit|dicte|dicta|dît">Elle <marker>dix</marker> la vérité.</example>
+                <example correction="dit|dicte|dicta|dît">Il <marker>dix</marker> la vérité.</example>
+                <!--TODO <example correction="dit|dicte|dicta|dît">Elle <marker>dix</marker> la vérité.</example>-->
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
@@ -17921,7 +17933,10 @@ though, and has since been slightly modified)-->
                 <example>en rentrant chez elle hier soir</example>
                 <example>Il est tombé amoureux d'elle au premier regard.</example>
                 <example>J'ai pensé que ce serait difficile pour elle d'avoir un billet.</example>
-                <example type="triggers_error">Il n'a pas envie de laver la vaisselle, et elle non plus.</example>
+                <example>Il n'a pas envie de laver la vaisselle, et elle non plus.</example>
+                <example>Je n'aime pas le café glacé, et elle non plus.</example>
+                <example>Il n'est pas plus qualifié qu'elle pour ce poste.</example>
+                <example>Elle et ses amis adorent la musique.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18008,7 +18023,7 @@ though, and has since been slightly modified)-->
             <!-- ils, elles -->
             <rule>
                 <pattern>
-                    <token regexp="yes">ils|elles
+                    <token>ils<!--|elles-->
                         <exception scope="previous">-</exception></token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
@@ -18021,7 +18036,7 @@ though, and has since been slightly modified)-->
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="">Ils <marker>sorts</marker> ce soir.</example>
                 <example correction="">La zone géographique dans laquelle ils <marker>vie</marker>.</example>
-                <example correction="">Elles <marker>dix</marker> la vérité.</example>
+                <!-- TODO: <example correction="">Elles <marker>dix</marker> la vérité.</example>-->
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
@@ -20342,6 +20357,7 @@ though, and has since been slightly modified)-->
                 <example>Je vous prie de ne pas laisser ceci se reproduire.</example>
                 <example>Je vais lui en apporter.</example>
                 <example>Est-ce que ceci vous dit quelque chose ?</example>
+                <example>Le fonctionnaire ne pouvait traiter lui-même la plainte.</example>
             </rule>
             <rule name="ça + 1 tokens + Verbe">
                 <pattern>
@@ -41544,6 +41560,10 @@ though, and has since been slightly modified)-->
                     <token>non</token>
                     <token>merci</token>
                 </antipattern>
+                <antipattern>
+                    <token>hors</token>
+                    <token regexp="yes">service|circuit|ligne|contexte</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">non|hors</token>
                     <token postag="N.*|V inf" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
@@ -41553,6 +41573,9 @@ though, and has since been slightly modified)-->
                 <example correction="non-écrivain">C'est un <marker>non écrivain</marker>.</example>
                 <example>Hors ligne 2.</example>
                 <example>Hors effet de cause.</example>
+                <example>Mon vélo est tombé hors circuit.</example>
+                <example type="triggers_error">Il faut manger pour vivre, et non vivre pour manger.</example>
+                <example>Ce téléphone est hors service.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
