@@ -13090,6 +13090,32 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="PREFIXES_ACCORD" name="préfixes accord" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">pares$|antis$|géos$|mis$|exs$|similis$|écos$|hydros$|infras$|intras$|métas$|primos$|cardios$|cos$|agros$|hospitalos$|musculos$|socios$|psychos$|aéros$|supras$|inters$|intraminis$|prés$|néos$|mégas$|ultras$|pros$|inters$$|rés$|hypers$|protos$|multis$|nons$|quasis$</token>
+                    </marker>
+                    <token min="0" max="1">-</token>
+                    <token regexp="yes">[a-z].*</token>
+                </pattern>
+                <message>Le préfixe '\1' est généralement invariable.</message>
+                <suggestion><match no="1" regexp_match="(?iu)s$" regexp_replace=""/></suggestion>
+                <example correction="quasi">Les <marker>quasis</marker> certitudes ne sont pas acceptables.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">archis$|bis$|semis$|mis$|exs$|m[ia]cros$|monos$|extras$|autos$|intraminis$|antis$|prés$|nords$|suds$|pros$|inters$|hauts$|rés$|supers$|vices$|hypers$|protos$|grands$</token>
+                    </marker>
+                    <token>-</token>
+                    <token regexp="yes">[a-z].*</token>
+                </pattern>
+                <message>Le préfixe '\1' est généralement invariable.</message>
+                <suggestion><match no="1" regexp_match="(?iu)s$" regexp_replace=""/></suggestion>
+                <example correction="anti">Les <marker>antis</marker>-sous-marins existent.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" default="temp_off">
             <antipattern>
                 <token postag="Y"/>
