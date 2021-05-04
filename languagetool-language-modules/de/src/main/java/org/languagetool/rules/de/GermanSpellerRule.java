@@ -979,6 +979,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("maletriert(e[mnrs]?)?", "maletriert", "malträtiert");
     putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
     put("achtungslo[ßs]", "achtlos");
+    put("Boomerang", "Bumerang");
+    put("Boomerangs", "Bumerangs");
+    put("Lg", w -> Arrays.asList("LG", "Liebe Grüße"));
     put("gildet", "gilt");
     put("gleitete", "glitt");
     put("gleiteten", "glitten");

@@ -21064,6 +21064,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="MUEHE_SUBST" name="mühe (Mühe) geben" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">geben</token>
+                    <token regexp="yes">uns|sich</token>
+                    <token min="0" regexp="yes">ganz|sehr|kaum|alle|hier</token>
+                    <token min="0" regexp="yes">viel|wenig</token>
+                    <marker>
+                        <token case_sensitive="yes">mühe</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="5" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Mühe">Wir geben uns <marker>mühe</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mühe</token>
+                    </marker>
+                    <token inflected="yes">geben</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Mühe">Wir werden uns <marker>mühe</marker> geben.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token regexp="yes" min="0">sehr|ganz|etwas|kaum</token>
+                    <token regexp="yes" min="0">wenig|viel</token>
+                    <marker>
+                        <token case_sensitive="yes">mühe</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="4" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Mühe">Er hat es mit viel <marker>mühe</marker> geschafft.</example>
+            </rule>
+        </rulegroup>
         <rule id="RUF_SUBST" name="sein ruf (Ruf)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
@@ -21073,7 +21110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">ruf</token>
                 </marker>
-                <token postag="ZUS" min="0" />
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
                 <token postag="PKT|VER:.+" postag_regexp="yes" />
             </pattern>
             <message>Das Nomen <suggestion>Ruf</suggestion> wird großgeschrieben.</message>
@@ -21090,7 +21127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" regexp="yes">wellen?</token>
                 </marker>
-                <token postag="ZUS" min="0" />
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
                 <token postag="VER:.+" postag_regexp="yes" />
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -21202,7 +21239,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">teil(en?)?</token>
                     </marker>
-                    <token postag="ZUS" min="0" />
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes" />
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -21769,6 +21806,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Fragen</suggestion> (als Nomen großgeschrieben)?</message>
                 <example correction="Fragen">Ich habe noch ein, zwei <marker>fragen</marker>.</example>
                 <example correction="Fragen">Die Liste enthielt 5 <marker>fragen</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">ergeben|stellen|antworten|beantworten|bringen|erwähnen|ƒragen</token>
+                    <token regexp="yes">die|einige|viele|[dsm]eine|ihre|unsere|weitere</token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">fragen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Fragen">Er stellt die richtigen <marker>fragen</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">fragen?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">ergeben|stellen|antworten|beantworten|bringen|erwähnen|ƒragen</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Fragen">Melden Sie sich gerne sollten sich weitere <marker>fragen</marker> ergeben.</example>
             </rule>
         </rulegroup>
         <rule id="RECHT_MACHEN" name="Kleinschreibung 'recht' in 'es allen recht machen'">
@@ -25449,7 +25508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">angaben?</token>
                     </marker>
-                    <token postag="ZUS" min="0" />
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes" />
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -26054,6 +26113,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="übel">Er musste wohl oder <marker>Übel</marker> gehen.</example>
                 <example correction="übel">Er musste wohl oder <marker>übe</marker> gehen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*[a-z].*</token>
+                    <marker>
+                        <token>Wohl</token>
+                        <token regexp="yes">[Oo]der</token>
+                        <token>Übel</token>
+                    </marker>
+                </pattern>
+                <message>Die Redewendung <suggestion><match no="2" case_conversion="alllower" /> oder <match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="wohl oder übel">Dann werde ich mich <marker>Wohl oder Übel</marker> umentscheiden müssen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DER_KLEMME" name="'in der klemme (Klemme) stecken' etc.">
@@ -31726,6 +31797,33 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Gründen">Aus <marker>gründen</marker> des Datenschutzes bitte das Deckblatt entfernen.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">genannten|aufgelisteten</token>
+                    <marker>
+                        <token case_sensitive="yes">gründe</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER.*|PKT" postag_regexp="yes" />
+                </pattern>
+                <message>&subanfang;<suggestion>Gründe</suggestion>&subende;</message>
+                <example correction="Gründe">Keiner der genannten <marker>gründe</marker> trifft zu.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO:POS|ART):.+|PRO:IND:NOM:PLU.*" postag_regexp="yes">
+                        <exception>das</exception>
+                    </token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">[a-zöäü].*</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">gründen?</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Gründe">Du darfst meine <marker>gründe</marker> gerne hinterfragen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WUERDE_SUBST" name="'die würde (Würde) des Gerichts' etc.">
             <rule>
@@ -33097,6 +33195,18 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Menge">Die <marker>menge</marker> der natürlichen Zahlen ist unendlich groß.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">einer?|dieser?</token>
+                    <token regexp="yes" min="0">sehr|ganz</token>
+                    <token regexp="yes" min="0">gro(ss|ß)en?|kleinen?|riesigen?</token>
+                    <marker>
+                        <token case_sensitive="yes">menge</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="4" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Menge">Ich hatte eine <marker>menge</marker> Glück!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="REIHE_SUBST" name="'an die reihe (Reihe) kommen' etc.">
             <rule>
@@ -33627,6 +33737,38 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Tagen">Seit ein paar <marker>tagen</marker> läuft es wieder.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">in|zu|nach|vo[rn]|sei[dt]|bereits|frühestens|spätestens</token>
+                    <token regexp="yes">\d+|ein(em)?|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">tag|tagen?</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Tagen">Ich komme zu dir in 10 <marker>tagen</marker>.</example>            
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">tage?</token>
+                    </marker>
+                    <token regexp="yes">entfernt|her|später|vorher|früher</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Tage">Es ist schon 10 <marker>tage</marker> her.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">\d+|ein(em)?|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">tage?</token>
+                    </marker>
+                    <token regexp="yes">seit(dem)?|(be)?vor|nach(dem)|da(nach|vor)</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Tage">Es passierte 10 <marker>tage</marker> danach.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DANK_SUBST" name="'dank (Dank)'">
@@ -34732,6 +34874,21 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Kosten">Es entstehen Ihnen keinerlei <marker>kosten</marker> dadurch.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO:POS|ART):.+|PRO:IND:NOM:PLU.*" postag_regexp="yes">
+                        <exception>das</exception>
+                    </token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">[a-zöäü].*</token>
+                    <marker>
+                        <token case_sensitive="yes">kosten</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Nomen <suggestion>Kosten</suggestion> wird großgeschrieben.</message>
+                <example correction="Kosten">Das hat keine <marker>kosten</marker> verursacht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOECHERN_SUBST" name="'löchern (Löchern)'">
@@ -38259,7 +38416,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
-                <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst)</token>
+                <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst|bauen?|baus?t|gebaut)</token>
             </pattern>
             <message>Das Verb <suggestion><match no="1" regexp_match="(neu)" regexp_replace="$1 " /></suggestion> wird getrennt geschrieben.</message>
             <example correction="neu starten">Er muss seinen Computer erst <marker>neustarten</marker>.</example>
@@ -40270,11 +40427,11 @@ Andere Projekte</example>
                 <token>Erwarten</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">d(er|ie|as)</token>
+                <token regexp="yes">d(er|ie|as)|dieser?</token>
                 <marker>
                     <token postag="VER:IMP:SIN:SFT" regexp="yes" case_sensitive="yes">
                         [a-zöäü]+
-                        <exception regexp="yes">eine?</exception>
+                        <exception regexp="yes">m?eine?</exception>
                         <exception postag_regexp="yes" postag="ADJ:.*"/>
                         <exception postag="ADV:MOD"/>
                     </token>
@@ -40285,11 +40442,13 @@ Andere Projekte</example>
             <suggestion><match no="2" case_conversion="startupper"/></suggestion>
             <example correction="Sonne">Die <marker>sonne</marker> scheint.</example>
             <example correction="Sonne">Denn die <marker>sonne</marker> scheint.</example>
+            <example correction="Gründe">Einer dieser <marker>gründe</marker> macht uns Stolz.</example>
             <example>Sie verachtet Menschen, die <marker>faul</marker> sind.</example>
             <example>Die Dame, die <marker>offenbar</marker> gestürzt war, schrie laut.</example>
             <example>Es ist die Temperatur, die <marker>ein</marker> gleich großer schwarzer Körper haben müsste, um dieselbe Strahlungsleistung abzugeben.</example>
             <example>Falls das wider Erwarten doch nichts für Dich ist, ...</example>
             <example>Wie ist das werte Befinden?</example>
+            <example>Hoff mal das meine frage hier richtig ist</example><!-- "das" und "frage" sind hier falsch -->
         </rule>
         <rule id="BEI_ANDEREN_SUB" name="'bei anderen' + ohne Dativ plural">
             <pattern>

@@ -557,7 +557,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // Hey Matt (name),
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Matt")
+      regex("Matt|Will")
     ),
     Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
@@ -701,9 +701,9 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build(),
       csToken("Hart")
     ),
-    Arrays.asList( // Namen mit "Matt" (e.g. Matt Gaetz)
-      csToken("Matt"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
+    Arrays.asList( // Namen mit "Matt" (e.g. Matt Gaetz, Will Smith)
+      csRegex("Matt|Will"),
+      new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build()
     ),
     Arrays.asList( // Autohaus Dornig GmbH
       new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
