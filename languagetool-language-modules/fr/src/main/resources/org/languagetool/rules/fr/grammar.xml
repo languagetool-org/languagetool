@@ -17720,6 +17720,10 @@ though, and has since been slightly modified)-->
                 <example>Il est sans doute arrivé.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">il|elle|on|ça</token>
+                    <token inflected="yes" regexp="yes">[mts][e']</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">[mts][e']</token>
                     <marker>
@@ -18085,6 +18089,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token regexp="yes">il|on <!--|elle-->
+                        <!-- TODO: ça, cela...-->
                         <exception scope="previous">-</exception></token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
@@ -18121,7 +18126,7 @@ though, and has since been slightly modified)-->
                     <token postag="D.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">il|elle|on</token>
+                    <token regexp="yes">il|elle|on|ça</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
@@ -18139,6 +18144,7 @@ though, and has since been slightly modified)-->
                 <example correction="sort|sorte">Il ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="dit|dicte|dicta|dît">Elle ne <marker>dix</marker> rien.</example>
                 <example correction="assoupit|assoupît">Il s'<marker>assoupie</marker>.</example>
+                <example correction="coûte|coute|coupe|doute|route|chute|coule|conte|voûte|cote">Ça me <marker>coûté</marker> deux cents piasses </example>
                 <example>Je ne <marker>donne</marker> rien.</example>
                 <example>Je ne <marker>dis</marker> rien.</example>
                 <example>Je ne sale pas leus plats.</example>
