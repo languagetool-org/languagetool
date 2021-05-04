@@ -1052,6 +1052,12 @@ public class AgreementRule extends Rule {
       token("von"),
       token("der"),
       csRegex("Haars?")
+    ),
+    Arrays.asList( // des Sturm und Drangs
+      token("des"),
+      token("Sturm"),
+      token("und"),
+      csRegex("Drangs?")
     )
   );
 

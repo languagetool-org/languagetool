@@ -518,7 +518,7 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().build()
     ),
     Arrays.asList(
-      token("im"),
+      tokenRegex("im|ins"),
       csToken("Aus")
     ),
     Arrays.asList(
@@ -570,7 +570,7 @@ public class CaseRule extends Rule {
       regex("Höchst|Wohlen")
     ),
     Arrays.asList( // Am So. (Sonntag)
-      regex(",|/|-|am|bis|vor|\\("),
+      regex(",|;|/|-|am|bis|vor|\\("),
       csToken("So"),
       token(".")
     ),
