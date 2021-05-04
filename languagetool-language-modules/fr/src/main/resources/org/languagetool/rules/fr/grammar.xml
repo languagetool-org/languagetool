@@ -41826,22 +41826,98 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-        <rule default="temp_off">
-           <pattern>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"/>
-                <marker>
+       <rulegroup id="CONFUSION_A_DE" name="confusion a de" default="temp_off">
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
                     <token>à</token>
-                </marker>
-                <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"/>
-            </pattern>
-            <message>\1 \2 \3 \4 \5» est une expression fautive.</message>
-            <suggestion>de</suggestion>
-            <example correction="de">c'est la voiture <marker>à</marker> la voisine.</example>
-            <example>aimes-tu la barbe à papa ?</example>
-            <example>elle joue à la corde à sauter</example>
-        </rule>
+                    <token>moi</token>
+                </pattern>
+                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <suggestion><match no="1" postag="D.*" postag_regexp="yes">mon</match> \2</suggestion>
+                <example correction="ma voiture">C'est <marker>la voiture à moi</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                    <token>à</token>
+                    <token>toi</token>
+                </pattern>
+                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <suggestion><match no="1" postag="D.*" postag_regexp="yes">ton</match> \2</suggestion>
+                <example correction="ta voiture">C'est <marker>la voiture à toi</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                    <token>à</token>
+                    <token regexp="yes">lui|elle</token>
+                </pattern>
+                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <suggestion><match no="1" postag="D.*" postag_regexp="yes">son</match> \2</suggestion>
+                <example correction="sa voiture">C'est <marker>la voiture à lui</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                    <token>à</token>
+                    <token>nous</token>
+                </pattern>
+                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <suggestion><match no="1" postag="D.*" postag_regexp="yes">notre</match> \2</suggestion>
+                <example correction="notre voiture">C'est <marker>la voiture à nous</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                    <token>à</token>
+                    <token>toi</token>
+                </pattern>
+                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <suggestion><match no="1" postag="D.*" postag_regexp="yes">ton</match> \2</suggestion>
+                <example correction="ta voiture">C'est <marker>la voiture à toi</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                    <token>à</token>
+                    <token regexp="yes">lui|elle</token>
+                </pattern>
+                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <suggestion><match no="1" postag="D.*" postag_regexp="yes">son</match> \2</suggestion>
+                <example correction="sa voiture">C'est <marker>la voiture à lui</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BARBARISME_TU" name="barbarisme tu">
             <rule>
                 <antipattern>
