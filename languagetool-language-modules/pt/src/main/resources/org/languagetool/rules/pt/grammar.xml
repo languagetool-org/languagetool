@@ -12377,16 +12377,21 @@ Eu comprei-a quando fui à loja.
     </rule>
 	
 	<!-- PARA QUE SAIBAM para saberem -->
-    <rulegroup id='PARA_QUE_VERB' name="Para que + Verbo → Para + Verbo ">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 (17-MAR-2021+)      -->
+    <rulegroup id='QUE_SUBJ_VS_INF_PESS' name="Para que + Verbo → Para + Verbo ">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 + 2021-05-04 (17-MAR-2021+)      -->
 	<!--
 Isto é para que saibam o que acontece. → Isto é para saberem o que acontece.
 E para que eles pudessem aplicá-la a problemas já existentes. → E para eles poderem aplicá-la a problemas já existentes.
 E para que estes pudessem aplicá-la a problemas já existentes. → E para estes poderem aplicá-la a problemas já existentes.
+Um prato pode ser apimentado sem que seja quente. → Um prato pode ser apimentado sem ser quente.
+Vocês ainda têm uma semana para implementar o trabalho até que eles sejam recolhidos. → Vocês ainda têm uma semana para implementar o trabalho até eles serem recolhidos.
+Vamos esperar aqui até que ele volte. → Vamos esperar aqui até ele voltar.
 	-->
 	  <rule>
 		<pattern>
-			<token>para</token>
+			<token postag='SPS00' postag_regexp='no'>
+				<exception regexp='yes'>a|com|de|em</exception>
+			</token>
 			<marker>
 				<token>que</token>
 				<token postag='VMS[PI]...' postag_regexp='yes'/>
@@ -12399,7 +12404,9 @@ E para que estes pudessem aplicá-la a problemas já existentes. → E para este
       </rule>
 	  <rule>
 		<pattern>
-			<token>para</token>
+			<token postag='SPS00' postag_regexp='no'>
+				<exception regexp='yes'>a|com|de|em</exception>
+			</token>
 			<marker>
 				<token>que</token>
 				<token postag='PD.+|PP.+' postag_regexp='yes'/>
