@@ -128,6 +128,8 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           && (!isFalsePair(testTokenText, tokenText, "lag", "schlag"))
           && (!isFalsePair(testTokenText, tokenText, "Art", "Artefakt"))
           && (!isFalsePair(testTokenText, tokenText, "kommen", "kommentier"))
+          && (!isFalsePair(testTokenText, tokenText, "weit", "weiter"))
+          && (!isFalsePair(testTokenText, tokenText, "weite", "weiter"))
           && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
           || testTokenText.length() > tokenText.length() + 3)
           || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
