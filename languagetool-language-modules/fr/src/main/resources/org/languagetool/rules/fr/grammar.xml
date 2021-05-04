@@ -41228,7 +41228,7 @@ though, and has since been slightly modified)-->
                         <token postag="[NJ].*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\2' est généralement dissocié du terme qu'il précède.</message>
                 <suggestion>\2 \4</suggestion>
                 <example correction="hors service">Il est <marker>hors-service</marker>.</example>
             </rule>
@@ -41364,6 +41364,10 @@ though, and has since been slightly modified)-->
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes">classique|libéral|colonial</token>
                 </antipattern>
+                <antipattern>
+                    <token>télé</token>
+                    <token postag="J [ef] (s|sp)|V ppa fs" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">di|cyber|hypo|omni|pan|para|péri|pluri|poly|supra|télé|trans|tri|uni|post|sus|néo</token>
                     <token min="0">-</token>
@@ -41371,8 +41375,13 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">[a-z].*-[a-z].*</exception></token>
                 </pattern>
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
-                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="cyber$1" case_conversion="preserve"/></suggestion>
+                <suggestion>\1\3</suggestion>
                 <example correction="cyberespace">Le <marker>cyber espace</marker> n'est pas réel.</example>
+                <example correction="postélectorales">Les violences <marker>post-électorales</marker> ont fait 5 victimes.</example>
+                <example>Quelle est votre émission de télé préférée ?</example>
+                <example>Je me suis endormi avec la télé allumée.</example>
+                <example>Notre station de télé locale effectue un assez bon travail de couverture.</example>
+                <example>J'ai appris un peu d'italien en regardant la télé italienne.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
