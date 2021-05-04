@@ -1,7 +1,8 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
-   <!--
+
+<!--
   Galician Grammar and Typo Rules for LanguageTool
   Copyright (C) 2006 Marcin Miłkowski
   Copyright (C) 2009 Susana Sotelo Docío
@@ -379,7 +380,7 @@
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes' regexp='yes'>.+a$
             <exception regexp='yes'>palabra|letra</exception></token>
       </pattern>
-      <message>Posíbel erro de concordancia de xénero.</message>
+      <message>&MSG_ECX;</message>
         <suggestion>o \2</suggestion>
       <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <example correction="O dogma"><marker>A dogma</marker> de quen sabe moito.</example>
@@ -1133,7 +1134,7 @@
     </rule>
     <rule>
       <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
-      <message>Non existe espazamento antes do símbolo de grao. Utilice <suggestion>\1°</suggestion> ou engada a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
+      <message>Entre o valor numérico e o símbolo de grao debe haber un espazo. Utilice <suggestion>\1°</suggestion> ou engada a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
       <example correction="25°|25 °C">O ángulo é de <marker>25 ° </marker></example>
       <example correction="-25,5°|-25,5 °C">Fan <marker>-25,5 ° </marker>de temperatura.</example>
       <example correction="-25°|-25 °C">Fan <marker>-25 ° </marker>de temperatura.</example>
@@ -1142,7 +1143,7 @@
     </rule>
     <rule>
       <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (″)</regexp>
-      <message>O sinal de segundos (\2) non ten espazo.</message>
+      <message>Debe haber un espazo antes do símbolo de segundos (\2).</message>
         <suggestion>\1\2\3</suggestion>
       <example>3°14′ 45,54″</example>
       <example correction="45″"><marker>45 ″</marker> E</example>
@@ -1266,14 +1267,15 @@
           <token negate="yes">h</token>
       </pattern>
       <message>Separe as fórmulas con espazos (protexidos).</message>
-        <suggestion>\1 \2 \3</suggestion>
+      <suggestion>\1 \2 \3</suggestion>
+      <short>Separe as fórmulas con espazos</short>
       <example correction="5 * 5"><marker>5*5</marker>.</example>
       <example correction="3a = 2"><marker>3a=2</marker>.</example>
+      <example>a = 2 · x² + 5</example>
       <example>Un mapa na escala 1:80000.</example>
       <example>Teño unha reunión ás 7:00 h.</example>
       <example>Teño unha reunión ás 7:00h.</example>
       <example>Enviado a 2014-01-23 10:32 :</example>
-      <example>a = 2 · x² + 5</example>
       <example>4,5 × 2,5</example>
       <example>Entre as 9:00 e as 16:45.</example>
     </rule>
@@ -1307,7 +1309,7 @@
         </marker>
           <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
       </pattern>
-      <message>Prefira o símbolo de multiplicación.</message>
+      <message>O símbolo de multiplicación é máis claro.</message>
         <suggestion>×</suggestion>
         <suggestion>·</suggestion>
       <example correction="×|·">h = 6,626 <marker>x</marker> 10⁻³⁴ J.s</example>
@@ -1323,7 +1325,7 @@
     </rule>
     <rule>
       <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
-      <message>Prefira o símbolo de multiplicación.</message>
+      <message>O símbolo de multiplicación é máis claro.</message>
         <suggestion>\4×\5</suggestion>
         <suggestion>\4·\5</suggestion>
       <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
@@ -1336,7 +1338,7 @@
     </rule>
     <rule>
       <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
-      <message>Prefira o símbolo de multiplicación.</message>
+      <message>O símbolo de multiplicación é máis claro.</message>
         <suggestion>\1×\2</suggestion>
         <suggestion>\1·\2</suggestion>
       <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
@@ -1356,8 +1358,9 @@
           <token>+</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>±</suggestion>
+      <message>O símbolo tipográfico é máis claro.</message>
+      <suggestion>±</suggestion>
+      <short>Prefire un carácter tipográfico?</short>
       <example correction='±'>m = 75,5 <marker>+-</marker> 0,1 g</example>
     </rule>
     <rule>
@@ -1365,8 +1368,9 @@
           <token regexp='yes'>&hifen;</token>
           <token spacebefore='no'>+</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>±</suggestion>
+      <message>O símbolo tipográfico é máis claro.</message>
+      <suggestion>±</suggestion>
+      <short>Prefire un carácter tipográfico?</short>
       <example correction='±'>m = 75,5 <marker>-+</marker> 0,1 g</example>
     </rule>
   </rulegroup>
@@ -1375,10 +1379,11 @@
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
       <regexp>&gt;=</regexp>
-      <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>≥</suggestion>
-        <suggestion>≧</suggestion>
-      <example>1 = 1</example>
+      <message>O símbolo tipográfico é máis claro.</message>
+      <suggestion>≥</suggestion>
+      <suggestion>≧</suggestion>
+      <short>Prefire un carácter tipográfico?</short>
+      <example>1 ≥ 1</example>
       <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
     </rule>
     <rule>
@@ -1389,9 +1394,10 @@
           </marker>
           <token negate="yes">&gt;</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
       <suggestion>≤</suggestion>
       <suggestion>≦</suggestion>
+      <short>Prefire un carácter tipográfico?</short>
       <example>1 ≤ 3</example>
       <example correction="≤|≦">1 <marker>&lt;=</marker> 3</example>
     </rule>
@@ -1407,15 +1413,16 @@
           <token>&gt;</token>
         </marker>
       </pattern>
-      <message>Pretende utilizar unha frecha?</message>
-        <suggestion>≥</suggestion>
+      <message>As frechas tipográficas acrecentan a claridade dun texto.</message>
         <suggestion>→</suggestion>
         <suggestion>⇾</suggestion>
         <suggestion>⇉</suggestion>
         <suggestion>⇒</suggestion>
         <suggestion>⇨</suggestion>
         <suggestion>⇛</suggestion>
-      <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Punto 1</example>
+        <suggestion>≥</suggestion>
+        <short>Pretende empregar unha frecha?</short>
+      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥"><marker>-&gt;</marker> Punto 1</example>
     </rule>
     <rule>
       <pattern>
@@ -1425,15 +1432,16 @@
         </marker>
         <token negate="yes">&gt;</token>
       </pattern>
-      <message>Pretende utilizar unha frecha?</message>
-        <suggestion>≤</suggestion>
+      <message>As frechas tipográficas acrecentan a claridade dun texto</message>
         <suggestion>←</suggestion>
         <suggestion>⇽</suggestion>
         <suggestion>⇇</suggestion>
         <suggestion>⇐</suggestion>
         <suggestion>⇦</suggestion>
         <suggestion>⇚</suggestion>
-      <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+        <suggestion>≤</suggestion>
+      <short>Pretende empregar unha frecha?</short>
+      <example correction="←|⇽|⇇|⇐|⇦|⇚|≤">A <marker>&lt;-</marker> B</example>
       <example>A ← B</example>
       <example>-128 &lt; -127 &lt; -126</example>
     </rule>
@@ -1443,7 +1451,7 @@
           <token regexp="yes">\-|=</token>
           <token>&gt;</token>
       </pattern>
-      <message>Pretende utilizar unha frecha?</message>
+      <message>As frechas tipográficas acrecentan a claridade dun texto</message>
         <suggestion>↔</suggestion>
         <suggestion>⇿</suggestion>
         <suggestion>⇄</suggestion>
@@ -1451,12 +1459,13 @@
         <suggestion>⇋</suggestion>
         <suggestion>⇌</suggestion>
         <suggestion>⇔</suggestion>
+      <short>Pretende empregar unha frecha?</short>
       <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
       <example>A ⇔ B</example>
     </rule>
   </rulegroup>
 
-  <rulegroup id='YEAR_NUMBER_FORMAT' name="Formateo de números: anos">
+  <rulegroup id='YEAR_NUMBER_FORMAT' name="Formato de números: anos">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
     <rule>
@@ -1467,8 +1476,9 @@
         </marker>
       </pattern>
       <message>Nos anos os números non deben estar separados.</message>
-        <suggestion><match no='2' regexp_match='(\d)(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
-      <example correction="1989">É o ano de <marker>1.989</marker>.</example>
+      <suggestion><match no='2' regexp_match='(\d)(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <short>Os anos escríbense sen espazos</short>
+      <example correction="1989">Naceu no ano <marker>1.989</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -1479,7 +1489,8 @@
         </marker>
       </pattern>
       <message>Nos anos os números non deben estar separados.</message>
-        <suggestion><match no='3' regexp_match='(\d{1,2})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <suggestion><match no='3' regexp_match='(\d{1,2})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <short>Os anos escríbense sen espazos</short>
       <example correction="1989">É decembro de <marker>1.989</marker>.</example>
     </rule>
     <rule>
@@ -1490,12 +1501,13 @@
           <token regexp="yes">aC|dC</token>
       </pattern>
       <message>Nos anos os números non deben estar separados.</message>
-        <suggestion><match no='1' regexp_match='(\d{1,3})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <suggestion><match no='1' regexp_match='(\d{1,3})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+      <short>Os anos escríbense sen espazos</short>      
       <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
     </rule>
   </rulegroup>
 
-    <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemático: Evitar apóstrofe en decimais">
+    <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemáticas: Evitar apóstrofe en decimais">
     <!--  Based on Catalan version, by Tiago F. Santos, 2017-02-27      -->
       <antipattern>
           <token regexp="yes">\d{1,2}\,\d+</token>
@@ -1522,7 +1534,7 @@
       <example>41° 12’12” N.</example>
     </rule>
 
-    <rule id='PERCENT_WITHOUT_SPACE' name="Matemático: Remover espazo en percentagens (3%)" default="on">
+    <rule id='PERCENT_WITHOUT_SPACE' name="Matemáticas: Retirar espazo en porcentaxes (3%)" default="on">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
           <token regexp="yes">[\d.,]+
@@ -1538,7 +1550,7 @@
       <example>Paga 25%.</example>
     </rule>
 
-    <rule id='PERCENT_WITH_SPACE' name="Matemático: Acrescentar espazo en percentagens (3 %)" default="off">
+    <rule id='PERCENT_WITH_SPACE' name="Matemáticas: Acrecentar espazo en porcentaxes (3 %)" default="off">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
           <token regexp="yes">[\d.,]+[%‰‱]</token>
@@ -1551,7 +1563,7 @@
       <example>Paga 25 %.</example>
     </rule>
 
-    <rule id="SPACE_INDENTATION" name="Libreoffice: Indentación con espazos" default='off'>
+    <rule id="SPACE_INDENTATION" name="Libreoffice: Sangría con espazos" default='off'>
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
       <regexp>^ +</regexp>
       <message>No LibreOffice, o sangrado é máis preciso se utilizar as ferramentas específicas.</message>
@@ -1816,7 +1828,7 @@
       <pattern case_sensitive='yes'>
           <token>H0</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₀</suggestion>
       <example correction='H₀'><marker>H0</marker>: Non existen efectos significativos.</example>
     </rule>
@@ -1824,7 +1836,7 @@
       <pattern case_sensitive='yes'>
           <token>H1</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₁</suggestion>
       <example correction='H₁'><marker>H1</marker>: Existen efectos significativos co composto A.</example>
     </rule>
@@ -1832,7 +1844,7 @@
       <pattern case_sensitive='yes'>
           <token>H2</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₂</suggestion>
       <example correction='H₂'><marker>H2</marker>: Existen efectos significativos co composto B.</example>
     </rule>
@@ -1840,7 +1852,7 @@
       <pattern case_sensitive='yes'>
           <token>H3</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₃</suggestion>
       <example correction='H₃'><marker>H3</marker>: Existen efectos significativos cos compostos A e B combinados.</example>
     </rule>
@@ -1848,7 +1860,7 @@
       <pattern case_sensitive='yes'>
           <token>H4</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₄</suggestion>
       <example correction='H₄'><marker>H4</marker>: Existen efectos significativos na ausencia do composto C.</example>
     </rule>
@@ -1856,7 +1868,7 @@
       <pattern case_sensitive='yes'>
           <token>H5</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₅</suggestion>
       <example correction='H₅'><marker>H5</marker>: Existen efectos significativos do composto C.</example>
     </rule>
@@ -1864,7 +1876,7 @@
       <pattern case_sensitive='yes'>
           <token>H6</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₆</suggestion>
       <example correction='H₆'><marker>H6</marker>: Existen efectos significativos do composto D.</example>
     </rule>
@@ -1872,7 +1884,7 @@
       <pattern case_sensitive='yes'>
           <token>H7</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₇</suggestion>
       <example correction='H₇'><marker>H7</marker>: Existen efectos significativos do composto E.</example>
     </rule>
@@ -1888,7 +1900,7 @@
       <pattern case_sensitive='yes'>
           <token>H9</token>
       </pattern>
-      <message>Prefira o símbolo tipográfico.</message>
+      <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₉</suggestion>
       <example correction='H₉'><marker>H9</marker>: Existen efectos significativos do composto G.</example>
     </rule>
@@ -1901,7 +1913,7 @@
           <token regexp='yes'>(?:\d+)(?:&tabela_periodica;)+(?:[₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
       </pattern>
       <message>Nas fórmulas químicas os multiplicadores deben ser separados.</message>
-        <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉₀]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
+      <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉₀]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
       <example correction='4 H₂O'><marker>4H₂O</marker></example>
     </rule>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
@@ -1910,8 +1922,9 @@
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
             <exception regexp='yes'>I[CP]2</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='O₂'><marker>O2</marker></example>
       <example correction='4H₂O'><marker>4H2O</marker></example>
     </rule>
@@ -1920,8 +1933,9 @@
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?
             <exception regexp='yes'>I[CP]3</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='2S₃'><marker>2S3</marker></example>
     </rule>
     <rule>
@@ -1929,8 +1943,9 @@
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+4((?:&tabela_periodica;)+)?
             <exception regexp='yes'>I[CP]4</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='CH₄'><marker>CH4</marker></example>
       <example correction='H₄Si'><marker>H4Si</marker></example>
     </rule>
@@ -1938,8 +1953,9 @@
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='H₂O₂'><marker>H2O2</marker></example>
       <example correction='H₂NO₂Al'><marker>H2NO2Al</marker></example>
     </rule>
@@ -1947,48 +1963,54 @@
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='K₂HPO₃'><marker>K2HPO3</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='CH₃CH₂OH'><marker>CH3CH2OH</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='CH₃CH₃'><marker>CH3CH3</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?4((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='H₂SO₄'><marker>H2SO4</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?5((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='C₂H₅OH'><marker>C2H5OH</marker></example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?6((?:&tabela_periodica;)+)?</token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='C₂H₆'><marker>C2H6</marker></example>
     </rule>
     <rule>
@@ -1997,8 +2019,9 @@
             <exception regexp='yes'>I[CP]7</exception>
             <exception>V7</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)7(((&tabela_periodica;)+)?)' regexp_replace='$1₇$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)7(((&tabela_periodica;)+)?)' regexp_replace='$1₇$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='C₇H₁₆'><marker>C7H₁₆</marker></example>
     </rule>
     <rule>
@@ -2007,8 +2030,9 @@
             <exception regexp='yes'>I[CP]8</exception>
             <exception>V8</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)8(((&tabela_periodica;)+)?)' regexp_replace='$1₈$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)8(((&tabela_periodica;)+)?)' regexp_replace='$1₈$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='C₈H₁₈'><marker>C8H₁₈</marker></example>
     </rule>
     <rule>
@@ -2017,8 +2041,9 @@
             <exception regexp='yes'>I[CP]9</exception>
             <exception>V9</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)9(((&tabela_periodica;)+)?)' regexp_replace='$1₉$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)9(((&tabela_periodica;)+)?)' regexp_replace='$1₉$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='C₉H₂₀'><marker>C9H₂₀</marker></example>
       <example>Lola T70 Chevy V8</example>
     </rule>
@@ -2027,13 +2052,14 @@
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+0((?:&tabela_periodica;)+)?
             <exception>V0</exception></token>
       </pattern>
-      <message>Nas fórmulas químicas os números deben estar en superíndice.</message>
-        <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)0(((&tabela_periodica;)+)?)' regexp_replace='$1₀$3'/></suggestion>
+      <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
+      <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)0(((&tabela_periodica;)+)?)' regexp_replace='$1₀$3'/></suggestion>
+      <short>Empregue subíndices</short>
       <example correction='C₉H₂₀'><marker>C₉H₂0</marker></example>
     </rule>
   </rulegroup>
 
-    <rule id='DEGREE_SYMBOL' name="Matemático: Símbolo de grao (°)">
+    <rule id='DEGREE_SYMBOL' name="Matemáticas: Símbolo de grao (°)">
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
       <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
       <message>Se está a indicar graos, utilice o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
@@ -2047,7 +2073,7 @@
     <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
     </rule>
 
-    <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemático: Abreviaturas de unidades de medida">
+    <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemáticas: Abreviaturas de unidades de medida">
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
           <token regexp="yes">\d+</token>
@@ -2060,7 +2086,7 @@
       <example correction="kg">Son 2 <marker>kgs</marker> de mazás.</example>
     </rule>
 
-    <rule id='KELVIN' name="Matemático: Kelvin (sem graus)">
+    <rule id='KELVIN' name="Matemáticas: Kelvin (sen graos)">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
       <regexp>\s*[º°]\s*K\b</regexp>
       <message>Kelvin non utiliza o sinal de grao.</message>
@@ -2071,7 +2097,7 @@
       <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
     </rule>
 
-  <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemático: Tipografia de graus, minutos e segundos: 50°45′ 20″">
+  <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemáticas: Tipografia de graus, minutos e segundos: 50°45′ 20″">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule>
       <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
@@ -2118,16 +2144,17 @@
       <example correction="’|">Non e<marker>´</marker> común encontrar erros deste tipo.</example>
     </rule>
 
-    <rule id="DE_APOSTROPHE_SPACE" name="Tipografia: d' sem espazo">
+    <rule id="DE_APOSTROPHE_SPACE" name="Tipografia: apóstrofo sem espazo">
     <!--  Created by Tiago F. Santos, 2017-10-06      -->
       <pattern>
-          <token>d</token>
+          <token regexp="yes">d|n|x</token>
           <token spacebefore='no' regexp='yes'>['’]</token>
           <token spacebefore='yes'/>
       </pattern>
-      <message>A contracción d' non debe ser separada por espazos.</message>
-        <suggestion>\1\2\3</suggestion>
-      <example correction="d'El">Aquí xace <marker>d' El</marker>-rei D.Sebastião.</example>
+      <message>O apóstrofe non debe separarse con espazos.</message>
+      <suggestion>\1\2\3</suggestion>
+      <short>Non separe o apóstrofe cun espazo</short>
+      <example correction="n'A">Unha nova <marker>n' A</marker> Nosa Terra.</example>
     </rule>
 
   <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de comiñas: «“‘...’”»." default="off">
@@ -2222,7 +2249,7 @@
           <token>)</token>
         </marker>
       </pattern>
-      <message>Pretende dicir: <suggestion>™</suggestion>?</message>
+      <message>Quería escribir <suggestion>™</suggestion>?</message>
       <short>Símbolo estándar de ™</short>
       <example correction='™'>O novo produto é de Escolla Executiva<marker>(TM)</marker> Plus.</example>
     </rule>
@@ -2235,7 +2262,7 @@
           <token>)</token>
         </marker>
       </pattern>
-      <message>Pretende dicir: <suggestion>℠</suggestion>?</message>
+      <message>Quería escribir <suggestion>℠</suggestion>?</message>
       <short>Símbolo estándar de ℠</short>
       <example correction='℠'>O novo produto é de Escolla Executiva<marker>(SM)</marker> Plus.</example>
     </rule>
@@ -2270,7 +2297,7 @@
           <token>)</token>
         </marker>
       </pattern>
-      <message>Pretende dicir: <suggestion>®</suggestion>?</message>
+      <message>Quería escribir <suggestion>®</suggestion>?</message>
       <short>Símbolo estándar de ®</short>
       <example correction='®'>Windows <marker>(R)</marker></example>
     </rule>
@@ -2439,15 +2466,16 @@
 
   <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h -> 22:30h">
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
-      <!--url>https://ciberduvidas.iscte-iul.pt/artigos/rúbricas/idioma/sóbrea-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url-->
-      <short>Preferencia tipográfica</short>
+    <!--url>https://ciberduvidas.iscte-iul.pt/artigos/rúbricas/idioma/sóbrea-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url-->
+    <!-- TODO Padded hours -->
     <rule>
       <pattern>
           <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?</token>
       </pattern>
-      <message>Para expresar horas, utilice dous puntos.</message>
+      <message>A norma ISO 8601 indica que as horas sepáranse dos minutos e dos segundos por dous puntos e que teñen sempre dúas cifras.</message>
         <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1:$2:$3'/></suggestion>
         <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1&#160;h&#160;$2&#160;min&#160;$3&#160;s'/></suggestion>
+      <short>Para expresar horas e minutos, utilice dous puntos.</short>
       <example correction="10:00:43|10&#160;h&#160;00&#160;min&#160;43&#160;s">Ás <marker>10.00.43</marker>.</example>
       <example correction="10:00:43,5|10&#160;h&#160;00&#160;min&#160;43,5&#160;s">Ás <marker>10.00.43,5</marker>.</example>
     </rule>
@@ -2456,8 +2484,9 @@
           <token regexp="yes">[012]?\d[,\.][012345]\d</token>
           <token regexp="yes">h|horas|hrs|hs|hora</token>
       </pattern>
-      <message>Para expresar horas, utilice dous puntos.</message>
+      <message>A norma ISO 8601 indica que as horas sepáranse dos minutos e dos segundos por dous puntos e que teñen sempre dúas cifras.</message>
         <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/>&#160;\4</suggestion>
+      <short>Para expresar horas e minutos, utilice dous puntos.</short>
       <example correction="22:50&#160;h">Ás <marker>22.50 h</marker>.</example>
       <example correction="6:05&#160;h">Ás <marker>6,05 h</marker>.</example>
       <example>Ás 22:30 h.</example>
@@ -2468,8 +2497,9 @@
           <token regexp='yes'>ás?|das?</token>
           <token regexp="yes">[012]?\d[,\.][012345]\d</token>
       </pattern>
-      <message>Para expresar horas, utilice dous puntos.</message>
+      <message>A norma ISO 8601 indica que as horas sepáranse dos minutos e dos segundos por dous puntos e que teñen sempre dúas cifras.</message>
         <suggestion>\1 <match no='2' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
+      <short>Para expresar horas e minutos, utilice dous puntos.</short>
       <example correction="Ás 10:00"><marker>Ás 10.00</marker>.</example>
       <example correction="Da 01:00"><marker>Da 01.00</marker> a as… </example>
       <example correction="ás 10:50">Das 10:00 <marker>ás 10.50</marker>.</example>
@@ -2479,8 +2509,9 @@
           <token regexp="yes" skip="2">[012]?\d[,\.][012345]\d</token>
           <token regexp="yes" inflected="yes">&partes_do_dia;</token>
       </pattern>
-      <message>Para expresar horas, utilice dous puntos.</message>
+      <message>A norma ISO 8601 indica que as horas sepáranse dos minutos e dos segundos por dous puntos e que teñen sempre dúas cifras.</message>
         <suggestion><match no='1' include_skipped='all' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/> <match no='2' include_skipped='all'/></suggestion>
+      <short>Para expresar horas e minutos, utilice dous puntos.</short>
       <example correction="5:00 da mañá">Ás <marker>5.00 da mañá</marker>.</example>
       <example correction="6:05 da tarde">Ás <marker>6.05 da tarde</marker>.</example>
       <example correction="6:05 da noite">Ás <marker>6.05 da noite</marker>.</example>
@@ -2495,7 +2526,7 @@
           <token regexp="yes">['’]</token>
           <token>s</token>
       </pattern>
-       <message>Os apostrofes non son necesarios en décadas: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
+       <message>Os apóstrofos non son necesarios en décadas: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
       <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
       <short>Apóstrofe innecesario</short>
       <example correction='1970s'>O Diácono Remedios preguntou onde estabas nos <marker>1970's</marker>.</example>
@@ -2834,7 +2865,7 @@
             <token postag="V.*" postag_regexp="yes"/>
           </marker>
       </pattern>
-      <message>Os pronomes clíticos non poden ir en galego no inicio da oración. Por favor, empregue o verbo seguido do pronome (por exemplo: «díxenvolo» no canto de «volo dixen»).</message>
+      <message>Os pronomes clíticos non poden ir no inicio da oración. Por favor, empregue o verbo seguido do pronome (por exemplo: «díxenvolo» no canto de «volo dixen»).</message>
       <url>https://gl.wikipedia.org/wiki/Colocaci%C3%B3n_do_pronome_%C3%A1tono_en_galego</url>
       <short>O pronome debe ir posposto ao verbo</short>
       <example correction=""><marker>Volo dixen</marker> e non me quixestes facer caso.</example>
@@ -2851,7 +2882,7 @@
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...1S.:PP1.S.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
-      <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <message>Algúns verbos non admiten nunca construcións reflexivas. Será mellor <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
       <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchei">Finalmente <marker>marcheime</marker> con Alberte.</example>
     </rule>
@@ -2860,7 +2891,7 @@
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...2S.:PP2.S.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
-      <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <message>Algúns verbos non admiten nunca construcións reflexivas. Será mellor <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
       <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchas">Finalmente <marker>márchaste</marker> con Alberte?</example>
     </rule>
@@ -2869,7 +2900,7 @@
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...3[SP].:PP3.N.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
-      <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <message>Algúns verbos non admiten nunca construcións reflexivas. Será mellor <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
       <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchou">Finalmente <marker>marchouse</marker> con Alberte.</example>
     </rule>
@@ -2878,7 +2909,7 @@
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...1P.:PP1.P.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
-      <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <message>Algúns verbos non admiten nunca construcións reflexivas. Será mellor <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
       <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchamos">Finalmente <marker>marchámonos</marker> con Alberte.</example>
     </rule>
@@ -2887,7 +2918,7 @@
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...2P.:PP2.P.*" postag_regexp="yes">&verbos_non_reflexivos;</token>
       </pattern>
-      <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
+      <message>Algúns verbos non admiten nunca construcións reflexivas. Será mellor <suggestion><match no="1" postag="(.*):.*" postag_regexp="yes" postag_replace="$1"/></suggestion>?</message>
       <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="marchades">Finalmente <marker>marchádesvos</marker> con Alberte.</example>
     </rule>
@@ -2909,7 +2940,7 @@
           <token inflected="yes" regexp="yes">&verbos_non_reflexivos;</token>
           </unify>
       </pattern>
-      <message>Algúns verbos non admiten nunca construcións reflexivas. Quería vostede dicir <suggestion>\2</suggestion>?</message>
+      <message>Algúns verbos non admiten nunca construcións reflexivas. Será mellor <suggestion>\2</suggestion>?</message>
       <url>http://aprendogalego.com/APRENDO/5-Verbofin/verbos_non_reflexivos.html</url>
       <example correction="caso">Finalmente non <marker>me caso</marker> con Alberte.</example>
       <example>Finalmente non <marker>caso</marker> con Alberte.</example>
@@ -3019,10 +3050,11 @@
 
     <rule id="QUENES" name="quenes (quen)">
     <!-- Created by Susana Sotelo Docío -->
+    <!-- TODO Feminine «as que» -->
       <pattern>
           <token>quenes</token>
       </pattern>
-      <message>O pronome «quen» carece de plural. Empregue mellor <suggestion>quen</suggestion> ou <suggestion>os que</suggestion> segundo o contexto.</message>
+      <message>O pronome «quen» carece de plural. Empregue <suggestion>quen</suggestion> ou <suggestion>os que</suggestion> segundo o contexto.</message>
       <url>https://dubidasdogalego.wordpress.com/2011/12/22/quenes/</url>
       <short>«quen» utilízase en singular e en plural</short>
       <example correction="quen|os que">Non saben <marker>quenes</marker> son os encargados.</example>
@@ -3240,7 +3272,7 @@
         </marker>
           <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a"/></suggestion>?</message>
+      <message>Non é preciso acentuar as interrogativas directas. Empregue <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a"/></suggestion>.</message>
       <example correction="Cando"><marker>Cándo</marker> chegan teus pais?</example>
     </rule>
     <rule>
@@ -3252,7 +3284,7 @@
         </marker>
           <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a"/></suggestion>?</message>
+      <message>Non é preciso acentuar as interrogativas directas. Empregue <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a"/></suggestion>.</message>
       <example correction="Cando">¿<marker>Cándo</marker> chegan teus pais?</example>
     </rule>
     <rule>
@@ -3264,7 +3296,7 @@
         </marker>
           <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)ó" regexp_replace="o"/></suggestion>?</message>
+      <message>Non é preciso acentuar as interrogativas directas. Empregue <suggestion><match no="2" regexp_match="(?iu)ó" regexp_replace="o"/></suggestion>.</message>
       <example correction="Onde"><marker>Ónde</marker> está Bretoña?</example>
     </rule>
     <rule>
@@ -3276,7 +3308,7 @@
         </marker>
           <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)ó" regexp_replace="o"/></suggestion>?</message>
+      <message>Non é preciso acentuar as interrogativas directas. Empregue <suggestion><match no="2" regexp_match="(?iu)ó" regexp_replace="o"/></suggestion>.</message>
       <example correction="Onde">¿<marker>Ónde</marker> está Bretoña?</example>
     </rule>
     <rule>
@@ -3288,7 +3320,7 @@
         </marker>
           <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)é" regexp_replace="e"/></suggestion>?</message>
+      <message>Non é preciso acentuar as interrogativas directas. Empregue <suggestion><match no="2" regexp_match="(?iu)é" regexp_replace="e"/></suggestion>.</message>
       <example correction="Que"><marker>Qué</marker> día chegan teus pais?</example>
     </rule>
     <rule>
@@ -3300,7 +3332,7 @@
         </marker>
           <token regexp="yes">\!|\?</token>
       </pattern>
-      <message>Non é preciso acentuar as interrogativas directas. Quería vostede dicir <suggestion><match no="2" regexp_match="(?iu)é" regexp_replace="e"/></suggestion>?</message>
+      <message>Non é preciso acentuar as interrogativas directas. Empregue <suggestion><match no="2" regexp_match="(?iu)é" regexp_replace="e"/></suggestion>.</message>
       <example correction="Que">¿<marker>Qué</marker> día chegan teus pais?</example>
     </rule>
   </rulegroup>
@@ -4715,8 +4747,9 @@
           <token><match no="0"/>
             <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception></token>
       </pattern>
-      <message>Posíbel erro tipográfico: repetíu unha palabra.</message>
+      <message>Posíbel erro tipográfico: hai unha palabra repetida.</message>
         <suggestion>\1</suggestion>
+      <short>Posíbel palabra repetida</short>
       <example correction="linguas">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
       <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
     </rule>
@@ -4761,6 +4794,7 @@
           <token><match no="1"/></token>
       </pattern>
       <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2</suggestion>.</message>
+      <short>Posíbel repetición</short>
       <example correction="do final">Hepatoloxía <marker>do final do final</marker> de século.</example>
       <example correction="colocou o">El volveu novamente ao estudo e <marker>colocou o colocou o</marker> candeeiro em cima da mesa.</example>
       <example correction="vén da">O transporte adaptado <marker>vén da vén da</marker> Universidade do Porto.</example>
@@ -4885,7 +4919,6 @@
  </category>
 
  <category id="PUNCTUATION" name="Puntuación" type="typographical" default="off">
-
     <rule id="FINAL_PUNCTUATION" name="Puntuación final ausente">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
       <antipattern>
