@@ -17765,7 +17765,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">Harbou?r</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">chez|et</token>
+                <token>chez</token>
                 <token regexp="yes">elle|elles</token>
             </antipattern>
             <antipattern>
@@ -18132,7 +18132,8 @@ though, and has since been slightly modified)-->
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="sort|sorte">Il la <marker>sorts</marker> ce soir.</example>
-                <example correction="abandonne|abandonna|abandonnait">Elle l’<marker>abandonné</marker>.</example>
+                <!-- TODO:
+                <example correction="abandonne|abandonna|abandonnait">Elle l’<marker>abandonné</marker>.</example> -->
                 <example correction="impressionne|impressionnait">On l'<marker>impressionnée</marker> de devenir dingue.</example>
                 <example correction="sort|sorte">Il ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="dit|dicte|dicta|dît">Elle ne <marker>dix</marker> rien.</example>
@@ -18204,6 +18205,12 @@ though, and has since been slightly modified)-->
             </rule>
             <!-- ils, elles -->
             <rule>
+                <antipattern>
+                    <token>ils</token>
+                    <token postag="C coor"/>
+                    <token>elles</token>
+                    <token postag="V.* 3 p" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>ils<!--|elles-->
                         <exception scope="previous">-</exception></token>
@@ -18218,13 +18225,21 @@ though, and has since been slightly modified)-->
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="">Ils <marker>sorts</marker> ce soir.</example>
                 <example correction="">La zone géographique dans laquelle ils <marker>vie</marker>.</example>
-                <!-- TODO: <example correction="">Elles <marker>dix</marker> la vérité.</example>-->
+                <!-- TODO: <example correction="">Elles <marker>dix</marker> la vérité.</example>
+                si elles concernant la haute couture-->
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
                 <example>J'ai dix fois plus de livres que tu en as.</example>
+                <example>Car ils et elles éprouvaient ces problèmes.</example>
+                <example>Ils et elles doivent recommencer à zéro.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>elles</token>
+                    <token postag="D.* p" postag_regexp="yes"/>
+                    <token postag="[NJ].* p" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ils|elles</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
@@ -18238,13 +18253,15 @@ though, and has since been slightly modified)-->
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="">Ils la <marker>sorts</marker> ce soir.</example>
-                <example correction="">Elles l’<marker>abandonné</marker>.</example>
-                <example correction="">Elles l'<marker>impressionnée</marker> de devenir dingue.</example>
                 <example correction="">Ils ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Elles ne <marker>dix</marker> rien.</example>
+                <example correction="">Elles l’<marker>abandonné</marker>.</example>
+                <example correction="">Elles l'<marker>impressionnée</marker> de devenir dingue.</example>
                 <example>Je ne <marker>donne</marker> rien.</example>
                 <example>Je ne <marker>dis</marker> rien.</example>
                 <example>Je ne sale pas leus plats.</example>
+                <example>qu'elles les célibataires</example>
+                <example>Plus motivées qu'elles vous ne trouverez pas alors choisissez bien !</example>
             </rule>
             <rule>
                 <pattern>
@@ -18266,6 +18283,7 @@ though, and has since been slightly modified)-->
                 <example>Il s'en est sorti indemne.</example>
                 <example>Il s'en est déjà allé.</example>
                 <example>moins il nous en reste</example>
+                <example>Plus motivées qu'elles vous ne trouverez pas alors choisissez bien !</example>
             </rule>
             <rule>
                 <pattern>
@@ -42317,7 +42335,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[mts]oi|lui|elle|[nv]ous|eux</token>
                 </marker>
             </pattern>
-            <message>Quand chez est suivi d’un pronom personnel et que l’ensemble forme un nom composé signifiant domicile, chez est suivi d’un trait d’union.</message>
+            <message>Quand "chez" est suivi d’un pronom personnel et que l’ensemble forme un nom composé signifiant domicile, chez est suivi d’un trait d’union.</message>
             <suggestion>chez-\3</suggestion>
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4151</url>
             <example correction="chez-toi">Je me sens chez moi dans ton <marker>chez toi</marker>.</example>
@@ -42340,6 +42358,15 @@ though, and has since been slightly modified)-->
             <example>sauf sous forme de pain</example>
             <example>Et dans de nombreux pays où les animaux sont sous pression</example>
             <example>Sommes-nous tous sous surveillance ?</example>
+        </rule>
+        <rule id="SOUS_ENTENDRE" name="sous-entendre" default="temp_off">
+            <pattern>
+                <token>sous</token>
+                <token inflected="yes">entendre</token>
+            </pattern>
+            <message>« \1 \2 » est une erreur de typographie.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="sous-entendent">Elles <marker>sous entendent</marker> que pour traiter certaines pathologies.</example>
         </rule>
         <rule id="APOS_QU" name="qu il → qu’il">
             <pattern>

@@ -250,6 +250,7 @@ public class French extends Language implements AutoCloseable {
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
       case "FR_SIMPLE_REPLACE": return -10;
       case "IMP_PRON": return -10; // less than D_N
+      case "PREP_V": return -20;
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "AGREEMENT_POSTPONED_ADJ": return -50;

@@ -3407,6 +3407,11 @@ RB => Règles Brutes
             <disambig postag="D e s"/>
         </rule>
         <rule name="le/la/les/l'">
+            <antipattern>
+                <token regexp="yes">elle|elles|nous|vous</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="[NJ].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="R pers suj .*" postag_regexp="yes">
                     <exception regexp="yes">-.*</exception></token>
