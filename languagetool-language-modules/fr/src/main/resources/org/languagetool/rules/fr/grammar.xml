@@ -41032,10 +41032,28 @@ though, and has since been slightly modified)-->
         </rule>
         <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
             <rule default="temp_off">
+                <pattern>
+                <token postag="[NV].*" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes">hors</token>
+                    <token>-</token>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <suggestion>\2 \4</suggestion>
+                <example correction="hors service">Il est <marker>hors-service</marker>.</example>
+            </rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token>intra</token>
                     <token min="0">-</token>
                     <token>muros</token>
+                </antipattern>
+                <antipattern>
+                    <token>siège</token>
+                    <token>-</token>
+                    <token>auto</token>
                 </antipattern>
                 <antipattern>
                     <token>ultra</token>
@@ -41053,14 +41071,14 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">o.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">ultra|macro|méta|mono|primo|co|agro|auto|cardio|éco|hydro|infra|inter|intra
+                    <token regexp="yes" case_sensitive="yes">macro|méta|mono|primo|co|agro|auto|cardio|éco|hydro|infra|inter|intra
                         <exception scope="previous">.</exception></token>
                     <token min="0">-</token>
                     <token postag="[NJ].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception regexp="yes">[iu].*|[a-z].*-[a-z].*|tels?|telles?|fondé</exception>
                         <exception postag="V.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="coéquipier">Mon <marker>co équipier</marker> n'est pas là.</example>
                 <example>Il travaille dans l'agro-industrie.</example>
@@ -41069,13 +41087,12 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">non|hors|quasi</token>
+                    <token regexp="yes" case_sensitive="yes">non|hors|quasi<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
                     <token>-</token>
                     <token postag="J.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception postag="N.*" postag_regexp="yes"/></token>
                 </pattern>
-                <!-- FIXME: wrong message? -->
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement dissocié du terme qu'il précède.</message>
                 <suggestion>\1 \3</suggestion>
                 <example correction="non payé">Un livreur <marker>non-payé</marker> ne sera jamais content.</example>
                 <example>C'est un non-humain.</example>
@@ -41114,7 +41131,7 @@ though, and has since been slightly modified)-->
                     <token postag="[NJ].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception regexp="yes">[i].*|[a-z].*-[a-z].*|a</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="psychomoteur">Les membres <marker>psycho-moteur</marker> sont importants.</example>
                 <example>Il est anti-sous-marins.</example>
@@ -41123,13 +41140,18 @@ though, and has since been slightly modified)-->
                 <example>Rien ne vaut une aéro retravaillé.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>bi</token>
+                    <token regexp="yes">femmes?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">(?-i)archi|anti|bi|géo|multi</token>
                     <token min="0">-</token>
                     <token postag="[NJ].*|V pp[ar].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception regexp="yes">[i].*|[a-z].*-[a-z].*|n°</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="antidérapant">Il faut mettre de l'<marker>anti dérapant</marker>.</example>
                 <example>Il est anti-sous-marins.</example>
@@ -41159,14 +41181,17 @@ though, and has since been slightly modified)-->
                     <token postag="[NJ].*|V pp[ar].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception regexp="yes">[a-z].*-[a-z].*</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="cyber$1" case_conversion="preserve"/></suggestion>
                 <example correction="cyberespace">Le <marker>cyber espace</marker> n'est pas réel.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
                     <token>co</token>
-                    <token regexp="yes">[a-z].*-[a-z].*</token>
+                    <token>-</token>
+                    <token regexp="yes">[a-z].*</token>
+                    <token>-</token>
+                    <token regexp="yes">[a-z].*</token>
                 </antipattern>
                 <pattern>
                     <token>co
@@ -41175,7 +41200,7 @@ though, and has since been slightly modified)-->
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception regexp="yes">[iu].*|[a-z].*-[a-z].*</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="co$1" case_conversion="preserve"/></suggestion>
                 <example correction="coéquipier">Le <marker>co équipier</marker> n'est toujours pas là.</example>
                 <example>Je vous présente notre nouveau co-porte-parole.</example>
@@ -41186,7 +41211,7 @@ though, and has since been slightly modified)-->
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes" case_sensitive="yes">(?-i)incidence|incider|inculpé|intéressé|indivisaire</token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^i(.*)$" regexp_replace="coï$1" case_conversion="preserve"/></suggestion>
                 <example correction="coïncidences">Les <marker>co incidences</marker> existent.</example>
             </rule>
@@ -41539,6 +41564,30 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
+        <rule default="temp_off">
+                <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes">hors</token>
+                    <token regexp="yes">jeu|bord|concours|ligne|texte</token>
+                    </marker>
+                </pattern>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="hors-jeu">C'est un <marker>hors jeu</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes">non</token>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="non-voyants">Les <marker>non voyants</marker> ont des services adaptés.</example>
+            </rule>
             <rule default="temp_off">
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">éco|infra|inter|macro|méta|mono|primo|cardio|co|agro|extra|intra|micro|hospitalo|hydro|musculo|socio|psycho|aéro|ultra|supra</token>
@@ -41554,41 +41603,9 @@ though, and has since been slightly modified)-->
                     <token case_sensitive="yes">ultra</token>
                     <token postag="[NJ].*|V pp[ar].*" postag_regexp="yes" regexp="yes">a.*|[a-z].*-[a-z].*</token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1-\3</suggestion>
                 <example correction="ultra-abyssales">Elles sont <marker>ultra abyssales</marker>.</example>
-            </rule>
-            <rule default="temp_off">
-                <antipattern>
-                    <token>hors</token>
-                    <token postag="N.*|V inf" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
-                    <token regexp="yes">d[eu]|d'|des</token>
-                </antipattern>
-                <antipattern>
-                    <token>hors</token>
-                    <token postag="N.*|V inf" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
-                    <token postag="[JNP].*|[YK]" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>non</token>
-                    <token>merci</token>
-                </antipattern>
-                <antipattern>
-                    <token>hors</token>
-                    <token regexp="yes">service|circuit|ligne|contexte</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes" case_sensitive="yes">non|hors</token>
-                    <token postag="N.*|V inf" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
-                </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
-                <suggestion>\1-\2</suggestion>
-                <example correction="non-écrivain">C'est un <marker>non écrivain</marker>.</example>
-                <example>Hors ligne 2.</example>
-                <example>Hors effet de cause.</example>
-                <example>Mon vélo est tombé hors circuit.</example>
-                <example type="triggers_error">Il faut manger pour vivre, et non vivre pour manger.</example>
-                <example>Ce téléphone est hors service.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -41627,7 +41644,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">anti|archi|géo|bi|électro|hydro|musculo|socio|psycho|aéro|maxi|multi|simili</token>
                     <token postag="[NJ].*|V pp[ar].*" postag_regexp="yes" regexp="yes">^i.*|[a-z].*-[a-z].*</token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1-\3</suggestion>
                 <example correction="anti-inflation">Le mouvement <marker>anti inflation</marker> est important.</example>
                 <example correction="anti-sous-marins">Il est <marker>anti sous-marins</marker>.</example>
@@ -41640,7 +41657,7 @@ though, and has since been slightly modified)-->
                     <token case_sensitive="yes">pare</token>
                     <token postag="[NJ].*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
                 </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1-\2</suggestion>
                 <example correction="pare-soleil">Le <marker>pare soleil</marker> est dans le coffre.</example>
             </rule>
