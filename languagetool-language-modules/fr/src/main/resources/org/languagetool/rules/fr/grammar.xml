@@ -13099,7 +13099,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">pares|antis|géos|exs|similis|écos|hydros|infras|intras|métas|primos|cardios|cos|agros|hospitalos|musculos|socios|psychos|aéros|supras|inters|intraminis|néos|mégas|ultras|pros|rés|hypers|protos|multis|nons|quasis</token>
+                        <token regexp="yes" case_sensitive="yes">pares|antis|géos|exs|similis|écos|hydros|infras|intras|métas|primos|cardios|cos|agros|hospitalos|musculos|socios|psychos|aéros|supras|inters|intraminis|néos|mégas|ultras|rés|hypers|protos|multis|nons|quasis</token>
                         <!-- mis$| |prés -->
                     </marker>
                     <token min="0" max="1">-</token>
@@ -13113,9 +13113,13 @@ though, and has since been slightly modified)-->
                 <example>Ils ont décidé de dépasser les prés carrés.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="[YK]" postag_regexp="yes"/>
+                    <token>bis</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">archis|bis|semis|mis|exs|m[ia]cros|monos|extras|autos|intraminis|antis|prés|nords|suds|pros|inters|hauts|rés|supers|vices|hypers|protos|grands</token>
+                        <token regexp="yes" case_sensitive="yes">archis|bis|semis|mis|exs|m[ia]cros|monos|extras|autos|intraminis|antis|nords|suds|inters|rés|supers|vices|hypers|protos</token>
                     </marker>
                     <token>-</token>
                     <token regexp="yes">[a-z].*</token>
@@ -13123,6 +13127,7 @@ though, and has since been slightly modified)-->
                 <message>Le préfixe '\1' est généralement invariable.</message>
                 <suggestion><match no="1" regexp_match="(?iu)s$" regexp_replace=""/></suggestion>
                 <example correction="anti">Les <marker>antis</marker>-sous-marins existent.</example>
+                <example>Il est devant le 127 bis.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" default="temp_off">
@@ -41528,7 +41533,7 @@ though, and has since been slightly modified)-->
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">éco|infra|inter|macro|méta|mono|primo|cardio|co|agro|extra|intra|micro|bio|hospitalo|hydro|musculo|socio|psycho|aéro|ultra|supra</token>
+                    <token regexp="yes" case_sensitive="yes">éco|infra|inter|macro|méta|mono|primo|cardio|co|agro|extra|intra|micro|hospitalo|hydro|musculo|socio|psycho|aéro|ultra|supra</token>
                     <token postag="[NJ].*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[iu].*|[a-z].*-[a-z].*</token>
                 </pattern>
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
@@ -42124,29 +42129,18 @@ though, and has since been slightly modified)-->
             <example correction="chez-toi">Je me sens chez moi dans ton <marker>chez toi</marker>.</example>
             <example>Je me sens chez moi dans ton chez-toi.</example>
         </rule>
-        <rule id="EX" name="ex + trait d’union">
-            <pattern>
-                <token>ex</token>
-                <token postag="N.*" postag_regexp="yes"/>
-            </pattern>
-            <message>« \1 \2 » est une erreur de typographie.</message>
-            <suggestion>\1-\2</suggestion>
-            <example correction="ex-femme">Mon <marker>ex femme</marker> habite près de chez moi.</example>
-            <example>Mon ex-femme habite près de chez moi.</example>
-        </rule>
         <rule id="SEMI" name="semi + trait d’union">
             <antipattern>
                 <token>mi</token>
                 <token>bémol</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">semi|mi|nu|ex</token><!--|sous-->
+                <token regexp="yes">semi|mi|ex</token><!--|sous-->
                 <token postag="[JN].*|V ppa.*" postag_regexp="yes"/>
             </pattern>
             <message>« \1 \2 » est une erreur de typographie.</message>
             <suggestion>\1-\2</suggestion>
             <example correction="semi-automatique">La procédure est <marker>semi automatique</marker>.</example>
-            <example correction="nu-pieds">Elle est <marker>nu pieds</marker>.</example>
             <example>La procédure est semi-automatique.</example>
             <example>Dans la tonalité de mi bémol</example>
             <example>sauf sous forme de pain</example>
