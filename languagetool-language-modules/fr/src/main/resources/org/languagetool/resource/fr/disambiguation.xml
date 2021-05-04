@@ -1478,6 +1478,14 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="LA_PLUS" name="la plus">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes" regexp="yes">la|le|les</token>
+            <token postag="A" regexp="yes">plus|mois</token>
+            <token postag="J.*" postag_regexp="yes"/>    
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="RENTREE" name="rentrée">
         <pattern>
             <marker>
@@ -2017,7 +2025,7 @@ RB => Règles Brutes
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token min="0">ne</token>
                 <marker>
-                    <token>la</token>
+                    <token postag="R pers obj 3 f s">la</token>
                 </marker>
             </pattern>
             <disambig postag="R pers obj 3 f s"/>
@@ -3724,7 +3732,7 @@ RB => Règles Brutes
             <token inflected="yes" regexp="yes">être|avoir</token>
             <token min="0" max="4" postag="R.*|A" postag_regexp="yes"/>
             <marker>
-                <token>dit</token>
+                <token>dit<exception scope="previous" regexp="yes">il|elle|on</exception></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="V ind.*"/>

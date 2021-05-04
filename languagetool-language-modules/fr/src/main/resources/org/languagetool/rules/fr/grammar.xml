@@ -5757,6 +5757,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <!-- added by Agnes Souque -->
         <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
+            <!--TODO: remove, included in PRONSUJ_NONVERBE-->
             <antipattern>
                 <token regexp="yes" inflected="yes">attirer|amener|projeter</token>
                 <token regexp="yes">à|vers</token>
@@ -5774,7 +5775,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">n|non|rendez[-‑‐]vous</exception></token>
                 </marker>
             </pattern>
-            <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+            <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
             <message>Un verbe est attendu après le pronom personnel « \1 », pas un nom.</message>
             <example>Anime est le diminutif du mot, lui-même transcription de l'anglais Animation.</example>
             <example>Je <marker>travaille</marker> tard.</example>
@@ -5783,7 +5784,7 @@ though, and has since been slightly modified)-->
             <example>Je compte sur vous mercredi.</example>
             <example>Nous non plus</example>
             <example>Où vous rendez-vous habituellement ?</example>
-            <example correction="vit|voie|vide|vise|lie|vive|nie|vis|oie|vire">La zone géographique dans laquelle je <marker>vie</marker>.</example>
+            <example correction="vit|voie|vide|vise|lie|vive|nie|vis|aie|oie">La zone géographique dans laquelle je <marker>vie</marker>.</example>
             <example>La zone géographique dans laquelle je vis</example>
             <example>As-tu faim maintenant ?</example>
             <example>J'anime un groupe de jeunes.</example>
@@ -12911,6 +12912,15 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">[ICVX]+[ᵉe]?</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <!-- probable error TRAIT_UNION_INVERSION -->
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="person"/>
+                        <token postag="V.*" postag_regexp="yes"/>
+                        <token postag="R.*" postag_regexp="yes">je</token>
+                    </unify>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[dljmnst]e|la|jusque|que</token>
                     <token regexp="yes">&elision_regexp;
@@ -14292,7 +14302,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">la|les</token>
                 </marker>
                 <token regexp="yes">plus|moins</token>
-                <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
+                <token min="0" max="1">vite</token>
                 <token postag="SENT_END" regexp="yes">[\.\?!]</token>
             </pattern>
             <message>L'article utilisé semble être erroné. Nous vous suggérons d'employer l'article <suggestion>le</suggestion>.</message>
@@ -17775,11 +17785,82 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">elle|elles</token>
                 <token>et</token>
             </antipattern>
+            <antipattern>
+                <!-- probable error TRAIT_UNION_INVERSION -->
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="R.*" postag_regexp="yes" regexp="yes">je|j'|tu|il|elle|on|nous|vous|ils|elles</token>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token regexp="yes">-|–</token>
+                    </unify-ignore>
+                    <token postag="R.*" postag_regexp="yes" regexp="yes">je|j'|tu|il|elle|on|nous|vous|ils|elles</token>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <token>t</token>
+                <token regexp="yes">'|-</token>
+                <token regexp="yes">il|elle|ils|elles|on</token>
+            </antipattern>
+            <antipattern>
+                <token>t'</token>
+                <token regexp="yes">il|elle|ils|elles|on</token>
+            </antipattern>
+            <antipattern>
+                <!-- common English phrases -->
+                <token>on</token>
+                <token regexp="yes">air|stage</token>
+            </antipattern>
+            <antipattern>
+                <!-- on/ont -->
+                <token>l'</token>
+                <token>on</token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
             <!-- je -->
             <rule>
                 <pattern>
-                    <token regexp="yes">je|j'
-                        <exception scope="previous">-</exception></token>
+                    <token regexp="yes">je|j'</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception regexp="yes">soussignée?</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
+                <suggestion>ai \2</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="ai eu|eus">J'<marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+                <example correction="ai hoché|hoche|hochai|poche|hache|coche|loche|huche|côche|hochais">alors je <marker>hoché</marker> la tête. </example>
+                <example correction="ai pensé|pense|pensai|pèse|panse|pensais|pende">je <marker>pensé</marker></example>
+                <example correction="ai pu|pus|pue">je <marker>pu</marker> atteindre la porte</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">je|j'</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception regexp="yes">soussignée?</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \3 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
+                <suggestion>ai \3</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="ai eu|eus">je les <marker>eu</marker> sans les pattes de col</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">je|j'</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
                             <exception postag="V.*[123].*" postag_regexp="yes"/>
@@ -17787,16 +17868,17 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="sorte|sortis|sors">Je <marker>sorts</marker> ce soir.</example>
-                <example correction="voie|vide|vise|lie|vive|nie|vis|oie|vire|fie">La zone géographique dans laquelle je <marker>vie</marker>.</example>
+                <example correction="voie|vide|vise|lie|vive|nie|vis|aie|oie|vire">La zone géographique dans laquelle je <marker>vie</marker>.</example>
                 <example correction="dis|dicte">Je <marker>dix</marker> la vérité.</example>
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
                 <example>J'ai dix fois plus de livres que tu en as.</example>
                 <example>J'entre en transe.</example>
+                <example>toutes les personnes avec qui j'entre en contact</example>
             </rule>
             <rule>
                 <pattern>
@@ -17809,7 +17891,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="sorte|sortis|sors">Je la <marker>sorts</marker> ce soir.</example>
                 <example correction="abandonne">Je l’<marker>abandon</marker>.</example>
@@ -17831,7 +17913,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sorte|sortis|sors">Je m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -17853,7 +17935,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sorte|sortis|sors">Je ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonne">Je ne l’<marker>abandon</marker> pas.</example>
@@ -17872,7 +17954,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \5 » n’est pas un verbe.</message>
                 <example correction="sorte|sortis|sors">Je ne m'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
@@ -17890,11 +17972,12 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="sortes|sortis|sors">Tu <marker>sorts</marker> ce soir.</example>
                 <example correction="vis">La zone géographique dans laquelle tu <marker>vie</marker>.</example>
                 <example correction="dis">Tu <marker>dix</marker> la vérité.</example>
+                <example correction="écris|écrias|écries">plus je lis ce que tu <marker>écrits</marker></example>
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
@@ -17911,7 +17994,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="sortes|sortis|sors">Tu la <marker>sorts</marker> ce soir.</example>
                 <example correction="abandonnais|abandonnes">Tu l’<marker>abandonné</marker>.</example>
@@ -17934,7 +18017,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sortes|sortis|sors">Tu m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -17956,7 +18039,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sortes|sortis|sors">Tu ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonnes">Tu ne l’<marker>abandonner</marker> pas.</example>
@@ -17975,13 +18058,29 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \5 » n’est pas un verbe.</message>
                 <example correction="sortes|sortis|sors">Tu ne t'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
             <!-- il, elle, on -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">il|on</token>
+                    <!--|elle-->
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception regexp="yes">soussignée?</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
+                <suggestion>a \2</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="a abandonné|abandonne|abandonna|abandonnait">Il <marker>abandonné</marker> ses fils.</example>
+                <example correction="a créé|crée|créa|crème|crête|crie|crêpe|crève|grée|rée">Dans l'aile ouest, on <marker>créé</marker> une brasserie.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">il|on <!--|elle-->
@@ -17993,12 +18092,15 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="sort|sorte">Il <marker>sorts</marker> ce soir.</example>
                 <example correction="vit|voie|vide|vise|lie|vive|nie|oie|vire|fie">La zone géographique dans laquelle il <marker>vie</marker>.</example>
                 <example correction="dit|dicte|dicta|dît">Il <marker>dix</marker> la vérité.</example>
-                <!--TODO <example correction="dit|dicte|dicta|dît">Elle <marker>dix</marker> la vérité.</example>-->
+                <example correction="désire|désira">On <marker>désir</marker> rester ici</example>
+                <!--TODO <example correction="dit|dicte|dicta|dît">Elle <marker>dix</marker> la vérité.</example>
+                elle eu le mérite
+                Elle n’était plus une enfant, elle étai une adulte-->
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
@@ -18010,8 +18112,13 @@ though, and has since been slightly modified)-->
                 <example>Je n'aime pas le café glacé, et elle non plus.</example>
                 <example>Il n'est pas plus qualifié qu'elle pour ce poste.</example>
                 <example>Elle et ses amis adorent la musique.</example>
+                <example>Il est plus vieux qu'elle de 3 ans.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>elle</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">il|elle|on</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
@@ -18022,7 +18129,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="sort|sorte">Il la <marker>sorts</marker> ce soir.</example>
                 <example correction="abandonne|abandonna|abandonnait">Elle l’<marker>abandonné</marker>.</example>
@@ -18033,6 +18140,8 @@ though, and has since been slightly modified)-->
                 <example>Je ne <marker>donne</marker> rien.</example>
                 <example>Je ne <marker>dis</marker> rien.</example>
                 <example>Je ne sale pas leus plats.</example>
+                <example>C'est bien elle la plus grande des inspiratrices.</example>
+                <example>c'était elle la princesse</example>
             </rule>
             <rule>
                 <pattern>
@@ -18045,7 +18154,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sort|sorte">Elle m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -18067,7 +18176,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sort|sorte">Elle ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonne|abandonnera">Il ne l’<marker>abandonner</marker> pas.</example>
@@ -18087,7 +18196,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \5 » n’est pas un verbe.</message>
                 <example correction="sort|sorte">Elle ne s'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
@@ -18105,7 +18214,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*3.P removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.P removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="">Ils <marker>sorts</marker> ce soir.</example>
                 <example correction="">La zone géographique dans laquelle ils <marker>vie</marker>.</example>
@@ -18126,7 +18235,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="">Ils la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Elles l’<marker>abandonné</marker>.</example>
@@ -18148,7 +18257,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="">Elles m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -18170,7 +18279,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="">Elles ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Ils ne l’<marker>abandonner</marker> pas.</example>
@@ -18189,7 +18298,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \5 » n’est pas un verbe.</message>
                 <example correction="">Elles ne s'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
@@ -18235,7 +18344,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Tu <marker>sorts</marker> ce soir.</example>
                 <example>Tu <marker>sors</marker> ce soir.</example>
@@ -18270,7 +18379,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">sur-.*|pas|jamais|plus</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Tu ne <marker>sorts</marker> pas ce soir.</example>
                 <example>Tu ne <marker>sors</marker> pas ce soir.</example>
@@ -18295,7 +18404,7 @@ though, and has since been slightly modified)-->
                             <exception inflected="yes">ne</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \3 » n’est pas un verbe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Tu la <marker>sorts</marker> ce soir.</example>
                 <example correction="abandonne|abandonna">Je l’<marker>abandon</marker>.</example>
@@ -18323,7 +18432,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Je m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -18346,7 +18455,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \4 » n’est pas un verbe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Tu ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonne|abandonna">Je ne l’<marker>abandon</marker> pas.</example>
@@ -18375,7 +18484,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>« \5 » n’est pas un verbe.</message>
                 <example correction="sort|sorte|sortes|sortis|sors">Je ne m'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
@@ -42377,13 +42486,13 @@ though, and has since been slightly modified)-->
                         <feature id="person"/>
                         <token postag="V.*ind .*" postag_regexp="yes"/>
                         <unify-ignore>
-                            <token>-</token>
+                            <token regexp="yes">-|–</token>
                         </unify-ignore>
                         <token postag="R pers suj.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">\p{Ll}.*</token>
                     </unify>
                 </pattern>
                 <message>Une ou plusieurs espaces semblent être détectées dans cette expression interrogative.</message>
-                <suggestion>\1\2<match no="3" case_conversion="alllower"/></suggestion>
+                <suggestion>\1-<match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="Vas-tu"><marker>Vas -tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas - tu</marker> les regarder à la télévision ?</example>
                 <example correction="Vas-tu"><marker>Vas- tu</marker> les regarder à la télévision ?</example>
