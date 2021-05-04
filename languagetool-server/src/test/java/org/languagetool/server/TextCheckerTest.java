@@ -121,13 +121,13 @@ public class TextCheckerTest {
       params.put("altLanguages", "en");
       checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
       fail();
-    } catch (IllegalArgumentException ignore) {
+    } catch (BadRequestException ignore) {
     }
     try {
       params.put("altLanguages", "xy");
       checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
       fail();
-    } catch (IllegalArgumentException ignore) {
+    } catch (BadRequestException ignore) {
     }
     
     params.put("language", "en");

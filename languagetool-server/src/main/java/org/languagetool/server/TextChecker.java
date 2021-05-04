@@ -145,6 +145,14 @@ abstract class TextChecker {
     }
   }
 
+  private static Language parseLanguage(String code) throws BadRequestException {
+    try {
+      return Languages.getLanguageForShortCode(code);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
+    }
+  }
+
   private void prewarmPipelinePool() {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
@@ -317,13 +325,13 @@ abstract class TextChecker {
     }
     //print("Starting check: " + aText.getPlainText().length() + " chars, #" + count);
     String motherTongueParam = parameters.get("motherTongue");
-    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
+    Language motherTongue = motherTongueParam != null ? parseLanguage(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
     List<Language> altLanguages = new ArrayList<>();
     if (parameters.get("altLanguages") != null) {
       String[] altLangParams = parameters.get("altLanguages").split(",\\s*");
       for (String langCode : altLangParams) {
-        Language altLang = Languages.getLanguageForShortCode(langCode);
+        Language altLang = parseLanguage(langCode);
         altLanguages.add(altLang);
         if (altLang.hasVariant() && !altLang.isVariant()) {
           ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
@@ -593,7 +601,7 @@ abstract class TextChecker {
       if (parameters.get("sourceLanguage") == null) {
         throw new BadRequestException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
       }
-      Language sourceLanguage = Languages.getLanguageForShortCode(parameters.get("sourceLanguage"));
+      Language sourceLanguage = parseLanguage(parameters.get("sourceLanguage"));
       JLanguageTool sourceLt = new JLanguageTool(sourceLanguage);
       JLanguageTool targetLt = new JLanguageTool(lang);
       if (userConfig.filterDictionaryMatches()) {
@@ -641,10 +649,10 @@ abstract class TextChecker {
   private Language getLanguageVariantForCode(String langCode, List<String> preferredVariants) {
     for (String preferredVariant : preferredVariants) {
       if (preferredVariant.startsWith(langCode + "-")) {
-        return Languages.getLanguageForShortCode(preferredVariant);
+        return parseLanguage(preferredVariant);
       }
     }
-    return Languages.getLanguageForShortCode(langCode);
+    return parseLanguage(langCode);
   }
 
   private List<CheckResults> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
@@ -724,7 +732,7 @@ abstract class TextChecker {
     //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     Language lang;
     if (detected == null) {
-      lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
+      lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
     } else {
       lang = detected.getDetectedLanguage();
     }
@@ -735,7 +743,7 @@ abstract class TextChecker {
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
         if (preferredVariantLang.equals(lang.getShortCode())) {
-          lang = Languages.getLanguageForShortCode(preferredVariant);
+          lang = parseLanguage(preferredVariant);
           if (lang == null) {
             throw new BadRequestException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
           }
