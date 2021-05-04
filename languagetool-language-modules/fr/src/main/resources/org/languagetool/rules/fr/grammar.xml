@@ -13090,6 +13090,66 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="A_VERBE_INFINITIF" name="à verbe infinitif" default="temp_off">
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>quant</token>
+                <token>à</token>
+                <token regexp="yes">il|elle|on</token>
+                <token>à</token>
+                <token postag="V inf"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token min="0" max="1" regexp="yes">t'|t</token>
+                <token regexp="yes">il|elle|on</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token inflected="yes">de</token>
+                <token min="0" max="1">après</token>
+                <token regexp="yes">il|elle|on</token>
+            </antipattern>
+            <antipattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token regexp="yes">il|elle|on</token>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes" case_sensitive="yes">Il|Elle|On</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+                <token regexp="yes" min="0" max="2">[a-z].*</token>
+                <token regexp="yes">il|elle|on</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">il|elle|on</token>
+                <token>à</token>
+                <token postag="V inf" skip="-1"/>
+                <token postag="M fin inte"/>
+            </antipattern>
+        <pattern>
+            <token regexp="yes">il|elle|on</token>
+                <marker>
+            <token>à</token>
+            <token postag="V inf"/>
+                </marker>
+        </pattern>
+        <message>Le verbe semble ne pas être conjugué au passé composé.</message>
+        <suggestion>a <match no="3" postag="V inf" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+        <example correction="a regardé">On <marker>à regarder</marker> un film.</example>
+        <example>Elle a commencé à prendre confiance en elle à partir de la demi-finale.</example>
+        <example>Mathilde vise quant à elle la lune.</example>
+        <example>Pourquoi s'amuse t il à faire cette demande ?</example>
+        <example>Le chef du parti Zehava Gal-On à envisager de démissionner.</example>
+        <example>La sœur de Martin, a du mal elle à faire accepter l'arrivée d'un nouvel enfant.</example>
+        <example>Parviendront-ils, lui à fuir le monde du spectacle et ses illusions, elle à accepter de vieillir ?</example>
+        <example>La calligraphie du style songsŏl commence elle à émerger à la fin du Kory.</example>
+        <example>Cela suffit t'il à rendre mon argent ?</example>
+        <example>Récits courts dans Elle à partir de 1994.</example>
+        <example>Ceux-ci cherchaient d'après elle à rapprocher López.</example>
+        </rule>
         <rulegroup id="PREFIXES_ACCORD" name="préfixes accord" default="temp_off">
             <antipattern>
                 <token inflected="yes">avoir</token>
