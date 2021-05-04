@@ -13125,7 +13125,8 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">il|elle|on</token>
             </antipattern>
             <antipattern>
-                <token><exception postag="SENT_START"/></token>
+                <token>
+                    <exception postag="SENT_START"/></token>
                 <token regexp="yes" case_sensitive="yes">Il|Elle|On</token>
             </antipattern>
             <antipattern>
@@ -13139,26 +13140,26 @@ though, and has since been slightly modified)-->
                 <token postag="V inf" skip="-1"/>
                 <token postag="M fin inte"/>
             </antipattern>
-        <pattern>
-            <token regexp="yes">il|elle|on</token>
+            <pattern>
+                <token regexp="yes">il|elle|on</token>
                 <marker>
-            <token>à</token>
-            <token postag="V inf"/>
+                    <token>à</token>
+                    <token postag="V inf"/>
                 </marker>
-        </pattern>
-        <message>Le verbe semble ne pas être conjugué au passé composé.</message>
-        <suggestion>a <match no="3" postag="V inf" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-        <example correction="a regardé">On <marker>à regarder</marker> un film.</example>
-        <example>Elle a commencé à prendre confiance en elle à partir de la demi-finale.</example>
-        <example>Mathilde vise quant à elle la lune.</example>
-        <example>Pourquoi s'amuse t il à faire cette demande ?</example>
-        <example>Le chef du parti Zehava Gal-On à envisager de démissionner.</example>
-        <example>La sœur de Martin, a du mal elle à faire accepter l'arrivée d'un nouvel enfant.</example>
-        <example>Parviendront-ils, lui à fuir le monde du spectacle et ses illusions, elle à accepter de vieillir ?</example>
-        <example>La calligraphie du style songsŏl commence elle à émerger à la fin du Kory.</example>
-        <example>Cela suffit t'il à rendre mon argent ?</example>
-        <example>Récits courts dans Elle à partir de 1994.</example>
-        <example>Ceux-ci cherchaient d'après elle à rapprocher López.</example>
+            </pattern>
+            <message>Le verbe semble ne pas être conjugué au passé composé.</message>
+            <suggestion>a <match no="3" postag="V inf" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+            <example correction="a regardé">On <marker>à regarder</marker> un film.</example>
+            <example>Elle a commencé à prendre confiance en elle à partir de la demi-finale.</example>
+            <example>Mathilde vise quant à elle la lune.</example>
+            <example>Pourquoi s'amuse t il à faire cette demande ?</example>
+            <example>Le chef du parti Zehava Gal-On à envisager de démissionner.</example>
+            <example>La sœur de Martin, a du mal elle à faire accepter l'arrivée d'un nouvel enfant.</example>
+            <example>Parviendront-ils, lui à fuir le monde du spectacle et ses illusions, elle à accepter de vieillir ?</example>
+            <example>La calligraphie du style songsŏl commence elle à émerger à la fin du Kory.</example>
+            <example>Cela suffit t'il à rendre mon argent ?</example>
+            <example>Récits courts dans Elle à partir de 1994.</example>
+            <example>Ceux-ci cherchaient d'après elle à rapprocher López.</example>
         </rule>
         <rulegroup id="PREFIXES_ACCORD" name="préfixes accord" default="temp_off">
             <antipattern>
@@ -41220,11 +41221,11 @@ though, and has since been slightly modified)-->
         <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
             <rule default="temp_off">
                 <pattern>
-                <token postag="[NV].*" postag_regexp="yes"/>
-                <marker>
-                    <token case_sensitive="yes">hors</token>
-                    <token>-</token>
-                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    <token postag="[NV].*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">hors</token>
+                        <token>-</token>
+                        <token postag="[NJ].*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
@@ -41274,7 +41275,8 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">non|hors|quasi<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" case_sensitive="yes">non|hors|quasi
+                        <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
                     <token>-</token>
                     <token postag="J.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception postag="N.*" postag_regexp="yes"/></token>
@@ -41751,12 +41753,12 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
-        <rule default="temp_off">
+            <rule default="temp_off">
                 <pattern>
-                <token postag="D.*" postag_regexp="yes"/>
-                <marker>
-                    <token case_sensitive="yes">hors</token>
-                    <token regexp="yes">jeu|bord|concours|ligne|texte</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">hors</token>
+                        <token regexp="yes">jeu|bord|concours|ligne|texte</token>
                     </marker>
                 </pattern>
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
@@ -41766,9 +41768,9 @@ though, and has since been slightly modified)-->
             <rule default="temp_off">
                 <pattern>
                     <token postag="D.*" postag_regexp="yes"/>
-                <marker>
-                    <token case_sensitive="yes">non</token>
-                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">non</token>
+                        <token postag="[NJ].*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
@@ -42347,7 +42349,8 @@ though, and has since been slightly modified)-->
                 <token>bémol</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">semi|mi|ex</token><!--|sous-->
+                <token regexp="yes">semi|mi|ex</token>
+                <!--|sous-->
                 <token postag="[JN].*|V ppa.*" postag_regexp="yes"/>
             </pattern>
             <message>« \1 \2 » est une erreur de typographie.</message>
