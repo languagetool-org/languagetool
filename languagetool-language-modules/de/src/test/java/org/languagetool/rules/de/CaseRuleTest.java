@@ -55,6 +55,7 @@ public class CaseRuleTest {
     // correct sentences:
     assertGood("Es gibt wenige Befragte.");
     assertGood("Es gibt weniger Befragte, die das machen würden.");
+    assertGood("Es gibt mehr Befragte, die das machen würden.");
     assertGood("Das ist eine Abkehr von Gottes Geboten.");
     assertGood("Dem Hund Futter geben");
     assertGood("Heute spricht Frau Stieg.");
