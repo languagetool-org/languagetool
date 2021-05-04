@@ -6600,6 +6600,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="la hacía">Esa bota <marker>la hacia</marker> otra compañía.</example>
             <example>Depende de lo hacia abajo que apuntes.</example>
         </rule>
+        <rulegroup id="HACIA" name="hacia / hacía" type="misspelling" default="temp_off">
+            <antipattern>
+                <token>lo</token>
+                <token>hacia</token>
+                <token regexp="yes">arriba|abajo|adentro|afuera</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token min="0">mucho</token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">calor|frío|tiempo<exception regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Si es del v. 'hacer', lleva tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Entonces <marker>hacia</marker> calor.</example>
+                <example correction="hacía">Entonces <marker>hacia</marker> mucho tiempo.</example>
+                <example>Vamos hacia allá.</example>
+                <example>Vamos hacia abajo.</example>
+                <example>Fabricada hacia 1988.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">enlace|dirección|redirección|atajo|camino</token>
+                    <token>hacia</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token postag="NC.*" postag_regexp="yes"> <exception regexp="yes">\d+|.*(este|oeste|norte|sur)|\p{Lu}.*</exception> <exception regexp="yes" inflected="yes">fin|final|principio|dios|plaza|calle|casa|tierra|país|postura|animal</exception> </token>
+                </pattern>
+                <message>Si es del v. 'hacer', lleva tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Entonces <marker>hacia</marker> calor.</example>
+                <example>Vamos hacia allá.</example>
+                <example>Vamos hacia abajo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NP.*|PP3[MF]S000" postag_regexp="yes"/>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'hacer', lleva tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Entonces él <marker>hacia</marker> lo mismo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NO_TILDE" name="palabras sin tilde según el contexto" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>solícito</token>
+                    </marker>
+                    <token regexp="yes">:|que</token>
+                </pattern>
+                <message>Si es un verbo, se escribe sin tilde.</message>
+                <suggestion>solicito</suggestion>
+                <example correction="Solicito"><marker>Solícito</marker>:</example>
+                <example correction="Solicito"><marker>Solícito</marker> que se ejecute la sentncia.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAS" name="mas/más">
             <rule>
                 <pattern>
