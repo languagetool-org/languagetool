@@ -13323,10 +13323,15 @@ though, and has since been slightly modified)-->
                 <token>explorer</token>
                 <token regexp="yes">\d</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+                <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token regexp="yes">\d</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">\d
-                        <exception scope="previous" regexp="yes">[.\|\…]+</exception></token>
+                        <exception scope="previous" regexp="yes">[.\|\…\+\=\#-]+</exception></token>
                 </marker>
                 <token regexp="yes" skip="-1">[a-z].*</token>
                 <token regexp="yes">[\.\!\?]</token>
@@ -13335,6 +13340,9 @@ though, and has since been slightly modified)-->
             <suggestion><match no="1" postag="_spell_number_"/></suggestion>
             <example correction="neuf">Les enfants (<marker>9</marker> garçons) ont été jouer au parc.</example>
             <example>Le navigateur internet explorer 2 n'est plus utilisé.</example>
+            <example>Ce guide explique la manière dont HTTP/2 est implémenté dans httpd.</example>
+            <example>La fonction y = 1 est une droite parallèle à l'axe des abscisses.</example>
+            <example>C'est selon les articles L335-2 et L335-3 du Code de la Propriété Intellectuelle.</example>
             <example>Ce 1 kilo (2,2 lb) est à votre service.</example>
             <example>Il est l'auteur de 2 buts en 13 apparitions cette saison.</example>
             <example>9 cm de profondeur et 7 de hauteur.</example>
