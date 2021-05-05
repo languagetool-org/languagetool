@@ -666,17 +666,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="gender"/>
                         <marker>
                             <token postag="(P\+)?D .*" postag_regexp="yes">
-                                <exception postag="N.*" postag_regexp="yes"/></token>
+                                <exception postag="N.*|K" postag_regexp="yes"/></token>
                         </marker>
                         <unify-ignore>
                             <token postag="A" min="1" max="3"/>
                         </unify-ignore>
                         <token postag="J [me] (s|sp)|V.* ppa m s" postag_regexp="yes"/>
+                        <token postag="N [me] (s|sp)" postag_regexp="yes"/>
                     </unify>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\3' ne semblent pas bien accordés.</message>
                 <suggestion><match no="1" postag="(P)?.?D .*" postag_regexp="yes" postag_replace="$1.?D m s"/></suggestion>
                 <example correction="Le"><marker>Les</marker> plus beau garçon.</example>
+                <example>Quatre-vingt-douze moins neuf font quatre-vingt-trois.</example>
+                <example>Aucune des deux ne satisfait le réalisateur.</example>
             </rule>
             <rule>
                 <pattern>
@@ -685,12 +688,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="gender"/>
                         <marker>
                             <token postag="(P\+)?D .*" postag_regexp="yes">
-                                <exception postag="N.*" postag_regexp="yes"/></token>
+                                <exception postag="N.*|K" postag_regexp="yes"/></token>
                         </marker>
                         <unify-ignore>
                             <token postag="A" min="1" max="3"/>
                         </unify-ignore>
                         <token postag="J [fe] (s|sp)|V.* ppa f s" postag_regexp="yes"/>
+                        <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
                     </unify>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\3' ne semblent pas bien accordés.</message>
@@ -705,12 +709,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="gender"/>
                         <marker>
                             <token postag="(P\+)?D .*" postag_regexp="yes">
-                                <exception postag="N.*" postag_regexp="yes"/></token>
+                                <exception postag="N.*|K" postag_regexp="yes"/></token>
                         </marker>
                         <unify-ignore>
                             <token postag="A" min="1" max="3"/>
                         </unify-ignore>
                         <token postag="J [me] (p|sp)|V.* ppa m p" postag_regexp="yes"/>
+                        <token postag="N [me] (p|sp)" postag_regexp="yes"/>
                     </unify>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\3' ne semblent pas bien accordés.</message>
@@ -724,12 +729,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="gender"/>
                         <marker>
                             <token postag="(P\+)?D .*" postag_regexp="yes">
-                                <exception postag="N.*" postag_regexp="yes"/></token>
+                                <exception postag="N.*|K" postag_regexp="yes"/></token>
                         </marker>
                         <unify-ignore>
                             <token postag="A" min="1" max="3"/>
                         </unify-ignore>
                         <token postag="J [fe] (p|sp)|V.* ppa f p" postag_regexp="yes"/>
+                        <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
                     </unify>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\3' ne semblent pas bien accordés.</message>
@@ -737,6 +743,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Aux"><marker>Au</marker> plus belles villes.</example>
                 <example correction="Les"><marker>Le</marker> plus belles villes.</example>
                 <example>Aux plus belles villes</example>
+                <example>Pineda de Mar est l'un des plus importantes villes.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">du|au</token>
+                    <token regexp="yes">moins|plus</token>
+                </antipattern>
+                <antipattern>
+                    <token>pour</token>
+                    <token>le</token>
+                    <token>moins</token>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token>tout</token>
+                    <token>le</token>
+                    <token>moins</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>possible</token>
+                </antipattern>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="(P\+)?D .*" postag_regexp="yes">
+                            <exception postag="N.*|K" postag_regexp="yes"/>
+                            <exception inflected="yes">tout</exception></token>
+                        <unify-ignore>
+                            <token postag="A"><exception>soit</exception></token>
+                        </unify-ignore>
+                        <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\3' ne semblent pas bien accordés.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(P)?.?D .*" postag_regexp="yes" postag_replace="$1.?D m s"/> \2 <match no="3" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [me] (s|sp)|V.* ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(P)?.?D .*" postag_regexp="yes" postag_replace="$1.?D f s"/> \2 <match no="3" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (s|sp)|V.* ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(P)?.?D .*" postag_regexp="yes" postag_replace="$1.?D [me] p"/> \2 <match no="3" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [me] (p|sp)|V.* ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(P)?.?D .*" postag_regexp="yes" postag_replace="$1.?D [fe] p"/> \2 <match no="3" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (p|sp)|V.* ppa f p"/></suggestion>
+                <example correction="Le plus beau|Le plus bel|La plus belle|Les plus beaux|Les plus bels|Les plus belles"><marker>Les plus beau</marker>.</example>
+                <example correction="le plus important|la plus importante|les plus importants|les plus importantes">les profiteurs de <marker>la plus importantes</marker> escroquerie</example>
+                <example correction="le plus concerné|la plus concernée|les plus concernés|les plus concernées">dans <marker>la plus concerné</marker></example>
+                <example correction="le plus court|la plus courte|les plus courts|les plus courtes"><marker>le plus courtes</marker> possible</example>
+                <example correction="du plus gentil|de la plus gentille|des plus gentils|des plus gentilles">Il a été <marker>des plus gentil</marker> avec moi.</example>
+                <example correction="du plus original|de la plus originale|des plus originaux|des plus originales">Un paquet <marker>des plus original</marker> !</example>
+                <example>Quatre-vingt-douze moins neuf font quatre-vingt-trois.</example>
+                <example>suivant au moins certaines des règles</example>
+                <example>des répercussions pour le moins inattendues</example>
+                <example>Nous travaillons tous trop dur.</example>
+                <example>Il vous est à tous bien connu. </example>
+                <example>Elle est incapable de faire quoi que ce soit seule.</example>
             </rule>
         </rulegroup>
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
