@@ -39152,33 +39152,46 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="VIRGULE_DEBUT_DE_PHRASE_3" name="virgule debut de phrase" default="temp_off">
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">bon(jour|soir)|salut|enchantée?s?|bienvenue?s?</token>
+                    <token postag="[PNDZJA].*|C coor.*|R pers obj.*" postag_regexp="yes"/>
+                    <token postag=".*" postag_regexp="yes" min="0" max ="6"/>
+                    <token >,</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">bon(jour|soir)|salut|enchantée?s?|bienvenue?s?
-                                    <exception postag="[PDJA].*|C coor.*|R pers obj.*" postag_regexp="yes" scope="next"/>
+                            <exception postag="P.*|C coor.*" postag_regexp="yes" scope="next"/>
                         </token>
                     </marker>
                     <token regexp="yes">[^,‘’–)\[—.!"\/;\]\|:(\…'«»“”-]+</token>
                 </pattern>
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\2,</suggestion>
-                <example correction="Bonjour,"><marker>Bonjour</marker> je m'appelle Udo.</example>
-                <example>Salut!</example>
+                <example correction="Bonjour,"><marker>Bonjour</marker> je m'appelle Jean.</example>
+                <example correction="Bonjour,"><marker>Bonjour</marker> Jean.</example>
+                <example>Bonjour Jean, merci de me recevoir.</example>
+                <example>Bonjour !</example>
                 <example>Bonjour chez vous.</example>
-                <example>Bonjour les amis.</example>
                 <example>Bonjour et bienvenue.</example>
-                <example>Bonjour toi.</example>
-                <example>Bonjour chers amis.</example>
-                <example>Bonjour toutes et tous.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">bonnes?</token>
+                    <token regexp="yes">nuits?|journées?|vacances|après-midi|matinées?</token>
+                    <token postag="[PNDZJA].*|C coor.*|R pers obj.*" postag_regexp="yes"/>
+                    <token min="0" max ="6"/>
+                    <token >,</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                         <token regexp="yes">bonnes?</token>
                     <marker>
                         <token regexp="yes">nuits?|journées?|vacances|après-midi|matinées?
-                                    <exception postag="[PDJA].*|C coor.*|R pers obj.*" postag_regexp="yes" scope="next"/>
+                            <exception postag="P.*|C coor.*" postag_regexp="yes" scope="next"/>
                         </token>
                     </marker>
                     <token regexp="yes">[^,‘’–)\[—.!"\/;\]\|:(\…'«»“”-]+</token>
@@ -39186,21 +39199,27 @@ though, and has since been slightly modified)-->
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\3,</suggestion>
                 <example correction="après-midi,">Bonne <marker>après-midi</marker> je rentre chez moi.</example>
-                <example>Bonnes vacances!</example>
-                <example>Bonne nuit chez vous.</example>
-                <example>Bonne nuit les amis.</example>
-                <example>Bonne nuit et bienvenue.</example>
-                <example>Bonne nuit toi.</example>
-                <example>Bonne nuit chers amis.</example>
-                <example>Bonne nuit toutes et tous.</example>
+                <example correction="après-midi,">Bonne <marker>après-midi</marker> Jean.</example>
+                <example>Bonne après-midi Jean, amuse-toi bien.</example>
+                <example>Bonne après-midi !</example>
+                <example>Bonne après-midi chez vous.</example>
+                <example>Bonne après-midi et bienvenue.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">bons?</token>
+                    <token regexp="yes">lundis?|mardis?|mercredis?|jeudis?|vendredis?|samedis?|dimanches?|après-midi</token>
+                    <token postag="[PNDZJA].*|C coor.*|R pers obj.*" postag_regexp="yes"/>
+                    <token min="0" max ="6"/>
+                    <token >,</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                         <token regexp="yes">bons?</token>
                     <marker>
                         <token regexp="yes">lundis?|mardis?|mercredis?|jeudis?|vendredis?|samedis?|dimanches?|après-midi
-                                    <exception postag="[PDJA].*|C coor.*|R pers obj.*" postag_regexp="yes" scope="next"/>
+                            <exception postag="P.*|C coor.*" postag_regexp="yes" scope="next"/>
                         </token>
                     </marker>
                     <token regexp="yes">[^,‘’–)\[—.!"\/;\]\|:(\…'«»“”-]+</token>
@@ -39208,13 +39227,11 @@ though, and has since been slightly modified)-->
                 <message>Une virgule semble être requise dans ce contexte.</message>
                 <suggestion>\3,</suggestion>
                 <example correction="après-midi,">Bon <marker>après-midi</marker> je rentre chez moi.</example>
-                <example>Bon dimanche!</example>
+                <example correction="dimanche,">Bon <marker>dimanche</marker> Jean.</example>
+                <example>Bon après-midi Jean, amuse-toi bien.</example>
+                <example>Bon dimanche !</example>
                 <example>Bon dimanche chez vous.</example>
-                <example>Bon dimanche les amis.</example>
                 <example>Bon dimanche et bienvenue.</example>
-                <example>Bon dimanche toi.</example>
-                <example>Bon dimanche chers amis.</example>
-                <example>Bon dimanche toutes et tous.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
