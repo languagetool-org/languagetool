@@ -18210,6 +18210,154 @@ though, and has since been slightly modified)-->
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
+            <!-- nous -->
+            <rule>
+                <antipattern>
+                    <token>nous</token>
+                    <token postag="D.* p" postag_regexp="yes"/>
+                    <token postag="[NJ].* p" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>nous</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Nous la <marker>sorts</marker> ce soir.</example>
+                <example correction="">Nous ne <marker>sorts</marker> pas ce soir.</example>
+                <example correction="">Nous ne <marker>dix</marker> rien.</example>
+                <example correction="">Nous l’<marker>abandonné</marker>.</example>
+                <example correction="">Nous l'<marker>impressionnée</marker> de devenir dingue.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nous</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Nous m'en <marker>sorts</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nous</token>
+                    <token inflected="yes">ne</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Nous ne la <marker>sorts</marker> pas ce soir.</example>
+                <example correction="">Nous ne l’<marker>abandonner</marker> pas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nous</token>
+                    <token>ne</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception>est</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Nous ne s'en <marker>sorts</marker> pas.</example>
+            </rule>
+            <!-- vous -->
+            <rule>
+                <antipattern>
+                    <token>vous</token>
+                    <token postag="D.* p" postag_regexp="yes"/>
+                    <token postag="[NJ].* p" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>vous</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Vous la <marker>sorts</marker> ce soir.</example>
+                <example correction="">Vous ne <marker>sorts</marker> pas ce soir.</example>
+                <example correction="">Vous ne <marker>dix</marker> rien.</example>
+                <example correction="abandonnez">Vous l’<marker>abandonné</marker>.</example>
+                <example correction="impressionnez">Vous l'<marker>impressionnée</marker> de devenir dingue.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vous</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Vous m'en <marker>sorts</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vous</token>
+                    <token inflected="yes">ne</token>
+                    <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception regexp="yes">a|as</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Vous ne la <marker>sorts</marker> pas ce soir.</example>
+                <example correction="abandonnez">Vous ne l’<marker>abandonner</marker> pas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vous</token>
+                    <token>ne</token>
+                    <token regexp="yes">[lmst]'|lui|leur|[nv]ous</token>
+                    <token regexp="yes">y|en</token>
+                    <marker>
+                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
+                            <exception postag="V.*[123].*" postag_regexp="yes"/>
+                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                            <exception>est</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="">Vous ne s'en <marker>sorts</marker> pas.</example>
+            </rule>
             <!-- ils, elles -->
             <rule>
                 <antipattern>
