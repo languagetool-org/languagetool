@@ -659,6 +659,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="D_A_J" name="Concordance det+adv+adj" default="temp_off">
+            <antipattern>
+                <token>le</token>
+                <token regexp="yes">plus|moins|mieux|pis</token>
+                <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
+                <token>
+                    <exception regexp="yes">de|d'|du|des</exception>
+                    <exception postag="[NZ].*" postag_regexp="yes"/></token>
+            </antipattern>
+            <antipattern>
+                <token>le</token>
+                <token regexp="yes">plus|moins|mieux|pis</token>
+                <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
+                <token>possible</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -773,7 +787,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="N.*|K" postag_regexp="yes"/>
                             <exception inflected="yes">tout</exception></token>
                         <unify-ignore>
-                            <token postag="A"><exception>soit</exception></token>
+                            <token postag="A">
+                                <exception>soit</exception></token>
                         </unify-ignore>
                         <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
                     </unify>
@@ -786,9 +801,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Le plus beau|Le plus bel|La plus belle|Les plus beaux|Les plus bels|Les plus belles"><marker>Les plus beau</marker>.</example>
                 <example correction="le plus important|la plus importante|les plus importants|les plus importantes">les profiteurs de <marker>la plus importantes</marker> escroquerie</example>
                 <example correction="le plus concerné|la plus concernée|les plus concernés|les plus concernées">dans <marker>la plus concerné</marker></example>
-                <example correction="le plus court|la plus courte|les plus courts|les plus courtes"><marker>le plus courtes</marker> possible</example>
                 <example correction="du plus gentil|de la plus gentille|des plus gentils|des plus gentilles">Il a été <marker>des plus gentil</marker> avec moi.</example>
                 <example correction="du plus original|de la plus originale|des plus originaux|des plus originales">Un paquet <marker>des plus original</marker> !</example>
+                <example><marker>le plus courtes</marker> possible</example>
                 <example>Quatre-vingt-douze moins neuf font quatre-vingt-trois.</example>
                 <example>suivant au moins certaines des règles</example>
                 <example>des répercussions pour le moins inattendues</example>
@@ -1655,6 +1670,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
+            <antipattern>
+                <token inflected="yes">être</token>
+                <token>le</token>
+                <token regexp="yes">plus|moins|mieux|pis</token>
+                <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
+                <token>
+                    <exception regexp="yes">de|d'|du|des</exception>
+                    <exception postag="[NZ].*" postag_regexp="yes"/></token>
+            </antipattern>
             <antipattern>
                 <!-- telegraphic writing -->
                 <token>total</token>
@@ -36510,7 +36534,8 @@ though, and has since been slightly modified)-->
                 <example><marker>sans escale</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="FEEDBACK" name="feedback" tags="picky"><!-- low acceptance rate -->
+        <rulegroup id="FEEDBACK" name="feedback" tags="picky">
+            <!-- low acceptance rate -->
             <rule>
                 <pattern>
                     <token regexp="yes">feed|feeds</token>
