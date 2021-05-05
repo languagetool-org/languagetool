@@ -12378,7 +12378,7 @@ Eu comprei-a quando fui à loja.
 	
 	<!-- PARA QUE SAIBAM para saberem -->
     <rulegroup id='QUE_SUBJ_VS_INF_PESS' name="Para que + Verbo → Para + Verbo ">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 + 2021-05-04 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 + 2021-05-04 + 2021-05-05 (17-MAR-2021+)      -->
 	<!--
 Isto é para que saibam o que acontece. → Isto é para saberem o que acontece.
 E para que eles pudessem aplicá-la a problemas já existentes. → E para eles poderem aplicá-la a problemas já existentes.
@@ -12389,12 +12389,15 @@ Vamos esperar aqui até que ele volte. → Vamos esperar aqui até ele voltar.
 	-->
 	  <rule>
 		<pattern>
-			<token postag='SPS00' postag_regexp='no'>
-				<exception regexp='yes'>a|com|de|em</exception>
+			<token postag='SPS00|CC' postag_regexp='yes'>
+				<exception regexp='yes'>a|com|de|em|nem</exception>
+				<exception postag_regexp='yes' postag='V.+|PP.+'/>
 			</token>
 			<marker>
 				<token>que</token>
-				<token postag='VMS[PI]...' postag_regexp='yes'/>
+				<token postag='VMS[PI]...' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='SPS.+'/>
+				</token>
 			</marker>
 			<token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
 		</pattern>		
@@ -12404,15 +12407,18 @@ Vamos esperar aqui até que ele volte. → Vamos esperar aqui até ele voltar.
       </rule>
 	  <rule>
 		<pattern>
-			<token postag='SPS00' postag_regexp='no'>
-				<exception regexp='yes'>a|com|de|em</exception>
+			<token postag='SPS00|CC' postag_regexp='yes'>
+				<exception regexp='yes'>a|com|de|em|nem</exception>
+				<exception postag_regexp='yes' postag='V.+|PP.+'/>
 			</token>
 			<marker>
 				<token>que</token>
 				<token postag='PD.+|PP.+' postag_regexp='yes'/>
-				<token postag='VMS[PI]...' postag_regexp='yes'/>
+				<token postag='VMS[PI]...' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='SPS.+'/>
+				</token>
 			</marker>
-			<token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
+			<token negate_pos="yes" postag='SPS.' postag_regexp='yes'/>
 		</pattern>		
 		<message>Esta perífrase pode ser simplificada.</message>
 		<suggestion suppress_misspelled="yes">\3 <match no='4' postag='(VMS[PI])(...)' postag_regexp="yes" postag_replace='VMN0$2'/></suggestion>
