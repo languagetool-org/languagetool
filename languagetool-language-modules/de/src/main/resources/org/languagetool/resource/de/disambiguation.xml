@@ -4287,15 +4287,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule id="ORDER" name="order">
+    <rulegroup id="ORDER" name="order">
         <!-- common confusion of 'oder' -->
-        <pattern>
-            <token>ich</token>
-            <token regexp="yes" min="0">das|diese[sn]|euren|deren|[mds]?einen|den|die|irgendwas|es|sowas</token>
-            <marker>
-                <token case_sensitive="yes">order</token>
-            </marker>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
+        <rule><!-- Ich order es / Wenn ich das order -->
+            <pattern>
+                <token>ich</token>
+                <token regexp="yes" min="0">das|diese[sn]|euren|deren|[mds]?einen|den|die|irgendwas|es|sowas</token>
+                <marker>
+                    <token case_sensitive="yes">order</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!-- Dann order ich das jetzt -->
+            <pattern>
+                <token postag="ADV.*" postag_regexp="yes" />
+                <marker>
+                    <token case_sensitive="yes">order</token>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

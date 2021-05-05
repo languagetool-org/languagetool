@@ -38066,6 +38066,10 @@ Andere Projekte</example>
         <rulegroup id="SIMPLE_AGREEMENT_MAS" name="Die (Der) Tisch ist">
             <short>Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus</short>
 
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]{3,}</token>
+            </antipattern>
+
             <rule><!-- die Tisch ist/war -->
                 <antipattern><!-- Eine Ärztin die Mensch ist -->
                     <token postag="(SUB|ADJ):.+:FEM.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):FEM.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="5">.*[a-zäöüß].*</token>
@@ -38162,6 +38166,9 @@ Andere Projekte</example>
             <antipattern>
                 <token regexp="yes">Recht|Glück</token><!-- Dusel, Zeit, Lust (for other rules) -->
                 <token regexp="yes">hat(te)?</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]{3,}</token>
             </antipattern>
 
             <!-- TODO: Der neue Haus ist schön -->
