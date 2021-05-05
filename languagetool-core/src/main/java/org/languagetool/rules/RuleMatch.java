@@ -50,6 +50,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
   private final AnalyzedSentence sentence;
+
   private PatternPosition patternPosition;
   private OffsetPosition offsetPosition;
   private LinePosition linePosition = new LinePosition(-1, -1);
@@ -59,7 +60,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private boolean autoCorrect = false;
-  
+  private String errorLimitLang;
+
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -488,6 +490,25 @@ public class RuleMatch implements Comparable<RuleMatch> {
   @Override
   public int hashCode() {
     return Objects.hash(rule.getId(), offsetPosition, patternPosition, message, sentence, type);
+  }
+
+  /**
+   * The language that the text might be in if the error limit has been reached.
+   * @since 5.3
+   */
+  @Nullable
+  public String getErrorLimitLang() {
+    return errorLimitLang;
+  }
+
+  /**
+   * Call if the error limit is reached for this sentence. The caller will then get text ranges for the
+   * sentence and can ignore errors there. Note: will not have an effect for text-level rules.
+   * @param langCode the language this could be instead
+   * @since 5.3
+   */
+  public void setErrorLimitLang(String langCode) {
+    this.errorLimitLang = langCode;
   }
 
   /**

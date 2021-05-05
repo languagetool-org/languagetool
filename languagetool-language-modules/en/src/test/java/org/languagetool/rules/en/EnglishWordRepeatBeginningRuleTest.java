@@ -35,20 +35,39 @@ public class EnglishWordRepeatBeginningRuleTest {
   @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
-    // correct sentences:
+    
+    // ================== correct sentences ===================
+    // two successive sentences that start with the same non-adverb word.
     assertEquals(0, lt.check("This is good. This is good, too.").size());
+    // three successive sentences that start with the same exception word ("the").
     assertEquals(0, lt.check("The car. The bicycle. The third sentence with 'the'.").size());
-    // errors:
+
+    // =================== errors =============================
+    // three successive sentences that start with the same non-exception word (personal pronoun "I") 
     List<RuleMatch> matches1 = lt.check("I think so. I have seen that before. I don't like it.");
     assertEquals(1, matches1.size());
+    // check suggestions
     assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Furthermore, I"));
     assertThat(matches1.get(0).getSuggestedReplacements().get(1), is("Likewise, I"));
     assertThat(matches1.get(0).getSuggestedReplacements().get(2), is("Not only that, but I"));
+    // three successive sentences that start with the same non-exception word (personal pronoun "He")
     List<RuleMatch> matches2 = lt.check("He thinks so. He has seen that before. He doesn't like it.");
     assertEquals(1, matches2.size());
+    // check suggestions
     assertThat(matches2.get(0).getSuggestedReplacements().get(0), is("Furthermore, he"));
     assertThat(matches2.get(0).getSuggestedReplacements().get(1), is("Likewise, he"));
     assertThat(matches2.get(0).getSuggestedReplacements().get(2), is("Not only that, but he"));
+    // two successive sentences that start with one of the saved adverbs ("Also")
+    List<RuleMatch> matches3 = lt.check("Also, I play football. Also, I play basketball.");
+    assertEquals(1, matches3.size());
+    // check suggestions (because the adverbs are contained in a Set it is safer to check if the correct suggestions
+    // are contained in the real suggestions)
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Additionally")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Besides")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Furthermore")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Moreover")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("In addition")));
+    assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("As well as")));
   }
 
 }

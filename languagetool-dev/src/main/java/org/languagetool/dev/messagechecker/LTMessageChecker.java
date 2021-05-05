@@ -102,10 +102,10 @@ public class LTMessageChecker {
         // do nothing
       }
       if (!message.isEmpty()) {
+        message = lang.toAdvancedTypography(message);
         message = message.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>",
             lang.getClosingDoubleQuote());
         message = message.replaceAll("<[^>]+>", "");
-        message = lang.toAdvancedTypography(message);
       }
       // don't require upper case sentence start in description (?)
       // Advanced typography in rule description is not used in production. Here is used to avoid too many positives.
@@ -124,7 +124,7 @@ public class LTMessageChecker {
           if (matchesToShow.size() > 0) {
             print("Source: " + r.getFullId());
             for (RuleMatch match : matchesToShow) {
-              print(match.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'"));
+              print(lang.toAdvancedTypography(match.getMessage()));
               print(contextTools.getContext(match.getFromPos(), match.getToPos(), textToCheck));
               print("");
             }

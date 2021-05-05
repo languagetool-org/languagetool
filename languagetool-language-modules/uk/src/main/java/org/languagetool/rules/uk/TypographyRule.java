@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
  * A rule that matches short dash inside words
@@ -60,6 +61,9 @@ public class TypographyRule extends Rule {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     for (int i = 1; i < tokens.length; i++) {
+//      if( i == 1 && "\u2013".equals(tokens[i].getToken()) )
+//        continue;
+
       String shortDashToken = shortDashToken(tokens[i]);
       if( shortDashToken != null ) {
         List<String> replacements = new ArrayList<>();
@@ -71,9 +75,62 @@ public class TypographyRule extends Rule {
         RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
+      else if( "\u2014".equals(tokens[i].getToken()) || "\u2013".equals(tokens[i].getToken()) ) {
+        boolean noSpaceLeft = i > 1 && ! tokens[i].isWhitespaceBefore() 
+            && ! ",".equals(tokens[i-1].getToken())
+            && ! "«".equals(tokens[i-1].getToken());
+        boolean noSpaceRight = i < tokens.length - 1 && ! tokens[i+1].isWhitespaceBefore()
+            && ! ">".equals(tokens[i+1].getToken());
+
+        if( noSpaceLeft || noSpaceRight ) {
+
+          if( i > 1 && isNumber(tokens[i-1]) && i < tokens.length -1 && isNumber(tokens[i+1]) )
+            continue;
+
+          List<String> replacements = new ArrayList<>();
+          
+          if( i > 1 && i < tokens.length - 1
+              && tokens[i-1].getToken().matches(".*[а-яїієґА-ЯІЇЄҐ].*")
+              && tokens[i+1].getToken().matches(".*[а-яїієґА-ЯІЇЄҐ].*")) {
+            replacements.add(tokens[i-1].getToken() + "-" + tokens[i+1].getToken());
+          }
+          
+          int startPos;
+          int endPos;
+          String repl = "";
+          if( i > 1 ) {
+            repl = tokens[i-1].getToken() + " ";
+            startPos = tokens[i-1].getStartPos();
+          }
+          else {
+            startPos = tokens[i].getStartPos();
+          }
+          repl += "\u2014";
+          if( i < tokens.length - 1 ) {
+            repl += " " + tokens[i+1].getToken();
+            endPos = tokens[i+1].getStartPos();
+          }
+          else {
+            endPos = tokens[i].getEndPos();
+          }
+
+          replacements.add(repl);
+
+          // Правопис 2019 § 161. ТИРЕ (—), пп. 12-15
+          String msg = "Риска всередині слова. Всередині слова вживайте дефіс, між словами виокремлюйте риску пробілами.";
+//          RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], replacements, msg, sentence);
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          potentialRuleMatch.setSuggestedReplacements(replacements);
+          ruleMatches.add(potentialRuleMatch);
+        }
+      }
     }
     
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private static boolean isNumber(AnalyzedTokenReadings analyzedTokenReadings) {
+    return PosTagHelper.hasPosTagStart(analyzedTokenReadings, "number");
   }
 
   private static final Pattern SHORT_DASH_WORD = Pattern.compile("[а-яіїєґ']{2,}([\u2013\u2014][а-яіїєґ']{2,})+", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);

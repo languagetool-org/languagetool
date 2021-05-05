@@ -33,6 +33,8 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
 
   private final Language language;
   
+  private final int negativeConstant = Integer.MIN_VALUE + 10000;
+  
   public CleanOverlappingFilter(Language lang) {
     this.language = lang;
   }
@@ -58,7 +60,13 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       // overlapping
       int currentPriority = language.getRulePriority(ruleMatch.getRule());
+      if (ruleMatch.getRule().getTags().toString().contains("picky")) {
+        currentPriority += negativeConstant;
+      }
       int prevPriority = language.getRulePriority(prevRuleMatch.getRule());
+      if (prevRuleMatch.getRule().getTags().toString().contains("picky")) {
+        prevPriority += negativeConstant;
+      }
       if (currentPriority == prevPriority) {
         // take the longest error:
         currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();

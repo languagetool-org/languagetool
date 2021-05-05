@@ -118,7 +118,7 @@ public class Dutch extends Language {
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongSentenceRule(messages, userConfig, 40, true, true),
             new LongParagraphRule(messages, this, userConfig),
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
@@ -174,15 +174,18 @@ public class Dutch extends Language {
   @Override
   protected int getPriorityForId(String id) {
     if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE)) {
-      return 1;
+    return -2;
     }
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
+      // default : 0
       case "KORT_1": return -5;
       case "KORT_2": return -5;  //so that spelling errors are recognized first
       case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
       case "TOO_LONG_PARAGRAPH": return -15;
       case "DE_ONVERWACHT": return -20;  // below spell checker and simple replace rule
+      case "TE-VREEMD": return -20;  // below spell checker and simple replace rule
+      // category style : -50
     }
     return super.getPriorityForId(id);
   }
@@ -192,7 +195,7 @@ public class Dutch extends Language {
     List<String> ruleFileNames = super.getRuleFileNames();
     String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
     ruleFileNames.add(dirBase + "nl-NL/grammar.xml");
-    ruleFileNames.add(dirBase + "grammar-test-1.xml");
+    //ruleFileNames.add(dirBase + "grammar-test-1.xml");
     return ruleFileNames;
   }
 

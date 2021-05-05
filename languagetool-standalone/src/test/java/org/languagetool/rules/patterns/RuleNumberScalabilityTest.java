@@ -81,23 +81,23 @@ final class RuleNumberScalabilityTest {
     System.out.println(" => badly with respect to the number of rules");
   }
 
-  private static long getBaselineTime(JLanguageTool langTool, String text) throws IOException {
-    deactivateAllRules(langTool);
+  private static long getBaselineTime(JLanguageTool lt, String text) throws IOException {
+    deactivateAllRules(lt);
     long baselineStartTime = System.currentTimeMillis();
-    langTool.check(text);
+    lt.check(text);
     long baselineTime = System.currentTimeMillis() - baselineStartTime;
-    if (langTool.getAllActiveRules().size() > 0) {
-      throw new RuntimeException("Did not expect to get any pattern rules: " + langTool.getAllActiveRules().size());
+    if (lt.getAllActiveRules().size() > 0) {
+      throw new RuntimeException("Did not expect to get any pattern rules: " + lt.getAllActiveRules().size());
     }
-    for (Rule rule : langTool.getAllRules()) {
-      langTool.enableRule(rule.getId());
+    for (Rule rule : lt.getAllRules()) {
+      lt.enableRule(rule.getId());
     }
     return baselineTime;
   }
 
-  private static void deactivateAllRules(JLanguageTool langTool) {
-    for (Rule rule : langTool.getAllActiveRules()) {
-      langTool.disableRule(rule.getId());
+  private static void deactivateAllRules(JLanguageTool lt) {
+    for (Rule rule : lt.getAllActiveRules()) {
+      lt.disableRule(rule.getId());
     }
   }
 

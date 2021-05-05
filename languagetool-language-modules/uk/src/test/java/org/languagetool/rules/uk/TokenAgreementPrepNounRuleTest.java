@@ -37,13 +37,13 @@ import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementPrepNounRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private TokenAgreementPrepNounRule rule;
 
   @Before
   public void setUp() throws IOException {
     rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"));
-    langTool = new JLanguageTool(new Ukrainian());
+    lt = new JLanguageTool(new Ukrainian());
   }
   
   @Test
@@ -161,13 +161,13 @@ public class TokenAgreementPrepNounRuleTest {
     assertEquals(1, ruleMatch("в п'ятьом людям").length);
     assertEquals(1, ruleMatch("в понад п'ятьом людям").length);
 
-    AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("завдяки їх вдалим трюкам");
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("завдяки їх вдалим трюкам");
     RuleMatch[] match = rule.match(analyzedSentence);
     assertEquals(1, match.length);
     List<String> suggestedReplacements = match[0].getSuggestedReplacements();
     assertTrue("Did not find «їхній»: " + suggestedReplacements, suggestedReplacements.contains("їхнім"));
 
-    analyzedSentence = langTool.getAnalyzedSentence("О дівчина!");
+    analyzedSentence = lt.getAnalyzedSentence("О дівчина!");
     match = rule.match(analyzedSentence);
     assertEquals(1, match.length);
     suggestedReplacements = match[0].getSuggestedReplacements();
@@ -291,7 +291,7 @@ public class TokenAgreementPrepNounRuleTest {
   }
 
   private RuleMatch[] ruleMatch(String text) throws IOException {
-    return rule.match(langTool.getAnalyzedSentence(text));
+    return rule.match(lt.getAnalyzedSentence(text));
   }
   
   private void assertEmptyMatch(String text) throws IOException {

@@ -87,6 +87,14 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      posRegex("VER:MOD:.*"),  // "Sollten zu diesem weitere Informationen benötigt werden, ..."
+      token("zu"),
+      regex("diese[mnr]"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:NOM:PLU:.*"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
       regex("ein|das"),  // "Ein Geschenk, das Maßstäbe setzt" (#4043)
       pos("SUB:NOM:SIN:NEU"),
       token(","),
@@ -498,7 +506,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // Ein dickes Danke an alle die ...
       token("ein"),
-      tokenRegex("dickes|großes|grosses|fettes|persönliches"),
+      posRegex("ADJ:.+"),
       token("Danke")
     ),
     Arrays.asList(
@@ -661,9 +669,16 @@ public class AgreementRule extends Rule {
       posRegex("SUB:NOM:.*"),
       posRegex("PKT|SENT_END|KON.*")
     ),
-    Arrays.asList( // "Sie sagte, dass das Rache bedeuten würden"
+    Arrays.asList( // "Aber ansonsten ist das erste Sahne"
+      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      csToken("das"),
+      csToken("erste"),
+      csToken("Sahne")
+    ),
+    Arrays.asList( // "Sie sagte, dass das Rache bedeuten würden", "Sie werden merken, dass das echte Nutzer sind."
       pos("KON:UNT"),
       csToken("das"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       posRegex("SUB:.+"),
       new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
     ),
@@ -1019,6 +1034,30 @@ public class AgreementRule extends Rule {
       csRegex("vielen?|wenigen?|einigen?"),
       csToken("Paar"),
       posRegex("SUB:NOM:PLU:...")
+    ),
+    Arrays.asList( // Dann macht das Sinn.
+      csRegex("machte?|ergibt|ergab|stiftete?"),
+      csToken("das"),
+      csToken("Sinn")
+    ),
+    Arrays.asList( // Das sind beides Lichtschalter
+      token("das"),
+      csRegex("sind|waren"),
+      csToken("beides"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:NOM:PLU:.*")
+    ),
+    Arrays.asList( // Heinrich von der Haar (https://de.wikipedia.org/wiki/Heinrich_von_der_Haar)
+      token("Heinrich"),
+      token("von"),
+      token("der"),
+      csRegex("Haars?")
+    ),
+    Arrays.asList( // des Sturm und Drangs
+      token("des"),
+      token("Sturm"),
+      token("und"),
+      csRegex("Drangs?")
     )
   );
 

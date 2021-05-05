@@ -85,8 +85,8 @@ public class MultipleWhitespaceRuleTest {
     assertEquals(6, matches.get(0).getToPos());    
   }
 
-  private void assertGood(String input, JLanguageTool langTool) throws IOException {
-    List<RuleMatch> ruleMatches = langTool.check(input);
+  private void assertGood(String input, JLanguageTool lt) throws IOException {
+    List<RuleMatch> ruleMatches = lt.check(input);
     assertEquals(0, ruleMatches.size());
   }
   
@@ -98,8 +98,8 @@ public class MultipleWhitespaceRuleTest {
     lt.addRule(rule);
   }
 
-  public static MultipleWhitespaceRule getMultipleWhitespaceRule(JLanguageTool langTool) {
-    for (Rule rule : langTool.getAllActiveRules()) {
+  public static MultipleWhitespaceRule getMultipleWhitespaceRule(JLanguageTool lt) {
+    for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof MultipleWhitespaceRule) {
         return (MultipleWhitespaceRule)rule;
       }

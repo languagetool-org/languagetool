@@ -31,49 +31,49 @@ import org.languagetool.rules.RuleMatch;
 
 public class CheckCaseRuleTest {
   private CheckCaseRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new CheckCaseRule(TestTools.getMessages("ca"), new Catalan());
-    langTool = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(new Catalan());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("'Da Vinci'")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("‒ 'Da Vinci'")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("El Prat de Llobregat")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("el Prat de Llobregat")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Da Vinci")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ESTAT D'ALARMA")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("educació secundària")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Educació Secundària obligatòria")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("d'educació secundària obligatòria")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("'Da Vinci'")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ 'Da Vinci'")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("El Prat de Llobregat")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("el Prat de Llobregat")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Da Vinci")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ESTAT D'ALARMA")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("educació secundària")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Joan pau"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Joan pau"));
     assertEquals(1, matches.length);
     assertEquals("Joan Pau", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("Expedient de Regulació Temporal d'Ocupació"));
+    matches = rule.match(lt.getAnalyzedSentence("Expedient de Regulació Temporal d'Ocupació"));
     assertEquals(1, matches.length);
     assertEquals("Expedient de regulació temporal d'ocupació", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("Em vaig entrevistar amb Joan maria"));
+    matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Joan maria"));
     assertEquals(1, matches.length);
     assertEquals("Joan Maria", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("Em vaig entrevistar amb Leonardo Da Vinci"));
+    matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Leonardo Da Vinci"));
     assertEquals(1, matches.length);
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("-\"Leonardo Da Vinci\""));
+    matches = rule.match(lt.getAnalyzedSentence("-\"Leonardo Da Vinci\""));
     assertEquals(1, matches.length);
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
+    matches = rule.match(lt.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
     assertEquals(1, matches.length);
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
         

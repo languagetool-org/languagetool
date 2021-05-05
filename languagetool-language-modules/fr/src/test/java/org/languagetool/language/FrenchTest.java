@@ -46,9 +46,11 @@ public class FrenchTest {
     assertEquals(lang.toAdvancedTypography("'C'est'"), "‘C’est’");
     assertEquals(lang.toAdvancedTypography("Vouliez-vous dire 'C'est'?"), "Vouliez-vous dire ‘C’est’\u202f?");
     assertEquals(lang.toAdvancedTypography("Vouliez-vous dire \"C'est\"?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
+    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>C'est</suggestion>?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
     assertEquals(lang.toAdvancedTypography("Confusion possible : \"a\" est une conjugaison du verbe avoir. Vouliez-vous dire « à »?"), 
         "Confusion possible\u00a0: «\u00a0a\u00a0» est une conjugaison du verbe avoir. Vouliez-vous dire «\u00a0à\u00a0»\u202f?");
     assertEquals(lang.toAdvancedTypography("C'est l'\"homme\"."), "C’est l’« homme ».");
+    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>50\u00a0$</suggestion>?"), "Vouliez-vous dire «\u00a050\u00a0$\u00a0»\u202f?");
   }
 
 }

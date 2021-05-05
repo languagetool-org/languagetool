@@ -106,7 +106,7 @@ class ApiV2 {
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
     if (parameters.get("language") == null) {
-      throw new IllegalArgumentException("'language' parameter missing");
+      throw new BadRequestException("'language' parameter missing");
     }
     Language lang = Languages.getLanguageForShortCode(parameters.get("language"));
     String response = getConfigurationInfo(lang, config);
@@ -127,23 +127,23 @@ class ApiV2 {
   private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     AnnotatedText aText;
     if (parameters.containsKey("text") && parameters.containsKey("data")) {
-      throw new IllegalArgumentException("Set only 'text' or 'data' parameter, not both");
+      throw new BadRequestException("Set only 'text' or 'data' parameter, not both");
     } else if (parameters.containsKey("text")) {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode data = mapper.readTree(parameters.get("data"));
       if (data.get("text") != null && data.get("annotation") != null) {
-        throw new IllegalArgumentException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
+        throw new BadRequestException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
       } else if (data.get("text") != null) {
         aText = getAnnotatedTextFromString(data, data.get("text").asText());
       } else if (data.get("annotation") != null) {
         aText = getAnnotatedTextFromJson(data);
       } else {
-        throw new IllegalArgumentException("'data' key in JSON requires 'text' or 'annotation' key");
+        throw new BadRequestException("'data' key in JSON requires 'text' or 'annotation' key");
       }
     } else {
-      throw new IllegalArgumentException("Missing 'text' or 'data' parameter");
+      throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
   }
@@ -177,10 +177,10 @@ class ApiV2 {
   private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params) throws Exception {
     ensureGetMethod(httpExchange, "/rule/examples");
     if (params.get("lang") == null) {
-      throw new IllegalArgumentException("'lang' parameter missing");
+      throw new BadRequestException("'lang' parameter missing");
     }
     if (params.get("ruleId") == null) {
-      throw new IllegalArgumentException("'ruleId' parameter missing");
+      throw new BadRequestException("'ruleId' parameter missing");
     }
     Language lang = Languages.getLanguageForShortCode(params.get("lang"));
     JLanguageTool lt = new JLanguageTool(lang);
@@ -232,13 +232,13 @@ class ApiV2 {
 
   private void ensureGetMethod(HttpExchange httpExchange, String url) {
     if (!httpExchange.getRequestMethod().equalsIgnoreCase("get")) {
-      throw new IllegalArgumentException(url + " needs to be called with GET");
+      throw new BadRequestException(url + " needs to be called with GET");
     }
   }
   
   private void ensurePostMethod(HttpExchange httpExchange, String url) {
     if (!httpExchange.getRequestMethod().equalsIgnoreCase("post")) {
-      throw new IllegalArgumentException(url + " needs to be called with POST");
+      throw new BadRequestException(url + " needs to be called with POST");
     }
   }
 
@@ -246,7 +246,7 @@ class ApiV2 {
   private UserLimits getUserLimits(Map<String, String> parameters, HTTPServerConfig config) {
     UserLimits limits = ServerTools.getUserLimits(parameters, config);
     if (limits.getPremiumUid() == null) {
-      throw new IllegalStateException("This end point needs a user id");
+      throw new BadRequestException("This end point needs a user id");
     }
     return limits;
   }
@@ -327,9 +327,9 @@ class ApiV2 {
     //
     for (JsonNode node : data.get("annotation")) {
       if (node.get("text") != null && node.get("markup") != null) {
-        throw new IllegalArgumentException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
+        throw new BadRequestException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
       } else if (node.get("text") != null && node.get("interpretAs") != null) {
-        throw new IllegalArgumentException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
+        throw new BadRequestException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
       } else if (node.get("text") != null) {
         atb.addText(node.get("text").asText());
       } else if (node.get("markup") != null) {
@@ -339,7 +339,7 @@ class ApiV2 {
           atb.addMarkup(node.get("markup").asText());
         }
       } else {
-        throw new IllegalArgumentException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
+        throw new BadRequestException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
       }
     }
     return atb.build();

@@ -127,9 +127,7 @@ public class German extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann.")),
-            new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
-                    Arrays.asList("]", ")", "}", "“", "«", "»", "\"")),
+            new GermanUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut.")),
@@ -159,7 +157,7 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new GermanStyleRepeatedWordRule(messages, this, userConfig),
             new CompoundCoherencyRule(messages),
-            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongSentenceRule(messages, userConfig, 40, true, true),
             new GermanFillerWordsRule(messages, this, userConfig),
             new NonSignificantVerbsRule(messages, this, userConfig),
             new UnnecessaryPhraseRule(messages, this, userConfig),
@@ -281,16 +279,13 @@ public class German extends Language implements AutoCloseable {
   }
   
   @Override
-  public String toAdvancedTypography (String input) {
+  public String toAdvancedTypography(String input) {
     String output = super.toAdvancedTypography(input);
-    
     //non-breaking space
+    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     return output;
   }
-  
-
-
   
   @Override
   public LanguageMaintainedState getMaintainedState() {
@@ -302,6 +297,8 @@ public class German extends Language implements AutoCloseable {
     switch (id) {
       // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "DE_COMPOUNDS": return 10;
+      case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
       case "RESOURCE_RESSOURCE": return 1;  // better error than DE_CASE
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
@@ -322,13 +319,17 @@ public class German extends Language implements AutoCloseable {
       case "DASS_MIT_VERB": return 1; // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
       case "AB_TEST": return 1; // prefer over spell checker and agreement
       case "BZGL_ABK": return 1; // prefer over spell checker
-      case "DURCH_WACHSEN": return 1; // prefer over SUBSTANTIVIERUNG_NACH_DURCHs
+      case "DURCH_WACHSEN": return 1; // prefer over SUBSTANTIVIERUNG_NACH_DURCH
       case "RUNDUM_SORGLOS_PAKET": return 1; // higher prio than DE_CASE
       case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
+      case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       // default is 0
+      case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
+      case "GEFEATURED": return -1; // prefer over spell checker
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
+      case "SUBJECT_VERB_AGREEMENT": return -1; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
@@ -338,6 +339,7 @@ public class German extends Language implements AutoCloseable {
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
+      case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;

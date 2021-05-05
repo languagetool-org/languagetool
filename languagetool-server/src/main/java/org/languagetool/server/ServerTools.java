@@ -137,22 +137,21 @@ final class ServerTools {
       return UserLimits.getLimitsFromToken(config, params.get("token"));
     } else if (params.get("username") != null) {
       if (params.get("apiKey") != null && params.get("password") != null) {
-        // TODO: throw exception (but first log to see how often this happens)
-        print("WARN: apiKey AND password was set: " + params.get("apiKey"), System.err);
+        throw new BadRequestException("apiKey AND password was set, set only apiKey");
       }
       if (params.get("apiKey") != null) {
         return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apiKey"));
       } else if (params.get("password") != null) {
         return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
       } else {
-        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' (recommended) or 'password'");
+        throw new BadRequestException("With 'username' set, you also need to specify 'apiKey'");
       }
     } else {
       if (params.get("apiKey") != null) {
-        throw new IllegalArgumentException("apiKey was set, but username was not: " + params.get("apiKey"));
+        throw new BadRequestException("apiKey was set, but username was not: " + params.get("apiKey"));
       }
       if (params.get("password") != null) {
-        throw new IllegalArgumentException("password was set, but username was not");
+        throw new BadRequestException("password was set, but username was not");
       }
       return UserLimits.getDefaultLimits(config);
     }
@@ -170,7 +169,7 @@ final class ServerTools {
       } else if ("all".equals(modeParam)) {
         mode = JLanguageTool.Mode.ALL;
       } else {
-        throw new IllegalArgumentException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
+        throw new BadRequestException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
       }
     } else {
       mode = JLanguageTool.Mode.ALL;
@@ -198,7 +197,7 @@ final class ServerTools {
       } else if ("picky".equals(param)) {
         level = JLanguageTool.Level.PICKY;
       } else {
-        throw new IllegalArgumentException("If 'level' is set, it must be set to 'default' or 'picky'");
+        throw new BadRequestException("If 'level' is set, it must be set to 'default' or 'picky'");
       }
     } else {
       level = JLanguageTool.Level.DEFAULT;

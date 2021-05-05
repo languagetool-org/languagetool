@@ -461,7 +461,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "in week four", // vs for
       "in month four", // vs for
       "s day four", // vs for
-      "is day four" // vs for
+      "is day four", // vs for
+      "the powers that be" // vs we
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -470,6 +471,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       tokenRegex("the|these|those"),
       token("wee"),
       posRegex("NNS")
+    ),
+    Arrays.asList(
+      // "I just can't tell them no when they look at me with those puppy dog eyes"
+      tokenRegex("tells?|told|telling|answers?|answering|answered|reply|replies|replied|replying"),
+      tokenRegex("them|him|her"),
+      token("no")
     ),
     Arrays.asList(
       // way vs was: This way a person could learn ....

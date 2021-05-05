@@ -18,48 +18,47 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Example;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Portuguese;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
- * A rule that matches words or phrases which should not be used and suggests
- * correct ones instead.
+ * A rule that matches words which should not be used and suggests correct ones instead. 
+ * Romanian implementations. Loads the list of words from
+ * <code>/ro/replace.txt</code>.
  *
- * @author Marcin Miłkowski
- * @author Tiago F. Santos
+ * @author Tiago F. Santos (localized from romanian)
  * @since 3.6
  */
- 
-public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
+public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PORTUGAL_PORTUGUESE_SIMPLE_REPLACE_RULE = "PT_PT_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/pt/pt-PT/replace.txt");
-  private static final Locale PT_PT_LOCALE = new Locale("pt-PT");
+  private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
+
+  private final String path;
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
+  public List<String> getFileNames() {
+    return Collections.singletonList(path);
   }
 
-  public PortugalPortugueseReplaceRule(ResourceBundle messages) {
-    super(messages);
-    super.setCategory(Categories.REGIONALISMS.getCategory(messages));
+  public PortugalPortugueseReplaceRule(ResourceBundle messages, String path) {
+    super(messages, new Portuguese());
+    this.path = Objects.requireNonNull(path);
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
-    addExamplePair(Example.wrong("Onde está o <marker>banheiro</marker>?"),
-                   Example.fixed("Onde está o <marker>toilet</marker>?"));
+    addExamplePair(Example.wrong("<marker>aeromoça</marker>"),
+                   Example.fixed("<marker>hospedeira de bordo</marker>"));
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PORTUGAL_PORTUGUESE_SIMPLE_REPLACE_RULE;
   }
 
@@ -70,23 +69,33 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getShort() {
-    return "Palavra brasileira";
-  }
-  
-  @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return "'" + tokenStr + "' é uma expressão brasileira, em Português de Portugal utiliza-se: "
-        + String.join(", ", replacements) + ".";
+    return "Palavra de português do Brasil";
   }
 
   @Override
-  public boolean isCaseSensitive() {
-    return false;
+  public String getMessage() {
+    return "'$match' é uma expressão brasileira, em português de Portugal utiliza-se: $suggestions";
   }
+
+  @Override
+  public String getSuggestionsSeparator() {
+    return " ou ";
+  }
+
+//  @Override
+//  public URL getUrl() {
+//    return Tools.getUrl("https://pt.wikipedia.org/wiki/Estrangeirismo");
+//  }
 
   @Override
   public Locale getLocale() {
-    return PT_PT_LOCALE;
+    return PT_LOCALE;
+  }
+  
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // proper nouns tagged in multiwords are exceptions
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized();
   }
 
 }

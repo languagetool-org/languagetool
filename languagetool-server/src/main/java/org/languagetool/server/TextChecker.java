@@ -60,7 +60,7 @@ abstract class TextChecker {
   private static final int NGRAM_THRESHOLD = 50;
 
   protected abstract void setHeaders(HttpExchange httpExchange);
-  protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
+  protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason, int compactMode, boolean showPremiumHint);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
@@ -142,6 +142,14 @@ abstract class TextChecker {
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
       }
+    }
+  }
+
+  private static Language parseLanguage(String code) throws BadRequestException {
+    try {
+      return Languages.getLanguageForShortCode(code);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 
@@ -282,7 +290,7 @@ abstract class TextChecker {
     List<String> preferredVariants = getPreferredVariants(parameters);
     if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-      throw new IllegalArgumentException("You can specify 'noopLanguages' only when also using 'language=auto'");
+      throw new BadRequestException("You can specify 'noopLanguages' only when also using 'language=auto'");
     }
     List<String> noopLangs = parameters.get("noopLanguages") != null ?
             Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();
@@ -317,17 +325,17 @@ abstract class TextChecker {
     }
     //print("Starting check: " + aText.getPlainText().length() + " chars, #" + count);
     String motherTongueParam = parameters.get("motherTongue");
-    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
+    Language motherTongue = motherTongueParam != null ? parseLanguage(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
     List<Language> altLanguages = new ArrayList<>();
     if (parameters.get("altLanguages") != null) {
       String[] altLangParams = parameters.get("altLanguages").split(",\\s*");
       for (String langCode : altLangParams) {
-        Language altLang = Languages.getLanguageForShortCode(langCode);
+        Language altLang = parseLanguage(langCode);
         altLanguages.add(altLang);
         if (altLang.hasVariant() && !altLang.isVariant()) {
           ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-          throw new IllegalArgumentException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
+          throw new BadRequestException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
         }
       }
     }
@@ -339,11 +347,11 @@ abstract class TextChecker {
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=true");
+      throw new BadRequestException("You cannot specify disabled rules or categories using enabledOnly=true");
     }
     if (enabledRules.isEmpty() && enabledCategories.isEmpty() && useEnabledOnly) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
-      throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
+      throw new BadRequestException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 
     boolean enableTempOffRules = "true".equals(parameters.get("enableTempOffRules"));
@@ -362,25 +370,26 @@ abstract class TextChecker {
 
     int textSize = aText.getPlainText().length();
 
-    List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
+    List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
 
-    Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
+    Future<List<CheckResults>> future = executorService.submit(new Callable<List<CheckResults>>() {
       @Override
-      public List<RuleMatch> call() throws Exception {
+      public List<CheckResults> call() throws Exception {
         // use to fake OOM in thread for testing:
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        return getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs, preferredVariants, f -> ruleMatchesSoFar.add(f));
+        return getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
+                preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
       }
     });
     String incompleteResultReason = null;
-    List<RuleMatch> matches;
+    List<CheckResults> res;
     try {
       if (limits.getMaxCheckTimeMillis() < 0) {
-        matches = future.get();
+        res = future.get();
       } else {
-        matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
+        res = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
       }
     } catch (ExecutionException e) {
       future.cancel(true);
@@ -392,7 +401,7 @@ abstract class TextChecker {
         logger.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
           "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
           parameters, System.currentTimeMillis()-timeStart, reqCounter));
-        matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
         incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
         throw (OutOfMemoryError)e.getCause();
@@ -419,7 +428,7 @@ abstract class TextChecker {
                        ", system load: " + loadInfo + ")";
       if (params.allowIncompleteResults) {
         logger.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-        matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
         incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
       } else {
@@ -446,6 +455,10 @@ abstract class TextChecker {
         try {
           long start = System.currentTimeMillis();
           List<RemoteRuleMatch> extensionMatches = resultExtender.getExtensionMatches(aText.getPlainText(), parameters);
+          List<RuleMatch> matches = new ArrayList<>();
+          for (CheckResults result : res) {
+            matches.addAll(result.getRuleMatches());
+          }
           hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, extensionMatches);
           long end = System.currentTimeMillis();
           logger.info("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms for " + lang.getShortCodeWithCountryAndVariant());
@@ -467,7 +480,7 @@ abstract class TextChecker {
       }
     }
     int compactMode = Integer.parseInt(parameters.getOrDefault("c", "0"));
-    String response = getResponse(aText, lang, detLang, motherTongue, matches, hiddenMatches, incompleteResultReason, compactMode, limits.getPremiumUid() == null);
+    String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode, limits.getPremiumUid() == null);
     if (params.callback != null) {
       // JSONP - still needed today for the special case of hosting your own on-premise LT without SSL
       // and using it from a local MS Word (not Online Word) - issue #89 in the add-in repo:
@@ -493,24 +506,26 @@ abstract class TextChecker {
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
-            ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
-            + matches.size() + " matches, "
-            + computationTime + "ms, agent:" + agent + version
-            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
-            + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
-            + ", m:" + ServerTools.getModeForLog(mode) + skipLimits);
-
-    int matchCount = matches.size();
+    
+    int matchCount = 0;
     Map<String, Integer> ruleMatchCount = new HashMap<>();
-    for (RuleMatch match : matches) {
-      String ruleId = match.getRule().getId();
-      ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+    for (CheckResults r : res) {
+      for (RuleMatch ruleMatch : r.getRuleMatches()) {
+        matchCount++;
+        String ruleId = ruleMatch.getRule().getId();
+        ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+      }
     }
-
+    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+        ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
+        + matchCount + " matches, "
+        + computationTime + "ms, agent:" + agent + version
+        + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
+        + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
+        + ", m:" + ServerTools.getModeForLog(mode) + skipLimits);
     ServerMetricsCollector.getInstance().logCheck(
       lang, computationTime, textSize, matchCount, mode);
-
+    
     if (!config.isSkipLoggingChecks()) {
       DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
         lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
@@ -562,12 +577,12 @@ abstract class TextChecker {
 
   protected void checkParams(Map<String, String> parameters) {
     if (parameters.get("text") == null && parameters.get("data") == null) {
-      throw new IllegalArgumentException("Missing 'text' or 'data' parameter");
+      throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
   }
 
-  private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
-                                         Language motherTongue, Map<String, String> parameters, 
+  private List<CheckResults> getRuleMatches(AnnotatedText aText, Language lang,
+                                         Language motherTongue, Map<String, String> parameters,
                                          QueryParams params, UserConfig userConfig,
                                          DetectedLanguage detLang,
                                          List<String> preferredLangs, List<String> preferredVariants,
@@ -584,21 +599,23 @@ abstract class TextChecker {
 
     if (parameters.get("sourceText") != null) {
       if (parameters.get("sourceLanguage") == null) {
-        throw new IllegalArgumentException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
+        throw new BadRequestException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
       }
-      Language sourceLanguage = Languages.getLanguageForShortCode(parameters.get("sourceLanguage"));
+      Language sourceLanguage = parseLanguage(parameters.get("sourceLanguage"));
       JLanguageTool sourceLt = new JLanguageTool(sourceLanguage);
       JLanguageTool targetLt = new JLanguageTool(lang);
       if (userConfig.filterDictionaryMatches()) {
         targetLt.addMatchFilter(new DictionaryMatchFilter(userConfig));
       }
       List<BitextRule> bitextRules = Tools.getBitextRules(sourceLanguage, lang);
-      return Tools.checkBitext(parameters.get("sourceText"), aText.getPlainText(), sourceLt, targetLt, bitextRules);
+      return Collections.singletonList(
+              new CheckResults(Tools.checkBitext(parameters.get("sourceText"), aText.getPlainText(), sourceLt, targetLt, bitextRules), Collections.emptyList())
+      );
     } else {
-      List<RuleMatch> matches = new ArrayList<>();
+      List<CheckResults> res = new ArrayList<>();
 
       if (preferredLangs.size() < 2 || parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
-        matches.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+        res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
       } else {
         // support for multilingual texts:
         try {
@@ -617,31 +634,31 @@ abstract class TextChecker {
           langs.addAll(secondLangs);
           Map<Language, AnnotatedTextBuilder> lang2builder = getBuilderMap(fragments, new HashSet<>(langs));
           for (Map.Entry<Language, AnnotatedTextBuilder> entry : lang2builder.entrySet()) {
-            matches.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
+            res.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
           }
         } catch (Exception e) {
           logger.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
             "falling back to single language.", e);
-          matches.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+          res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
         }
       }
-      return matches;
+      return res;
     }
   }
 
   private Language getLanguageVariantForCode(String langCode, List<String> preferredVariants) {
     for (String preferredVariant : preferredVariants) {
       if (preferredVariant.startsWith(langCode + "-")) {
-        return Languages.getLanguageForShortCode(preferredVariant);
+        return parseLanguage(preferredVariant);
       }
     }
-    return Languages.getLanguageForShortCode(langCode);
+    return parseLanguage(langCode);
   }
 
-  private List<RuleMatch> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
+  private List<CheckResults> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
     PipelinePool.PipelineSettings settings = null;
     Pipeline lt = null;
-    List<RuleMatch> matches = new ArrayList<>();
+    List<CheckResults> res = new ArrayList<>();
     try {
       settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
       lt = pipelinePool.getPipeline(settings);
@@ -649,14 +666,14 @@ abstract class TextChecker {
       if (params.regressionTestMode) {
         textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
       }
-      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
+      res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
         params.mode, params.level, executorService, textSessionId));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);
       }
     }
-    return matches;
+    return res;
   }
 
   @NotNull
@@ -701,34 +718,34 @@ abstract class TextChecker {
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
                                           List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
     DetectedLanguage detected;
-    String mode;
-    long t1 = System.nanoTime();
+    //String mode;
+    //long t1 = System.nanoTime();
     if (ngramIdentifier != null && text.length() < NGRAM_THRESHOLD) {
       detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
-      mode = "ngram";
+      //mode = "ngram";
     } else {
       detected = fastTextIdentifier.detectLanguage(text, noopLangs, preferredLangs);
-      mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
+      //mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
     }
-    long t2 = System.nanoTime();
-    float runTime = (t2-t1)/1000.0f/1000.0f;
+    //long t2 = System.nanoTime();
+    //float runTime = (t2-t1)/1000.0f/1000.0f;
     //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     Language lang;
     if (detected == null) {
-      lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
+      lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
     } else {
       lang = detected.getDetectedLanguage();
     }
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
         if (!preferredVariant.contains("-")) {
-          throw new IllegalArgumentException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
+          throw new BadRequestException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
         if (preferredVariantLang.equals(lang.getShortCode())) {
-          lang = Languages.getLanguageForShortCode(preferredVariant);
+          lang = parseLanguage(preferredVariant);
           if (lang == null) {
-            throw new IllegalArgumentException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
+            throw new BadRequestException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
           }
         }
       }
@@ -780,7 +797,7 @@ abstract class TextChecker {
       this.mode = Objects.requireNonNull(mode);
       this.level = Objects.requireNonNull(level);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
-        throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
+        throw new BadRequestException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }
       this.callback = callback;
       this.inputLogging = inputLogging;

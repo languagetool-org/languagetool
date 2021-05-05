@@ -233,42 +233,10 @@ class DatabaseAccess {
    * @since 4.3
    */
   Long getOrCreateServerId() {
-    if (sqlSessionFactory == null) {
-      return null;
-    }
-    try {
-      String hostname = InetAddress.getLocalHost().getHostName();
-      Long id = dbLoggingCache.get("server_" + hostname, () -> {
-        try (SqlSession session = sqlSessionFactory.openSession(true)) {
-          Map<Object, Object> parameters = new HashMap<>();
-          parameters.put("hostname", hostname);
-          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
-          if (result.size() > 0) {
-            return result.get(0);
-          } else {
-            session.insert("org.languagetool.server.LogMapper.newServer", parameters);
-            Object value = parameters.get("id");
-            if (value == null) {
-              //System.err.println("Could not get new server id for this host.");
-              return -1L;
-            } else {
-              return (Long) value;
-            }
-          }
-        } catch (PersistenceException e) {
-          logger.warn("Error: Could not fetch/register server id from database for server: " + hostname, e);
-          return -1L;
-        }
-      });
-      if (id == -1L) { // loaders can't return null, so using -1 instead
-        return null;
-      } else {
-        return id;
-      }
-    } catch (UnknownHostException | ExecutionException e) {
-      logger.warn("Error: Could not get hostname to fetch/register server id: ", e);
-      return null;
-    }
+    // original code not working anymore
+    // database logging is going to be deprecated
+    // this is not supported anymore, just silently fail
+    return null;
   }
 
   /**
@@ -314,10 +282,10 @@ class DatabaseAccess {
   
   private void validateWord(String word) {
     if (word == null || word.trim().isEmpty()) {
-      throw new IllegalArgumentException("Invalid word, cannot be empty or whitespace only");
+      throw new BadRequestException("Invalid word, cannot be empty or whitespace only");
     }
     if (word.matches(".*\\s.*")) {
-      throw new IllegalArgumentException("Invalid word, you can only words that don't contain spaces: '" + word + "'");
+      throw new BadRequestException("Invalid word, you can only words that don't contain spaces: '" + word + "'");
     }
   }
 

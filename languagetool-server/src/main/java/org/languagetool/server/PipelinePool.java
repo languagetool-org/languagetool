@@ -59,14 +59,14 @@ class PipelinePool {
     private final Language lang;
     private final Language motherTongue;
     private final TextChecker.QueryParams query;
-    private final UserConfig user;
+    private final UserConfig userConfig;
     private final GlobalConfig globalConfig;
     
     PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {
       this.lang = lang;
       this.motherTongue = motherTongue;
       this.query = params;
-      this.user = userConfig;
+      this.userConfig = userConfig;
       this.globalConfig = globalConfig;
     }
 
@@ -77,7 +77,7 @@ class PipelinePool {
         .append(motherTongue)
         .append(query)
         .append(globalConfig)
-        .append(user)
+        .append(userConfig)
         .toHashCode();
     }
 
@@ -93,7 +93,7 @@ class PipelinePool {
         .append(motherTongue, other.motherTongue)
         .append(query, other.query)
         .append(globalConfig, other.globalConfig)
-        .append(user, other.user)
+        .append(userConfig, other.userConfig)
         .isEquals();
     }
 
@@ -104,7 +104,7 @@ class PipelinePool {
         .append("motherTongue", motherTongue)
         .append("query", query)
         .append("globalConfig", globalConfig)
-        .append("user", user)
+        .append("user", userConfig)
         .build();
     }
   }
@@ -168,14 +168,14 @@ class PipelinePool {
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
         //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
-        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
+        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
       } else {
         pipelinesUsed++;
         //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {
-      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
+      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
     }
   }
 
@@ -219,9 +219,13 @@ class PipelinePool {
         logger.error("Could not load remote rule configuration", e);
       }
       // modify remote rule configuration: no timeouts, downtime, ...
+
+      // temporary workaround: don't run into check timeout, causes limit enforcement;
+      // extend timeout as long as possible instead
+      long timeout = Math.max(config.getMaxCheckTimeMillis() - 1, 0);
       rules = rules.stream().map(c -> {
         return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
-          0, 0L, 0f,
+          0, timeout, 0f,
           0, 0L, c.getOptions());
       }).collect(Collectors.toList());
       lt.activateRemoteRules(rules);
@@ -241,22 +245,22 @@ class PipelinePool {
     return lt;
   }
 
-  private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
+  private void configureFromRulesFile(JLanguageTool lt, Language lang) throws IOException {
     ServerTools.print("Using options configured in " + config.getRulesConfigFile());
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
     if (config.getRulesConfigFile() != null) {
-      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile()
+      org.languagetool.gui.Tools.configureFromRules(lt, new Configuration(config.getRulesConfigFile()
         .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));
     } else {
       throw new RuntimeException("config.getRulesConfigFile() is null");
     }
   }
 
-  private void configureFromGUI(JLanguageTool langTool, Language lang) throws IOException {
+  private void configureFromGUI(JLanguageTool lt, Language lang) throws IOException {
     Configuration config = new Configuration(lang);
     if (internalServer && config.getUseGUIConfig()) {
       ServerTools.print("Using options configured in the GUI");
-      org.languagetool.gui.Tools.configureFromRules(langTool, config);
+      org.languagetool.gui.Tools.configureFromRules(lt, config);
     }
   }
 

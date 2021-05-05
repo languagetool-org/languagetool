@@ -20,11 +20,9 @@ package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.AbstractDateCheckFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,7 +100,6 @@ public class AdverbFilter extends RuleFilter {
     put("decreasingly", "decreasing");
     put("considerably", "considerable");
     put("effectively", "effective");
-    put("fairly", "fair");
     put("briefly", "brief");
     put("exceedingly", "exceeding");
     put("physically", "physical");
@@ -113,12 +110,10 @@ public class AdverbFilter extends RuleFilter {
     put("surely", "sure");
     put("positively", "positive");
     put("negatively", "negative");
-    put("outwards", "outward");
     put("devastatingly", "devastating");
     put("relatively", "relative");
     put("absolutely", "absolute");
     put("socially", "social");
-    put("consciously", "conscious");
     put("industriously", "industrious");
     put("solely", "sole");
     put("asynchronously", "asynchronous");
@@ -126,9 +121,7 @@ public class AdverbFilter extends RuleFilter {
     put("unfortunately", "unfortunate");
     put("ideally", "ideal");
     put("privately", "private");
-    put("reasonably", "reasonable");
     put("unreasonably", "unreasonable");
-    put("forcibly", "forcible");
     put("personally", "personal");
     put("basically", "basic");
     put("definitely", "definite");
@@ -186,7 +179,6 @@ public class AdverbFilter extends RuleFilter {
     put("sustainably", "sustainable");
     put("momentarily", "momentary");
     put("coldly", "cold");
-    put("nasally", "nasal");
     put("densely", "dense");
     put("grimly", "grim");
     put("calmly", "calm");
@@ -281,7 +273,6 @@ public class AdverbFilter extends RuleFilter {
     put("playfully", "playful");
     put("wonderfully", "wonderful");
     put("roguishly", "roguish");
-    put("legally", "legal");
     put("emotionally", "emotional");
     put("efficiently", "efficient");
     put("unkindly", "unkind");
@@ -360,7 +351,6 @@ public class AdverbFilter extends RuleFilter {
     put("finely", "fine");
     put("respectfully", "respectful");
     put("questioningly", "questioning");
-    put("nasally", "nasal");
     put("diagonally", "diagonal");
     put("additionally", "additional");
     put("sexually", "sexual");
@@ -412,7 +402,6 @@ public class AdverbFilter extends RuleFilter {
     put("genetically", "genetic");
     put("inexplicably", "inexplicable");
     put("explicably", "explicable");
-    put("secondly", "second");
     put("domestically", "domestical");
     put("invisibly", "invisible");
     put("visibly", "visible");
@@ -487,6 +476,24 @@ public class AdverbFilter extends RuleFilter {
     put("ecologically", "ecological");
     put("irrepressibly", "irrepressible");
     put("repressibly", "repressible");
+    put("heartily", "hearty");
+    put("smoothly", "smooth");
+    put("dreamily", "dreamy");
+    put("indirectly", "indirect");
+    put("fascinatingly", "fascinating");
+    put("scientifically", "scientific");
+    put("unhappily", "unhappy");
+    put("publicly", "public");
+    put("healthfully", "healthful");
+    put("uncharacteristically", "uncharacteristic");
+    put("genially", "genial");
+    put("ineludibly", "ineludible");
+    put("tenderly", "tender");
+    put("arguably", "arguable");
+    put("comparably", "comparable");
+    put("procedurally", "procedural");
+    put("interchangeably", "interchangeable");
+    put("twice", "second"); // special case
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
   }};

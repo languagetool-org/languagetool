@@ -261,6 +261,11 @@ class LORemoteLanguageTool {
         matchRule = rule;
       }
     }
+    if (matchRule == null) {
+      MessageHandler.printToLogFile("WARNING: Rule \"" + remoteMatch.getRuleDescription() + "(ID: " 
+                                    + remoteMatch.getRuleId() + ")\" not supported by LO extension!");
+      return null;
+    }
     RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset() + nOffset, 
         remoteMatch.getErrorOffset() + remoteMatch.getErrorLength() + nOffset, remoteMatch.getMessage(), 
         remoteMatch.getShortMessage().isPresent() ? remoteMatch.getShortMessage().get() : null);
@@ -283,7 +288,9 @@ class LORemoteLanguageTool {
     }
     for (RemoteRuleMatch remoteMatch : remoteRulematches) {
       RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
-      ruleMatches.add(ruleMatch);
+      if (ruleMatch != null) {
+        ruleMatches.add(ruleMatch);
+      }
     }
     return ruleMatches;
   }

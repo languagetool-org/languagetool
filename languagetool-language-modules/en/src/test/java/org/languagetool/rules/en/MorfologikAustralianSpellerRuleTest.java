@@ -42,9 +42,9 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
     Rule rule = new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
 
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
     // suggestions from language specific spelling_en-XX.txt
-    assertSuggestion(rule, langTool, "AUTestWordToBeIgnore", "AUTestWordToBeIgnored");
+    assertSuggestion(rule, lt, "AUTestWordToBeIgnore", "AUTestWordToBeIgnored");
   }
 
   @Test
@@ -53,37 +53,37 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
     MorfologikAustralianSpellerRule rule =
             new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("My fiancée")).length);  // check encoding isn't broken, spelling_merged.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Why don't we speak today.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("My fiancée")).length);  // check encoding isn't broken, spelling_merged.txt
     //with doesn't
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji 😍!")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("He doesn't know what to do.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji 😍!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
 
     //Australian dict:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dinkum")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dinkum")).length);
 
     //incorrect sentences:
 
-    RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("behavior"));
+    RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("behavior"));
     // check match positions:
     assertEquals(1, matches1.length);
     assertEquals(0, matches1[0].getFromPos());
     assertEquals(8, matches1[0].getToPos());
     assertEquals("behaviour", matches1[0].getSuggestedReplacements().get(0));
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
     
     //based on replacement pairs:
 
-    RuleMatch[] matches2 = rule.match(langTool.getAnalyzedSentence("He teached us."));
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("He teached us."));
     // check match positions:
     assertEquals(1, matches2.length);
     assertEquals(3, matches2[0].getFromPos());

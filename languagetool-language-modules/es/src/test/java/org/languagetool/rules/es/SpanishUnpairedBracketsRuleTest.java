@@ -20,8 +20,8 @@ package org.languagetool.rules.es;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -29,28 +29,30 @@ import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
-public class GenericUnpairedBracketsRuleTest {
+public class SpanishUnpairedBracketsRuleTest {
 
-  private GenericUnpairedBracketsRule rule;
-  private JLanguageTool langTool;
+  private SpanishUnpairedBracketsRule rule;
+  private JLanguageTool lt;
 
   @Test
   public void testSpanishRule() throws IOException {
-    langTool = new JLanguageTool(new Spanish());
-    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
+    lt = new JLanguageTool(new Spanish());
+    rule = new SpanishUnpairedBracketsRule(TestTools.getEnglishMessages());
     // correct sentences:
     assertMatches("Soy un hombre (muy honrado).", 0);
     assertMatches("D'Hondt.", 0);
     assertMatches("D’Hondt.", 0);
     assertMatches("L’Équipe", 0);
     assertMatches("rock ’n’ roll", 0);
+    assertMatches("Harper's Dictionary of Classical Antiquities", 0);
+    assertMatches("Harper’s Dictionary of Classical Antiquities", 0);
     // incorrect sentences:
     assertMatches("Soy un hombre muy honrado).", 1);
     assertMatches("Soy un hombre (muy honrado.", 1);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

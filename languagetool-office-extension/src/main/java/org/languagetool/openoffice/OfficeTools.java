@@ -18,8 +18,13 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -65,7 +70,6 @@ class OfficeTools {
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
   public static final int NUMBER_TEXTLEVEL_CACHE = 4;  // Number of caches for matches of text level rules
-
   
   public static int DEBUG_MODE_SD = 0;
   public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
@@ -90,6 +94,10 @@ class OfficeTools {
   
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
+  
+  private static final double LT_HEAP_LIMIT_FACTOR = 0.9;
+  private static double MAX_HEAP_SPACE = -1;
+  private static double LT_HEAP_LIMIT = -1;
 
   /**
    * Returns the XDesktop
@@ -121,7 +129,8 @@ class OfficeTools {
    * Returns the current XComponent 
    * Returns null if it fails
    */
-  @Nullable
+  @Nullable    String version = System.getProperty("java.version");
+
   static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getDesktop(xContext);
@@ -435,7 +444,51 @@ class OfficeTools {
     }
     return cacheDir;
   }
+  
+  private static double getMaxHeapSpace() {
+    if(MAX_HEAP_SPACE < 0) {
+      MAX_HEAP_SPACE = Runtime.getRuntime().maxMemory();
+    }
+    return MAX_HEAP_SPACE;
+  }
+  
+  private static double getHeapLimit(double maxHeap) {
+    if(LT_HEAP_LIMIT < 0) {
+      LT_HEAP_LIMIT = maxHeap * LT_HEAP_LIMIT_FACTOR;
+    }
+    return LT_HEAP_LIMIT;
+  }
+  
+  public static double getCurrentHeapRatio() {
+    return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / LT_HEAP_LIMIT;
+  }
+  
+  public static boolean isHeapLimitReached() {
+    long usedHeap = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+    return (LT_HEAP_LIMIT < usedHeap);
+  }
+  
+  /**
+   * Get information about Java as String
+   */
+  public static String getJavaInformation () {
+    return "Java-Version: " + System.getProperty("java.version") + ", max. Heap-Space: " + ((int) (getMaxHeapSpace()/1048576)) +
+        " MB, LT Heap Space Limit: " + ((int) (getHeapLimit(getMaxHeapSpace())/1048576)) + " MB";
+  }
 
+  /**
+   * Get LanguageTool Image
+   */
+  public static Image getLtImage() {
+    try {
+      URL url = OfficeTools.class.getResource("/images/LanguageToolSmall.png");
+      return ImageIO.read(url);
+    } catch (IOException e) {
+      MessageHandler.showError(e);
+    }
+    return null;
+  }
+  
   /**
    * Handle logLevel for debugging and development
    */

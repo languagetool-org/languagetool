@@ -62,7 +62,6 @@ public class CommaWhitespaceRule extends Rule {
     this.quotesWhitespaceCheck = true;
   }
 
-
   @Override
   public String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
@@ -77,6 +76,14 @@ public class CommaWhitespaceRule extends Rule {
     return ",";
   }
 
+  /**
+   * @return Returns true if there exception to this rule
+   * @since 5.3
+   */
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int tokenIdx) {
+    return false;
+  }
+  
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -87,6 +94,7 @@ public class CommaWhitespaceRule extends Rule {
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       boolean isWhitespace = isWhitespaceToken(tokens[i]);
+
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
@@ -135,7 +143,7 @@ public class CommaWhitespaceRule extends Rule {
           }
         }
       }
-      if (msg != null) {
+      if (msg != null && ! isException(tokens, i) ) {
         int fromPos = tokens[i - 1].getStartPos();
         int toPos = tokens[i].getEndPos();
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);

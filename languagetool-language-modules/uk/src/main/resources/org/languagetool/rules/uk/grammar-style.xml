@@ -2519,7 +2519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*|.*_END"/>
         </token>
       </pattern>
-      <message>Це слово є застарілим, архаїчним або діалектним.</message>
+      <message>Це слово або форма є застарілою, архаїчною або діалектною.</message>
       <example correction="">І <marker>сього</marker> дня.</example>
       <example>довгу</example>
       <example>Анголи</example>
@@ -2652,7 +2652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="passive_predicate" name="Замість пасивних конструкцій із діячем (наприклад, нами розглянуто) рекомендовано вживати активні конструкції (ми розглянули)">
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
+          <token postag_regexp="yes" postag="(noun|numr).*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
           <marker>
             <token min="0">було</token>
             <token postag_regexp="yes" postag="verb.*:impers.*">
@@ -2682,6 +2682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="">Це <marker>зроблено шановним академіком</marker>.</example>
         <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
         <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
+        <example correction="">15 тис. <marker>отримано фахівцями</marker>.</example>
         <!-- TODO:
         <example correction="">про це <marker>було заявлено нашими міністрами </marker>.</example>
         -->
@@ -2968,6 +2969,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Вона виглядає з вікна.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="OBYEM_VS_OBSYAG" name="Об'єм замість обсяг">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">об'єм</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">будівництво|бюджет|знання|інформація|капіталовкладення|навантаженя|продукція|постачання|робота</token>
+        </pattern>
+        <message>Правильно: <suggestion>обсяг</suggestion></message>
+        <example correction="Обсяг"><marker>Об'єм</marker> продукції збільшився вдвічи</example>
+        <example>Об'єм двигуна - 3 кубічних дециметри</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">об'єм</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token>пам'яті</token>
+        </pattern>
+        <message>Правильно: <suggestion>місткість</suggestion></message>
+        <suggestion>обсяг</suggestion>
+        <example correction="місткість|обсяг"><marker>об'єм</marker> оперативної пам'яті</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">обсяг</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">рідина</token>
+        </pattern>
+        <message>Правильно: <suggestion>об'єм</suggestion></message>
+        <example correction="Об'єм"><marker>Обсяг</marker> рідини</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="V_SHOCI" name="В шоці">
+      <pattern>
+        <token regexp="yes">[ув]</token>
+        <token postag_regexp="yes" postag="adj:m:v_mis.*" min="0"/>
+        <token>шоці</token>
+      </pattern>
+      <message>Деякі мовознавці вважають форму «шоці» небажаною</message>
+      <suggestion>шокований</suggestion>
+      <suggestion>(кого) взяв/охопив шок</suggestion>
+      <suggestion><match no="1"/> <match no="2"/> шоку</suggestion>
+      <example correction="шокований|(кого) взяв/охопив шок|в легкому шоку">я <marker>в легкому шоці</marker></example>
+      <example correction="шокований|(кого) взяв/охопив шок|в шоку">я <marker>в шоці</marker></example>
+    </rule>
+
+    <rule id="nadavaty_perevagu" name="Надавати перевагу" default="off">
+      <pattern>
+        <marker>
+          <token inflected="yes">надавати</token>
+        </marker>
+        <token>перевагу</token>
+      </pattern>
+      <message>Правильно: <suggestion>віддавати</suggestion></message>
+      <example correction="віддавати">Він <marker>надавав</marker> перевагу іншому способу.</example>
+    </rule>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення

@@ -22,8 +22,10 @@ package org.languagetool.rules.en;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
@@ -35,12 +37,12 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "\"");
   private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "\"");
+  private static final Pattern INCH_PATTERN = Pattern.compile(".*\\d\".*", Pattern.DOTALL);
   // This is more strict, but also leads to confusing messages for users who mix up the many
   // characters that are be used as a quote character (https://github.com/languagetool-org/languagetool/issues/2356): 
   //private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
   //private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
 
-  private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
   private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");
   private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
 
@@ -53,6 +55,16 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   @Override
   public String getId() {
     return "EN_UNPAIRED_BRACKETS";
+  }
+
+  @Override
+  protected boolean preventMatch(AnalyzedSentence sentence) {
+    String text = sentence.getText();
+    Matcher inchMatcher = INCH_PATTERN.matcher(text);
+    if (inchMatcher.matches()) {    // could be >>3"<< (3 inch) or a quote that ends with a number
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -88,8 +100,6 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       if ("\"".equals(tokenStr)) {
         if (!symbolStack.empty() && "\"".equals(symbolStack.peek().getSymbol())) {
           return true;
-        } else if (NUMBER.matcher(prevToken.getToken()).matches()) {
-          return false;
         }
       }
       // Exception for English plural Saxon genitive

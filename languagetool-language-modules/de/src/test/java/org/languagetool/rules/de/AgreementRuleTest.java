@@ -252,6 +252,8 @@ public class AgreementRuleTest {
     assertGood("Bei uns im Krankenhaus betrifft das Operationssäle.");
     assertGood("Macht dir das Freude?");
     assertGood("Das macht jedem Angst.");
+    assertGood("Dann macht das Sinn.");
+    assertGood("Das sind beides Lichtschalter.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -473,6 +475,9 @@ public class AgreementRuleTest {
     assertBad("Eine Niereninsuffizienz führt zur Störungen des Wasserhaushalts.");
     assertBad("Er stieg durchs Fensters.");
     assertBad("Ich habe heute ein Krankenwagen gesehen.");
+    assertGood("Sie werden merken, dass das echte Nutzer sind.");
+    assertGood("Dieses neue Mac OS trug den Codenamen Rhapsody.");
+    assertGood("Das Mac OS is besser als Windows.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
@@ -557,6 +562,7 @@ public class AgreementRuleTest {
     assertGood("Wir wollen sein ein einzig Volk von Brüdern");
     assertGood("Eine Zeitreise durch die 68er Revolte");
     assertGood("Ich besitze ein Modell aus der 300er Reihe.");
+    assertGood("Aber ansonsten ist das erste Sahne");
 
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");

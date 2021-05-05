@@ -83,9 +83,9 @@ class ResultCache implements Serializable {
     entries = Collections.synchronizedMap(new HashMap<>());
     synchronized (tmpEntries) {
       for (int i : tmpEntries.keySet()) {
-        if (i > lastParagraph) {
+        if (i >= firstParagraph && i + shift >= 0) {
           entries.put(i + shift, tmpEntries.get(i));
-        } else {
+        } else if (i < firstParagraph + shift) {
           entries.put(i, tmpEntries.get(i));
         } 
       }
@@ -128,7 +128,7 @@ class ResultCache implements Serializable {
     if (entry == null) {
       return null;
     }
-    return entries.get(numberOfParagraph).getErrorArray();
+    return entry.getErrorArray();
   }
 
   /**
@@ -195,7 +195,7 @@ class ResultCache implements Serializable {
    * Compares to Entries
    * true if the both entries are identically
    */
-  private boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
+  static boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
     if (newEntries == null || oldEntries == null) {
       return true;
     }
@@ -295,7 +295,7 @@ class ResultCache implements Serializable {
   /**
    * Class of serializable cache entries
    */
-  private class CacheEntry implements Serializable {
+  public class CacheEntry implements Serializable {
     private static final long serialVersionUID = 2L;
     final SerialProofreadingError[] errorArray;
     List<Integer> nextSentencePositions = null;

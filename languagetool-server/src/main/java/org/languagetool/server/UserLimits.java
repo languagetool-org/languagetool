@@ -68,7 +68,7 @@ class UserLimits {
     Objects.requireNonNull(jwtToken);
     String secretKey = config.getSecretTokenKey();
     if (secretKey == null) {
-      throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
+      throw new RuntimeException("You specified a 'token' parameter but this server is not configured to accept tokens");
     }
     Algorithm algorithm = Algorithm.HMAC256(secretKey);
     DecodedJWT decodedToken;
@@ -183,8 +183,8 @@ class UserLimits {
 
   static class Account {
 
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
 
     Account(String username, String password) {
       this.username = Objects.requireNonNull(username);

@@ -51,7 +51,7 @@ public class UpperCaseNgramRule extends Rule {
   public static final int THRESHOLD = 50;
   private static MorfologikAmericanSpellerRule spellerRule;
   private static LinguServices linguServices = null;
-  private static Set<String> exceptions = new HashSet<>(Arrays.asList(
+  private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
     "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"

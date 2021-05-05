@@ -39,6 +39,8 @@ public class TextLevelCheckQueue {
   public static final int DISPOSE_FLAG = 3;
 
   private static final int MAX_WAIT = 2000;
+  
+  private static final int HEAP_CHECK_INTERVAL = 50;
 
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
   private Object queueWakeup = new Object();
@@ -54,6 +56,8 @@ public class TextLevelCheckQueue {
   private boolean interruptCheck = false;
   private boolean queueRuns = false;
   private boolean queueWaits = false;
+  
+  private int numSinceHeapTest = 0;
 
   private static boolean debugMode = false;   //  should be false except for testing
   
@@ -281,7 +285,7 @@ public class TextLevelCheckQueue {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
-      if (docId.equals(documents.get(n).getDocID()) && !documents.get(n).isDisposed()) {
+      if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed()) {
         QueueEntry queueEntry = documents.get(n).getNextQueueEntry(nPara);
         if (queueEntry != null) {
           return queueEntry;
@@ -308,6 +312,22 @@ public class TextLevelCheckQueue {
     }
     return null;
   }
+  
+  /**
+   * run heap space test, in intervals
+   */
+  private boolean testHeapSpace() {
+    if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
+      numSinceHeapTest = 0;
+      if (!multiDocHandler.isEnoughHeapSpace()) {
+        return false;
+      }
+    } else {
+      numSinceHeapTest++;
+    }
+    return true;
+  }
+
   
   /**
    * Internal class to store queue entries
@@ -402,10 +422,12 @@ public class TextLevelCheckQueue {
     /**
      *  run a queue entry for the specific document
      */
-    void runQueueEntry(MultiDocumentsHandler multiDocHandler, SwJLanguageTool langTool) {
-      SingleDocument document = getSingleDocument(docId);
-      if (document != null) {
-        document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, langTool);
+    void runQueueEntry(MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
+      if (testHeapSpace()) {
+        SingleDocument document = getSingleDocument(docId);
+        if (document != null) {
+          document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, lt);
+        }
       }
     }
     
@@ -416,7 +438,7 @@ public class TextLevelCheckQueue {
    */
   class QueueIterator extends Thread {
     
-    private SwJLanguageTool langTool;
+    private SwJLanguageTool lt;
 
       
     public QueueIterator() {
@@ -429,9 +451,9 @@ public class TextLevelCheckQueue {
       if (debugMode) {
         MessageHandler.printToLogFile("queue: InitLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
       }
-      langTool = multiDocHandler.initLanguageTool(language, false);
-      multiDocHandler.initCheck(langTool, multiDocHandler.getLocale());
-      sortedTextRules = new SortedTextRules(langTool, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules());
+      lt = multiDocHandler.initLanguageTool(language, false);
+      multiDocHandler.initCheck(lt, multiDocHandler.getLocale());
+      sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules());
     }
     
     /**
@@ -499,13 +521,13 @@ public class TextLevelCheckQueue {
                   lastLanguage = entryLanguage;
                   initLangtool(lastLanguage);
                 } else if (lastCache != queueEntry.nCache) {
-                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, langTool);
+                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
                 }
                 lastDocId = queueEntry.docId;
                 lastStart = queueEntry.nStart;
                 lastEnd = queueEntry.nEnd;
                 lastCache = queueEntry.nCache;
-                queueEntry.runQueueEntry(multiDocHandler, langTool);
+                queueEntry.runQueueEntry(multiDocHandler, lt);
               }
               queueEntry = null;
             }

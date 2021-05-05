@@ -43,8 +43,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.TestCase.*;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GermanSpellerRuleTest {
 
@@ -111,11 +113,11 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffstatistik"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("haben -sehr")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Kleindung")).length, is(1));  // ignored due to ignoreCompoundWithIgnoredWord(), but still in ignore.txt -> ignore.txt must override this
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise]"));
     assertFirstSuggestion("Schöler-", "Schüler-", rule, lt);
     assertFirstSuggestion("wars.", "war's", rule, lt);
-    assertFirstSuggestion("haben -sehr", "sehr", rule, lt);
     assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
 //    assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
@@ -458,6 +460,22 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Lan-Kabel", "LAN-Kabel", rule, lt);
     assertFirstSuggestion("perfekteste", "perfekte", rule, lt);
     assertFirstSuggestion("gleichtig", "gleichzeitig", rule, lt);
+    assertFirstSuggestion("vorsichgeht", "vor sich geht", rule, lt);
+    assertFirstSuggestion("Simkarte", "SIM-Karte", rule, lt);
+    assertFirstSuggestion("Pineingabe", "PIN-Eingabe", rule, lt);
+    assertFirstSuggestion("carnivorischen", "karnivoren", rule, lt);
+    assertFirstSuggestion("Zaubererinnen", "Zauberinnen", rule, lt);
+    assertFirstSuggestion("erroriere", "eruiere", rule, lt);
+    assertFirstSuggestion("erroriert", "eruiert", rule, lt);
+    assertFirstSuggestion("Second-Hand-Shops", "Secondhandshops", rule, lt);
+    assertFirstSuggestion("mediterranischer", "mediterraner", rule, lt);
+    assertFirstSuggestion("unterschreibungsfähige", "unterschriftsfähige", rule, lt);
+    
+    assertFirstSuggestion("-Teex", "Tee", rule, lt);
+    assertFirstSuggestion("- Teex", "Tee", rule, lt);
+    assertFirstSuggestion("- Kaffeex", "Kaffee", rule, lt);
+    assertFirstSuggestion("E -Commerce", "E-Commerce", rule, lt);
+    
   }
 
   @Test
@@ -485,14 +503,36 @@ public class GermanSpellerRuleTest {
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
-            matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+    if (expected == null) {
+      assertThat("Matches: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().size(), is(0));
+    } else {
+      assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+        matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+    }
   }
 
   @Test
-  public void testDashAndHyphen() throws Exception {
+  public void testDashAndHyphenEtc() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+
+    assertEquals(2, lt.check("\uFEFF-Product Development Coordinator").size());
+    assertEquals(2, lt.check("-Product Development Coordinator").size());
+    assertEquals(1, lt.check("\uFEFF-Einx Test").size());
+    assertEquals(0, lt.check("\uFEFF-Ein Test").size());
+    assertEquals(0, lt.check("Gratis E\uFEFF-Book").size());
+    
+    // "-" as bullet point with no space:
+    assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
+    List<RuleMatch> matches1 = lt.check("-Teex\n\n-Kaffee");
+    assertEquals(1, matches1.size());
+    assertEquals(1, matches1.get(0).getFromPos());
+    assertEquals(5, matches1.get(0).getToPos());
+    List<RuleMatch> matches2 = lt.check("- Teex\n\n-Kaffee");
+    assertEquals(1, matches2.size());
+    assertEquals(2, matches2.get(0).getFromPos());
+    assertEquals(6, matches2.get(0).getToPos());
+    
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
@@ -529,7 +569,20 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
-    
+
+    // from spelling.txt, also accepted as uppercase variant:
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfrei")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfreies")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfrei")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfreies")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfrei")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfreies")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("abmantelung")).length);  // only as uppercase in spelling.txt
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("- abmantelung")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("machtS")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("All-Inclusive-Preis")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("dRanging")).length);
+
     // originally from spelling.txt:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchens")).length);
@@ -561,6 +614,11 @@ public class GermanSpellerRuleTest {
     HunspellRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertEquals(1, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
     assertEquals(0, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitssfürlanguagetooltests-Auto")).length);
+
+    // bullet points in Google Docs:
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("\uFEFFAblenkungsfreie Schreibumgebung")).length);
+    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die blablaxx.mp3 und das sdifguds.avi bzw. die XYZXYZ.AVI")).length);
   }
 
   @Test
@@ -749,7 +807,7 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
-  public void testGetSuggestionWithPunctuation() throws Exception {
+  public void testSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     assertFirstSuggestion("informationnen.", "Informationen", rule, lt);
@@ -760,6 +818,9 @@ public class GermanSpellerRuleTest {
     //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
     // commas are actually not part of the word, so the suggestion doesn't include them:
     assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
+    assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
+    assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
+    assertFirstSuggestion("Sakralkultur,", null, rule, lt);
   }
   
   @Test
@@ -901,6 +962,22 @@ public class GermanSpellerRuleTest {
       assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.get(i).equals(expectedTerm));
       i++;
     }
+  }
+
+  @Test
+  public void testErrorLimitReached() throws IOException {
+    HunspellRule rule1 = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] matches1 = rule1.match(lt.getAnalyzedSentence("Ein schöner Satz."));
+    assertThat(matches1.length, is(0));
+    RuleMatch[] matches2 = rule1.match(lt.getAnalyzedSentence("But this is English."));
+    assertThat(matches2.length, is(4));
+    assertNull(matches2[0].getErrorLimitLang());
+    assertNull(matches2[1].getErrorLimitLang());
+    assertThat(matches2[2].getErrorLimitLang(), is("zz"));  // 'en' is not known in this module, thus 'zz'
+    RuleMatch[] matches3 = rule1.match(lt.getAnalyzedSentence("Und er sagte, this is a good test."));
+    assertThat(matches3.length, is(4));
+    assertNull(matches3[3].getErrorLimitLang());
   }
 
   /**

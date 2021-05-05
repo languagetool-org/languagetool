@@ -30,6 +30,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.spelling.CommonFileTypes;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.synthesis.Synthesizer;
@@ -63,7 +64,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("frägst", "fragst");
+    put("Wandererin", "Wanderin");
+    put("daß", "dass");
+    put("eien", "eine");
+    put("wiederrum", "wiederum");
+    put("ne", "eine");
+    put("ner", "einer");
     put("Frauenhofer", "Fraunhofer");
+    put("Vieleicht", "Vielleicht");
     put("inbetracht", "in Betracht");
     put("überwhatsapp", "über WhatsApp");
     put("überzoom", "über Zoom");
@@ -73,6 +82,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
+    putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
     putRepl("wiedersprech(e|t|en)?", "wieder", "wider");
@@ -949,10 +959,47 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Krankenbruders?", "bruder", "pfleger");
     putRepl("Krankenbrüdern?", "brüder", "pfleger");
     putRepl("Lan-(Kabel[ns]?|Verbindung)", "Lan", "LAN");
+    putRepl("[sS]epalastschriftmandat(s|en?)?", "[sS]epal", "SEPA-L");
+    putRepl("Pinn?eingaben?", "Pinn?e", "PIN-E");
+    putRepl("[sS]imkarten?", "[sS]imk", "SIM-K");
+    putRepl("[vV]orsich(geht|gehen|ging(en)?|gegangen)", "sich", " sich ");
+    putRepl("mitsich(bringt|bringen|brachten?|gebracht)", "sich", " sich ");
+    putRepl("[ck]arnivorisch(e[mnrs]?)?", "[ck]arnivorisch", "karnivor");
     putRepl("[pP]erfektest(e[mnrs]?)?", "est", "");
     putRepl("[gG]leichtig(e[mnrs]?)?", "tig", "zeitig");
     putRepl("[uU]n(her)?vorgesehen(e[mnrs]?)?", "(her)?vor", "vorher");
     putRepl("([cC]orona|[gG]rippe)viruss?es", "viruss?es", "virus");
+    putRepl("Zaubererin(nen)?", "er", "");
+    putRepl("Second-Hand-L[äa]dens?", "Second-Hand-L", "Secondhandl");
+    putRepl("Second-Hand-Shops?", "Second-Hand-S", "Secondhands");
+    putRepl("[mM]editerranisch(e[mnrs]?)?", "isch", "");
+    putRepl("[uU]nterschreibungsfähig(e[mnrs]?)?", "schreibung", "schrift");
+    putRepl("[eE]rrorier(en?|t(e[mnrs]?)?|st)", "ror", "u");
+    putRepl("malediert(e[mnrs]?)?", "malediert", "malträtiert");
+    putRepl("maletriert(e[mnrs]?)?", "maletriert", "malträtiert");
+    putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
+    put("achtungslo[ßs]", "achtlos");
+    put("Boomerang", "Bumerang");
+    put("Boomerangs", "Bumerangs");
+    put("Lg", w -> Arrays.asList("LG", "Liebe Grüße"));
+    put("gildet", "gilt");
+    put("gleitete", "glitt");
+    put("gleiteten", "glitten");
+    put("Standbay", "Stand-by");
+    put("[vV]ollkommnung", "Vervollkommnung");
+    put("femist", "vermisst");
+    put("[kK]ostarika", "Costa Rica");
+    put("[kK]ostarikas", "Costa Ricas");
+    put("[aA]uthenzität", "Authentizität");
+    put("anlässig", "anlässlich");
+    put("[sS]tieft", "Stift");
+    put("[Ii]nspruchnahme", "Inanspruchnahme");
+    put("höstwah?rsch[ea]inlich", "höchstwahrscheinlich");
+    put("[aA]lterschbeschränkung", "Altersbeschränkung");
+    put("[kK]unstoff", "Kunststoff");
+    put("[iI]nstergramm?", "Instagram");
+    put("fleicht", "vielleicht");
+    put("[eE]rartens", "Erachtens");
     put("laufte", "lief");
     put("lauften", "liefen");
     put("malzeit", "Mahlzeit");
@@ -991,6 +1038,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("heilwegs", "halbwegs");
     put("undsoweiter", "und so weiter");
     put("Gladbeckerstrasse", "Gladbecker Straße");
+    put("Bonnerstra(ß|ss)e", "Bonner Straße");
     put("[bB]range", "Branche");
     put("Gewebtrauma", "Gewebetrauma");
     put("aufgehangen", "aufgehängt");
@@ -1015,6 +1063,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Refelektion", "Reflexion");
     put("Refelektionen", "Reflexionen");
     put("[sS]chanse", "Chance");
+    put("nich", "nicht");
+    put("wat", "was");
+    put("[Ee][Ss]ports", "E-Sports");
+    put("gerelaunch(ed|t)", "relauncht");
+    put("Gerelaunch(ed|t)", "Relauncht");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
@@ -1077,6 +1130,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   public String getId() {
     return RULE_ID;
+  }
+
+  @Override
+  protected boolean isIgnoredNoCase(String word) {
+    return wordsToBeIgnored.contains(word) ||
+      // words from spelling.txt also accepted in uppercase (e.g. sentence start, bullet list items):
+      (word.matches("[A-ZÖÄÜ][a-zöäüß-]+") && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+      (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
   @Override
@@ -1169,6 +1230,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> suggestions = super.getSuggestions(word);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches()
             && !k.endsWith("roulett")
+            && !k.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
             && !k.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
     ).collect(Collectors.toList());
     if (word.endsWith(".")) {
@@ -1273,7 +1335,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> result = new ArrayList<>();
     for (String wordOrPhrase : wordsOrPhrases) {
       String[] words = tokenizeText(wordOrPhrase);
-      if (words.length >= 2 && isNoun(words[0]) && isNoun(words[1]) &&
+      if (words.length >= 2 && isAdjOrNounOrUnknown(words[0]) && isNounOrUnknown(words[1]) &&
               StringTools.startsWithUppercase(words[0]) && StringTools.startsWithUppercase(words[1])) {
         // ignore, seems to be in the form "Release Prozess" which is *probably* wrong
       } else {
@@ -1283,10 +1345,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return result;
   }
 
-  private boolean isNoun(String word) {
+  private boolean isNounOrUnknown(String word) {
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
-      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB"));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.isPosTagUnknown());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isAdjOrNounOrUnknown(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("ADJ") || reading.isPosTagUnknown());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -1329,6 +1400,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false;
+    boolean ignoreBulletPointCase = false;
+    if (!ignoreUncapitalizedWord) {
+      // happens e.g. with list items in Google Docs, which introduce \uFEFF, which here appears as
+      // an empty token:
+      ignoreBulletPointCase = !ignore && idx == 1 && words.get(0).isEmpty() 
+        && StringTools.startsWithUppercase(words.get(idx)) 
+        && isMisspelled(words.get(idx))
+        && !isMisspelled(words.get(idx).toLowerCase());
+    }
     boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if (words.get(idx).contains("-")) {
@@ -1336,7 +1416,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
     }
-    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
+    if (CommonFileTypes.getSuffixPattern().matcher(words.get(idx)).matches()) {
+      return true;
+    }
+    if (idx+1 < words.size() && (words.get(idx).endsWith(".mp") || words.get(idx).endsWith(".woff")) && words.get(idx+1).equals("")) {
+      // e.g. ".mp3" - the check for the empty string is because digits were removed during
+      // hunspell-style tokenization before
+      return true;
+    }
+    return ignore || ignoreUncapitalizedWord || ignoreBulletPointCase || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
   }
 
   @Override
@@ -1589,6 +1677,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Danke");
     } else if (word.equals("Zynik")) {
       return Collections.singletonList("Zynismus");
+    } else if (word.equalsIgnoreCase("email")) {
+      return Collections.singletonList("E-Mail");
     } else if (word.length() > 9 && word.startsWith("Email")) {
       String suffix = word.substring(5);
       if (!hunspell.spell(suffix)) {
@@ -1599,7 +1689,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("wiederspiegeln")) {
       return Collections.singletonList("widerspiegeln");
     } else if (word.equals("ch")) {
-        return Collections.singletonList("ich");
+      return Collections.singletonList("ich");
     } else {
       for (Pattern p : ADDITIONAL_SUGGESTIONS.keySet()) {
         if (p.matcher(word).matches()) {

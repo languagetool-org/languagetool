@@ -54,13 +54,19 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     // I'm very very happy
     String word = tokens[position].getToken();
 
-    if (repetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
+    if ((repetitionOf("did", tokens, position) || repetitionOf("do", tokens, position)
+        || repetitionOf("does", tokens, position)) && (position + 1 < tokens.length)
+        && tokens[position + 1].getToken().equalsIgnoreCase("n't")) {
+      return true;
+    } else if (repetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
-    } else if (repetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
+    } else if (repetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "MD", "NN", "PRP$", "JJ", "VBZ", "VBD")) {
       return true;   // "I don't think that that is a problem."
     } else if (repetitionOf("can", tokens, position) && posIsIn(tokens, position-1, "NN")) {
       return true; // "The can can hold the water."
     } else if (repetitionOf("hip", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("hooray")) {
+      return true;
+    } else if (repetitionOf("bam", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("bigelow")) {
       return true;
     } else if (repetitionOf("wild", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("west")) {
       return true; // In the wild wild west (https://en.wikipedia.org/wiki/Wild_Wild_West)

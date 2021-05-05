@@ -52,14 +52,10 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String postagSelect = getRequired("postagSelect", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
 
-    String postagFromStr = getOptional("postagFrom", arguments);
+    String postagFromStr = getRequired("postagFrom", arguments);
     int postagFrom;
-    String lemmaFromStr = getOptional("lemmaFrom", arguments);
+    String lemmaFromStr = getRequired("lemmaFrom", arguments);
     int lemmaFrom;
-    if (postagFromStr == null || lemmaFromStr == null) {
-      return match;
-    }
-
     postagFrom = Integer.parseInt(postagFromStr);
     if (postagFrom < 1 || postagFrom > patternTokens.length) {
       throw new IllegalArgumentException("AdvancedSynthesizerFilter: Index out of bounds in "
@@ -71,14 +67,26 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           + match.getRule().getFullId() + ", value: " + lemmaFromStr);
     }
 
+    String postagReplace = getOptional("postagReplace", arguments);
+
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
+    String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
+    
+    if (desiredPostag==null) {
+      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag");
+    }
+
+    if (postagReplace != null) {
+      desiredPostag = getCompositePostag(lemmaSelect, postagSelect, originalPostag, desiredPostag, postagReplace);
+    }
+
     // take capitalization from the lemma (?)
     boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
-    String[] replacements = getSynthesizer().synthesize(token, desiredPostag);
-
+    String[] replacements = getSynthesizer().synthesize(token, desiredPostag, true);
+    
     if (replacements.length > 0) {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
@@ -114,6 +122,28 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     return match;
   }
 
+  private String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
+      String desiredPostag, String postagReplace) {
+    Pattern aPattern = Pattern.compile(lemmaSelect, Pattern.UNICODE_CASE);
+    Pattern bPattern = Pattern.compile(postagSelect, Pattern.UNICODE_CASE);
+    Matcher aMatcher = aPattern.matcher(originalPostag);
+    Matcher bMatcher = bPattern.matcher(desiredPostag);
+    String result = postagReplace;
+    if (aMatcher.matches() && bMatcher.matches()) {
+      for (int i = 1; i <= aMatcher.groupCount(); i++) {
+        String groupStr = aMatcher.group(i);
+        String toReplace = "\\\\a" + String.valueOf(i);
+        result = result.replaceAll(toReplace, groupStr);
+      }
+      for (int i = 1; i <= bMatcher.groupCount(); i++) {
+        String groupStr = bMatcher.group(i);
+        String toReplace = "\\\\b" + String.valueOf(i);
+        result = result.replaceAll(toReplace, groupStr);
+      }
+    }
+    return result;
+  }
+
   protected boolean isSuggestionException(String token, String desiredPostag) {
     return false;
   }
@@ -130,7 +160,8 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
         return analyzedToken;
       }
     }
-    return null;
+    // Return the first one. Something is wrong, anyway
+    return aToken.getAnalyzedToken(0);
   }
 
 }

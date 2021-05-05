@@ -34,6 +34,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -84,6 +86,9 @@ public abstract class SpellingCheckRule extends Rule {
   private boolean convertsCase = false;
   protected final Set<String> wordsToBeIgnored = new THashSet<>();
   protected int ignoreWordsWithLength = 0;
+  
+  private final Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
+  private final Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -283,6 +288,16 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean ignoreWord(String word) throws IOException {
     if (!considerIgnoreWords) {
       return false;
+    } 
+    // Tokens with no letters cannot have spelling errors. So ignore them. 
+    Matcher mHasNoLetter;
+    if (isLatinScript()) {
+      mHasNoLetter = pHasNoLetterLatin.matcher(word);
+    } else {
+      mHasNoLetter = pHasNoLetter.matcher(word);
+    }
+    if (mHasNoLetter.matches()) {
+      return true;
     }
     if (word.endsWith(".") && !wordsToBeIgnored.contains(word)) {
       return isIgnoredNoCase(word.substring(0, word.length()-1));  // e.g. word at end of sentence
@@ -290,7 +305,7 @@ public abstract class SpellingCheckRule extends Rule {
     return isIgnoredNoCase(word);
   }
 
-  private boolean isIgnoredNoCase(String word) {
+  protected boolean isIgnoredNoCase(String word) {
     return wordsToBeIgnored.contains(word) ||
            (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
            (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
@@ -447,7 +462,12 @@ public abstract class SpellingCheckRule extends Rule {
       }
     }
     newSuggestions = filterDupes(newSuggestions);
+    newSuggestions = filterNoSuggestWords(newSuggestions);
     return newSuggestions;
+  }
+
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l;
   }
 
   private boolean isProperNoun(String wordWithoutS) {
@@ -464,22 +484,29 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.9, signature modified in 3.9
    */
   protected void addIgnoreWords(String line) {
-    // if line consists of several words (separated by " "), a DisambiguationPatternRule
-    // will be created where each words serves as a case-sensitive and non-inflected PatternToken
-    // so that the entire multi-word entry is ignored by the spell checker
-    List<String> tokens = language.getWordTokenizer().tokenize(line);
-    if (tokens.size() > 1) {
-      List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
-      for(String token : tokens) {
-        if (token.trim().isEmpty()) {
-          continue;
-        }
-        patternTokens.add(new PatternToken(token, true, false, false));
-      }
-      antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
-        patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
-    } else {
+    if (!tokenizeNewWords()) 
+    {
       wordsToBeIgnored.add(line);
+    }
+    else {
+      // if line consists of several words (separated by " "), a DisambiguationPatternRule
+      // will be created where each words serves as a case-sensitive and non-inflected PatternToken
+      // so that the entire multi-word entry is ignored by the spell checker
+      List<String> tokens = language.getWordTokenizer().tokenize(line);
+      if (tokens.size() > 1) {
+        //System.out.println("Tokenized multi-token: " + line);
+        List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
+        for(String token : tokens) {
+          if (token.trim().isEmpty()) {
+            continue;
+          }
+          patternTokens.add(new PatternToken(token, true, false, false));
+        }
+        antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
+          patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
+      } else {
+        wordsToBeIgnored.add(line);
+      }
     }
   }
 
@@ -582,6 +609,15 @@ public abstract class SpellingCheckRule extends Rule {
       }
     }
     return match.map(String::length).orElse(0);
+  }
+  
+  // tokenize words from files spelling.txt, prohibit.txt...
+  protected boolean tokenizeNewWords() {
+    return true;
+  }
+
+  protected boolean isLatinScript() {
+    return true;
   }
 
 }

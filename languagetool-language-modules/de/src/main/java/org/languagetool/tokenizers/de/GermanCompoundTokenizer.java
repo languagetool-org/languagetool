@@ -48,6 +48,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
     static Set<String> extendedList() {
       Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      words.add("edge");
+      words.add("opera");
+      words.add("chrome");
+      words.add("firefox");
+      words.add("outlook");
+      words.add("add-on");
       words.add("tool");
       words.add("online");
       words.add("affin");
@@ -194,6 +200,32 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Pflanzenölsorte", asList("Pflanzenöl", "sorte"));
     wordSplitter.addException("Pflanzenölsorten", asList("Pflanzenöl", "sorten"));
     wordSplitter.addException("Damenshorts", asList("Damen", "shorts"));
+    wordSplitter.addException("Badeshorts", asList("Bade", "shorts"));
+    wordSplitter.addException("Bermudashorts", asList("Bermuda", "shorts"));
+    wordSplitter.addException("Boardshorts", asList("Board", "shorts"));
+    wordSplitter.addException("Boxershorts", asList("Boxer", "shorts"));
+    wordSplitter.addException("Damenshorts", asList("Damen", "shorts"));
+    wordSplitter.addException("Jeansshorts", asList("Jeans", "shorts"));
+    wordSplitter.addException("Khakishorts", asList("Khaki", "shorts"));
+    wordSplitter.addException("Kindershorts", asList("Kinder", "shorts"));
+    wordSplitter.addException("Latexshorts", asList("Latex", "shorts"));
+    wordSplitter.addException("Laufshorts", asList("Lauf", "shorts"));
+    wordSplitter.addException("Pyjamashorts", asList("Pyjama", "shorts"));
+    wordSplitter.addException("Retroshorts", asList("Retro", "shorts"));
+    wordSplitter.addException("Schlabbershorts", asList("Schlabber", "shorts"));
+    wordSplitter.addException("Schlafshorts", asList("Schlaf", "shorts"));
+    wordSplitter.addException("Schwimmshorts", asList("Schwimm", "shorts"));
+    wordSplitter.addException("Trägershorts", asList("Träger", "shorts"));
+    wordSplitter.addException("Polizeishorts", asList("Polizei", "shorts"));
+    wordSplitter.addException("Schwimmerbereich", asList("Schwimmer", "bereich"));
+    wordSplitter.addException("Schwimmerbereiche", asList("Schwimmer", "bereiche"));
+    wordSplitter.addException("Schwimmerbereichen", asList("Schwimmer", "bereichen"));
+    wordSplitter.addException("Schwimmerbereichs", asList("Schwimmer", "bereichs"));
+    wordSplitter.addException("Onlinestore", asList("Online", "store"));
+    wordSplitter.addException("Onlinestores", asList("Online", "stores"));
+    wordSplitter.addException("Donautor", asList("Donau", "tor"));
+    wordSplitter.addException("Donautors", asList("Donau", "tore"));
+    wordSplitter.addException("Donautores", asList("Donau", "tores"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }

@@ -62,9 +62,12 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches(0, "\n\na) item one\nb) item two\nc) item three");
     assertMatches(0, "This is a), not b)");
     assertMatches(0, "This is it (a, not b) some more test");
+    assertMatches(0, "This is »not an error yet");
+    assertMatches(0, "See https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht)");
 
     assertMatches(1, "This is not correct«");
-    assertMatches(1, "This is »not correct");
+    assertMatches(1, "This is »not correct.");
+    assertMatches(1, "This is »not an error yet\n\nBut now it has become one");
     assertMatches(1, "This is correct.\n\n»But this is not.");
     assertMatches(1, "This is correct.\n\nBut this is not«");
     assertMatches(1, "»This is correct«\n\nBut this is not«");
@@ -116,8 +119,8 @@ public class GenericUnpairedBracketsRuleTest {
     assertEquals("Expected " + expectedMatches + " matches, got: " + ruleMatches, expectedMatches, ruleMatches.size());
   }
 
-  public static GenericUnpairedBracketsRule getBracketsRule(JLanguageTool langTool) {
-    for (Rule rule : langTool.getAllActiveRules()) {
+  public static GenericUnpairedBracketsRule getBracketsRule(JLanguageTool lt) {
+    for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof GenericUnpairedBracketsRule) {
         return (GenericUnpairedBracketsRule)rule;
       }

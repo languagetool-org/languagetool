@@ -32,12 +32,12 @@ import static org.junit.Assert.assertEquals;
 public class DhaNoBeirtRuleTest {
   
   private DhaNoBeirtRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
     rule = new DhaNoBeirtRule(TestTools.getMessages("ga"));
-    langTool = new JLanguageTool(new Irish());
+    lt = new JLanguageTool(new Irish());
   }
 
   @Test
@@ -51,12 +51,12 @@ public class DhaNoBeirtRuleTest {
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence, int expected) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(expected, matches.length);
   }
 }

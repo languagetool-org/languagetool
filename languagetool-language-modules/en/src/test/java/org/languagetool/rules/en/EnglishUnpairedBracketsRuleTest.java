@@ -37,12 +37,12 @@ import static org.junit.Assert.assertEquals;
 public class EnglishUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), Languages.getLanguageForShortCode("en"));
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 
   @Test
@@ -100,6 +100,10 @@ public class EnglishUnpairedBracketsRuleTest {
                       "B) Boston\n" +
                       "C) Foo\n");
     assertCorrect("This is not so (neither a nor b)");
+    assertCorrect("I think that Liszt's \"Forgotten Waltz No.3\" is a hidden masterpiece.");
+    assertCorrect("I think that Liszt's \"Forgotten Waltz No. 3\" is a hidden masterpiece.");
+    assertCorrect("Turkish distinguishes between dotted and dotless \"I\"s.");
+    // assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour."); It's fixed with the new tokenizer
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
@@ -107,33 +111,43 @@ public class EnglishUnpairedBracketsRuleTest {
     //assertIncorrect("&'");
     //assertIncorrect("!'");
     //assertIncorrect("What?'");
-    assertIncorrect("This is not so (neither a nor b");
+    assertCorrect("This is not so (neither a nor b");
+    assertIncorrect("This is not so (neither a nor b.");
     assertIncorrect("This is not so neither a nor b)");
     assertIncorrect("This is not so neither foo nor bar)");
+    assertIncorrect("He is making them feel comfortable all along.\"");
+    assertIncorrect("\"He is making them feel comfortable all along.");
 
     // this is currently considered incorrect... although people often use smileys this way:
-    assertIncorrect("Some text (and some funny remark :-) with more text to follow");
+    assertCorrect("Some text (and some funny remark :-) with more text to follow");
+    assertIncorrect("Some text (and some funny remark :-) with more text to follow!");
+    assertCorrect("Some text. This is \"12345\", a number.");
+    assertCorrect("Some text.\n\nThis is \"12345\", a number.");
+    assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
+    assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
+    assertCorrect("\"When you bring someone,\" he said.\n" +
+      "Gibson introduced the short-scale (30.5\") bass in 1961.");  // could be "inch", so no error
 
     RuleMatch[] matches;
-    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
+    matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("(This is a test” sentence.")));
     assertEquals(1, matches.length);
-    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("This [is (a test} sentence.")));
+    matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("This [is (a test} sentence.")));
     assertEquals(3, matches.length);
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
+    RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(sentence)));
     assertEquals(0, matches.length);
   }
 
   private void assertCorrectText(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
-    RuleMatch[] matches = rule.match(langTool.analyzeText(sentences), aText);
+    RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
+    RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(sentence)));
     assertEquals(1, matches.length);
   }
 

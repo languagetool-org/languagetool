@@ -167,6 +167,10 @@ public class CaseRule extends Rule {
       token("’"),
       regex(".*")
     ),
+    Arrays.asList( // wrong quote used as opening quote, leave to UNPAIRED_BRACKETS etc.
+      token("“"),
+      csRegex("[A-ZÖÜÄ].*")
+    ),
     Arrays.asList( // => Hallo test
       SENT_START,
       regex("=|-"),
@@ -514,7 +518,7 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().build()
     ),
     Arrays.asList(
-      token("im"),
+      tokenRegex("im|ins"),
       csToken("Aus")
     ),
     Arrays.asList(
@@ -553,7 +557,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // Hey Matt (name),
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Matt")
+      regex("Matt|Will")
     ),
     Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
@@ -566,7 +570,7 @@ public class CaseRule extends Rule {
       regex("Höchst|Wohlen")
     ),
     Arrays.asList( // Am So. (Sonntag)
-      regex(",|/|-|am|bis|vor|\\("),
+      regex(",|;|/|-|am|bis|vor|\\("),
       csToken("So"),
       token(".")
     ),
@@ -697,14 +701,34 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build(),
       csToken("Hart")
     ),
-    Arrays.asList( // Namen mit "Matt" (e.g. Matt Gaetz)
-      csToken("Matt"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
+    Arrays.asList( // Namen mit "Matt" (e.g. Matt Gaetz, Will Smith)
+      csRegex("Matt|Will"),
+      new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build()
     ),
     Arrays.asList( // Autohaus Dornig GmbH
       new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
       csRegex("[A-ZÄÜÖ].+"),
       csRegex("Gmb[Hh]|AG|KG|UG")
+    ),
+    Arrays.asList( // Klicke auf Home > Mehr > Team
+      csToken(">"),
+      csRegex("[A-ZÄÜÖ].+"),
+      csToken(">")
+    ),
+    Arrays.asList(
+      // :D Auf dieses Frl. der apfel fällt ja doch nicht weit vom stamm! 
+      SENT_START,
+      regex("[:;]"),
+      regex("[DPO]"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // :-D Auf dieses Frl. der apfel fällt ja doch nicht weit vom stamm! 
+      SENT_START,
+      regex("[:;]"),
+      token("-"),
+      regex("[DPO]"),
+      regex("[A-ZÄÜÖ].*")
     )
   );
 
@@ -1037,6 +1061,9 @@ public class CaseRule extends Rule {
     "Hu", // name
     "Jenseits",
     "Abends",
+    "Alleinerziehende",
+    "Alleinerziehenden",
+    "Alleinerziehender",
     "Abgeordneter",
     "Abgeordnete",
     "Abgeordneten",
@@ -1694,7 +1721,7 @@ public class CaseRule extends Rule {
         // "aus sechs Überwiegend muslimischen Ländern"
         return false;
       }
-      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
+      return (prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|weniger?|einiger?|mehr|aufs") || isNumber(prevTokenStr)) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(((i < 4 && tokens.length > 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma("sein")) && prevToken.hasPosTagStartingWith("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag(":STD")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO:", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"

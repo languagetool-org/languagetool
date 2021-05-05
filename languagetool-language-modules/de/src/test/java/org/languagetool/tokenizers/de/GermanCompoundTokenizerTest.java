@@ -35,6 +35,7 @@ public class GermanCompoundTokenizerTest {
     assertThat(tokenizer.tokenize("Bahnhofsuhr").toString(), is("[Bahnhofs, uhr]"));
     assertThat(tokenizer.tokenize("natofreundlich").toString(), is("[nato, freundlich]"));
     assertThat(tokenizer.tokenize("natofreundliches").toString(), is("[nato, freundliches]"));
+    assertThat(tokenizer.tokenize("Firefox-Add-on").toString(), is("[Firefox, , Add-on]"));  // why the space?
   }
 
   @Test

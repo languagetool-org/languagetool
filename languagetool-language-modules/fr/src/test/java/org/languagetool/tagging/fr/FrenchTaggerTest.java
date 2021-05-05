@@ -62,9 +62,9 @@ public class FrenchTaggerTest {
     TestTools.myAssert("auto-équilibrage","auto-équilibrage/[auto-équilibrage]N m s", tokenizer, tagger);
     TestTools.myAssert("Grand-Chambre","Grand-Chambre/[grand-chambre]N f s", tokenizer, tagger);
     
-    TestTools.myAssert("d’aujourd’hui","d'/[de]D e s|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
-    TestTools.myAssert("d'aujourd’hui","d'/[de]D e s|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
-    TestTools.myAssert("d’aujourd'hui","d'/[de]D e s|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
+    TestTools.myAssert("d’aujourd’hui","d'/[de]D e sp|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
+    TestTools.myAssert("d'aujourd’hui","d'/[de]D e sp|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
+    TestTools.myAssert("d’aujourd'hui","d'/[de]D e sp|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
     TestTools.myAssert("Fontaine-l’Évêque","Fontaine-l'Évêque/[Fontaine-l'Évêque]Z e sp", tokenizer, tagger);
     TestTools.myAssert("Fontaine-l'Évêque","Fontaine-l'Évêque/[Fontaine-l'Évêque]Z e sp", tokenizer, tagger);
     TestTools.myAssert("entr'ouvrions","entr'ouvrions/[entr'ouvrir]V ind impa 1 p|entr'ouvrions/[entr'ouvrir]V sub pres 1 p", tokenizer, tagger);
@@ -74,6 +74,11 @@ public class FrenchTaggerTest {
     TestTools.myAssert("va-t'en", "va/[aller]V imp pres 2 s|va/[aller]V ind pres 3 s -- -t/[te]R pers obj 2 s -- 'en/[en]R pers obj 3 sp", tokenizer, tagger);
         
     TestTools.myAssert("Al-Qaïda","Al-Qaïda/[Al-Qaïda]Z f sp", tokenizer, tagger);
+    
+    TestTools.myAssert("minitélévision","minitélévision/[minitélévision]N f s", tokenizer, tagger);
+    
+    TestTools.myAssert("soeur","soeur/[sœur]N f s", tokenizer, tagger);
+    TestTools.myAssert("oeils-de-boeuf","oeils-de-boeuf/[œils-de-bœuf]N m p", tokenizer, tagger);
   }
 
 }

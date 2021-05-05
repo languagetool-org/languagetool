@@ -135,11 +135,11 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected String getMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "This conversion doesn't seem right. Do you want to correct it automatically?";
+        return "This unit conversion doesn't seem right. Do you want to correct it automatically?";
       case SUGGESTION:
         return "Writing for an international audience? Consider adding the metric equivalent.";
       case CHECK_UNKNOWN_UNIT:
-        return "This conversion doesn't seem right, unable to recognize the used unit.";
+        return "This unit conversion doesn't seem right, unable to recognize the used unit.";
       case UNIT_MISMATCH:
         return "These units don't seem to be compatible.";
       default:
@@ -153,7 +153,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected String getShortMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "Incorrect conversion. Correct it?";
+        return "Incorrect unit conversion. Correct it?";
       case SUGGESTION:
         return "Add metric equivalent?";
       case CHECK_UNKNOWN_UNIT:

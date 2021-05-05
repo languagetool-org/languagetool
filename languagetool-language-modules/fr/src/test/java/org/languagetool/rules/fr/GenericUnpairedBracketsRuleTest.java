@@ -32,20 +32,23 @@ import static org.junit.Assert.assertEquals;
 public class GenericUnpairedBracketsRuleTest {
 
   private GenericUnpairedBracketsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testFrenchRule() throws IOException {
-    langTool = new JLanguageTool(new French());
-    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
+    lt = new JLanguageTool(new French());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("(Qu'est ce que c'est ?)", 0);
+    // Saxon genitive
+    assertMatches("Harper's Dictionary of Classical Antiquities", 0);
+    assertMatches("Harper’s Dictionary of Classical Antiquities", 0);
     // incorrect sentences:
     assertMatches("(Qu'est ce que c'est ?", 1);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

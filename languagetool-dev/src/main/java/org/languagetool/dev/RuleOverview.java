@@ -43,7 +43,7 @@ import static java.util.Comparator.comparing;
 public final class RuleOverview {
 
   private static final List<String> langSpecificWebsites = Arrays.asList(
-          "br", "ca", "zh", "da", "nl", "eo", "fr", "gl", "de", "it", "pl", "pt", "ru", "es", "uk"
+          "ca", "nl", "fr", "de", "it", "pl", "pt", "ru", "es", "uk"
   );
 
   enum SpellcheckSupport {

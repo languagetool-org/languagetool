@@ -31,11 +31,11 @@ public class EnglishWordRepeatRuleTest {
   private final Language english = Languages.getLanguageForShortCode("en");
   private final EnglishWordRepeatRule rule = new EnglishWordRepeatRule(TestTools.getEnglishMessages(), english);
   
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testRepeatRule() throws IOException {
-    langTool = new JLanguageTool(english);
+    lt = new JLanguageTool(english);
     assertGood("This is a test.");
     assertGood("If I had had time, I would have gone to see him.");
     assertGood("I don't think that that is a problem.");
@@ -72,6 +72,10 @@ public class EnglishWordRepeatRuleTest {
     assertBad("I I am the best.");
     assertGood("In a land far far away.");
     assertGood("I love you so so much.");
+    assertGood("What Tom did didn't seem to bother Mary at all.");
+    assertGood("Whatever you do don't leave the lid up on the toilet!");
+    assertGood("Keep your chin up and whatever you do don't doubt yourself or your actions.");
+    assertGood("I know that that can't really happen.");
   }
 
   private void assertGood(String sentence) throws IOException {
@@ -83,7 +87,7 @@ public class EnglishWordRepeatRuleTest {
   }
 
   private void assertMatches(String sentence, int expectedMatches) throws IOException {
-    AnalyzedSentence aSentence = langTool.getAnalyzedSentence(sentence);
+    AnalyzedSentence aSentence = lt.getAnalyzedSentence(sentence);
     assertThat(rule.match(aSentence).length, is(expectedMatches));
   }
 

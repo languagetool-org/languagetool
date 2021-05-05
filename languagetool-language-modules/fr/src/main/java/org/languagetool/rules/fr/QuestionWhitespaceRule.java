@@ -116,10 +116,12 @@ public class QuestionWhitespaceRule extends Rule {
     String prevPrevToken = "";
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
-      if (tokens[i].isImmunized()) {
+      String token = tokens[i].getToken();
+      if (tokens[i].isImmunized() || prevToken.equals("(") || prevToken.equals("[")) {
+        prevPrevToken = prevToken;
+        prevToken = token;
         continue;
       }
-      String token = tokens[i].getToken();
       String msg = null;
       String suggestionText = null;
       int iFrom = i - 1;
@@ -186,7 +188,7 @@ public class QuestionWhitespaceRule extends Rule {
       if (msg != null) {
         int fromPos = tokens[iFrom].getStartPos();
         int toPos = tokens[iTo].getEndPos();
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, "Insérer un espace insécable");
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, "Insérer une espace insécable");
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }

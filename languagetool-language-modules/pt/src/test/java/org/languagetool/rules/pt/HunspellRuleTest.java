@@ -32,12 +32,28 @@ public class HunspellRuleTest {
   @Test
   public void testRule() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("pt"), Languages.getLanguageForShortCode("pt-PT"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
     
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A família.")).length);
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("A familia.")); 
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("A família.")).length);
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("A familia.")); 
     assertEquals(1, matches.length);
     assertEquals("família", matches[0].getSuggestedReplacements().get(0));
     assertEquals("familiar", matches[0].getSuggestedReplacements().get(1));
+    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Covid-19, COVID-19, covid-19.")).length);
+    
+    matches = rule.match(lt.getAnalyzedSentence("eu ja fiz isso.")); 
+    assertEquals(1, matches.length);
+    assertEquals("já", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(lt.getAnalyzedSentence("eu so")); 
+    assertEquals(1, matches.length);
+    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(lt.getAnalyzedSentence("é so")); 
+    assertEquals(1, matches.length);
+    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
+
+    lt.check("- Encontre no autoconheciemen");  // No "Could not map 29 to original position." issue
   }
 }

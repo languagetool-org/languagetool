@@ -53,6 +53,9 @@ public class CaseRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertGood("Es gibt wenige Befragte.");
+    assertGood("Es gibt weniger Befragte, die das machen würden.");
+    assertGood("Es gibt mehr Befragte, die das machen würden.");
     assertGood("Das ist eine Abkehr von Gottes Geboten.");
     assertGood("Dem Hund Futter geben");
     assertGood("Heute spricht Frau Stieg.");
@@ -180,6 +183,8 @@ public class CaseRuleTest {
     assertGood("Unser Wärmestrom-Tarif WärmeKompakt im Detail");  // ignore so we don't suggest "wärmeKompakt" (#3779)
     assertGood("Autohaus Dornig GmbH");
     assertGood("Hans Pries GmbH");
+    assertGood(":D Auf dieses Frl.");
+    assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -199,6 +204,7 @@ public class CaseRuleTest {
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
+    assertBad("Ich habe Heute keine Zeit.");
     assertBad("Ä Was?");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
@@ -267,7 +273,7 @@ public class CaseRuleTest {
     assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
     assertBad("Er ist begeistert Von der Fülle.");
     assertBad("Er wohnt Über einer Garage.");
-    assertBad("„Weißer Rauch“ Über Athen");
+    //assertBad("„Weißer Rauch“ Über Athen");   // could be title/quote, so not detected
     assertBad("Die Anderen 90 Prozent waren krank.");
 
     assertGood("Man sagt, Liebe mache blind.");

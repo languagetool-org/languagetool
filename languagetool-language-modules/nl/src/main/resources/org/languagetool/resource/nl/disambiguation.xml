@@ -99,6 +99,13 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+	<rule name="Ignore spelling of IBANs" id="IBAN">
+        <pattern>
+            <!-- from https://stackoverflow.com/questions/44656264/iban-regex-design, with spaces removed: -->
+            <token case_sensitive="yes" regexp="yes">^([A-Z]{2}[0-9]{2})(?=(?:[A-Z0-9]){9,30}$)((?:[A-Z0-9]{3,5}){2,7})([A-Z0-9]{1,3})?$</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
 	<!-- ROMEINSE GETALLEN -->
 	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
@@ -236,15 +243,13 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- mond- en klauwzeer en dergelijke woordgroepen -->
 	<rule name="AFKO_SAMENSTELLING" id="AFKO_SAMENSTELLING"><pattern><token postag="DVS"/><token regexp="yes">en|of</token></pattern><disambig action="ignore_spelling"/></rule>
 
-	<!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
- 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS">
+	<!-- disabling error report for longer string of unknown words (foreign quotes or names) ;--> 
+ 	<rule name="FOREIGN" id="GROUP_OF_UNKNOWN_WORDS">
 		<pattern>
-			<marker>
-				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
-				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
-				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
-				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
-			</marker>
+				<token postag="UNKNOWN|FOREIGN.*" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN.*" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN.*" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN.*" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
 		</pattern>
 		<disambig action="ignore_spelling"/>
 	</rule>
@@ -1461,4 +1466,149 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="CHNK_ZNW_MRV_E"/></disambig>
 	</rule>
 	-->
+	<!-- prevent spelling errors in words having () -->
+    <rule name="" id="PARENTHESES_B">
+        <pattern>
+			  <!--    1338 echtgeno(o)te(n) -->
+			  <token/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token spacebefore="no"/>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token min="0" max="1" spacebefore="no"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="" id="PARENTHESES_A">
+        <pattern>
+			  <!-- echtgeno(o)t  mededader(s) -->
+			  <token/>
+           <token spacebefore="no">(</token>
+			  <token spacebefore="no"/>
+           <token spacebefore="no">)</token>
+			  <token min="0" max="1" spacebefore="no"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="IGNORE_TIME" id="TIMES">
+        <pattern>
+			  <!-- 15.30u -->
+           <token regexp="yes">[0-9]{2}</token>
+			  <token spacebefore="no" regexp="yes">[:.]</token>
+           <token spacebefore="no" regexp="yes">[0-9]{2}[uh]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="IGNORE_TIME2" id="TIMES2">
+        <pattern>
+			  <!-- 15.30u -->
+           <token spacebefore="yes" regexp="yes">[0-9]{2}[uh]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+	 
+    <rule name="IGNORE_TIMES" id="X_TIMES">
+        <pattern>
+				<!-- 2x -->
+           <token regexp="yes" case_sensitive="yes">[0-9]+x</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+	 
+    <rule name="WILLEM_II" id="WILLEM_II">
+        <pattern>
+           <token case_sensitive="yes">Willem</token>
+           <token case_sensitive="yes" regexp="yes">II-(spits|spelers?|verdedigers?|supporters?)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+	 
+    <rule name="_2-0-ZEGE" id="_2-0-ZEGE">
+        <pattern>
+           <token regexp="yes">[0-9][0-9]?[-][0-9][0-9]?[-](uit|thuis)?(zege|winst|verlies|score|stand|voorsprong|gelijkspel|achterstand|overwinning)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="FORMULE_1-DING" id="FORMULE_1-DING">
+        <pattern>
+           <token>formule</token>
+           <token regexp="yes">[12E][-](seizoen|coureur|race|coureurs|team|teams|kalender|baas|carrière|auto|piloot|loopbaan|auto's|kampioen|weekend|testdag|record|races|legende|directeur|circus|wereld|organisatie|kampioenschap|wereldkampioen|verslaggever|testdagen|stoeltje|renstal|regels|geschiedenis|circuit|ongeval)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ENGELS1" id="ENGELS1">
+        <pattern>
+			  <marker>
+					<token case_sensitive="yes" regexp="yes">World|Champions</token>
+				</marker>
+           <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ENGELS2" id="ENGELS2">
+        <pattern>
+           <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+			  <marker>
+					<token case_sensitive="yes">World</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="A_AND_B" id="ENGELS3">
+        <pattern>
+				<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+				<token case_sensitive="yes" >and</token>
+				<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="VIERKANTE_METER" id="VIERKANTE_METER">
+			<!-- 150m² -->
+        <pattern>
+				<token regexp="yes" case_sensitive="yes">[0-9]*(m|km|cm|mm|dm)[²³]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="MR_X" id="MR_X">
+			<!-- meneer Teach -->
+        <pattern>
+				<token regexp="yes" >meneer|mevrouw|heer|jongeheer|juffrouw|mejuffrouw</token>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z][a-z].*</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="PETER_X" id="PETER_X">
+			<!-- meneer Teach -->
+        <pattern>
+				<token regexp="yes" case_sensitive="yes" postag="ENM:PER:FST">[A-Z][a-z].*</token>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z][a-z].*</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="X-VOUDIG" id="X-VOUDIG">
+			<!-- 105-voudig -->
+        <pattern>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[0-9]+[-]voudige?</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="PARA_NUM" id="PARA_NUM">
+			<!-- 1c -->
+        <pattern>
+				<marker>
+					<token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[1-9][0-9]?[a-zA-Z]</token>
+				</marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>	 
 </rules>

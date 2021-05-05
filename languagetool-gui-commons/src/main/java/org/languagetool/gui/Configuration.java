@@ -108,7 +108,9 @@ public class Configuration {
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
   private static final String UNDERLINE_COLORS_KEY = "underlineColors";
+  private static final String UNDERLINE_RULE_COLORS_KEY = "underlineRuleColors";
   private static final String UNDERLINE_TYPES_KEY = "underlineTypes";
+  private static final String UNDERLINE_RULE_TYPES_KEY = "underlineRuleTypes";
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
   private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
   private static final String IS_MULTI_THREAD_LO_KEY = "isMultiThread";
@@ -141,7 +143,9 @@ public class Configuration {
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new EnumMap<>(ITSIssueType.class);
   private final Map<String, Color> underlineColors = new HashMap<>();
+  private final Map<String, Color> underlineRuleColors = new HashMap<>();
   private final Map<String, Short> underlineTypes = new HashMap<>();
+  private final Map<String, Short> underlineRuleTypes = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
   private final Map<String, String> specialTabCategories = new HashMap<>();
@@ -234,7 +238,9 @@ public class Configuration {
   public void initOptions() {
     configForOtherLanguages.clear();
     underlineColors.clear();
+    underlineRuleColors.clear();
     underlineTypes.clear();
+    underlineRuleTypes.clear();
     configurableRuleValues.clear();
 
     disabledRuleIds.clear();
@@ -338,9 +344,17 @@ public class Configuration {
     for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
       this.underlineColors.put(entry.getKey(), entry.getValue());
     }
+    this.underlineRuleColors.clear();
+    for (Map.Entry<String, Color> entry : configuration.underlineRuleColors.entrySet()) {
+      this.underlineRuleColors.put(entry.getKey(), entry.getValue());
+    }
     this.underlineTypes.clear();
     for (Map.Entry<String, Short> entry : configuration.underlineTypes.entrySet()) {
       this.underlineTypes.put(entry.getKey(), entry.getValue());
+    }
+    this.underlineRuleTypes.clear();
+    for (Map.Entry<String, Short> entry : configuration.underlineRuleTypes.entrySet()) {
+      this.underlineRuleTypes.put(entry.getKey(), entry.getValue());
     }
     this.configurableRuleValues.clear();
     for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
@@ -906,10 +920,20 @@ public class Configuration {
   }
 
   /**
+   * @since 5.3
+   */
+  public Map<String, Color> getUnderlineRuleColors() {
+    return underlineRuleColors;
+  }
+
+  /**
    * @since 4.2
    * Get the color to underline a rule match by the Name of its category
    */
-  public Color getUnderlineColor(String category) {
+  public Color getUnderlineColor(String category, String ruleId) {
+    if (ruleId != null && underlineRuleColors.containsKey(ruleId)) {
+      return underlineRuleColors.get(ruleId);
+    }
     if (underlineColors.containsKey(category)) {
       return underlineColors.get(category);
     }
@@ -928,11 +952,27 @@ public class Configuration {
   }
 
   /**
+   * @since 5.3
+   * Set the color to underline a rule match for this rule
+   */
+  public void setUnderlineRuleColor(String ruleId, Color col) {
+    underlineRuleColors.put(ruleId, col);
+  }
+
+  /**
    * @since 4.2
-   * Set the color back to default (removes category from map)
+   * Set the category color back to default (removes category from map)
    */
   public void setDefaultUnderlineColor(String category) {
     underlineColors.remove(category);
+  }
+
+  /**
+   * @since 5.3
+   * Set the category color back to default (removes category from map)
+   */
+  public void setDefaultUnderlineRuleColor(String ruleId) {
+    underlineRuleColors.remove(ruleId);
   }
 
   /**
@@ -943,10 +983,20 @@ public class Configuration {
   }
 
   /**
+   * @since 5.3
+   */
+  public Map<String, Short> getUnderlineRuleTypes() {
+    return underlineRuleTypes;
+  }
+
+  /**
    * @since 4.9
    * Get the type to underline a rule match by the Name of its category
    */
-  public Short getUnderlineType(String category) {
+  public Short getUnderlineType(String category, String ruleId) {
+    if (ruleId != null && underlineRuleTypes.containsKey(ruleId)) {
+      return underlineRuleTypes.get(ruleId);
+    }
     if (underlineTypes.containsKey(category)) {
       return underlineTypes.get(category);
     }
@@ -962,11 +1012,27 @@ public class Configuration {
   }
 
   /**
+   * @since 5.3
+   * Set the type to underline a rule match
+   */
+  public void setUnderlineRuleType(String ruleID, short type) {
+    underlineRuleTypes.put(ruleID, type);
+  }
+
+  /**
    * @since 4.9
    * Set the type back to default (removes category from map)
    */
   public void setDefaultUnderlineType(String category) {
     underlineTypes.remove(category);
+  }
+
+  /**
+   * @since 5.3
+   * Set the type back to default (removes ruleId from map)
+   */
+  public void setDefaultUnderlineRuleType(String ruleID) {
+    underlineRuleTypes.remove(ruleID);
   }
 
   /**
@@ -1068,159 +1134,166 @@ public class Configuration {
         prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);
         prefix += PROFILE_DELIMITER;
       }
-
-      String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
-      if (useDocLangString != null) {
-        useDocLanguage = Boolean.parseBoolean(useDocLangString);
-      }
-      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
-      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
-      }
-      if (!useDocLanguage && motherTongue != null) {
-        qualifier = getQualifier(motherTongue);
-      }
-
-      disabledRuleIds.addAll(getListFromProperties(props, prefix + DISABLED_RULES_KEY + qualifier));
-      enabledRuleIds.addAll(getListFromProperties(props, prefix + ENABLED_RULES_KEY + qualifier));
-      disabledCategoryNames.addAll(getListFromProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier));
-      enabledCategoryNames.addAll(getListFromProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier));
-      enabledRulesOnly = "true".equals(props.get(prefix + ENABLED_RULES_ONLY_KEY));
-
-      String languageStr = (String) props.get(prefix + LANGUAGE_KEY);
-      if (languageStr != null) {
-        language = Languages.getLanguageForShortCode(languageStr);
-      }
-      String ngramDir = (String) props.get(prefix + NGRAM_DIR_KEY);
-      if (ngramDir != null) {
-        ngramDirectory = new File(ngramDir);
-      }
-      String word2vecDir = (String) props.get(prefix + WORD2VEC_DIR_KEY);
-      if (word2vecDir != null) {
-        word2vecDirectory = new File(word2vecDir);
-      }
-
-      autoDetect = "true".equals(props.get(prefix + AUTO_DETECT_KEY));
-      taggerShowsDisambigLog = "true".equals(props.get(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY));
-      guiConfig = "true".equals(props.get(prefix + USE_GUI_KEY));
-      runServer = "true".equals(props.get(prefix + SERVER_RUN_KEY));
-
-      fontName = (String) props.get(prefix + FONT_NAME_KEY);
-      if (props.get(prefix + FONT_STYLE_KEY) != null) {
-        try {
-          fontStyle = Integer.parseInt((String) props.get(prefix + FONT_STYLE_KEY));
-        } catch (NumberFormatException e) {
-          // Ignore
-        }
-      }
-      if (props.get(prefix + FONT_SIZE_KEY) != null) {
-        try {
-          fontSize = Integer.parseInt((String) props.get(prefix + FONT_SIZE_KEY));
-        } catch (NumberFormatException e) {
-          // Ignore
-        }
-      }
-      lookAndFeelName = (String) props.get(prefix + LF_NAME_KEY);
-
-      String serverPortString = (String) props.get(prefix + SERVER_PORT_KEY);
-      if (serverPortString != null) {
-        serverPort = Integer.parseInt(serverPortString);
-      }
-      String extRules = (String) props.get(prefix + EXTERNAL_RULE_DIRECTORY);
-      if (extRules != null) {
-        externalRuleDirectory = extRules;
-      }
-
-      String paraCheckString = (String) props.get(prefix + NO_DEFAULT_CHECK_KEY);
-      if (Boolean.parseBoolean(paraCheckString)) {
-        paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);
-        if (paraCheckString != null) {
-          numParasToCheck = Integer.parseInt(paraCheckString);
-        }
-      }
-
-      String resetCheckString = (String) props.get(prefix + RESET_CHECK_KEY);
-      if (resetCheckString != null) {
-        doResetCheck = Boolean.parseBoolean(resetCheckString);
-      }
-
-      String useTextLevelQueueString = (String) props.get(prefix + USE_QUEUE_KEY);
-      if (useTextLevelQueueString != null) {
-        useTextLevelQueue = Boolean.parseBoolean(useTextLevelQueueString);
-      }
-
-      String noBackgroundCheckString = (String) props.get(prefix + NO_BACKGROUND_CHECK_KEY);
-      if (noBackgroundCheckString != null) {
-        noBackgroundCheck = Boolean.parseBoolean(noBackgroundCheckString);
-      }
-
-      String switchOffString = (String) props.get(prefix + LT_SWITCHED_OFF_KEY);
-      if (switchOffString != null) {
-        switchOff = Boolean.parseBoolean(switchOffString);
-      }
-
-      String isMultiThreadString = (String) props.get(prefix + IS_MULTI_THREAD_LO_KEY);
-      if (isMultiThreadString != null) {
-        isMultiThreadLO = Boolean.parseBoolean(isMultiThreadString);
-      }
-      
-      String doRemoteCheckString = (String) props.get(prefix + DO_REMOTE_CHECK_KEY);
-      if (doRemoteCheckString != null) {
-        doRemoteCheck = Boolean.parseBoolean(doRemoteCheckString);
-      }
-      
-      String useOtherServerString = (String) props.get(prefix + USE_OTHER_SERVER_KEY);
-      if (useOtherServerString != null) {
-        useOtherServer = Boolean.parseBoolean(useOtherServerString);
-      }
-      
-      otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
-      if (otherServerUrl != null && !isValidServerUrl(otherServerUrl)) {
-        otherServerUrl = null;
-      }
-      
-      String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
-      if (markSingleCharBoldString != null) {
-        markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
-      }
-      
-      String useLtDictionaryString = (String) props.get(prefix + USE_LT_DICTIONARY_KEY);
-      if (useLtDictionaryString != null) {
-        useLtDictionary = Boolean.parseBoolean(useLtDictionaryString);
-      }
-      
-      String noSynonymsAsSuggestionsString = (String) props.get(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY);
-      if (noSynonymsAsSuggestionsString != null) {
-        noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);
-      }
-      
-      String saveLoCacheString = (String) props.get(prefix + SAVE_LO_CACHE_KEY);
-      if (saveLoCacheString != null) {
-        saveLoCache = Boolean.parseBoolean(saveLoCacheString);
-      }
-      
-      String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
-      if (rulesValuesString == null) {
-        rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
-      }
-      parseConfigurableRuleValues(rulesValuesString);
-
-      String colorsString = (String) props.get(prefix + ERROR_COLORS_KEY);
-      parseErrorColors(colorsString);
-
-      String underlineColorsString = (String) props.get(prefix + UNDERLINE_COLORS_KEY);
-      parseUnderlineColors(underlineColorsString);
-
-      String underlineTypesString = (String) props.get(prefix + UNDERLINE_TYPES_KEY);
-      parseUnderlineTypes(underlineTypesString);
-
-      //store config for other languages
-      loadConfigForOtherLanguages(lang, props, prefix);
-
+      loadCurrentProfile(props, prefix, qualifier);
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
+  }
+  
+  private void loadCurrentProfile(Properties props, String prefix, String qualifier) {
+    String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
+    if (useDocLangString != null) {
+      useDocLanguage = Boolean.parseBoolean(useDocLangString);
+    }
+    String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
+    if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
+      motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
+    }
+    if (!useDocLanguage && motherTongue != null) {
+      qualifier = getQualifier(motherTongue);
+    }
 
+    disabledRuleIds.addAll(getListFromProperties(props, prefix + DISABLED_RULES_KEY + qualifier));
+    enabledRuleIds.addAll(getListFromProperties(props, prefix + ENABLED_RULES_KEY + qualifier));
+    disabledCategoryNames.addAll(getListFromProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier));
+    enabledCategoryNames.addAll(getListFromProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier));
+    enabledRulesOnly = "true".equals(props.get(prefix + ENABLED_RULES_ONLY_KEY));
+
+    String languageStr = (String) props.get(prefix + LANGUAGE_KEY);
+    if (languageStr != null) {
+      language = Languages.getLanguageForShortCode(languageStr);
+    }
+    String ngramDir = (String) props.get(prefix + NGRAM_DIR_KEY);
+    if (ngramDir != null) {
+      ngramDirectory = new File(ngramDir);
+    }
+    String word2vecDir = (String) props.get(prefix + WORD2VEC_DIR_KEY);
+    if (word2vecDir != null) {
+      word2vecDirectory = new File(word2vecDir);
+    }
+
+    autoDetect = "true".equals(props.get(prefix + AUTO_DETECT_KEY));
+    taggerShowsDisambigLog = "true".equals(props.get(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY));
+    guiConfig = "true".equals(props.get(prefix + USE_GUI_KEY));
+    runServer = "true".equals(props.get(prefix + SERVER_RUN_KEY));
+
+    fontName = (String) props.get(prefix + FONT_NAME_KEY);
+    if (props.get(prefix + FONT_STYLE_KEY) != null) {
+      try {
+        fontStyle = Integer.parseInt((String) props.get(prefix + FONT_STYLE_KEY));
+      } catch (NumberFormatException e) {
+        // Ignore
+      }
+    }
+    if (props.get(prefix + FONT_SIZE_KEY) != null) {
+      try {
+        fontSize = Integer.parseInt((String) props.get(prefix + FONT_SIZE_KEY));
+      } catch (NumberFormatException e) {
+        // Ignore
+      }
+    }
+    lookAndFeelName = (String) props.get(prefix + LF_NAME_KEY);
+
+    String serverPortString = (String) props.get(prefix + SERVER_PORT_KEY);
+    if (serverPortString != null) {
+      serverPort = Integer.parseInt(serverPortString);
+    }
+    String extRules = (String) props.get(prefix + EXTERNAL_RULE_DIRECTORY);
+    if (extRules != null) {
+      externalRuleDirectory = extRules;
+    }
+
+    String paraCheckString = (String) props.get(prefix + NO_DEFAULT_CHECK_KEY);
+    if (Boolean.parseBoolean(paraCheckString)) {
+      paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);
+      if (paraCheckString != null) {
+        numParasToCheck = Integer.parseInt(paraCheckString);
+      }
+    }
+
+    String resetCheckString = (String) props.get(prefix + RESET_CHECK_KEY);
+    if (resetCheckString != null) {
+      doResetCheck = Boolean.parseBoolean(resetCheckString);
+    }
+
+    String useTextLevelQueueString = (String) props.get(prefix + USE_QUEUE_KEY);
+    if (useTextLevelQueueString != null) {
+      useTextLevelQueue = Boolean.parseBoolean(useTextLevelQueueString);
+    }
+
+    String noBackgroundCheckString = (String) props.get(prefix + NO_BACKGROUND_CHECK_KEY);
+    if (noBackgroundCheckString != null) {
+      noBackgroundCheck = Boolean.parseBoolean(noBackgroundCheckString);
+    }
+
+    String switchOffString = (String) props.get(prefix + LT_SWITCHED_OFF_KEY);
+    if (switchOffString != null) {
+      switchOff = Boolean.parseBoolean(switchOffString);
+    }
+
+    String isMultiThreadString = (String) props.get(prefix + IS_MULTI_THREAD_LO_KEY);
+    if (isMultiThreadString != null) {
+      isMultiThreadLO = Boolean.parseBoolean(isMultiThreadString);
+    }
+    
+    String doRemoteCheckString = (String) props.get(prefix + DO_REMOTE_CHECK_KEY);
+    if (doRemoteCheckString != null) {
+      doRemoteCheck = Boolean.parseBoolean(doRemoteCheckString);
+    }
+    
+    String useOtherServerString = (String) props.get(prefix + USE_OTHER_SERVER_KEY);
+    if (useOtherServerString != null) {
+      useOtherServer = Boolean.parseBoolean(useOtherServerString);
+    }
+    
+    otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
+    if (otherServerUrl != null && !isValidServerUrl(otherServerUrl)) {
+      otherServerUrl = null;
+    }
+    
+    String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
+    if (markSingleCharBoldString != null) {
+      markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
+    }
+    
+    String useLtDictionaryString = (String) props.get(prefix + USE_LT_DICTIONARY_KEY);
+    if (useLtDictionaryString != null) {
+      useLtDictionary = Boolean.parseBoolean(useLtDictionaryString);
+    }
+    
+    String noSynonymsAsSuggestionsString = (String) props.get(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY);
+    if (noSynonymsAsSuggestionsString != null) {
+      noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);
+    }
+    
+    String saveLoCacheString = (String) props.get(prefix + SAVE_LO_CACHE_KEY);
+    if (saveLoCacheString != null) {
+      saveLoCache = Boolean.parseBoolean(saveLoCacheString);
+    }
+    
+    String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
+    if (rulesValuesString == null) {
+      rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
+    }
+    parseConfigurableRuleValues(rulesValuesString);
+
+    String colorsString = (String) props.get(prefix + ERROR_COLORS_KEY);
+    parseErrorColors(colorsString);
+
+    String underlineColorsString = (String) props.get(prefix + UNDERLINE_COLORS_KEY);
+    parseUnderlineColors(underlineColorsString, underlineColors);
+
+    String underlineRuleColorsString = (String) props.get(prefix + UNDERLINE_RULE_COLORS_KEY);
+    parseUnderlineColors(underlineRuleColorsString, underlineRuleColors);
+
+    String underlineTypesString = (String) props.get(prefix + UNDERLINE_TYPES_KEY);
+    parseUnderlineTypes(underlineTypesString, underlineTypes);
+
+    String underlineRulesTypesString = (String) props.get(prefix + UNDERLINE_RULE_TYPES_KEY);
+    parseUnderlineTypes(underlineRulesTypesString, underlineRuleTypes);
+
+    //store config for other languages
+    loadConfigForOtherLanguages(lang, props, prefix);
   }
 
   private void parseErrorColors(String colorsString) {
@@ -1238,7 +1311,7 @@ public class Configuration {
     }
   }
 
-  private void parseUnderlineColors(String colorsString) {
+  private void parseUnderlineColors(String colorsString, Map<String, Color> underlineColors) {
     if (StringUtils.isNotEmpty(colorsString)) {
       String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
@@ -1251,7 +1324,7 @@ public class Configuration {
     }
   }
 
-  private void parseUnderlineTypes(String typessString) {
+  private void parseUnderlineTypes(String typessString, Map<String, Short> underlineTypes) {
     if (StringUtils.isNotEmpty(typessString)) {
       String[] categoryToTypesList = typessString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
       for (String categoryToType : categoryToTypesList) {
@@ -1353,128 +1426,7 @@ public class Configuration {
     for (String prefix : prefixes) {
       props = new Properties();
       if (currentPrefix.equals(prefix)) {
-        if (!disabledRuleIds.isEmpty()) {
-          addListToProperties(props, prefix + DISABLED_RULES_KEY + qualifier, disabledRuleIds);
-        }
-        if (!enabledRuleIds.isEmpty()) {
-          addListToProperties(props, prefix + ENABLED_RULES_KEY + qualifier, enabledRuleIds);
-        }
-        if (!disabledCategoryNames.isEmpty()) {
-          addListToProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
-        }
-        if (!enabledCategoryNames.isEmpty()) {
-          addListToProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
-        }
-        if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
-          props.setProperty(prefix + LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
-        }
-        if (motherTongue != null) {
-          props.setProperty(prefix + MOTHER_TONGUE_KEY, motherTongue.getShortCodeWithCountryAndVariant());
-        }
-        if (ngramDirectory != null) {
-          props.setProperty(prefix + NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
-        }
-        if (word2vecDirectory != null) {
-          props.setProperty(prefix + WORD2VEC_DIR_KEY, word2vecDirectory.getAbsolutePath());
-        }
-        props.setProperty(prefix + AUTO_DETECT_KEY, Boolean.toString(autoDetect));
-        props.setProperty(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));
-        props.setProperty(prefix + USE_GUI_KEY, Boolean.toString(guiConfig));
-        props.setProperty(prefix + SERVER_RUN_KEY, Boolean.toString(runServer));
-        props.setProperty(prefix + SERVER_PORT_KEY, Integer.toString(serverPort));
-        if (numParasToCheck != DEFAULT_NUM_CHECK_PARAS) {
-          props.setProperty(prefix + NO_DEFAULT_CHECK_KEY, Boolean.toString(true));
-          props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));
-        }
-        if (doResetCheck != DEFAULT_DO_RESET) {
-          props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));
-        }
-        if (useTextLevelQueue != DEFAULT_USE_QUEUE) {
-          props.setProperty(prefix + USE_QUEUE_KEY, Boolean.toString(useTextLevelQueue));
-        }
-        if (noBackgroundCheck != DEFAULT_NO_BACKGROUND_CHECK) {
-          props.setProperty(prefix + NO_BACKGROUND_CHECK_KEY, Boolean.toString(noBackgroundCheck));
-        }
-        if (useDocLanguage != DEFAULT_USE_DOC_LANGUAGE) {
-          props.setProperty(prefix + USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
-        }
-        if (isMultiThreadLO != DEFAULT_MULTI_THREAD) {
-          props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
-        }
-        if (doRemoteCheck != DEFAULT_DO_REMOTE_CHECK) {
-          props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
-        }
-        if (useOtherServer != DEFAULT_USE_OTHER_SERVER) {
-          props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
-        }
-        if (markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
-          props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
-        }
-        if (useLtDictionary != DEFAULT_USE_LT_DICTIONARY) {
-          props.setProperty(prefix + USE_LT_DICTIONARY_KEY, Boolean.toString(useLtDictionary));
-        }
-        if (noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {
-          props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));
-        }
-        if (saveLoCache != DEFAULT_SAVE_LO_CACHE) {
-          props.setProperty(prefix + SAVE_LO_CACHE_KEY, Boolean.toString(saveLoCache));
-        }
-        if (switchOff) {
-          props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
-        }
-        if (otherServerUrl != null && isValidServerUrl(otherServerUrl)) {
-          props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
-        }
-        if (fontName != null) {
-          props.setProperty(prefix + FONT_NAME_KEY, fontName);
-        }
-        if (fontStyle != FONT_STYLE_INVALID) {
-          props.setProperty(prefix + FONT_STYLE_KEY, Integer.toString(fontStyle));
-        }
-        if (fontSize != FONT_SIZE_INVALID) {
-          props.setProperty(prefix + FONT_SIZE_KEY, Integer.toString(fontSize));
-        }
-        if (this.lookAndFeelName != null) {
-          props.setProperty(prefix + LF_NAME_KEY, lookAndFeelName);
-        }
-        if (externalRuleDirectory != null) {
-          props.setProperty(prefix + EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
-        }
-        if (!configurableRuleValues.isEmpty()) {
-          StringBuilder sbRV = new StringBuilder();
-          for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-            sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
-          }
-          props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
-        }
-        if (!errorColors.isEmpty()) {
-          StringBuilder sb = new StringBuilder();
-          for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
-            String rgb = Integer.toHexString(entry.getValue().getRGB());
-            rgb = rgb.substring(2);
-            sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
-          }
-          props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
-        }
-        if (!underlineColors.isEmpty()) {
-          StringBuilder sbUC = new StringBuilder();
-          for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
-            String rgb = Integer.toHexString(entry.getValue().getRGB());
-            rgb = rgb.substring(2);
-            sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
-          }
-          props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
-        }
-        if (!underlineTypes.isEmpty()) {
-          StringBuilder sbUT = new StringBuilder();
-          for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
-            sbUT.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
-          }
-          props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
-        }
-        for (String key : configForOtherLanguages.keySet()) {
-          props.setProperty(key, configForOtherLanguages.get(key));
-        }
+        saveConfigForCurrentProfile(props, prefix, qualifier);
       } else {
         saveConfigForProfile(props, prefix);
       }
@@ -1519,7 +1471,9 @@ public class Configuration {
     allProfileKeys.add(LF_NAME_KEY);
     allProfileKeys.add(ERROR_COLORS_KEY);
     allProfileKeys.add(UNDERLINE_COLORS_KEY);
+    allProfileKeys.add(UNDERLINE_RULE_COLORS_KEY);
     allProfileKeys.add(UNDERLINE_TYPES_KEY);
+    allProfileKeys.add(UNDERLINE_RULE_TYPES_KEY);
     allProfileKeys.add(LT_SWITCHED_OFF_KEY);
     allProfileKeys.add(IS_MULTI_THREAD_LO_KEY);
     allProfileKeys.add(EXTERNAL_RULE_DIRECTORY);
@@ -1564,6 +1518,147 @@ public class Configuration {
       }
     }
   }
+  
+  private void saveConfigForCurrentProfile(Properties props, String prefix, String qualifier) {
+    if (!disabledRuleIds.isEmpty()) {
+      addListToProperties(props, prefix + DISABLED_RULES_KEY + qualifier, disabledRuleIds);
+    }
+    if (!enabledRuleIds.isEmpty()) {
+      addListToProperties(props, prefix + ENABLED_RULES_KEY + qualifier, enabledRuleIds);
+    }
+    if (!disabledCategoryNames.isEmpty()) {
+      addListToProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
+    }
+    if (!enabledCategoryNames.isEmpty()) {
+      addListToProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
+    }
+    if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
+      props.setProperty(prefix + LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
+    }
+    if (motherTongue != null) {
+      props.setProperty(prefix + MOTHER_TONGUE_KEY, motherTongue.getShortCodeWithCountryAndVariant());
+    }
+    if (ngramDirectory != null) {
+      props.setProperty(prefix + NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
+    }
+    if (word2vecDirectory != null) {
+      props.setProperty(prefix + WORD2VEC_DIR_KEY, word2vecDirectory.getAbsolutePath());
+    }
+    props.setProperty(prefix + AUTO_DETECT_KEY, Boolean.toString(autoDetect));
+    props.setProperty(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));
+    props.setProperty(prefix + USE_GUI_KEY, Boolean.toString(guiConfig));
+    props.setProperty(prefix + SERVER_RUN_KEY, Boolean.toString(runServer));
+    props.setProperty(prefix + SERVER_PORT_KEY, Integer.toString(serverPort));
+    if (numParasToCheck != DEFAULT_NUM_CHECK_PARAS) {
+      props.setProperty(prefix + NO_DEFAULT_CHECK_KEY, Boolean.toString(true));
+      props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+    }
+    if (doResetCheck != DEFAULT_DO_RESET) {
+      props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));
+    }
+    if (useTextLevelQueue != DEFAULT_USE_QUEUE) {
+      props.setProperty(prefix + USE_QUEUE_KEY, Boolean.toString(useTextLevelQueue));
+    }
+    if (noBackgroundCheck != DEFAULT_NO_BACKGROUND_CHECK) {
+      props.setProperty(prefix + NO_BACKGROUND_CHECK_KEY, Boolean.toString(noBackgroundCheck));
+    }
+    if (useDocLanguage != DEFAULT_USE_DOC_LANGUAGE) {
+      props.setProperty(prefix + USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
+    }
+    if (isMultiThreadLO != DEFAULT_MULTI_THREAD) {
+      props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
+    }
+    if (doRemoteCheck != DEFAULT_DO_REMOTE_CHECK) {
+      props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
+    }
+    if (useOtherServer != DEFAULT_USE_OTHER_SERVER) {
+      props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
+    }
+    if (markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
+      props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
+    }
+    if (useLtDictionary != DEFAULT_USE_LT_DICTIONARY) {
+      props.setProperty(prefix + USE_LT_DICTIONARY_KEY, Boolean.toString(useLtDictionary));
+    }
+    if (noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {
+      props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));
+    }
+    if (saveLoCache != DEFAULT_SAVE_LO_CACHE) {
+      props.setProperty(prefix + SAVE_LO_CACHE_KEY, Boolean.toString(saveLoCache));
+    }
+    if (switchOff) {
+      props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
+    }
+    if (otherServerUrl != null && isValidServerUrl(otherServerUrl)) {
+      props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
+    }
+    if (fontName != null) {
+      props.setProperty(prefix + FONT_NAME_KEY, fontName);
+    }
+    if (fontStyle != FONT_STYLE_INVALID) {
+      props.setProperty(prefix + FONT_STYLE_KEY, Integer.toString(fontStyle));
+    }
+    if (fontSize != FONT_SIZE_INVALID) {
+      props.setProperty(prefix + FONT_SIZE_KEY, Integer.toString(fontSize));
+    }
+    if (this.lookAndFeelName != null) {
+      props.setProperty(prefix + LF_NAME_KEY, lookAndFeelName);
+    }
+    if (externalRuleDirectory != null) {
+      props.setProperty(prefix + EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
+    }
+    if (!configurableRuleValues.isEmpty()) {
+      StringBuilder sbRV = new StringBuilder();
+      for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
+        sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+      }
+      props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
+    }
+    if (!errorColors.isEmpty()) {
+      StringBuilder sb = new StringBuilder();
+      for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
+        String rgb = Integer.toHexString(entry.getValue().getRGB());
+        rgb = rgb.substring(2);
+        sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+      }
+      props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
+    }
+    if (!underlineColors.isEmpty()) {
+      StringBuilder sbUC = new StringBuilder();
+      for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+        String rgb = Integer.toHexString(entry.getValue().getRGB());
+        rgb = rgb.substring(2);
+        sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+      }
+      props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
+    }
+    if (!underlineRuleColors.isEmpty()) {
+      StringBuilder sbUC = new StringBuilder();
+      for (Map.Entry<String, Color> entry : underlineRuleColors.entrySet()) {
+        String rgb = Integer.toHexString(entry.getValue().getRGB());
+        rgb = rgb.substring(2);
+        sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+      }
+      props.setProperty(prefix + UNDERLINE_RULE_COLORS_KEY, sbUC.toString());
+    }
+    if (!underlineTypes.isEmpty()) {
+      StringBuilder sbUT = new StringBuilder();
+      for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
+        sbUT.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+      }
+      props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
+    }
+    if (!underlineRuleTypes.isEmpty()) {
+      StringBuilder sbUT = new StringBuilder();
+      for (Map.Entry<String, Short> entry : underlineRuleTypes.entrySet()) {
+        sbUT.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+      }
+      props.setProperty(prefix + UNDERLINE_RULE_TYPES_KEY, sbUT.toString());
+    }
+    for (String key : configForOtherLanguages.keySet()) {
+      props.setProperty(key, configForOtherLanguages.get(key));
+    }
+  }
 
   private void saveConfigForProfile(Properties props, String prefix) {
     for (String key : allProfileLangKeys) {
@@ -1582,4 +1677,44 @@ public class Configuration {
     }
   }
 
+  public void importProfile(File importFile) throws IOException {
+    String qualifier = getQualifier(lang);
+    try (FileInputStream fis = new FileInputStream(importFile)) {
+      Properties props = new Properties();
+      props.load(fis);
+      String curProfileStr = (String) props.get(CURRENT_PROFILE_KEY);
+      if (curProfileStr == null || curProfileStr.isEmpty()) {
+        return;
+      }
+      currentProfile = curProfileStr;
+      String prefix = currentProfile;
+      prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);
+      prefix += PROFILE_DELIMITER;
+      loadCurrentProfile(props, prefix, qualifier);
+    } catch (FileNotFoundException e) {
+      // file not found: okay, leave disabledRuleIds empty
+    }
+  }
+
+  public void exportProfile(String profile, File exportFile) throws IOException {
+    Properties props = new Properties();
+    String qualifier = getQualifier(lang);
+    if (currentProfile != null && !currentProfile.isEmpty()) {
+      props.setProperty(CURRENT_PROFILE_KEY, profile);
+    }
+    try (FileOutputStream fos = new FileOutputStream(exportFile)) {
+      props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
+    }
+    String prefix = profile;
+    if (!prefix.isEmpty()) {
+      prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);
+      prefix += PROFILE_DELIMITER;
+    }
+    saveConfigForCurrentProfile(props, prefix, qualifier);
+    try (FileOutputStream fos = new FileOutputStream(exportFile, true)) {
+      props.store(fos, "Profile: " + (prefix.isEmpty() ? "Default" : prefix.substring(0, prefix.length() - 2)));
+    }
+  }
+
+  
 }

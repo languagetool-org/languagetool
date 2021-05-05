@@ -125,9 +125,11 @@ to
 			  — Flag "2" increased the wordlist in ~400 valid words;
 			  — Flag "i" increased the wordlist in ~200 valid words;
 			  — Flag "n" increased the wordlist in ~1000 valid words.
+2020-11-01 — Added the State and union territory capitals in India:
+			  — https://en.wikipedia.org/wiki/List_of_state_and_union_territory_capitals_in_India		  
 2019-11-01
 to
-2020-12-01 — Added thousands of possessives and plurals.
+2021-03-01 — Added thousands of possessives and plurals.
 		   — Improved flags: "3", "N", "O", "W".
 -------
 

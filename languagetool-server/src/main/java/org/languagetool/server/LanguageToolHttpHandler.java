@@ -179,15 +179,15 @@ class LanguageToolHttpHandler implements HttpHandler {
           String pathWithoutVersion = path.substring("/v2/".length());
           apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
         } else if (path.endsWith("/Languages")) {
-          throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
+          throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else if (path.equals("/")) {
-          throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
+          throw new BadRequestException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
         } else if (path.contains("/v2/")) {
-          throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
+          throw new BadRequestException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
         } else if (path.equals("/favicon.ico")) {
           sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, "Not found");
         } else {
-          throw new IllegalArgumentException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);
+          throw new BadRequestException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
@@ -212,7 +212,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = AuthException.class.getName() + ": " + e.getMessage();
         logStacktrace = false;
-      } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
+      } else if (e instanceof BadRequestException || rootCause instanceof BadRequestException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
       } else if (e instanceof PathNotFoundException || rootCause instanceof PathNotFoundException) {
@@ -310,12 +310,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     try {
       message += "m: " + ServerTools.getMode(params) + ", ";
-    } catch (IllegalArgumentException ex) {
+    } catch (BadRequestException ex) {
       message += "m: invalid, ";
     }
     try {
       message += "l: " + ServerTools.getLevel(params) + ", ";
-    } catch (IllegalArgumentException ex) {
+    } catch (BadRequestException ex) {
       message += "l: invalid, ";
     }
     if (params.containsKey("instanceId")) {

@@ -581,7 +581,8 @@ final class TokenAgreementAdjNounExceptionHelper {
         && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "num")
         && PosTagHelper.hasPosTagPart(tokens[adjPos-2], "num")
         && PosTagHelper.hasPosTagPart(slaveTokenReadings, ":p:")
-        && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings()), slaveInflections)
+        && (PosTagHelper.hasPosTagStart(tokens[adjPos-2], "number")
+              || hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings()), slaveInflections))
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;

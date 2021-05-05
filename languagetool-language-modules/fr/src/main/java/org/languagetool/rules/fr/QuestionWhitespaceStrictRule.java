@@ -39,6 +39,7 @@ public class QuestionWhitespaceStrictRule extends QuestionWhitespaceRule {
   public QuestionWhitespaceStrictRule(ResourceBundle messages, Language language) {
     super(messages, language);
     setTags(Arrays.asList(Tag.picky));
+    this.setDefaultOff();
   }
 
   @Override

@@ -35,14 +35,14 @@ public class SimpleStyleEkavianReplaceRuleTest {
   public void testRule() throws IOException {
     SimpleStyleEkavianReplaceRule rule = new SimpleStyleEkavianReplaceRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Serbian());
+    JLanguageTool lt = new JLanguageTool(new Serbian());
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Он је добар."));
+    matches = rule.match(lt.getAnalyzedSentence("Он је добар."));
     assertEquals(0, matches.length);
 
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Она је дебела."));
+    matches = rule.match(lt.getAnalyzedSentence("Она је дебела."));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals(Arrays.asList("елегантно попуњена"), matches[0].getSuggestedReplacements());

@@ -33,17 +33,16 @@ import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
-
 public class SubjectVerbAgreementRuleTest {
 
   private static SubjectVerbAgreementRule rule;
-  private static JLanguageTool langTool;
+  private static JLanguageTool lt;
 
   @BeforeClass
   public static void setUp() {
     Language german = Languages.getLanguageForShortCode("de-DE");
     rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), (German) german);
-    langTool = new JLanguageTool(german);
+    lt = new JLanguageTool(german);
   }
 
   @Test
@@ -108,11 +107,11 @@ public class SubjectVerbAgreementRuleTest {
 
   @Test
   public void testArrayOutOfBoundsBug() throws IOException {
-    rule.match(langTool.getAnalyzedSentence("Die nicht Teil des Näherungsmodells sind"));
+    rule.match(lt.getAnalyzedSentence("Die nicht Teil des Näherungsmodells sind"));
   }
 
   private AnalyzedTokenReadings[] getTokens(String s) throws IOException {
-    return langTool.getAnalyzedSentence(s).getTokensWithoutWhitespace();
+    return lt.getAnalyzedSentence(s).getTokensWithoutWhitespace();
   }
 
   @Test
@@ -332,6 +331,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?",
         "Zwei Schülern war aufgefallen, dass man im Fernsehen dazu nichts mehr sieht.",
         "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
         "Eine Persönlichkeit sind Sie selbst.",
@@ -433,6 +433,8 @@ public class SubjectVerbAgreementRuleTest {
     // Manchmal sind beide Varianten korrekt:
     // siehe https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html
     List<String> sentences = Arrays.asList(
+        "Solchen Personen ist der Zugriff auf diese Daten verboten.",
+        "Personen ist der Zugriff auf diese Daten verboten.",
         "So mancher Mitarbeiter und manche Führungskraft ist im Urlaub.",
         "So mancher Mitarbeiter und manche Führungskraft sind im Urlaub.",
         "Jeder Schüler und jede Schülerin ist mal schlecht gelaunt.",
@@ -476,7 +478,7 @@ public class SubjectVerbAgreementRuleTest {
   }
 
   private RuleMatch[] getMatches(String input) throws IOException {
-    return rule.match(langTool.getAnalyzedSentence(input));
+    return rule.match(lt.getAnalyzedSentence(input));
   }
 
 }

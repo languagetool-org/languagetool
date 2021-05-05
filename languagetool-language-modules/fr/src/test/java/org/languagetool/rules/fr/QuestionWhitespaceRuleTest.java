@@ -57,7 +57,10 @@ public class QuestionWhitespaceRuleTest {
       TestTools.disableAllRulesExcept(lt, "FRENCH_WHITESPACE");
       assertEquals(0, lt.check("« Je suis Chris… »").size());
       assertEquals(0, lt.check("« Je suis Chris ! »").size());
-
+      assertEquals(0, lt.check("Je suis.[!]").size());
+      assertEquals(0, lt.check("Je suis[?]").size());
+      assertEquals(0, lt.check("Je suis(?)").size());
+      
       assertEquals(0, lt.check("1;2;3").size());
       assertEquals(0, lt.check("asd@dsa.fr;test@foo.com;").size());
       

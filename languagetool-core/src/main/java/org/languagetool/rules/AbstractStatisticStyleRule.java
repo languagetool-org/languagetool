@@ -51,8 +51,8 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
   /**
    * Condition to generate a hint (possibly including all exceptions)
    * Returns:
-   *  < nAnalysedToken, if condition is not fulfilled
-   *  >= nAnalysedToken, if condition is not fulfilled; integer is number of token which is the end hint 
+   *  &lt; nAnalysedToken, if condition is not fulfilled
+   *  &gt;= nAnalysedToken, if condition is not fulfilled; integer is number of token which is the end hint 
    */
   protected abstract int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nAnalysedToken);
   

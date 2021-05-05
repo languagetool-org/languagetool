@@ -19,6 +19,7 @@
 package org.languagetool.tagging.uk;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
@@ -125,14 +126,23 @@ public class UkrainianTagger extends BaseTagger {
   protected List<AnalyzedToken> getAnalyzedTokens(String word) {
     List<AnalyzedToken> tokens = super.getAnalyzedTokens(word);
 
+    if( word.length() < 2 )
+      return tokens;
+    
     if( tokens.get(0).hasNoTag() ) {
       String origWord = word;
 
-      if( word.endsWith("м²") ||  word.endsWith("м³") ) {
-        word = origWord.substring(0, word.length()-1);
-        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, Pattern.compile("noun:inanim.*"), null, null);
-        return newTokens.size() > 0 ? newTokens : tokens; 
+      if( word.lastIndexOf('м') == word.length()-2 
+          && word.matches("([ксмнд]|мк)?м[23²³]") ) {
+//        word = origWord.substring(0, word.length()-1);
+//        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, Pattern.compile("noun:inanim.*"), null, null);
+//        return newTokens.size() > 0 ? newTokens : tokens;
+        return Arrays.asList(new AnalyzedToken(origWord, "noninfl", origWord));
       }
+
+//      if( word.matches("[0-9]+[а-яїієґa-z]") ) {
+//        return Arrays.asList(new AnalyzedToken(origWord, "noninfl", origWord));
+//      }
 
       if( word.length() > 2 ) {
         if( word.indexOf('\u2013') > 0

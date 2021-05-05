@@ -112,7 +112,7 @@ public class Spanish extends Language implements AutoCloseable{
             new MultipleWhitespaceRule(messages, this),
             new SpanishWikipediaRule(messages),
             new SpanishWrongWordInContextRule(messages),
-            new LongSentenceRule(messages, userConfig, 38, true, true),
+            new LongSentenceRule(messages, userConfig, 50, true, true),
             new LongParagraphRule(messages, this, userConfig),
             new SimpleReplaceRule(messages),
             new SimpleReplaceVerbsRule(messages, this)
@@ -201,6 +201,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "MUCHO_NF": return 25; // greater than AGREEMENT_DET_NOUN
       case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN 
       case "AGREEMENT_DET_NOUN": return 20;
+      case "ETCETERA": return 20; // greater than ESPACIO_DESPUES_DE_PUNTO
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "P_EJ": return 20;
       case "ESPACIO_DESPUES_DE_PUNTO": return 15;
@@ -226,6 +227,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "VOSEO": return -40;
       case "MORFOLOGIK_RULE_ES": return -100;
       case "PHRASE_REPETITION": return -150;
+      case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
     }
     //STYLE is -50

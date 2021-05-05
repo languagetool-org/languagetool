@@ -103,6 +103,28 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="FOR_EVER_US" name="for ever (forever)">
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">since|one|body|thing|glades?|bloomers?|changing</token>
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token postag="JJR" />
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">and|&amp;|or</token>
+                <token>ever</token>
+            </antipattern>
+            <pattern>
+                <token>for</token>
+                <token>ever</token>
+            </pattern>
+            <message>The adverb <suggestion>forever</suggestion> is spelled as one word.</message>
+            <url>https://www.merriam-webster.com/dictionary/forever</url>
+            <example correction="forever">Your texts are stored <marker>for ever</marker>.</example>
+        </rule>
         <rule id="TRAD_TRADE" name="trad vs trade">
             <antipattern>
                 <token skip="5">trad</token>
@@ -218,6 +240,18 @@ USA
                  <token>more</token>
                  <token postag="CC"/>
               </antipattern>
+              <antipattern><!-- if you need any more, let me know -->
+                  <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">need|want|demand|require</token>
+                  <token>any</token>
+                  <token>more</token>
+              </antipattern>
+              <antipattern><!-- I couldn't ask any more of him -->
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token>any</token>
+                  <token>more</token>
+                  <token regexp="yes">from|of</token>
+                  <token postag="NNP|PRP" postag_regexp="yes"/>
+              </antipattern>
               <pattern>
                   <marker>
                      <token>any</token>
@@ -246,11 +280,38 @@ USA
               <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
               <example>Tom could not have been any more helpful.</example>
               <example>Those people do not visit emergency rooms any more often than the general population.</example>
+              <example>I'll let you know if I need any more from you.</example>
+              <example>If you ask any more of me, I won't be able to comply.</example>
           </rule>
 
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
+        <rule id="ETC_PERIOD" name="period after abbreviation 'etc.'">
+            <antipattern>
+                <token>etc</token>
+                <token regexp="yes">/|_|…|#</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">etc</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>A period is needed after the abbreviation 'etc.'</message>
+            <suggestion>etc.</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/etc.</url>
+            <example correction="etc.">Tennis, soccer, baseball, <marker>etc</marker> are outdoor games.</example>
+            <example correction="etc.">I use things like Java, Microsoft, Unix, <marker>etc</marker> at work.</example>
+            <example correction="etc.">Make sure you bring your fishing pole, tackle, bait, <marker>etc</marker> as we will not make any stops.</example>
+            <example correction="etc.">No check engine lights <marker>etc</marker>?</example>
+            <example correction="etc.">Removed the alarm listener and replaced with lights, <marker>etc</marker>, etc.</example>
+            <example>Process: 4264 ExecStart=/etc/rc.d/init.d/newrelic-daemon start (code=exited, status=0/SUCCESS)</example>
+            <example>DND_ETC__List1</example>
+            <example>Device Handlers, etc…</example>
+            <example>root@de1lvapp098p:/etc# ls -l /dev/disk/by-uuid</example>
+            <example>Diversity Dick Liebert reported that questions for the ETC survey are currently being developed.</example>
+        </rule>
         <rule id="MISSING_COMMA_AFTER_YEAR" name="Potentially missing comma after year">
             <pattern>
                 <token regexp="yes">&months;</token>
@@ -267,6 +328,121 @@ USA
             <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
             <example>My birthday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
         </rule>
+        <rulegroup id="US_ONE_ENTITY" name="the United States are (is) 245 years old">
+            <antipattern>
+                <token postag="IN|RB|TO|V.*|J.*" postag_regexp="yes" />
+                <token min="0">that</token>
+                <token>the</token>
+                <token min="0" postag="J.*" postag_regexp="yes" />
+                <token min="0" case_sensitive="yes">United</token>
+                <token regexp="yes" case_sensitive="yes">States|US</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">States|US</token>
+                <token chunk_re="[IE]-NP.*">
+                    <exception>need</exception>
+                </token>
+            </antipattern>
+            <antipattern>
+                <token postag="NNP|NNPS|NNS|UNKNOWN" postag_regexp="yes"/>
+                <token min="0">)</token>
+                <token min="0">,</token>
+                <token>and</token>
+                <token min="0">the</token>
+                <token min="0" postag="J.*" postag_regexp="yes" />
+                <token min="0" case_sensitive="yes">United</token>
+                <token regexp="yes" case_sensitive="yes">States|US</token>
+            </antipattern>
+            <antipattern>
+                <token postag="MD|WRB" postag_regexp="yes" />
+                <token min="0" postag="V.*" postag_regexp="yes" />
+                <token min="0" inflected="yes">not</token>
+                <token>the</token>
+                <token min="0" case_sensitive="yes">United</token>
+                <token regexp="yes" case_sensitive="yes">States|US</token>
+            </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token>states</token>
+                <token postag="VBP" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">States|US</token>
+                <token>are</token>
+                <token min="0" inflected="yes">not</token>
+                <token min="0" chunk="B-ADVP" />
+                <token chunk="B-NP-plural">
+                    <exception postag="CD" />
+                </token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <token min="0" case_sensitive="yes">United</token>
+                    <token regexp="yes" case_sensitive="yes">States|US</token>
+                    <marker>
+                        <token postag="VBP">
+                            <exception postag="VBD" />
+                            <exception regexp="yes">must|should|will|would</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Possible verb agreement error.</message>
+                <suggestion><match no="4" postag="VBZ" /></suggestion>
+                <example correction="is">The United States <marker>are</marker> 245 years old.</example>
+                <example correction="does">The United States <marker>do</marker> not need another Trump.</example>
+                <example correction="needs">What the United States <marker>need</marker> is a more competent Congress.</example>
+                <example correction="is">The US <marker>are</marker> 245 years old.</example>
+                <example correction="does">The US <marker>do</marker> not need another Trump.</example>
+                <example>United States Copyright Office</example>
+                <example>People in the United States speak English.</example>
+                <example>...offered to help the United States avoid an energy crisis.</example>
+                <example>Germany and the United States are close political allies.</example>
+                <example>The United States fell 6 places to a ranking of only 22...</example>
+                <example>The United States will no longer be able to be the police for the world.</example>
+                <example>Kennedy proposed that the United States accelerate its space program.</example>
+                <example>Should the United States have gotten involved there, too?</example>
+                <example>Why didn't the United States protect the Kurds in Afrin?</example>
+                <example>Caribbean countries and the United States have collaborated to create tsunami warning systems</example>
+                <example>Many police and fire services in Scotland, Canada, Australia, New Zealand, Hong Kong, and the United States have also adopted the tradition of fielding pipe bands.</example>
+                <example>Austria, Belgium, Germany, Israel, the Netherlands, Northern Ireland, Russia, Taiwan, Ontario (Canada), and the United States have adopted commitment criteria</example>
+                <example>...lest the United States be forgotten.</example>
+                <example>It is imperative that the United States take a firm stance on gun control.</example>
+                <example>US Copyright Office</example>
+                <example>People in the US speak English.</example>
+                <example>...offered to help the US avoid an energy crisis.</example>
+                <example>Germany and the US are close political allies.</example>
+                <example>The US fell 6 places to a ranking of only 22...</example>
+                <example>The US will no longer be able to be the police for the world.</example>
+                <example>Kennedy proposed that the US accelerate its space program.</example>
+                <example>Should the US have gotten involved there, too?</example>
+                <example>Why didn't the US protect the Kurds in Afrin?</example>
+                <example>...lest the US be forgotten.</example>
+                <example>It is imperative that the US take a firm stance on gun control.</example>
+                <example>The States know full well that the Central power utilities dare not cut supply and the worst they can do is to threaten the errant States.</example>
+                <example>The United States are not currently the only cultural imperialists.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>the</token>
+                    <token>states</token>
+                    <token>have</token>
+                </antipattern>
+                <pattern>
+                    <token>the</token>
+                    <token min="0">United</token>
+                    <token regexp="yes">States|US</token>
+                    <marker>
+                        <token>have</token>
+                    </marker>
+                </pattern>
+                <message>Possible agreement error.</message>
+                <suggestion>has</suggestion>
+                <example correction="has">The United States <marker>have</marker> never had a female president.</example>
+                <example correction="has">The US <marker>have</marker> never had a female president.</example>
+                <example>It is imperative that the United States have a firm stance on gun control.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="TOILET" name="offensive word 'toilet'">
             <rule>
@@ -330,15 +506,14 @@ USA
         <rule id="MASTERS_DISSERTATION_THESIS" name="master's dissertation (thesis)">
             <pattern>
                 <token>master</token>
-                <token spacebefore="no" regexp="yes">&apostrophe;</token>
-                <token>s</token>
+                <token spacebefore="no">'s</token>
                 <token inflected="yes">dissertation</token>
             </pattern>
-            <message>In the US, the word '\4' is usually for doctoral degrees. Did you mean <suggestion>\1\2\3 <match no="4" postag="(NN.*)" postag_replace="$1">thesis</match></suggestion>?</message>
+            <message>In the US, the word '\3' is usually for doctoral degrees. Did you mean <suggestion>\1\2 <match no="3" postag="(NN.*)" postag_replace="$1">thesis</match></suggestion>?</message>
             <url>https://en.wikipedia.org/wiki/Thesis#United_States</url>
             <short>BrE/AmE: dissertation/thesis</short>
             <example correction="master's thesis">Her <marker>master's dissertation</marker> is excellent.</example>
-            <example correction="Master’s theses"><marker>Master’s dissertations</marker> are not easy to write.</example>
+            <example correction="Master's theses"><marker>Master’s dissertations</marker> are not easy to write.</example>
             <example correction="master's thesis">Example sentence with no full stop: <marker>master's dissertation</marker></example>
         </rule>
         <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_BRE" name="1-litre/1-liter">
@@ -385,7 +560,7 @@ USA
             <example correction="In the future"><marker>In future</marker>, we will do better.</example>
             <example><marker>In the future</marker>, we will do better.</example>
         </rule>
-        <rule id="HAVE_A_SHOWER" name="have a shower -> take a shower" default="temp_off">
+        <rule id="HAVE_A_SHOWER" name="have a shower -> take a shower">
             <antipattern>
                 <token regexp="yes">\w*(room|house|home)$</token>
                 <token />
@@ -397,9 +572,9 @@ USA
                 <token min="0" postag="RB" />
                 <token postag_regexp="yes" postag="DT|CD" />
                 <token min="0" postag_regexp="yes" postag="JJ|RB"><exception regexp="yes">baby|steam|spacious|big|large|small</exception></token>
-                <token regexp="yes">shower|bath</token>
+                <token regexp="yes" chunk_re="E-NP.*">shower|bath</token>
             </pattern>
-            <message>In the US, the verb <suggestion><match no="1" postag="VB.*">take</match></suggestion> is usually used before '\5'.</message>
+            <message>In American English, the verb <suggestion><match no="1" postag="VB.*">take</match></suggestion> is usually used before '\5'.</message>
             <example correction="took">He <marker>had</marker> a shower before breakfast.</example>
             <example correction="takes">He <marker>has</marker> a shower every day.</example>
             <example correction="taken">I haven't <marker>had</marker> a bath in years.</example>
@@ -509,6 +684,6 @@ USA
            <example correction="through">I'm going <marker>thru</marker> hell.</example>
            <example>A thru axle (TA) is a wheel attachment system that secures a wheel on a hub between a pair of dropouts on a bicycle frame or fork.</example>
         </rule>
-    </category>
+        </category>
 
 </rules>

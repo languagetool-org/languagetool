@@ -20,10 +20,7 @@ package org.languagetool.tools;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import org.languagetool.DetectedLanguage;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Tag;
+import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -32,6 +29,7 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -89,6 +87,17 @@ public class RuleMatchesAsJsonSerializer {
    */
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
+    return ruleMatchesToJson2(Collections.singletonList(new CheckResults(matches, Collections.emptyList())),
+            hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint);
+  }
+
+    /**
+     * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+     *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
+     * @since 5.3
+     */
+  public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
+                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -100,10 +109,11 @@ public class RuleMatchesAsJsonSerializer {
         writeSoftwareSection(g, showPremiumHint);
         writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, detectedLang);
-        writeMatchesSection("matches", g, matches, text, contextTools);
+        writeMatchesSection("matches", g, res, text, contextTools);
         if (hiddenMatches != null && hiddenMatches.size() > 0) {
-          writeMatchesSection("hiddenMatches", g, hiddenMatches, text, contextTools);
+          writeMatchesSection("hiddenMatches", g, Collections.singletonList(new CheckResults(hiddenMatches, Collections.emptyList())), text, contextTools);
         }
+        writeIgnoreRanges(g, res);
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -161,35 +171,56 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
-  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, AnnotatedText text, ContextTools contextTools) throws IOException {
+  private void writeMatchesSection(String sectionName, JsonGenerator g, List<CheckResults> res, AnnotatedText text, ContextTools contextTools) throws IOException {
     g.writeArrayFieldStart(sectionName);
-    for (RuleMatch match : matches) {
-      g.writeStartObject();
-      g.writeStringField("message", cleanSuggestion(match.getMessage()));
-      if (match.getShortMessage() != null) {
-        g.writeStringField("shortMessage", cleanSuggestion(match.getShortMessage()));
-      }
-      writeReplacements(g, match);
-      g.writeNumberField("offset", match.getFromPos());
+    for (CheckResults r : res) {
+      for (RuleMatch match : r.getRuleMatches()) {
+        g.writeStartObject();
+        g.writeStringField("message", cleanSuggestion(match.getMessage()));
+        if (match.getShortMessage() != null) {
+          g.writeStringField("shortMessage", cleanSuggestion(match.getShortMessage()));
+        }
+        writeReplacements(g, match);
+        g.writeNumberField("offset", match.getFromPos());
       g.writeNumberField("length", match.getToPos()-match.getFromPos());
-      writeContext(g, match, text, contextTools);
-      g.writeObjectFieldStart("type");
-      g.writeStringField("typeName", match.getType().toString());
-      g.writeEndObject();
-      writeRule(g, match);
-      // 3 is a guess - key 'ignoreForIncompleteSentence' isn't official and can hopefully be removed in the future
-      // now that we have 'contextForSureMatch':
-      int contextEstimate = match.getRule().estimateContextForSureMatch();
-      g.writeBooleanField("ignoreForIncompleteSentence", contextEstimate == -1 || contextEstimate > 3);
-      g.writeNumberField("contextForSureMatch", contextEstimate);
-      g.writeEndObject();
+        writeContext(g, match, text, contextTools);
+        g.writeObjectFieldStart("type");
+        g.writeStringField("typeName", match.getType().toString());
+        g.writeEndObject();
+        writeRule(g, match);
+        // 3 is a guess - key 'ignoreForIncompleteSentence' isn't official and can hopefully be removed in the future
+        // now that we have 'contextForSureMatch':
+        int contextEstimate = match.getRule().estimateContextForSureMatch();
+        g.writeBooleanField("ignoreForIncompleteSentence", contextEstimate == -1 || contextEstimate > 3);
+        g.writeNumberField("contextForSureMatch", contextEstimate);
+        g.writeEndObject();
+      }
+    }
+    g.writeEndArray();
+  }
+
+  private void writeIgnoreRanges(JsonGenerator g, List<CheckResults> res) throws IOException {
+    if (res.stream().allMatch(k -> k.getIgnoredRanges().size() == 0)) {
+      return;
+    }
+    g.writeArrayFieldStart("ignoreRanges");
+    for (CheckResults r : res) {
+      for (Range range : r.getIgnoredRanges()) {
+        g.writeStartObject();
+        g.writeNumberField("from", range.getFromPos());
+        g.writeNumberField("to", range.getToPos());
+        g.writeObjectFieldStart("language");
+        g.writeStringField("code", range.getLang());
+        g.writeEndObject();
+        g.writeEndObject();
+      }
     }
     g.writeEndArray();
   }
 
   private String cleanSuggestion(String s) {
     if (lang != null) {
-      return lang.toAdvancedTypography(s.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote()));
+      return lang.toAdvancedTypography(s); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
     } else {
       return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
     }
