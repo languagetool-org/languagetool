@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -1343,7 +1344,7 @@ public class MultiDocumentsHandler {
            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
          }
       }
-    } catch (Exception ignored) {
+    } catch (Exception | AWTError ignored) {
       // Well, what can we do...
     }
 
