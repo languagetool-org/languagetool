@@ -23664,14 +23664,14 @@ though, and has since been slightly modified)-->
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">pré|pre|post</token>
+                    <token regexp="yes">pré|pre</token>
                     <token min="0">-</token>
                     <token postag="[VNJ].*" postag_regexp="yes"/>
                 </pattern>
                 <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
-                <suggestion>\1\3</suggestion>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="pré$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="pre$1"/></suggestion>
                 <example correction="préélectoral"><marker>pré électoral</marker>.</example>
-                <example correction="postélectoral"><marker>post électoral</marker>.</example>
                 <!--<example correction="prérequis"><marker>pré-requis</marker></example>-->
                 <example correction="Prééminence"><marker>Pré éminence</marker></example>
                 <!--<example correction="Prééminence"><marker>Pré-éminence</marker></example>-->
@@ -23729,6 +23729,17 @@ though, and has since been slightly modified)-->
                 <example correction="mégaoctets">Les <marker>méga octets</marker>.</example>
                 <example correction="mégafête">Une <marker>méga fête</marker>.</example>
                 <example>Les <marker>méga ulcères</marker> font très mal.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>post</token>
+                    <token min="0">-</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                </pattern>
+                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="post$1" case_conversion="preserve"/></suggestion>
+                <example correction="postuniversitaires">Les <marker>post universitaires</marker>.</example>
+                <example>Les troubles du stress post-traumatique.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
@@ -41765,7 +41776,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">.*zélandais.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(sur-|géo-|nord-|sud-|néo-|mini-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)\p{Ll}.+</token>
+                    <token regexp="yes">(post-|sur-|géo-|nord-|sud-|néo-|mini-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)\p{Ll}.+<exception regexp="yes">post-t.*</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le mot <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion> peut s'écrire sans trait d'union.</message>
                 <example correction="néorural">Le <marker>néo-rural</marker></example>
@@ -41780,6 +41791,8 @@ though, and has since been slightly modified)-->
                 <example correction="mégafête">Une <marker>méga-fête</marker>.</example>
                 <example correction="minigolf">Parcours de <marker>mini-golf</marker>.</example>
                 <example correction="minitélévision">Une <marker>mini-télévision</marker>.</example>
+                <example correction="postélectoral">Un rapport <marker>post-électoral</marker>.</example>
+                <example>Syndrome de stress post-traumatique</example>
             </rule>
             <rule>
                 <pattern>

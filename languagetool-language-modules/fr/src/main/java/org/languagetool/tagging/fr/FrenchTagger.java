@@ -46,10 +46,10 @@ public class FrenchTagger extends BaseTagger {
 
   private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+|V ppa.*");
   private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile(
-      "(sur-|mini-|méga-|demi-|péri-|anti-|géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",
+      "(post-|sur-|mini-|méga-|demi-|péri-|anti-|géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIXES_FOR_NOUN_ADJ = Pattern.compile(
-      "(mini|méga)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "(mini|méga|post)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   // |nord-|sud-
 
   public FrenchTagger() {
