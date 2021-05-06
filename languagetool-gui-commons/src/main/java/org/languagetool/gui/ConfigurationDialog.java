@@ -199,7 +199,6 @@ public class ConfigurationDialog implements ActionListener {
     configTree = new JTree[numConfigTrees];
     rootNode = new DefaultMutableTreeNode[numConfigTrees];
     JPanel[] checkBoxPanel = new JPanel[numConfigTrees];
-//    DefaultMutableTreeNode rootNode;
     GridBagConstraints cons;
 
     for (int i = 0; i < numConfigTrees; i++) {
@@ -1118,6 +1117,7 @@ public class ConfigurationDialog implements ActionListener {
       if (e.getStateChange() == ItemEvent.SELECTED) {
         if(profileChanged) {
           try {
+            //  The configuration has to be saved first to save previous changes
             config.saveConfiguration(null);
             List<String> saveProfiles = new ArrayList<>();
             saveProfiles.addAll(config.getDefinedProfiles());
@@ -1249,6 +1249,7 @@ public class ConfigurationDialog implements ActionListener {
         }
       }
       if (profileName != null && !profileName.equals("")) {
+        //  The configuration has to be saved and reloaded first to save previous changes
         try {
           config.saveConfiguration(null);
           config.initOptions();
@@ -1275,6 +1276,7 @@ public class ConfigurationDialog implements ActionListener {
       int choose = fileChooser.showOpenDialog(dialog);
       if (choose == JFileChooser.APPROVE_OPTION) {
         try {
+          //  The configuration has to be saved and reloaded first to save previous changes
           config.saveConfiguration(null);
           config.initOptions();
           config.loadConfiguration(config.getCurrentProfile());
