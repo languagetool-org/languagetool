@@ -788,7 +788,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>possible</token>
                 </antipattern>
                 <antipattern>
-                    <token><exception regexp="yes">un|une</exception></token>
+                    <token>
+                        <exception regexp="yes">un|une</exception></token>
                     <token>des</token>
                     <token>plus</token>
                     <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
@@ -5902,7 +5903,6 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <!-- added by Agnes Souque -->
         <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe" default="off">
-            <!--TODO: remove, included in PRONSUJ_NONVERBE-->
             <antipattern>
                 <token regexp="yes" inflected="yes">attirer|amener|projeter</token>
                 <token regexp="yes">à|vers</token>
@@ -12683,10 +12683,10 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                        <marker>
-                    <token>de</token>
-                    <token regexp="yes">y</token>
-                        </marker>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">y</token>
+                    </marker>
                     <token postag="V inf"/>
                 </pattern>
                 <message>« \3 \4 » s’élide en <suggestion><match no="3" regexp_match=".$" regexp_replace=""/>’\4</suggestion>.</message>
@@ -12707,7 +12707,8 @@ though, and has since been slightly modified)-->
                         <token>je</token>
                         <token regexp="yes">y</token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="V inf"/></token>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V inf"/></token>
                 </pattern>
                 <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
                 <example correction="j’y">Sarah, <marker>je y</marker> vais !</example>
@@ -12721,7 +12722,7 @@ though, and has since been slightly modified)-->
                 <example>Le oui l’a emporté.</example>
                 <example>J’ai suivi la A40.</example>
                 <example>À la une de la presse.</example>
-                </rule>
+            </rule>
         </rulegroup>
         <rulegroup id="CONJONCTIONS" name="conjonctions">
             <rule>
@@ -17963,7 +17964,11 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token>chez</token>
-                <token regexp="yes">elle|elles</token>
+                <token regexp="yes">elle|elles|nous|vous</token>
+            </antipattern>
+            <antipattern>
+                <token postag="P"/>
+                <token regexp="yes">elle|elles|nous|vous</token>
             </antipattern>
             <antipattern>
                 <token postag="P"/>
@@ -17981,6 +17986,11 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token regexp="yes">elle|elles</token>
                 <token>et</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">le|la|les</token>
+                <token regexp="yes">plus|moins|mieux|pis</token>
+                <token postag="J.*|V ppa,*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <!-- probable error TRAIT_UNION_INVERSION -->
@@ -18137,6 +18147,7 @@ though, and has since been slightly modified)-->
                 <example correction="sorte|sortis|sors">Je ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonne">Je ne l’<marker>abandon</marker> pas.</example>
                 <example>Je ne la voie pas.</example>
+                <example>Je ne les sale pas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18410,7 +18421,17 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token>nous</token>
                     <token postag="D.* p" postag_regexp="yes"/>
-                    <token postag="[NJ].* p" postag_regexp="yes"/>
+                    <token postag="[NJ].* (p|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>nous</token>
+                    <token postag="D.* s" postag_regexp="yes"/>
+                    <token postag="[NJ].* (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>nous</token>
+                    <token/>
+                    <token postag="V.* inf" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token>nous</token>
@@ -18427,8 +18448,24 @@ though, and has since been slightly modified)-->
                 <example correction="">Nous la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Nous ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Nous ne <marker>dix</marker> rien.</example>
-                <example correction="">Nous l’<marker>abandonné</marker>.</example>
-                <example correction="">Nous l'<marker>impressionnée</marker> de devenir dingue.</example>
+                <!-- TODO:
+                <example correction="">Nous l’<marker>abandonné</marker>.</example> 
+                <example correction="">Nous l'<marker>impressionnée</marker> de devenir dingue.</example>-->
+                <example>C'est parce que nous avons en nous le début et la possibilité pour cela.</example>
+                <example>L'anglais était pour nous la langue de repli.</example>
+                <example>Il est rentré chez lui sans nous le dire.</example>
+                <example>Il croit que c'est nous l'ennemi alors que c'est lui !</example>
+                <example>Dis-lui de nous les apporter tout de suite.</example>
+                <example>Nous les Danois avons une relation particulière.</example>
+                <example>Tu vas nous les lâcher, oui ?</example>
+                <example>suscitant en nous le pouvoir créateur</example>
+                <example>Tous nos actes visent à écarter de nous la souffrance et la peur.</example>
+                <example>Pour nous les Japonais</example>
+                <example>Ce gâteau a besoin de farine, de sucre et d'œufs pour nous le réaliser.</example>
+                <example>Tu ne vas pas nous la faire à nous, si ?</example>
+                <example>Pourquoi feriez-vous cela sans nous le dire ?</example>
+                <example>Priez pour nous le Seigneur notre Dieu.</example>
+                <example>Nous les Gaulois, on vous emmerde !</example>
             </rule>
             <rule>
                 <pattern>
@@ -18480,16 +18517,16 @@ though, and has since been slightly modified)-->
                 <example correction="">Nous ne s'en <marker>sorts</marker> pas.</example>
             </rule>
             <!-- vous -->
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>vous</token>
-                    <token postag="D.* p" postag_regexp="yes"/>
-                    <token postag="[NJ].* p" postag_regexp="yes"/>
+                    <token postag="D.* (sp|p)" postag_regexp="yes"/>
+                    <token postag="[NJ].* (sp|p)" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>vous</token>
-                    <token postag="D.* s" postag_regexp="yes"/>
-                    <token postag="[NJ].* s" postag_regexp="yes"/>
+                    <token postag="D.* (s|sp)" postag_regexp="yes"/>
+                    <token postag="[NJ].* (s|sp)" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>vous</token>
@@ -18511,6 +18548,10 @@ though, and has since been slightly modified)-->
                 <example correction="">Vous la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Vous ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Vous ne <marker>dix</marker> rien.</example>
+                <example correction="faites|fuîtes|fîtes|haïtes">La vache, vous me <marker>faîtes</marker> mourir de rire.</example>
+                <example>Vous feriez mieux d'aller chez vous le plus tôt possible.</example>
+                <example>J'espère un jour parler l'allemand aussi bien que vous l'anglais.</example>
+                <example>C'est vous la plus vieille.</example>
                 <!-- TODO:
                 <example correction="abandonnez">Vous l’<marker>abandonné</marker>.</example>
                 <example correction="impressionnez">Vous l'<marker>impressionnée</marker> de devenir dingue.</example>-->
@@ -24026,6 +24067,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
                 <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
+                <example correction="Seras-tu"><marker>Seras tu</marker> à la maison pour Noël ?</example>
                 <example>Que manges-tu ?</example>
                 <example>Si tu en veux tu progresseras vite.</example>
                 <example>Quand tu t'en iras tu me manqueras.</example>
@@ -41792,7 +41834,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">.*zélandais.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(post-|sur-|géo-|nord-|sud-|néo-|mini-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)\p{Ll}.+<exception regexp="yes">post-t.*</exception></token>
+                    <token regexp="yes">(post-|sur-|géo-|nord-|sud-|néo-|mini-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)\p{Ll}.+
+                        <exception regexp="yes">post-t.*|post-scriptum</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le mot <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion> peut s'écrire sans trait d'union.</message>
                 <example correction="néorural">Le <marker>néo-rural</marker></example>
@@ -42151,10 +42194,10 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                     <token postag="D.*" postag_regexp="yes"/>
-                     <token case_sensitive="yes">non</token>
-                     <token postag="[NJ].*" postag_regexp="yes"/>
-                     <token postag="P.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token case_sensitive="yes">non</token>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="D.*" postag_regexp="yes"/>

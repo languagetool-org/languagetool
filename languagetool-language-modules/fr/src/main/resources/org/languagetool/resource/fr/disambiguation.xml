@@ -557,6 +557,14 @@ RB => Règles Brutes
     </rulegroup>
     <rulegroup name="Etre + participe passé ambigu" id="ETRE_PARTICIPE">
         <rule>
+            <!-- Seras tu -->
+            <pattern>
+                <token postag="V .* 2 s" postag_regexp="yes"/>
+                <token postag="R pers suj 2 s">tu</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
             <pattern>
                 <token postag="D m s" regexp="yes">un|cet</token>
                 <token postag="N m s">être</token>
@@ -1603,6 +1611,7 @@ RB => Règles Brutes
     <rulegroup id="BON_ADJ" name="bon (adj)">
         <antipattern>
             <token regexp="yes">ne|n'</token>
+            <token min="0" postag="R.*" postag_regexp="yes"/>
             <token postag="V.*" postag_regexp="yes"/>
             <token>pas</token>
         </antipattern>
