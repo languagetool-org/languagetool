@@ -1118,6 +1118,7 @@ public class ConfigurationDialog implements ActionListener {
       if (e.getStateChange() == ItemEvent.SELECTED) {
         if(profileChanged) {
           try {
+            config.saveConfiguration(null);
             List<String> saveProfiles = new ArrayList<>();
             saveProfiles.addAll(config.getDefinedProfiles());
             if(e.getItem().equals(userOptions)) {
@@ -1248,6 +1249,12 @@ public class ConfigurationDialog implements ActionListener {
         }
       }
       if (profileName != null && !profileName.equals("")) {
+        try {
+          config.saveConfiguration(null);
+          config.initOptions();
+          config.loadConfiguration(config.getCurrentProfile());
+        } catch (IOException e1) {
+        }
         config.addProfile(profileName);
         config.setCurrentProfile(profileName);
         profileChanged = false;
@@ -1268,6 +1275,9 @@ public class ConfigurationDialog implements ActionListener {
       int choose = fileChooser.showOpenDialog(dialog);
       if (choose == JFileChooser.APPROVE_OPTION) {
         try {
+          config.saveConfiguration(null);
+          config.initOptions();
+          config.loadConfiguration(config.getCurrentProfile());
           List<String> saveProfiles = new ArrayList<>();
           saveProfiles.addAll(config.getDefinedProfiles());
           Configuration saveConfig = config.copy(config);

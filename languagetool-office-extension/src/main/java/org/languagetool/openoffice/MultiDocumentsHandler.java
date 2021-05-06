@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -174,7 +175,9 @@ public class MultiDocumentsHandler {
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       PropertyValue[] propertyValues, boolean docReset) {
-    
+    if (lt == null) {
+      setJavaLookAndFeel();
+    }
     if (!hasLocale(locale)) {
       MessageHandler.printToLogFile("Sorry, don't have locale: " + OfficeTools.localeToString(locale));
       return paRes;
@@ -1322,6 +1325,13 @@ public class MultiDocumentsHandler {
       MessageHandler.showMessage("Error: LanguageTool requires Java 8 or later. Current version: " + version);
       return false;
     }
+    return true;
+  }
+  
+  /** Set Look and Feel for Java Swing Components
+   * 
+   */
+  private void setJavaLookAndFeel() {
     try {
       // do not set look and feel for on Mac OS X as it causes the following error:
       // soffice[2149:2703] Apple AWT Java VM was loaded on first thread -- can't start AWT.
@@ -1334,10 +1344,10 @@ public class MultiDocumentsHandler {
            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
          }
       }
-    } catch (Exception ignored) {
+    } catch (Exception | AWTError ignored) {
       // Well, what can we do...
     }
-    return true;
+
   }
   
   /**

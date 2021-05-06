@@ -1482,7 +1482,7 @@ RB => Règles Brutes
         <pattern>
             <token postag="D.*" postag_regexp="yes" regexp="yes">la|le|les</token>
             <token postag="A" regexp="yes">plus|mois</token>
-            <token postag="J.*" postag_regexp="yes"/>    
+            <token postag="J.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -3737,7 +3737,8 @@ RB => Règles Brutes
             <token inflected="yes" regexp="yes">être|avoir</token>
             <token min="0" max="4" postag="R.*|A" postag_regexp="yes"/>
             <marker>
-                <token>dit<exception scope="previous" regexp="yes">il|elle|on</exception></token>
+                <token>dit
+                    <exception scope="previous" regexp="yes">il|elle|on</exception></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="V ind.*"/>
@@ -4618,16 +4619,29 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="J f s"/>
     </rule>-->
-    <rule id="UN_DES" name="un des">
-        <pattern>
-            <token>un
-                <exception scope="previous">numéro</exception></token>
-            <marker>
-                <token>des</token>
-            </marker>
-        </pattern>
-        <disambig postag="D m p"/>
-    </rule>
+    <rulegroup id="UN_DES" name="un des">
+        <rule>
+            <pattern>
+                <token>un
+                    <exception scope="previous">numéro</exception></token>
+                <marker>
+                    <token postag="P.D e p" postag_regexp="yes">des</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="P.D e p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">être</token>
+                <token min="0">pas</token>
+                <marker>
+                    <token postag="P.D e p" postag_regexp="yes">des</token>
+                </marker>
+                <token regexp="yes">plus|moins</token>
+            </pattern>
+            <disambig action="filter" postag="P.D e p"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="en fait" id="EN_FAIT">
         <rule>
             <pattern>

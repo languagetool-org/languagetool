@@ -33906,6 +33906,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <rulegroup name="decret llei" id="DECRET_LLEI">
+            <rule>
+                <pattern>
+                    <token inflected="yes">decret</token>
+                    <token>-</token>
+                    <token inflected="yes">llei</token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion>\1 llei</suggestion>
+                <example correction="decrets llei">Va aprovar dos <marker>decrets-lleis</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">decret</token>
+                    <token>lleis</token>
+                </pattern>
+                <message>La forma correcta de plural és <suggestion>\1 llei</suggestion>.</message>
+                <example correction="decrets llei">Va aprovar dos <marker>decrets lleis</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="QUATRE_PUNTS" name=" més de tres punts suspensius">
             <pattern>
                 <token>.</token>
@@ -34859,6 +34879,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rulegroup id="REIAL_DECRET" name="reial decret llei">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">reial|Reial</token>
+                    <token>decret</token>
+                    <token regexp="yes">llei|legislatiu</token>
+                </antipattern>
+                <pattern>
+                    <token>Reial</token>
+                    <token>Decret</token>
+                    <token regexp="yes">Llei|legislatiu</token>
+                </pattern>
+                <message>Majúscules i minúscules recomanades</message>
+                <suggestion>Reial decret <match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="Reial decret llei"><marker>Reial decret Llei</marker> 21/2010</example>
+                <example correction="Reial decret llei"><marker>Reial Decret Llei</marker> 21/2010</example>
+                <example correction="Reial decret legislatiu"><marker>Reial Decret Legislatiu</marker> 21/2010</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Reial</token>
+                    <token>Decret</token>
+                </pattern>
+                <message>Majúscules i minúscules recomanades</message>
+                <suggestion>Reial decret</suggestion>
+                <example correction="Reial decret"><marker>Reial Decret</marker> 21/2010</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Decret</token>
+                    <token>Legislatiu</token>
+                </pattern>
+                <message>Majúscules i minúscules recomanades</message>
+                <suggestion>Decret legislatiu</suggestion>
+                <example correction="Decret legislatiu"><marker>Decret Legislatiu</marker> 21/2010</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAJUSCULA_IMPROBABLE_" name="majúscula incorrecta" default="temp_off">
             <rule>
                 <antipattern>

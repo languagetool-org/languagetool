@@ -63,15 +63,16 @@ public class SwJLanguageTool {
     isRemote = config.doRemoteCheck() && !testMode;
     doReset = false;
     if (isRemote) {
-      lt = null;
       mlt = null;
       rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
       if (!rlt.remoteRun()) {
         MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
         isRemote = false;
         isMultiThread = false;
-        lt = new JLanguageTool(language, motherTongue, null, userConfig);
       }
+      //  lt is needed for methods getAnalyzedSentence and sentenceTokenize
+      //  TODO: Advance remote server to support these two functions
+      lt = new JLanguageTool(language, motherTongue, null, userConfig);
     } else if (isMultiThread) {
       lt = null;
       mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig);

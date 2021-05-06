@@ -175,7 +175,7 @@ public class DisambiguationRuleTest {
               int endPos = readings.getEndPos();
               assertTrue(
                   "Wrong marker position in the example for the rule " + id +
-                  ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd,
+                  ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd + ". Sentence: '" + sent + "'",
                   startPos == expectedMatchStart && endPos == expectedMatchEnd);
               break;
             }

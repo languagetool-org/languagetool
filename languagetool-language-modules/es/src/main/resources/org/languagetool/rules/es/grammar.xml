@@ -6593,14 +6593,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>hacia</token>
                 </marker>
             </pattern>
-            <message>Si es del v. 'hacer', lleva tilde.</message>
+            <message>Si es del v. 'hacer', se escribe con tilde.</message>
             <suggestion>\1 hacía</suggestion>
             <example correction="se hacía">Eso <marker>se hacia</marker> mal.</example>
             <example correction="le hacía">Eso <marker>le hacia</marker> mal.</example>
             <example correction="la hacía">Esa bota <marker>la hacia</marker> otra compañía.</example>
             <example>Depende de lo hacia abajo que apuntes.</example>
         </rule>
-        <rulegroup id="HACIA" name="hacia / hacía" type="misspelling" default="temp_off">
+        <rulegroup id="HACIA" name="hacia / hacía" type="misspelling">
             <antipattern>
                 <token>lo</token>
                 <token>hacia</token>
@@ -6614,7 +6614,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">mucho</token>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes">calor|frío|tiempo<exception regexp="yes">\d+</exception></token>
                 </pattern>
-                <message>Si es del v. 'hacer', lleva tilde.</message>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Entonces <marker>hacia</marker> calor.</example>
                 <example correction="hacía">Entonces <marker>hacia</marker> mucho tiempo.</example>
@@ -6622,7 +6622,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vamos hacia abajo.</example>
                 <example>Fabricada hacia 1988.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token regexp="yes" inflected="yes">enlace|dirección|redirección|atajo|camino</token>
                     <token>hacia</token>
@@ -6633,20 +6633,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="NC.*" postag_regexp="yes"> <exception regexp="yes">\d+|.*(este|oeste|norte|sur)|\p{Lu}.*</exception> <exception regexp="yes" inflected="yes">fin|final|principio|dios|plaza|calle|casa|tierra|país|postura|animal</exception> </token>
                 </pattern>
-                <message>Si es del v. 'hacer', lleva tilde.</message>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Entonces <marker>hacia</marker> calor.</example>
                 <example>Vamos hacia allá.</example>
                 <example>Vamos hacia abajo.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="NP.*|PP3[MF]S000" postag_regexp="yes"/>
                     <marker>
                         <token>hacia</token>
                     </marker>
                 </pattern>
-                <message>Si es del v. 'hacer', lleva tilde.</message>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Entonces él <marker>hacia</marker> lo mismo.</example>
             </rule>
