@@ -6628,6 +6628,29 @@ Sobre a sua vida existem poucos dados precisos, sendo as lacunas preenchidas por
       <example correction='vêmos'>Escreve-se 'vemos', e não '<marker>vê-mos</marker>'.</example>
     </rule>
 
+	<!-- POR ISSO aí/assim/daí -->
+    <rule id='POR_ISSO_AÍ_ASSIM_DAÍ' name="Por isso → aí/assim/daí" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-06 (17-MAR-2021+)      -->
+	<!--
+E por isso ter informado a chefe. → E daí ter informado a chefe.
+E por isso eu ter informado a chefe. → E daí eu ter informado a chefe.
+	-->
+		<pattern>
+			<marker>
+				<token>por</token>
+				<token>isso</token>
+			</marker>
+			<token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
+			<token postag='VMN0000|VMN03P0|VMIS2.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Esta perífrase pode ser simplificada.</message>
+		<suggestion>aí</suggestion>
+		<suggestion>assim</suggestion>
+		<suggestion>daí</suggestion>
+		<example correction="aí|assim|daí">E <marker>por isso</marker> ter informado a chefe.</example>
+		<example>Quero assim saber a verdade.</example>
+    </rule>
+
     <rule id='PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS' name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
