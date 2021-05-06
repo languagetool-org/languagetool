@@ -23324,14 +23324,16 @@ though, and has since been slightly modified)-->
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">pré|pre</token>
+                    <token regexp="yes">pré|pre|post</token>
                     <token min="0">-</token>
                     <token postag="[VNJ].*" postag_regexp="yes"/>
                 </pattern>
                 <message suppress_misspelled="yes">Ce mot est généralement écrit ensemble.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="pré$1"/></suggestion>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="pre$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="post$1"/></suggestion>
                 <example correction="préélectoral"><marker>pré électoral</marker>.</example>
+                <example correction="postélectoral"><marker>post électoral</marker>.</example>
                 <!--<example correction="prérequis"><marker>pré-requis</marker></example>-->
                 <example correction="Prééminence"><marker>Pré éminence</marker></example>
                 <!--<example correction="Prééminence"><marker>Pré-éminence</marker></example>-->
