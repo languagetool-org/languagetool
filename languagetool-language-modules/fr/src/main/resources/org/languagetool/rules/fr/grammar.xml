@@ -41372,10 +41372,10 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token>télé</token>
-                    <token postag="J [ef] (s|sp)|V ppa fs" postag_regexp="yes"/>
+                    <token postag="J [efm] (s|sp)|V ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">di|cyber|hypo|omni|pan|para|péri|pluri|poly|supra|télé|trans|tri|uni|post|sus|néo</token>
+                    <token regexp="yes">di|cyber|hypo|omni|para|péri|pluri|poly|supra|télé|trans|sus|néo</token>
                     <token min="0">-</token>
                     <token postag="[NJ].*|V pp[ar].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                         <exception regexp="yes">[a-z].*-[a-z].*</exception></token>
@@ -41383,7 +41383,6 @@ though, and has since been slightly modified)-->
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="cyberespace">Le <marker>cyber espace</marker> n'est pas réel.</example>
-                <example correction="postélectorales">Les violences <marker>post-électorales</marker> ont fait 5 victimes.</example>
                 <example>Quelle est votre émission de télé préférée ?</example>
                 <example>Je me suis endormi avec la télé allumée.</example>
                 <example>Notre station de télé locale effectue un assez bon travail de couverture.</example>
@@ -41780,17 +41779,24 @@ though, and has since been slightly modified)-->
                 <suggestion>\2-\3</suggestion>
                 <example correction="hors-jeu">C'est un <marker>hors jeu</marker>.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                     <token postag="D.*" postag_regexp="yes"/>
+                     <token case_sensitive="yes">non</token>
+                     <token postag="[NJ].*" postag_regexp="yes"/>
+                     <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
                         <token case_sensitive="yes">non</token>
-                        <token postag="[NJ].*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <message>Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion>\2-\3</suggestion>
                 <example correction="non-voyants">Les <marker>non voyants</marker> ont des services adaptés.</example>
+                <example>Il proteste contre la non prise en compte de son veto.</example>
             </rule>
             <rule>
                 <pattern>
