@@ -12613,6 +12613,51 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_ELISION" name="Élision">
+        <rulegroup id="ELISION_Y" name="élision y" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                        <marker>
+                    <token>de</token>
+                    <token regexp="yes">y</token>
+                        </marker>
+                    <token postag="V inf"/>
+                </pattern>
+                <message>« \3 \4 » s’élide en <suggestion><match no="3" regexp_match=".$" regexp_replace=""/>’\4</suggestion>.</message>
+                <example correction="d’y">Je viens <marker>de y</marker> aller.</example>
+                <example>Acteur principal de Autant En Emporte Le Vent.</example>
+                <example>Je suis le petit ami d'Alice.</example>
+                <example>Il se heurte contre le bas-côté</example>
+                <example>Il connait l’histoire de A à Z.</example>
+                <example>Il a appris ça en un jour.</example>
+                <example>Il semble que oui.</example>
+                <example>Le oui l’a emporté.</example>
+                <example>J’ai suivi la A40.</example>
+                <example>À la une de la presse.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>je</token>
+                        <token regexp="yes">y</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V inf"/></token>
+                </pattern>
+                <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
+                <example correction="j’y">Sarah, <marker>je y</marker> vais !</example>
+                <example>Acteur principal de Autant En Emporte Le Vent.</example>
+                <example>Je suis le petit ami d'Alice.</example>
+                <example>Dois je y aller ?</example>
+                <example>Il se heurte contre le bas-côté</example>
+                <example>Il connait l’histoire de A à Z.</example>
+                <example>Il a appris ça en un jour.</example>
+                <example>Il semble que oui.</example>
+                <example>Le oui l’a emporté.</example>
+                <example>J’ai suivi la A40.</example>
+                <example>À la une de la presse.</example>
+                </rule>
+        </rulegroup>
         <rulegroup id="CONJONCTIONS" name="conjonctions">
             <rule>
                 <pattern>
