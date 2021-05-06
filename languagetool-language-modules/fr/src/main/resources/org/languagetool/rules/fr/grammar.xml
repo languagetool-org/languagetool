@@ -17955,7 +17955,7 @@ though, and has since been slightly modified)-->
                 <example>Je luis en parle avant d’annuler le voyage.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe" default="temp_off">
+        <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe">
             <!-- TODO: Mais qu'as donc tu fait pendant tout ce temps ! -->
             <antipattern>
                 <token>Pearl</token>
@@ -18012,9 +18012,9 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">il|elle|ils|elles|on</token>
             </antipattern>
             <antipattern>
-                <!-- common English phrases -->
+                <!-- common English phrases? -->
                 <token>on</token>
-                <token regexp="yes">air|stage</token>
+                <token regexp="yes">air|stage|chip|film</token>
             </antipattern>
             <antipattern>
                 <!-- on/ont -->
@@ -18175,6 +18175,8 @@ though, and has since been slightly modified)-->
                 <example correction="vis">La zone géographique dans laquelle tu <marker>vie</marker>.</example>
                 <example correction="dis">Tu <marker>dix</marker> la vérité.</example>
                 <example correction="écris|écrias|écries">plus je lis ce que tu <marker>écrits</marker></example>
+                <!-- TODO: improve suggestion -->
+                <example correction="">ce que tu <marker>été</marker> supposé faire</example>
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
@@ -18318,7 +18320,7 @@ though, and has since been slightly modified)-->
                     <token postag="D.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">il|elle|on|ça</token>
+                    <token regexp="yes">il|elle|on</token>
                     <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les|ne|n'</token>
                     <marker>
                         <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
@@ -18336,7 +18338,8 @@ though, and has since been slightly modified)-->
                 <example correction="sort|sorte">Il ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="dit|dicte|dicta|dît">Elle ne <marker>dix</marker> rien.</example>
                 <example correction="assoupit|assoupît">Il s'<marker>assoupie</marker>.</example>
-                <example correction="coûte|coute|coupe|doute|route|chute|coule|conte|voûte|cote">Ça me <marker>coûté</marker> deux cents piasses </example>
+                <!-- TODO
+                <example correction="coûte|coute|coupe|doute|route|chute|coule|conte|voûte|cote">Ça me <marker>coûté</marker> deux cents piasses </example>-->
                 <example>Je ne <marker>donne</marker> rien.</example>
                 <example>Je ne <marker>dis</marker> rien.</example>
                 <example>Je ne sale pas leus plats.</example>
@@ -18477,11 +18480,21 @@ though, and has since been slightly modified)-->
                 <example correction="">Nous ne s'en <marker>sorts</marker> pas.</example>
             </rule>
             <!-- vous -->
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token>vous</token>
                     <token postag="D.* p" postag_regexp="yes"/>
                     <token postag="[NJ].* p" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>vous</token>
+                    <token postag="D.* s" postag_regexp="yes"/>
+                    <token postag="[NJ].* s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>vous</token>
+                    <token/>
+                    <token postag="V.* inf.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token>vous</token>
@@ -18498,8 +18511,9 @@ though, and has since been slightly modified)-->
                 <example correction="">Vous la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Vous ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Vous ne <marker>dix</marker> rien.</example>
+                <!-- TODO:
                 <example correction="abandonnez">Vous l’<marker>abandonné</marker>.</example>
-                <example correction="impressionnez">Vous l'<marker>impressionnée</marker> de devenir dingue.</example>
+                <example correction="impressionnez">Vous l'<marker>impressionnée</marker> de devenir dingue.</example>-->
             </rule>
             <rule>
                 <pattern>
@@ -18530,6 +18544,8 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <example correction="pensez">Tom est beaucoup plus intelligent que vous ne le <marker>penser</marker>.</example>
+                <example correction="trompez">pour que vous ne vous <marker>trompé</marker> pas</example>
                 <example correction="">Vous ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonnez">Vous ne l’<marker>abandonner</marker> pas.</example>
             </rule>
@@ -18670,7 +18686,7 @@ though, and has since been slightly modified)-->
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NON_V" name="pronom sujet + nom/adj">
+        <rulegroup id="NON_V" name="pronom sujet + nom/adj" default="off">
             <!--<antipattern>
                 <token>sur</token>
                 <token>-</token>
@@ -42737,7 +42753,7 @@ though, and has since been slightly modified)-->
             <example>Et dans de nombreux pays où les animaux sont sous pression</example>
             <example>Sommes-nous tous sous surveillance ?</example>
         </rule>
-        <rule id="SOUS_ENTENDRE" name="sous-entendre" default="temp_off">
+        <rule id="SOUS_ENTENDRE" name="sous-entendre">
             <pattern>
                 <token>sous</token>
                 <token inflected="yes">entendre</token>
