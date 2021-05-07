@@ -659,7 +659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error">Coaprovel s'est révélé le droit de vente pour tous fictif</example>
             </rule>
         </rulegroup>
-        <rulegroup id="D_A_J" name="Concordance det+adv+adj" default="temp_off">
+        <rulegroup id="D_A_J" name="Concordance det+adv+adj">
             <antipattern>
                 <token>le</token>
                 <token regexp="yes">plus|moins|mieux|pis</token>
@@ -804,6 +804,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nous travaillons tous trop dur.</example>
                 <example>Il vous est à tous bien connu. </example>
                 <example>Elle est incapable de faire quoi que ce soit seule.</example>
+            </rule>
+            <!-- un homme des plus intelligents -->
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="_GN_MS"/>
+                    <token>des</token>
+                    <token postag="A">
+                        <exception>soit</exception></token>
+                    <marker>
+                        <token postag="J .*|V.* ppa .*" postag_regexp="yes">
+                            <exception postag="J [me] (p|sp)|V ppa m p" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
+                <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [me] (p|sp)|V.* ppa m p"/></suggestion>
+                <example correction="intelligents">Un homme des plus <marker>intelligent</marker></example>
+                <example correction="intelligents">Un homme des plus <marker>intelligentes</marker></example>
+            </rule>
+            <!-- un femme des plus intelligentes -->
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="_GN_FS"/>
+                    <token>des</token>
+                    <token postag="A">
+                        <exception>soit</exception></token>
+                    <marker>
+                        <token postag="J .*|V.* ppa .*" postag_regexp="yes">
+                            <exception postag="J [fe] (p|sp)|V ppa f p" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
+                <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (p|sp)|V.* ppa f p"/></suggestion>
+                <example correction="intelligentes">Une femme des plus <marker>intelligents</marker></example>
+                <example correction="intelligentes">Une femme des plus <marker>intelligente</marker></example>
+            </rule>
+            <!-- hommes des plus intelligents -->
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="_GN_MP|N [me] (p|sp)" postag_regexp="yes"/>
+                    <token>des</token>
+                    <token postag="A">
+                        <exception>soit</exception></token>
+                    <marker>
+                        <token postag="J .*|V.* ppa .*" postag_regexp="yes">
+                            <exception postag="J [me] (p|sp)|V ppa m p" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
+                <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [me] (p|sp)|V.* ppa m p"/></suggestion>
+                <example correction="intelligents">hommes des plus <marker>intelligent</marker></example>
+                <example correction="encourageants|encouragés">messages des plus <marker>encourageant</marker></example>
+            </rule>
+            <!-- femmes des plus intelligentes -->
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="_GN_FP|N [fe] (p|sp)" postag_regexp="yes"/>
+                    <token>des</token>
+                    <token postag="A">
+                        <exception>soit</exception></token>
+                    <marker>
+                        <token postag="J .*|V.* ppa .*" postag_regexp="yes">
+                            <exception postag="J [fe] (p|sp)|V ppa f p" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
+                <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (p|sp)|V.* ppa f p"/></suggestion>
+                <example correction="intelligentes">femmes des plus <marker>intelligents</marker></example>
+                <example correction="encourageantes|encouragées">nouvelles des plus <marker>encourageant</marker></example>
             </rule>
             <rule>
                 <antipattern>
