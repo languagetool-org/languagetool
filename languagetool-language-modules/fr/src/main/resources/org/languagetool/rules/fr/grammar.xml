@@ -6146,23 +6146,25 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">m'|t'|l'|lui|nous|vous|leur</token>
                     <marker>
                         <token>on</token>
+                        <token postag="V.*ppa.*" postag_regexp="yes"/>
                     </marker>
-                    <token postag="V.*ppa.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>ont</suggestion> (v. 'avoir') ?</message>
-                <example correction="ont">ses amies qui l'<marker>on</marker> précédées</example>
+                <message>Voulez-vous écrire "ont" (v. 'avoir') ?</message>
+                <suggestion>ont \3</suggestion>
+                <example correction="ont précédées">ses amies qui l'<marker>on précédées</marker></example>
             </rule>
             <rule default="temp_off">
                 <pattern>
                     <token postag="N . (p|sp)" postag_regexp="yes"/>
                     <marker>
                         <token>on</token>
+                        <token postag="V.*ppa.*" postag_regexp="yes"/>
                     </marker>
-                    <token postag="V.*ppa.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>ont</suggestion> (v. 'avoir') ?</message>
-                <example correction="ont">Beaucoup de Chrétiens <marker>on</marker> fui la "seule démocratie au Moyen-Orient"</example>
-                <example correction="ont">ses habitants <marker>on</marker> parlé aux forces de la nature</example>
+                <message>Voulez-vous écrire "ont" (v. 'avoir') ?</message>
+                <suggestion>ont \3</suggestion>
+                <example correction="ont fui">Beaucoup de Chrétiens <marker>on fui</marker> la "seule démocratie au Moyen-Orient"</example>
+                <example correction="ont parlé">ses habitants <marker>on parlé</marker> aux forces de la nature</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
