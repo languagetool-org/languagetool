@@ -49,8 +49,8 @@ public class FrenchTagger extends BaseTagger {
       "(post-|sur-|mini-|méga-|demi-|péri-|anti-|géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIXES_FOR_NOUN_ADJ = Pattern.compile(
-      "(mini|méga|post)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  // |nord-|sud-
+      "(mini|méga)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  // |nord-|sud-|post
 
   public FrenchTagger() {
     super("/fr/french.dict", Locale.FRENCH, false);

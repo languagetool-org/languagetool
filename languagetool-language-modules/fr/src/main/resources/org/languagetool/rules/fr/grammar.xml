@@ -23788,16 +23788,20 @@ though, and has since been slightly modified)-->
                 <example correction="mégafête">Une <marker>méga fête</marker>.</example>
                 <example>Les <marker>méga ulcères</marker> font très mal.</example>
             </rule>
-             <rule default="temp_off">
+             <rule>
                 <pattern>
                     <token>post</token>
                     <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">.{1,5}</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="post$1" case_conversion="preserve"/></suggestion>
                 <example correction="postuniversitaires">Les <marker>post universitaires</marker>.</example>
                 <example>Les troubles du stress post-traumatique.</example>
+                 <example>Pour revenir au post précédent.</example>
+                 <example>Cette pesée post repas est obligatoirement soldée par une prise.</example>
+                 <example>Miguel Diaz-Canel est porté sur les fonts néo-post-castristes.</example>
+                 <example>Elle poursuit les séries et aligne sur la post saison 14,3 points</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
