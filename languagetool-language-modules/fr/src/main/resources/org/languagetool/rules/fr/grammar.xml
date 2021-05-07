@@ -23787,6 +23787,17 @@ though, and has since been slightly modified)-->
                 <example correction="mégafête">Une <marker>méga fête</marker>.</example>
                 <example>Les <marker>méga ulcères</marker> font très mal.</example>
             </rule>
+             <rule default="temp_off">
+                <pattern>
+                    <token>post</token>
+                    <token min="0">-</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                </pattern>
+                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="post$1" case_conversion="preserve"/></suggestion>
+                <example correction="postuniversitaires">Les <marker>post universitaires</marker>.</example>
+                <example>Les troubles du stress post-traumatique.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
             <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
@@ -42183,7 +42194,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\2-\3</suggestion>
                 <example correction="hors-jeu">C'est un <marker>hors jeu</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="D.*" postag_regexp="yes"/>
                     <token case_sensitive="yes">non</token>
