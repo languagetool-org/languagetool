@@ -807,6 +807,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- un homme des plus intelligents -->
             <rule default="temp_off">
+                <antipattern>
+                    <token>des</token>
+                    <token postag="A"/>
+                    <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="_GN_MS"/>
                     <token>des</token>
@@ -821,9 +827,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [me] (p|sp)|V.* ppa m p"/></suggestion>
                 <example correction="intelligents">Un homme des plus <marker>intelligent</marker></example>
                 <example correction="intelligents">Un homme des plus <marker>intelligentes</marker></example>
+                <example>Mont-Saint-Michel est le théâtre des plus grandes marées d'Europe.</example>
             </rule>
             <!-- un femme des plus intelligentes -->
             <rule default="temp_off">
+                <antipattern>
+                    <token>des</token>
+                    <token postag="A"/>
+                    <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="_GN_FS"/>
                     <token>des</token>
@@ -841,6 +854,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- hommes des plus intelligents -->
             <rule default="temp_off">
+                <antipattern>
+                    <token>des</token>
+                    <token postag="A"/>
+                    <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>des</token>
+                    <token postag="A"/>
+                    <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    <token regexp="yes">de|du|des|d'</token>
+                </antipattern>
                 <pattern>
                     <token postag="_GN_MP|N [me] (p|sp)" postag_regexp="yes"/>
                     <token>des</token>
@@ -858,6 +883,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- femmes des plus intelligentes -->
             <rule default="temp_off">
+                <antipattern>
+                    <token>des</token>
+                    <token postag="A"/>
+                    <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>des</token>
+                    <token postag="A"/>
+                    <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
+                    <token regexp="yes">de|du|des|d'</token>
+                </antipattern>
                 <pattern>
                     <token postag="_GN_FP|N [fe] (p|sp)" postag_regexp="yes"/>
                     <token>des</token>
@@ -872,6 +909,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (p|sp)|V.* ppa f p"/></suggestion>
                 <example correction="intelligentes">femmes des plus <marker>intelligents</marker></example>
                 <example correction="encourageantes|encouragées">nouvelles des plus <marker>encourageant</marker></example>
+                <example>les rapides délices des plus beaux de nos jours !</example>
             </rule>
             <rule>
                 <antipattern>
@@ -24018,13 +24056,14 @@ though, and has since been slightly modified)-->
             <rule name="trait d'union manquant">
                 <pattern>
                     <marker>
-                        <token postag="V.* 3 .*" postag_regexp="yes"><exception regexp="yes">.*[td]</exception></token>
+                        <token postag="V.* 3 .*" postag_regexp="yes">
+                            <exception regexp="yes">.*[td]</exception></token>
                         <token min="0">-</token>
                         <token regexp="yes">t|t'</token>
                         <token regexp="yes">-?(ils?|elles?|on)</token>
                     </marker>
                 </pattern>
-                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-t-<match no="4" regexp_match="-" regexp_replace=""></match></suggestion> ?</message>
+                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-t-<match no="4" regexp_match="-" regexp_replace=""/></suggestion> ?</message>
                 <example correction="rencontrera-t-elle">Quelles péripéties <marker>rencontrera t-elle</marker> ?</example>
                 <example correction="parle-t-on">Où <marker>parle t-on</marker> l'anglais ?</example>
                 <example correction="valide-t-il">L'éloge ne <marker>valide - t-il</marker> pas l'habit ?</example>
@@ -24142,6 +24181,7 @@ though, and has since been slightly modified)-->
                 <example>Quand tu t'en iras tu me manqueras.</example>
                 <example>Sur quelle fesse tu veux ton bisou ?</example>
                 <example>De mes pommes tu n'auras rien.</example>
+                <example>Y a-t-il quelque chose que tu m'aies tu ?</example>
             </rule>
             <rule name="troisième personne du singulier, verbe ne finissant pas par -d ou -t">
                 <antipattern>
@@ -24444,8 +24484,8 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">-?(ils?|elles?|on)</token>
                     </marker>
                 </pattern>
-                <message>Si le verbe se termine par t ou d, la liaison se fait sans t euphonique.</message>
-                <suggestion>\1-<match no="4" regexp_match="-" regexp_replace=""></match></suggestion>
+                <message>Si le verbe se termine par t ou d, la liaison se fait sans -t- euphonique.</message>
+                <suggestion>\1-<match no="4" regexp_match="-" regexp_replace=""/></suggestion>
                 <example correction="est-il">Que c'<marker>est t il</marker> passé?</example>
                 <example correction="ont-ils">Où l'<marker>ont t'ils</marker> entendu ?</example>
             </rule>

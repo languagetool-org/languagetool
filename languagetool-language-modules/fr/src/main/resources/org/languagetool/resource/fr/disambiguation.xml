@@ -481,10 +481,15 @@ RB => Règles Brutes
         <rule>
             <!-- As tu: missing hyphen-->
             <pattern>
-                <token postag="V avoir.* 2 s" postag_regexp="yes"/>
-                <token postag="R pers suj 2 s">tu</token>
+                <token>
+                    <exception regexp="yes">m'|t'|lui|nous|vous|leur</exception></token>
+                <marker>
+                    <token postag="V avoir.* 2 s" postag_regexp="yes"/>
+                    <token postag="R pers suj 2 s">tu</token>
+                </marker>
             </pattern>
             <disambig action="filterall"/>
+            <example type="untouched">Y a-t-il quelque chose que tu m'aies tu ?</example>
         </rule>
         <rule>
             <pattern>
