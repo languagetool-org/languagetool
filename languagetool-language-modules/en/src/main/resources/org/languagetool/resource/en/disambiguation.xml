@@ -9736,17 +9736,27 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>he</token>
             <token postag="JJ.*" postag_regexp="yes" />
           </antipattern>
+          <antipattern>
+            <token>best</token>
+            <token regexp="yes">friends?</token>
+          </antipattern>
+          <antipattern>
+            <token>best</token>
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="MD|VB.*" postag_regexp="yes" chunk_re=".-VP" />
+          </antipattern>
           <pattern>
             <marker>
             <and>
-            <token postag="RBS"/>
-            <token postag="VB.*|NN.*" postag_regexp="yes"/>
+                <token postag="RBS"/>
+                <token postag="VB.*|NN.*" postag_regexp="yes"/>
             </and>
             </marker>
-            <token postag="VB.*" postag_regexp="yes"/>
+            <token postag="VB.*" postag_regexp="yes" />
           </pattern>
           <disambig postag="RBS"/>
           <example type="untouched">Still, I need to do a lot of things.</example>
+          <example type="untouched">My best friends' dogs are coming.</example>
           <example type="ambiguous" inputform="best[best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="best[well/RBS]">This <marker>best</marker> exhibits the features of the snake oil.</example>
         </rule>
 
