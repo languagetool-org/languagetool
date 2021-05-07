@@ -12425,6 +12425,18 @@ Um prato pode ser apimentado sem que seja quente. → Um prato pode ser apimenta
 Vocês ainda têm uma semana para implementar o trabalho até que eles sejam recolhidos. → Vocês ainda têm uma semana para implementar o trabalho até eles serem recolhidos.
 Vamos esperar aqui até que ele volte. → Vamos esperar aqui até ele voltar.
 	-->
+<!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *START* -->
+<!--
+O pai de Pedro queria que ele estudasse teologia e que se tornasse um membro do clero.
+-->
+      <antipattern>
+		<token regexp='yes'>e|ou</token>
+		<token>que</token>
+		<token min="0" max="1" postag='PD.+|PP.+' postag_regexp='yes'/>
+		<token postag='CS|PP.+' postag_regexp='yes'/>
+		<token postag='VMSI.+' postag_regexp='yes'/>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *END* -->	
 	  <rule>
 		<pattern>
 			<token postag='SPS00|CC' postag_regexp='yes'>
