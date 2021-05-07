@@ -23787,17 +23787,6 @@ though, and has since been slightly modified)-->
                 <example correction="mégafête">Une <marker>méga fête</marker>.</example>
                 <example>Les <marker>méga ulcères</marker> font très mal.</example>
             </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token>post</token>
-                    <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
-                </pattern>
-                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
-                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="post$1" case_conversion="preserve"/></suggestion>
-                <example correction="postuniversitaires">Les <marker>post universitaires</marker>.</example>
-                <example>Les troubles du stress post-traumatique.</example>
-            </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
             <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
@@ -41836,7 +41825,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token regexp="yes">(post-|sur-|géo-|nord-|sud-|néo-|mini-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)\p{Ll}.+
-                        <exception regexp="yes">post-t.*|post-scriptum</exception></token>
+                        <exception regexp="yes">post-t.*|post-(scriptum|même|partum)</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le mot <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion> peut s'écrire sans trait d'union.</message>
                 <example correction="néorural">Le <marker>néo-rural</marker></example>
@@ -41844,6 +41833,7 @@ though, and has since been slightly modified)-->
                 <example correction="géostationnaire">Un satellite <marker>géo-stationnaire</marker></example>
                 <!--<example correction="postimpressionnisme">Le <marker>post-impressionnisme</marker>.</example>-->
                 <example>Le néo-impressionnisme</example>
+                <example>Les chutes post-partum sont costaudes.</example>
                 <example>Combien donne-t-on en pourboire en Espagne ?</example>
                 <example>Elle est tombée malade ce week-end.</example>
                 <example>L'anglais néo-zélandais est distinct de l'anglais australien.</example>
