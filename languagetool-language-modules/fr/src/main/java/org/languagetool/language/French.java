@@ -232,6 +232,7 @@ public class French extends Language implements AutoCloseable {
       case "SA_CA": return 100; // greater than D_N
       case "MA": return 100; // greater than D_J
       case "A_INFINITIF": return 100;
+      case "ON_ONT": return 100; // greater than PRONSUJ_NONVERBE
       case "LEURS_LEUR": return 100; // greater than N_V
       case "DU_DU": return 100; // greater than DU_LE
       case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE

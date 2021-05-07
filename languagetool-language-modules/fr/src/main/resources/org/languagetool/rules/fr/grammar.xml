@@ -6122,6 +6122,69 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>ont</suggestion> ?</message>
                 <example correction="ont">Je remercie ceux qui <marker>on</marker> fait ça.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="P"/>
+                    <token regexp="yes">elle|elles</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ils|elles|qui</token>
+                    <marker>
+                        <token>on</token>
+                    </marker>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ont</suggestion> (v. 'avoir') ?</message>
+                <example correction="ont">Parce que sur un site ils <marker>on</marker> l'air de les mélanger ?</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="P"/>
+                    <token regexp="yes">nous|vous</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">m'|t'|l'|lui|nous|vous|leur</token>
+                    <marker>
+                        <token>on</token>
+                    </marker>
+                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ont</suggestion> (v. 'avoir') ?</message>
+                <example correction="ont">ses amies qui l'<marker>on</marker> précédées</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="N . (p|sp)" postag_regexp="yes"/>
+                    <marker>
+                        <token>on</token>
+                    </marker>
+                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ont</suggestion> (v. 'avoir') ?</message>
+                <example correction="ont">Beaucoup de Chrétiens <marker>on</marker> fui la "seule démocratie au Moyen-Orient"</example>
+                <example correction="ont">ses habitants <marker>on</marker> parlé aux forces de la nature</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>on</token>
+                    </marker>
+                    <token>beaucoup</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ont</suggestion> (v. 'avoir') ?</message>
+                <example correction="ont">Il y a des gens qui <marker>on</marker> beaucoup d'esprit</example>
+            </rule>
+            <!-- catch-all rule -->
+            <rule default="temp_off">
+                <pattern>
+                    <token>on</token>
+                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire "ont" (v. 'avoir') ?</message>
+                <suggestion>ont \2</suggestion>
+                <suggestion>on <match no="2" postag="V.*ppa.*" postag_regexp="yes" postag_replace="V.* ind pres 3 s"/></suggestion>
+                <example correction="ont gagné|on gagne">Tom et Marie <marker>on gagné</marker> au loto.</example>
+                <example correction="ont parlé|on parle">ses habitants <marker>on parlé</marker> aux forces de la nature.</example>
+            </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
             <pattern>
