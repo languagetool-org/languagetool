@@ -479,6 +479,14 @@ RB => Règles Brutes
     </rule>
     <rulegroup id="AVOIR_PARTICIPE" name="avoir + participe">
         <rule>
+            <!-- As tu: missing hyphen-->
+            <pattern>
+                <token postag="V avoir.* 2 s" postag_regexp="yes"/>
+                <token postag="R pers suj 2 s">tu</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
             <pattern>
                 <token inflected="yes">avoir</token>
                 <token min="0" max="3" postag="A|R.*" postag_regexp="yes">
@@ -1082,6 +1090,15 @@ RB => Règles Brutes
             <token regexp="yes" inflected="yes">onde|signal|écho|émetteur|interféromètre|récepteur|réflecteur|brouilleur|station</token>
             <marker>
                 <token regexp="yes">radio|radar|météo</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="J e sp"/>
+    </rule>
+    <rule id="TYPE" name="type">
+        <pattern>
+            <token regexp="yes" inflected="yes">modèle|caractéristique</token>
+            <marker>
+                <token>type</token>
             </marker>
         </pattern>
         <disambig action="replace" postag="J e sp"/>
