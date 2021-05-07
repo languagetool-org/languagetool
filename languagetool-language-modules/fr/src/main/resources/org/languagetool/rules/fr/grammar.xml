@@ -18063,7 +18063,7 @@ though, and has since been slightly modified)-->
                     <feature id="person"/>
                     <token postag="V.*" postag_regexp="yes"/>
                     <unify-ignore>
-                        <token regexp="yes">-|–|t</token>
+                        <token regexp="yes" max="2">-|–|t|'</token>
                     </unify-ignore>
                     <token postag="R.*" postag_regexp="yes" regexp="yes">je|j'|tu|il|elle|on|nous|vous|ils|elles</token>
                 </unify>
@@ -24018,16 +24018,34 @@ though, and has since been slightly modified)-->
             <rule name="trait d'union manquant">
                 <pattern>
                     <marker>
-                        <token postag="V.* 3 .*" postag_regexp="yes"/>
+                        <token postag="V.* 3 .*" postag_regexp="yes"><exception regexp="yes">.*[td]</exception></token>
                         <token min="0">-</token>
-                        <token>t</token>
-                        <token regexp="yes">-(ils?|elles?|on)</token>
+                        <token regexp="yes">t|t'</token>
+                        <token regexp="yes">-?(ils?|elles?|on)</token>
                     </marker>
                 </pattern>
-                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-\3\4</suggestion> ?</message>
+                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-t-<match no="4" regexp_match="-" regexp_replace=""></match></suggestion> ?</message>
                 <example correction="rencontrera-t-elle">Quelles péripéties <marker>rencontrera t-elle</marker> ?</example>
                 <example correction="parle-t-on">Où <marker>parle t-on</marker> l'anglais ?</example>
                 <example correction="valide-t-il">L'éloge ne <marker>valide - t-il</marker> pas l'habit ?</example>
+                <example correction="a-t-il">Quel progrès y <marker>a t'il</marker> dans cette injonction</example>
+                <example correction="a-t-il">Y <marker>a t il</marker> des risques ?</example>
+                <example correction="Existe-t-il"><marker>Existe t'il</marker> des lieux sans propriétaire ?</example>
+                <example correction="a-t-il">À quoi t'<marker>a t'il</marker> fait penser ?</example>
+                <example correction="va-t-on">Où <marker>va t'on</marker> nous rééditer une solution équivalente ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes">.*[td]</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">t|t'</token>
+                        <token regexp="yes">-?(ils?|elles?|on)</token>
+                    </marker>
+                </pattern>
+                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-<match no="4" regexp_match="-" regexp_replace=""></match></suggestion> ?</message>
+                <example correction="est-il">Que c'<marker>est t il</marker> passé?</example>
+                <example correction="ont-ils">Où l'<marker>ont t'ils</marker> entendu ?</example>
             </rule>
             <rule name="première personne du singulier">
                 <antipattern>
