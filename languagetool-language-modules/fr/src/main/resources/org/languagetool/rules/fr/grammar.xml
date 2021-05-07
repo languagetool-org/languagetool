@@ -24034,19 +24034,6 @@ though, and has since been slightly modified)-->
                 <example correction="a-t-il">À quoi t'<marker>a t'il</marker> fait penser ?</example>
                 <example correction="va-t-on">Où <marker>va t'on</marker> nous rééditer une solution équivalente ?</example>
             </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes">.*[td]</token>
-                        <token min="0">-</token>
-                        <token regexp="yes">t|t'</token>
-                        <token regexp="yes">-?(ils?|elles?|on)</token>
-                    </marker>
-                </pattern>
-                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-<match no="4" regexp_match="-" regexp_replace=""></match></suggestion> ?</message>
-                <example correction="est-il">Que c'<marker>est t il</marker> passé?</example>
-                <example correction="ont-ils">Où l'<marker>ont t'ils</marker> entendu ?</example>
-            </rule>
             <rule name="première personne du singulier">
                 <antipattern>
                     <token postag="V .* 1 p" postag_regexp="yes"/>
@@ -24447,6 +24434,20 @@ though, and has since been slightly modified)-->
                 <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
                 <example correction="Va-t-il"><marker>Va-il</marker> venir ?</example>
                 <example correction="convainc-t-il">Vous <marker>convainc-il</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes">.*[td]</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">t|t'</token>
+                        <token regexp="yes">-?(ils?|elles?|on)</token>
+                    </marker>
+                </pattern>
+                <message>Si le verbe se termine par t ou d, la liaison se fait sans t euphonique.</message>
+                <suggestion>\1-<match no="4" regexp_match="-" regexp_replace=""></match></suggestion>
+                <example correction="est-il">Que c'<marker>est t il</marker> passé?</example>
+                <example correction="ont-ils">Où l'<marker>ont t'ils</marker> entendu ?</example>
             </rule>
         </rulegroup>
         <rule id="VOUS_A_T_IL" name="vous-a-t-il → vous a-t-il">
