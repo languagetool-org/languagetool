@@ -23788,20 +23788,22 @@ though, and has since been slightly modified)-->
                 <example correction="mégafête">Une <marker>méga fête</marker>.</example>
                 <example>Les <marker>méga ulcères</marker> font très mal.</example>
             </rule>
-             <rule>
+            <rule>
                 <pattern>
                     <token>post</token>
                     <token min="0">-</token>
-                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">.{1,5}</exception></token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                        <exception regexp="yes">.{1,5}</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="post$1" case_conversion="preserve"/></suggestion>
+                <example correction="postimpressionnistes">principalement des œuvres impressionnistes et <marker>post impressionnistes</marker> françaises</example>
                 <example correction="postuniversitaires">Les <marker>post universitaires</marker>.</example>
                 <example>Les troubles du stress post-traumatique.</example>
-                 <example>Pour revenir au post précédent.</example>
-                 <example>Cette pesée post repas est obligatoirement soldée par une prise.</example>
-                 <example>Miguel Diaz-Canel est porté sur les fonts néo-post-castristes.</example>
-                 <example>Elle poursuit les séries et aligne sur la post saison 14,3 points</example>
+                <example>Pour revenir au post précédent.</example>
+                <example>Cette pesée post repas est obligatoirement soldée par une prise.</example>
+                <example>Miguel Diaz-Canel est porté sur les fonts néo-post-castristes.</example>
+                <example>Elle poursuit les séries et aligne sur la post saison 14,3 points</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
@@ -39555,8 +39557,10 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
-        <rule id="TIRET_BAS" name="tiret bas erroné" default="temp_off"><!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
-            <antipattern><!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
+        <rule id="TIRET_BAS" name="tiret bas erroné" default="temp_off">
+            <!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
+            <antipattern>
+                <!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
                 <token regexp="yes">[a-z-]+_[a-z-]+</token>
                 <token spacebefore="no">.</token>
                 <token spacebefore="no" regexp="yes">[a-z0-9]{2,7}</token>
@@ -39586,10 +39590,12 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token regexp="yes">_(=|\*|\/|\+|\-|%)</token>
             </antipattern>
-            <antipattern><!-- https://www.computerhope.com/jargon/p/publicht.htm -->
+            <antipattern>
+                <!-- https://www.computerhope.com/jargon/p/publicht.htm -->
                 <token>public_html</token>
             </antipattern>
-            <antipattern><!-- markdown backticks, used for code -->
+            <antipattern>
+                <!-- markdown backticks, used for code -->
                 <token>`</token>
                 <token regexp="yes">.*_.*</token>
                 <token>`</token>
@@ -39598,7 +39604,8 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">.+_(id|token|name)</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">&comp_mots;+_+&comp_mots;+<exception postag="UNKNOWN" negate_pos="yes"/></token>
+                <token regexp="yes">&comp_mots;+_+&comp_mots;+
+                    <exception postag="UNKNOWN" negate_pos="yes"/></token>
             </pattern>
             <message>Un tiret bas (_) à l'intérieur d'un mot est atypique (sauf dans des contextes techniques, les pseudos dans les réseaux sociaux etc.). Veuillez vérifier que le mot '\1' soit correct.</message>
             <suggestion><match no="1" regexp_match="(?iu)([a-zàâéèêîôûïëüçœ'-]+)(_+)([a-zàâéèêîôûïëüçœ'-]+)" regexp_replace="$1 $3" case_conversion="preserve"/></suggestion>
@@ -39607,14 +39614,17 @@ though, and has since been slightly modified)-->
             <example correction="tiret bas|tiret-bas">Ce <marker>tiret_bas</marker> n'est pas correct.</example>
             <example>Le logiciel prévoit ce type de <marker>test-case</marker> en cas de besoin.</example>
             <example correction="un sous|un-sous">Appuyez ici pour écrire <marker>un_sous</marker>-tiret.</example>
-            <example correction="vraiment farfelus|vraiment-farfelus">Certains exemples sont <marker>vraiment______farfelus</marker>.</example><!-- The message does not show all the underscores. -->
+            <example correction="vraiment farfelus|vraiment-farfelus">Certains exemples sont <marker>vraiment______farfelus</marker>.</example>
+            <!-- The message does not show all the underscores. -->
             <example>Écrivez votre message ici : <marker>______________________</marker></example>
             <example>Tests de langue<marker>______________________</marker> 37</example>
             <example>Quelques tests de plus <marker>_</marker> Appendice B</example>
             <example>Faites seulement ce test <marker>_préliminaire_</marker>.</example>
             <example>Vérifiez le fichier <marker>country_codes.csv</marker> d'abord…</example>
-            <example>Mais <marker>ceux-ci_</marker> pas comme les autres...</example><!-- TODO -->
-            <example>Voir <marker>_TESTS</marker>' à la page 33.</example><!-- TODO -->
+            <example>Mais <marker>ceux-ci_</marker> pas comme les autres...</example>
+            <!-- TODO -->
+            <example>Voir <marker>_TESTS</marker>' à la page 33.</example>
+            <!-- TODO -->
             <example>Statut "payment_failed"</example>
             <example>my_variable = x</example>
             <example>Est-ce que ça vaut la peine d'ajouter `suppress_misspelled` ?</example>
