@@ -118,47 +118,45 @@
     </equivalence>
   </unification>
 
- 
+<category id='TYPOGRAPHY' name="Tipografía" type="typographical">
 
- <category id='TYPOGRAPHY' name="Tipografía" type="typographical">
-
-  <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemáticas: Formateo de números: 10 341 330">
+	<rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemáticas: Formateo de números: 10 341 330">
     <!-- Created by Tiago F. Santos, 2017-03-05 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
-      <short>Erro tipográfico</short>
-    <rule>
-      <antipattern>
-          <token spacebefore='no'>,</token>
-          <token regexp="yes" spacebefore='no'>\d+</token>
-      </antipattern>
-      <antipattern>
-          <token regexp="yes">\d{4}</token>
-          <token>
-            <exception regexp="yes">\d+</exception></token>
-      </antipattern>
-      <antipattern>
-          <token>
-            <exception regexp="yes">\d+</exception></token>
-          <token postag='SENT_END' regexp="yes">\d{4}</token>
-      </antipattern>
-      <antipattern>
-          <token regexp='yes'>&hifen;</token>
-          <token regexp="yes">\d+</token>
-          <token regexp='yes'>&hifen;</token>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token regexp="yes">\d+\d{3}(?:,\d+)?</token>
-        </marker>
-      </pattern>
-      <message>Se non é un ano, os algarismos deben ser escritos en grupos de 3.</message>
-      <suggestion><match no="2" regexp_match="(\d+)(\d{3})(,\d+)?" regexp_replace="$1 $2$3"/></suggestion>
-      <url>https://wikidog.xunta.gal/index.php/Escrita_dos_n%C3%BAmeros</url>
-      <example correction='1 034'>A poboación no ano 2020 era de <marker>1034</marker> 133 habitantes.</example>
-      <example>O ano ten exactamente 365,24219858156 días.</example>
-      <example>É o ano de <marker>1989</marker>.</example>
-      <example>ISBN 0-522-85317-X.</example>
-    </rule>
+		<short>Erro tipográfico</short>
+		<rule>
+			<antipattern>
+				<token spacebefore='no'>,</token>
+				<token regexp="yes" spacebefore='no'>\d+</token>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">\d{4}</token>
+				<token>
+				 <exception regexp="yes">\d+</exception></token>
+			</antipattern>
+			<antipattern>
+				<token>
+				<exception regexp="yes">\d+</exception></token>
+				<token postag='SENT_END' regexp="yes">\d{4}</token>
+			</antipattern>
+			<antipattern>
+				<token regexp='yes'>&hifen;</token>
+				<token regexp="yes">\d+</token>
+				<token regexp='yes'>&hifen;</token>
+			</antipattern>
+			<pattern>
+				<marker>
+					<token regexp="yes">\d+\d{3}(?:,\d+)?</token>
+				</marker>
+			</pattern>
+			<message>Se non é un ano, os algarismos deben ser escritos en grupos de 3.</message>
+			<suggestion><match no="2" regexp_match="(\d+)(\d{3})(,\d+)?" regexp_replace="$1 $2$3"/></suggestion>
+			<url>https://wikidog.xunta.gal/index.php/Escrita_dos_n%C3%BAmeros</url>
+			<example correction='1 034'>A poboación no ano 2020 era de <marker>1034</marker> 133 habitantes.</example>
+						<example>O ano ten exactamente 365,24219858156 días.</example>
+			      <example>É o ano de <marker>1989</marker>.</example>
+			<example>ISBN 0-522-85317-X.</example>
+		</rule>
     <rule>
       <pattern>
           <token regexp="yes">\d+\,\d{3}\d+</token>
@@ -170,7 +168,8 @@
     </rule>
   </rulegroup>
 
-        <rule id="NO_SPACE_CLOSING_QUOTE" name="Espazos: comiñas de peche">
+  <rulegroup id="NO_SPACE_CLOSING_QUOTE" name="Espazos: comiñas de peche">
+        <rule>
     <!-- Localized from English by Tiago F. Santos, 2019-02-10 -->
             <pattern>
                 <token>”</token>
@@ -180,6 +179,7 @@
             <suggestion>\1 \2</suggestion>
             <example correction="” dixo">“Bo día, Frank,<marker>”dixo</marker> Hal.</example>
         </rule>
+   </rulegroup>
 
   <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espazos en unidades de medida">
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
@@ -325,7 +325,8 @@
     </rule>
   </rulegroup>
 
-    <rule id="SPACES_BETWEEN_OPERATORS" name="Matemáticas: Espazo entre operadores">
+  <rulegroup id="SPACES_BETWEEN_OPERATORS" name="Matemáticas: Espazo entre operadores">
+  	<rule>
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-09 -->
       <antipattern>    <!-- time exception: -->
           <token regexp="yes">(?:[01]?[0-9]|2[0-4])[0-9]?</token>
@@ -357,6 +358,7 @@
       <example>4,5 × 2,5</example>
       <example>Entre as 9:00 e as 16:45.</example>
     </rule>
+  </rulegroup>
 
   <rulegroup id='MULTIPLICATION_SIGN' name="Matemáticas: Multiplicación: x - × ">
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
@@ -585,7 +587,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemáticas: Evitar apóstrofe en decimais">
+    <rulegroup id='AVOID_DECIMAL_APOSTROPHE' name="Matemáticas: Evitar apóstrofe en decimais">
+    <rule>
     <!--  Based on Catalan version, by Tiago F. Santos, 2017-02-27      -->
       <antipattern>
           <token regexp="yes">\d{1,2}\,\d+</token>
@@ -611,8 +614,11 @@
       <example>41° 22'44.</example>
       <example>41° 12’12” N.</example>
     </rule>
-
-    <rule id='PERCENT_WITHOUT_SPACE' name="Matemáticas: Retirar espazo en porcentaxes (3%)" default="on">
+	</rulegroup>
+	
+    <rulegroup id='PERCENT' name="Matemáticas: Espazo en porcentaxes" default="on">
+    <!-- TODO Find out which one is recommended for Galician-->
+        <rule id='PERCENT_WITHOUT_SPACE' name="Matemáticas: Retirar espazo en porcentaxes (3%)" default="on">
     <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <pattern>
           <token regexp="yes">[\d.,]+
@@ -640,14 +646,17 @@
       <example correction="23,5 ‰">Paga <marker>23,5‰</marker>.</example>
       <example>Paga 25 %.</example>
     </rule>
+	</rulegroup>    
 
-    <rule id="SPACE_INDENTATION" name="Libreoffice: Sangría con espazos" default='off'>
+    <rulegroup id="SPACE_INDENTATION" name="Libreoffice: Sangría con espazos" default='off'>
+    	<rule>
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
       <regexp>^ +</regexp>
       <message>No LibreOffice, o sangrado é máis preciso se utilizar as ferramentas específicas.</message>
         <suggestion/>
       <example correction=""><marker> </marker>El saíu de casa.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id='DASH_RULE' name='Guión, Meio-Raia e Raia'>
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
@@ -782,7 +791,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='DASH_ENUMERATION_NO_SPACE_RULE' name="Trazo longo en diálogos: Sem espazo" default="off">
+    <rulegroup id='DASH_ENUMERATION_NO_SPACE_RULE' name="Trazo longo en diálogos: Sem espazo" default="off">
+    <rule>
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
       <antipattern>
           <token regexp='yes'>&hifen;</token>
@@ -805,8 +815,10 @@
       <example>—Rastrear</example>
       <example>---------------------------------------</example>
     </rule>
+    </rulegroup>
 
-    <rule id='DASH_ENUMERATION_SPACE_RULE' name="Trazo longo en diálogos: Espazo despois" default="on">
+    <rulegroup id='DASH_ENUMERATION_SPACE_RULE' name="Trazo longo en diálogos: Espazo despois" default="on">
+    <rule>
     <!-- Based on Catalan version by Tiago F. Santos, 2017-05-16 -->
       <antipattern>
           <token regexp='yes'>&hifen;</token>
@@ -830,6 +842,7 @@
       <example>— Rastrear</example>
       <example>---------------------------------------</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id='HIPHEN_SPACE_RULES' name="Espazamento en guións e trazos" default="on">
     <!-- Created by Tiago F. Santos, 2017-XX-XX -->
@@ -875,7 +888,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='ENUMERATION_AND_DASHES' name="Enumeracións com trazos: 1.2.-">
+    <rulegroup id='ENUMERATION_AND_DASHES' name="Enumeracións com trazos: 1.2.-">
+    <rule>
     <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
       <antipattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
@@ -899,6 +913,7 @@
       <example>50-30</example>
       <example>…cunha pedra…—, penso que…</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id='HYPOTHESIS_TYPOGRAPHY' name='Tipografia de Hipóteses'>
     <!-- Created by Tiago F. Santos, 2017-09-01 -->
@@ -1137,7 +1152,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='DEGREE_SYMBOL' name="Matemáticas: Símbolo de grao (°)">
+    <rulegroup id='DEGREE_SYMBOL' name="Matemáticas: Símbolo de grao (°)">
+    <rule>
     <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
       <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
       <message>Se está a indicar graos, utilice o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
@@ -1150,8 +1166,10 @@
       <example>…que puxo fin á República Vella, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
     <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
     </rule>
+    </rulegroup>
 
-    <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemáticas: Abreviaturas de unidades de medida">
+    <rulegroup id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemáticas: Abreviaturas de unidades de medida">
+    <rule>
     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
           <token regexp="yes">\d+</token>
@@ -1163,8 +1181,10 @@
         <suggestion><match no='2' regexp_match='(&unidades_de_medida;)s' regexp_replace='$1'/></suggestion>
       <example correction="kg">Son 2 <marker>kgs</marker> de mazás.</example>
     </rule>
+    </rulegroup>
 
-    <rule id='KELVIN' name="Matemáticas: Kelvin (sen graos)">
+    <rulegroup id='KELVIN' name="Matemáticas: Kelvin (sen graos)">
+    <rule>
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
       <regexp>\s*[º°]\s*K\b</regexp>
       <message>Kelvin non utiliza o sinal de grao.</message>
@@ -1174,6 +1194,7 @@
       <example correction="&#8239;K">A 30<marker>ºK</marker>.</example>
       <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemáticas: Tipografia de graus, minutos e segundos: 50°45′ 20″">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
@@ -1212,7 +1233,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='LOOSE_ACCENTS' name="Acentos soltos">
+    <rulegroup id='LOOSE_ACCENTS' name="Acentos soltos">
+    <rule>
     <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
       <regexp>[`´]</regexp>
       <message>Carácter incorrecto. Utilice antes o apóstrofe ou revise a acentuación.</message>
@@ -1221,8 +1243,10 @@
       <short>Carácter incorrecto</short>
       <example correction="’|">Non e<marker>´</marker> común encontrar erros deste tipo.</example>
     </rule>
+    </rulegroup>
 
-    <rule id="DE_APOSTROPHE_SPACE" name="Tipografia: apóstrofo sem espazo">
+    <rulegroup id="DE_APOSTROPHE_SPACE" name="Tipografia: apóstrofo sem espazo">
+    <rule>
     <!--  Created by Tiago F. Santos, 2017-10-06      -->
       <pattern>
           <token regexp="yes">d|n|x</token>
@@ -1234,6 +1258,7 @@
       <short>Non separe o apóstrofe cun espazo</short>
       <example correction="n'A">Unha nova <marker>n' A</marker> Nosa Terra.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de comiñas: «“‘...’”»." default="off">
     <!--  Created by Tiago F. Santos, 2017-05-31      -->
@@ -1346,7 +1371,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='R_SYMBOL' name="Tipografia: Marca Rexistrada - ®">
+    <rulegroup id='R_SYMBOL' name="Tipografia: Marca Rexistrada - ®">
+    <rule>
       <antipattern case_sensitive="yes">
         <marker>
           <token>(</token>
@@ -1379,8 +1405,10 @@
       <short>Símbolo estándar de ®</short>
       <example correction='®'>Windows <marker>(R)</marker></example>
     </rule>
+    </rulegroup>
 
-    <rule id='COPYRIGHT' name="Tipografia: Copyright - ©" type="typographical">
+    <rulegroup id='COPYRIGHT' name="Tipografia: Copyright - ©" type="typographical">
+    <rule>
       <antipattern>
           <token>(</token>
           <token>a</token>
@@ -1408,6 +1436,7 @@
       <example correction="©">Copyright <marker>(C)</marker> 2010 O Estado da Gramática</example>
       <example>Isto é unha lista: (a) elemento, (b) 2 elementos, (c) 2014 elementos.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup type="locale-violation" id='CURRENCY' name="Posición dos símbolos de moeda: '100£ (£100)">
     <rule>
@@ -1442,7 +1471,8 @@
     </rule>
   </rulegroup>
 
-    <rule type="whitespace" id='CURRENCY_SPACE' name="Símbolos monetarios sen espazo en branco: «$ 100» ($100)">
+    <rulegroup type="whitespace" id='CURRENCY_SPACE' name="Símbolos monetarios sen espazo en branco: «$ 100» ($100)">
+    <rule>
       <pattern>
           <token regexp="yes">[$£¥\u8371]</token>
           <token regexp="yes" spacebefore="yes">\d+(?:[\,\.]\d+)?</token>
@@ -1462,6 +1492,7 @@
       <short>Espazo incorrecto</short>
       <example correction="100 €">Débese <marker>100€</marker>.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id='SMART_QUOTES' name="Comiñas inteligentes (“”)">
     <rule>
@@ -1597,7 +1628,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='APOSTROPHE_IN_DATES' name="Apóstrofe en datas">
+    <rulegroup id='APOSTROPHE_IN_DATES' name="Apóstrofe en datas">
+    <rule>
       <pattern>
           <token spacebefore="yes" regexp='yes'>(?::?[1-2]\d)?\d0
             <exception regexp='yes'>2[1-9]\d0</exception></token>
@@ -1612,6 +1644,7 @@
       <example correction='1990s'>Onde estabas nos <marker>1990’s</marker>?</example>
       <example>Discos de freo da <marker>Alvis 12/70</marker> adaptados para rodas máis grandes.</example>
     </rule>
+    </rulegroup>
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <!-- Localization of rules from the English grammar.xml - END  -->
 
@@ -1683,7 +1716,8 @@
     </rule>
   </rulegroup>
 
-    <rule id="SEMICOLON_AND_QUOTES" name="Punto e vírgula antes de comiñas">
+    <rulegroup id="SEMICOLON_AND_QUOTES" name="Punto e vírgula antes de comiñas">
+    <rule>
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <antipattern>
           <token regexp="yes">„|“|»|«|"</token>
@@ -1701,6 +1735,7 @@
       <message>Xeralmente, non se coloca punto e vírgula antes de comiñas.</message>
       <example type="incorrect">«Non me incomode con súa leria infantil<marker>;»</marker> dixen Maria; «eu escribo versos inmortais.»</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id="PARENTESESE_AND_QUOTES_SPACING" name="Espazamento en volta de comiñas ou parénteses">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
@@ -1798,7 +1833,8 @@
     </rule>
   </rulegroup>
 
-    <rule id="SEMICOLON_COLON_SPACING" name="Espazos ausentes: «:» e «;»">
+    <rulegroup id="SEMICOLON_COLON_SPACING" name="Espazos ausentes: «:» e «;»">
+    <rule>
      <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <antipattern>
           <token regexp="yes">“|«|"|\(</token>
@@ -1842,10 +1878,11 @@
       <example correction=": «">El dixo<marker>:«</marker>O xardín é verdadeiramente bonito.»</example>
       <example>A cea estará lista ás 18:30.</example>
     </rule>
+    </rulegroup>
 
  </category>
 
- <category id="CAT0" name="Gramática::Concordancia" type="grammar">
+<category id="CAT0" name="Gramática::Concordancia" type="grammar">
 
   <rulegroup id="GENERAL_GENDER_AGREEMENT_ERRORS" name="Concordancia de xénero: Xeral">
     <!--            General gender concordance errors            -->
@@ -2104,7 +2141,8 @@
 
     <!-- Specific gender concordance errors - A > Masculine Noun -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule default="off" id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A" name="Concordancia de xénero: A + Masculino">
+    <rulegroup default="off" id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A" name="Concordancia de xénero: A + Masculino">
+    <rule>
       <pattern>
         <marker>
           <token>a</token>
@@ -2121,8 +2159,10 @@
       <example correction="O boi|A (boi)"><marker>A boi</marker> está no prado.</example>
       <example type="correct">A vaca está no prado.</example>
     </rule>
+    </rulegroup>
 
-    <rule default="off" id="A_WORD_A" name="Concordancia de xénero: A + palabra terminada em A">
+    <rulegroup default="off" id="A_WORD_A" name="Concordancia de xénero: A + palabra terminada em A">
+    <rule>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <pattern>
           <token regexp="yes">a</token>
@@ -2134,6 +2174,7 @@
       <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <example correction="O dogma"><marker>A dogma</marker> de quen sabe moito.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id="SER_ADJECTIVE_AGREEMENT" name="Erro de concordancia: SER + adxectivo + nome">
     <!--      Created by Tiago F. Santos, 2017-09-06      -->
@@ -2201,7 +2242,8 @@
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O" name="Concordancia de xénero: O + Feminino">
+    <rulegroup id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O" name="Concordancia de xénero: O + Feminino">
+    <rule>
       <pattern>
         <marker>
           <token>o</token>
@@ -2218,6 +2260,7 @@
       <example correction="A cadela|O can"><marker>O cadela</marker> está no prado.</example>
       <example type="correct">A cadela está no prado.</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id="GENERAL_NUMBER_AGREEMENT_ERRORS" name="Concordancia de número: Xeral">
     <!--            General number concordance errors            -->
@@ -2757,7 +2800,8 @@
     <!-- General verbal concordance errors - They + Verb -->
     <!-- Localized from Portuguese by Tiago F. Santos, Portuguese rule, 2019-04-18 -->
     <!-- FIXME Disambiguate verbs better and then set as default='on' -->
-    <rule default="off" id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2" name="Concordancia verbal: Terceira persoa do composto Plural">
+    <rulegroup default="off" id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2" name="Concordancia verbal: Terceira persoa do composto Plural">
+    <rule>
       <antipattern>
           <token>há</token>
           <token />
@@ -2788,10 +2832,14 @@
       <example correction="Can e gato son"><marker>Can e gato é</marker> animais.</example>
       <example correction="can e o gato son">O <marker>can e o gato é</marker> animais.</example>
     </rule>
+    </rulegroup>
 
- </category><category id="CAT1" name="Gramática::Verbo" type="grammar">
+ </category>
+ 
+<category id="CAT1" name="Gramática::Verbo" type="grammar">
 
-    <rule id="IR_A_INF" name="ir máis infinitivo">
+    <rulegroup id="IR_A_INF" name="ir máis infinitivo">
+    <rule>
     <!-- Created by Susana Sotelo Docío -->
     <!-- Added by Xosé Calvo: False positives with 'a partir de' and 'a pesar de', v.g. 'Irá a partir desta mañá..' -->
       <antipattern>
@@ -2810,6 +2858,7 @@
       <short>Perífrase «ir + infinitivo»</short>
       <example correction="Vou saltar"><marker>Vou a saltar</marker> con ela.</example>
     </rule>
+    </rulegroup>
 
     <!-- FIXME it offers VéN as correction when source is uppercase: VEN -->
     <!-- FIXME false positive when "ven" is imperative -->
@@ -2969,7 +3018,8 @@
     </rule>
   </rulegroup>
 
-    <rule id="PRON_NOS" name="nos cantamos (nós cantamos)">
+    <rulegroup id="PRON_NOS" name="nos cantamos (nós cantamos)">
+    <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
@@ -2985,7 +3035,10 @@
       <short>Acentuación de pronomes suxeito</short>
       <example correction="Nós"><marker>Nos</marker> cremos que a lingua é un tesouro.</example>
     </rule>
-    <rule id="PRON_VOS" name="vos cantades (vós cantades)">
+    </rulegroup>
+    
+    <rulegroup id="PRON_VOS" name="vos cantades (vós cantades)">
+    <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <token postag="SENT_START"/>
@@ -3001,6 +3054,7 @@
       <short>Acentuación de pronomes suxeito</short>
       <example correction="Vós"><marker>Vos</marker> sabedes o que come?</example>
     </rule>
+    </rulegroup>
 
   <rulegroup id="REXIME_VERBAL" name="construción verbal">
   <short>Falta a preposición</short>
@@ -3038,8 +3092,7 @@
 
  </category>
 
-
- <category id="CAT2" name="Gramática::Outros" type="uncategorized">
+<category id="CAT2" name="Gramática::Outros" type="uncategorized">
  <!-- Inclúe rexime preposicional, acentuación, apócopes, etc. -->
 
   <rulegroup id="FORA_FORA" name="fóra vs. fora">
@@ -3627,10 +3680,9 @@
 
     <!-- ############################ LEXICAL RULES ############################ -->
 
- <category id="CAT3" name="Léxico::Estranxeirismos" type="untranslated">
+<category id="CAT3" name="Léxico::Estranxeirismos" type="untranslated">
  
-  	<!-- CASTELANISMOS -->
-
+<rulegroup id="CASTELANISMOS" name="Castelanismos" type ="untranslated">
     <rule id="MARTINPESCADOR" name="martín pescador (picapeixe)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
@@ -4041,8 +4093,45 @@
       <example correction="beiravía">Na bicicleta procuro sempre circular polo <marker>arcén</marker>.</example>
       <example>Na bicicleta procuro sempre circular pola <marker>beiravía</marker>.</example>
     </rule>
+    
+    <rule id="ADOQUIN" name="adoquín (lastra)">
+    <!-- Created by Susana Sotelo Docío -->
+      <pattern>
+          <token regexp="yes">adoquíns?</token>
+      </pattern>
+      <message>A palabra «<match no="1"/>» é un castelanismo. Empregue no seu sitio <suggestion>lastra</suggestion> (feminino).</message>
+      <short>Castelanismo léxico</short>
+      <example correction="lastra">Usaron <marker>adoquíns</marker> para pavimentar a rúa.</example>
+      <example>Usaron <marker>lastras</marker> para pavimentar a rúa.</example>
+    </rule>
+    
+    <rule id="CORTEZA_NON_CEREBRAL" name="corteza (codia)">
+    <!-- Created by Susana Sotelo Docío -->
+      <pattern>
+        <marker>
+          <token regexp="yes">(corteza|cortiza)s?</token>
+        </marker>
+          <token regexp="yes" negate="yes">cerebra(l|is|les)</token>
+      </pattern>
+      <message>A palabra «\1» non existe en galego. Empregue no seu sitio <suggestion>codia</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example correction="codia">Do pan prefiro comer a <marker>corteza</marker>.</example>
+    </rule>
+    <rule id="CORTEZA_CEREBRAL" name="corteza cerebral (córtex cerebral)">
+    <!-- Created by Susana Sotelo Docío -->
+      <pattern>
+          <token regexp="yes">(corteza|cortiza|codia)s?</token>
+          <token regexp="yes">cerebra(l|is|les)</token>
+      </pattern>
+      <message>O termo «\1 \2» non é correcto en galego. Empregue no seu sitio <suggestion>córtex \2</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example correction="córtex cerebral">O relator presentou un traballo sobre o comportamento da <marker>corteza cerebral</marker>.</example>
+      <example>O relator presentou un traballo sobre o comportamento do <marker>córtex cerebral</marker>.</example>
+    </rule>
 
-  <rulegroup id="ASEQUIBEL" name="alcanzábel, accesíbel">
+	</rulegroup>
+	
+	<rulegroup id="ASEQUIBEL" name="alcanzábel, accesíbel">
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
@@ -4085,7 +4174,7 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="NORABOA" name="noraboa (parabén)">
+	<rulegroup id="NORABOA" name="noraboa (parabén)">
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
@@ -4123,18 +4212,7 @@
     </rule>
   </rulegroup>
 
-    <rule id="ADOQUIN" name="adoquín (lastra)">
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-          <token regexp="yes">adoquíns?</token>
-      </pattern>
-      <message>A palabra «<match no="1"/>» é un castelanismo. Empregue no seu sitio <suggestion>lastra</suggestion> (feminino).</message>
-      <short>Castelanismo léxico</short>
-      <example correction="lastra">Usaron <marker>adoquíns</marker> para pavimentar a rúa.</example>
-      <example>Usaron <marker>lastras</marker> para pavimentar a rúa.</example>
-    </rule>
-
-  <rulegroup id="SEN_EMBARGO" name="sen embargo, nembargantes (porén, mais, no entanto)">
+	<rulegroup id="SEN_EMBARGO" name="sen embargo, nembargantes (porén, mais, no entanto)">
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
@@ -4156,38 +4234,11 @@
       <example correction="porén|mais|no entanto">A súa importancia débese <marker>nembargantes</marker> a outros factores.</example>
       <example>A súa importancia débese <marker>porén</marker> a outros factores.</example>
     </rule>
-  </rulegroup>
-
-  <rulegroup id="CORTEZA" name="corteza (codia, córtex cerebral)">
-    <rule id="CORTEZA_NON_CEREBRAL" name="corteza (codia)">
+    </rulegroup>
+   
+    <rulegroup id="ANGLICISMOS" name="Anglicismos" type="untranslated">
     <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-        <marker>
-          <token regexp="yes">(corteza|cortiza)s?</token>
-        </marker>
-          <token regexp="yes" negate="yes">cerebra(l|is|les)</token>
-      </pattern>
-      <message>A palabra «\1» non existe en galego. Empregue no seu sitio <suggestion>codia</suggestion>.</message>
-      <short>Castelanismo léxico</short>
-      <example correction="codia">Do pan prefiro comer a <marker>corteza</marker>.</example>
-    </rule>
-    <rule id="CORTEZA_CEREBRAL" name="corteza cerebral (córtex cerebral)">
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-          <token regexp="yes">(corteza|cortiza|codia)s?</token>
-          <token regexp="yes">cerebra(l|is|les)</token>
-      </pattern>
-      <message>O termo «\1 \2» non é correcto en galego. Empregue no seu sitio <suggestion>córtex \2</suggestion>.</message>
-      <short>Castelanismo léxico</short>
-      <example correction="córtex cerebral">O relator presentou un traballo sobre o comportamento da <marker>corteza cerebral</marker>.</example>
-      <example>O relator presentou un traballo sobre o comportamento do <marker>córtex cerebral</marker>.</example>
-    </rule>
-  </rulegroup>
-  
- 	<!-- ANGLICISMOS -->
- 
     <rule id="BAFFLE" name="baffle (pantalla acústica)">
-    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">baf?fles?</token>
       </pattern>
@@ -4285,10 +4336,10 @@
       <example correction="marca">O atleta non conseguíu bater o <marker>record</marker>.</example>
       <example>O atleta non conseguíu bater a <marker>marca</marker>.</example>
     </rule>
+ 	</rulegroup>
  
- <!-- LUSISMOS -->
- 
-    <rule id="EQUIPA" name="equipa (equipo)">
+    <rulegroup id="LUSISMOS" name="Lusismos">
+    	<rule id="EQUIPA" name="equipa (equipo)">
       <pattern>
           <token regexp="yes">equipas?</token>
       </pattern>
@@ -4296,10 +4347,13 @@
       <example correction="equipo">Todos os traballadores dispoñen dunha <marker>equipa</marker> de protección individual.</example>
       <example>Todos os traballadores dispoñen dun <marker>equipo</marker> de protección individual.</example>
     </rule>
+    </rulegroup>
+    
  </category>
 
- <category id="CAT4" name="Léxico::Falsos homónimos" type="untranslated">
+<category id="CAT4" name="Léxico::Falsos homónimos" type="untranslated">
 
+	<rulegroup id="FALSOS_HOMÓNIMOS" name="Falsos homónimos"> 
     <rule id="RACHA" name="racha (refacho)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
@@ -4406,10 +4460,11 @@
       <example correction="rabada|peixe sapo">Merquei un par de <marker>rapes</marker> na praza.</example>
       <example>Merquei un par de <marker>rabadas</marker> na praza.</example>
     </rule>
-
+	</rulegroup>
  </category>
  
- <category id="CAT5" name="Léxico::Arcaísmos" type="style">
+<category id="CAT5" name="Léxico::Arcaísmos" type="style">
+ 	<rulegroup id="ARCAÍSMOS" name="Arcaísmos">
     <rule id="DESQUE" name="desque (así que)">
       <pattern>
           <token regexp="yes">desque</token>
@@ -4417,13 +4472,13 @@
       <message>A forma «desque» considérase arcaica. No seu lugar pódese empregar <suggestion>así que</suggestion>.</message>
       <example correction="Así que"><marker>Desque</marker> se acabou a guerra, guerra quere esta canalla?.</example>
       <example><marker>Así que</marker> se acabou a guerra, guerra quere esta canalla?</example>
-    </rule> 
- 
+    </rule>
+   </rulegroup>
  </category>
-
  
- <category id="CAT6" name="Léxico::Barbarismos" type="untranslated">
-    <rule id="ADICAR" name="adicar (dedicar)">
+<category id="CAT6" name="Léxico::Barbarismos" type="untranslated">
+ 	<rulegroup  id="BARBARISMOS" name="Barbarismos">
+ 	    <rule id="ADICAR" name="adicar (dedicar)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">adicar</token>
@@ -4432,8 +4487,8 @@
       <short>Barbarismo</short>
       <example correction="dedicar">Acordaron <marker>adicar</marker> máis tempo ás tarefas pendentes.</example>
     </rule>
+    </rulegroup>
  </category>
-
 
     <!--
     <rule id="PUNTUAL" name="puntual (concreto)">
@@ -4448,10 +4503,9 @@
     </rule>
     -->
 
-
     <!-- ############################ SPELLING RULES ############################ -->
 
- <category id="CAT7" name="Ortografía" type="misspelling">
+<category id="CAT7" name="Ortografía" type="misspelling">
 
   <rulegroup id="ACCESIT" name="accésits (accésit)">
     <rule>
@@ -4490,8 +4544,9 @@
     </rule>
             -->
   </rulegroup>
-
-    <rule id="EN_DE_SEGUIDA" name="enseguida, deseguida">
+	
+    <rulegroup id="EN_DE_SEGUIDA" name="enseguida, deseguida">
+    <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">en|de</token>
@@ -4512,8 +4567,10 @@
       <example correction="deseguido">A masa mestúrase e <marker>de seguido</marker> envásase en recipientes.</example>
       <example correction="decontado">Recoñecera <marker>de contado</marker> os axentes da Stasi.</example>
     </rule>
+   </rulegroup>
 
-    <rule id="TAL_VEZ" name="talvez">
+    <rulegroup id="TAL_VEZ" name="talvez">
+    <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>tal</token>
@@ -4522,8 +4579,10 @@
       <message>As formas «tal» e «vez» escrébense unidas cando forman unha locución. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
       <example correction="Talvez"><marker>Tal vez</marker> a maneira máis profusa de ser europeo.</example>
     </rule>
+   </rulegroup>
 
-    <rule id="DACORDO" name="dacordo (de acordo)">
+    <rulegroup id="DACORDO" name="dacordo (de acordo)">
+    	<rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>dacordo</token>
@@ -4531,8 +4590,10 @@
       <message>A locución «de acordo» escríbese en galego separada. Quería vostede dicir <suggestion>de acordo</suggestion>?</message>
       <example correction="De acordo"><marker>Dacordo</marker> con iso, será preciso aumentar as inversións.</example>
     </rule>
+   </rulegroup>
 
-    <rule id="A_REO" name="arreo">
+    <rulegroup id="A_REO" name="arreo">
+    	<rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>a</token>
@@ -4541,6 +4602,7 @@
       <message>As formas «a» e «reo» normalmente forman en galego unha locución que se escribe preferibelmente unida. Quería vostede dicir <suggestion>\1r\2</suggestion>?</message>
       <example correction="arreo">Traballaron <marker>a reo</marker> no proxecto.</example>
     </rule>
+   </rulegroup>
 
   <rulegroup id="A_DE_EN_CON_O" name="preposición (a, de, en, con) e artigo de topónimo">
     <!-- Preposicións: a + a,as -->
@@ -4585,7 +4647,8 @@
 
   </rulegroup>
 
-    <rule id="A_DE_COTIO" name="acotío, decotío">
+    <rulegroup id="A_DE_COTIO" name="acotío, decotío">
+    	<rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">de|a</token>
@@ -4595,8 +4658,10 @@
       <short>Posíbel forma incorrecta</short>
       <example correction="acotío">Viaxa a Alemaña <marker>a cotío</marker> por razóns de traballo.</example>
     </rule>
+    </rulegroup>
 
-    <rule id="DE_VAGAR_COTE" name="devagar, decote">
+    <rulegroup id="DE_VAGAR_COTE" name="devagar, decote">
+    	<rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>de</token>
@@ -4607,8 +4672,10 @@
       <example correction="devagar">Foi andando <marker>de vagar</marker> pola braña.</example>
       <example correction="decote">Vai <marker>de cote</marker> ao parque.</example>
     </rule>
+   </rulegroup>
 
-    <rule id="A_MODO_PENAS" name="a modo, a penas (amodo, apenas)">
+    <rulegroup id="A_MODO_PENAS" name="a modo, a penas (amodo, apenas)">
+    	<rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>a</token>
@@ -4618,6 +4685,7 @@
       <short>Posíbel forma incorrecta</short>
       <example correction="amodo">Vai <marker>a modo</marker> para non caer.</example>
     </rule>
+   </rulegroup>
 
   <rulegroup id="UN_AVE" name="un ave (unha ave)" default="off">
     <rule>
@@ -4666,7 +4734,7 @@
   </rulegroup>
  </category>
 
- <category id="CAT8" name="Fraseoloxía" type="untranslated">
+<category id="CAT8" name="Fraseoloxía" type="untranslated">
   <rulegroup id="LOCUCIÓNS" name="locucións e frases feitas">
     <rule id="DE_REOLLO" name="de reollo (de esguello)">
     <!-- Created by Susana Sotelo Docío -->
@@ -4767,9 +4835,10 @@
 
  </category>
 
- <category id='REPETITIONS' name='Repeticións' type='duplication'>
+<category id='REPETITIONS' name='Repeticións' type='duplication'>
 
-    <rule id='CONJUNCTION_REPETITION' name="Repetición de conxunción">
+    <rulegroup id='CONJUNCTION_REPETITION' name="Repetición de conxunción">
+    	<rule>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
       <pattern>
           <token regexp="yes" skip='6'>ademais|aínda|alén|conforme|entanto|mais|obstante|porén|pronto|senón|sexa|tamén
@@ -4784,6 +4853,7 @@
       <example correction="">Aínda que non é <marker>aínda</marker> que definitivo.</example>
       <example>Sexa por vergoña, sexa por timidez.</example>
     </rule>
+   </rulegroup>
 
   <rulegroup id="WORD_REPETITION" name="Palabra repetida">
     <rule>
@@ -4804,7 +4874,7 @@
 
   <rulegroup id='PHRASE_REPETITION' name="Duplicación de palabras (por alí por alí)">
     <!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
-      <short>Segmento duplicado</short>
+    <short>Segmento duplicado</short>
     <rule>
       <antipattern>
           <token regexp='yes'>un(?:ha)?</token>
@@ -4851,7 +4921,8 @@
     </rule>
   </rulegroup>
 
-    <rule id='REPEATED_WORDS' name="Palabras repetidas (2x)" default='on' type='style'>
+    <rulegroup id='REPEATED_WORDS' name="Palabras repetidas (2x)" default='on' type='style'>
+    	<rule>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 		-->
     <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
@@ -4962,11 +5033,13 @@
       <!--example correction="">Principalmente migrantes teñen procurado residencia principalmente en Alagoas, estabelecéndose <marker>principalmente</marker> na costa.</example-->
       <example>Principalmente migrantes teñen procurado residencia en Alagoas, estabelecéndose <marker>principalmente</marker> na costa.</example>
     </rule>
+   </rulegroup>
 
  </category>
 
- <category id="PUNCTUATION" name="Puntuación" type="typographical" default="off">
-    <rule id="FINAL_PUNCTUATION" name="Puntuación final ausente">
+<category id="PUNCTUATION" name="Puntuación" type="typographical" default="off">
+    <rulegroup id="FINAL_PUNCTUATION" name="Puntuación final ausente">
+    	<rule>
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
       <antipattern>
           <token postag="SENT_START"/>
@@ -4997,26 +5070,28 @@
       <short>Puntuación</short>
       <example correction="casa.|casa?|casa!|casa:">Vou en dirección a <marker>casa</marker></example>
     </rule>
+   </rulegroup>
 
  </category>
 
- <category id="CREATIVE_WRITING" name="Escrita creativa" type="style" default='off'>
+<category id="CREATIVE_WRITING" name="Escrita creativa" type="style" default='off'>
 
     <!-- ====================================================================== -->
     <!--         E-Prime        https://en.wikipedia.org/wiki/E-Prime           -->
     <!-- ====================================================================== -->
-    <rule id="E_PRIME_STRIT" name="Escrita Creativa: E-Prime: todas as formas do verbo «ser» e «estar»" default='off'>
+	<rulegroup id="E_PRIME_STRIT" name="Escrita Creativa: E-Prime: todas as formas do verbo «ser» e «estar»" default='off'>
+		<rule>
     <!-- Created by Tiago F. Santos, 2018-07-09 -->
-      <pattern>
-          <token inflected="yes" regexp='yes'>ser|estar</token>
-      </pattern>
-      <message>De acordo coa versión inglesa do E-Prime, evitar formas verbais dos verbos «ser» e «estar» torna a comunicación máis clara, precisa, e menos dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
-      <url>https://litemind.com/e-prime/</url>
-      <short>Considere evitar os verbos «ser» e «estar»</short>
-      <example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
-      <example>Isto non se <marker>xustifica</marker> co meu coñecemento actual…</example>
-      <example>Os datos non <marker>confirman</marker> esa afirmación…</example>
-    </rule>
+			<pattern>
+				<token inflected="yes" regexp='yes'>ser|estar</token>
+			</pattern>
+			<message>De acordo coa versión inglesa do E-Prime, evitar formas verbais dos verbos «ser» e «estar» torna a comunicación máis clara, precisa, e menos dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
+			<url>https://litemind.com/e-prime/</url>
+			<short>Considere evitar os verbos «ser» e «estar»</short>
+			<example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
+			<example>Isto non se <marker>xustifica</marker> co meu coñecemento actual…</example>
+			<example>Os datos non <marker>confirman</marker> esa afirmación…</example>
+	</rule>
 
     <!--rule id="E_PRIME_LOOSE" name="E-Prime: 'ser' e 'estar' como verbos princiais" default='off'>
         <Created by Tiago F. Santos, 2018-07-09>
@@ -5038,20 +5113,23 @@
       <example>This <marker>is</marker> conforming with my knowledge…</example>
       <example>This <marker>conforms</marker> with my current knowledge…</example>
     </rule -->
+    </rulegroup>
 
 </category>
 
 <category id='DEVELOPMENT' name="Desenvolvemento" type="grammar" default='off'>
 
-    <rule id="UNKNOWN_WORD" name="Desenvolvemento: palabra sen POS">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-24 -->
-      <pattern>
-          <token postag='UNKNOWN'/>
-      </pattern>
-      <message>Palabra non identificada.</message>
-      <example correction=''>De acordo co teorema central do límite, a distribución normal aborda o comportamento <marker>asentótico</marker> de varias distribucións de probabilidade.</example>
-      <example>Xuros do 0,2% ao ano.</example>
-    </rule>
+	<rulegroup id="UNKNOWN_WORD" name="Desenvolvemento: palabra sen POS">
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-24 -->
+		<rule>
+			<pattern>
+				<token postag='UNKNOWN'/>
+			</pattern>
+			<message>Palabra non identificada.</message>
+			<example correction=''>De acordo co teorema central do límite, a distribución normal aborda o comportamento <marker>asentótico</marker> de varias distribucións de probabilidade.</example>
+			<example>Xuros do 0,2% ao ano.</example>
+			</rule>
+	</rulegroup>
 
 </category>
 
