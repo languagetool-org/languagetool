@@ -445,6 +445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pareilles situations|pareille situation">L'Histoire regorge de <marker>pareil situations</marker>.</example>
                 <example correction="notre service|nos services">mais aussi tous <marker>nos service</marker> et avantages</example>
                 <example correction="diverses préparations|diverse préparation">On trouve bien sûr des desserts mélangeant <marker>divers préparations</marker>.</example>
+                <example correction="quelque sacrifice|quelques sacrifices">Ils sauront faire <marker>quelques sacrifice</marker>.</example>
                 <example>Henri VIII rencontre François Ier.</example>
                 <example>Il est né le quatre <marker>janvier</marker>.</example>
                 <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
@@ -699,6 +700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Le"><marker>Les</marker> plus beau garçon.</example>
                 <example>Quatre-vingt-douze moins neuf font quatre-vingt-trois.</example>
                 <example>Aucune des deux ne satisfait le réalisateur.</example>
+                <example>L'Alberta est aussi la province la moins favorable envers l'interventionnisme économique.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -820,14 +822,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>soit</exception></token>
                     <marker>
                         <token postag="J .*|V.* ppa .*" postag_regexp="yes">
-                            <exception postag="J [me] (p|sp)|V ppa m p" postag_regexp="yes"/></token>
+                            <exception postag="J [me] (s|p|sp)|V ppa m [ps]" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
                 <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [me] (p|sp)|V.* ppa m p"/></suggestion>
-                <example correction="intelligents">Un homme des plus <marker>intelligent</marker></example>
                 <example correction="intelligents">Un homme des plus <marker>intelligentes</marker></example>
                 <example>Mont-Saint-Michel est le théâtre des plus grandes marées d'Europe.</example>
+                <!-- Next sentneces are ambiguous: -->
+                <example>Un paquet des plus <marker>original</marker>!</example>
+                <example>Un homme des plus <marker>intelligent</marker></example>
             </rule>
             <!-- un femme des plus intelligentes -->
             <rule default="temp_off">
@@ -844,13 +848,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>soit</exception></token>
                     <marker>
                         <token postag="J .*|V.* ppa .*" postag_regexp="yes">
-                            <exception postag="J [fe] (p|sp)|V ppa f p" postag_regexp="yes"/></token>
+                            <exception postag="J [fe] (s|p|sp)|V ppa f [ps]" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
                 <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (p|sp)|V.* ppa f p"/></suggestion>
                 <example correction="intelligentes">Une femme des plus <marker>intelligents</marker></example>
-                <example correction="intelligentes">Une femme des plus <marker>intelligente</marker></example>
+                <!-- Ambiguous: -->
+                <example>Une femme des plus <marker>intelligente</marker></example>
+                <example type="triggers_error">Un voyage dans la lune des plus savoureux.</example>
             </rule>
             <!-- hommes des plus intelligents -->
             <rule default="temp_off">
@@ -910,6 +916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="intelligentes">femmes des plus <marker>intelligents</marker></example>
                 <example correction="encourageantes|encouragées">nouvelles des plus <marker>encourageant</marker></example>
                 <example>les rapides délices des plus beaux de nos jours !</example>
+                <example type="triggers_error">rencontre d'affaires des plus productive</example>
             </rule>
             <rule>
                 <antipattern>
@@ -941,7 +948,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception>des</exception></token>
                         <unify-ignore>
                             <token postag="A">
-                                <exception regexp="yes">soit|pas</exception></token>
+                                <exception regexp="yes">soit|pas|ne|n'|puis</exception></token>
                         </unify-ignore>
                         <token postag="J .*|V.* ppa .*" postag_regexp="yes"/>
                     </unify>
@@ -6082,6 +6089,15 @@ though, and has since been slightly modified)-->
         <rulegroup id="ON_ONT" name="on, ont">
             <rule>
                 <pattern>
+                    <token>ont</token>
+                    <token>ont</token>
+                </pattern>
+                <message>Faute de frappe possible : un mot est répété.</message>
+                <suggestion>ont</suggestion>
+                <example correction="ont">Des rapports qui ne coïncidaient pas <marker>ont ont</marker> incité le patron</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token>ont</token>
                     </marker>
@@ -6122,7 +6138,7 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>ont</suggestion> ?</message>
                 <example correction="ont">Je remercie ceux qui <marker>on</marker> fait ça.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P"/>
                     <token regexp="yes">elle|elles</token>
@@ -6137,7 +6153,7 @@ though, and has since been slightly modified)-->
                 <example correction="ont">Parce que sur un site ils <marker>on</marker> l'air de les mélanger ?</example>
                 <example>On se marie avec la personne sans qui on ne peut pas vivre.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P"/>
                     <token regexp="yes">nous|vous</token>
@@ -6153,7 +6169,7 @@ though, and has since been slightly modified)-->
                 <suggestion>ont \3</suggestion>
                 <example correction="ont précédées">ses amies qui l'<marker>on précédées</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="N . (p|sp)" postag_regexp="yes"/>
                     <marker>
@@ -6166,7 +6182,7 @@ though, and has since been slightly modified)-->
                 <example correction="ont fui">Beaucoup de Chrétiens <marker>on fui</marker> la "seule démocratie au Moyen-Orient"</example>
                 <example correction="ont parlé">ses habitants <marker>on parlé</marker> aux forces de la nature</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>on</token>
                     <token>beaucoup</token>
@@ -6176,7 +6192,28 @@ though, and has since been slightly modified)-->
                 <example correction="ont beaucoup">Il y a des gens qui <marker>on beaucoup</marker> d'esprit</example>
             </rule>
             <!-- catch-all rule -->
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START|M nonfin|C sub" postag_regexp="yes"/>
+                    <token>on</token>
+                </antipattern>
+                <antipattern>
+                    <!-- probable error TRAIT_UNION_INVERSION -->
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="person"/>
+                        <token postag="V.*" postag_regexp="yes"/>
+                        <unify-ignore>
+                            <token regexp="yes" min="0" max="2">-|–|t|'|t'</token>
+                        </unify-ignore>
+                        <token postag="R.*" postag_regexp="yes">on</token>
+                    </unify>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">t|t'</token>
+                    <token min="0" regexp="yes">'|-|–</token>
+                    <token>on</token>
+                </antipattern>
                 <pattern>
                     <token>on</token>
                     <token postag="V.*ppa.*" postag_regexp="yes"/>
@@ -6185,7 +6222,8 @@ though, and has since been slightly modified)-->
                 <suggestion>ont \2</suggestion>
                 <suggestion>on <match no="2" postag="V.*ppa.*" postag_regexp="yes" postag_replace="V.* ind pres 3 s"/></suggestion>
                 <example correction="ont gagné|on gagne">Tom et Marie <marker>on gagné</marker> au loto.</example>
-                <example correction="ont parlé|on parle">ses habitants <marker>on parlé</marker> aux forces de la nature.</example>
+                <example correction="ont parlé|on parle">Ses habitants <marker>on parlé</marker> aux forces de la nature.</example>
+                <example correction="ont été|on est">Les années qui ont suivi <marker>on été</marker> noirs</example>
             </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
@@ -37548,7 +37586,7 @@ though, and has since been slightly modified)-->
                 <example><marker>planche à roulette</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="B2B" name="B2B">
+        <rulegroup id="B2B" name="B2B, b to b">
             <rule>
                 <pattern>
                     <token regexp="yes">b2bs?|b-to-b</token>

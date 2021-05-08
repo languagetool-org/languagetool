@@ -182,7 +182,7 @@ public class BaseSynthesizer implements Synthesizer {
       return new String[] {getSpelledNumber(token.getToken())};
     }
     List<String> wordForms = lookup(token.getLemma(), posTag);
-    return wordForms.toArray(new String[0]);
+    return removeExceptions(wordForms.toArray(new String[0]));
   }
 
   @Override
@@ -203,9 +203,9 @@ public class BaseSynthesizer implements Synthesizer {
           results.addAll(lookup(token.getLemma(), tag));
         }
       }
-      return results.toArray(new String[0]);
+      return removeExceptions(results.toArray(new String[0]));
     }
-    return synthesize(token, posTag);
+    return removeExceptions(synthesize(token, posTag));
   }
 
   @Override
@@ -253,5 +253,20 @@ public class BaseSynthesizer implements Synthesizer {
     }
     return arabicNumeral;
   }
+
+  protected boolean isException(String w) {
+    return false;  
+  }
+
+  protected String[] removeExceptions(String[] words) {
+    List<String> results = new ArrayList<>();
+    for (String word : words) {
+      if (!isException(word)) {
+        results.add(word);
+      }
+    }
+    return results.toArray(new String[0]);
+  }
+  
 
 }
