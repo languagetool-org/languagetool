@@ -17544,6 +17544,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>toch</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>de</token><token postag="ZNW.*DE_" postag_regexp="yes"/><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token postag="BYW"/><token>maar</token></antipattern>
 				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>zelfs</token><token>maar</token></antipattern>
@@ -17578,7 +17581,6 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token>één</token></antipattern>
 				<antipattern><token>maar</token><token postag="GET:MRV"/><token regexp="yes">keer|maal</token></antipattern>
 				<antipattern><token>terwijl</token><token regexp="yes">hij|ze|men|jij|je|u|ik</token><token>maar</token></antipattern>
-				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token>nooit</token><token>ook</token><token>maar</token><token>een</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token></antipattern>
 				<antipattern><token>op</token><token>dit</token><token>moment</token><token>maar</token><token>niet</token></antipattern>
@@ -35055,6 +35057,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
 			<rule>
+				<antipattern><token>her</token><token>en</token><token>der</token></antipattern>
 				<antipattern><token>tocht</token><token>der</token><token>tochten</token></antipattern>
 				<antipattern><token>von</token><token>der</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token>in</token><token>der</token><token>eeuwigheid</token></antipattern>
