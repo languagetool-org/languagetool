@@ -3462,6 +3462,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="VLIJEN_VLEIEN" name="waarschuwing bij gebruik vleien i.p.v. vlijen">
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token inflected="yes">voelen</token></antipattern>
 				<pattern><token inflected="yes">vleien</token></pattern>
 				<message>Bedoelt u misschien <suggestion><match no="1" regexp_match="lei" regexp_replace="lij" /></suggestion> (gaan liggen)? Of toch 'vleien': naar de mond praten?</message>
 				<example correction="vlijde">Het woord <marker>vleide</marker> kan een vergissing zijn.</example>
@@ -17542,6 +17543,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag_regexp="yes" postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>zelfs</token><token>maar</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/><token>ze</token><token>maar</token><token postag_regexp="yes" postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>maar</token><token postag="DVW"/><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">zelfs|ook</token><token>maar</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"/><token regexp="yes">ze|zij|hij|ie|u|men</token><token>maar</token></antipattern>
@@ -31928,6 +31932,7 @@ steenwijk;Steenwijk
 				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
 				<example correction="zul">Afdingen <marker>zal</marker> je.</example>
 				<example>Ik zal je morgen bezoeken.</example>
+				<example>Dat ik dan nooit meer een date voor je zal regelen.</example>
 			</rule>
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
