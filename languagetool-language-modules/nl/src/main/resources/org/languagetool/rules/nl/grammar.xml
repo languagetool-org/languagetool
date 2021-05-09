@@ -16289,6 +16289,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KERSTMAN" name="een kerstman, de Kerstman" type="misspelling">
 			<rule>
+				<antipattern><token regexp="yes" skip="2">o|oh</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
 				<antipattern><token regexp="yes">Oh?</token><token>mijn</token><token>god</token></antipattern>
@@ -17543,9 +17544,10 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
-				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag_regexp="yes" postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token postag="BYW"/><token>maar</token></antipattern>
+				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>zelfs</token><token>maar</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/><token>ze</token><token>maar</token><token postag_regexp="yes" postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/><token>ze</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>maar</token><token postag="DVW"/><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">zelfs|ook</token><token>maar</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"/><token regexp="yes">ze|zij|hij|ie|u|men</token><token>maar</token></antipattern>
