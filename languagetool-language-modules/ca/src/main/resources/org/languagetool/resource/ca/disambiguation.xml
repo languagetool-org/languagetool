@@ -14922,7 +14922,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token>a</token>
-                <token>tenor</token>
+                <token min="0">l'</token>
+                <token regexp="yes">tenor|efecte</token>
                 <marker>
                     <token>de</token>
                 </marker>
@@ -14966,6 +14967,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>de</token>
                 </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_no_relatiu"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">de|a|amb|pe</token>
+                </marker>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token>que</token>
+                <token>es</token>
+                <token>disposa</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_no_relatiu"/>

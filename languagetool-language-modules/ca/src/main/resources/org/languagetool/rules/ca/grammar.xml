@@ -4909,53 +4909,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(N.|A..).([SP]).*" postag_regexp="yes" postag_replace="DP3C$2P">son</match> \2</suggestion>
                 <example correction="llurs perspectives">Des de <marker>llur perspectives</marker>.</example>
             </rule>
-            <rule id="FI" name="*la/el fi (finalitat)">
-                <pattern>
-                    <token>amb</token>
-                    <marker>
-                        <token>la</token>
-                        <token>fi</token>
-                    </marker>
-                    <token inflected="yes">de</token>
-                    <token postag="V.N.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Amb el sentit de 'finalitat, propòsit' és masculí.</message>
-                <suggestion>el fi</suggestion>
-                <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
-            </rule>
-            <rule id="FI1" name="*la/el fi (finalitat)">
-                <pattern>
-                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token>a</token>
-                    <marker>
-                        <token postag="D..F.*" postag_regexp="yes"/>
-                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
-                    </marker>
-                </pattern>
-                <message>Amb el sentit de 'finalitat, propòsit' és masculí.</message>
-                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> \5</suggestion>
-                <example correction="aqueix fi">Dedicat expressament a <marker>aqueixa fi</marker>.</example>
-                <example correction="aqueixos fins">Dedicat expressament a <marker>aqueixes fins</marker>.</example>
-                <example>Dedicat a aqueixes fins demà.</example>
-            </rule>
-            <rule id="FI2" name="*la/el fi (finalitat)">
-                <pattern>
-                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token>a</token>
-                    <marker>
-                        <token postag="D..F.*" postag_regexp="yes"/>
-                        <token postag="A..[FC].*" postag_regexp="yes"/>
-                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
-                    </marker>
-                </pattern>
-                <message>Amb el sentit de 'finalitat, propòsit' és masculí.</message>
-                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="5" postag="(A..)[FC](.*)" postag_regexp="yes" postag_replace="$1[MC]$2"/> \6</suggestion>
-                <example correction="un bo fi|un bon fi">Dedicat expressament a <marker>una bona fi</marker>.</example>
-                <example correction="aquests nobles fins">Dedicat expressament a <marker>aquestes nobles fins</marker>.</example>
-                <example>Dedicat a aqueixes fins demà.</example>
-            </rule>
             <rule id="UN_ARMA" name="*un/una arma">
                 <pattern>
                     <token>un</token>
@@ -5053,6 +5006,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://dlc.iec.cat/Results?DecEntradaText=ritual</url>
                 <example correction="Aquests rituals"><marker>Aquestes rituals</marker> són molt bonics.</example>
                 <example>Les rituals trobades de la tribu.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="el/la fi" id="FI">
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <marker>
+                        <token>la</token>
+                        <token>fi</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion>el fi</suggestion>
+                <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>la</token>
+                        <token>fi</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion>a fi</suggestion>
+                <example correction="A fi"><marker>A la fi</marker> d'arribar a la meta el primer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>a</token>
+                    <marker>
+                        <token postag="D..F.*" postag_regexp="yes"/>
+                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> \5</suggestion>
+                <example correction="aqueix fi">Dedicat expressament a <marker>aqueixa fi</marker>.</example>
+                <example correction="aqueixos fins">Dedicat expressament a <marker>aqueixes fins</marker>.</example>
+                <example>Dedicat a aqueixes fins demà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>a</token>
+                    <marker>
+                        <token postag="D..F.*" postag_regexp="yes"/>
+                        <token postag="A..[FC].*" postag_regexp="yes"/>
+                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="5" postag="(A..)[FC](.*)" postag_regexp="yes" postag_replace="$1[MC]$2"/> \6</suggestion>
+                <example correction="un bo fi|un bon fi">Dedicat expressament a <marker>una bona fi</marker>.</example>
+                <example correction="aquests nobles fins">Dedicat expressament a <marker>aquestes nobles fins</marker>.</example>
+                <example>Dedicat a aqueixes fins demà.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
@@ -16393,7 +16409,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="RESOL" name="resol/ressol" default="temp_off">
+        <rulegroup id="ON_NO" name="on/no" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="1">on</token>
+                    </marker>
+                    <token inflected="yes">saber</token>
+                    <token>si</token>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>no</suggestion>?</message>
+                <example correction="No"><marker>On</marker> sé si és veritat.</example>
+            </rule>
+        </rulegroup>
+        <rule id="RESOL" name="resol/ressol">
             <antipattern>
                 <token postag="SPS00"/>
                 <token min="0" inflected="yes">el</token>
@@ -62062,6 +62091,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>provocar el contrari del que voldria</example>
                 <example>la realitat, fent-nos càrrec del que és</example>
                 <example>Queda pendent del que resolguin els jutjats.</example>
+                <example>Queda subjecte al que es disposa en la LAU.</example>
+                <example>A l'efecte del que es disposa en la LAU.</example>
             </rule>
             <rule>
                 <pattern>
