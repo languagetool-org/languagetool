@@ -13565,6 +13565,86 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="QUELQUE_PEU" name="quelque peu" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quelques</token>
+                    </marker>
+                    <token>peu</token>
+                </pattern>
+                <message>Cette expression est invariable.</message>
+                <suggestion>quelque</suggestion>
+                <example correction="quelque">Il est <marker>quelques</marker> peu surpris.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quelques<exception scope="previous" postag="[PD].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token inflected="yes">que</token>
+                    <token postag="V sub.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette expression est invariable.</message>
+                <suggestion>quelque</suggestion>
+                <example correction="Quelque"><marker>Quelques</marker> jolies que puissent être ces robes, elles sont tout de même trop chères.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quelques<exception scope="previous" postag="[PD].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="J . p" postag_regexp="yes"/>
+                    <token inflected="yes">que</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V sub.* p" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette expression est invariable.</message>
+                <suggestion>quelque</suggestion>
+                <example correction="Quelque"><marker>Quelques</marker> jolies qu'elles puissent être, ces robes sont tout de même trop chères.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>une</token>
+                    </marker>
+                    <token>peu</token>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>Cette expression est invariable.</message>
+                <suggestion>un</suggestion>
+                <example correction="un">Peux-tu me donner <marker>une</marker> peu de sucre.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>une</token>
+                    <token>peu</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token min="0" max="1">et</token>
+                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token postag="V .*" postag_regexp="yes" min="1" max="2"/>
+                    <token>une</token>
+                    <token>peu</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>une</token>
+                    </marker>
+                    <token>peu</token>
+                </pattern>
+                <message>Cette expression est invariable.</message>
+                <suggestion>un</suggestion>
+                <example correction="un">Il dérange <marker>une</marker> peu le commissaire.</example>
+                <example>Il termine finalement à une peu glorieuse septième place.</example>
+                <example>Il en a eu une peu glorieuse, c'était sa période difficile.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_VERBE_INFINITIF" name="à verbe infinitif">
             <antipattern>
                 <token postag="V.*" postag_regexp="yes"/>
