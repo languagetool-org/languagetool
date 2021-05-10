@@ -16409,7 +16409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rulegroup id="ON_NO" name="on/no" default="temp_off">
+        <rulegroup id="ON_NO" name="on/no">
             <rule>
                 <pattern>
                     <marker>
@@ -30957,7 +30957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="BE" name="be/bé">
             <antipattern>
                 <token inflected="yes">bé</token>
-                <token inflected="yes" regexp="yes">moble|immoble|quantiós|abundant|abundós|copiós</token>
+                <token inflected="yes" regexp="yes">moble|immoble|quantiós|abundant|abundós|copiós|superior|inferior</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">quantiós|abundant|abundós|copiós</token>
@@ -31010,6 +31010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els porcs i els bens.</example>
                 <example>s'afegeix a la resta del suc on ha cuit la llana, barrejant-ho bé.</example>
                 <example>Coneixia aquell porc tan bé com Alfred</example>
+                <example>Es va deixar la pell per un bé superior.</example>
             </rule>
             <rule>
                 <pattern>
@@ -34324,6 +34325,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <token regexp="yes" spacebefore="no">\d+\.\d+</token>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">món|indústria|revolució</token>
+                <token regexp="yes">[12345]\.0</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -62168,6 +62173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2"/> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
                 <example correction="als quals|a què|a qui">els homes <marker>als que</marker> vaig parlar</example>
+                <example correction="dels quals|de què|de qui">Informació sobre els mitjans materials i personals <marker>dels que</marker> es disposa.</example>
                 <example>els homes amb els quals vaig parlar</example>
             </rule>
             <rule>
