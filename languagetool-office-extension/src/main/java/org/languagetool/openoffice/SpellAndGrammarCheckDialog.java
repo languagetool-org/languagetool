@@ -61,8 +61,11 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.Tools;
+import org.languagetool.openoffice.OfficeTools.RemoteCheck;
+import org.languagetool.rules.RuleMatch;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
@@ -377,7 +380,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   private CheckError getNextSpellErrorInParagraph (int x, int nPara, String text, Locale locale, 
       Map<Integer, Set<Integer>> ignoredSpellMatches) {
-    List<CheckError> spellErrors = spellChecker.getSpellErrors(nPara, text, locale, ignoredSpellMatches);
+    List<CheckError> spellErrors;
+    if (lt.isRemote()) {
+      spellErrors = getRemoteSpellErrorInParagraph(nPara, text, locale, ignoredSpellMatches);
+    } else {
+      spellErrors = spellChecker.getSpellErrors(nPara, text, locale, ignoredSpellMatches);
+    }
     if (spellErrors != null) {
       for (CheckError spellError : spellErrors) {
         if (spellError.error != null && spellError.error.nErrorStart >= x) {
@@ -389,6 +397,41 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
     }
     return null;
+  }
+  
+  /**
+   * Get the first grammatical error in the flat paragraph y at or after character position x
+   */
+  private List<CheckError> getRemoteSpellErrorInParagraph(int nPara, String text, Locale locale, Map<Integer, Set<Integer>> ignoredSpellMatches) {
+    if (text == null || text.isEmpty()) {
+      return null;
+    }
+    List<CheckError> errorArray = new ArrayList<CheckError>();
+    try {
+      List<RuleMatch> matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
+      for (RuleMatch match : matches) {
+        String word = text.substring(match.getFromPos(), match.getToPos());
+        if (!spellChecker.isIgnoredMatch (match.getFromPos(), match.getToPos(), nPara, ignoredSpellMatches)
+            && !spellChecker.getLinguServices().isCorrectSpell(word, locale)) {
+          SingleProofreadingError aError = new SingleProofreadingError();
+          aError.nErrorType = TextMarkupType.SPELLCHECK;
+          aError.aFullComment = JLanguageTool.getMessageBundle().getString("desc_spelling");
+          aError.aShortComment = aError.aFullComment;
+          aError.nErrorStart = match.getFromPos();
+          aError.nErrorLength = match.getToPos() - match.getFromPos();
+          aError.aRuleIdentifier = spellRuleId;
+          errorArray.add(new CheckError(locale, aError));
+          if (match.getSuggestedReplacements() != null) {
+            aError.aSuggestions = match.getSuggestedReplacements().toArray(new String[match.getSuggestedReplacements().size()]);
+          } else {
+            aError.aSuggestions = new String[0];
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+    return errorArray;
   }
   
   /**
@@ -599,21 +642,43 @@ public class SpellAndGrammarCheckDialog extends Thread {
       try {
         for (int n = 0; n < docCache.size(); n++) {
           if (docCache.getNumberOfTextParagraph(n) < 0) {
-            AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(docCache.getFlatParagraph(n));
-            AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
-            for (int i = tokens.length - 1; i >= 0 ; i--) {
-              List<Integer> x ;
-              if (tokens[i].getToken().equals(word)) {
-                flatPara.changeTextOfParagraph(n, tokens[i].getStartPos(), word.length(), replace);
-                if (replacePoints.containsKey(n)) {
-                  x = replacePoints.get(n);
-                } else {
-                  x = new ArrayList<Integer>();
+            if (lt.isRemote()) {
+              String text = docCache.getFlatParagraph(n);
+              List<RuleMatch> matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
+              for (RuleMatch match : matches) {
+                List<Integer> x;
+                String matchWord = text.substring(match.getFromPos(), match.getToPos());
+                if (matchWord.equals(word)) {
+                  flatPara.changeTextOfParagraph(n, match.getFromPos(), word.length(), replace);
+                  if (replacePoints.containsKey(n)) {
+                    x = replacePoints.get(n);
+                  } else {
+                    x = new ArrayList<Integer>();
+                  }
+                  x.add(0, match.getFromPos());
+                  replacePoints.put(n, x);
+                  if (debugMode) {
+                    MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
+                  }
                 }
-                x.add(0, tokens[i].getStartPos());
-                replacePoints.put(n, x);
-                if (debugMode) {
-                  MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
+              }
+            } else {
+              AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(docCache.getFlatParagraph(n));
+              AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
+              for (int i = tokens.length - 1; i >= 0 ; i--) {
+                List<Integer> x ;
+                if (tokens[i].getToken().equals(word)) {
+                  flatPara.changeTextOfParagraph(n, tokens[i].getStartPos(), word.length(), replace);
+                  if (replacePoints.containsKey(n)) {
+                    x = replacePoints.get(n);
+                  } else {
+                    x = new ArrayList<Integer>();
+                  }
+                  x.add(0, tokens[i].getStartPos());
+                  replacePoints.put(n, x);
+                  if (debugMode) {
+                    MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
+                  }
                 }
               }
             }
@@ -628,6 +693,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
         replacePoints.put(docCache.getFlatParagraphNumber(n), docReplaces.get(n));
       }
       return replacePoints;
+    }
+    
+    public LinguisticServices getLinguServices() {
+      return linguServices;
     }
 
     /**

@@ -221,7 +221,7 @@ class SingleCheck {
             if (startErrPos >= startPos && startErrPos < endPos) {
               int toPos = docCache.getTextParagraph(i).length();
               if (toPos > 0) {
-                errorList.add(this.correctRuleMatchWithFootnotes(
+                errorList.add(correctRuleMatchWithFootnotes(
                     createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(i).charAt(toPos-1)),
                       footnotesBefore, footnotePos));
               }
@@ -700,7 +700,7 @@ class SingleCheck {
    * Correct SingleProofreadingError by footnote positions
    * footnotes before is the sum of all footnotes before the checked paragraph
    */
-  private SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int footnotesBefore, int[] footnotes) {
+  private static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int footnotesBefore, int[] footnotes) {
     if (footnotesBefore == 0 && (footnotes == null || footnotes.length == 0)) {
       return pError;
     }

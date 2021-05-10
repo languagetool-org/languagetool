@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.remote.CheckConfiguration;
 import org.languagetool.remote.CheckConfigurationBuilder;
 import org.languagetool.remote.RemoteConfigurationInfo;
@@ -60,6 +61,7 @@ class LORemoteLanguageTool {
   private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final List<Rule> allRules = new ArrayList<>();
+  private final List<Rule> spellingRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
 
   private Language language;
@@ -94,7 +96,7 @@ class LORemoteLanguageTool {
   /**
    * check a text by a remote LT server
    */
-  List<RuleMatch> check(String text, ParagraphHandling paraMode) throws IOException {
+  List<RuleMatch> check(String text, ParagraphHandling paraMode, RemoteCheck checkMode) throws IOException {
     if (!remoteRun) {
       return null;
     }
@@ -108,16 +110,43 @@ class LORemoteLanguageTool {
     }
     if (paraMode == ParagraphHandling.ONLYPARA) {
       configBuilder.ruleValues(ruleValues);
-      if (enabledRules.size() > 0) {
-        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+      Set<String> tmpEnabled = new HashSet<>();
+      if (checkMode == RemoteCheck.ALL || checkMode == RemoteCheck.ONLY_GRAMMAR) {
+        tmpEnabled.addAll(enabledRules);
+      }
+      if (checkMode == RemoteCheck.ALL || checkMode == RemoteCheck.ONLY_SPELL) {
+        for (Rule rule : spellingRules) {
+          tmpEnabled.add(rule.getId());
+        }
+      }
+      if (tmpEnabled.size() > 0) {
+        configBuilder.enabledRuleIds(tmpEnabled.toArray(new String[0]));
         configBuilder.enabledOnly();
       }
       configBuilder.mode("textLevelOnly");
     } else {
-      configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
-      configBuilder.disabledRuleIds(disabledRules.toArray(new String[0]));
-      configBuilder.ruleValues(ruleValues);
-      configBuilder.mode("allButTextLevelOnly");
+      if (checkMode == RemoteCheck.ALL || checkMode == RemoteCheck.ONLY_GRAMMAR) {
+        Set<String> tmpDisabled = new HashSet<>(disabledRules);
+        if (checkMode == RemoteCheck.ALL) {
+          for (Rule rule : spellingRules) {
+            tmpDisabled.remove(rule.getId());
+          }
+        }
+        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+        configBuilder.disabledRuleIds(tmpDisabled.toArray(new String[0]));
+        configBuilder.ruleValues(ruleValues);
+        configBuilder.mode("allButTextLevelOnly");
+      } else if (checkMode == RemoteCheck.ONLY_SPELL) {
+        Set<String> tmpEnabled = new HashSet<>();
+        for (Rule rule : spellingRules) {
+          tmpEnabled.add(rule.getId());
+        }
+        if (tmpEnabled.size() > 0) {
+          configBuilder.enabledRuleIds(tmpEnabled.toArray(new String[0]));
+          configBuilder.enabledOnly();
+        }
+        configBuilder.mode("allButTextLevelOnly");
+      }
     }
     configBuilder.level("picky");
     CheckConfiguration remoteConfig = configBuilder.build();
@@ -300,12 +329,16 @@ class LORemoteLanguageTool {
    */
   private void storeAllRules(List<Map<String,String>> listRuleMaps) {
     allRules.clear();
+    spellingRules.clear();
     for (Map<String,String> ruleMap : listRuleMaps) {
       Rule rule;
       if (ruleMap.containsKey("isTextLevelRule")) {
         rule = new RemoteTextLevelRule(ruleMap);
       } else {
         rule = new RemoteRule(ruleMap);
+      }
+      if (rule.isDictionaryBasedSpellingRule()) {
+        spellingRules.add(rule);
       }
       allRules.add(rule);
     }
