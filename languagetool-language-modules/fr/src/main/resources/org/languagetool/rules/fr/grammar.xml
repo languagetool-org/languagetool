@@ -662,6 +662,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="D_A_J" name="Concordance det+adv+adj">
             <antipattern>
+                <token postag="_GN_MS|N [me] (s|sp)" postag_regexp="yes"/>
+                <token skip="2" postag="P"/>
+                <token>des</token>
+                <token>plus</token>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_FS|N [fe] (s|sp)"  postag_regexp="yes"/>
+                <token skip="2" postag="P"/>
+                <token>des</token>
+                <token>plus</token>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>le</token>
                 <token regexp="yes">plus|moins|mieux|pis</token>
                 <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
@@ -856,7 +870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="intelligentes">Une femme des plus <marker>intelligents</marker></example>
                 <!-- Ambiguous: -->
                 <example>Une femme des plus <marker>intelligente</marker></example>
-                <example type="triggers_error">Un voyage dans la lune des plus savoureux.</example>
+                <example>Un voyage dans la lune des plus savoureux.</example>
             </rule>
             <!-- hommes des plus intelligents -->
             <rule default="temp_off">
@@ -916,7 +930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="intelligentes">femmes des plus <marker>intelligents</marker></example>
                 <example correction="encourageantes|encouragées">nouvelles des plus <marker>encourageant</marker></example>
                 <example>les rapides délices des plus beaux de nos jours !</example>
-                <example type="triggers_error">rencontre d'affaires des plus productive</example>
+                <example>rencontre d'affaires des plus productive</example>
             </rule>
             <rule>
                 <antipattern>
