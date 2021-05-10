@@ -13580,7 +13580,8 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token>quelques<exception scope="previous" postag="[PD].*" postag_regexp="yes"/></token>
+                        <token>quelques
+                            <exception scope="previous" postag="[PD].*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="J.*" postag_regexp="yes"/>
                     <token inflected="yes">que</token>
@@ -13593,7 +13594,8 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token>quelques<exception scope="previous" postag="[PD].*" postag_regexp="yes"/></token>
+                        <token>quelques
+                            <exception scope="previous" postag="[PD].*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="J . p" postag_regexp="yes"/>
                     <token inflected="yes">que</token>
@@ -13643,6 +13645,127 @@ though, and has since been slightly modified)-->
                 <example correction="un">Il dérange <marker>une</marker> peu le commissaire.</example>
                 <example>Il termine finalement à une peu glorieuse septième place.</example>
                 <example>Il en a eu une peu glorieuse, c'était sa période difficile.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VERBE_PRONOM" name="verbe pronom" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                    <token postag="R pers suj 2 s"/>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V ppa.*|V inf" postag_regexp="yes"/></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception>puis</exception>
+                            <exception postag="V .* 2 s" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="R pers suj 2 s">
+                        <exception scope="next" postag="R.* 2 s" postag_regexp="yes"/>
+                        <exception>vous-même</exception> </token>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 s"/></suggestion>
+                <example correction="Peux"><marker>Peut</marker> tu venir demain ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="V .* 2 p" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="R pers (obj|suj) 2 p" postag_regexp="yes"/>
+                    <token postag="V inf" skip="-1"/>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion><match no="2" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/></suggestion>
+                <example correction="Pouvez"><marker>Pouvons</marker> vous venir ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="V .* 1 s" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="R pers suj 1 s">
+                        <exception scope="next" postag="V.* 1 s" postag_regexp="yes"/></token>
+                    <token postag="V inf|V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 s"/></suggestion>
+                <example correction="Peux|Puis"><marker>Peut</marker> je venir demain ?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>je</token>
+                    <token>tue</token>
+                    <token>il</token>
+                </antipattern>
+                <antipattern>
+                    <token>il</token>
+                    <token>y</token>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                    <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V ppa.*|V inf" postag_regexp="yes"/></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="V .* 3 s" postag_regexp="yes"/>
+                            <exception regexp="yes">puis|a</exception> </token>
+                    </marker>
+                    <token postag="R pers suj 3 . s" postag_regexp="yes">
+                        <exception scope="next" postag="V. * 3 . s" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="Peut"><marker>Peux</marker> il venir demain ?</example>
+                <example>2003 : Je tue il, Paris, Gallimard.</example>
+                <example>Ils sont apparus il y a quelques années.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                    <token postag="R pers suj 3 [mf] p" postag_regexp="yes"/>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V ppa.*|V inf" postag_regexp="yes"/></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="V .* 3 p|J.*" postag_regexp="yes"/>
+                            <exception scope="previous" postag="R dem.*|R pers obj.*|Y|Z.*" postag_regexp="yes"/>
+                            <exception scope="previous" regexp="yes">quant|entres?</exception>
+                            <exception regexp="yes">puis|a</exception> </token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">ils|elles
+                        <exception scope="next" regexp="yes">possible</exception></token>
+                </pattern>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion><match no="1" postag="(V .*) [123] s" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="Peuvent"><marker>Peut</marker> ils venir demain ?</example>
+                <example>Cela se produit par évaporation moyenne ils se crystallisent donc à la surface.</example>
+                <example>Il les pousse elles aussi à partir.</example>
+                <example>Serait ils possible d'avoir un stylo ?</example>
+                <example>Elle sont quant à elles très grandes.</example>
+                <example>A elles d'assumer les conséquences.</example>
             </rule>
         </rulegroup>
         <rule id="A_VERBE_INFINITIF" name="à verbe infinitif">
