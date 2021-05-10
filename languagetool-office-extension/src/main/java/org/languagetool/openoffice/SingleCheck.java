@@ -124,7 +124,7 @@ class SingleCheck {
       }
       List<Integer> changedParas = new ArrayList<Integer>();
       changedParas.add(lastChangedPara);
-      remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+      remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
     }
     this.lastSinglePara = lastSinglePara;
     if (numParasToCheck != 0 && paraNum >= 0) {
@@ -148,9 +148,9 @@ class SingleCheck {
         if (isDialogRequest && textIsChanged) {
           List<Integer> changedParas = new ArrayList<Integer>();
           changedParas.add(paraNum);
-          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
         } else if (!useQueue || isDialogRequest) {
-          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
         }
       }
     }
@@ -274,7 +274,7 @@ class SingleCheck {
               }
               MessageHandler.printToLogFile(tmpText);
             }
-            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
           }
         }
 /*        
@@ -323,11 +323,11 @@ class SingleCheck {
    * remark changed paragraphs
    * override existing marks
    */
-  public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara) {
+  public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara, SwJLanguageTool lt) {
     if (!mDocHandler.isSwitchedOff()) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int nPara : changedParas) {
-        changedParasMap.put(nPara, getSentenceErrosAsList(nPara));
+        changedParasMap.put(nPara, getSentenceErrosAsList(nPara, lt));
       }
       flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
     }
@@ -718,7 +718,7 @@ class SingleCheck {
   /**
    * get all errors of a Paragraph as list
    */
-  private List<SentenceErrors> getSentenceErrosAsList(int numberOfParagraph) {
+  private List<SentenceErrors> getSentenceErrosAsList(int numberOfParagraph, SwJLanguageTool lt) {
     List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
     CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
     List<Integer> nextSentencePositions = null;
@@ -729,7 +729,7 @@ class SingleCheck {
       nextSentencePositions = new ArrayList<Integer>();
     }
     if (nextSentencePositions.size() == 0 && docCache != null) {
-      nextSentencePositions.add(docCache.getFlatParagraph(numberOfParagraph).length());
+      nextSentencePositions =  getNextSentencePositions (docCache.getFlatParagraph(numberOfParagraph), lt);
     }
     int startPosition = 0;
     for (int nextPosition : nextSentencePositions) {

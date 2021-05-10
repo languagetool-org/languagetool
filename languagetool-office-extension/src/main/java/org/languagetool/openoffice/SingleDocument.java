@@ -517,7 +517,7 @@ class SingleDocument {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+    singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, mDocHandler.getLanguageTool());
   }
 
   /**
