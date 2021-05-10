@@ -145,7 +145,7 @@ abstract class TextChecker {
     }
   }
 
-  private static Language parseLanguage(String code) throws BadRequestException {
+  protected static Language parseLanguage(String code) throws BadRequestException {
     try {
       return Languages.getLanguageForShortCode(code);
     } catch (IllegalArgumentException e) {
