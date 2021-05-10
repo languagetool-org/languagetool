@@ -37,8 +37,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY mois_annee "jan(v?ier)?|f[eé]v(rier)?|mars|avril|mai|juin|jui(llet)?|ao[uû]t|sept?(embre)?|oct(obre)?|nov(embre)?|d[eé]c(embre)?">
     <!ENTITY jours_semaine "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche">
     <!ENTITY unites_temps "matinée|journée|an|année|décade|décennie|h(eure)?|j(our)?|lustre|millénaire|min(ute)?|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
+    <!ENTITY parties_journee "matin|soir|midi|minuit">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
-    <!ENTITY expression_deux_mots_trait_union "communication|situation|partenariat|section|cycle|concertation|rencontre|alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
+    <!ENTITY expression_deux_mots_trait_union "ratio|communication|situation|partenariat|section|cycle|concertation|rencontre|alliage|association|binôme|concordance|connexion|corpus|correction|correcteur|débat|dictionnaire|dualité|figure|interprétation|interprète|parallèle|paire|relation|rapport|traduction|traducteur|axe|tableau">
     <!ENTITY suivi_par_nombre "acte|canal|chapitre|cycle|division|exercice|figure|formule|ligne|leçon|master|numéro|option|page|phase|partie|saison|scène|section|spin|stade|taille|terminal|tome|top|total|variante|vers|verset|version|volume|zone|épisode|étape|type|classe|catégorie|ordre|salle|chiffre|nombre|nº|tableau|quai|point|article|mode|niveau|degré|départementale|nationale">
     <!ENTITY unites_de_mesure "(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?|ms|s|cs|cc|dB">
     <!ENTITY departement "Ain|Aisne|Allier|Alpes-de-Haute-Provence|Hautes-Alpes|Alpes-Maritimes|Ardèche|Ardennes|Ariège|Aube|Aude|Aveyron|Bouches-du-Rhône|Calvados|Cantal|Charente|Charente-Maritime|Cher|Corrèze|Corse-du-Sud|Haute-Corse|Côte-d'Or|Côtes d'Armor|Creuse|Dordogne|Doubs|Drôme|Eure|Eure-et-Loir|Finistère|Gars|Haute-Garonne|Gers|Gironde|Hérault|Ille-et-Vilaine|Indre|Indre-et-Loire|Isère|Jura|Landes|Loir-et-Cher|Loire|Haute-Loire|Loire-Atlantique|Loiret|Lot|Lot-et-Garonne|Lozère|Maine-et-Loire|Manche|Marne|Haute-Marne|Mayenne|Meurthe-et-Moselle|Meuse|Morbihan|Moselle|Nièvre|Nord|Oise|Orne|Pas-de-Calais|Puy-de-Dôme|Pyrénées-Atlantiques|Hautes-Pyrénées|Pyrénées-Orientales|Bas-Rhin|Haut-Rhin|Rhône|Haute-Saône|Saône-et-Loire|Sarthe|Savoie|Haute-Savoie|Paris|Seine-Maritime|Seine-et-Marne|Yvelines|Deux-Sèvres|Somme|Tarn|Tarn-et-Garonne|Var|Vaucluse|Vandée|Vienne|Haute-Vienne|Vosges|Yonne|Territoire de Belfort|Essonne|Hauts-de-Seine|Seine-St-Denis|Val-de-Marne|Val-D'Oise|Guadeloupe|Martinique|Guyane|La Réunion|Mayotte">
@@ -1956,7 +1957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond|tabac</token>
-                <token regexp="yes">clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine|chiné|verdâtre</token>
+                <token regexp="yes">dense|clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine|chiné|verdâtre</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">maximum|minimum|anti-.*|top|sport|western</token>
@@ -2061,7 +2062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!--<token inflected="yes" skip="4">passer</token>-->
                 <token postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">&unites_temps;|instant|moment</token>
+                <token regexp="yes" inflected="yes">&unites_temps;|instant|moment|&parties_journee;</token>
                 <token min="0" max="3" postag="A"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
@@ -2217,6 +2218,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">en|une?|sans|bien|pour|de|tout|fin|au</token>
                 <token regexp="yes">majeure|petit|peu|aucun|tou[ts]|quelque|bonne|l(e)?|des?|ainsi|grand|format</token>
                 <token regexp="yes">part(ie)?|peu|cause|doute|points?|égards|moins|manière|dire|monde|heure|nombre|soirée|identité</token>
+                <token postag="A.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token regexp="yes">brin|poil</token>
                 <token postag="A.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
@@ -2884,6 +2891,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>l'enseignement primaire supérieur 1re et 2e années</example>
             <example>Créez votre compte pour accéder à l'édition abonnés.</example>
             <example>Mais je ne suis que de très courts instants absorbée par un désir ou une peur.</example>
+            <example>lorsqu'elle se voit un soir accusée par Ettore lui-même</example>
+            <example>le ratio actifs/inactifs</example>
+            <example>Tentons d'être le plus actifs possible.</example>
+            <example>Il s'est montré un brin désinvolte.</example>
+            <example>Venez nous rencontrer sur notre stand allée D28.</example>
+            <example>les eaux bleu dense de l'océan</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -13700,6 +13713,8 @@ though, and has since been slightly modified)-->
                 <example correction="Peut"><marker>Peux</marker> il venir demain ?</example>
                 <example>2003 : Je tue il, Paris, Gallimard.</example>
                 <example>Ils sont apparus il y a quelques années.</example>
+                <example type="triggers_error">De temps en temps, nous avions elle et moi les mêmes goûts musicaux.</example>
+                <!-- TODO: better suggestions: ont-il > ont-ils, sont-il > sont-ils, sont-elle>sont-elles-->
             </rule>
             <rule>
                 <antipattern>
@@ -13729,6 +13744,7 @@ though, and has since been slightly modified)-->
                 <example>Serait ils possible d'avoir un stylo ?</example>
                 <example>Elle sont quant à elles très grandes.</example>
                 <example>A elles d'assumer les conséquences.</example>
+                <example type="triggers_error">Si tu étais elles, que ferais-tu ?</example>
             </rule>
         </rulegroup>
         <rule id="A_VERBE_INFINITIF" name="à verbe infinitif">
