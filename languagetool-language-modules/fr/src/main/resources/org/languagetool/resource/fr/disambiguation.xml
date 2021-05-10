@@ -1072,6 +1072,15 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
+    <rule id="SURPRISE" name="surprise">
+        <pattern>
+            <token>succès</token>
+            <marker>
+                <token>surprise</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="J e sp"/>
+    </rule>
     <rule id="CHARGE_PROJET" name="ondes radio">
         <pattern>
             <token regexp="yes">chargée?s?|acheteurs?</token>
@@ -1272,6 +1281,13 @@ RB => Règles Brutes
         <pattern>
             <token postag="N f s" regexp="yes">réduction|remise|référence</token>
             <token postag="N m s" regexp="yes">étudiant|abonné</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="réduction étudiant" id="EDITION_ABONNE">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">édition|réduction|remise|référence</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">étudiant|abonné</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>

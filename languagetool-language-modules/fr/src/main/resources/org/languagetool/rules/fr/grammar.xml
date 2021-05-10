@@ -174,8 +174,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">le</token>
-                        <token regexp="yes">héro</token>
+                        <token>le</token>
+                        <token>héro</token>
                     </marker>
                 </pattern>
                 <message>S'il s'agit d'un personne, il s'écrit <suggestion>le héros</suggestion>. S'il s'agit d'héroïne (la drogue), il s'écrit <suggestion>l'héro</suggestion>.</message>
@@ -1055,7 +1055,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="Z.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <!-- checked by AGREEMENT_POSTPONED_ADJ -->
                 <token postag="P.*" postag_regexp="yes"/>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -1228,7 +1227,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>les deux parcs éoliens offshore</example>
                 <example>Faites attention à ce que je dis.</example>
                 <example>De l'Air Force, de la Navy et du Marine Corps dans les décennies à venir.</example>
-                <!--  Wrong but detected by AGREEMENT_POSTPONED_ADJ: -->
                 <example>Un prix d'entrée amicales.</example>
                 <example>Un prix d'entrée amical.</example>
                 <example>Honoraires inclus charge acquéreur.</example>
@@ -1891,6 +1889,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
             <antipattern>
+                <token postag="J [fe] s" postag_regexp="yes" regexp="yes">\d+.*</token>
+                <token>année</token>
+            </antipattern>
+            <antipattern>
+                <token postag="J [fe] s" postag_regexp="yes" regexp="yes">\d+.*</token>
+                <token>et</token>
+                <token postag="J [fe] s" postag_regexp="yes" regexp="yes">\d+.*</token>
+                <token regexp="yes">années?</token>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">être</token>
                 <token>le</token>
                 <token regexp="yes">plus|moins|mieux|pis</token>
@@ -2049,6 +2057,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!--<token inflected="yes" skip="4">passer</token>-->
                 <token postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&unites_temps;|instant|moment</token>
+                <token min="0" max="3" postag="A"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">court|long</token>
                 <token regexp="yes" inflected="yes">&unites_temps;|instant|moment</token>
                 <token min="0" max="3" postag="A"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
@@ -2861,6 +2875,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lorsque trois couleurs minimum se touchent en ligne ou en colonne.</example>
             <example>Cyan est une couleur bleu verdâtre.</example>
             <example>Parcours découverte.</example>
+            <example>Le film a été l'un des succès surprise au box office américain.</example>
+            <example>Cours moyen 1ʳᵉ et 2ᵉ années, cours supérieur 1ʳᵉ année.</example>
+            <example>l'enseignement primaire supérieur 1re et 2e années</example>
+            <example>Créez votre compte pour accéder à l'édition abonnés.</example>
+            <example>Mais je ne suis que de très courts instants absorbée par un désir ou une peur.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
