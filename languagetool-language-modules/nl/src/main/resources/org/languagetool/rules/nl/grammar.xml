@@ -9655,7 +9655,7 @@ onwaarschijnlijk
 						<token postag="ENM:ORG"/>
 						<token postag_regexp="yes" postag="ZNW.*">
 							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
-							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do</exception>
+							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des</exception>
 							<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
 						</token>
 					</marker>
@@ -10290,6 +10290,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="VLAKBIJ" name="vlakbij /vlak bij">
 			<rule>
+				<antipattern><token>van</token><token>dichtbij</token></antipattern>
 				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
 				<pattern>
 					<marker>
@@ -12446,13 +12447,14 @@ onwaarschijnlijk
 		<rulegroup id="GROTERE_ALS" name="grotere als">
 			<rule>
 				<antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger</token><token>als</token></antipattern>
+				<antipattern><token>als</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
 				<pattern>
 					<token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"/>
 					<token>als</token>
 				</pattern>
-				<message>Als dit een vergelijking is, dan is juist: <suggestion><match no="1"/> dan</suggestion>.</message>
+				<message>Als dit een vergelijking is, dan vinden velen beter: <suggestion><match no="1"/> dan</suggestion>.</message>
 				<short>dan</short>
-				<example correction="grotere dan">Het is een <marker>grotere als</marker> Kees.</example>
+				<example correction="grotere dan">Het is een <marker>grotere als</marker> hij dacht.</example>
 				<example correction="Verder dan"><marker>Verder als</marker> de living gingen ze niet.</example>
 			</rule>
 		</rulegroup>
@@ -17544,6 +17546,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token postag="WKW:TGW:1EP" skip="3"/><token skip="2">maar</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token>maar</token><token>heel</token><token>weinig</token></antipattern>
 				<antipattern><token>toch</token><token>maar</token><token>niet</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>de</token><token postag="ZNW.*DE_" postag_regexp="yes"/><token>maar</token></antipattern>
@@ -18661,7 +18666,7 @@ steenwijk;Steenwijk
 					<token><exception postag="SENT_START"/><exception regexp="yes">&apostrof;|&quote;</exception></token>
 					<token>maar</token>
 				</pattern>
-				<message>Voor '\2' komt vaak (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/komma-algemene-regels</url>
 				<example correction="iedereen, maar">Zij vertelde het aan <marker>iedereen maar</marker> toch was dat niet de bedoeling.</example>
 
@@ -19424,8 +19429,9 @@ steenwijk;Steenwijk
 					<marker>
 						<token>de</token>
 					</marker>
-					<token postag="ZNW:EKV:HET"/>
-					<token/>
+					<token postag="ZNW:EKV:HET"><exception postag="GET:MRV"/></token>
+					<!-- de regel wordt vaak genegeerd als het om een spatiefout gaat. Beter om dat door een andere egel te laten signaleren -->
+					<token><exception postag_regexp="yes" postag="ZNW.*DE_"/></token>
 				</pattern>
 				<message>Bij \2 hoort meestal <suggestion>het</suggestion>; het kan ook een spatiefout zijn.</message>
 				<example correction="het">Ik loop in <marker>de</marker> veld.</example>
@@ -38523,7 +38529,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token spacebefore="yes" regexp="yes">[-—]</token><token skip="-1" spacebefore="yes"/><token spacebefore="yes" regexp="yes">[-—]</token><token spacebefore="yes"/></antipattern>
 				<pattern>
-					<token/>
+					<token><exception>zich</exception></token>
 					<token spacebefore="yes" regexp="yes">[-—]</token>
 					<token spacebefore="yes" regexp="yes">en|of</token>
 					<token/>
