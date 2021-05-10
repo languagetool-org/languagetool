@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
-
 <!--
   Galician Grammar and Typo Rules for LanguageTool
   Copyright (C) 2006 Marcin Miłkowski
@@ -4488,23 +4487,9 @@
       <example correction="dedicar">Acordaron <marker>adicar</marker> máis tempo ás tarefas pendentes.</example>
     </rule>
     </rulegroup>
+
  </category>
-
-    <!--
-    <rule id="PUNTUAL" name="puntual (concreto)">
-    <! Created by Susana Sotelo Docío >
-      <pattern>
-          <token inflected="yes">puntual</token>
-      </pattern>
-      <message>Posíbel castelanismo: o adxectivo "puntual" significa en galego "que fai algo no seu tempo". A forma correcta en galego para o sentido de "preciso" ou "determinado" é "concreto".</message>
-      <short>Posíbel forma incorrecta</short>
-      <example type="incorrect"> <marker>aportar</marker> algo ao proxecto.</example>
-      <example>Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
-    </rule>
-    -->
-
-    <!-- ############################ SPELLING RULES ############################ -->
-
+ 
 <category id="CAT7" name="Ortografía" type="misspelling">
 
   <rulegroup id="ACCESIT" name="accésits (accésit)">
@@ -4732,7 +4717,23 @@
       <example correction="esta">Eles consideran que se lle das confianza á xente <marker>ésta</marker> responderá correctamente.</example>
     </rule>
   </rulegroup>
- </category>
+ 
+	<rulegroup id="ACRONYMS_PLURAL" name="Siglas: Plural">
+		<rule>	
+			<pattern>
+				<token regexp="yes">(?:\p{Lu}*)s</token>
+			</pattern>
+			<message>O plural dunha sigla só se marca no artigo ou nalgunha das palabras que a acompañan. Empregue <suggestion><match
+			no="1" regexp_match="(\p{Lu}*)s"
+			regexp_replace="$1"/></suggestion>.
+			</message>
+			<url>https://www.usc.gal/gl/servizos/snl/asesoramento/fundamentos/criterios/abreviacion.html</url>
+			<short>As siglas non teñen forma de plural</short>
+			<example correction="DNI">Temos os <marker>DNIs</marker> caducados.</example> 	
+ 		</rule>
+	</rulegroup>
+
+</category>
 
 <category id="CAT8" name="Fraseoloxía" type="untranslated">
   <rulegroup id="LOCUCIÓNS" name="locucións e frases feitas">
