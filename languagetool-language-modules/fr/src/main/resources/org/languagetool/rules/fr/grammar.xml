@@ -1364,14 +1364,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_PEU" name="Concordances avec 'peu'" default="temp_off">
             <rule>
-                <pattern>
-                    <token>quelques</token>
-                    <token>peu</token>
-                </pattern>
-                <message>Vouliez-vous écrire <suggestion>quelque peu</suggestion> ?</message>
-                <example correction="quelque peu">Il est connu pour avoir <marker>quelques peu</marker> chamboulé l'ordre esthétique.</example>
-            </rule>
-            <rule>
                 <antipattern>
                     <token>une</token>
                     <token>peu</token>
@@ -1379,14 +1371,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="3" postag="V ppa f s|J [fe] (s|sp)|C coor" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token postag="V .*" postag_regexp="yes" min="1" max="2"/>
+                    <token>une</token>
+                    <token>peu</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">une|unes|uns</token>
                     <token>peu</token>
                 </pattern>
-                <message>Vouliez-vous écrire <suggestion>un peu</suggestion> ?</message>
+                <message>Cette expression est invariable.</message>
+                <suggestion>un peu</suggestion>
+                <example correction="un peu">Peux-tu me donner <marker>une peu</marker> de sucre.</example>
                 <example correction="un peu">Mettons <marker>une peu</marker> de distance entre nous.</example>
                 <example correction="un peu">où il a <marker>une peu</marker> gris-marron</example>
                 <example correction="un peu">La formule de la Vulgate est <marker>une peu</marker> différente.</example>
+                <example correction="un peu">Il dérange <marker>une peu</marker> le commissaire.</example>
+                <example>Il termine finalement à une peu glorieuse septième place.</example>
+                <example>Il en a eu une peu glorieuse, c'était sa période difficile.</example>
                 <example>une peu glorieuse 7e place</example>
                 <example>une peu reluisante avant-dernière place</example>
                 <example>Il termine à une peu reluisante treizième et avant-dernière place</example>
@@ -13564,18 +13568,17 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
     </category>
-    <category id="CAT_GRAMMAIRE" name="Grammaire"> 
+    <category id="CAT_GRAMMAIRE" name="Grammaire">
         <rulegroup id="QUELQUE_PEU" name="quelque peu" default="temp_off">
             <rule>
                 <pattern>
-                    <marker>
-                        <token>quelques</token>
-                    </marker>
+                    <token>quelques</token>
                     <token>peu</token>
                 </pattern>
                 <message>Cette expression est invariable.</message>
-                <suggestion>quelque</suggestion>
-                <example correction="quelque">Il est <marker>quelques</marker> peu surpris.</example>
+                <suggestion>quelque peu</suggestion>
+                <example correction="quelque peu">Il est <marker>quelques peu</marker> surpris.</example>
+                <example correction="quelque peu">Il est connu pour avoir <marker>quelques peu</marker> chamboulé l'ordre.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13605,46 +13608,6 @@ though, and has since been slightly modified)-->
                 <message>Cette expression est invariable.</message>
                 <suggestion>quelque</suggestion>
                 <example correction="Quelque"><marker>Quelques</marker> jolies qu'elles puissent être, ces robes sont tout de même trop chères.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>une</token>
-                    </marker>
-                    <token>peu</token>
-                    <token inflected="yes">de</token>
-                </pattern>
-                <message>Cette expression est invariable.</message>
-                <suggestion>un</suggestion>
-                <example correction="un">Peux-tu me donner <marker>une</marker> peu de sucre.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>une</token>
-                    <token>peu</token>
-                    <token postag="J.*" postag_regexp="yes"/>
-                    <token min="0" max="1">et</token>
-                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>en</token>
-                    <token postag="V .*" postag_regexp="yes" min="1" max="2"/>
-                    <token>une</token>
-                    <token>peu</token>
-                    <token postag="J.*" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>une</token>
-                    </marker>
-                    <token>peu</token>
-                </pattern>
-                <message>Cette expression est invariable.</message>
-                <suggestion>un</suggestion>
-                <example correction="un">Il dérange <marker>une</marker> peu le commissaire.</example>
-                <example>Il termine finalement à une peu glorieuse septième place.</example>
-                <example>Il en a eu une peu glorieuse, c'était sa période difficile.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBE_PRONOM" name="verbe pronom" default="temp_off">
