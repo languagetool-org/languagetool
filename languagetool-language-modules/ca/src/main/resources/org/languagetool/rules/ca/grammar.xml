@@ -4909,53 +4909,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(N.|A..).([SP]).*" postag_regexp="yes" postag_replace="DP3C$2P">son</match> \2</suggestion>
                 <example correction="llurs perspectives">Des de <marker>llur perspectives</marker>.</example>
             </rule>
-            <rule id="FI" name="*la/el fi (finalitat)">
-                <pattern>
-                    <token>amb</token>
-                    <marker>
-                        <token>la</token>
-                        <token>fi</token>
-                    </marker>
-                    <token inflected="yes">de</token>
-                    <token postag="V.N.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Amb el sentit de 'finalitat, propòsit' és masculí.</message>
-                <suggestion>el fi</suggestion>
-                <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
-            </rule>
-            <rule id="FI1" name="*la/el fi (finalitat)">
-                <pattern>
-                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token>a</token>
-                    <marker>
-                        <token postag="D..F.*" postag_regexp="yes"/>
-                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
-                    </marker>
-                </pattern>
-                <message>Amb el sentit de 'finalitat, propòsit' és masculí.</message>
-                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> \5</suggestion>
-                <example correction="aqueix fi">Dedicat expressament a <marker>aqueixa fi</marker>.</example>
-                <example correction="aqueixos fins">Dedicat expressament a <marker>aqueixes fins</marker>.</example>
-                <example>Dedicat a aqueixes fins demà.</example>
-            </rule>
-            <rule id="FI2" name="*la/el fi (finalitat)">
-                <pattern>
-                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token>a</token>
-                    <marker>
-                        <token postag="D..F.*" postag_regexp="yes"/>
-                        <token postag="A..[FC].*" postag_regexp="yes"/>
-                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
-                    </marker>
-                </pattern>
-                <message>Amb el sentit de 'finalitat, propòsit' és masculí.</message>
-                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="5" postag="(A..)[FC](.*)" postag_regexp="yes" postag_replace="$1[MC]$2"/> \6</suggestion>
-                <example correction="un bo fi|un bon fi">Dedicat expressament a <marker>una bona fi</marker>.</example>
-                <example correction="aquests nobles fins">Dedicat expressament a <marker>aquestes nobles fins</marker>.</example>
-                <example>Dedicat a aqueixes fins demà.</example>
-            </rule>
             <rule id="UN_ARMA" name="*un/una arma">
                 <pattern>
                     <token>un</token>
@@ -5053,6 +5006,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://dlc.iec.cat/Results?DecEntradaText=ritual</url>
                 <example correction="Aquests rituals"><marker>Aquestes rituals</marker> són molt bonics.</example>
                 <example>Les rituals trobades de la tribu.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="el/la fi" id="FI">
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <marker>
+                        <token>la</token>
+                        <token>fi</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion>el fi</suggestion>
+                <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>la</token>
+                        <token>fi</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion>a fi</suggestion>
+                <example correction="A fi"><marker>A la fi</marker> d'arribar a la meta el primer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>a</token>
+                    <marker>
+                        <token postag="D..F.*" postag_regexp="yes"/>
+                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> \5</suggestion>
+                <example correction="aqueix fi">Dedicat expressament a <marker>aqueixa fi</marker>.</example>
+                <example correction="aqueixos fins">Dedicat expressament a <marker>aqueixes fins</marker>.</example>
+                <example>Dedicat a aqueixes fins demà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>a</token>
+                    <marker>
+                        <token postag="D..F.*" postag_regexp="yes"/>
+                        <token postag="A..[FC].*" postag_regexp="yes"/>
+                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de 'finalitat, propòsit', "fi" és masculí.</message>
+                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="5" postag="(A..)[FC](.*)" postag_regexp="yes" postag_replace="$1[MC]$2"/> \6</suggestion>
+                <example correction="un bo fi|un bon fi">Dedicat expressament a <marker>una bona fi</marker>.</example>
+                <example correction="aquests nobles fins">Dedicat expressament a <marker>aquestes nobles fins</marker>.</example>
+                <example>Dedicat a aqueixes fins demà.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
@@ -16393,6 +16409,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rulegroup id="ON_NO" name="on/no">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="1">on</token>
+                    </marker>
+                    <token inflected="yes">saber</token>
+                    <token>si</token>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>no</suggestion>?</message>
+                <example correction="No"><marker>On</marker> sé si és veritat.</example>
+            </rule>
+        </rulegroup>
+        <rule id="RESOL" name="resol/ressol">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token min="0" inflected="yes">el</token>
+                <token>ressol</token>
+            </antipattern>
+            <antipattern>
+                <token>el</token>
+                <token>ressol</token>
+            </antipattern>
+            <pattern>
+                <token>ressol</token>
+            </pattern>
+            <message>Si és del v. 'resoldre', s'escriu <suggestion>resol</suggestion>. Correcte en el sentit de 'reverberació del sol'.</message>
+            <example correction="resol">Això es <marker>ressol</marker> fàcilment</example>
+            <example correction="Resol"><marker>Ressol</marker> aquesta equació.</example>
+            <example>Hi havia molt de ressol.</example>
+            <example>Amb el ressol que feia.</example>
+            <example>Del ressol que feia.</example>
+        </rule>
         <rule id="LA_SE_VA" name="la se va/la seva">
             <pattern>
                 <token>la</token>
@@ -30908,7 +30957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="BE" name="be/bé">
             <antipattern>
                 <token inflected="yes">bé</token>
-                <token inflected="yes" regexp="yes">moble|immoble|quantiós|abundant|abundós|copiós</token>
+                <token inflected="yes" regexp="yes">moble|immoble|quantiós|abundant|abundós|copiós|superior|inferior</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">quantiós|abundant|abundós|copiós</token>
@@ -30961,6 +31010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els porcs i els bens.</example>
                 <example>s'afegeix a la resta del suc on ha cuit la llana, barrejant-ho bé.</example>
                 <example>Coneixia aquell porc tan bé com Alfred</example>
+                <example>Es va deixar la pell per un bé superior.</example>
             </rule>
             <rule>
                 <pattern>
@@ -33906,6 +33956,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <rulegroup name="decret llei" id="DECRET_LLEI">
+            <rule>
+                <pattern>
+                    <token inflected="yes">decret</token>
+                    <token>-</token>
+                    <token inflected="yes">llei</token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion>\1 llei</suggestion>
+                <example correction="decrets llei">Va aprovar dos <marker>decrets-lleis</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">decret</token>
+                    <token>lleis</token>
+                </pattern>
+                <message>La forma correcta de plural és <suggestion>\1 llei</suggestion>.</message>
+                <example correction="decrets llei">Va aprovar dos <marker>decrets lleis</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="QUATRE_PUNTS" name=" més de tres punts suspensius">
             <pattern>
                 <token>.</token>
@@ -34255,6 +34325,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <token regexp="yes" spacebefore="no">\d+\.\d+</token>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">món|indústria|revolució</token>
+                <token regexp="yes">[12345]\.0</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -34859,6 +34933,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rulegroup id="REIAL_DECRET" name="reial decret llei">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">reial|Reial</token>
+                    <token>decret</token>
+                    <token regexp="yes">llei|legislatiu</token>
+                </antipattern>
+                <pattern>
+                    <token>Reial</token>
+                    <token>Decret</token>
+                    <token regexp="yes">Llei|legislatiu</token>
+                </pattern>
+                <message>Majúscules i minúscules recomanades</message>
+                <suggestion>Reial decret <match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="Reial decret llei"><marker>Reial decret Llei</marker> 21/2010</example>
+                <example correction="Reial decret llei"><marker>Reial Decret Llei</marker> 21/2010</example>
+                <example correction="Reial decret legislatiu"><marker>Reial Decret Legislatiu</marker> 21/2010</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Reial</token>
+                    <token>Decret</token>
+                </pattern>
+                <message>Majúscules i minúscules recomanades</message>
+                <suggestion>Reial decret</suggestion>
+                <example correction="Reial decret"><marker>Reial Decret</marker> 21/2010</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Decret</token>
+                    <token>Legislatiu</token>
+                </pattern>
+                <message>Majúscules i minúscules recomanades</message>
+                <suggestion>Decret legislatiu</suggestion>
+                <example correction="Decret legislatiu"><marker>Decret Legislatiu</marker> 21/2010</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAJUSCULA_IMPROBABLE_" name="majúscula incorrecta" default="temp_off">
             <rule>
                 <antipattern>
@@ -61985,6 +62096,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>provocar el contrari del que voldria</example>
                 <example>la realitat, fent-nos càrrec del que és</example>
                 <example>Queda pendent del que resolguin els jutjats.</example>
+                <example>Queda subjecte al que es disposa en la LAU.</example>
+                <example>A l'efecte del que es disposa en la LAU.</example>
             </rule>
             <rule>
                 <pattern>
@@ -62060,6 +62173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2"/> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
                 <example correction="als quals|a què|a qui">els homes <marker>als que</marker> vaig parlar</example>
+                <example correction="dels quals|de què|de qui">Informació sobre els mitjans materials i personals <marker>dels que</marker> es disposa.</example>
                 <example>els homes amb els quals vaig parlar</example>
             </rule>
             <rule>

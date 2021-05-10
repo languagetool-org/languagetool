@@ -51,7 +51,7 @@ public class RemoteRuleCacheTest {
 
   static class TestRemoteRule extends RemoteRule {
     private static final RemoteRuleConfig testConfig = new RemoteRuleConfig(
-      "TEST_REMOTE_RULE", "example.com", 1234, 0, 0L, 0.0f, 1, 10L, Collections.emptyMap());
+      "TEST_REMOTE_RULE", "example.com", 1234, 0, 0L, 0.0f, 1, 10L, 0L, 0L, Collections.emptyMap());
 
     TestRemoteRule() {
       super(new Demo(), JLanguageTool.getMessageBundle(), testConfig, false);

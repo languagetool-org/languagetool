@@ -131,20 +131,13 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     }
   }
   
-  private boolean isException(String w) {
+  @Override
+  protected boolean isException(String w) {
     // remove: 've, 's, 're...
     return w.startsWith("'") || exceptions.contains(w);  
   }
-  
-  private String[] removeExceptions(String[] words) {
-    List<String> results = new ArrayList<>();
-    for (String word : words) {
-      if (!isException(word)) {
-        results.add(word);
-      }
-    }
-    return results.toArray(new String[0]);
-  }
+
+
 
 }
 

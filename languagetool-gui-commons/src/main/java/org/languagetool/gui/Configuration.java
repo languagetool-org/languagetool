@@ -1388,6 +1388,9 @@ public class Configuration {
   }
 
   public void saveConfiguration(Language lang) throws IOException {
+    if (lang == null) {
+      lang = this.lang;
+    }
     Properties props = new Properties();
     String qualifier = getQualifier(lang);
 

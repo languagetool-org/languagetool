@@ -3462,6 +3462,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="VLIJEN_VLEIEN" name="waarschuwing bij gebruik vleien i.p.v. vlijen">
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token inflected="yes">voelen</token></antipattern>
 				<pattern><token inflected="yes">vleien</token></pattern>
 				<message>Bedoelt u misschien <suggestion><match no="1" regexp_match="lei" regexp_replace="lij" /></suggestion> (gaan liggen)? Of toch 'vleien': naar de mond praten?</message>
 				<example correction="vlijde">Het woord <marker>vleide</marker> kan een vergissing zijn.</example>
@@ -10377,7 +10378,7 @@ onwaarschijnlijk
 				<example correction="dankjewel">Een <marker>dankje wel</marker> voor deze fijne momenten samen!</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="COLLEGA_ZNW" name=" ">
+		<rulegroup id="COLLEGA_ZNW" name="collega minister → collega-minister">
 			<rule>
 				<antipattern><token>collega</token><token regexp="yes">van|heeft|een</token></antipattern>
 				<antipattern><token>collega</token><token postag="BNW.*|WKW.*" postag_regexp="yes"/></antipattern>
@@ -12282,7 +12283,7 @@ onwaarschijnlijk
 				<example correction="vijftienjarig jubileum">Hij vierde het <marker>vijftienjarig lustrum</marker> met verve.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="A_APO_S" name=" ">
+		<rulegroup id="A_APO_S" name="xxx 's → xxx's">
 			<rule>
 				<pattern>
 					<marker>
@@ -16288,6 +16289,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KERSTMAN" name="een kerstman, de Kerstman" type="misspelling">
 			<rule>
+				<antipattern><token regexp="yes" skip="2">o|oh</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
 				<antipattern><token regexp="yes">Oh?</token><token>mijn</token><token>god</token></antipattern>
@@ -17542,6 +17544,13 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>toch</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>de</token><token postag="ZNW.*DE_" postag_regexp="yes"/><token>maar</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token postag="BYW"/><token>maar</token></antipattern>
+				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>zelfs</token><token>maar</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/><token>ze</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>maar</token><token postag="DVW"/><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">zelfs|ook</token><token>maar</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"/><token regexp="yes">ze|zij|hij|ie|u|men</token><token>maar</token></antipattern>
@@ -17572,7 +17581,6 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token>één</token></antipattern>
 				<antipattern><token>maar</token><token postag="GET:MRV"/><token regexp="yes">keer|maal</token></antipattern>
 				<antipattern><token>terwijl</token><token regexp="yes">hij|ze|men|jij|je|u|ik</token><token>maar</token></antipattern>
-				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token>nooit</token><token>ook</token><token>maar</token><token>een</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>ik</token><token>maar</token></antipattern>
 				<antipattern><token>op</token><token>dit</token><token>moment</token><token>maar</token><token>niet</token></antipattern>
@@ -31928,6 +31936,7 @@ steenwijk;Steenwijk
 				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
 				<example correction="zul">Afdingen <marker>zal</marker> je.</example>
 				<example>Ik zal je morgen bezoeken.</example>
+				<example>Dat ik dan nooit meer een date voor je zal regelen.</example>
 			</rule>
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
@@ -35048,6 +35057,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
 			<rule>
+				<antipattern><token>her</token><token>en</token><token>der</token></antipattern>
 				<antipattern><token>tocht</token><token>der</token><token>tochten</token></antipattern>
 				<antipattern><token>von</token><token>der</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token>in</token><token>der</token><token>eeuwigheid</token></antipattern>
