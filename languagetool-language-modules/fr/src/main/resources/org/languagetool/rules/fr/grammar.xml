@@ -171,6 +171,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2s</suggestion>
                 <example correction="2ᵉ édition|2 éditions">Paris, <marker>2 édition</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">le</token>
+                        <token regexp="yes">héro</token>
+                    </marker>
+                </pattern>
+                <message>S'il s'agit d'un personne, il s'écrit <suggestion>le héros</suggestion>. S'il s'agit d'héroïne (la drogue), il s'écrit <suggestion>l'héro</suggestion>.</message>
+                <example correction="Le héros|L'héro"><marker>Le héro</marker> grec.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
             <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
@@ -1364,7 +1374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quelque peu">Il est connu pour avoir <marker>quelques peu</marker> chamboulé l'ordre esthétique.</example>
             </rule>
             <rule>
-               <antipattern>
+                <antipattern>
                     <token>une</token>
                     <token>peu</token>
                     <token postag="V ppa f s|J [fe] (s|sp)" postag_regexp="yes"/>
@@ -16021,6 +16031,31 @@ though, and has since been slightly modified)-->
             <example>Cet hôpital emploie.</example>
             <example>Cet œil</example>
         </rule>
+        <rulegroup id="ETATS_UNIS" name="États-Unis" default="temp_off">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <!-- États fédéraux -->
+                    <token>États</token>
+                    <token>unis</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">état|État</token>
+                    <token>uni</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">états?</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">unis?</token>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>États-Unis</suggestion> ?</message>
+                <example correction="États-Unis">Les <marker>État unis</marker></example>
+                <example correction="États-Unis">Les <marker>État-unis</marker></example>
+                <example correction="États-Unis">Les <marker>États-uni</marker></example>
+                <example correction="États-Unis">Les <marker>États uni</marker></example>
+                <example>Les États-Unis</example>
+                <example>L'appellation « États unis » désigne ou a désigné des États fédéraux.</example>
+            </rule>
+        </rulegroup>
         <rule id="ET_CA" name="typo : et ça">
             <pattern>
                 <token>et</token>
