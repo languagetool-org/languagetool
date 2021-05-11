@@ -23271,6 +23271,11 @@ though, and has since been slightly modified)-->
                 <example>De temps en temps, nous avions elle et moi les mêmes goûts musicaux.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">il|elle</token>
+                    <token min="0" max="3" postag="R.*|A" postag_regexp="yes"/>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="V.* 3 p" postag_regexp="yes">
                         <exception scope="previous" postag="R pers suj 3 . p" postag_regexp="yes"/></token>
@@ -23281,8 +23286,20 @@ though, and has since been slightly modified)-->
                 <suggestion>\1-<match no="2" regexp_match="$" regexp_replace="s"/></suggestion>
                 <example correction="Ont-ils"><marker>Ont il</marker> pu venir demain ?</example>
                 <example correction="Sont-elles"><marker>Sont elle</marker> venues hier ?</example>
+                <example>De nombreux animaux qui vivaient il y a des milliers d'années</example>
+                <example>Mes dernières menstruations étaient il y a deux mois.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">être</token>
+                    <token>elles</token>
+                    <token>qui</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ils|elles</token>
+                    <token min="0" max="3" postag="R.*|A" postag_regexp="yes"/>
+                    <token postag="V.* 3 p" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="V.* 3 s" postag_regexp="yes"/>
@@ -23292,6 +23309,8 @@ though, and has since been slightly modified)-->
                 <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
                 <suggestion>\1-<match no="3" regexp_match="s$" regexp_replace=""/></suggestion>
                 <example correction="Serait-il"><marker>Serait ils</marker> possible de venir demain ?</example>
+                <example>C'est parce que soit ils s'aiment toujours, soit ils ne se sont jamais aimés.</example>
+                <example>C'était elles qui avaient, hier, brisé la fenêtre.</example>
             </rule>
             <rule>
                 <antipattern>
