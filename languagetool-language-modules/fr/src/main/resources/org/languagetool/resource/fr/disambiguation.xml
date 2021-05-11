@@ -138,7 +138,7 @@ RB => Règles Brutes
         <!-- They are usually nouns in apposition -->
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">ordinateur|conducteur|utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">bruleur|brûleur|ordinateur|conducteur|utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="J.*"/>
@@ -1224,7 +1224,14 @@ RB => Règles Brutes
     <rule name="expérience utilisateur" id="ASSURANCE_ANIMAUX">
         <pattern>
             <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">assurance|mutuelle</token>
-            <token postag="N .*" postag_regexp="yes">animaux</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">animal|chien</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="expérience utilisateur" id="MUR_BIENVENUE">
+        <pattern>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">mur</token>
+            <token postag="N .*" postag_regexp="yes">bienvenue</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1531,6 +1538,27 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="CERVICALES" name="cervicales">
+        <pattern>
+            <token>spécial</token>
+            <marker>
+                <token postag="J f.*" postag_regexp="yes" inflected="yes">cervical</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd pos="J e sp"/>
+        </disambig>
+    </rule>
+    <rule id="CARRE" name="carré">
+        <pattern>
+            <marker>
+                <token postag="N m s">carré</token>
+            </marker>
+            <token>de</token>
+            <token>sable</token>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
     <rule id="LA_PLUS" name="la plus">
         <pattern>
             <token postag="D.*" postag_regexp="yes" regexp="yes">la|le|les</token>
