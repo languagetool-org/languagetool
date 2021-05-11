@@ -515,6 +515,7 @@ public class GermanSpellerRuleTest {
   public void testDashAndHyphenEtc() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    TestTools.disableAllRulesExcept(lt, GermanSpellerRule.RULE_ID);
 
     assertEquals(2, lt.check("\uFEFF-Product Development Coordinator").size());
     assertEquals(2, lt.check("-Product Development Coordinator").size());
