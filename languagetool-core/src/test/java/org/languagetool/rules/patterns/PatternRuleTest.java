@@ -270,8 +270,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
             for (PatternToken patternToken : patternTokens) {
               if (patternToken.isUnified()) {
                 if (patternToken.isUnificationNeutral()) {
-                  String failure = "ERROR: <ignore-unify> at the start of <unify>: " + rule.getFullId()
-                      + " - please move the token outside of <unify>";
+                  String failure = "<ignore-unify> at the start of <unify> - please move the token outside of <unify>";
                   addError((AbstractPatternRule) rule, failure);
                 }
                 break;
