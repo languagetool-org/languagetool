@@ -9556,6 +9556,20 @@ onwaarschijnlijk
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
 		
+		<!-- samenstellingen met privé -->
+		<rulegroup id="PRIVE_AUTO" name="Privé auto/privéauto">
+			<rule>
+				<pattern>
+					<token>privé</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+				<message>Dit hoort meestal aan elkaar geschreven.</message>
+				<suggestion>\1\2</suggestion>
+				<url>https://onzetaal.nl/taaladvies/prive</url>
+				<example correction="privé-eigendom">Het is mijn <marker>privé eigendom</marker>.</example>
+			</rule>
+		</rulegroup>
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
 		<rulegroup id="ACHTERIN" name="Achterin/achter in" default="temp_off">
 			<rule>
@@ -17546,6 +17560,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>dan</token><token>maar</token></antipattern>
+				<antipattern><token>ook</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP" skip="3"/><token skip="2">maar</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>maar</token><token>niet</token></antipattern>
 				<antipattern><token>maar</token><token>heel</token><token>weinig</token></antipattern>
@@ -31818,6 +31834,18 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
+		<rulegroup id="VAN_BETEKENIS" name="Van betekenis/belangrijk" tags="picky">
+			<rule>
+				<pattern>
+					<token>van</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token>betekenis</token>
+				</pattern>
+				<message>Dit is een omslachtige formulering.</message>
+				<suggestion>belangrijk</suggestion>
+				<example correction="belangrijk">De fout is <marker>van grote betekenis</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="HEEFT_ALLES_TE_MAKEN_MET" name="Heeft alles te maken met / komt door" tags="picky">
 			<rule>
 				<pattern>
@@ -41216,4 +41244,42 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>	
+
+	<category id="CATCH_NAMES" name="vangen">
+		<rulegroup id="CATCH" name="vang">
+			<rule>
+				<pattern case_sensitive="yes">
+					<token/>
+					<marker>
+					<token regexp="yes">[A-Z].*</token>
+					<token regexp="yes">[A-Z].*</token>
+					<token regexp="yes">[A-Z].*</token>
+					<token regexp="yes">[A-Z].*</token>
+					</marker>
+				</pattern>
+				<message>gevangen</message>
+				<example type="incorrect"><marker>Aap Noot Mies Deur</marker></example>
+			</rule>
+			<!--
+			<rule>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[A-Z].*</token>
+					<token regexp="yes">[A-Z].*</token>
+					<token regexp="yes">[A-Z].*</token>
+				</pattern>
+				<message>gevangen</message>
+				<example type="incorrect"><marker>Aap Noot Mies</marker></example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[A-Z].*</token>
+					<token regexp="yes">[A-Z].*</token>
+				</pattern>
+				<message>gevangen</message>
+				<example type="incorrect"><marker>Aap Noot</marker></example>
+			</rule>
+			-->
+		</rulegroup>
+	</category>
+
 </rules>
