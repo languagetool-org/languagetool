@@ -1441,7 +1441,20 @@ A própria Jane escreveu a carta.
 		  <exception>1</exception></token>
 		  <token postag='NCMP000' postag_regexp='no'/>
       </antipattern>	  
-<!-- MARCOAGPINTO 2020-02-09 *END* -->		  
+<!-- MARCOAGPINTO 2020-02-09 *END* -->
+<!-- MARCOAGPINTO 2021-05-11 (17-MAR-2021+) *START* -->
+<!--
+Esta foi à Saramago!
+Tom perguntou à Mary onde John morava.
+O Tom fez à Mary muitas perguntas que ela não pôde responder.
+O Tom está à procura da Mary.
+-->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token>à</token>		
+		<token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
+      </antipattern>  
+<!-- MARCOAGPINTO 2021-05-11 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -1462,6 +1475,11 @@ A própria Jane escreveu a carta.
       <example correction='Alguma vaca'><marker>Alguma boi</marker> está no pasto.</example>
       <example>Leonardo da Vinci e Rafael mostraram grande interesse sobre a estru…</example>
       <example>Bacalhau à lagareiro</example>
+	  
+	  <example type='correct'>Esta foi <marker>à Saramago</marker>!</example>
+	  <example>Tom perguntou à Mary onde John morava.</example>
+	  <example>O Tom fez à Mary muitas perguntas que ela não pôde responder.</example>
+	  <example>O Tom está à procura da Mary.</example>
     </rule>
     <rule>
       <antipattern>
