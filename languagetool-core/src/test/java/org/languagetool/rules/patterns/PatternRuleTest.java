@@ -161,6 +161,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     MultiThreadedJLanguageTool allRulesLt = new MultiThreadedJLanguageTool(lang);
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
+    validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
     testExamplesExist(rules);
@@ -254,6 +255,34 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
+  /*
+   * Check <unify-ignore> at the start of <unify>
+   */
+  protected void validateUnifyIgnoreAtTheStartOfUnify(JLanguageTool lt) {
+    System.out.println("Check that <unify-ignore> is not at the start of <unify>....");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        List<PatternToken> patternTokens = ((AbstractPatternRule) rule).getPatternTokens();
+        if (patternTokens != null) {
+          boolean hasUnify = patternTokens.stream().anyMatch(PatternToken::isUnified);
+          if (hasUnify) {
+            for (PatternToken patternToken : patternTokens) {
+              if (patternToken.isUnified()) {
+                if (patternToken.isUnificationNeutral()) {
+                  String failure = "ERROR: <ignore-unify> at the start of <unify>: " + rule.getFullId()
+                      + " - please move the token outside of <unify>";
+                  addError((AbstractPatternRule) rule, failure);
+                }
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
   private static void disableSpellingRules(JLanguageTool lt) {
     List<Rule> allRules = lt.getAllRules();
     for (Rule rule : allRules) {
