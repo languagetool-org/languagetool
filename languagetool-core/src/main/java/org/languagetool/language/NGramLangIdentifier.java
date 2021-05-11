@@ -137,8 +137,7 @@ public class NGramLangIdentifier {
 
   private List<String> readLines(String path) {
     ArrayList<String> result = new ArrayList<>();
-    try {
-      BufferedReader br = getReader(path);
+    try (BufferedReader br = getReader(path)) {
       String line;
       while ((line = br.readLine()) != null) {
         result.add(line);
@@ -151,7 +150,7 @@ public class NGramLangIdentifier {
 
   private static Map<String, Double> loadDict(List<String> lines)  {
     Map<String, Double> tm = new HashMap<>();
-    for(String line : lines) {
+    for (String line : lines) {
       String[] parts = line.trim().split(" ");
       String key = String.join("_", Arrays.copyOfRange(parts, 0, parts.length-1));
       tm.put(key, Double.parseDouble(parts[parts.length-1]));

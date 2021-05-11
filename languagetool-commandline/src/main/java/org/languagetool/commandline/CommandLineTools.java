@@ -237,39 +237,40 @@ public final class CommandLineTools {
     int matchCount = 0;
     int sentCount = 0;
     RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-    PrintStream out = new PrintStream(System.out, true, "UTF-8");
-    if (isXmlFormat) {
-      out.print(serializer.getXmlStart(null, null));
-    }
-    for (StringPair srcAndTrg : reader) {
-      List<RuleMatch> curMatches = Tools.checkBitext(
-              srcAndTrg.getSource(), srcAndTrg.getTarget(),
-              srcLt, trgLt, bRules);
-      List<RuleMatch> fixedMatches = new ArrayList<>();
-      for (RuleMatch thisMatch : curMatches) {
-        fixedMatches.add(
-                trgLt.adjustRuleMatchPos(thisMatch,
-                        reader.getSentencePosition(),
-                        reader.getColumnCount(),
-                        reader.getLineCount(),
-                        reader.getCurrentLine(), null));
+    try (PrintStream out = new PrintStream(System.out, true, "UTF-8")) {
+      if (isXmlFormat) {
+        out.print(serializer.getXmlStart(null, null));
       }
-      ruleMatches.addAll(fixedMatches);
-      if (fixedMatches.size() > 0) {
-        if (isXmlFormat) {
-          String xml = serializer.ruleMatchesToXmlSnippet(fixedMatches,
-                  reader.getCurrentLine(), contextSize);
-          out.print(xml);
-        } else {
-          printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize, trgLt.getLanguage());
-          matchCount += fixedMatches.size();
+      for (StringPair srcAndTrg : reader) {
+        List<RuleMatch> curMatches = Tools.checkBitext(
+          srcAndTrg.getSource(), srcAndTrg.getTarget(),
+          srcLt, trgLt, bRules);
+        List<RuleMatch> fixedMatches = new ArrayList<>();
+        for (RuleMatch thisMatch : curMatches) {
+          fixedMatches.add(
+            trgLt.adjustRuleMatchPos(thisMatch,
+              reader.getSentencePosition(),
+              reader.getColumnCount(),
+              reader.getLineCount(),
+              reader.getCurrentLine(), null));
         }
+        ruleMatches.addAll(fixedMatches);
+        if (fixedMatches.size() > 0) {
+          if (isXmlFormat) {
+            String xml = serializer.ruleMatchesToXmlSnippet(fixedMatches,
+              reader.getCurrentLine(), contextSize);
+            out.print(xml);
+          } else {
+            printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize, trgLt.getLanguage());
+            matchCount += fixedMatches.size();
+          }
+        }
+        sentCount++;
       }
-      sentCount++;
-    }
-    displayTimeStats(startTime, sentCount, isXmlFormat);
-    if (isXmlFormat) {
-      out.print(serializer.getXmlEnd());
+      displayTimeStats(startTime, sentCount, isXmlFormat);
+      if (isXmlFormat) {
+        out.print(serializer.getXmlEnd());
+      }
     }
     return ruleMatches.size();
   }
