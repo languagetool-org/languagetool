@@ -1012,6 +1012,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
+                <token>l'</token>
+                <token>une</token>
+                <token postag="C coor"/>
+                <token>l'</token>
+                <token>autre</token>
+                <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>l'</token>
+                <token>un</token>
+                <token postag="C coor"/>
+                <token>l'</token>
+                <token>autre</token>
+                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <!-- better disambiguation of "V ppr" needed -->
                 <token postag="V ppr"/>
                 <token postag="[AP]|[JZD] .*|P\+.*|C sub|Y|R dem m s|V inf|UNKNOWN|R pers suj.*|R m p" postag_regexp="yes"/>
@@ -1317,6 +1333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>garanties conducteur ; garantie conducteur ; garanties conducteur ; garanties individuelles conducteur ; garantie individuelle conducteur ; garanties individuelles conducteur ; réglages constructeur ; réglage constructeur ; réglages constructeur ; ateliers découverte ; atelier découverte ; ateliers découverte ; stages découverte ; stage découverte ; stages découverte ; vols découverte ; vol découverte ; vols découverte ; ampoules graisseur ; ampoule graisseur ; ampoules graisseur ; vitesse grand V ; vitesse grand V ; services informatique ; service informatique ; services informatique ; sacoches ordinateur ; sacoche ordinateur ; sacoches ordinateur ; designers textile ; designer textile ; designers textile ; portières passager ; portière passager ; portières passager ; portières conducteur ; portière conducteur ; portières conducteur ; visas longue durée ; visa longue durée ; visas longue durée ; visas courte durée ; visa courte durée ; visas courte
                     durée</example>
                 <example>Une des caractéristiques type du discours masculiniste</example>
+                <example>L'Académie autorise l'une et l'autre formes.</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -6052,6 +6069,10 @@ though, and has since been slightly modified)-->
                     <token postag="J [em] s" postag_regexp="yes" min="0"/>
                     <token>son</token>
                 </antipattern>
+                <antipattern>
+                    <token>quel</token>
+                    <token>son</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>son</token>
@@ -6072,6 +6093,7 @@ though, and has since been slightly modified)-->
                 <example>qui voit son pouvoir évoluer</example>
                 <example>L'ennemi poursuivit son attaque toute la nuit.</example>
                 <example>Son autre frère, Kaspar.</example>
+                <example>Quel son cela fait-il ?</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
