@@ -49,5 +49,91 @@
                 <example>It's been a long time and things are coming to their logical end.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+            <!-- Single non-alphanumeric characters. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\W</token>
+                    </marker>
+                </pattern>
+                <example correction="">In addition he won the Championship Series titles in 1980<marker>,</marker> the precursors to the current Masters 1000</example>
+            </rule>
+            <rule>
+            <!-- Tokens that are followed by a comma or a full stop. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*</token>
+                    </marker>
+                    <token regexp="yes">,|\.</token>
+                </pattern>
+                <example correction="">This is an <marker>antipattern</marker>.</example>
+                <example correction="">This is another <marker>case</marker>, for this rule</example>
+            </rule>
+            <rule>
+            <!-- Numbers of the form ,3212 or .93212. -->
+                <pattern>
+                    <token regexp="yes">,|\.</token>
+                    <marker>
+                        <token postag="CD"/>
+                    </marker>
+                </pattern>
+                <example correction="">The amount charged and paid by joint ventures is $5,<marker>091062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is $5.<marker>091062</marker>.</example>
+            </rule>
+            <rule>
+            <!-- Numbers representing money. -->
+                <pattern>
+                    <marker>
+                        <or>
+                            <token regexp="yes">[\$|€|£|¥]\d+</token>
+                            <token regexp="yes">\d+[\$|€|£|¥]</token>
+                        </or>
+                    </marker>
+                </pattern>
+                <example correction="">The amount charged and paid by joint ventures is <marker>$91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062$</marker>.</example>
+            </rule>
+            <rule>
+            <!-- Numbers representing information size (e.g. disk size). -->
+                <pattern>
+                    <marker>
+                        <token postag="CD"/>
+                    </marker>
+                    <token regexp="yes">[K|M|G|T|P]B</token>
+                </pattern>
+                <example correction="">Your mailbox size is currently <marker>179945</marker> KB.</example>
+                <example correction="">Your mailbox size is currently <marker>17</marker> GB.</example>
+            </rule>
+            <rule>
+            <!-- Date representation e.g. 12/5/21 -->
+                <pattern>
+                    <token regexp="yes">\d{1,4}</token>
+                    <token regexp="yes">\/|-</token>
+                    <token regexp="yes">\d{1,4}</token>
+                    <token regexp="yes">\/|-</token>
+                    <marker>
+                        <token regexp="yes">\d{1,4}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Updated 11/29/<marker>00</marker> Person was activated from the injured list on Tuesday after missing Cleveland's last eight games with an elbow injury.</example>
+            </rule>
+            <rule>
+            <!-- Date representation e.g. May 5th -->
+                <pattern>
+                    <or>
+                        <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
+                        <token regexp="yes">Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec</token>
+                    </or>
+                    <token min="0">.</token>
+                    <marker>
+                        <token regexp="yes">1st|2nd|3rd|\dth</token>
+                    </marker>
+                </pattern>
+                <example correction="">On May <marker>5th</marker> of the year 2021.</example>
+                <example correction="">On Sep. <marker>2nd</marker> of the year 2021.</example>
+                <example correction="">On Sep <marker>2nd</marker> of the year 2021.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
