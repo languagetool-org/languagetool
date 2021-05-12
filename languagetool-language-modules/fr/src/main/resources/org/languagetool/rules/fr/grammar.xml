@@ -23215,7 +23215,25 @@ though, and has since been slightly modified)-->
                 <token>soit</token>
                 <token regexp="yes">elle|nous|vous|elles</token>
             </antipattern>
-            <rule>
+            <antipattern>
+                <token postag="V.* 3 s" postag_regexp="yes" inflected="yes">être</token>
+                <token regexp="yes">elle|elles|nous|vous</token>
+            </antipattern>
+            <rule name="verbe + je">
+                <pattern>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="V .* 1 s" postag_regexp="yes"/></token>
+                        <token postag="R pers suj 1 s">je
+                            <exception scope="next" postag="V.* 1 s" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^([Pp]eux|.*[éè])-je$"/>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 s"/>-je</suggestion>
+                <example correction="Puis-je"><marker>Peut je</marker> venir demain ?</example>
+            </rule>
+            <rule name="verbe + tu">
                 <antipattern>
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                     <token postag="R pers suj 2 s"/>
@@ -23237,11 +23255,11 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 s"/>-tu</suggestion>
                 <example correction="Peux-tu"><marker>Peut tu</marker> venir demain ?</example>
             </rule>
-            <rule>
+            <rule name="verbe + vous">
                 <pattern>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes">
-                            <exception postag="V .* 2 p" postag_regexp="yes"/></token>
+                            <exception postag="V .* 2 p|_GN_.*" postag_regexp="yes"/></token>
                         <token postag="R pers (obj|suj) 2 p" postag_regexp="yes">vous</token>
                     </marker>
                 </pattern>
@@ -23256,22 +23274,56 @@ though, and has since been slightly modified)-->
                 <example>Ce stylo-bille vous conviendrait-il ?</example>
                 <example>Tout le monde veut vous rencontrer, vous êtes célèbres ! </example>
                 <example>J'espère vous voir bientôt.</example>
+                <example>C'est vous.</example>
+                <example>Quand vous naviguez en bateau, la carte marine vous indique des hauts-fonds. </example>
             </rule>
-            <rule>
+            <rule name="verbe + vous">
                 <pattern>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes">
-                            <exception postag="V .* 1 s" postag_regexp="yes"/></token>
-                        <token postag="R pers suj 1 s">je
-                            <exception scope="next" postag="V.* 1 s" postag_regexp="yes"/></token>
+                            <exception postag="V .* 1 p|_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="R pers (obj|suj) 1 p" postag_regexp="yes">nous</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^([Pp]eux|.*[éè])-je$"/>
                 <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
-                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 s"/>-je</suggestion>
-                <example correction="Puis-je"><marker>Peut je</marker> venir demain ?</example>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 p"/>-nous</suggestion>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/>-vous</suggestion>
+                <example correction="Pouvons-nous|Pouvez-vous"><marker>Pouvez nous</marker> venir ?</example>
+                <example>Une jeune personne veut nous voir.</example>
+                <example>Que ce soit bous ou lui, vous êtes supposés venir demain.</example>
+                <example>Une petite marche va bous ouvrir l'appétit avant le petit déjeuner.</example>
+                <example>Ce stylo-bille bous conviendrait-il ?</example>
+                <example>Tout le monde veut bous rencontrer ! </example>
+                <example>C'est bous.</example>
             </rule>
-            <rule>
+            <rule name="verbe + il/elle -> ils/elles">
+                <pattern>
+                    <token postag="V.* 3 p" postag_regexp="yes">
+                        <exception scope="previous" postag="R pers suj 3 . p" postag_regexp="yes"/></token>
+                    <token regexp="yes">il|elle
+                        <exception scope="next" postag="V.* 3 . s" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion>\1-<match no="2" regexp_match="$" regexp_replace="s"/></suggestion>
+                <example correction="Ont-ils"><marker>Ont il</marker> pu venir demain ?</example>
+                <example correction="Sont-elles"><marker>Sont elle</marker> venues hier ?</example>
+                <example>De nombreux animaux qui vivaient il y a des milliers d'années</example>
+                <example>Mes dernières menstruations étaient il y a deux mois.</example>
+            </rule>
+            <rule name="verbe + ils/elles -> il/elle">
+                <pattern>
+                    <marker>
+                        <token postag="V.* 3 s" postag_regexp="yes"/>
+                        <token regexp="yes">ils|elles</token>
+                    </marker>
+                </pattern>
+                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
+                <suggestion>\1-<match no="3" regexp_match="s$" regexp_replace=""/></suggestion>
+                <example correction="Serait-il"><marker>Serait ils</marker> possible de venir demain ?</example>
+                <example>C'est parce que soit ils s'aiment toujours, soit ils ne se sont jamais aimés.</example>
+                <example>C'était elles qui avaient, hier, brisé la fenêtre.</example>
+            </rule>
+            <rule name="verbe + il/elle/on">
                 <antipattern>
                     <token>je</token>
                     <token>tue</token>
@@ -23309,39 +23361,7 @@ though, and has since been slightly modified)-->
                 <example>Ils sont apparus il y a quelques années.</example>
                 <example>De temps en temps, nous avions elle et moi les mêmes goûts musicaux.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token postag="V.* 3 p" postag_regexp="yes">
-                        <exception scope="previous" postag="R pers suj 3 . p" postag_regexp="yes"/></token>
-                    <token regexp="yes">il|elle
-                        <exception scope="next" postag="V.* 3 . s" postag_regexp="yes"/> </token>
-                </pattern>
-                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
-                <suggestion>\1-<match no="2" regexp_match="$" regexp_replace="s"/></suggestion>
-                <example correction="Ont-ils"><marker>Ont il</marker> pu venir demain ?</example>
-                <example correction="Sont-elles"><marker>Sont elle</marker> venues hier ?</example>
-                <example>De nombreux animaux qui vivaient il y a des milliers d'années</example>
-                <example>Mes dernières menstruations étaient il y a deux mois.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token inflected="yes">être</token>
-                    <token>elles</token>
-                    <token>qui</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token postag="V.* 3 s" postag_regexp="yes"/>
-                        <token regexp="yes">ils|elles</token>
-                    </marker>
-                </pattern>
-                <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
-                <suggestion>\1-<match no="3" regexp_match="s$" regexp_replace=""/></suggestion>
-                <example correction="Serait-il"><marker>Serait ils</marker> possible de venir demain ?</example>
-                <example>C'est parce que soit ils s'aiment toujours, soit ils ne se sont jamais aimés.</example>
-                <example>C'était elles qui avaient, hier, brisé la fenêtre.</example>
-            </rule>
-            <rule>
+            <rule name="verbe + ils/elles">
                 <antipattern>
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                     <token postag="R pers suj 3 [mf] p" postag_regexp="yes"/>
