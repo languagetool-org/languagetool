@@ -23191,12 +23191,29 @@ though, and has since been slightly modified)-->
                 <unify>
                     <feature id="number"/>
                     <feature id="person"/>
-                    <token postag="R.*" postag_regexp="yes" regexp="yes">je|tu|il|elle|on|nous|vous|ils|elles</token>
+                    <token postag="R.*" postag_regexp="yes" regexp="yes">j'|je|tu|il|elle|on|nous|vous|ils|elles</token>
                     <unify-ignore>
                         <token min="0" max="3" postag="R.*|A" postag_regexp="yes"/>
                     </unify-ignore>
                     <token postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/>
                 </unify>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/>
+                    <token postag="R.*" postag_regexp="yes" regexp="yes">-(t-)?(il|ils|elle|elles|on)</token>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 3.*" postag_regexp="yes"/>
+                <token min="1" max="2" postag="R pers obj.*" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>soit</token>
+                <token regexp="yes">elle|nous|vous|elles</token>
             </antipattern>
             <rule>
                 <antipattern>
@@ -23232,6 +23249,13 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/>-vous</suggestion>
                 <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 p"/>-nous</suggestion>
                 <example correction="Pouvez-vous|Pouvons-nous"><marker>Pouvons vous</marker> venir ?</example>
+                <example>Une jeune personne veut vous voir.</example>
+                <example>Si j'étais vous, je serais plus prudente.</example>
+                <example>Que ce soit vous ou lui, vous êtes supposés venir demain.</example>
+                <example>Une petite marche va vous ouvrir l'appétit avant le petit déjeuner.</example>
+                <example>Ce stylo-bille vous conviendrait-il ?</example>
+                <example>Tout le monde veut vous rencontrer, vous êtes célèbres ! </example>
+                <example>J'espère vous voir bientôt.</example>
             </rule>
             <rule>
                 <pattern>
