@@ -53,9 +53,7 @@
             <rule>
             <!-- Single non-alphanumeric characters. -->
                 <pattern>
-                    <marker>
-                        <token regexp="yes">\W</token>
-                    </marker>
+                    <token regexp="yes">\W</token>
                 </pattern>
                 <example correction="">In addition he won the Championship Series titles in 1980<marker>,</marker> the precursors to the current Masters 1000</example>
             </rule>
@@ -82,16 +80,18 @@
                 <example correction="">The amount charged and paid by joint ventures is $5.<marker>091062</marker>.</example>
             </rule>
             <rule>
-            <!-- Numbers representing money. -->
                 <pattern>
-                    <marker>
-                        <or>
-                            <token regexp="yes">[\$|€|£|¥]\d+</token>
-                            <token regexp="yes">\d+[\$|€|£|¥]</token>
-                        </or>
-                    </marker>
+                    <token postag="CD"/>
                 </pattern>
+                <example correction="">As of 1951, approximately <marker>7000</marker> messages were sent daily from the United States to Canada.</example>
+            </rule>
+            <!-- Numbers representing money. -->
+            <rule>
+                <regexp mark="1">\$(\d+)</regexp>
                 <example correction="">The amount charged and paid by joint ventures is <marker>$91062</marker>.</example>
+            </rule>
+            <rule>
+                <regexp mark="1">(\d+)\$</regexp>
                 <example correction="">The amount charged and paid by joint ventures is <marker>91062$</marker>.</example>
             </rule>
             <rule>
