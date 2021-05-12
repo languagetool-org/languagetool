@@ -44,6 +44,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -96,6 +97,45 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
   private static final String spellingError = messages.getString("desc_spelling");
   private static final String spellRuleId = "SPELLING_ERROR";
+  
+  private final static String dialogName = messages.getString("guiOOoCheckDialogName");
+  private final static String labelLanguage = messages.getString("textLanguage");
+  private final static String labelSuggestions = messages.getString("guiOOosuggestions"); 
+  private final static String moreButtonName = messages.getString("guiMore"); 
+  private final static String ignoreButtonName = messages.getString("guiOOoIgnoreButton"); 
+  private final static String ignoreAllButtonName = messages.getString("guiOOoIgnoreAllButton"); 
+  private final static String deactivateRuleButtonName = messages.getString("loContextMenuDeactivateRule"); 
+  private final static String addToDictionaryName = messages.getString("guiOOoaddToDictionary");
+  private final static String changeButtonName = messages.getString("guiOOoChangeButton"); 
+  private final static String changeAllButtonName = messages.getString("guiOOoChangeAllButton"); 
+  private final static String helpButtonName = messages.getString("guiMenuHelp"); 
+  private final static String optionsButtonName = messages.getString("guiOOoOptionsButton"); 
+  private final static String undoButtonName = messages.getString("guiUndo");
+  private final static String closeButtonName = messages.getString("guiCloseButton");
+  private final static String changeLanguageList[] = { messages.getString("guiOOoChangeLanguageRequest"),
+                                                messages.getString("guiOOoChangeLanguageMatch"),
+                                                messages.getString("guiOOoChangeLanguageParagraph") };
+  private final static String languageHelp = messages.getString("loDialogLanguageHelp");
+  private final static String changeLanguageHelp = messages.getString("loDialogChangeLanguageHelp");
+  private final static String matchDescriptionHelp = messages.getString("loDialogMatchDescriptionHelp");
+  private final static String matchParagraphHelp = messages.getString("loDialogMatchParagraphHelp");
+  private final static String suggestionsHelp = messages.getString("loDialogSuggestionsHelp");
+  private final static String checkTypeHelp = messages.getString("loDialogCheckTypeHelp");
+  private final static String helpButtonHelp = messages.getString("loDialogHelpButtonHelp"); 
+  private final static String optionsButtonHelp = messages.getString("loDialogOptionsButtonHelp"); 
+  private final static String undoButtonHelp = messages.getString("loDialogUndoButtonHelp");
+  private final static String closeButtonHelp = messages.getString("loDialogCloseButtonHelp");
+  private final static String moreButtonHelp = messages.getString("loDialogMoreButtonHelp"); 
+  private final static String ignoreButtonHelp = messages.getString("loDialogIgnoreButtonHelp"); 
+  private final static String ignoreAllButtonHelp = messages.getString("loDialogIgnoreAllButtonHelp"); 
+  private final static String deactivateRuleButtonHelp = messages.getString("loDialogDeactivateRuleButtonHelp"); 
+  private final static String activateRuleButtonHelp = messages.getString("loDialogActivateRuleButtonHelp"); 
+  private final static String addToDictionaryHelp = messages.getString("loDialogAddToDictionaryButtonHelp");
+  private final static String changeButtonHelp = messages.getString("loDialogChangeButtonHelp"); 
+  private final static String changeAllButtonHelp = messages.getString("loDialogChangeAllButtonHelp"); 
+  private final static String checkStatusInitialization = messages.getString("loCheckStatusInitialization"); 
+  private final static String checkStatusCheck = messages.getString("loCheckStatusCheck"); 
+  private final static String checkStatusResult = messages.getString("loCheckStatusResult"); 
   
   private static int nLastFlat = 0;
   
@@ -901,41 +941,19 @@ public class SpellAndGrammarCheckDialog extends Thread {
   public class LtCheckDialog implements ActionListener {
     private final static int maxUndos = 20;
     private final static int toolTipWidth = 300;
-    private final String dialogName = messages.getString("guiOOoCheckDialogName");
-    private final String labelLanguage = messages.getString("textLanguage");
-    private final String labelSuggestions = messages.getString("guiOOosuggestions"); 
-    private final String moreButtonName = messages.getString("guiMore"); 
-    private final String ignoreButtonName = messages.getString("guiOOoIgnoreButton"); 
-    private final String ignoreAllButtonName = messages.getString("guiOOoIgnoreAllButton"); 
-    private final String deactivateRuleButtonName = messages.getString("loContextMenuDeactivateRule"); 
-    private final String addToDictionaryName = messages.getString("guiOOoaddToDictionary");
-    private final String changeButtonName = messages.getString("guiOOoChangeButton"); 
-    private final String changeAllButtonName = messages.getString("guiOOoChangeAllButton"); 
-    private final String helpButtonName = messages.getString("guiMenuHelp"); 
-    private final String optionsButtonName = messages.getString("guiOOoOptionsButton"); 
-    private final String undoButtonName = messages.getString("guiUndo");
-    private final String closeButtonName = messages.getString("guiCloseButton");
-    private final String changeLanguageList[] = { messages.getString("guiOOoChangeLanguageRequest"),
-                                                  messages.getString("guiOOoChangeLanguageMatch"),
-                                                  messages.getString("guiOOoChangeLanguageParagraph") };
-    private final String languageHelp = messages.getString("loDialogLanguageHelp");
-    private final String changeLanguageHelp = messages.getString("loDialogChangeLanguageHelp");
-    private final String matchDescriptionHelp = messages.getString("loDialogMatchDescriptionHelp");
-    private final String matchParagraphHelp = messages.getString("loDialogMatchParagraphHelp");
-    private final String suggestionsHelp = messages.getString("loDialogSuggestionsHelp");
-    private final String checkTypeHelp = messages.getString("loDialogCheckTypeHelp");
-    private final String helpButtonHelp = messages.getString("loDialogHelpButtonHelp"); 
-    private final String optionsButtonHelp = messages.getString("loDialogOptionsButtonHelp"); 
-    private final String undoButtonHelp = messages.getString("loDialogUndoButtonHelp");
-    private final String closeButtonHelp = messages.getString("loDialogCloseButtonHelp");
-    private final String moreButtonHelp = messages.getString("loDialogMoreButtonHelp"); 
-    private final String ignoreButtonHelp = messages.getString("loDialogIgnoreButtonHelp"); 
-    private final String ignoreAllButtonHelp = messages.getString("loDialogIgnoreAllButtonHelp"); 
-    private final String deactivateRuleButtonHelp = messages.getString("loDialogDeactivateRuleButtonHelp"); 
-    private final String activateRuleButtonHelp = messages.getString("loDialogActivateRuleButtonHelp"); 
-    private final String addToDictionaryHelp = messages.getString("loDialogAddToDictionaryButtonHelp");
-    private final String changeButtonHelp = messages.getString("loDialogChangeButtonHelp"); 
-    private final String changeAllButtonHelp = messages.getString("loDialogChangeAllButtonHelp"); 
+    
+    private final static int begFirstCol = 10;
+    private final static int widFirstCol = 440;
+    private final static int disFirstCol = 10;
+    private final static int buttonHigh = 30;
+    private final static int begSecondCol = 460;
+    private final static int buttonWidthCol = 160;
+    private final static int buttonDistCol = 10;
+    private final static int buttonWidthRow = 120;
+    private final static int buttonDistRow = (begSecondCol + buttonWidthCol - begFirstCol - 4 * buttonWidthRow) / 3;
+    private final static int dialogWidth = 640;
+    private final static int dialogHeight = 505;
+
     private final JDialog dialog;
     private final JLabel languageLabel;
     private final JComboBox<String> language;
@@ -945,6 +963,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JLabel suggestionsLabel;
     private final JList<String> suggestions;
     private final JLabel checkTypeLabel;
+    private final JLabel checkStatus;
     private final ButtonGroup checkTypeGroup;
     private final JRadioButton[] checkTypeButtons;
     private final JButton more; 
@@ -959,15 +978,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JButton options; 
     private final JButton undo; 
     private final JButton close;
+    private final JProgressBar checkProgress;
     private final Image ltImage;
     
     private SingleDocument currentDocument;
     private ViewCursorTools viewCursor;
     private SingleProofreadingError error;
     private Map<Integer, Set<Integer>> ignoredSpellMatches;
+    String docId;
     private String[] userDictionaries;
     private String informationUrl;
-    private String docId;
     private String lastLang = new String();
     private String endOfDokumentMessage;
     private int x;
@@ -982,19 +1002,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private List<UndoContainer> undoList;
     private Locale locale;
 
+    private Object checkWakeup = new Object();
+
     /**
      * the constructor of the class creates all elements of the dialog
      */
     public LtCheckDialog(XComponentContext xContext) {
-      int begFirstCol = 10;
-      int widFirstCol = 440;
-      int disFirstCol = 10;
-      int buttonHigh = 30;
-      int begSecondCol = 460;
-      int buttonWidthCol = 160;
-      int buttonDistCol = 10;
-      int buttonWidthRow = 120;
-      int buttonDistRow = (begSecondCol + buttonWidthCol - begFirstCol - 4 * buttonWidthRow) / 3;
       if (debugMode) {
         MessageHandler.printToLogFile("LtCheckDialog called");
       }
@@ -1013,7 +1026,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setName(dialogName);
       dialog.setTitle(dialogName);
       dialog.setLayout(null);
-      dialog.setSize(640, 485);
+      dialog.setSize(dialogWidth, dialogHeight);
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
 
       languageLabel = new JLabel(labelLanguage);
@@ -1061,7 +1074,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
             lastLang = selectedLang;
             changeLanguage.setSelectedIndex(0);
-            gotoNextError(true);
+            gotoNextError();
           }
         }
       });
@@ -1140,19 +1153,19 @@ public class SpellAndGrammarCheckDialog extends Thread {
       checkTypeButtons[0].setSelected(true);
       checkTypeButtons[0].addActionListener(e -> {
         checkType = 0;
-        gotoNextError(true);
+        gotoNextError();
       });
       checkTypeButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckSpellingButton")));
       checkTypeButtons[1].setBounds(begFirstCol + 6*widFirstCol/16, yFirstCol, 5*widFirstCol/16 - 1, 30);
       checkTypeButtons[1].addActionListener(e -> {
         checkType = 1;
-        gotoNextError(true);
+        gotoNextError();
       });
       checkTypeButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckGrammarButton")));
       checkTypeButtons[2].setBounds(begFirstCol + 11*widFirstCol/16, yFirstCol, 5*widFirstCol/16 - 1, 30);
       checkTypeButtons[2].addActionListener(e -> {
         checkType = 2;
-        gotoNextError(true);
+        gotoNextError();
       });
       for (int i = 0; i < 3; i++) {
         checkTypeGroup.add(checkTypeButtons[i]);
@@ -1245,7 +1258,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             documents.getLtDictionary().addWordToDictionary(dictionary, wrongWord, xContext);
             addUndo(y, "addToDictionary", dictionary, wrongWord);
             addToDictionary.setSelectedIndex(0);
-            gotoNextError(true);
+            gotoNextError();
           }
         }
       });
@@ -1286,7 +1299,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 documents.activateRule(ruleId);
                 addUndo(y, "activateRule", ruleId, null);
                 activateRule.setSelectedIndex(0);
-                gotoNextError(true);
+                gotoNextError();
               }
               j++;
             }
@@ -1302,7 +1315,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
           dialogX = p.x;
           dialogY = p.y;
           if (focusLost) {
-/*        TODO: Remove after tests
             if (debugMode) {
               MessageHandler.printToLogFile("Check Dialog: Window Focus gained: Event = " + e.paramString());
             }
@@ -1321,15 +1333,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
             dialog.setEnabled(false);
             initCursor();
-            gotoNextError(false);
+            gotoNextError();
             dialog.setEnabled(true);
-*/            
             focusLost = false;
+/*        TODO: Remove after tests
             closeDialog();
             currentDocument = getCurrentDocument();
             if (currentDocument != null) {
               run();
             }
+*/            
           }
         }
         @Override
@@ -1340,6 +1353,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
           focusLost = true;
         }
       });
+      
+      checkStatus = new JLabel(checkStatusInitialization);
+
+      checkStatus.setBounds(begFirstCol, dialogHeight - 50, 100, 20);
+      checkStatus.setFont(checkStatus.getFont().deriveFont(Font.BOLD));
+      checkStatus.setForeground(Color.RED);
+      dialog.add(checkStatus);
+      
+      checkProgress = new JProgressBar(0, 100);
+      checkProgress.setStringPainted(true);
+      checkProgress.setBounds(begFirstCol + 100, dialogHeight - 50, dialogWidth - begFirstCol - 120, 20);
+      dialog.add(checkProgress);
       
       ToolTipManager.sharedInstance().setDismissDelay(30000);
     }
@@ -1352,17 +1377,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
         MessageHandler.printToLogFile("Check Dialog: Goto next Error");
       }
       dialog.setEnabled(false);
-      initCursor();
-      gotoNextError(false);
-      if (documents.useOriginalCheckDialog()) {
-        OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
-        closeDialog();
-        return;
-      }
-      if (currentDocument == null) {
-        closeDialog();
-        return;
-      }
       dialog.setEnabled(true);
       if (dialogX < 0 || dialogY < 0) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1373,9 +1387,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setLocation(dialogX, dialogY);
 //      documents.setLtDialog(this);
       isRunning = true;
+      setInitialButtonState();
       dialog.setAutoRequestFocus(true);
       dialog.setVisible(true);
       dialog.toFront();
+      initCursor();
+      runCheckForNextError(false);
     }
 
     /**
@@ -1458,17 +1475,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       return toolTipText;
     }
-
+    
     /**
-     * find the next match
-     * set the view cursor to the position of match
-     * fill the elements of the dialog with the information of the match
+     * Initial button state
      */
-    private void gotoNextError(boolean startAtBegin) {
-      if (!documents.isEnoughHeapSpace()) {
-        closeDialog();
-        return;
-      }
+    private void setInitialButtonState() {
       ignoreOnce.setEnabled(false);
       ignoreAll.setEnabled(false);
       deactivateRule.setEnabled(false);
@@ -1482,18 +1493,76 @@ public class SpellAndGrammarCheckDialog extends Thread {
       close.setEnabled(false);
       language.setEnabled(false);
       changeLanguage.setEnabled(false);
+      activateRule.setEnabled(false);
       endOfDokumentMessage = null;
       errorDescription.setForeground(Color.BLACK);
+    }
+    
+    /**
+     * Runs findNextError in a loop
+     * waits after getting the next error till gotoNextError was triggered by a button
+     * NOTE: the loop is needed because a direct call of a action event will not change the state of dialog elements
+     */
+    private void runCheckForNextError(boolean startAtBegin) {
+      for(;;) {
+        synchronized(checkWakeup) {
+          try {
+            findNextError(startAtBegin);
+            if (documents.useOriginalCheckDialog()) {
+              OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
+              closeDialog();
+              return;
+            }
+            if (currentDocument == null) {
+              closeDialog();
+              return;
+            }
+            checkWakeup.wait();
+            if (!isRunning) {
+              return;
+            }
+            startAtBegin = true;
+          } catch (Throwable e) {
+            MessageHandler.showError(e);
+            return;
+          }
+        }
+      }
+    }
+
+    /**
+     * goto next match is triggered by action event
+     */
+    private void gotoNextError() {
+      synchronized(checkWakeup) {
+        checkWakeup.notify();
+      }
+    }
+    
+    /**
+     * find the next match
+     * set the view cursor to the position of match
+     * fill the elements of the dialog with the information of the match
+     */
+    private void findNextError(boolean startAtBegin) {
+      if (!documents.isEnoughHeapSpace()) {
+        closeDialog();
+        return;
+      }
+      setInitialButtonState();
       CheckError checkError = getNextError(startAtBegin);
       error = checkError == null ? null : checkError.error;
       locale = checkError == null ? null : checkError.locale;
       help.setEnabled(true);
       options.setEnabled(true);
       close.setEnabled(true);
+      activateRule.setEnabled(true);
       if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
         MessageHandler.printToLogFile("SentenceIncludeError == null || errorDescription == null || suggestions == null");
       } else if (error != null) {
         
+        checkStatus.setText(checkStatusResult);
+        checkStatus.setForeground(Color.BLACK);
         ignoreOnce.setEnabled(true);
         ignoreAll.setEnabled(true);
 
@@ -1575,6 +1644,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
         Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
         language.setSelectedItem(lang.getTranslatedName(messages));
+        checkStatus.setText(checkStatusResult);
+        checkStatus.setForeground(Color.BLACK);
+        checkProgress.setValue(docCache != null && docCache.size() > 0 ? docCache.size() : 100);
       }
     }
 
@@ -1696,14 +1768,19 @@ public class SpellAndGrammarCheckDialog extends Thread {
       for (int i = 0; i <= y && y < docCache.textSize(); i++) {
         nStart += docCache.getTextParagraph(i).length() + 1;
       }
+      checkProgress.setMaximum(docCache.size());
+      checkStatus.setText(checkStatusCheck);
+      checkStatus.setForeground(Color.RED);
       CheckError nextError = null;
       if (lastFlatPara < 0) {
         nFPara = docCache.getFlatParagraphNumber(y);
+        checkProgress.setValue(nFPara);
         nextError = getNextErrorInParagraph (x, nFPara, currentDocument, docCursor, ignoredSpellMatches);
         int pLength = docCache.getTextParagraph(y).length() + 1;
         while (y < docCache.textSize() - 1 && nextError == null && (endOfRange < 0 || nStart < endOfRange)) {
           y++;
           nFPara = docCache.getFlatParagraphNumber(y);
+          checkProgress.setValue(nFPara);
           nextError = getNextErrorInParagraph (0, nFPara, currentDocument, docCursor,ignoredSpellMatches);
           pLength = docCache.getTextParagraph(y).length() + 1;
           nStart += pLength;
@@ -1800,6 +1877,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         documents.setLtDialog(null);
         documents.setLtDialogIsRunning(false);
         isRunning = false;
+        gotoNextError();
       }
       dialog.setVisible(false);
     }
@@ -1850,7 +1928,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         currentDocument.setIgnoredMatch(x, y, error.aRuleIdentifier);
       }
       addUndo(x, y, "ignoreOnce", error.aRuleIdentifier);
-      gotoNextError(true);
+      gotoNextError();
     }
 
     /**
@@ -1873,7 +1951,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         doInit = true;
       }
       addUndo(nFlat, "ignoreAll", error.aRuleIdentifier);
-      gotoNextError(true);
+      gotoNextError();
     }
 
     /**
@@ -1889,7 +1967,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         addUndo(nFlat, "deactivateRule", error.aRuleIdentifier);
         doInit = true;
       }
-      gotoNextError(true);
+      gotoNextError();
     }
 
     /**
@@ -1998,7 +2076,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (debugMode) {
         MessageHandler.printToLogFile("Org: " + word + "\nDia: " + replace);
       }
-      gotoNextError(true);
+      gotoNextError();
     }
 
     /**
@@ -2019,7 +2097,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             currentDocument.removeResultCache(nFlat);
           }
         }
-        gotoNextError(true);
+        gotoNextError();
       }
     }
 
@@ -2207,7 +2285,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           MessageHandler.printToLogFile("yUndo = " + yUndo + ", xUndo = " + xUndo 
               + ", yTundo = " + yTUndo + ", lastFlatPara = " + lastFlatPara);
         }
-        gotoNextError(true);
+        gotoNextError();
       } catch (Throwable e) {
         MessageHandler.showError(e);
       }
