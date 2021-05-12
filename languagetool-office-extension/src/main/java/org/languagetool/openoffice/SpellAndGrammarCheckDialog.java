@@ -951,8 +951,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final static int buttonDistCol = 10;
     private final static int buttonWidthRow = 120;
     private final static int buttonDistRow = (begSecondCol + buttonWidthCol - begFirstCol - 4 * buttonWidthRow) / 3;
+    private final static int progressBarDist = 65;
     private final static int dialogWidth = 640;
-    private final static int dialogHeight = 505;
+    private final static int dialogHeight = 525;
 
     private final JDialog dialog;
     private final JLabel languageLabel;
@@ -1027,6 +1028,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setTitle(dialogName);
       dialog.setLayout(null);
       dialog.setSize(dialogWidth, dialogHeight);
+      dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
 
       languageLabel = new JLabel(labelLanguage);
@@ -1356,14 +1358,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
       
       checkStatus = new JLabel(checkStatusInitialization);
 
-      checkStatus.setBounds(begFirstCol, dialogHeight - 50, 100, 20);
+      checkStatus.setBounds(begFirstCol, dialogHeight - progressBarDist, 100, 20);
       checkStatus.setFont(checkStatus.getFont().deriveFont(Font.BOLD));
       checkStatus.setForeground(Color.RED);
       dialog.add(checkStatus);
       
       checkProgress = new JProgressBar(0, 100);
       checkProgress.setStringPainted(true);
-      checkProgress.setBounds(begFirstCol + 100, dialogHeight - 50, dialogWidth - begFirstCol - 120, 20);
+      checkProgress.setBounds(begFirstCol + 100, dialogHeight - progressBarDist, dialogWidth - begFirstCol - 120, 20);
       dialog.add(checkProgress);
       
       ToolTipManager.sharedInstance().setDismissDelay(30000);
@@ -1495,6 +1497,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       changeLanguage.setEnabled(false);
       activateRule.setEnabled(false);
       endOfDokumentMessage = null;
+      sentenceIncludeError.setEnabled(false);
+      suggestions.setEnabled(false);
       errorDescription.setForeground(Color.BLACK);
     }
     
@@ -1568,6 +1572,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
 
         isSpellError = error.aRuleIdentifier.equals(spellRuleId);
 
+        sentenceIncludeError.setEnabled(true);
         if (lastFlatPara < 0) {
           sentenceIncludeError.setText(docCache.getTextParagraph(y));
         } else {
@@ -1580,6 +1585,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (error.aSuggestions != null && error.aSuggestions.length > 0) {
           suggestions.setListData(error.aSuggestions);
           suggestions.setSelectedIndex(0);
+          suggestions.setEnabled(true);
           change.setEnabled(true);
           changeAll.setEnabled(true);
         } else {
