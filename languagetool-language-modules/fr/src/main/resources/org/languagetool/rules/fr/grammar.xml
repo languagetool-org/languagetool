@@ -15046,6 +15046,11 @@ though, and has since been slightly modified)-->
                     <token>type</token>
                     <token>a</token>
                 </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>beau</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="N [mfe] .*" postag_regexp="yes"/>
@@ -15059,6 +15064,7 @@ though, and has since been slightly modified)-->
                 <example correction="râpe à fromage">La <marker>râpe a fromage</marker> est un instrument très utile.</example>
                 <example correction="couteau à beurre">Mon <marker>couteau a beurre</marker> brille comme s'il était neuf !</example>
                 <example>La saison des pluies a lieu entre les mois de mars et de mai.</example>
+                <example>L'esprit a beau faire plus de chemin que le cœur.</example>
             </rule>
             <!-- Same as above
         <rule default="off">
@@ -21235,6 +21241,41 @@ though, and has since been slightly modified)-->
                 <example>Qu'en as tu fait ?</example>
                 <example>Vas -tu les regarder à la télévision ?</example>
             </rule>
+            <rule name="il/elle + 0 tokens + Verbe" default="temp_off">
+                <antipattern>
+                    <!-- inversion without hyphen: another rule -->
+                    <token postag="V .* 3 sp?" postag_regexp="yes"/>
+                    <token regexp="yes">elle|il</token>
+                </antipattern>
+                <pattern>
+                    <token postag="R pers suj 3 .* s" postag_regexp="yes" regexp="yes">il|elle
+                        <exception scope="previous" postag="P"/>
+                        <exception scope="previous">et</exception></token>
+                    <token postag="V.* 3 p" postag_regexp="yes">
+                        <exception postag="V .* 3 sp?" postag_regexp="yes"/>
+                        <exception postag="V.* ppa .* sp?" postag_regexp="yes"/>
+                        <exception postag="V.* ppr.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
+                <suggestion>\1s \2</suggestion>
+                <suggestion>\1 <match no="2" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="Ils travaillent|Il travaille"><marker>Il travaillent</marker></example>
+                <example>Qu'il s'est lui-même constitué tout au court de sa carrière.</example>
+                <example>Il travaille</example>
+                <example>Ce sont des histoires.</example>
+                <example>Celle adressée à mon ami</example>
+                <example>À elle reviennent toutes les maisons.</example>
+                <example>Des polluants comme celui-ci viennent de la combustion.</example>
+                <example>Je trouve cela passionnant.</example>
+                <example>Je pensais que vous trouveriez ça intéressant.</example>
+                <example>Pierre et elle étaient fiancés.</example>
+                <example>Il a lui-même été contaminé.</example>
+                <example>Elle a elle-même été contaminée.</example>
+                <example>La ville se libère elle-même remplaçant le drapeau à croix gammée par un drapeau tricolore.</example>
+                <example>C'étaient toutes des choses faites main.</example>
+                <example>La police fait elle-même surveiller certains commissariats.</example>
+                <example>Ses actes de bravoures lui apportèrent la gloire.</example>
+            </rule>
             <rule name="il/elle/on + 0 tokens + Verbe">
                 <antipattern>
                     <!-- inversion without hyphen: another rule -->
@@ -21566,6 +21607,25 @@ though, and has since been slightly modified)-->
                 <example>L'abandon de leur maison fut une étape très dure de leur vie.</example>
                 <example>Vous en reste-t-il ?</example>
                 <example>Que vous en semble ?</example>
+            </rule>
+            <rule name="ils/elles + 0 token + Verbe" default="temp_off">
+                <antipattern>
+                    <token postag_regexp="yes" postag="R.*"/>
+                    <token>et</token>
+                    <token postag_regexp="yes" postag="R.*1.*">
+                        <exception>m</exception>
+                        <exception case_sensitive="yes">Moi</exception></token>
+                </antipattern>
+                <pattern>
+                    <token postag="R pers suj 3 .* p" postag_regexp="yes" regexp="yes">ils|elles
+                        <exception scope="previous" postag="P"/></token>
+                    <token postag="V.* 3 s" postag_regexp="yes">
+                        <exception postag="V .* 3 s?p|V .* ppr|V.* ppa .* s?p" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
+                <suggestion><match no="1" regexp_match="s$" regexp_replace=""/> \2</suggestion>
+                <suggestion>\1 <match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="Il travaille|Ils travaillent"><marker>Ils travaille</marker>.</example>
             </rule>
             <rule name="ils/elles + 0 token + Verbe">
                 <antipattern>
@@ -23316,6 +23376,7 @@ though, and has since been slightly modified)-->
                 <example>S'il vous plait, dites nous ce qu'il faut faire ensuite.</example>
                 <example>Comme une journée bien remplie nous donne un bon sommeil.</example>
                 <example>Nous espérons que l’année qui arrive nous rapportera que du bien.</example>
+                <example>Veuillez nous donner quelques exemples.</example>
             </rule>
             <rule name="verbe + il/elle -> ils/elles">
                 <pattern>
