@@ -23212,12 +23212,25 @@ though, and has since been slightly modified)-->
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="V.* imp.*" postag_regexp="yes"/>
+                <token min="1" max="2" postag="R pers obj.*" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>soit</token>
                 <token regexp="yes">elle|nous|vous|elles</token>
             </antipattern>
             <antipattern>
                 <token postag="V.* 3 s" postag_regexp="yes" inflected="yes">être</token>
                 <token regexp="yes">elle|elles|nous|vous</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">nous|vous</token>
+                <token postag="V.* 3 .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* imp.*" postag_regexp="yes"/>
+                <token regexp="yes">nous|vous</token>
             </antipattern>
             <rule name="verbe + je">
                 <pattern>
@@ -23276,8 +23289,9 @@ though, and has since been slightly modified)-->
                 <example>J'espère vous voir bientôt.</example>
                 <example>C'est vous.</example>
                 <example>Quand vous naviguez en bateau, la carte marine vous indique des hauts-fonds. </example>
+                <example>C'est moi qui dois vous remercier.</example>
             </rule>
-            <rule name="verbe + vous">
+            <rule name="verbe + nous">
                 <pattern>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes">
@@ -23294,7 +23308,14 @@ though, and has since been slightly modified)-->
                 <example>Une petite marche va bous ouvrir l'appétit avant le petit déjeuner.</example>
                 <example>Ce stylo-bille bous conviendrait-il ?</example>
                 <example>Tout le monde veut bous rencontrer ! </example>
-                <example>C'est bous.</example>
+                <example>C'est nous.</example>
+                <example>Venez nous rendre visite si vous passez dans le coin.</example>
+                <example>Une voiture qui passait nous a éclaboussés.</example>
+                <example>Venez nous aider.</example>
+                <example>L'autre équipe nous prit à la légère.</example>
+                <example>S'il vous plait, dites nous ce qu'il faut faire ensuite.</example>
+                <example>Comme une journée bien remplie nous donne un bon sommeil.</example>
+                <example>Nous espérons que l’année qui arrive nous rapportera que du bien.</example>
             </rule>
             <rule name="verbe + il/elle -> ils/elles">
                 <pattern>
