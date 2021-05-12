@@ -678,6 +678,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="D_A_J" name="Concordance det+adv+adj">
             <antipattern>
+                <!-- collectives nouns TODO: expand-->
+                <token regexp="yes">concentration|dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
+                <token>des</token>
+                <token>plus</token>
+                <token postag="J [me] (p|s|sp)|V ppa m p" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token postag="_GN_MS|N [me] (s|sp)" postag_regexp="yes"/>
                 <token skip="2" postag="P"/>
                 <token>des</token>
@@ -884,6 +891,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\4' ne semblent pas bien accordés.</message>
                 <suggestion><match no="4" postag="J .*|V.* ppa .*" postag_regexp="yes" postag_replace="J [fe] (p|sp)|V.* ppa f p"/></suggestion>
                 <example correction="intelligentes">Une femme des plus <marker>intelligents</marker></example>
+                <example>une concentration des plus défavorisés dans certains quartiers</example>
                 <!-- Ambiguous: -->
                 <example>Une femme des plus <marker>intelligente</marker></example>
                 <example>Un voyage dans la lune des plus savoureux.</example>
@@ -2899,6 +2907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>les eaux bleu dense de l'océan</example>
             <example>oreiller spécial cervicales</example>
             <example>Il est également possible de partir visiter la région à plusieurs pour pas très cher.</example>
+            <example>Ensemble de 2 pièces composé d'un body et d'un shorts ensoleillés.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -23176,8 +23185,19 @@ though, and has since been slightly modified)-->
                 <example>Sont-elles canadiennes ?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ACCORD_V_QUESTION2" name="verbe pronom" default="temp_off">
+        <rulegroup id="ACCORD_V_QUESTION2" name="verbe pronom">
             <!-- Similar to ACCORD_V_QUESTION with missing hyphen -->
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token postag="R.*" postag_regexp="yes" regexp="yes">je|tu|il|elle|on|nous|vous|ils|elles</token>
+                    <unify-ignore>
+                        <token min="0" max="3" postag="R.*|A" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token postag="V.*[123].*" postag_regexp="yes"/>
@@ -23196,26 +23216,21 @@ though, and has since been slightly modified)-->
                             <exception scope="next" postag="R.* 2 s" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
                 <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
                 <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 s"/>-tu</suggestion>
                 <example correction="Peux-tu"><marker>Peut tu</marker> venir demain ?</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes">
                             <exception postag="V .* 2 p" postag_regexp="yes"/></token>
                         <token postag="R pers (obj|suj) 2 p" postag_regexp="yes">vous</token>
                     </marker>
-                    <token postag="V inf" skip="-1"/>
-                    <token postag="M fin inte"/>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
                 <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
-                <suggestion><match no="2" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/>-vous</suggestion>
-                <suggestion><match no="2" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 p"/>-nous</suggestion>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/>-vous</suggestion>
+                <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 p"/>-nous</suggestion>
                 <example correction="Pouvez-vous|Pouvons-nous"><marker>Pouvons vous</marker> venir ?</example>
             </rule>
             <rule>
@@ -23226,12 +23241,11 @@ though, and has since been slightly modified)-->
                         <token postag="R pers suj 1 s">je
                             <exception scope="next" postag="V.* 1 s" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="V inf|V ppa.*" postag_regexp="yes"/>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^([Pp]eux|.*[éè])-je$"/>
                 <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
                 <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 s"/>-je</suggestion>
-                <example correction="Peux-je|Puis-je"><marker>Peut je</marker> venir demain ?</example>
+                <example correction="Puis-je"><marker>Peut je</marker> venir demain ?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -23264,7 +23278,6 @@ though, and has since been slightly modified)-->
                     <token postag="R pers suj 3 . s" postag_regexp="yes" regexp="yes">il|elle|on
                         <exception scope="next" postag="V. * 3 . s" postag_regexp="yes"/></token>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.SuggestionsFilter" args="RemoveSuggestionsRegexp:^.*[éè]$"/>
                 <message>Vérifiez l’accord entre le verbe '\1' le pronom '\2'.</message>
                 <suggestion><match no="1" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/>-\2</suggestion>
                 <example correction="Peut-il"><marker>Peux il</marker> venir demain ?</example>
@@ -23273,11 +23286,6 @@ though, and has since been slightly modified)-->
                 <example>De temps en temps, nous avions elle et moi les mêmes goûts musicaux.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token regexp="yes">il|elle</token>
-                    <token min="0" max="3" postag="R.*|A" postag_regexp="yes"/>
-                    <token postag="V.* 3 s" postag_regexp="yes"/>
-                </antipattern>
                 <pattern>
                     <token postag="V.* 3 p" postag_regexp="yes">
                         <exception scope="previous" postag="R pers suj 3 . p" postag_regexp="yes"/></token>
@@ -23296,11 +23304,6 @@ though, and has since been slightly modified)-->
                     <token inflected="yes">être</token>
                     <token>elles</token>
                     <token>qui</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">ils|elles</token>
-                    <token min="0" max="3" postag="R.*|A" postag_regexp="yes"/>
-                    <token postag="V.* 3 p" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>

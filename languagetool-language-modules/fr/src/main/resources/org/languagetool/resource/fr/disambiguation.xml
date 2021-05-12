@@ -1538,6 +1538,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="ENSEMBLE_N" name="ensemble (n)">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+                <token postag="N m s">ensemble</token>
+            </marker>
+            <token regexp="yes">de|du|des|d'</token>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
     <rule id="CERVICALES" name="cervicales">
         <pattern>
             <token>spécial</token>
@@ -4348,7 +4358,7 @@ RB => Règles Brutes
             <disambig action="filter" postag="A"/>
         </rule>
     </rulegroup>
-    <rulegroup id="ENSEMBLE" name="ensemble (adverb)">
+    <rulegroup id="ENSEMBLE_A" name="ensemble (adverb)">
         <rule>
             <pattern>
                 <marker>
