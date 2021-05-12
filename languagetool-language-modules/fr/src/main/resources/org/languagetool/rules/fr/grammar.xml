@@ -42952,6 +42952,17 @@ though, and has since been slightly modified)-->
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
             <rule>
                 <pattern>
+                    <marker>
+                    <token>double</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">cliquer</token>
+                    </marker>
+                </pattern>
+                <message>Cette expression s'écrit généralement avec un trait d'union.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="Double-cliquez"><marker>Double cliquez</marker> sur le lien pour accéder à notre site.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
                         <token case_sensitive="yes">hors</token>
