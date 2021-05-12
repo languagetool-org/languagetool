@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
  * filtering uses the IDs from the matches, so dynamically created rules using different IDs will work
  */
 public class RemoteRuleFilters {
+  
   public static final String RULE_FILE = "remote-rule-filters.xml";
 
   private static final LoadingCache<Language, Map<String, List<AbstractPatternRule>>> rules =
@@ -52,7 +53,7 @@ public class RemoteRuleFilters {
       .build(CacheLoader.from(RemoteRuleFilters::load));
 
 
-  public static final List<RuleMatch> filterMatches(@NotNull Language lang, @NotNull AnalyzedSentence sentence, @NotNull List<RuleMatch> matches) throws ExecutionException, IOException {
+  public static List<RuleMatch> filterMatches(@NotNull Language lang, @NotNull AnalyzedSentence sentence, @NotNull List<RuleMatch> matches) throws ExecutionException, IOException {
     if (matches.isEmpty()) {
       return matches;
     }
@@ -71,7 +72,7 @@ public class RemoteRuleFilters {
       }
     }
 
-    List<RuleMatch>  filteredMatches = matches.stream()
+    List<RuleMatch> filteredMatches = matches.stream()
       .filter(match -> {
         MatchPosition pos = new MatchPosition(match.getFromPos(), match.getToPos());
         // is there a filter match with the right ID at this position?
