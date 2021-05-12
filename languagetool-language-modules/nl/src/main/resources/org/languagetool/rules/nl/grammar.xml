@@ -2617,7 +2617,31 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		
+		<rulegroup id="VERLIES_LEIDEN" name="Verlies lijden/leiden">
+			<rule>
+				<pattern>
+					<marker>
+						<token inflected="yes" skip="-1">leiden</token>
+					</marker>
+					<token>verlies</token>
+				</pattern>
+				<message>Meestal wordt 'geld verliezen' bedoeld, en dan is het correcte werkwoord 'lijden'.</message>
+				<suggestion><match no="1" postag="WKW.*" postag_regexp="yes">lijden</match></suggestion>
+				<example correction="lijdt">Het bedrijf <marker>leidt</marker> verlies.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token skip="-1">verlies</token>
+					<marker>
+						<token inflected="yes" >leiden</token>
+					</marker>
+				</pattern>
+				<message>Meestal wordt 'geld verliezen' bedoeld, en dan is het correcte werkwoord 'lijden'.</message>
+				<suggestion><match no="2" postag="WKW.*" postag_regexp="yes">lijden</match></suggestion>
+				<example correction="lijden">Alweer is het bedrijf verlies aan het <marker>leiden</marker>.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="LEIDEN_LIJDEN" name="waarschuwing bij gebruik leiden i.p.v. lijden">
 			<rule>
 				<pattern><token inflected="yes" skip="2">kunnen</token><marker><token>lijden</token></marker><token>tot</token></pattern>
