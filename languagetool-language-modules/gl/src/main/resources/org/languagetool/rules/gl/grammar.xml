@@ -430,7 +430,7 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id='PLUS_MINUS' name="Matemático: +- - ± ">
+  <rulegroup id='PLUS_MINUS' name="Matemáticas: +- - ± ">
     <!-- Created by Tiago F. Santos, 2017-03-28 -->
     <rule>
       <pattern>
@@ -454,7 +454,7 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="EQUAL_OR_X" name="Matemático: &gt;= (≥)">
+  <rulegroup id="EQUAL_OR_X" name="Matemáticas: &gt;= (≥)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
       <regexp>&gt;=</regexp>
@@ -2832,6 +2832,77 @@
       <example correction="can e o gato son">O <marker>can e o gato é</marker> animais.</example>
     </rule>
     </rulegroup>
+    
+    <rulegroup id="NO_CACOPHONY" name="Sen cacofonía" default="on">
+		<rule>
+		<!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
+			<antipattern>
+				<token regexp="yes">[ndc]?un|[nd]?algún|ningún</token>
+				<token regexp="yes" postag="NCMS000">h?[aá].*</token>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">[ndc]?un|[nd]?algún|ningún</token>
+				<token case_sensitive="yes">AVE</token>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">[ndc]?un|[nd]?algún|ningún</token> <!--  un á beira do outro -->
+				<token>á </token>
+				<token>beira</token>
+			</antipattern>
+			<antipattern> <!-- ela non o ama -->
+				<token>o</token>
+				<token>ama</token>
+			</antipattern>
+			<pattern>
+				<token regexp="yes">[ndc]?un|[nd]?algún|ningún</token>
+				<token regexp="yes" postag="NCFS000">h?[aá].*</token>
+			</pattern>		
+			<message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)(.*)[úu]n" regexp_replace="$1unha" /> \2</suggestion>?</message>
+			<short>Posíbel erro de concordancia de xénero</short>
+			<example correction="dunha ave">É unha cría <marker>dun ave</marker> rapaz.</example>
+			<example>É unha cría <marker>dunha ave</marker> rapaz.</example>
+		</rule>
+		
+		<rule>
+		<!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
+			<antipattern>
+				<token regexp="yes">[ndc]?o</token>
+				<token regexp="yes" postag="NCMS000">h?[aá].*</token>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">[ndc]?o</token>
+				<token case_sensitive="yes">AVE</token>
+			</antipattern>
+			<pattern>
+				<token regexp="yes">[nd]?o</token>
+				<token regexp="yes" postag="NCFS000">h?[aá].*</token>
+			</pattern>		
+			<message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)([ndc])?o" regexp_replace="$1a" /> \2</suggestion>?</message>
+			<short>Posíbel erro de concordancia de xénero</short>
+			<example correction="da arma">Rozouna coa empuñadura <marker>do arma</marker>.</example>
+			<example>Rozouna coa empuñadura <marker>da arma</marker>.</example>
+		</rule>
+
+		<rule>
+		<!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
+			<antipattern>
+				<token regexp="yes">co</token>
+				<token regexp="yes" postag="NCMS000">h?[aá].*</token>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">co</token>
+				<token case_sensitive="yes">AVE</token>
+			</antipattern>
+			<pattern>
+				<token regexp="yes">co</token>
+				<token regexp="yes" postag="NCFS000">h?[aá].*</token>
+			</pattern>		
+			<message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)([ndc])?o" regexp_replace="$1oa" /> \2</suggestion>?</message>
+			<short>Posíbel erro de concordancia de xénero</short>
+			<example correction="coa arte">A súa obra rompeu <marker>co arte</marker> anterior.</example>
+			<example>A súa obra rompeu <marker>coa arte</marker> anterior.</example>
+		</rule>
+	</rulegroup>
 
  </category>
  
@@ -4672,40 +4743,7 @@
     </rule>
    </rulegroup>
 
-  <rulegroup id="UN_AVE" name="un ave (unha ave)" default="off">
-    <rule>
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-          <token regexp="yes">[ndc]?un|[nd]?algún|ningún</token>
-          <token regexp="yes" postag="NCFS000">h?[aá].*</token>
-      </pattern>
-      <message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)(.*)[úu]n" regexp_replace="$1unha"/> \2</suggestion>?</message>
-      <example correction="dunha ave">É unha cría <marker>dun ave</marker> rapaz.</example>
-      <example>É unha cría <marker>dunha ave</marker> rapaz.</example>
-    </rule>
-
-    <rule>
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-          <token regexp="yes">[nd]?o</token>
-          <token regexp="yes" postag="NCFS000">h?[aá].*</token>
-      </pattern>
-      <message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)([nd])?o" regexp_replace="$1a"/> \2</suggestion>?</message>
-      <example correction="na alma">Sentíu unha profunda ferida <marker>no alma</marker>.</example>
-      <example>Sentíu unha profunda ferida <marker>na alma</marker>.</example>
-    </rule>
-
-    <rule>
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-          <token>co</token>
-          <token regexp="yes" postag="NCFS000">h?[aá].*</token>
-      </pattern>
-      <message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion>coa \2</suggestion>?</message>
-      <example correction="coa arma">Fíxolle unha profunda ferida <marker>co arma</marker>.</example>
-      <example>Fíxolle unha profunda ferida <marker>coa arma</marker>.</example>
-    </rule>
-  </rulegroup>
+	
 
   <rulegroup id="ESTE_ESTA" name="éste (este)">
     <rule>
