@@ -41222,6 +41222,7 @@ steenwijk;Steenwijk
 		<rulegroup id="IETS_KLEINS" name="vreemde constructie rond 'kleins'">
 			<rule>
 				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+				<antipattern><token>van</token><token regexp="yes">jongs|kleins|ouds</token></antipattern>
 				<antipattern><token>al</token><token regexp="yes">het|dat|dit|te</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<antipattern><token regexp="yes" skip="6">iets|niets|niks|weinig|wat|hoeveel|zoveel|zoiets|veel|allerlei|genoeg|ander|vele|voor</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				
@@ -41237,7 +41238,7 @@ steenwijk;Steenwijk
 				<antipattern><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<pattern case_sensitive="yes">
 					<token/>
-					<token postag_regexp="yes" postag="BNW:.*:IET"><exception postag_regexp="yes" postag="ZNW.*|BYW|WKW.*|BNW:.*:(ONV|VRB)"/><exception regexp="yes">slechts|nieuws|langs|wees|straks|limes|anders</exception></token>
+					<token postag_regexp="yes" postag="BNW:.*:IET"><exception postag_regexp="yes" postag="ZNW.*|BYW|WKW.*|BNW:.*:(ONV|VRB)"/><exception regexp="yes">slechts|nieuws|langs|wees|straks|limes|anders|wijds</exception></token>
 				</pattern>
 				<message>Gebruikelijk is 'iets kleins', maar klopt wat hier staat wel?</message>
 				<example type="incorrect"><marker>blijven kleins</marker>.</example>		
