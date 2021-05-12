@@ -31773,22 +31773,6 @@ steenwijk;Steenwijk
 				<example correction="à-la-cartewoning">Bouwgrond voor alleenstaande <marker>à la carte woning</marker> met vrije keuze van architectuur.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="LAATS" name="laats">
-			<rule>
-				<!-- 2014-08-19 TaalTik : regel werkt heel behoorlijk -->
-				<pattern case_sensitive="yes">
-					<token negate="yes">iets</token>
-					<marker>
-						<token>laats</token>
-					</marker>
-				</pattern>
-				<message>U bedoelt <suggestion>laatst</suggestion>?</message>
-				<short>Typefout?</short>
-				<example correction="laatst">Er moet maar één trein vertraging hebben (ongeacht de oorzaak) op de verkeerde <marker>laats</marker> en dat heeft effect op alle treinen.</example>
-				<example correction="laatst">En <marker>laats</marker> ons nog wat genieten van het aangename herfstweer.</example>
-				<example correction="laatst">Van op het <marker>laats</marker> der maand januari is het volop winter geworden.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="S_AVONDS" name="s avonds">
 			<rule>
 				<pattern>
@@ -41218,10 +41202,26 @@ steenwijk;Steenwijk
 				<example correction="zachtst">Hij zei het op zijn <marker>zachts</marker>.</example>
 			</rule>
 		</rulegroup>
-	
+
+		<rulegroup id="LAATS" name="laats">
+			<rule>
+				<!-- 2014-08-19 TaalTik : regel werkt heel behoorlijk -->
+				<pattern case_sensitive="yes">
+					<token negate="yes">iets</token>
+					<marker>
+						<token>laats</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt <suggestion>laatst</suggestion>?</message>
+				<short>Typefout?</short>
+				<example correction="laatst">Er moet maar één trein vertraging hebben (ongeacht de oorzaak) op de verkeerde <marker>laats</marker> en dat heeft effect op alle treinen.</example>
+				<example correction="laatst">En <marker>laats</marker> ons nog wat genieten van het aangename herfstweer.</example>
+				<example correction="laatst">Van op het <marker>laats</marker> der maand januari is het volop winter geworden.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="IETS_KLEINS" name="vreemde constructie rond 'kleins'">
 			<rule>
-				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
 				<antipattern><token>van</token><token regexp="yes">jongs|kleins|ouds</token></antipattern>
 				<antipattern><token>al</token><token regexp="yes">het|dat|dit|te</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<antipattern><token regexp="yes" skip="6">iets|niets|niks|weinig|wat|hoeveel|zoveel|zoiets|veel|allerlei|genoeg|ander|vele|voor</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
@@ -41238,10 +41238,14 @@ steenwijk;Steenwijk
 				<antipattern><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<pattern case_sensitive="yes">
 					<token/>
-					<token postag_regexp="yes" postag="BNW:.*:IET"><exception postag_regexp="yes" postag="ZNW.*|BYW|WKW.*|BNW:.*:(ONV|VRB)"/><exception regexp="yes">slechts|nieuws|langs|wees|straks|limes|anders|wijds</exception></token>
+					<token postag_regexp="yes" postag="BNW:.*:IET"><exception postag_regexp="yes" postag="ZNW.*|BYW|WKW.*|BNW:.*:(ONV|VRB)"/><exception regexp="yes">slechts|nieuws|langs|wees|straks|limes|anders|wijds|stuks|.*isch</exception></token>
 				</pattern>
 				<message>Gebruikelijk is 'iets kleins', maar klopt wat hier staat wel?</message>
-				<example type="incorrect"><marker>blijven kleins</marker>.</example>		
+				<suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace=""/></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace="e"/></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace="st"/></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace="ste"/></suggestion>
+				<example correction="klein|kleine|kleinst|kleinste">De correcties <marker>blijven kleins</marker>.</example>
 			</rule>
 		</rulegroup>
 	</category>	
