@@ -88,6 +88,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("kritischen");
       words.add("kritischem");
       words.add("fortbewegung");
+      words.add("verträglich");
+      words.add("verträgliche");
+      words.add("verträgliches");
+      words.add("verträglicher");
+      words.add("verträglichen");
+      words.add("verträglichem");
       words.add("freundlich");
       words.add("freundliche");
       words.add("freundliches");
