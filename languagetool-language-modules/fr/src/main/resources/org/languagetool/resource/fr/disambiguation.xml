@@ -1705,7 +1705,7 @@ RB => Règles Brutes
                     <feature id="gender"/>-->
                 <token postag="D.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
+                    <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes">
                     <exception inflected="yes">vrai</exception></token>
@@ -1719,7 +1719,7 @@ RB => Règles Brutes
                     <feature id="number"/>
                     <feature id="gender"/>
                     <marker>
-                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</token>
                         <token postag="N.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
@@ -2976,7 +2976,7 @@ RB => Règles Brutes
                     <exception scope="previous" regexp="yes">&apostrophe;</exception></token>
                 <marker>
                     <token postag="N [me] .*" postag_regexp="yes">
-                        <exception regexp="yes">est|multiples|si|ayant|nouveau</exception>
+                        <exception regexp="yes">est|multiples|si|ayant|nouveau|beau</exception>
                         <exception case_sensitive="yes">Paris</exception></token>
                 </marker>
             </pattern>
@@ -3720,10 +3720,12 @@ RB => Règles Brutes
         <rule name="mon">
             <pattern>
                 <marker>
-                    <token regexp="yes" postag="N m s" negate_pos="yes">[mts]on</token>
+                    <token regexp="yes" postag="D.*" postag_regexp="yes">[mts]on</token>
                 </marker>
+                <token min="0" postag="A"/>
+                <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
             </pattern>
-            <disambig postag="D e s"/>
+            <disambig action="filter" postag="D.*"/>
         </rule>
     </rulegroup>
     <rule id="AVEC_N" name="avec + verb/nom">
