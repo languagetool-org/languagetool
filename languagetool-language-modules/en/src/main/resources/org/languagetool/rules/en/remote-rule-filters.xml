@@ -51,17 +51,17 @@
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
-            <!-- Single non-alphanumeric characters. -->
+                <!-- #1 Single non-alphanumeric characters. -->
                 <pattern>
                     <token regexp="yes">\W</token>
                 </pattern>
                 <example correction="">In addition he won the Championship Series titles in 1980<marker>,</marker> the precursors to the current Masters 1000</example>
             </rule>
             <rule>
-            <!-- Tokens that are followed by a comma or a full stop. -->
+                <!-- #2 Tokens that are followed by a comma or a full stop. -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">.*</token>
+                        <token/>
                     </marker>
                     <token regexp="yes">,|\.</token>
                 </pattern>
@@ -69,7 +69,7 @@
                 <example correction="">This is another <marker>case</marker>, for this rule</example>
             </rule>
             <rule>
-            <!-- Numbers of the form ,3212 or .93212. -->
+                <!-- #3 Numbers of the form ,3212 or .93212. -->
                 <pattern>
                     <token regexp="yes">,|\.</token>
                     <marker>
@@ -80,33 +80,35 @@
                 <example correction="">The amount charged and paid by joint ventures is $5.<marker>091062</marker>.</example>
             </rule>
             <rule>
+                <!-- #4 numbers -->
                 <pattern>
                     <token postag="CD"/>
                 </pattern>
                 <example correction="">Approximately <marker>7000</marker> messages were sent daily from the United States to Canada.</example>
             </rule>
-            <!-- Numbers representing money. -->
             <rule>
+                <!-- -#5 Numbers representing money. -->
                 <regexp mark="1">\$(\d+)</regexp>
                 <example correction="">The amount charged and paid by joint ventures is $<marker>91062</marker>.</example>
             </rule>
             <rule>
+                <!-- #6 -->
                 <regexp mark="1">(\d+)\$</regexp>
                 <example correction="">The amount charged and paid by joint ventures is <marker>91062</marker>$.</example>
             </rule>
             <rule>
-            <!-- Numbers representing information size (e.g. disk size). -->
+                <!-- #7 Numbers representing information size (e.g. disk size). -->
                 <pattern>
                     <marker>
                         <token postag="CD"/>
                     </marker>
-                    <token regexp="yes">[K|M|G|T|P]B</token>
+                    <token regexp="yes">[KMGTP]B</token>
                 </pattern>
                 <example correction="">Your mailbox size is currently <marker>179945</marker> KB.</example>
                 <example correction="">Your mailbox size is currently <marker>17</marker> GB.</example>
             </rule>
             <rule>
-            <!-- Date representation e.g. 12/5/21 -->
+                <!-- #8 Date representation e.g. 12/5/21 -->
                 <pattern>
                     <token regexp="yes">\d{1,4}</token>
                     <token regexp="yes">\/|-</token>
@@ -119,7 +121,7 @@
                 <example correction="">Updated 11/29/<marker>00</marker> Person was activated from the injured list on Tuesday after missing Cleveland's last eight games with an elbow injury.</example>
             </rule>
             <rule>
-            <!-- Date representation e.g. May 5th -->
+                <!-- #9 Date representation e.g. May 5th -->
                 <pattern>
                     <or>
                         <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
