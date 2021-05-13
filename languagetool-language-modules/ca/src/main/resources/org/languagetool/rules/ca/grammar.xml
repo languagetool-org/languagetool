@@ -6800,6 +6800,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">se|es</token>
+                    <token regexp="yes">li|'ls</token>
+                    <token regexp="yes">passa|passava</token>
+                </pattern>
+                <message>Ús pronominal probablement incorrecte. Pot ser correcte si és una frase impersonal (equivalent a "hom <match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/>").</message>
+                <suggestion>(descuidar-se de)</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> per alt</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/></suggestion>
+                <short>Ús pronominal incorrecte</short>
+                <example correction="(descuidar-se de)|li passa per alt|li passa">A Joan <marker>se li passa</marker> tot.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">se|es</token>
                     <token postag="PP[123]C[SP][^A].*" postag_regexp="yes"/>
                     <token min="0" inflected="yes" regexp="yes">anar|haver|deure</token>
                     <token inflected="yes">passar</token>
