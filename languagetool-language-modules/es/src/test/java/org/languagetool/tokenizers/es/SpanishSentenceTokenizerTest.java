@@ -83,6 +83,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("En EE. UU. esto no pasa.");
     testSplit("Me voy a EE. UU. ", "Buen viaje.");
     testSplit("Uno (ca. 2010), dos (c. 2011), tres (ca. XIX), cuatro (c. XX)");
+    testSplit("Ayto. de Madrid.");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");
