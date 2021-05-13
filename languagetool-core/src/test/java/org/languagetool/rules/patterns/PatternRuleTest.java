@@ -454,7 +454,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           if (rule instanceof RegexPatternRule) {
             info = "\nRegexp: " + ((RegexPatternRule) rule).getPattern();
           }
-          String failure = badSentence + "\"\n"
+          String failure = "\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
                   + "Errors found   : " + matches.size() + "\n"
                   + "Message: " + rule.getMessage() + "\n" + sb + "\nMatches: " + matches + info;
