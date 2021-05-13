@@ -3501,7 +3501,7 @@ RB => Règles Brutes
         </rule>
         <rule name="le/la/les/l'">
             <antipattern>
-                <token regexp="yes">elle|elles|nous|vous</token>
+                <token regexp="yes">elle|elles|nous|vous|.*-même</token>
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="[NJ].*" postag_regexp="yes"/>
             </antipattern>
@@ -3788,6 +3788,11 @@ RB => Règles Brutes
         <disambig action="filterall"/>
     </rule>
     <rulegroup name="Pronoun + Pronoun + verb" id="PRON_PRON_VERB">
+        <antipattern>
+            <token inflected="yes">avoir</token>
+            <token postag="V ppa.*" postag_regexp="yes"/>
+            <token regexp="yes">.*-même</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="R .*" postag_regexp="yes"/>
