@@ -38,11 +38,11 @@
 			<xs:attribute name="lang" type="xs:language" use="required" />
 			<xs:attribute name="idprefix" type="xs:string" use="optional" />
 			<xs:attribute name="integrate" use="optional">
-			<xs:simpleType>
-				<xs:restriction base="xs:NMTOKEN">
-					<xs:enumeration value="replace"/>
-					<xs:enumeration value="add"/>
-				</xs:restriction>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="replace"/>
+						<xs:enumeration value="add"/>
+					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
@@ -203,21 +203,21 @@
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
 					<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional"/>
-                    <xs:attribute name="type" use="optional" default="smart">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:NMTOKEN">
-                                <xs:enumeration value="smart" />
-                                <xs:enumeration value="exact" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                    <xs:attribute name="mark" use="optional">
-                        <xs:simpleType>
+					<xs:attribute name="type" use="optional" default="smart">
+						<xs:simpleType>
+							<xs:restriction base="xs:NMTOKEN">
+								<xs:enumeration value="smart" />
+								<xs:enumeration value="exact" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="mark" use="optional">
+						<xs:simpleType>
 							<xs:restriction base="xs:integer">
 								<xs:minInclusive value="1" />
 							</xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
+						</xs:simpleType>
+					</xs:attribute>
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -258,7 +258,7 @@
 				<xs:element ref="suggestion" />
 				<xs:element ref="match" />
 			</xs:choice>
-		    <xs:attribute name="suppress_misspelled" type="binaryYesNo" use="optional"/>
+			<xs:attribute name="suppress_misspelled" type="binaryYesNo" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -331,12 +331,12 @@
 	</xs:complexType>
   </xs:element>
 
-    <xs:attribute name="name">
-        <xs:simpleType>
-            <xs:restriction base="xs:string">
-                <xs:minLength value="1"/>
-            </xs:restriction>
-        </xs:simpleType>
-    </xs:attribute>
+	<xs:attribute name="name">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
 
 </xs:schema>
