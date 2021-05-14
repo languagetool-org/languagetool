@@ -1698,6 +1698,11 @@ RB => Règles Brutes
             <token postag="V.*" postag_regexp="yes"/>
             <token>pas</token>
         </antipattern>
+        <antipattern>
+            <token inflected="yes">avoir</token>
+            <token>beau</token>
+            <token postag="V.* inf" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <!-- <unify>
@@ -2100,6 +2105,29 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
+    <rulegroup id="AVANT" name="avant (adv)">
+        <rule>
+            <pattern>
+                <token>
+                    <exception postag="D [em] s" postag_regexp="yes"/></token>
+                <marker>
+                    <token>avant</token>
+                </marker>
+                <token>dans</token>
+            </pattern>
+            <disambig action="replace" postag="A"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>
+                    <exception postag="D [em] s" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="P">avant</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="P"/>
+        </rule>
+    </rulegroup>
     <!-- END: adverbs -->
     <!-- CATEGORY: preposition + noun -->
     <rulegroup name="la (déterminant/pronom)" id="LA_DET_PRON">

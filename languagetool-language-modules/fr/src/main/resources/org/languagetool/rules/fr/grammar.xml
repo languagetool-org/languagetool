@@ -6081,7 +6081,8 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>son<exception postag="_GN_MS"/></token>
+                        <token>son
+                            <exception postag="_GN_MS"/></token>
                     </marker>
                     <token postag="[VR].*|P" postag_regexp="yes">
                         <exception postag="[NJ] .*" postag_regexp="yes"/></token>
@@ -23384,7 +23385,8 @@ though, and has since been slightly modified)-->
             </rule>
             <rule name="verbe + vous">
                 <antipattern>
-                    <token><exception postag="SENT_START"/></token>
+                    <token>
+                        <exception postag="SENT_START"/></token>
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                     <token>vous</token>
                     <token postag="V ppr|V.* inf" postag_regexp="yes"/>
@@ -23421,7 +23423,8 @@ though, and has since been slightly modified)-->
                     <token>nous</token>
                 </antipattern>
                 <antipattern>
-                    <token><exception postag="SENT_START"/></token>
+                    <token>
+                        <exception postag="SENT_START"/></token>
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                     <token>nous</token>
                     <token postag="V ppr|V.* inf" postag_regexp="yes"/>
@@ -23492,7 +23495,8 @@ though, and has since been slightly modified)-->
                     <token postag="V avoir.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token><exception postag="SENT_START"/></token>
+                    <token>
+                        <exception postag="SENT_START"/></token>
                     <token regexp="yes">\p{Lu}.*</token>
                     <!-- usually English -->
                     <token>on</token>
@@ -25444,6 +25448,11 @@ though, and has since been slightly modified)-->
                     <token postag="V.* ppa.*" postag_regexp="yes"/>
                     <!-- It should be infinitive -->
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">avoir</token>
+                    <token>beau</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>beau</token>
@@ -25454,6 +25463,8 @@ though, and has since been slightly modified)-->
                 <message>Il faut écrire <suggestion>bel</suggestion> devant un nom masculin singulier commençant par une voyelle ou un h muet.</message>
                 <example correction="bel">C’est un <marker>beau</marker> homme.</example>
                 <example correction="bel">Mon <marker>beau</marker> ami.</example>
+                <example>Il a beau être fort comme un Turc</example>
+                <example>Elle a beau être jolie, elle n'a pas le sou.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41993,6 +42004,7 @@ though, and has since been slightly modified)-->
                 <example>L'ambition de ce service est de <marker>pouvoir nous</marker> informer.</example>
                 <example>Elle me demanda quel âge j'avais.</example>
                 <example>Tu ne peux jamais dire quelle sorte d'emploi tu vas peut-être trouver.</example>
+                <example>J'ai été étudiant avant vous, donc pas d'entourloupes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -43034,8 +43046,8 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                    <token>double</token>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes">cliquer</token>
+                        <token>double</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">cliquer</token>
                     </marker>
                 </pattern>
                 <message>Cette expression s'écrit généralement avec un trait d'union.</message>
