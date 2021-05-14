@@ -328,9 +328,6 @@ public class English extends Language implements AutoCloseable {
       case "MAY_MANY":                  return 1;   // higher prio than MAY_MANY_MY
       case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
       case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
-      case "UPPERCASE_SENTENCE_START":  return 1;   // higher prio than AI_HYDRA_LEO
-      case "TO_TOO":                    return 1;   // higher prio than AI_HYDRA_LEO_REPLACE_*
-      case "CAR_CARE":                  return 1;   // higher prio than AI_HYDRA_LEO_MISSING_THE
       case "LUV":                       return 1;   // higher prio than spell checker
       case "DAT":                       return 1;   // higher prio than spell checker
       case "MAC_OS":                    return 1;   // higher prio than spell checker
@@ -497,6 +494,9 @@ public class English extends Language implements AutoCloseable {
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
+    }
+    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules
+      return -1;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;
