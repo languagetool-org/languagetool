@@ -1842,31 +1842,27 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
           <token>a</token>
       </antipattern>
     <rule>
-<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *START* -->
-	  <!-- "A Portugal coube o setor oriental do continente." -->
+<!-- MARCOAGPINTO 2021-05-14 (17-MAR-2021+) *START* -->
+<!--
+O termo refere-se a hardware ou a software.
+Ele refere-se a software bom.
+Atribui-se a Newton as leis da mecânica clássica.
+-->
+      <antipattern>
+		<token postag='V.+|PP.+|CC' postag_regexp='yes'/>
+		<token>a</token>		
+		<token postag='NP.+|NCM.+|AQ0M.+' postag_regexp='yes'/>
+      </antipattern>
+<!--
+A Portugal coube o setor oriental do continente.
+A César o que é de César.
+-->
       <antipattern>		  
 		  <token regexp="no">a</token>
-		  <token postag='NP[FM]S[0G]00' postag_regexp='yes'/>
-		  <token postag='V.+|PP1CSO00|CC|I|RG' postag_regexp='yes'/>
-	  </antipattern>
-	  <!-- "Atribuem-se a Newton as leis da mecânica clássica." -->
-      <antipattern>		  
-		  <token regexp="no">a</token>
-		  <token postag='NP[FM]S[0G]00' postag_regexp='yes'/>
-		  <token regexp="yes">as?|os?|das?|dos?|de</token>
-	  </antipattern>	   	  
-      <antipattern>	
-		  <token regexp="no">a</token>
-		  <token min="1" max="2" postag='NP[FM]S[0GS]00' postag_regexp='yes'/>
-		  <token regexp="yes">[,.)]</token>
-	  </antipattern> 	   	  	  
-	  <!-- "A César o que é de César." -->
-      <antipattern>		  
-		  <token regexp="no">a</token>
-		  <token postag='NC[CFM]P000|AQ0[CFM]P0|NP[FM]S[0G]00' postag_regexp='yes'/>
-		  <token regexp="yes">que|na|no|maiores|menores|como|por|o</token>
-	  </antipattern> 	  
-<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *END* -->	  
+		  <token postag='NP.+|NCF.+|AQ0F.+' postag_regexp='yes'/>
+		  <token postag='V.+|PP.+|CC|I|RG|SPS.+|_PUNCT|DA0MS0' postag_regexp='yes'/>
+	  </antipattern>	  
+<!-- MARCOAGPINTO 2021-05-14 (17-MAR-2021+) *END* -->  
       <pattern>
           <token>a
             <exception scope='previous'>não</exception>
@@ -1883,6 +1879,15 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
 	  <example type='correct'><marker>A Portugal coube</marker> o setor oriental do continente.</example>
 	  <example type='correct'><marker>A César o</marker> que é de César.</example>
 	  <example type='correct'>Atribuem-se <marker>a Newton as</marker> leis da mecânica clássica.</example>
+	  
+	  <example type='correct'>O termo refere-se a hardware ou <marker>a software</marker>.</example>
+	  <example>Ele refere-se a software bom.</example>
+	  <example>Atribui-se a Newton as leis da mecânica clássica.</example>
+	  <example>A Portugal coube o setor oriental do continente.</example>
+	  <example>Você não se importa com a Mary.</example>
+	  <example>Atribui-se ainda a Saturno a criação de divindades como Juno ou Hércules e de heróis como Rómulo.</example>
+	  <example>O livro é o primeiro dos cinco livros atribuidos a Moisés.</example>
+	  <example>A César o que é de César.</example>	  
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2020-06-03 *START* -->
