@@ -16423,6 +16423,109 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rulegroup id="ENSORTIR" name="ensortir/sortir" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">s'|t'|m'</token>
+                    <token regexp="yes">ensurt|ensurts|ensurto</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1" regexp_match="'" regexp_replace="e'n"/> <match no="2" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>.</message>
+                <example correction="se'n surt">No <marker>s'ensurt</marker>.</example>
+                <example correction="me'n surto">No <marker>m'ensurto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se</token>
+                    <token>n'</token>
+                    <token regexp="yes">ensurt|ensurts|ensurto|ensurten|ensort[ií].+</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1"/>'n <match no="3" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>.</message>
+                <example correction="se'n surt">No <marker>se n'ensurt</marker>.</example>
+                <example correction="se'n sortien">No <marker>se n'ensortien</marker>.</example>
+                <example correction="me'n surto">No <marker>me n'ensurto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">us|vos|ens</token>
+                    <token regexp="yes">n'|en</token>
+                    <token regexp="yes">ensurt|ensurts|ensurto|ensurten|ensort[ií].+</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)en" regexp_replace=""/></suggestion>.</message>
+                <example correction="us en sortíeu">No <marker>us n'ensortíeu</marker>.</example>
+                <example correction="ens en sortíem">No <marker>ens en ensortíem</marker>.</example>
+                <example correction="ens en sortim">No <marker>ens en ensortim</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ENTORNAR" name="entornar-se'n/tornar-se'n" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se</token>
+                    <token>n'</token>
+                    <token inflected="yes">entornar</token>
+                </pattern>
+                <message>En el sentit de "anar cap al lloc d'origen" cal dir "tornar-se'n".</message>
+                <suggestion><match no="1"/>'n <match no="3" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>
+                <example correction="Se'n torna"><marker>Se n'entorna</marker>.</example>
+                <example correction="Se'n tornaven"><marker>Se n'entornaven</marker>.</example>
+                <example correction="Me'n torno"><marker>Me n'entorno</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">us|vos|ens</token>
+                    <token regexp="yes">n'|en</token>
+                    <token inflected="yes">entornar</token>
+                </pattern>
+                <message>En el sentit de "anar cap al lloc d'origen" cal dir "tornar-se'n".</message>
+                <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>
+                <example correction="us en torneu">No <marker>us n'entorneu</marker>.</example>
+                <example correction="ens en tornarem">No <marker>ens en entornarem</marker>.</example>
+                <example correction="ens en tornem">No <marker>ens en entornem</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">n'|en|'n</token>
+                    <token inflected="yes" regexp="yes">haver|anar</token>
+                    <marker>
+                        <token postag="V.[PN].*" postag_regexp="yes" inflected="yes">entornar</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "anar cap al lloc d'origen" cal dir "tornar-se'n".</message>
+                <suggestion><match no="3" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>
+                <example correction="tornar">Se'n va <marker>entornar</marker>.</example>
+                <example correction="tornat">Llavors se n'han <marker>entornat</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">entornar|entornant</token>
+                    </marker>
+                    <token regexp="yes">-.*</token>
+                    <token regexp="yes">-en|'n</token>
+                </pattern>
+                <message>En el sentit de "anar cap al lloc d'origen" cal dir "tornar-se'n".</message>
+                <suggestion><match no="1" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>
+                <example correction="tornar">Cal <marker>entornar</marker>-se'n</example>
+                <example correction="tornant">Heu anat <marker>entornant</marker>-vos-en</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">m'|t'|s'</token>
+                    <token inflected="yes">entornar</token>
+                </pattern>
+                <message>En el sentit de "anar cap al lloc d'origen" cal dir "tornar-se'n". Correcte en el sentit de 'encongir-se'.</message>
+                <suggestion><match no="1" regexp_match="'" regexp_replace="e'n"/> <match no="2" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>
+                <example correction="Se'n torna"><marker>S'entorna</marker> cap a casa</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">us|ens|vos</token>
+                    <token inflected="yes">entornar</token>
+                </pattern>
+                <message>En el sentit de "anar cap al lloc d'origen" cal dir "tornar-se'n". Correcte en el sentit de 'encongir-se'.</message>
+                <suggestion>\1 <match no="2" regexp_match="(?iu)^(en)" regexp_replace="$1 "/></suggestion>
+                <example correction="Us en torneu"><marker>Us entorneu</marker> cap a casa</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ON_NO" name="on/no">
             <rule>
                 <pattern>
