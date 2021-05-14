@@ -6133,6 +6133,32 @@ though, and has since been slightly modified)-->
                 <example correction="sont">Elles ne <marker>son</marker> pas ici.</example>
                 <example correction="sont">Elles <marker>son</marker> ici.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">au|le|d[eu]|un|bande|même|ce|leur</token>
+                    <token postag="J [em] s" postag_regexp="yes" min="0"/>
+                    <token>son</token>
+                </antipattern>
+                <antipattern>
+                    <token>quel</token>
+                    <token>son</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>son
+                            <exception postag="_GN_MS"/></token>
+                    </marker>
+                    <token postag="V ppa . p|J . p" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>sont</suggestion> (v. 'être') ?</message>
+                <example>Les Chinoises sont celles qui se marient le plus avec les Sud-Coréens.</example>
+                <example correction="sont">Dans sa tour <marker>son</marker> cachés les plus beaux trésors.</example>
+                <example correction="sont">Contre de vastes rocs trois vaisseaux <marker>son</marker> lancés.</example>
+                <example correction="sont">les "dream box" <marker>son</marker> disponibles partout</example>
+                <example correction="sont">Tout à côté <marker>son</marker> posés</example>
+                <example correction="sont">Éric Haley et son adjoint Richard Vachon <marker>son</marker> congédiés et remplacés.</example>
+                <example correction="sont">Ses épaules <marker>son</marker> larges.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
             <rule>
