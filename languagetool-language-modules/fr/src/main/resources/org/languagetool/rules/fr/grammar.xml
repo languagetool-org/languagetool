@@ -13682,6 +13682,17 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="JE_TES" name="je tes/t'ai" default="temp_off">
+            <pattern>
+                <token>je</token>
+                <marker>
+                    <token>tes</token>
+                </marker>
+                <token postag="V.*ppa .*" postag_regexp="yes"/>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>t'ai</suggestion> ?</message>
+            <example correction="t'ai">Je <marker>tes</marker> donné un livre.</example>
+        </rule>
         <rule id="BEAUCOUP_DES" name="beaucoup des/de" default="temp_off">
             <pattern>
                 <token inflected="yes">avoir</token>
@@ -18398,42 +18409,49 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" regexp="yes">[mts][e']</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">[mts][e']</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="2"/>
+                    <token regexp="yes">[mts][e']</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
                     </marker>
                 </pattern>
-                <message>Incohérence entre le verbe « \2 » et « \1 ».</message>
-                <suggestion><match no="2" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <message>Incohérence entre le verbe « \3 » et « \2 ».</message>
+                <suggestion><match no="3" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
                 <example correction="préparer">Je veux te <marker>préparé</marker></example>
+                <example correction="réorienter">Je veux même me <marker>réorienté</marker> pour faire un métier autour de ça.</example>
                 <example>Je veux te préparer</example>
                 <example>Luc est quant à lui condamné.</example>
+                <example>système de tubules T spécialisé du muscle strié</example>
+                <example>Me trompé-je ?</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">afin|avant</token>
-                    <token>de</token>
+                    <token regexp="yes">de|d'</token>
+                    <token min="0" regexp="yes">[mts][e']</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
                 </pattern>
-                <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
-                <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
-                <example correction="gagner">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
-                <example>J’étudie des parties d’échecs afin de gagner.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">afin|avant</token>
-                    <token inflected="yes">de</token>
-                    <marker>
-                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
-                    </marker>
-                </pattern>
-                <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
-                <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+                <message>Le verbe « \4 » devrait être à l’infinitif après « afin de ».</message>
+                <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="annuler">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
+                <example correction="gagner">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
+                <example correction="préserver">Afin de se <marker>préservé</marker> de ces désagréments.</example>
+                <example>J’étudie des parties d’échecs afin de gagner.</example>
                 <example>Je luis en parle avant d’annuler le voyage.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">pour</token>
+                    <token regexp="yes" min="0">[mts][e']</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \3 » devrait être à l’infinitif après « pour ».</message>
+                <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+                <example correction="élever"> la jument poussait sur ses postérieurs pour s'<marker>élevé</marker> au dessus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe">
@@ -44306,7 +44324,7 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-        <rulegroup id="DE_MA_FAUTE" name= "Ce n'est pas de ma faute (ma faute)" default="temp_off">
+        <rulegroup id="DE_MA_FAUTE" name="Ce n'est pas de ma faute (ma faute)" default="temp_off">
             <rule>
                 <pattern>
                     <token postag="A.*" postag_regexp="yes" regexp="yes"/>
@@ -44341,7 +44359,7 @@ though, and has since been slightly modified)-->
                         <token>la</token>
                         <token>faute</token>
                     </marker>
-                        <token regexp="yes">de|du|des|d'</token>
+                    <token regexp="yes">de|du|des|d'</token>
                 </pattern>
                 <message>Il est préférable d'utiliser <suggestion>la faute</suggestion>, le premier 'de' étant perçu comme une redondance.</message>
                 <example correction="la faute">Ce n'est pas <marker>de la faute</marker> du professeur.</example>
