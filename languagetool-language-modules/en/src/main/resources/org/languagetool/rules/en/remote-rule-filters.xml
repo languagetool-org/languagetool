@@ -73,7 +73,7 @@
                 <pattern>
                     <token regexp="yes">,|\.</token>
                     <marker>
-                        <token postag="CD"/>
+                        <token regexp="yes" spacebefore="no">\d+</token>
                     </marker>
                 </pattern>
                 <example correction="">The amount charged and paid by joint ventures is $5,<marker>091062</marker>.</example>
@@ -129,12 +129,13 @@
                     </or>
                     <token min="0">.</token>
                     <marker>
-                        <token regexp="yes">1st|2nd|3rd|\dth</token>
+                        <token regexp="yes">1st|2nd|3rd|\d+th</token>
                     </marker>
                 </pattern>
                 <example correction="">On May <marker>5th</marker> of the year 2021.</example>
                 <example correction="">On Sep. <marker>2nd</marker> of the year 2021.</example>
                 <example correction="">On Sep <marker>2nd</marker> of the year 2021.</example>
+                <example correction="">On Sep <marker>20th</marker> of the year 2021.</example>
             </rule>
         </rulegroup>
     </category>
