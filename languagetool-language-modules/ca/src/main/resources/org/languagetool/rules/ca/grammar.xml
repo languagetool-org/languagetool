@@ -11433,8 +11433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
-        <rulegroup id="ESTIRAR" name="tirar/estirar *de">
-            <!-- TODO: *tirar de memòria/orgull/concursos... -->
+        <rulegroup id="TIRAR_DE" name="tirar *de">
             <antipattern>
                 <token>de</token>
                 <token regexp="yes">manera|forma|cap|valent|nou|cada|bomba|panxa|cara|esquena|tos</token>
@@ -11455,7 +11454,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">estirar|tirar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token inflected="yes">tirar</token>
+                        <token regexp="yes" skip="1">de|d'</token>
+                    </marker>
+                    <token regexp="yes">memòria|orgull|concursos|decret|reail|RD|RDL|mesures</token>
+                </pattern>
+                <message>Expressió incorrecta en el sentit de "recórrer a".</message>
+                <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VM$1">recórrer</match> a</suggestion>
+                <suggestion>(servir-se) <match no="2"/></suggestion>
+                <example correction="recorregueren a|(servir-se) de">Llavors <marker>tiraren de</marker> mesures disciplinàries</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tirar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token inflected="yes">de<exception postag="_LOC_.*" postag_regexp="yes"/></token>
                     <token regexp="yes">l|ls</token>
                 </pattern>
@@ -11467,7 +11479,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" inflected="yes">estirar|tirar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token inflected="yes">tirar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token inflected="yes">de<exception postag="_LOC_.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Aquest verb és transitiu i s'usa sense la preposició 'de'.</message>
+                <suggestion>\1</suggestion>
+                <example correction="Tireu"><marker>Tireu de</marker> la cadena del vàter.</example>
+                <example correction="tirat">Heu <marker>tirat de</marker> la cadena del vàter?</example>
+                <example>Vaig tirar de valent fins arribar a Balaguer.</example>
+                <example>filaments extrudits i estirats de poliacrilonitril</example>
+                <example>Les primeres tires de Calvin</example>
+                <example>va tornar a tirar d'una revolada</example>
+                <example>una tira de cera llarga</example>
+                <example>una tira de 18 cm de llargada</example>
+                <example>Dionís el Vell, tirà de Siracusa</example>
+                <example>I fou tirà de Megalòpolis.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ESTIRAR_DE" name="estirar *de">
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">manera|forma|cap|valent|nou|cada|bomba|panxa|cara|esquena|tos</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">de</token>
+                <token>una</token>
+                <token regexp="yes">forma|manera|revolada</token>
+            </antipattern>
+            <antipattern>
+                <token>tirà</token>
+                <token regexp="yes">de|d'</token>
+                <token min="0" regexp="yes">ls?</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_"/></token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes">estirar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token inflected="yes">de<exception postag="_LOC_.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">l|ls</token>
+                </pattern>
+                <message>Aquest verb és transitiu i s'usa sense la preposició 'de'.</message>
+                <suggestion>\1 e\3</suggestion>
+                <example correction="Estiraven el"><marker>Estiraven del</marker> trineu.</example>
+                <example>l’estirat del seu home</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">estirar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token inflected="yes">de<exception postag="_LOC_.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
