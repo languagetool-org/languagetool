@@ -1538,6 +1538,18 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="CEST_LE" name="c'est le/la terre">
+        <!-- with agreement error -->
+        <pattern>
+            <token>c'</token>
+            <token inflected="yes">être</token>
+            <marker>
+                <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+                <token postag="N.*" postag_regexp="yes"><exception postag="V.* inf" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule id="ENSEMBLE_N" name="ensemble (n)">
         <pattern>
             <token postag="SENT_START"/>
