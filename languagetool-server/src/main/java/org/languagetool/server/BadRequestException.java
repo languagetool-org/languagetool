@@ -29,4 +29,8 @@ class BadRequestException extends RuntimeException {
     super(message);
   }
   
+  BadRequestException(String message, Exception cause) {
+    super(message, cause);
+  }
+  
 }

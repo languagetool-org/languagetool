@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -132,7 +133,12 @@ class ApiV2 {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
-      JsonNode data = mapper.readTree(parameters.get("data"));
+      JsonNode data;
+      try {
+        data = mapper.readTree(parameters.get("data"));
+      } catch (JsonProcessingException e) {
+        throw new BadRequestException("Could not parse JSON from 'data' parameter", e);
+      }
       if (data.get("text") != null && data.get("annotation") != null) {
         throw new BadRequestException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
       } else if (data.get("text") != null) {
