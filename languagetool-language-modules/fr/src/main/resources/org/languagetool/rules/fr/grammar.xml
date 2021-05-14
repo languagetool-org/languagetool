@@ -41838,9 +41838,10 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token>moi</token>
                 </pattern>
-                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <message>"\1 \2 \3 \4" peut être considéré du langage familier. Dans des contextes plus formels, écrivez :</message>
                 <suggestion><match no="1" postag="D.*" postag_regexp="yes">mon</match> \2</suggestion>
                 <example correction="ma voiture">C'est <marker>la voiture à moi</marker>.</example>
+                <example correction="mon camion">C'est <marker>le camion à moi</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41853,9 +41854,10 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token>toi</token>
                 </pattern>
-                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <message>"\1 \2 \3 \4" peut être considéré du langage familier. Dans des contextes plus formels, écrivez :</message>
                 <suggestion><match no="1" postag="D.*" postag_regexp="yes">ton</match> \2</suggestion>
-                <example correction="ta voiture">C'est <marker>la voiture à toi</marker>.</example>
+                <example correction="tes affaires">Ce sont <marker>les affaires à toi</marker>.</example>
+                <example>Voici la voiture, à toi de la conduire.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41868,9 +41870,11 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token regexp="yes">lui|elle</token>
                 </pattern>
-                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
+                <message>"\1 \2 \3 \4"peut être considéré du langage familier. Dans des contextes plus formels, écrivez :</message>
                 <suggestion><match no="1" postag="D.*" postag_regexp="yes">son</match> \2</suggestion>
                 <example correction="sa voiture">C'est <marker>la voiture à lui</marker>.</example>
+                <example>C'est une amie à elle.</example>
+                <example>Quelle amie à elle n'a pas de smartphone ?</example>
             </rule>
             <rule>
                 <pattern>
@@ -41883,9 +41887,9 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token>nous</token>
                 </pattern>
-                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
-                <suggestion><match no="1" postag="D.*" postag_regexp="yes">notre</match> \2</suggestion>
-                <example correction="notre voiture">C'est <marker>la voiture à nous</marker>.</example>
+                <message>"\1 \2 \3 \4" peut être considéré du langage familier. Dans des contextes plus formels, écrivez :</message>
+                <suggestion><match no="1" postag="(D ).( .*)" postag_regexp="yes" postag_replace="$1e$2">notre</match> \2</suggestion>
+                <example correction="notre ordinateur">C'est <marker>l'ordinateur à nous</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41896,11 +41900,11 @@ though, and has since been slightly modified)-->
                         <token postag="N.*" postag_regexp="yes"/>
                     </unify>
                     <token>à</token>
-                    <token>toi</token>
+                    <token>vous</token>
                 </pattern>
-                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
-                <suggestion><match no="1" postag="D.*" postag_regexp="yes">ton</match> \2</suggestion>
-                <example correction="ta voiture">C'est <marker>la voiture à toi</marker>.</example>
+                <message>"\1 \2 \3 \4" peut être considéré du langage familier. Dans des contextes plus formels, écrivez :</message>
+                <suggestion><match no="1" postag="(D ).( .*)" postag_regexp="yes" postag_replace="$1e$2">votre</match> \2</suggestion>
+                <example correction="votre faute">C'est <marker>la faute à vous</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41911,11 +41915,11 @@ though, and has since been slightly modified)-->
                         <token postag="N.*" postag_regexp="yes"/>
                     </unify>
                     <token>à</token>
-                    <token regexp="yes">lui|elle</token>
+                    <token regexp="yes">eux|elles</token>
                 </pattern>
-                <message>" \1 \2 \3 \4 " est une expression fautive.</message>
-                <suggestion><match no="1" postag="D.*" postag_regexp="yes">son</match> \2</suggestion>
-                <example correction="sa voiture">C'est <marker>la voiture à lui</marker>.</example>
+                <message>"\1 \2 \3 \4" peut être considéré du langage familier. Dans des contextes plus formels, écrivez :</message>
+                <suggestion><match no="1" postag="(D ).( .*)" postag_regexp="yes" postag_replace="$1e$2">leur</match> \2</suggestion>
+                <example correction="leur vélos">C'est <marker>les vélos à eux</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISME_TU" name="barbarisme tu">
