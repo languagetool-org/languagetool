@@ -439,8 +439,8 @@ class LanguageToolHttpHandler implements HttpHandler {
           String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
           parameters.put(key, value);
         } catch (IllegalArgumentException e) {
-          throw new RuntimeException("Could not decode query. Query length: " + query.length() +
-                                     " Request method: " + httpExchange.getRequestMethod(), e);
+          throw new BadRequestException("Could not decode query. Query length: " + query.length() +
+                                     " Request method: " + httpExchange.getRequestMethod());
         }
       }
     }
