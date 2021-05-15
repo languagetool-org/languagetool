@@ -112,7 +112,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testCaseSensitive() throws Exception {
-    InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>" +
+    InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category id='TEST' name='Test'>" +
             "<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'><token>How</token></pattern> </rule>" +
             "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'><token>how</token></pattern> </rule>" +
             "<rule id='TEST_RULE_3' name='test_3'> <pattern><token>How</token></pattern> </rule>" +
@@ -280,7 +280,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   private AbstractPatternRule makeRule(String ruleXml) throws IOException {
     StringBuilder sb = new StringBuilder();
     sb.append("<?xml version='1.0' encoding='UTF-8'?>");
-    sb.append("<rules lang='en'> <category name='Test'> <rule id='TEST_RULE' name='test'>");
+    sb.append("<rules lang='en'> <category id='TEST' name='Test'> <rule id='TEST_RULE' name='test'>");
     sb.append("<pattern>");
     sb.append(ruleXml);
     sb.append("</pattern> </rule> </category> </rules>");
