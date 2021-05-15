@@ -9910,6 +9910,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="STAM_BAAR" name="beschik baar" >
 			<rule>
+				<antipattern><token regexp="yes">mevrouw|meneer</token><token>Baars</token></antipattern>
 				<pattern>
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
@@ -11822,6 +11823,7 @@ onwaarschijnlijk
 		<rulegroup id="TEN_EINDE" name="Ten einde → teneinde">
 			<rule>
 				<antipattern><token>ten</token><token>einde</token><token>raad</token></antipattern>
+				<antipattern><token>ten</token><token>einde</token><token inflected="yes">komen</token></antipattern>
 				<pattern>
 					<marker>
 						<token>ten</token>
@@ -17585,6 +17587,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>maar</token><token postag="VRZ"/><token>één</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:TGW:3EP"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token postag="WKW:VLT:1EP"/><token>ze</token><token>maar</token></antipattern>
 				<antipattern><token>dan</token><token>maar</token></antipattern>
 				<antipattern><token>ook</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP" skip="3"/><token skip="2">maar</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern>
@@ -19431,6 +19436,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		
 		<rulegroup id="EEN_LELIJKE_MEISJE" name="Een lelijke meisje">
+			<antipattern><token>bed</token><token>and</token><token>breakfast</token></antipattern>
 			<antipattern><token>een</token><token/><token postag="BNW.*" postag_regexp="yes"/></antipattern>
 			<antipattern><token>een</token><token regexp="yes">laatste|enkele</token><token/></antipattern>
 			<rule>
@@ -19514,7 +19520,7 @@ steenwijk;Steenwijk
 					<token regexp="yes">het|dit|dat</token>
 					<marker>
 						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was</exception></token>
-						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net</exception></token>
+						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net</exception><exception postag="WKW:TGW:INF"/></token>
 					</marker>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
@@ -38520,18 +38526,6 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
-		<rulegroup id="KOMMA_APO" name=",&quot; → &quot;,">
-			<rule>
-				<pattern>
-					<token>,</token>
-					<token>"</token>
-				</pattern>
-				<message>De komma valt meestal buiten de aanhalingstekens: <suggestion>",</suggestion>.</message>
-				<short>,"</short>
-				<example correction="&quot;,">"Dat is vreemd<marker>,"</marker> zegt hij.</example>
-				<example>"Dat is vreemd", zegt hij.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
 			<rule>
 				<antipattern>
