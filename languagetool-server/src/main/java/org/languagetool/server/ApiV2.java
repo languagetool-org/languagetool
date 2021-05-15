@@ -61,7 +61,8 @@ class ApiV2 {
     this.allowOriginUrl = allowOriginUrl;
   }
 
-  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
+  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
+                     String remoteAddress, HTTPServerConfig config) throws Exception {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
     } else if (path.equals("maxtextlength")) {
@@ -69,7 +70,7 @@ class ApiV2 {
     } else if (path.equals("configinfo")) {
       handleGetConfigurationInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("info")) {
-      handleSoftwareInfoRequest(httpExchange, parameters, config);
+      handleSoftwareInfoRequest(httpExchange);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("words")) {
@@ -117,7 +118,7 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleSoftwareInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+  private void handleSoftwareInfoRequest(HttpExchange httpExchange) throws IOException {
     String response = getSoftwareInfo();
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
@@ -414,19 +415,19 @@ class ApiV2 {
         g.writeStartObject();
         g.writeStringField("ruleId", rule.getId());
         g.writeStringField("description", rule.getDescription());
-        if(rule.isDictionaryBasedSpellingRule()) {
+        if (rule.isDictionaryBasedSpellingRule()) {
           g.writeStringField("isDictionaryBasedSpellingRule", "yes");
         }
-        if(rule.isDefaultOff()) {
+        if (rule.isDefaultOff()) {
           g.writeStringField("isDefaultOff", "yes");
         }
-        if(rule.isOfficeDefaultOff()) {
+        if (rule.isOfficeDefaultOff()) {
           g.writeStringField("isOfficeDefaultOff", "yes");
         }
-        if(rule.isOfficeDefaultOn()) {
+        if (rule.isOfficeDefaultOn()) {
           g.writeStringField("isOfficeDefaultOn", "yes");
         }
-        if(rule.hasConfigurableValue()) {
+        if (rule.hasConfigurableValue()) {
           g.writeStringField("hasConfigurableValue", "yes");
           g.writeStringField("configureText", rule.getConfigureText());
           g.writeStringField("maxConfigurableValue", Integer.toString(rule.getMaxConfigurableValue()));
@@ -436,7 +437,7 @@ class ApiV2 {
         g.writeStringField("categoryId", rule.getCategory().getId().toString());
         g.writeStringField("categoryName", rule.getCategory().getName());
         g.writeStringField("locQualityIssueType", rule.getLocQualityIssueType().toString());
-        if(rule instanceof TextLevelRule) {
+        if (rule instanceof TextLevelRule) {
           g.writeStringField("isTextLevelRule", "yes");
           g.writeStringField("minToCheckParagraph", Integer.toString(((TextLevelRule) rule).minToCheckParagraph()));
         }
