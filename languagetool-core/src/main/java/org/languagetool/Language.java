@@ -60,6 +60,9 @@ public abstract class Language {
   private static final Tagger DEMO_TAGGER = new DemoTagger();
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
+  private static final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
+  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
@@ -784,7 +787,6 @@ public abstract class Language {
     String output = input;
    
     //Preserve content inside <suggestion></suggestion>
-    final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
     List<String> preservedStrings = new ArrayList<>();
     int countPreserved = 0; 
     Matcher m = INSIDE_SUGGESTION.matcher(output);
@@ -803,10 +805,6 @@ public abstract class Language {
     // non-breaking space
     output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
     output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
-    
-    // Apostrophe
-    final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     
     Matcher matcher = APOSTROPHE.matcher(output);
     output = matcher.replaceAll("$1’$2");
@@ -834,8 +832,8 @@ public abstract class Language {
     output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
     
     //restore suggestions
-    for (int i=0; i<preservedStrings.size(); i++) {
-      output= output.replaceFirst("\\\\" + String.valueOf(i), getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
+    for (int i = 0; i < preservedStrings.size(); i++) {
+      output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
     }
     
     return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
