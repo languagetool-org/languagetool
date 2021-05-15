@@ -375,6 +375,7 @@ public class CaseRuleTest {
     assertGood("§ 1 Allgemeine Bedingungen");
     assertGood("§1 Allgemeine Bedingungen");
     assertGood(" Das ist das Aus des Airbus A380.");
+    assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
