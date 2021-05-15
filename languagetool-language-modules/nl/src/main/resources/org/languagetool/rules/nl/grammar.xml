@@ -7332,10 +7332,11 @@ onwaarschijnlijk
 		
 		<rulegroup id="NAAM_FOUT_GESPELD" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
 			<rule>
-				<antipattern case_sensitive="yes"><token>Abel</token><token>Tasman</token></antipattern>
-				<pattern><token>abel</token><token>tasman</token></pattern>
-				<message>U bedoelt vast <suggestion>Abel Tasman</suggestion>.</message>
-				<example correction="Abel Tasman">Kent u <marker>abel tasman</marker>?</example>
+				<antipattern case_sensitive="yes"><token>Aleksej</token><token>Navalni</token></antipattern>
+				<pattern><token regexp="yes">ale(x|ks)e[ij]</token><token regexp="yes">navaln[iy]</token></pattern>
+				<message>U bedoelt vast <suggestion>Aleksej Navalni</suggestion>.</message>
+				<url>https://www.taalmannetje.nl/transcriptor/</url>
+				<example correction="Aleksej Navalni">Kent u <marker>alexei navalni</marker>?</example>
 			</rule>	
  
 			<rule>
@@ -9585,7 +9586,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token>privé</token>
-					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel</exception></token>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
 				<message>Dit hoort meestal aan elkaar geschreven.</message>
@@ -9683,6 +9684,7 @@ onwaarschijnlijk
 		<rulegroup id="SAMENSTELLING_EIGENNAAM" name="eBay ding / eBayding" >
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="ENM:.*"/><token postag_regexp="yes" postag=".*MRV.*" skip="5"/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+				<antipattern><token regexp="yes">&weekdays;</token></antipattern>
 				<antipattern><token>geef</token><token>je</token><token/><token/><token>om</token></antipattern>
 				<antipattern><token>Google</token><token>Home</token></antipattern>
 				<antipattern><token>ov</token><token>chipkaart</token></antipattern>
@@ -10329,6 +10331,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="VLAKBIJ" name="vlakbij /vlak bij">
 			<rule>
+				<antipattern><token>van</token><token min="0" max="1" regexp="yes">wat|iets</token><token>dichterbij</token></antipattern>
 				<antipattern><token>van</token><token>dichtbij</token></antipattern>
 				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
 				<pattern>
@@ -17587,6 +17590,10 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>Eerst</token><token>maar</token></antipattern>
+				<antipattern><token>en</token><token>maar</token></antipattern>
+				<antipattern><token postag="WKW:VLT:1EP"/><token>maar</token><token>beter</token></antipattern>
+				<antipattern><token postag="WKW:TGW:3EP"/><token>de</token><token postag_regexp="yes" postag="ZNW.*DE_"/><token>maar</token><token postag="VRZ"/><token>te</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token>maar</token><token postag="VRZ"/><token>één</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:TGW:3EP"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token postag="WKW:VLT:1EP"/><token>ze</token><token>maar</token></antipattern>
