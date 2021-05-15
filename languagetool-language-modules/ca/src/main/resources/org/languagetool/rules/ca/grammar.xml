@@ -56,6 +56,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_VASTISSIM "territori|patrimoni|horitzó|material|país|regne|recull|bosc|món|camp|fons|llibre|saber|panorama|bagatge">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
+    <!ENTITY dies_setmana_maj "Dilluns|Dimarts|Dimecres|Dijous|Divendres|Dissabte|Diumenge">
     <!ENTITY espais "&#8239;| |&#8201;|&#160;">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
@@ -35494,28 +35495,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="D.*" postag_regexp="yes"/>
                     <token regexp="yes">\d{3,4}|any</token>
                 </pattern>
-                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
                 <suggestion><match no="1" case_conversion="alllower"/></suggestion>
-                <short>Majúscula incorrecta</short>
                 <example correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
                 <example correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
                 <example correction="juny">De <marker>Juny</marker> del 2020.</example>
-                <example>Des de<marker>Febrer</marker> del 2012</example>
+                <example correction="febrer">Des de <marker>Febrer</marker> del 2012</example>
                 <example>Abril de 1965.</example>
                 <example>els fets del Sis d'Octubre del 1934</example>
                 <example>el Premi de Narrativa 9 d’Octubre de Sant Vicent del Raspeig</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">per</token>
+                    <token inflected="yes" regexp="yes">per|a|en</token>
                     <token min="0" postag="D.*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">(?-i)&mesos_any_maj;</token>
                     </marker>
                 </pattern>
-                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
                 <suggestion><match no="3" case_conversion="alllower"/></suggestion>
-                <short>Majúscula incorrecta</short>
                 <example correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
                 <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
                 <example>Pel juliol.</example>
@@ -35530,9 +35529,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="1" max="3">a|fins|l</token>
                     <token regexp="yes">\d{1,2}</token>
                 </pattern>
-                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
                 <suggestion><match no="3" case_conversion="alllower"/></suggestion>
-                <short>Majúscula incorrecta</short>
                 <example correction="juliol">Del 3 de <marker>Juliol</marker> al 5 de Març.</example>
                 <example correction="juliol">Des del 3 de <marker>Juliol</marker> fins al 5 de Març.</example>
             </rule>
@@ -35546,11 +35544,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">(?-i)&mesos_any_maj;</token>
                     </marker>
                 </pattern>
-                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
                 <suggestion><match no="5" case_conversion="alllower"/></suggestion>
-                <short>Majúscula incorrecta</short>
                 <example correction="març">Del 3 de Juliol al 5 de <marker>Març</marker>.</example>
                 <example correction="març">Del 3 de Juliol fins al 5 de <marker>Març</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&dies_setmana;</token>
+                    <token regexp="yes" min="0" max="3">de|d'|\d+|,</token>
+                    <marker>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                    </marker>
+                </pattern>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
+                <suggestion><match no="4" case_conversion="alllower"/></suggestion>
+                <example correction="març">Dissabte 21 de <marker>Març</marker>.</example>
+                <example correction="juliol">Dijous, 3 de <marker>Juliol</marker>.</example>
+                <example correction="juliol">Els divendres de <marker>Juliol</marker>.</example>
+                <example correction="gener">El darrer dimecres de <marker>Gener</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- catch all rule -->
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_possible_nompropi"/>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                    </marker>
+                </pattern>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
+                <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+                <example correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
+                <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
+                <example>Pel juliol.</example>
+                <example>Juliol.</example>
+                <example type="triggers_error">Fira de Juliol.</example>
+                <example>Anem a la Fira de Juliol.</example>
             </rule>
         </rulegroup>
         <rule id="ESTACIONS_MINUSCULA" name="estacions en minúscula">
@@ -35589,6 +35626,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>5, “Primavera”</example>
             <example>Universitat Catalana d'Estiu.</example>
             <example>Jornades Gastronòmiques de Tardor</example>
+        </rule>
+        <rule id="DIES_MINUSCULA" name="dies en minúscula" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" postag="_PUNCT.*|DN.*" postag_regexp="yes"/>
+                <token regexp="yes">&dies_setmana_maj;</token>
+            </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes">&dies_setmana_maj;</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">&dies_setmana_maj;</token>
+                <token>Negre</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">&dies_setmana_maj;<exception postag="NP.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Els dies de la setmana s'escriuen en minúscula, excepte si formen part d'un nom propi.</message>
+            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="dilluns">Aquest <marker>Dilluns</marker> anirem a la muntanya.</example>
+            <example>Va ser el Dilluns Negre.</example>
         </rule>
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
             <antipattern>
@@ -37364,6 +37423,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EN_RECONEIXEMENT" name="en reconeixement *a/*per/de" default="temp_off">
+            <pattern>
+                <token>en</token>
+                <token>reconeixement</token>
+                <marker>
+                    <token regexp="yes">a|per|pe</token>
+                </marker>
+            </pattern>
+            <message>La preposició adequada en aquesta expressió és <suggestion>de</suggestion>.</message>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=en+reconeixement+a&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12109&amp;idHit=12109&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27en+reconeixement+a%27%2C+%27en+reconeixement+per%27+o+%27en+reconeixement+de%27%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
+            <example correction="de">El van homenantjar en reconeixement <marker>a</marker> la seva tasca de difusió científica.</example>
+        </rule>
         <rule id="EMA" name="Agència Europea de Medicaments">
             <pattern>
                 <token>Agència</token>
@@ -42444,19 +42515,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en compte">tenir sempre <marker>en compta</marker></example>
             <example>tenir en compte</example>
         </rule>
-        <rule id="ANAR_AMB_COMTE_CONTE" name="anar amb comte/conte/compte">
-            <pattern>
-                <token inflected="yes" skip="1">anar</token>
-                <marker>
-                    <token>amb<exception scope="previous" inflected="yes">tenir</exception></token>
-                    <token regexp="yes">co[mn]te</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>amb compte</suggestion>?</message>
-            <short>Possible confusió</short>
-            <example correction="amb compte">Cal anar sempre <marker>amb comte</marker></example>
-            <example>Cal anar amb compte</example>
-        </rule>
+        <rulegroup id="ANAR_AMB_COMTE_CONTE" name="anar amb comte/conte/compte">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">anar</token>
+                    <marker>
+                        <token>amb<exception scope="previous" inflected="yes">tenir</exception></token>
+                        <token regexp="yes">co[mn]te|conta|compta</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>amb compte</suggestion> (atenció, cura, esment)?</message>
+                <example correction="amb compte">Cal anar sempre <marker>amb comte</marker></example>
+                <example>Cal anar amb compte</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" skip="2">anar</token>
+                    <token>amb</token>
+                    <token>molt</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">co[mn]te|conta|compta</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>compte</suggestion> (atenció, cura, esment)?</message>
+                <example correction="compte">Cal anar sempre amb molt de <marker>comte</marker></example>
+                <example>Cal anar amb compte</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" skip="2">anar</token>
+                    <token regexp="yes">una|un</token>
+                    <token regexp="yes">mica|miqueta|poc</token>
+                    <token>amb</token>
+                    <marker>
+                        <token regexp="yes">co[mn]te|conta|compta</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>compte</suggestion> (atenció, cura, esment)?</message>
+                <example correction="compte">Cal anar sempre una mica amb <marker>comte</marker></example>
+                <example>Cal anar amb compte</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" skip="1">anar</token>
+                    <token>amb</token>
+                    <token regexp="yes" min="1" max="4">una|un|mica|miqueta|poc|massa|de</token>
+                    <marker>
+                        <token regexp="yes">co[mn]te|conta|compta</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>compte</suggestion> (atenció, cura, esment)?</message>
+                <short>Possible confusió</short>
+                <example correction="compte">Vas amb massa <marker>comte</marker></example>
+                <example correction="compte">Vas sempre amb una mica massa de <marker>comte</marker></example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">moltíssim|poquíssim</token>
+                    <token min="0">de</token>
+                    <marker>
+                        <token regexp="yes">co[mn]te|conta|compta</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>compte</suggestion> (atenció, cura, esment)?</message>
+                <short>Possible confusió</short>
+                <example correction="compte">Vas amb moltíssim de <marker>comte</marker></example>
+                <example correction="compte">Vas sempre amb poquíssim <marker>comte</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="PASSAR_CONTES" name="passar *contes/comptes">
             <pattern>
                 <token inflected="yes">passar</token>
