@@ -79,9 +79,9 @@ class ApiV2 {
       handleWordAddRequest(httpExchange, parameters, config);
     } else if (path.equals("words/delete")) {
       handleWordDeleteRequest(httpExchange, parameters, config);
-    } else if (path.equals("rule/examples")) {
-      // private (i.e. undocumented) API for our own use only
-      handleRuleExamplesRequest(httpExchange, parameters);
+    //} else if (path.equals("rule/examples")) {
+    //  // private (i.e. undocumented) API for our own use only
+    //  handleRuleExamplesRequest(httpExchange, parameters);
     } else if (path.equals("log")) {
       // private (i.e. undocumented) API for our own use only
       handleLogRequest(httpExchange, parameters);

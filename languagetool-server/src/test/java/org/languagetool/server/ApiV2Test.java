@@ -21,6 +21,7 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.CheckResults;
 import org.languagetool.DetectedLanguage;
@@ -67,6 +68,7 @@ public class ApiV2Test {
   }
   
   @Test
+  @Ignore("code is currently commented out")
   public void testRuleExamples() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig();
     ApiV2 apiV2 = new ApiV2(new V2TextChecker(config, false, new LinkedBlockingQueue<>(), new RequestCounter()), null);
