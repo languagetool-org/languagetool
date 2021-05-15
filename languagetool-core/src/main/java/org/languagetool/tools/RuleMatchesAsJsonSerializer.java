@@ -182,7 +182,7 @@ public class RuleMatchesAsJsonSerializer {
         }
         writeReplacements(g, match);
         g.writeNumberField("offset", match.getFromPos());
-      g.writeNumberField("length", match.getToPos()-match.getFromPos());
+        g.writeNumberField("length", match.getToPos()-match.getFromPos());
         writeContext(g, match, text, contextTools);
         g.writeObjectFieldStart("type");
         g.writeStringField("typeName", match.getType().toString());

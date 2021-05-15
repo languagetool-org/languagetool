@@ -381,7 +381,6 @@ public abstract class Language {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = createDefaultSentenceTokenizer();
     }
-
     return sentenceTokenizer;
   }
 
@@ -436,7 +435,6 @@ public abstract class Language {
     if (chunker == null) {
       chunker = createDefaultChunker();
     }
-
     return chunker;
   }
 
@@ -465,7 +463,6 @@ public abstract class Language {
     if (postDisambiguationChunker == null) {
       postDisambiguationChunker = createDefaultPostDisambiguationChunker();
     }
-
     return postDisambiguationChunker;
   }
 
