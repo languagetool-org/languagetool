@@ -18,7 +18,10 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * A rule's category. Categories are used to group rules for
@@ -59,19 +62,20 @@ public final class Category {
 
   /** @since 4.3 */
   public Category(CategoryId id, String name, Location location, boolean onByDefault, String tabName) {
-    this.id = id;
-    this.name = name;
+    this.id = Objects.requireNonNull(id);
+    this.name = Objects.requireNonNull(name);
     this.location = location;
     this.defaultOff = !onByDefault;
     this.tabName = tabName;
   }
 
   /** @since 3.3 */
-  @Nullable
+  @NotNull
   public CategoryId getId() {
     return id;
   }
 
+  @NotNull
   public String getName() {
     return name;
   }

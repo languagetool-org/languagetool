@@ -317,10 +317,8 @@ public class RuleMatchesAsJsonSerializer {
   private void writeCategory(JsonGenerator g, Category category) throws IOException {
     g.writeObjectFieldStart("category");
     CategoryId catId = category.getId();
-    if (catId != null) {
-      g.writeStringField("id", catId.toString());
-      g.writeStringField("name", category.getName());
-    }
+    g.writeStringField("id", catId.toString());
+    g.writeStringField("name", category.getName());
     g.writeEndObject();
   }
 

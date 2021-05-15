@@ -726,11 +726,7 @@ public abstract class Language {
    * Negative integers have lower priority.
    * @since 5.0
    */
-  
   public int getRulePriority(Rule rule) {
-    if (rule.getCategory().getId() == null) {
-      return 0;
-    }
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());
     // if there is a priority defined for rule it takes precedence over category priority

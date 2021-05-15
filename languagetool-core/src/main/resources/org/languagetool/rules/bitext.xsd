@@ -19,8 +19,7 @@
 	<xs:include schemaLocation="pattern.xsd" />
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Main element
-		</xs:documentation>
+		<xs:documentation xml:lang="en">Main element</xs:documentation>
 	</xs:annotation>
 
 	<xs:element name="rules">
@@ -35,11 +34,9 @@
 	</xs:element>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Use the category element
-			to group rules. </xs:documentation>
-		<xs:documentation xml:lang="en"> The attribute name shows
-			the category use, e.g. 'Grammar', 'Spelling', 'Style' etc.
-		</xs:documentation>
+		<xs:documentation xml:lang="en">Use the category element to group rules. </xs:documentation>
+		<xs:documentation xml:lang="en">The attribute name shows
+			the category use, e.g. 'Grammar', 'Spelling', 'Style' etc.</xs:documentation>
 	</xs:annotation>
 
 	<xs:element name="category">
@@ -47,7 +44,7 @@
 			<xs:choice minOccurs="1" maxOccurs="unbounded">
 				<xs:element ref="rule" />
 			</xs:choice>
-			<xs:attribute name="default" use="optional">
+			<xs:attribute name="default">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="off" />
@@ -55,18 +52,15 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
+			<xs:attribute name="id" type="xs:ID" use="required" />
 			<xs:attribute name="name" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
 
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> The rule element. The
-			unique ID is
-			required only if the rule is not contained in a rule
-			group.
-
-			The rule can be switched by default off (using the default
-			attribute).
+			unique ID is required only if the rule is not contained in a rule group.
+			The rule can be switched by default off (using the default attribute).
 		</xs:documentation>
 	</xs:annotation>
 	<xs:element name="rule">
@@ -77,7 +71,7 @@
 				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
 			</xs:sequence>
 			<xs:attribute name="lang" type="xs:language" use="required" />
-			<xs:attribute name="default" use="optional">
+			<xs:attribute name="default">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="off" />
@@ -85,7 +79,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="name" type="xs:string" use="optional" />
+			<xs:attribute name="name" type="xs:string" />
 			<xs:attribute name="id" type="xs:ID" use="required" />
 		</xs:complexType>
 	</xs:element>
@@ -98,8 +92,7 @@
 			<xs:element ref="unify" />
 			<xs:element ref="marker" minOccurs="0" maxOccurs="1" />
 		</xs:choice>
-		<xs:attribute name="case_sensitive" type="binaryYesNo"
-			use="optional" />
+		<xs:attribute name="case_sensitive" type="binaryYesNo"/>
 	</xs:complexType>
 
 	<xs:element name="source">
@@ -150,8 +143,7 @@
   </xs:element>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Suggestion displayed to
-			the user. </xs:documentation>
+		<xs:documentation xml:lang="en">Suggestion displayed to the user.</xs:documentation>
 	</xs:annotation>
 	<xs:element name="suggestion">
 		<xs:complexType mixed="true">
@@ -174,16 +166,15 @@
 	<xs:element name="example" xml:space="preserve">
     <xs:complexType mixed="true">
     	<xs:sequence>
-				<xs:element ref="srcExample" />
-				<xs:element ref="trgExample" />
+			<xs:element ref="srcExample" />
+			<xs:element ref="trgExample" />
 		</xs:sequence>
-      <xs:attribute name="correction" type="xs:string"
-		use="optional" />
+      <xs:attribute name="correction" type="xs:string"/>
       <xs:attribute name="type" use="required">
         <xs:simpleType>
           <xs:restriction base="xs:NMTOKEN">
             <xs:enumeration value="correct" />
-            <xs:enumeration value="incorrect" />            
+            <xs:enumeration value="incorrect" />
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>      

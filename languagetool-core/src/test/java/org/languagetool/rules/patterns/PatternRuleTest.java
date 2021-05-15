@@ -223,12 +223,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
       }
       Category category = rule.getCategory();
-      if (category != null && category.getId() != null) {
-        String catId = category.getId().toString();
-        if (!catId.matches("[A-Z0-9_-]+") && !categoryIds.contains(catId)) {
-          System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z0-9_-]+");
-          categoryIds.add(catId);
-        }
+      String catId = category.getId().toString();
+      if (!catId.matches("[A-Z0-9_-]+") && !categoryIds.contains(catId)) {
+        System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z0-9_-]+");
+        categoryIds.add(catId);
       }
     }
   }

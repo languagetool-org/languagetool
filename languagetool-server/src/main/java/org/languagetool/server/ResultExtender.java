@@ -235,6 +235,7 @@ class ResultExtender {
       this.estimatedContextForSureMatch = estimatedContextForSureMatch;
       this.tags = tags;
     }
+    @NotNull
     public final Category getCategory() {
       return new Category(new CategoryId(categoryId), categoryName);
     }
