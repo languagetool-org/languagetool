@@ -565,6 +565,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>pour les lire avec eux</example>
                 <example correction="la facture|les factures">C'est <marker>le facture</marker>.</example>
                 <example correction="la terre|les terres">C'était <marker>le terre</marker>.</example>
+                <example>C'est la pire chose que tu puisses faire !</example>
+                <example>C'est la seul fois où cela ce produit dans la bible.</example>
+                <example>C'est la triple peine.</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -2935,6 +2938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quel est ton jeu de société préféré ?</example>
             <example correction="servie">Mon assiette copieusement <marker>servi</marker> par la cuisinière me donna des nausées.</example>
             <example>L'écrivain transforme à l'occasion certains de ses récits.</example>
+            <example>Huit hommes et sept femmes âgés de 41 à 74 ans.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes">
@@ -6068,6 +6072,10 @@ though, and has since been slightly modified)-->
                 <token min="0" postag="D.*" postag_regexp="yes"/>
                 <token regexp="yes">riz|cloche|foudre</token>
             </antipattern>
+            <antipattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token>son</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">ne|ils</token>
@@ -6136,7 +6144,7 @@ though, and has since been slightly modified)-->
                 <example correction="sont">Elles ne <marker>son</marker> pas ici.</example>
                 <example correction="sont">Elles <marker>son</marker> ici.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">au|le|d[eu]|un|bande|même|ce|leur</token>
                     <token postag="J [em] s" postag_regexp="yes" min="0"/>
@@ -13683,7 +13691,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
-        <rule id="JE_TES" name="je tes/t'ai" default="temp_off">
+        <rule id="JE_TES" name="je tes/t'ai">
             <pattern>
                 <token>je</token>
                 <marker>
@@ -18152,6 +18160,13 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rule id="TE_NV" name="me/te/se + non verbe">
+            <antipattern>
+                <!-- rule SE_CE -->
+                <token postag="SENT_START"/>
+                <token>se</token>
+                <token postag="N m s|J.*" postag_regexp="yes">
+                    <exception postag="V.*" postag_regexp="yes"/></token>
+            </antipattern>
             <antipattern case_sensitive="yes">
                 <token>Me</token>
                 <token regexp="yes">\p{Lu}.*</token>
@@ -18442,10 +18457,10 @@ though, and has since been slightly modified)-->
                 <example>J’étudie des parties d’échecs afin de gagner.</example>
                 <example>Je luis en parle avant d’annuler le voyage.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">pour</token>
-                    <token regexp="yes" min="0">[mts][e']</token>
+                    <token regexp="yes">[mts][e']</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
@@ -18578,13 +18593,14 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_ELISION2;</exception>
                             <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
                             <exception postag="V.*[123].*" postag_regexp="yes"/>
-                            <exception postag="R pers obj.*" postag_regexp="yes"/></token>
+                            <exception postag="R pers obj.*|V ppa.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^([^hàâaêèéeiîoôòóöŌuœä].*|.*[éè])$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <suggestion>j'{suggestion}</suggestion>
                 <example correction="J'habite"><marker>Je habit</marker> à Berlin.</example>
+                <example correction="J'essaie|J'osai|J'usai|J'échai"><marker>J’essai</marker> de leur faire comprendre.</example>
                 <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
                 <example>The Attack On Pearl Harbor</example>
                 <example>Je ne suis pas un artiste.</example>
