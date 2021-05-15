@@ -297,7 +297,7 @@ public class RuleMatchesAsJsonSerializer {
       g.writeStartObject();
       if (match.getUrl() != null) {
         g.writeStringField("value", match.getUrl().toString());
-      } else {
+      } else if (rule.getUrl() != null) {
         g.writeStringField("value", rule.getUrl().toString());
       }
       g.writeEndObject();
