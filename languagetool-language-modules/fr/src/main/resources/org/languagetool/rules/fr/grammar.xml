@@ -44215,6 +44215,106 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="BARBARISMES_COURANTS" name= "Barbarismes courants divers" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">antidiluvien(nes?|s)?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ant)i(diluvien(nes?|s)?)" regexp_replace="$1é$2"/></suggestion>
+                <example correction="antédiluviens">Nous avons consulté des parchemins <marker>antidiluviens</marker>.</example>
+                <example correction="antédiluvienne">C'est une pratique <marker>antidiluvienne</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">arborigènes?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(a)r(borigènes?)" regexp_replace="$1$2"/></suggestion>
+                    <example correction="aborigène">Nous avons rencontré une tribu <marker>arborigène</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">carapaçonn(i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons|a(nt|i(s(s(es?|ions|iez|ent))?|t|ent)?|s)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ca)rap(açonn(i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons|a(nt|i(s(s(es?|ions|iez|ent))?|t|ent)?|s)?|â(mes|t(es)?)|èrent))" regexp_replace="$1par$2"/></suggestion>
+                <example correction="caparaçonner">Le palefrenier sait comment <marker>carapaçonner</marker> son cheval.</example>
+                <example correction="caparaçonnant">Le palefrenier oeuvrait, <marker>carapaçonnant</marker> les chevaux comme à son habitude.</example>
+                <example correction="caparaçonnions">Le palefrenier oeuvrait, <marker>carapaçonnions</marker> les chevaux comme à son habitude.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">disgress(i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s(s(es?|ions|iez|ent))?|t|ent)?|s)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(di)s(gress(i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s(s(es?|ions|iez|ent))?|t|ent)?|s)?|â(mes|t(es)?)|èrent))" regexp_replace="$1$2"/></suggestion>
+                <example correction="digression">Pardonnez ma <marker>disgression</marker>.</example>
+                <example correction="digressiez">Vous <marker>disgressiez</marker> pendant des heures.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>entrepreunariat</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion>entrepreneuriat</suggestion>
+                    <example correction="entrepreneuriat">De plus en plus, l'<marker>entrepreunariat</marker> se développe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pécuni[eè]re?s?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(pécuni)[eè]re?(s?)" regexp_replace="$1aire$2"/></suggestion>
+                <suggestion>pécuniaire</suggestion>
+                    <example correction="pécuniaire">Il n'a qu'un soucis <marker>pécunier</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pécuni[eè]re?s?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(pécuni)[eè]re?(s?)" regexp_replace="$1aire$2"/></suggestion>
+                <suggestion>pécuniaire</suggestion>
+                    <example correction="pécuniaire">Il n'a qu'un soucis <marker>pécunier</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">péreins?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(pére)in(s?)" regexp_replace="$1nne$2"/></suggestion>
+                <suggestion>pérenne</suggestion>
+                    <example correction="pérenne">Ce choix doit être <marker>pérein</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">réverbati(f|ve)s?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ré)ver(bati(f|ve)s?)" regexp_replace="$1bar$2"/></suggestion>
+                <suggestion>rébarbatif</suggestion>
+                    <example correction="rébarbatif">Cela devient <marker>réverbatif</marker>.</example>
+            </rule>
+           <rule>
+                <pattern>
+                    <token regexp="yes">r[eé]-?ouv(r(e(s|z|nt)?|ons|ai(s|t|ent)|i(ons|ez|s|t|r(a?i?(s(ses?|i(ons|ez|ent))?|t|ons|ez|ont|ent)?))|î(t|mes|tes))|ert)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(r)[eé]-?(ouv(r(e(s|z|nt)?|ons|ai(s|t|ent)|i(ons|ez|s|t|r(a?i?(s(ses?|i(ons|ez|ent))?|t|ons|ez|ont|ent)?))|î(t|mes|tes))|ert))" regexp_replace="$1$2"/></suggestion>
+                <example correction="rouvrir">Les commerces vont <marker>réouvrir</marker>.</example>
+                <example correction="rouvriront">Les commerces <marker>réouvriront</marker> le dimanche prochain.</example>
+                <example correction="rouvert">Les commerces ont <marker>réouvert</marker> dimanche dernier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ast(eé)rix</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion>astérisque</suggestion>
+                    <example correction="astérisque">Le mot est marqué d'une <marker>astérix</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BARBARISME_TU" name="barbarisme tu">
             <rule>
                 <antipattern>
