@@ -13645,6 +13645,24 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="MULTI_ADJ" name="accord entre plusieurs adjectifs">
+            <pattern>
+                <unify negate="yes">
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="J.*" postag_regexp="yes"/>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <token>et|ni</token>
+                </unify-ignore>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <message>L'adjectif "\4" ne semble pas accordé</message>
+            <suggestion><match no="4" postag="J*" postag_regexp="yes" postag_replace="$1"></match></suggestion>
+            <example correction="indirectes">Il doit assumer les conséquences directes et <marker>indirect</marker>.</example>
+            <example correction="franche">Son intervention n'est ni honnête, ni <marker>franc</marker>.</example>
+        </rule>
         <rulegroup id="QUELQUE_PEU" name="quelque peu">
             <rule>
                 <pattern>
