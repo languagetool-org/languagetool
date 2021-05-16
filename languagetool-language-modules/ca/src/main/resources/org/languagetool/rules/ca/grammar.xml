@@ -54695,8 +54695,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="SEGUT" name="segut/sigut">
             <antipattern>
-                <token skip="3">segut</token>
-                <token regexp="yes">seients?|costats?|taul(a|es)|cadir(a|es)</token>
+                <token postag="SENT_START" skip="-1"/>
+                <token skip="-1" regexp="yes">seient|costat|taula|cadira|sofà|terrassa|restaurant|butaca|banc|cine|cinema|falda|peu|cama</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token>segut</token>
+                <token regexp="yes" inflected="yes">sol|junt|plegat</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">segut</token>
+                <token inflected="yes">seure</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes">seure</token>
+                <token>segut</token>
             </antipattern>
             <pattern>
                 <token inflected="yes">haver</token>
@@ -54704,12 +54717,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>segut</token>
                 </marker>
             </pattern>
-            <message>Si és del v. 'ser', val més dir <suggestion>estat</suggestion>.</message>
+            <message>Si és del v. 'ser', val més dir <suggestion>estat</suggestion>. Correcte si és del v. 'seure'.</message>
             <suggestion>sigut</suggestion>
-            <short>Forma preferible.</short>
             <example correction="estat|sigut">Havien <marker>segut</marker> molt bons.</example>
             <example>Havien sigut bons.</example>
             <example>Ha segut al costat de reis i prínceps.</example>
+            <example>Era al costat de la cadira bolcada on havia segut.</example>
+            <example>Més de dues vegades han segut colze a colze a la mateixa taula.</example>
+            <example>Havien segut plegats.</example>
+            <example>¿Com és que no has segut quan t'he dit que seguessis?</example>
         </rule>
         <rule id="MILLORIA" name="milloria/millora">
             <pattern>
