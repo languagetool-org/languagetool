@@ -38,7 +38,6 @@ public class DutchTagger extends BaseTagger {
   // custom code to deal with words carrying optional accents
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
@@ -121,38 +120,7 @@ public class DutchTagger extends BaseTagger {
 
       // set word to original
       word = originalWord;
-      
-      /* concept code to split word in parts and check the combination
-      if (l.isEmpty()) {
-        // try to uncompound
-        if (word.length()>10) {
-          int p=5;
-          while (p<word.length()-5) {
-            String w1=word.substring(0,p);
-            String w2=word.substring(p);
-            List<w1tags> gettags(w1) {
-            if (!w1info.isEmpty()) {
-              List<w2tags> gettags(w2) {
-              if (!w2info.isEmpty()) {
-                // list combinations
-                for (String w1tag : w1tags) {
-                  for (String w2tag : w2tags) {
-                    String compoundWord=w1+"+"+w2;
-                    String compoundTag=w1tag+"+"+w2tag;
-                    // TODO : check compound
-                    if (compoundTag=='WKW:TGW:1EP+ZNW:EKV:DE_") {
-                      // okay
-                      ignoreSpelling=true;
-                    }
-                  }
-                }
-              }
-            }
-            p++;
-          }
-        }
-      }
-      */
+
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(originalWord, null, null));
       }

@@ -823,6 +823,7 @@ regexp case-insensitive maken : (?i)
 		
 		<rulegroup id="SPEURT_SPURT" name="waarschuwing bij gebruik spurt i.p.v. speurt">
 			<rule>
+				<antipattern><token>spurt</token><token>weg</token></antipattern>
 				<pattern>
 					<token negate="yes">de</token>
 					<marker>
@@ -2228,15 +2229,6 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 
 
-		<rulegroup id="SPATBOORD_SPATBORD" name="waarschuwing bij gebruik spatbord i.p.v. spatboord">
-			<rule>
-				<pattern>
-					   <token>spatbord</token>
-				</pattern>
-				<message>Bedoelt u misschien <suggestion>spatboord</suggestion>?</message>
-				<example correction="spatboord">Het woord <marker>spatbord</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
 
 		<rulegroup id="SIERBOORD_SIERBORD" name="waarschuwing bij gebruik sierbord i.p.v. sierboord">
 			<rule>
@@ -10008,7 +10000,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*g<exception>lang</exception></token>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*g<exception regexp="yes">lang|vraag</exception></token>
 						<token regexp="yes">ging|gings|gingen</token>
 					</marker>
 				</pattern>
@@ -33216,7 +33208,7 @@ steenwijk;Steenwijk
 				<antipattern><token regexp="yes">die|de</token><token>gene</token></antipattern>
 				<pattern>
 					<marker>
-						<token>gene</token>
+						<token case_sensitive="yes">gene</token>
 					</marker>
 				</pattern>
 				<message>U bvedoelt vast: <suggestion>geen</suggestion> of <suggestion>gêne</suggestion>.</message>
