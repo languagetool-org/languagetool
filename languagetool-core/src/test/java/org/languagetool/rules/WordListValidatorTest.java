@@ -112,6 +112,7 @@ public class WordListValidatorTest {
           "V&D",
           "İlkay",
           "Gündoğan",
+          "Tuğrul",
           "Ñuñoa",
           "Ibišević",
           "Fríður",
