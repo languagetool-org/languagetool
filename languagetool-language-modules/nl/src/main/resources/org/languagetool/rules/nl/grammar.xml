@@ -10323,6 +10323,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="VLAKBIJ" name="vlakbij /vlak bij">
 			<rule>
+				<antipattern><token>zo</token><token>dichtbij</token><token>dat</token></antipattern>
 				<antipattern><token>van</token><token min="0" max="1" regexp="yes">wat|iets</token><token>dichterbij</token></antipattern>
 				<antipattern><token>van</token><token>dichtbij</token></antipattern>
 				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
@@ -13318,7 +13319,7 @@ onwaarschijnlijk
 						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
 					</marker>
 				</pattern>
-				<message>De dagen van de week en maanden horen met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+				<message>De dagen van de week en maanden horen (behalve aan het begin van de zin) met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
 				<short>Geen hoofdletter</short>
 				<example correction="maandag">Ik heb de pest aan de <marker>Maandag</marker>.</example>
 				<example><marker>Maandag</marker> is altijd een rotdag.</example>
@@ -17028,6 +17029,7 @@ steenwijk;Steenwijk
 		<rulegroup id="U" name="u">
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
+				<antipattern case_sensitive="yes"><token>uur</token><token>U</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token negate="yes">.<exception postag="SENT_START"/></token>
 					<marker>
@@ -17583,6 +17585,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>dan</token><token>maar</token><token regexp="yes">gelijk|meteen|onmiddellijk</token></antipattern>
+				<antipattern><token>Zolang</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token>als</token><token regexp="yes">ik|jij|hij|zij|ze|men</token><token>maar</token><token postag_regexp="yes"  postag="WKW.*"/></antipattern>
 				<antipattern><token postag="WKW:VLT:1EP"/><token regexp="yes">hem|haar|ons|hen</token><token>maar</token><token>niet</token></antipattern>
 				<antipattern><token>hoewel</token><token>het</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">dat|het|dit</token><token>maar</token><token postag="VRZ"/></antipattern>	<antipattern><token regexp="yes">Eerst|nu</token><token>maar</token></antipattern>
@@ -19511,8 +19516,8 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token postag="GET.*" postag_regexp="yes"/><token postag="ZNW.*HET" postag_regexp="yes"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token/><token/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
-
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
