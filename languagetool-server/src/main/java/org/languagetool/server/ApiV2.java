@@ -82,9 +82,6 @@ class ApiV2 {
     //} else if (path.equals("rule/examples")) {
     //  // private (i.e. undocumented) API for our own use only
     //  handleRuleExamplesRequest(httpExchange, parameters);
-    } else if (path.equals("log")) {
-      // private (i.e. undocumented) API for our own use only
-      handleLogRequest(httpExchange, parameters);
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
@@ -285,19 +282,6 @@ class ApiV2 {
   private void sendJson(HttpExchange httpExchange, StringWriter sw) throws IOException {
     String response = sw.toString();
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
-    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
-    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
-  }
-
-  private void handleLogRequest(HttpExchange httpExchange, Map<String, String> parameters) throws IOException {
-    // used so the client (especially the browser add-ons) can report internal issues:
-    String message = parameters.get("message");
-    if (message != null && message.length() > 250) {
-      message = message.substring(0, 250) + "...";
-    }
-    ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent"));
-    String response = "OK";
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
