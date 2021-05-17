@@ -44458,6 +44458,19 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" regexp_match="(o)m(nubil(é|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1b$2"/></suggestion>
                 <example correction="obnubilé">Il est <marker>omnubilé</marker> par son adversaire.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">enduire</token>
+                    </marker>
+                    <token>en</token>
+                    <token>erreur</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" postag="V.*">induire</match></suggestion>
+                <example correction="induit">Ils m'ont <marker>enduit</marker> en erreur.</example>
+                <example correction="induisant">Il maintenait la confusion en <marker>enduisant</marker> en erreur son entourage .</example>
+            </rule>
         </rulegroup>
         <rulegroup id="BARBARISME_TU" name="barbarisme tu">
             <rule>
