@@ -258,6 +258,8 @@ public class French extends Language implements AutoCloseable {
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "FR_SPELLING_RULE": return -100;
+      case "ET_SENT_START": return -151; // lower than grammalecte rules
+      case "MAIS_SENT_START": return -151; // lower than grammalecte rules
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
