@@ -1924,6 +1924,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordance adjectif après les noms">
             <antipattern>
+                <token>dû</token>
+                <token regexp="yes">aux|à</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* [21] p" postag_regexp="yes"/>
+                <token>tous</token>
+                <token min="0" max="3" postag="A"/>
+                <token postag="J .*|V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>consistant</token>
                 <token regexp="yes">en|à</token>
             </antipattern>
@@ -2095,7 +2105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!--<token inflected="yes" skip="4">passer</token>-->
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="D.*|Y" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;|instant|moment|&parties_journee;</token>
                 <token min="0" max="3" postag="A"/>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
@@ -2952,6 +2962,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Huit hommes et sept femmes âgés de 41 à 74 ans.</example>
             <example>Nous avons à cette époque décidé de créer Myriad.</example>
             <example>Je ne me rappelle personne dénommé ainsi.</example>
+            <example>Nous travaillons tous trop dur.</example>
+            <example>Les retours d'expériences ont comme toujours été très enrichissants.</example>
+            <example>Je ne vous ai de ma vie entendu dire du mal de qui que ce fût.</example>
+            <example>sous l'énorme platane qui la couvre, l'abrite et l'ombrage tout entière</example>
+            <example>Il rejoint Total en 1982 où il est pendant 15 ans expert en mécanique des roches.</example>
+            <example>soit dans la section fumeurs, soit dans la section non-fumeurs</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style">
@@ -13833,6 +13849,16 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="ETRES_ETRE" name="êtres/être" default="temp_off">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer|laisser</token>
+                <marker>
+                    <token>êtres</token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>être</suggestion> ?</message>
+            <example correction="être">Nous devrions <marker>êtres</marker> fières de nous-mêmes.</example>
+        </rule>
         <rule id="CE_S_CES" name="ce s/ces" default="temp_off">
             <pattern>
                 <token>ce</token>
