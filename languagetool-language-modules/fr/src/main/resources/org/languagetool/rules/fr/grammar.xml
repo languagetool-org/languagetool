@@ -5699,6 +5699,135 @@ though, and has since been slightly modified)-->
                 <example correction="à pouvoir">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="A_ACCENT_A1" name="À au lieu de A" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>à</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="C coor"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="1"/>
+                    <token>sur</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token>conduite</token>
+                    <token>à</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|P.*|UNKNOWN" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">points?</token>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">fromages?|viandes?|tirages?|poêles?|chaudières?|rangements?|moules?</token>
+                    <token>à</token>
+                    <token regexp="yes">fondue|cru|granulés|manqué</token>
+                </antipattern>
+                <antipattern>
+                      <token postag="J.*" postag_regexp="yes"/>
+                      <token regexp="yes">à|á</token>
+                      <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">à|á</token>
+                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*|A" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token regexp="yes">dé?couvert</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">gardes?</token>
+                    <token>à</token>
+                    <token regexp="yes">vues?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token>surprises</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token regexp="yes">joints?</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token postag="V.*ppa.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                     <token postag="V avoir.*" postag_regexp="yes"/>
+                     <token postag="A" min="0" max="1"/>
+                     <token postag="[PD].*" postag_regexp="yes"/>
+                     <token postag="N.*" postag_regexp="yes"/>
+                     <token>à</token>
+                     <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">à|á
+                        <exception scope="previous" postag="V.*" postag_regexp="yes"/>
+                        <exception scope="previous">grâce</exception></token>
+                    </marker>
+                    <token postag="V.* ppa.*" postag_regexp="yes">
+                        <exception regexp="yes">croisées?|fait|forfaits?|partie|pointe?s?|issues?|coté|partis?|portées?|prises?|mort|vue|revenus?|tapis|visées?|(?-i)Vitré</exception></token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>a</suggestion> (du verbe "avoir")?</message>
+                <example correction="a">Il <marker>à</marker> été aux États-Unis.</example>
+                <example>Il a été aux États-Unis.</example>
+                <example>Il a été à Rome et à Visé.</example>
+                <example>Ils auront plus de DIFFICULTÉS à traversée la rivière.</example>
+                <example>A cru, le cavalier va plus vite.</example>
+                <example correction="a">Paul <marker>à</marker> travaillé tard.</example>
+                <example correction="a">Tom <marker>à</marker> dit qu'il mange.</example>
+                <example correction="a">M. Waters les <marker>à</marker> surprises.</example>
+                <example>Je suis tout à fait d’accord.</example>
+                <example>Pack à branché directement sur un ordinateur.</example>
+                <example>Des trajectoires larges l'ont obligé à adopté un autre style de conduite.</example>
+                <example>Voyant que rien n'était à signalé, il fit un bref signe de tête.</example>
+                <example>Nous vous emmenons de Montréal jusqu'à Percé en passant par Québec.</example>
+                <example>1 logement 5½ à entrée indépendante.</example>
+                <example>Les arbres à cavité sont un habitat prisé par de nombreuses espèces d'oiseaux.</example>
+                <example>Un crayon à pointe fine.</example>
+                <example>Ce sont des points à coordonées entières.</example>
+                <example>Les conditions de fumée sont légères à modérées.</example>
+                <example>Les familles à revenus modestes</example>
+                <example>Ils se sont mis à découvert.</example>
+                <example>Installez votre poêle à bois ou à granulés.</example>
+                <example>Beurrez un moule à manqué.</example>
+                <example>Il faut du fromage à fondue.</example>
+                <example>Il n’a pas manqué l’occasion de prendre à partie son prédécesseur.</example>
+                <example>Une tapette à tapis.</example>
+                <example>Une maladie à issue fatale.</example>
+                <example>Du béton à prise rapide.</example>
+                <example>Il habite à Vitré.</example>
+                <example>La vie est une boîte à surprises.</example>
+                <example>Ce sont des mots à traits d'union.</example>
+                <example>Voici les gâteaux de mi-cuit à cuit.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_ACCENT_A" name="À au lieu de A">
             <rule>
                 <pattern>
