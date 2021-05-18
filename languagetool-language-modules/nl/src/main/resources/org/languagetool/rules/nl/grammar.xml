@@ -11449,6 +11449,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<!-- 2014-08-20 TaalTik -->
+			<antipattern><token>nu</token><token>weg</token></antipattern>
 			<antipattern><token>niet</token><token>meer</token></antipattern>
 			<antipattern><token/><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
 			<rule>
@@ -12195,7 +12196,7 @@ onwaarschijnlijk
 		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
 			<rule>
 				<pattern>
-					<token postag="VRZ"><exception regexp="yes">tot|naar|voor|sinds|vóór|gezien</exception></token>
+					<token postag="VRZ"><exception regexp="yes">behalve|tot|naar|voor|sinds|vóór|gezien</exception></token>
 					<token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
 				</pattern>
 				<message>Het woord '\2' staat hier wat vreemd. Kijk dit nog eens na s.v.p.</message>
@@ -12483,6 +12484,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="GROTERE_ALS" name="grotere als">
 			<rule>
+				<antipattern><token>als</token><token regexp="yes">je|hij|zij|men</token><token postag="WKW:TGW:3EP"/></antipattern>
 				<antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger</token><token>als</token></antipattern>
 				<antipattern><token>als</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
 				<pattern>
