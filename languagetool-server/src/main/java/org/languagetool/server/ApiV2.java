@@ -104,6 +104,9 @@ class ApiV2 {
   }
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+    if (JLanguageTool.isPremiumVersion()) {
+      throw new BadRequestException("Not supported in premium mode");
+    }
     if (parameters.get("language") == null) {
       throw new BadRequestException("'language' parameter missing");
     }
