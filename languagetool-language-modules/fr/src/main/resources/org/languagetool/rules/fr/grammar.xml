@@ -5717,7 +5717,7 @@ though, and has since been slightly modified)-->
                 <example correction="À partir|A parti|A partie|A partis|A parties"><marker>A partir</marker> de demain.</example>
                 <example correction="À LOUER|A LOUÉ|A LOUÉE|A LOUÉS|A LOUÉES"><marker>A LOUER</marker></example>
             </rule>
-            <rule>
+             <rule>
                 <pattern>
                     <token>a</token>
                     <token postag="V.* inf" postag_regexp="yes">
@@ -5726,6 +5726,172 @@ though, and has since been slightly modified)-->
                 <message>Confusion probable : "a" est la conjugaison du verbe "avoir". Utilisez la préposition "à".</message>
                 <suggestion>à \2</suggestion>
                 <example correction="à pouvoir">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="[VZ].*|UNKNOWN|R pers suj.*|C coor" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+                    <token>suite</token>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="J.*" postag_regexp="yes"/>
+                        <unify-ignore>
+                        <token>à</token>
+                        </unify-ignore>
+                        <token postag="J.*" postag_regexp="yes"/>
+                    </unify>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <pattern>
+                    <token>à<exception scope="previous">qui</exception>
+                    </token>
+                    <marker>
+                        <token postag="V ppa.*" postag_regexp="yes">
+                            <exception regexp="yes">couplée?s?|portée?s?|statuée?s?|[a-z].*-[a-z].*</exception>
+                            <exception postag="N.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>sur</token>
+                </pattern>
+                <message>Le verbe suivant la préposition '\1' est généralement à l'infinitif.</message>
+                <suggestion><match no="2" postag="V ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <example correction="brancher">Il s'agit d'une qualité sonore exceptionnelle à <marker>branché</marker> sur son portable.</example>
+                <example>Elle succède à diffusée sur la même chaîne.</example>
+                <example>Il le fait en passant de tendu à arqué.</example>
+                <example>Le dos passe au brun-orangé et pâle à foncé sur l'abdomen.</example>
+                <example>Selvans est associé à Suri sur une stèle.</example>
+                <example>Propulsion : General Motor 6/71 Diesel 2 temps, de 225 à couplés sur d'arbres.</example>
+                <example>Ils représentent tous un homme à demi-couché sur le dos.</example>
+                <example>Le jeu fait suite à sorti sur console.</example>
+                <example>La conversation à porté sur la pertinence de la structure d'arbre.</example>
+                <example>Les feuilles ont des trichomes complexes blancs à rouillés sur la surface inférieure.</example>
+                <example>Ce sont des langues que l'utilisateur à déclaré sur son site.</example>
+            </rule>
+             <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">numérotée?s?|permis|c[ôo]té|portée</token>
+                    <token inflected="yes">de</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                    <token postag="V etre ppa.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
+                    <token regexp="yes">jouée?s?</token>
+                    <token skip="1">à</token>
+                    <token>reprises</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">prise?s?|montée?s?|soumise?s?</token>
+                    <token>à</token>
+                    <token regexp="yes">partie?|cru|retenue?s?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <marker>
+                        <token postag="V ppa.*" postag_regexp="yes">
+                            <exception scope="next" postag="J.*" postag_regexp="yes"/>
+                            <exception regexp="yes">morts?|vue|forfait|carrés?|députés?|salariés?</exception></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe suivant la préposition '\3' est généralement à l'infinitif.</message>
+                <suggestion><match no="4" postag="V ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <example correction="signaler">Il l'a obligé à <marker>signalé</marker> ce crime.</example>
+                <example>Il est enterré à Tendu.</example>
+                <example>Il est condamné à mort.</example>
+                <example>Les pièces de 20 francs ont été produites à complétées par de 1945 à 1949.</example>
+                <example>Ils peuvent être posés à joints croisés ou à joints consécutifs.</example>
+                <example>Le tirage a été limité à numérotés de 1 à 300.</example>
+                <example>Les résidences mobiles sont soumises à permis d'aménager.</example>
+                <example>La Petite Hutte est jouée à reprises.</example>
+                <example>Elle est prise à partie dans le procès.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>il</token>
+                    <token>y</token>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token postag="[DP].*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token postag="[DP].*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token>portée</token>
+                    <token>de</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V avoir.*" postag_regexp="yes"><exception postag="V avoir inf"/></token>
+                    <token postag="A" min="0" max="2"/>
+                    <token postag="[DP].*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <marker>
+                        <token postag="V ppa.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*<exception regexp="yes">c[ôo]tée?|découvert|mort</exception></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe suivant la préposition '\3' est généralement à l'infinitif.</message>
+                <suggestion><match no="6" postag="V ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <example correction="traverser">Ils auront plus de difficultés à <marker>traversée</marker> la rivière.</example>
+                <example correction="passer">J'ai eu du mal à <marker>passé</marker> le cap.</example>
+                <example>Vous avez le piolet à portée de main ?</example>
+                <example>Il y avait aussi des chansons à parties.</example>
             </rule>
         </rulegroup>
         <rulegroup id="A_ACCENT_A1" name="À au lieu de A" default="temp_off">
