@@ -15435,6 +15435,46 @@ though, and has since been slightly modified)-->
                 <message>« \1 » et « \2 » ne peuvent ici pas se suivre. Veuillez vérifier.</message>
                 <example correction="">Mais <marker>à</marker> causé énormément</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">fromages?|viandes?|tirages?|poêles?|chaudières?|rangements?|moules?</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes">fondue|cru|granulés</token>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
+                <example correction="à">Il a acheté du fromage <marker>a</marker> fondue.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="[DP].*" postag_regexp="yes"/>
+                    <token regexp="yes">bo[îi]te</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token postag="N.*|V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
+                <example correction="à">Il veut une boite <marker>a</marker> surprises.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="[NJ].*" postag_regexp="yes"><exception>cuit</exception></token>
+                    <token>a</token>
+                    <token regexp="yes">(dé)?couvert</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">[a-z].*<exception>puis</exception></token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes">(dé)?couvert</token>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
+                <example correction="à">Le repas cuit <marker>a</marker> couvert.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
             <antipattern>
