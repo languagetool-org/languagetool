@@ -7193,9 +7193,9 @@ onwaarschijnlijk
 				<example type="incorrect">75% is meer dan voldoende in het middelbaar <marker>aso</marker>.</example>
 			</rule>
 			<rule>
-				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">spier.*</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">spier.*|vlees</token></antipattern>
 				<pattern>
-					<token regexp="yes">bot|botten|motorbotten|winterbotten|zomerbotjes</token>
+					<token case_sensitive="yes" regexp="yes">bot|botten|motorbotten|winterbotten|zomerbotjes</token>
 				</pattern>
 				<message>In Vlaanderen betekent 'bot' (ook) 'laars'.</message>
 				<example type="incorrect">Ik trok mijn <marker>motorbotten</marker> aan.</example>
@@ -13311,7 +13311,7 @@ onwaarschijnlijk
 
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
-				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token postag="SENT_START"/><token regexp="yes">&apostrof;|&quot;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<pattern>
 					<token><exception postag="SENT_START"/></token>
@@ -17585,6 +17585,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token regexp="yes">Ze|hij|zij</token><token>moest</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>dan</token><token>maar</token><token regexp="yes">gelijk|meteen|onmiddellijk</token></antipattern>
 				<antipattern><token>Zolang</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>niet</token></antipattern>
 				<antipattern><token>als</token><token regexp="yes">ik|jij|hij|zij|ze|men</token><token>maar</token><token postag_regexp="yes"  postag="WKW.*"/></antipattern>
@@ -18713,11 +18714,14 @@ steenwijk;Steenwijk
 				<antipattern><token>zou</token><token>zo</token><token>maar</token><token>kunnen</token></antipattern>
 				<antipattern><token>zoveel</token><token>je</token><token>maar</token><token postag="WKW:TGW:3EP/"/></antipattern>
 				<antipattern><token>zullen</token><token>we</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
-
 				
 				<pattern>
-					<token><exception postag="SENT_START"/><exception regexp="yes">&apostrof;|&quote;</exception></token>
-					<token>maar</token>
+					<marker>
+						<token><exception postag="SENT_START"/><exception regexp="yes">&apostrof;|&quote;</exception></token>
+						<token skip="-1">maar</token>
+					</marker>
+					<token skip="-1" postag_regexp="yes" postag="WKW.*"/>
+					<token postag="SENT_END"/>
 				</pattern>
 				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/komma-algemene-regels</url>
@@ -19528,7 +19532,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">het|dit|dat</token>
 					<marker>
-						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer</exception></token>
+						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
 						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net</exception><exception postag="WKW:TGW:INF"/></token>
 					</marker>
 				</pattern>
@@ -22474,18 +22478,18 @@ steenwijk;Steenwijk
 		<rulegroup id="BRANDING" name="branding">
 			<!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
 			<rule>
-				<antipattern><token regexp="yes">strand|bruis.*|.*kust|golven|golf|zee|rots|woest|rolt|surfen</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">strand|bruis.*|.*kust|golven|golf|zee|rots|woest|rolt|surfen|donderen.*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token skip="10">branding</token>
 				</pattern>
 				<message>Als u reclame bedoelt, schrijf dan ook 'reclame maken voor' of 'als een merk presenteren'.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect">En als er behoorlijk wat <marker>branding</marker> stond, moest de schuit het bonkend aankomen op het strand aankunnen.</example>
 				<example type="incorrect">Onze designers creëren samen met jou een volledige <marker>branding</marker>, en vatten die perfect samen in een duidelijke stijlgids.</example>
-				<example type="incorrect">Je was een rots in de <marker>branding</marker>.</example>
-				<example type="incorrect">Gelukkig zonder gevaar, de beesten kunnen nu eenmaal moeilijk anders terwijl ze golven in de <marker>branding</marker> proberen te bedwingen.</example>
-				<example type="incorrect">Deze <marker>branding</marker> is ideaal om te surfen.</example>
-				<example type="incorrect">De zevende hole heeft een afslag over de donderende <marker>branding</marker>.</example>
+				<example>En als er behoorlijk wat <marker>branding</marker> stond, moest de schuit het bonkend aankomen op het strand aankunnen.</example>
+				<example>Je was een rots in de <marker>branding</marker>.</example>
+				<example>Gelukkig zonder gevaar, de beesten kunnen nu eenmaal moeilijk anders terwijl ze golven in de <marker>branding</marker> proberen te bedwingen.</example>
+				<example>Deze <marker>branding</marker> is ideaal om te surfen.</example>
+				<example>De zevende hole heeft een afslag over de donderende <marker>branding</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="BRANDSTOFVERKOOPPUNT" name="brandstofverkooppunt">
