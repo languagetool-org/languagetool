@@ -498,6 +498,9 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules
       return -1;
     }
+    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules
+      return -2;
+    }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;
     }
