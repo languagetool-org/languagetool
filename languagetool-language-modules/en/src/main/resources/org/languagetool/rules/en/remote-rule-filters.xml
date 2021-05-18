@@ -160,6 +160,30 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">nearly 20 percent of <marker>sub-$300</marker> notebook sales</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">“</token>
+                    <token spacebefore="no"/>
+                </pattern>
+                <example correction="">...until it reaches its goals of stopping Hamas’s rocket barrages and making the <marker>group “pay</marker> a price.”</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token postag="PCT"/>
+                    <token spacebefore="no">”</token>
+                </pattern>
+                <example correction="">...until it reaches its goals of stopping Hamas’s rocket barrages and making the group “pay a <marker>price.”</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>‘</token>
+                    <token max="-1"><exception>’</exception></token>
+                    <token spacebefore="no">’</token>
+                </pattern>
+                <example correction="">A <marker>‘Friend of Tom’</marker>: One Man’s Rules at Bank of America</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPL" name="">
             <rule>
@@ -213,6 +237,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>as</token>
                 </pattern>
                 <example correction="">Rick, Attached <marker>are</marker> a clean copy of suggested modification of the body of this DASH as well as a copy of the original DASH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="E-NP.*"/>
+                    <marker>
+                        <token>had</token>
+                    </marker>
+                    <token>been</token>
+                    <token min="0" postag="RB"/>
+                    <token postag="VBN"/>
+                </pattern>
+                <example correction="">Since May 10, at least 212 Palestinians <marker>had</marker> been killed in Gaza.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>insisted</token>
+                    <token max="-1" chunk_re="..NP.*"/>
+                    <marker>
+                        <token postag="VBD"/>
+                    </marker>
+                </pattern>
+                <example correction="">The frantic caller this morning was a long-time friend, and he insisted I <marker>came</marker> to Kingston.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="..NP.*">sentence</token>
+                    <marker>
+                        <token chunk_re="..NP.*">start</token>
+                    </marker>
+                </pattern>
+                <example correction="">An example is the lowercase sentence <marker>start</marker> at the beginning of an email.</example>
             </rule>
         </rulegroup>
     </category>
