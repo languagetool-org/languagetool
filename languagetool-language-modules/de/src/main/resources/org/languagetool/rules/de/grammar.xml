@@ -10369,7 +10369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="US_ARMEE" name="US Armee (US-Armee)">
             <antipattern>
                 <token>US</token>
-                <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus|Boys?|Top|Cars?</token>
+                <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus|Boys?|Top|Cars?|Vereinigten?</token>
             </antipattern>
             <antipattern>
                 <token>US</token>
@@ -10437,6 +10437,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">denkt|dachte</token>
                 <token regexp="yes">er|sie</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" />
+                <token>durch</token>
+                <token>drehen</token>
+                <token postag="PRP:LOK.+" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <token>durch</token>
@@ -11801,10 +11807,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PUSH_UP" name="Push Up (Push-up)">
             <antipattern>
-                <token regexp="yes">Push-ups?</token>
+                <token regexp="yes" case_sensitive="yes">Push-ups?</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">Push-up-BHs?</token>
+                <token regexp="yes" case_sensitive="yes">Push-up-BHs?</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -11822,9 +11828,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">push-?up-bhs?</token>
                 </pattern>
-                <message>Das Wort <suggestion>Push-up-BH<match no="1" regexp_match="(?i)push-?up-bh(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrichen getrennt.</message>
+                <message>Meinten Sie <suggestion>Push-up-BH<match no="1" regexp_match="(?i)push-?up-bh(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion>?</message>
                 <url>https://www.duden.de/rechtschreibung/Push_up_BH</url>
-                <short>Zusammenschreibung</short>
+                <short>Groß- und Kleinschreibung</short>
                 <example correction="Push-up-BHs">Sie besaß mehrere <marker>Pushup-BHs</marker>.</example>
                 <example>Bei H&amp;M kaufte sie einen Push-up-BH.</example>
             </rule>
@@ -11843,9 +11849,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">push-?ups?</token>
                 </pattern>
-                <message>Das Wort <suggestion>Push-up<match no="1" regexp_match="(?i)push-?up(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <message>Meinten Sie <suggestion>Push-up<match no="1" regexp_match="(?i)push-?up(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion>?</message>
                 <url>https://www.duden.de/rechtschreibung/Push_up</url>
-                <short>Zusammenschreibung</short>
+                <short>Groß- und Kleinschreibung</short>
                 <example correction="Push-ups">Sie besaß mehrere <marker>Pushups</marker>.</example>
                 <example>Bei H&amp;M kaufte sie einen Push-up-BH.</example>
             </rule>
@@ -38178,6 +38184,11 @@ Andere Projekte</example>
                     <token>auf</token>
                     <token>das</token>
                 </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token>Sinn</token>
+                    <token regexp="yes" inflected="yes">ergeben|machen</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>das</token>
@@ -38197,6 +38208,7 @@ Andere Projekte</example>
                 <example>Das Morgen ist noch fern, lasst uns das Heute meistern.</example>
                 <example>Zur Vereinfachung und besseren Akzeptanz der Umstellung auf das Meter wurde im 19. Jahrhundert da und dort versucht, das alte Fußmaß auf runde Werte des neuen Systems zu bringen.</example>
                 <example>Ich finde aber, dass das Schwachsinn ist!</example>
+                <example>Auch das IWF bietet Ihnen Hilfe an.</example>
             </rule>
             <rule><!-- eine Tisch ist/war -->
                 <antipattern><!-- der eine Server -->
@@ -38287,12 +38299,16 @@ Andere Projekte</example>
             </rule>
             <rule><!-- die Haus ist/war -->
                 <antipattern><!-- Eine Ärztin die Glück hat / Es gibt immer eine die Glück hat -->
-                    <token postag="(SUB|ADJ):.+:FEM.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):FEM.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="5">.*[a-zäöüß].*</token>
+                    <token postag="(SUB|ADJ):.+:FEM.*|(SUB|ADJ):.+:PLU.*|PRO:IND:(AKK|DAT):SIN.*|PRO:RIN:(AKK|DAT|NOM):FEM.*|UNKNOWN" postag_regexp="yes" regexp="yes" skip="5">.*[a-zäöüß].*</token>
                     <token>die</token>
                 </antipattern>
                 <antipattern><!-- Die, die Lust hat, kann ... -->
                     <token>die</token>
                     <token min="0">,</token>
+                    <token>die</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">alle?</token>
                     <token>die</token>
                 </antipattern>
                 <pattern>
@@ -38316,10 +38332,11 @@ Andere Projekte</example>
                 <example>Ich kenne eine die Glück hat.</example>
                 <example>Die Bild kann auch nur berichten, was stattgefunden hat.</example>
                 <example>Maria ist hier nicht die einzige, die Französisch kann.</example>
+                <example>Bei manchen Vorteilen, die Glücksspiel bietet...</example>
             </rule>
             <rule><!-- eine Haus ist/war -->
                 <antipattern><!-- Das eine Haus ist schön -->
-                    <token skip="2" regexp="yes">das|dieses</token>
+                    <token skip="2" regexp="yes">das|diese[rs]</token>
                     <token>eine</token>
                 </antipattern>
                 <antipattern>
@@ -44077,7 +44094,7 @@ Andere Projekte</example>
                 <token>in</token>
                 <token>saus</token>
                 <token regexp="yes">und|&amp;</token>
-                <token>braus</token>
+                <token regexp="yes">brause?</token>
             </pattern>
             <message>Meinten Sie die Redewendung <suggestion>\1 Saus \3 Braus</suggestion>?</message>
             <example correction="in Saus und Braus">Er lebte ein Leben <marker>in saus und braus</marker>.</example>
@@ -44091,9 +44108,9 @@ Andere Projekte</example>
             </antipattern>
             <pattern>
                 <token regexp="yes">schon|sei[dt]|wie</token>
-                <token regexp="yes">ee?h?</token>
+                <token regexp="yes">[äe]e?h?</token>
                 <token regexp="yes">und|&amp;</token>
-                <token regexp="yes">[yj]eh?</token>
+                <token regexp="yes">[yj][äe]h?</token>
             </pattern>
             <message>Meinten Sie die Redewendung <suggestion><match no="1" regexp_match="eid" regexp_replace="eit" /> eh und je</suggestion>?</message>
             <url>https://www.wortbedeutung.info/eh_und_je/</url>
