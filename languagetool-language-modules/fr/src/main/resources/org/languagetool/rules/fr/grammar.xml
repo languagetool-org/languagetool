@@ -14015,6 +14015,57 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="GRACE_A" name="grâce à" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>grâce</token>
+                    <token>à</token>
+                    <marker>
+                        <token postag="N f ." postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                            <exception postag="T.*" postag_regexp="yes"/>
+                            <exception regexp="yes">wiki|internet|sainte?s?|l'|sœur|do[nm]|dieu|van|ma[îi]tre|nul(le)?|nombres?|météo|orange|pile|java|tante|force</exception></token>
+                    </marker>
+                </pattern>
+                <message>Un déterminant est généralement attendu après cette expression.</message>
+                <suggestion>une <match no="3" postag="N f ." postag_regexp="yes" postag_replace="N f s"/></suggestion>
+                <suggestion>la <match no="3" postag="N f ." postag_regexp="yes" postag_replace="N f s"/></suggestion>
+                <suggestion>des \3</suggestion>
+                <example correction="une vue|la vue|des vues">Il le fait grâce à <marker>vues</marker> imprenables sur la côte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>grâce</token>
+                    <token>à</token>
+                    <marker>
+                        <token postag="N m ." postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                            <exception postag="T.*" postag_regexp="yes"/>
+                            <exception regexp="yes">wiki|internet|sainte?s?|l'|sœur|do[nm]|dieu|van|ma[îi]tre|nul(le)?|nombres?|météo|orange|cent|leu|bibi</exception></token>
+                    </marker>
+                </pattern>
+                <message>Un déterminant est généralement attendu après cette expression.</message>
+                <suggestion>un <match no="3" postag="N m ." postag_regexp="yes" postag_replace="N m s"/></suggestion>
+                <suggestion>des \3</suggestion>
+                <example correction="un mot|des mots">Il le dit grâce à <marker>mots</marker> savants.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[a-z].*</token>
+                    <token case_sensitive="yes">Grace</token>
+                    <token regexp="yes">à</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>grace<exception scope="previous" postag="DZ.*|UNKNOWN" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes">à</token>
+                </pattern>
+                <message>Dans cette expression, le terme '\1' comporte un accent circonflexe sur le 'a'.</message>
+                <suggestion>grâce</suggestion>
+                <example correction="Grâce"><marker>Grace</marker> à ses amis, il a pu trouver la sortie du labyrinthe.</example>
+                <example>Ils enjoignent Grace à rejoindre leur association sportive.</example>
+                <example>Le Château de La Grace est un édifice imposant.</example>
+            </rule>
+        </rulegroup>
         <rule id="ETRES_ETRE" name="êtres/être" default="temp_off">
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">pouvoir|vouloir|devoir|faire|oser|désirer|laisser</token>
