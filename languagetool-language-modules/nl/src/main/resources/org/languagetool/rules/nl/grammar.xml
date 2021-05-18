@@ -4177,7 +4177,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="NASI_NAZI" name="waarschuwing bij gebruik nasi i.p.v. nazi">
 			<rule>
-				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">goreng|bami|kuning|rames|lekker.*|heerlijk.*|bord.*</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">goreng|bami|kuning|rames|lekker.*|heerlijk.*|bord.*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>nasi</token></pattern>
 				<message>Bedoelt u misschien <suggestion>nazi</suggestion>?</message>
 				<example correction="nazi">Het woord <marker>nasi</marker> kan een vergissing zijn.</example>
@@ -12195,6 +12195,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
 			<rule>
+				<antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
 				<pattern>
 					<token postag="VRZ"><exception regexp="yes">behalve|tot|naar|voor|sinds|vóór|gezien</exception></token>
 					<token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
@@ -17587,6 +17588,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token postag="SENT_START"/><token/><token>maar</token></antipattern>
+				<antipattern><token regexp="yes">zodra|wanneer</token><token regexp="yes">jullie|zij|ze</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">Ze|hij|zij</token><token>moest</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>dan</token><token>maar</token><token regexp="yes">gelijk|meteen|onmiddellijk</token></antipattern>
 				<antipattern><token>Zolang</token><token regexp="yes">het|dit|dat</token><token>maar</token><token>niet</token></antipattern>
