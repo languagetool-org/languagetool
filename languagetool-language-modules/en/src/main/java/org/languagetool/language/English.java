@@ -495,11 +495,11 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
     }
-    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules
-      return -1;
+    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      return -11;
     }
-    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules
-      return -2;
+    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules (also speller)
+      return -11;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;
