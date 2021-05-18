@@ -140,5 +140,80 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">On Sep <marker>20th</marker> of the year 2021.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_G_PUNCT_REPL" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(\[|\(|\{|&lt;)</token>
+                    <token regexp="yes">(\]|\)|\}|&gt;)</token>
+                </pattern>
+                <example correction="">This is an empty set: <marker>[ ]</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[-_.0-9A-Za-z]+@[-_0-9A-Za-z]+[-_.0-9A-Za-z]+</token>
+                </pattern>
+                <example correction="">My address is <marker>foobar@test.com</marker> no questions asked.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[a-z]+-[$€£¥฿₹\u8371][0-9.,]+</token>
+                </pattern>
+                <example correction="">nearly 20 percent of <marker>sub-$300</marker> notebook sales</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_G_REPL" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">is|'s|am|'m</token>
+                    <token min="0" max="2" postag="RB.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VBG">
+                            <exception postag="JJ"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">He is <marker>singing</marker> with a lot of ornamentation.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>;</token>
+                    <marker>
+                        <token spacebefore="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Carbohydrates are a common source of energy in living organisms; <marker>however</marker>, no carbohydrate is an essential nutrient in humans.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="MD"/>
+                    <token min="0" max="2" postag="RB.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VB"/>
+                    </marker>
+                </pattern>
+                <example correction="">Tom should <marker>allow</marker> Mary to win.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" postag="V.*" postag_regexp="yes">wish</token>
+                    <token min="0" max="10" chunk_re=".-NP.*"/>
+                    <marker>
+                        <token postag="VBD"/>
+                    </marker>
+                </pattern>
+                <example correction="">I wish all people <marker>loved</marker> peace!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1" postag="VBP"><exception postag="NNP"/></token><!-- otherwise it matches "Rick" -->
+                    </marker>
+                    <token>as</token>
+                    <token>well</token>
+                    <token>as</token>
+                </pattern>
+                <example correction="">Rick, Attached <marker>are</marker> a clean copy of suggested modification of the body of this DASH as well as a copy of the original DASH.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
