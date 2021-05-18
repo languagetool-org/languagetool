@@ -119,8 +119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" case_conversion="startupper"/></suggestion>
             <example correction="Sra">Ha venido la <marker>sra</marker>. García.</example>
         </rule>
-        <rulegroup id="MIN_MESES" name="Meses en minúscula">
-            <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
+        <rule id="MIN_MESES" name="Meses en minúscula">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">&meses_ano_may;</token>
                 <token regexp="yes">\p{Lu}..+<exception postag="CC|SPS00" postag_regexp="yes"/></token>
@@ -139,52 +138,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="4" postag_regexp="yes" postag="_PUNCT.*"/>
                 <token regexp="yes">&meses_ano_may;</token>
             </antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">&meses_ano_may;</token>
-                    </marker>
-                    <token min="0" regexp="yes">de|del</token>
-                    <token regexp="yes">\d+|año</token>
-                </pattern>
-                <message>Los meses del año se escriben en minúsculas.</message>
-                <suggestion><match case_conversion="alllower" no="1"/></suggestion>
-                <example correction="julio" type="incorrect">De <marker>Julio</marker> del 2020.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\d+|mes|meses|en|el|al|del|hasta</token>
-                    <token min="0" regexp="yes">de|del</token>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">&meses_ano_may;</token>
-                    </marker>
-                </pattern>
-                <message>Los meses del año se escriben en minúsculas.</message>
-                <suggestion><match case_conversion="alllower" no="3"/></suggestion>
-                <example correction="julio">El 4 de <marker>Julio</marker>.</example>
-                <example correction="julio">En <marker>Julio</marker> del año pasado.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">&meses_ano_may;<exception postag="NP.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Los meses del año se escriben en minúsculas.</message>
-                <suggestion><match case_conversion="alllower" no="1"/></suggestion>
-                <example correction="agosto">Y <marker>Agosto</marker>.</example>
-                <example correction="abril">Pero <marker>Abril</marker> es un buen mes.</example>
-                <example>Pero Abril Hernández no.</example>
-                <example>Pero Julio es una buena persona.</example>
-                <example>Con Julio voy al parque.</example>
-                <example>Con Julio Manrique y Julio Iglesias.</example>
-                <example>¡Noviembre está cada vez más cerca!</example>
-            </rule>
-        </rulegroup>
+            <antipattern>
+                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&meses_ano_may;</token>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NP.*" postag_regexp="yes"/>
+                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&meses_ano_may;</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Mayo</token>
+                <token>del</token>
+                <token regexp="yes">68|1968</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DN.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">\d+</exception></token>
+                <token inflected="yes">de</token>
+                <token regexp="yes">(?-i)&meses_ano_may;</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">\p{Lu}.*<exception postag="SPS.*|D.*|C.*" postag_regexp="yes"/><exception regexp="yes">(?-i)&meses_ano_may;|Edición|[A-Z][A-Z]+</exception></token>
+                <token regexp="yes" min="0" max="4">\p{Lu}.*|de|del|\d+<exception regexp="yes">(?-i)&meses_ano_may;|Edición|[A-Z][A-Z]+</exception><exception regexp="yes">(?-i)&meses_ano_may;</exception></token>
+                <token regexp="yes">(?-i)&meses_ano_may;</token>
+            </antipattern>
+            <antipattern>
+                <token>con</token>
+                <token case_sensitive="yes">Julio</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">&meses_ano_may;</token>
+                </marker>
+            </pattern>
+            <message>Los meses del año se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
+            <suggestion><match case_conversion="alllower" no="1"/></suggestion>
+            <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
+            <example correction="agosto">Y <marker>Agosto</marker>.</example>
+            <example correction="abril">Pero <marker>Abril</marker> es un buen mes.</example>
+            <example correction="julio">El 4 de <marker>Julio</marker>.</example>
+            <example correction="julio">En <marker>Julio</marker> del año pasado.</example>
+            <example correction="julio">De <marker>Julio</marker> del 2020.</example>
+            <example correction="julio">De <marker>Julio</marker> es un buen mes.</example>
+            <example>Pero Abril Hernández no.</example>
+            <example>Con Julio voy al parque.</example>
+            <example>Con Julio Manrique y Julio Iglesias.</example>
+            <example>¡Noviembre está cada vez más cerca!</example>
+            <example type="triggers_error">Pero Julio es una buena persona.</example>
+        </rule>
         <rule id="MIN_DIAS_SEMANA" name="Días de la semana en minúscula">
             <antipattern>
                 <token regexp="yes">&dias_semana_may;</token>
-                <token regexp="yes">de(l)*</token>
+                <token regexp="yes">del?</token>
                 <token regexp="yes">[A-ZÁÉÍÓÚÑ].+</token>
             </antipattern>
             <antipattern case_sensitive="yes">
@@ -205,7 +209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&dias_semana_may;</token>
                 </marker>
             </pattern>
-            <message>Los días de la semana se escriben en minúsculas.</message>
+            <message>Los días de la semana se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
             <suggestion><match case_conversion="alllower" no="2"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="lunes" type="incorrect">Todos los <marker>Lunes</marker> son tristes.</example>
@@ -240,7 +244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Primavera|Verano|Otoño|Invierno<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Las estaciones del año se escriben en minúsculas.</message>
+            <message>Las estaciones del año se escriben en minúsculas, excepto si forman parte de un nombre propio</message>
             <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
@@ -11915,7 +11919,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes">uno|alguno<exception case_sensitive="yes">UNO</exception><exception postag="_possible_NP">Uno</exception></token>
+                    <token regexp="yes">uno|alguno<exception case_sensitive="yes">UNO</exception><exception postag="_possible_NP" case_sensitive="yes">Uno</exception></token>
                 </marker>
                 <token postag="N.[MC]P.*|AQ.[MC]P.|V.P..PM" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
             </pattern>
