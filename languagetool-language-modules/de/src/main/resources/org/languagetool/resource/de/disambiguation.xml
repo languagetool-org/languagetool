@@ -4323,4 +4323,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="SOG_KEIN_VERB" name="Abkürzung 'sog.'"><!-- abk "sog." -->
+        <pattern>
+            <token postag="PRO:" postag_regexp="yes" />
+            <marker>
+                <token>sog</token>
+            </marker>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" min="0">„|&quot;|“|‹|«</token>
+            <token postag="(ADJ|SUB):.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+        </pattern>
+        <disambig action="remove" postag="VER:.+" />
+    </rule>
 </rules>

@@ -967,7 +967,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
       csToken("Business"),
-      tokenRegex("Angel[ns]?")
+      tokenRegex("Angel[ns]?|Cases?")
     ),
     Arrays.asList( // "des Manager Magazins"
       csToken("Manager"),
@@ -984,8 +984,8 @@ public class AgreementRule extends Rule {
       tokenRegex(".+")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
-      new PatternTokenBuilder().tokenRegex("Journeys?").build()
+      tokenRegex("Customer|User"),
+      tokenRegex("Journeys?")
     ),
     Arrays.asList( // Wir trinken ein kühles Blondes
       token("kühles"),
@@ -1052,6 +1052,10 @@ public class AgreementRule extends Rule {
       token("von"),
       token("der"),
       csRegex("Haars?")
+    ),
+    Arrays.asList(
+      token("Präsident"),
+      token("Xi")
     ),
     Arrays.asList( // des Sturm und Drangs
       token("des"),

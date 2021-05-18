@@ -2358,6 +2358,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SAGT_RUFT" name="Zwei aufeinanderfolgende Verben">
             <short>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma</short>
             <rule>
+                <antipattern>
+                    <token>sog</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="VER:(1|2|3):.*" postag_regexp="yes" regexp="yes">[a-zäöü].*
                         <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"/>
@@ -2381,6 +2385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es wird wie <marker>folgt umschrieben</marker>:</example>
                 <example><marker>Auftrieb brachten</marker> die Erfindungen.</example>
                 <example>Das, was <marker>erblich blieb</marker>, ist schlecht.</example>
+                <example>Er betreibt sog. Beatboxing.</example>
             </rule>
             <rule>
                 <antipattern>

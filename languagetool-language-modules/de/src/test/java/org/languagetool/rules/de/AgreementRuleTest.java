@@ -355,6 +355,7 @@ public class AgreementRuleTest {
     assertGood("Die Feuergefahr hingegen war für für die Londoner Teil des Alltags.");
     assertGood("Was ist, wenn ein Projekt bei den Berliner Type Awards mit einem Diplom ausgezeichnet wird?");
     assertGood("Was ist mit dem Liechtensteiner Kulturleben los?");
+    assertGood("Das ist der Mann den Präsident Xi Jinping verurteilte.");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
