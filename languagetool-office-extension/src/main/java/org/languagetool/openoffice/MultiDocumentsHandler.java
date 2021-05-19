@@ -1243,12 +1243,16 @@ public class MultiDocumentsHandler {
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
           SingleDocument document = getCurrentDocument();
-          if (document != null && !document.isImpress()) {
+          if (document != null) {
             XComponent currentComponent = document.getXComponent();
             if (currentComponent != null) {
-              DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
-              ViewCursorTools viewCursor = new ViewCursorTools(xContext);
-              SpellAndGrammarCheckDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+              if (!document.isImpress()) {
+                DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
+                ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+                SpellAndGrammarCheckDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+              } else {
+                OfficeDrawTools.setCurrentPage(0, currentComponent);
+              }
             }
           }
           resetIgnoredMatches();

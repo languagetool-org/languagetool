@@ -23,6 +23,8 @@ import java.util.List;
 
 import com.sun.star.awt.Point;
 import com.sun.star.awt.Size;
+import com.sun.star.beans.PropertyVetoException;
+import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.drawing.XDrawPage;
 import com.sun.star.drawing.XDrawPages;
@@ -34,7 +36,9 @@ import com.sun.star.drawing.XShape;
 import com.sun.star.drawing.XShapes;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.presentation.XHandoutMasterSupplier;
@@ -42,6 +46,7 @@ import com.sun.star.presentation.XPresentationPage;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.uno.UnoRuntime;
+import com.sun.star.uno.XComponentContext;
 
 /**
  * Some tools to get information of LibreOffice Impress context
@@ -73,7 +78,7 @@ public class OfficeDrawTools {
    * creates and inserts a draw page into the giving position,
    * the method returns the new created page
    */
-  public static XDrawPage insertNewDrawPageByIndex( XComponent xComponent, int nIndex ) throws Exception {
+  public static XDrawPage insertNewDrawPageByIndex(XComponent xComponent, int nIndex) throws Exception {
     XDrawPagesSupplier xDrawPagesSupplier = UnoRuntime.queryInterface(XDrawPagesSupplier.class, xComponent);
     XDrawPages xDrawPages = xDrawPagesSupplier.getDrawPages();
     return xDrawPages.insertNewByIndex( nIndex );
@@ -156,8 +161,38 @@ public class OfficeDrawTools {
   /**
    * get shapes of a page
    */
-  public static XShapes getShapes (XDrawPage xPage) {
+  public static XShapes getShapes(XDrawPage xPage) {
     return UnoRuntime.queryInterface( XShapes.class, xPage );
+  }
+  
+  /**
+   * get all paragraphs from Text of a shape
+   */
+  private static void getAllParagraphsFromText(List<String> paragraphs, List<Locale> locales, List<Integer> pageBegins, 
+      XText xText) throws UnknownPropertyException, WrappedTargetException {
+    if (xText != null) {
+      XTextCursor xTextCursor = xText.createTextCursor();
+      xTextCursor.gotoStart(false);
+      String sText = xText.getString();
+      int kStart = 0;
+      int k;
+      for (k = 0; k < sText.length(); k++) {
+        if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
+          paragraphs.add(sText.substring(kStart, k));
+          xTextCursor.goRight((short)(k - kStart), true);
+          XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+          locales.add((Locale) xParaPropSet.getPropertyValue("CharLocale"));
+          xTextCursor.goRight((short)1, false);
+          kStart = k + 1;
+        }
+      }
+      if (k > kStart) {
+        paragraphs.add(sText.substring(kStart, k));
+        xTextCursor.goRight((short)(k - kStart), true);
+        XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+        locales.add((Locale) xParaPropSet.getPropertyValue("CharLocale"));
+      }
+    }
   }
   
   /**
@@ -171,40 +206,25 @@ public class OfficeDrawTools {
     try {
       int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
       for (int i = 0; i < pageCount; i++) {
-        pageBegins.add(nPara);
-        XDrawPage xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
-        XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
-        int nShapes = xShapes.getCount();
-        for(int j = 0; j < nShapes; j++) {
-          Object oShape = xShapes.getByIndex(j);
-          XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
-          if (xShape != null) {
-            XText xText = UnoRuntime.queryInterface(XText.class, xShape);
-            if (xText != null) {
-              XTextCursor xTextCursor = xText.createTextCursor();
-              xTextCursor.gotoStart(false);
-              String sText = xText.getString();
-              int kStart = 0;
-              int k;
-              for (k = 0; k < sText.length(); k++) {
-                if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
-                  paragraphs.add(sText.substring(kStart, k));
-                  xTextCursor.goRight((short)(k - kStart), true);
-                  XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
-                  locales.add((Locale) xParaPropSet.getPropertyValue("CharLocale"));
-                  xTextCursor.goRight((short)1, false);
-                  kStart = k + 1;
-                }
-              }
-              if (k > kStart) {
-                paragraphs.add(sText.substring(kStart, k));
-                xTextCursor.goRight((short)(k - kStart), true);
-                XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
-                locales.add((Locale) xParaPropSet.getPropertyValue("CharLocale"));
-              }
-            }
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
           } else {
-            MessageHandler.printToLogFile("xShape " + j + " is null");
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          pageBegins.add(nPara);
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              getAllParagraphsFromText(paragraphs, locales, pageBegins, xText);
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
+            }
           }
         }
       }
@@ -216,6 +236,44 @@ public class OfficeDrawTools {
   }
   
   /**
+   * find the Paragraph to change in a shape and change the text
+   * returns -1 if it was found
+   * returns the last number of paragraph otherwise
+   */
+  private static int changeTextOfParagraphInText(int nParaCount, int nPara, int beginn, int length, String replace, XText xText) {
+    if (xText != null) {
+      XTextCursor xTextCursor = xText.createTextCursor();
+      String sText = xText.getString();
+      if (nParaCount == nPara) {
+        xTextCursor.gotoStart(false);
+        xTextCursor.goRight((short)beginn, false);
+        xTextCursor.goRight((short)length, true);
+        xTextCursor.setString(replace);
+        return -1;
+      }
+      int lastParaEnd = 0;
+      for (int k = 0; k < sText.length(); k++) {
+        if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
+          nParaCount++;
+          lastParaEnd = k;
+          if (nParaCount == nPara) {
+            xTextCursor.gotoStart(false);
+            xTextCursor.goRight((short)(beginn + k + 1), false);
+            xTextCursor.goRight((short)length, true);
+            xTextCursor.setString(replace);
+            //  Note: The faked change of position is a workaround to trigger the notification of a change
+            return -1;
+          }
+        }
+      }
+      if (lastParaEnd < sText.length() - 1) {
+        nParaCount++;
+      }
+    }
+    return nParaCount;
+  }
+
+  /**
    * change the text of a paragraph
    */
   public static void changeTextOfParagraph(int nPara, int beginn, int length, String replace, XComponent xComponent) {
@@ -223,50 +281,30 @@ public class OfficeDrawTools {
       int nParaCount = 0;
       int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
       for (int i = 0; i < pageCount; i++) {
-        XDrawPage xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
-        XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
-        int nShapes = xShapes.getCount();
-        for(int j = 0; j < nShapes; j++) {
-          Object oShape = xShapes.getByIndex(j);
-          XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
-          if (xShape != null) {
-            XText xText = UnoRuntime.queryInterface(XText.class, xShape);
-            if (xText != null) {
-              XTextCursor xTextCursor = xText.createTextCursor();
-              String sText = xText.getString();
-              if (nParaCount == nPara) {
-                xTextCursor.gotoStart(false);
-                xTextCursor.goRight((short)beginn, false);
-                xTextCursor.goRight((short)length, true);
-                xTextCursor.setString(replace);
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              nParaCount = changeTextOfParagraphInText(nParaCount, nPara, beginn, length, replace, xText);
+              if (nParaCount < 0) {
                 //  Note: The faked change of position is a workaround to trigger the notification of a change
                 Point p = xShape.getPosition();
                 xShape.setPosition(p);
                 return;
               }
-              int lastParaEnd = 0;
-              for (int k = 0; k < sText.length(); k++) {
-                if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
-                  nParaCount++;
-                  lastParaEnd = k;
-                  if (nParaCount == nPara) {
-                    xTextCursor.gotoStart(false);
-                    xTextCursor.goRight((short)(beginn + k + 1), false);
-                    xTextCursor.goRight((short)length, true);
-                    xTextCursor.setString(replace);
-                    //  Note: The faked change of position is a workaround to trigger the notification of a change
-                    Point p = xShape.getPosition();
-                    xShape.setPosition(p);
-                    return;
-                  }
-                }
-              }
-              if (lastParaEnd < sText.length() - 1) {
-                nParaCount++;
-              }
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
             }
-          } else {
-            MessageHandler.printToLogFile("xShape " + j + " is null");
           }
         }
       }
@@ -276,55 +314,45 @@ public class OfficeDrawTools {
   }
 
   /**
-   * set the view cursor inside of a paragraph
+   * find the Paragraph to change in a shape and change the locale
+   * returns -1 if it was found
+   * returns the last number of paragraph otherwise
    */
-  public static void setViewCursor(int nChar, int nPara, XComponent xComponent) {
-    try {
-      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
-      XController xController = xModel.getCurrentController();
-      XDrawView xDrawView = UnoRuntime.queryInterface(XDrawView.class, xController);
-      int nParaCount = 0;
-      int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
-      for (int i = 0; i < pageCount; i++) {
-        XDrawPage xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
-        XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
-        int nShapes = xShapes.getCount();
-        for(int j = 0; j < nShapes; j++) {
-          Object oShape = xShapes.getByIndex(j);
-          XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
-          if (xShape != null) {
-            XText xText = UnoRuntime.queryInterface(XText.class, xShape);
-            if (xText != null) {
-              String sText = xText.getString();
-              if (nParaCount == nPara) {
-                xDrawView.setCurrentPage(xDrawPage);
-                return;
-              }
-              int lastParaEnd = 0;
-              for (int k = 0; k < sText.length(); k++) {
-                if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
-                  nParaCount++;
-                  lastParaEnd = k;
-                  if (nParaCount == nPara) {
-                    xDrawView.setCurrentPage(xDrawPage);
-                    return;
-                  }
-                }
-              }
-              if (lastParaEnd < sText.length() - 1) {
-                nParaCount++;
-              }
-            }
-          } else {
-            MessageHandler.printToLogFile("xShape " + j + " is null");
+  private static int changeLocaleOfParagraphInText(int nParaCount, int nPara, int beginn, int length, Locale locale, 
+      XText xText) throws UnknownPropertyException, PropertyVetoException, IllegalArgumentException, WrappedTargetException {
+    if (xText != null) {
+      XTextCursor xTextCursor = xText.createTextCursor();
+      String sText = xText.getString();
+      if (nParaCount == nPara) {
+        xTextCursor.gotoStart(false);
+        xTextCursor.goRight((short)beginn, false);
+        xTextCursor.goRight((short)length, true);
+        XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+        xParaPropSet.setPropertyValue("CharLocale", locale);
+        return -1;
+      }
+      int lastParaEnd = 0;
+      for (int k = 0; k < sText.length(); k++) {
+        if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
+          nParaCount++;
+          lastParaEnd = k;
+          if (nParaCount == nPara) {
+            xTextCursor.gotoStart(false);
+            xTextCursor.goRight((short)(beginn + k + 1), false);
+            xTextCursor.goRight((short)length, true);
+            XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+            xParaPropSet.setPropertyValue("CharLocale", locale);
+            return -1;
           }
         }
       }
-    } catch (Throwable t) {
-      MessageHandler.showError(t);
+      if (lastParaEnd < sText.length() - 1) {
+        nParaCount++;
+      }
     }
+    return nParaCount;
   }
-
+  
   /**
    * change the language of a paragraph
    */
@@ -333,52 +361,185 @@ public class OfficeDrawTools {
       int nParaCount = 0;
       int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
       for (int i = 0; i < pageCount; i++) {
-        XDrawPage xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
-        XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
-        int nShapes = xShapes.getCount();
-        for(int j = 0; j < nShapes; j++) {
-          Object oShape = xShapes.getByIndex(j);
-          XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
-          if (xShape != null) {
-            XText xText = UnoRuntime.queryInterface(XText.class, xShape);
-            if (xText != null) {
-              XTextCursor xTextCursor = xText.createTextCursor();
-              String sText = xText.getString();
-              if (nParaCount == nPara) {
-                xTextCursor.gotoStart(false);
-                xTextCursor.goRight((short)beginn, false);
-                xTextCursor.goRight((short)length, true);
-                XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
-                xParaPropSet.setPropertyValue("CharLocale", locale);
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              nParaCount = changeLocaleOfParagraphInText(nParaCount, nPara, beginn, length, locale, xText);
+              if (nParaCount < 0) {
+                //  Note: The faked change of position is a workaround to trigger the notification of a change
+                Point p = xShape.getPosition();
+                xShape.setPosition(p);
                 return;
               }
-              int lastParaEnd = 0;
-              for (int k = 0; k < sText.length(); k++) {
-                if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
-                  nParaCount++;
-                  lastParaEnd = k;
-                  if (nParaCount == nPara) {
-                    xTextCursor.gotoStart(false);
-                    xTextCursor.goRight((short)(beginn + k + 1), false);
-                    xTextCursor.goRight((short)length, true);
-                    XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
-                    xParaPropSet.setPropertyValue("CharLocale", locale);
-                    return;
-                  }
-                }
-              }
-              if (lastParaEnd < sText.length() - 1) {
-                nParaCount++;
-              }
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
             }
-          } else {
-            MessageHandler.printToLogFile("xShape " + j + " is null");
           }
         }
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
+  }
+
+  /**
+   * find the Paragraph in a shape
+   * returns -1 if it was found
+   * returns the last number of paragraph otherwise
+   */
+  private static int findParaInText(int nParaCount, int nPara, XText xText) {
+    if (xText != null) {
+      String sText = xText.getString();
+      if (nParaCount == nPara) {
+        return -1;
+      }
+      int lastParaEnd = 0;
+      for (int k = 0; k < sText.length(); k++) {
+        if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
+          nParaCount++;
+          lastParaEnd = k;
+          if (nParaCount == nPara) {
+            return -1;
+          }
+        }
+      }
+      if (lastParaEnd < sText.length() - 1) {
+        nParaCount++;
+      }
+    }
+    return nParaCount;
+  }
+  
+  /**
+   * set the current draw page for a given paragraph
+   */
+  public static void setCurrentPage(int nPara, XComponent xComponent) {
+    try {
+      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+      XController xController = xModel.getCurrentController();
+      XDrawView xDrawView = UnoRuntime.queryInterface(XDrawView.class, xController);
+      int nParaCount = 0;
+      int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
+      for (int i = 0; i < pageCount; i++) {
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              nParaCount = findParaInText(nParaCount, nPara, xText);
+              if (nParaCount < 0) {
+                xDrawView.setCurrentPage(xDrawPage);
+                return;
+              }
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
+            }
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+  }
+
+  /**
+   * get the first paragraph of current draw page
+   */
+  public static int getParagraphFromCurrentPage(XComponent xComponent) {
+    int nParaCount = 0;
+    try {
+      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+      XController xController = xModel.getCurrentController();
+      XDrawView xDrawView = UnoRuntime.queryInterface(XDrawView.class, xController);
+      XDrawPage xCurrentDrawPage = xDrawView.getCurrentPage();
+      int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
+      for (int i = 0; i < pageCount; i++) {
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          if (xDrawPage.equals(xCurrentDrawPage)) {
+            return nParaCount;
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              nParaCount = findParaInText(nParaCount, -1, xText);
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
+            }
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+    return nParaCount;
+  }
+
+  /**
+   * true: if paragraph is in a notes page
+   */
+  public static boolean isParagraphInNotesPage(int nPara, XComponent xComponent) {
+    int nParaCount = 0;
+    try {
+      int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
+      for (int i = 0; i < pageCount; i++) {
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              nParaCount = findParaInText(nParaCount, nPara, xText);
+              if (nParaCount < 0) {
+                return (n == 0 ? false : true);
+              }
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
+            }
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+    return false;
   }
 
   public class ImpressParagraphContainer {

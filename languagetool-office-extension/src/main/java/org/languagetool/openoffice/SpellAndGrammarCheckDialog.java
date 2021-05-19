@@ -1809,6 +1809,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       if (!isImpress) {
         y = viewCursor.getViewCursorParagraph();
+      } else {
+        y = OfficeDrawTools.getParagraphFromCurrentPage(xComponent);
       }
       if (y >= docCache.textSize()) {
         MessageHandler.printToLogFile("getNextError: y (= " + y + ") >= text size (= " + docCache.textSize() + "): Return null");
@@ -1817,9 +1819,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       if (!isImpress) {
         x = viewCursor.getViewCursorCharacter();
-        if (startAtBegin) {
-          x = 0;
-        }
+      }
+      if (startAtBegin) {
+        x = 0;
       }
       MessageHandler.printToLogFile("getNextError (x/y): (" + x + "/" + y + ") < text size (= " + docCache.textSize() + ")");
       int nStart = 0;
@@ -2368,7 +2370,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (!isImpress) {
         SpellAndGrammarCheckDialog.setTextViewCursor(x, y, viewCursor, docCursor);
       } else {
-        OfficeDrawTools.setViewCursor(x, y, currentDocument.getXComponent());
+        OfficeDrawTools.setCurrentPage(y, currentDocument.getXComponent());
+        if (OfficeDrawTools.isParagraphInNotesPage(y, currentDocument.getXComponent())) {
+          OfficeTools.dispatchCmd(".uno:NotesMode", xContext);
+          //  Note: a delay interval is needed to put the dialog to front
+          try {
+            Thread.sleep(100);
+          } catch (InterruptedException e) {
+            MessageHandler.printException(e);
+          }
+          dialog.toFront();
+        }
       }
     }
     
