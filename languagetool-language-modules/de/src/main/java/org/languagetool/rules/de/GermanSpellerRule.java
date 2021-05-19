@@ -1068,6 +1068,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[Ee][Ss]ports", "E-Sports");
     put("gerelaunch(ed|t)", "relauncht");
     put("Gerelaunch(ed|t)", "Relauncht");
+    put("Bowl", "Bowle");
+    put("Dark[Ww]eb", "Darknet");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
