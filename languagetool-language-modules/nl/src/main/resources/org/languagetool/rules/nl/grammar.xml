@@ -9888,6 +9888,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="DE_VERDOM_DE" name="de verdom de/de verdomde" >
 			<rule>
+				<antipattern><token>de</token><token>Jong</token><token>de</token></antipattern>
 			<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token>de</token>
@@ -9899,6 +9900,7 @@ onwaarschijnlijk
 				<message>U hebt vast een spatie te veel staan.</message>
 				<suggestion>\2\3</suggestion>
 				<example correction="verdomde">Daar staat de <marker>verdom de</marker> fout weer.</example>
+				<example>ij Sevilla speelde Luuk de Jong de eerste zeventig minuten.</example>
 			</rule>			
 		</rulegroup>
 		
@@ -10048,11 +10050,11 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">...+rijd$</token>
-						<token postag_regexp="yes" postag="ZNW.*"><exception>tegen</exception></token>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">...+rijd$<exception>bevrijd</exception></token>
+						<token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">tegen|kunnen</exception></token>
 					</marker>
 				</pattern>
-				<message>Hier staat vast een sptaie te veel, en bovendien hoort de 'd' niet in de samenstelling.</message>
+				<message>Hier staat vast een spatie te veel, en bovendien hoort de 'd' niet in de samenstelling.</message>
 				<suggestion><match no="1" regexp_match="d$" regexp_replace=""/>\2</suggestion>
 				<example correction="doorrijbotsing">Het was een vreemde <marker>doorrijd botsing</marker>.</example>
 			</rule>			
@@ -28919,6 +28921,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="RESULTEREN_IN" name="resulteren in">
 			<rule>
+				<antipattern><token>en</token></antipattern>
 				<pattern>
 					<token inflected="yes" skip="5">resulteren</token>
 					<token>in</token>
@@ -29479,7 +29482,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>tegen</token><token>de</token><token>achtergrond</token><token>van</token>
 				</pattern>
-				<message>&vlotter_mess; 'omdat' of <suggestion>vanwege</suggestion>.</message>
+				<message>&vlotter_mess; 'omdat' of <suggestion>vanwege</suggestion> (als het niet letterlijk bedoeld is).</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="vanwege">Verandering gebeurt niet <marker>tegen de achtergrond van</marker> rampscenario's.</example>
 				<example correction="Vanwege"><marker>Tegen de achtergrond van</marker> een adembenemend natuurdecor of een leuke vakantieomgeving beleef je onvergetelijke momenten.</example>
