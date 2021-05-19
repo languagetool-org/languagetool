@@ -35472,97 +35472,115 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Sud-est">Al <marker>Sud-Est</marker> asiàtic.</example>
             <example>Al sud-est</example>
         </rule>
-        <rule id="MESOS_MINUSCULA" name="Exigeix mesos de l'any en minúscula en dates">
-            <antipattern case_sensitive="yes">
-                <token>Premis</token>
-                <token>Octubre</token>
-            </antipattern>
-            <antipattern>
-                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&mesos_any_maj;</token>
-                <token postag="NP.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="NP.*" postag_regexp="yes"/>
-                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&mesos_any_maj;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START"/>
-                <token postag_regexp="yes" postag="_PUNCT.*" min="0" max="3"/>
-                <token regexp="yes">(?-i)&mesos_any_maj;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="_possible_nompropi"/>
-                <token inflected="yes">de</token>
-                <token regexp="yes">(?-i)&mesos_any_maj;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="DN.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">\d+</exception></token>
-                <token inflected="yes">de</token>
-                <token regexp="yes">(?-i)&mesos_any_maj;</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">\p{Lu}.*<exception postag="SPS00|D.*|C.*" postag_regexp="yes"/><exception regexp="yes">(?-i)&dies_setmana_maj;|Edició|[A-Z][A-Z]+</exception></token>
-                <token regexp="yes" min="0" max="4">\p{Lu}.*|de|del|d'|l'|\d+<exception regexp="yes">(?-i)&dies_setmana_maj;|Edició|[A-Z][A-Z]+</exception><exception regexp="yes">(?-i)&mesos_any_maj;</exception></token>
-                <token regexp="yes">(?-i)&mesos_any_maj;</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>Maig</token>
-                <token>de</token>
-                <token min="0">l</token>
-                <token regexp="yes">68|1968</token>
-            </antipattern>
-            <antipattern>
-                <token>fets</token>
-                <token>de</token>
-                <token case_sensitive="yes">Maig</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">vila|municipi|terme</token>
-                <token>d'</token>
-                <token case_sensitive="yes">Agost</token>
-            </antipattern>
-            <antipattern>
-                <token postag="SPS00"/>
-                <token>en</token>
-                <token regexp="yes">(?-i)&mesos_any_maj;</token>
-            </antipattern>
-            <pattern>
-                <marker>
+        <rulegroup id="MESOS_MINUSCULA" name="Exigeix mesos de l'any en minúscula en dates">
+            <rule>
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&mesos_any_maj;</token>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag_regexp="yes" postag="_PUNCT.*" min="0" max="3"/>
                     <token regexp="yes">(?-i)&mesos_any_maj;</token>
-                </marker>
-            </pattern>
-            <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
-            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
-            <example correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
-            <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
-            <example correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
-            <example correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
-            <example correction="juny">De <marker>Juny</marker> del 2020.</example>
-            <example correction="febrer">Des de <marker>Febrer</marker> del 2012</example>
-            <example correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
-            <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
-            <example correction="juliol">Del 3 de <marker>Juliol</marker> al 5 de març.</example>
-            <example correction="juliol">Des del 3 de <marker>Juliol</marker> fins al 5 de març.</example>
-            <example correction="març">Dissabte 21 de <marker>Març</marker>.</example>
-            <example correction="juliol">Dijous, 3 de <marker>Juliol</marker>.</example>
-            <example correction="juliol">Els divendres de <marker>Juliol</marker>.</example>
-            <example correction="gener">El darrer dimecres de <marker>Gener</marker>.</example>
-            <example correction="febrer">1a Edició <marker>Febrer</marker> 1989.</example>
-            <example correction="novembre">Publicat en el BOE 13 <marker>Novembre</marker> 1980.</example>
-            <example>Pel juliol.</example>
-            <example>Abril de 1965.</example>
-            <example>els fets del Sis d'Octubre del 1934</example>
-            <example>el Premi de Narrativa 9 d’Octubre de Sant Vicent del Raspeig</example>
-            <example>Pel juliol.</example>
-            <example>Juliol.</example>
-            <example>Fira de Juliol.</example>
-            <example>Anem a la Fira de Juliol.</example>
-            <example>Onze de Setembre.</example>
-            <example>Els fets del Sis d'Octubre.</example>
-            <example>Serà a l'Octubre CCC.</example>
-            <example>Els fets de Maig.</example>
-            <example>Va ser la resposta d'en Gener.</example>
-        </rule>
+                </antipattern>
+                <antipattern>
+                    <token postag="_possible_nompropi"/>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">\d+</exception></token>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}.*<exception postag="SPS00|D.*|C.*" postag_regexp="yes"/><exception regexp="yes">(?-i)&dies_setmana_maj;|&mesos_any_maj;|Edició|[A-Z][A-Z]+</exception></token>
+                    <token regexp="yes" min="0" max="4">\p{Lu}.*|de|del|d'|l'|\d+<exception regexp="yes">(?-i)&dies_setmana_maj;|Edició|[A-Z][A-Z]+</exception><exception regexp="yes">(?-i)&mesos_any_maj;</exception></token>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Maig</token>
+                    <token>de</token>
+                    <token min="0">l</token>
+                    <token regexp="yes">68|1968</token>
+                </antipattern>
+                <antipattern>
+                    <token>Maig</token>
+                    <token regexp="yes">francès|francés</token>
+                </antipattern>
+                <antipattern>
+                    <token>fets</token>
+                    <token>de</token>
+                    <token case_sensitive="yes">Maig</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">vila|municipi|terme</token>
+                    <token>d'</token>
+                    <token case_sensitive="yes">Agost</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SPS00"/>
+                    <token>en</token>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                    </marker>
+                </pattern>
+                <message>Els mesos de l'any s'escriuen en minúscula excepte quan formen part d'un nom propi.</message>
+                <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+                <example correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
+                <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
+                <example correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
+                <example correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
+                <example correction="juny">De <marker>Juny</marker> del 2020.</example>
+                <example correction="febrer">Des de <marker>Febrer</marker> del 2012</example>
+                <example correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
+                <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
+                <example correction="juliol">Del 3 de <marker>Juliol</marker> al 5 de març.</example>
+                <example correction="juliol">Des del 3 de <marker>Juliol</marker> fins al 5 de març.</example>
+                <example correction="març">Dissabte 21 de <marker>Març</marker>.</example>
+                <example correction="juliol">Dijous, 3 de <marker>Juliol</marker>.</example>
+                <example correction="juliol">Els divendres de <marker>Juliol</marker>.</example>
+                <example correction="gener">El darrer dimecres de <marker>Gener</marker>.</example>
+                <example correction="febrer">1a Edició <marker>Febrer</marker> 1989.</example>
+                <example correction="novembre">Publicat en el BOE 13 <marker>Novembre</marker> 1980.</example>
+                <example>Pel juliol.</example>
+                <example>Abril de 1965.</example>
+                <example>els fets del Sis d'Octubre del 1934</example>
+                <example>el Premi de Narrativa 9 d’Octubre de Sant Vicent del Raspeig</example>
+                <example>Pel juliol.</example>
+                <example>Juliol.</example>
+                <example>Fira de Juliol.</example>
+                <example>Anem a la Fira de Juliol.</example>
+                <example>Onze de Setembre.</example>
+                <example>Els fets del Sis d'Octubre.</example>
+                <example>Serà a l'Octubre CCC.</example>
+                <example>Els fets de Maig.</example>
+                <example>Va ser la resposta d'en Gener.</example>
+                <example>El grup Setembre Negre de Jordània.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token min="0" regexp="yes">de|d'</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">&mesos_any_maj;</token>
+                    </marker>
+                    <token min="0" regexp="yes">de|d'</token>
+                    <token min="0">l</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <suggestion><match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="abril">Gianni Rodari 4 d'<marker>Abril</marker> de 2020.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESTACIONS_MINUSCULA" name="estacions en minúscula">
             <antipattern>
                 <token postag="SENT_START"/>
