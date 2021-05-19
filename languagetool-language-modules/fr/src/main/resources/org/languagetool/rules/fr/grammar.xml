@@ -18805,7 +18805,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
-                        <exception postag="V ind pres 1 s">puis</exception></token>
+                        <exception postag="V ind pres 1 s" regexp="yes">puis|compte</exception></token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
@@ -18822,6 +18822,7 @@ though, and has since been slightly modified)-->
                 <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
                 <example>Elles sont bien <marker>entendu placées</marker> en hauteur.</example>
                 <example>rendu seulement par des pensées inspirées</example>
+                <example>Compte fermé.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18867,6 +18868,18 @@ though, and has since been slightly modified)-->
                 <example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>
                 <example>Je regarde la <marker>télé</marker>.</example>
                 <example>Je compte les <marker>invités</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="P"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?$</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \3 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion><match no="3" regexp_match="(?iu)ée?s?" regexp_replace="er"/></suggestion>
+                <example correction="changer">Il finira par <marker>changé</marker> de travail.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
