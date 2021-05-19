@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY pronombre_personal_no_articulo "me|te|se|nos|os|le|les|lo"> <!--|los-->
 <!--aguadulce, aguasal, aguaviva-->
 <!ENTITY nombre_fem_el "Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
-<!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo">
+<!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábados?|Domingos?">
 <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
 <!ENTITY dias_semana_abrv "lu|ma|mi|ju|vi|sa|do">
 <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
@@ -119,72 +119,88 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" case_conversion="startupper"/></suggestion>
             <example correction="Sra">Ha venido la <marker>sra</marker>. García.</example>
         </rule>
-        <rule id="MIN_MESES" name="Meses en minúscula">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">&meses_ano_may;</token>
-                <token regexp="yes">\p{Lu}..+<exception postag="CC|SPS00" postag_regexp="yes"/></token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">\p{Lu}..+<exception postag="CC|SPS00" postag_regexp="yes"/></token>
-                <token regexp="yes">&meses_ano_may;</token>
-            </antipattern>
-            <antipattern>
-                <token>Dos</token>
-                <token>de</token>
-                <token>Mayo</token>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START"/>
-                <token min="0" max="4" postag_regexp="yes" postag="_PUNCT.*"/>
-                <token regexp="yes">&meses_ano_may;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&meses_ano_may;</token>
-                <token postag="NP.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="NP.*" postag_regexp="yes"/>
-                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&meses_ano_may;</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>Mayo</token>
-                <token>del</token>
-                <token regexp="yes">68|1968</token>
-            </antipattern>
-            <antipattern>
-                <token postag="DN.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">\d+</exception></token>
-                <token inflected="yes">de</token>
-                <token regexp="yes">(?-i)&meses_ano_may;</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">\p{Lu}.*<exception postag="SPS.*|D.*|C.*" postag_regexp="yes"/><exception regexp="yes">(?-i)&meses_ano_may;|Edición|[A-Z][A-Z]+</exception></token>
-                <token regexp="yes" min="0" max="4">\p{Lu}.*|de|del|\d+<exception regexp="yes">(?-i)&meses_ano_may;|Edición|[A-Z][A-Z]+</exception><exception regexp="yes">(?-i)&meses_ano_may;</exception></token>
-                <token regexp="yes">(?-i)&meses_ano_may;</token>
-            </antipattern>
-            <antipattern>
-                <token>con</token>
-                <token case_sensitive="yes">Julio</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">&meses_ano_may;</token>
-                </marker>
-            </pattern>
-            <message>Los meses del año se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
-            <suggestion><match case_conversion="alllower" no="1"/></suggestion>
-            <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
-            <example correction="agosto">Y <marker>Agosto</marker>.</example>
-            <example correction="abril">Pero <marker>Abril</marker> es un buen mes.</example>
-            <example correction="julio">El 4 de <marker>Julio</marker>.</example>
-            <example correction="julio">En <marker>Julio</marker> del año pasado.</example>
-            <example correction="julio">De <marker>Julio</marker> del 2020.</example>
-            <example correction="julio">De <marker>Julio</marker> es un buen mes.</example>
-            <example>Pero Abril Hernández no.</example>
-            <example>Con Julio voy al parque.</example>
-            <example>Con Julio Manrique y Julio Iglesias.</example>
-            <example>¡Noviembre está cada vez más cerca!</example>
-            <example type="triggers_error">Pero Julio es una buena persona.</example>
-        </rule>
+        <rulegroup id="MIN_MESES" name="Meses en minúscula">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">&meses_ano_may;</token>
+                    <token regexp="yes">\p{Lu}..+<exception postag="CC|SPS00" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}..+<exception postag="CC|SPS00" postag_regexp="yes"/></token>
+                    <token regexp="yes">&meses_ano_may;</token>
+                </antipattern>
+                <antipattern>
+                    <token>Dos</token>
+                    <token>de</token>
+                    <token>Mayo</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" postag_regexp="yes" postag="_PUNCT.*"/>
+                    <token regexp="yes">&meses_ano_may;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&meses_ano_may;</token>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)&meses_ano_may;</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Mayo</token>
+                    <token>del</token>
+                    <token regexp="yes">68|1968</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">\d+</exception></token>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">(?-i)&meses_ano_may;</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}.*<exception postag="SPS.*|D.*|C.*" postag_regexp="yes"/><exception regexp="yes">(?-i)&meses_ano_may;|Edición|[A-Z][A-Z]+</exception></token>
+                    <token regexp="yes" min="0" max="4">\p{Lu}.*|de|del|\d+<exception regexp="yes">(?-i)&meses_ano_may;|Edición|[A-Z][A-Z]+</exception><exception regexp="yes">(?-i)&meses_ano_may;</exception></token>
+                    <token regexp="yes">(?-i)&meses_ano_may;</token>
+                </antipattern>
+                <antipattern>
+                    <token>con</token>
+                    <token case_sensitive="yes">Julio</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">&meses_ano_may;</token>
+                    </marker>
+                </pattern>
+                <message>Los meses del año se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
+                <suggestion><match case_conversion="alllower" no="1"/></suggestion>
+                <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
+                <example correction="agosto">Y <marker>Agosto</marker>.</example>
+                <example correction="abril">Pero <marker>Abril</marker> es un buen mes.</example>
+                <example correction="julio">El 4 de <marker>Julio</marker>.</example>
+                <example correction="julio">En <marker>Julio</marker> del año pasado.</example>
+                <example correction="julio">De <marker>Julio</marker> del 2020.</example>
+                <example correction="julio">De <marker>Julio</marker> es un buen mes.</example>
+                <example>Pero Abril Hernández no.</example>
+                <example>Con Julio voy al parque.</example>
+                <example>Con Julio Manrique y Julio Iglesias.</example>
+                <example>¡Noviembre está cada vez más cerca!</example>
+                <example type="triggers_error">Pero Julio es una buena persona.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token min="0" regexp="yes">de</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">&meses_ano_may;</token>
+                    </marker>
+                    <token min="0" regexp="yes">de|del</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <message>Los meses del año se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
+                <suggestion><match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="abril">Gianni Rodari 4 de <marker>Abril</marker> de 2020.</example>
+            </rule>
+        </rulegroup>
         <rule id="MIN_DIAS_SEMANA" name="Días de la semana en minúscula">
             <antipattern>
                 <token regexp="yes">&dias_semana_may;</token>
@@ -203,6 +219,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&dias_semana_may;</token>
                 <token regexp="yes">Santo|Negro</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[\.\?!]</token>
+                <token regexp="yes">&dias_semana_may;</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
@@ -218,6 +238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">El <marker>Jueves</marker> Santo habrá procesión.</example>
             <example>Juan Domingo Perón.</example>
             <example>García Domingo.</example>
+            <example>de F. Domingo, s. XX</example>
         </rule>
         <rule id="MIN_ESTACIONES" name="Estaciones del año en minúscula">
             <antipattern>
