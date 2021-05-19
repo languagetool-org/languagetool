@@ -15427,16 +15427,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>largo</suggestion>?</message>
             <example correction="largo">A lo <marker>lardo</marker> de la década.</example>
         </rule>
-        <rule id="JUNTO_A" name="junto / junto a">
-            <pattern>
-                <marker>
+        <rulegroup id="JUNTO_A" name="junto / junto a">
+            <antipattern>
+                <token regexp="yes">me|te|se|le|nos|os|les|los|las</token>
+                <token>junto</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>junto</token>
+                    </marker>
+                    <token postag="N..P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>junto a</suggestion>?</message>
+                <example correction="junto a">La vemos <marker>junto</marker> mares.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>todo</token>
                     <token>junto</token>
-                </marker>
-                <token postag="N..P.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Posible confusión. ¿Quería decir <suggestion>junto a</suggestion>?</message>
-            <example correction="junto a">La vemos <marker>junto</marker> mares.</example>
-        </rule>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>junto</token>
+                        <token postag="D.*" postag_regexp="yes">el<exception postag="_possible_NP"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>junto al</suggestion>?</message>
+                <example correction="junto al">El general <marker>junto el</marker> ejército.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>todo</token>
+                    <token>junto</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>junto</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"><exception postag="_possible_NP"/></token>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>junto a</suggestion>?</message>
+                <example correction="junto a">Las costumbres <marker>junto</marker> su principal opositor.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALA_A_LA" name="ala/a la">
             <rule>
                 <pattern>
