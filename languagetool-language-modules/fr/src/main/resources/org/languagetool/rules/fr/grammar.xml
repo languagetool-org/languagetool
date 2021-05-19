@@ -14094,7 +14094,7 @@ though, and has since been slightly modified)-->
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
         <rulegroup id="GRACE_A" name="grâce à" default="temp_off">
-            <rule>
+              <rule>
                 <pattern>
                     <token>grâce</token>
                     <token>à</token>
@@ -14107,8 +14107,9 @@ though, and has since been slightly modified)-->
                 <message>Un déterminant est généralement attendu après cette expression.</message>
                 <suggestion>une <match no="3" postag="N f ." postag_regexp="yes" postag_replace="N f s"/></suggestion>
                 <suggestion>la <match no="3" postag="N f ." postag_regexp="yes" postag_replace="N f s"/></suggestion>
-                <suggestion>des \3</suggestion>
+                <suggestion>des <match no="3" postag="N f ." postag_regexp="yes" postag_replace="N f p"/></suggestion>
                 <example correction="une vue|la vue|des vues">Il le fait grâce à <marker>vues</marker> imprenables sur la côte.</example>
+                <example correction="une location|la location|des locations">Il le fait grâce à <marker>location</marker> saisonnières.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14117,12 +14118,12 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token postag="N m ." postag_regexp="yes" regexp="yes">(?-i)[a-z].*
                             <exception postag="T.*" postag_regexp="yes"/>
-                            <exception regexp="yes">wiki|internet|sainte?s?|l'|sœur|do[nm]|dieu|van|ma[îi]tre|nul(le)?|nombres?|météo|orange|cent|leu|bibi</exception></token>
+                            <exception regexp="yes">rien|wiki|internet|sainte?s?|l'|sœur|do[nm]|dieu|van|ma[îi]tre|nul(le)?|nombres?|météo|orange|cent|leu|bibi</exception></token>
                     </marker>
                 </pattern>
                 <message>Un déterminant est généralement attendu après cette expression.</message>
                 <suggestion>un <match no="3" postag="N m ." postag_regexp="yes" postag_replace="N m s"/></suggestion>
-                <suggestion>des \3</suggestion>
+                <suggestion>des <match no="3" postag="N m ." postag_regexp="yes" postag_replace="N m p"/></suggestion>
                 <example correction="un mot|des mots">Il le dit grâce à <marker>mots</marker> savants.</example>
             </rule>
             <rule>
@@ -19095,7 +19096,7 @@ though, and has since been slightly modified)-->
                 <suggestion>{suggestion}</suggestion>
                 <example correction="ai eu|eus">je les <marker>eu</marker> sans les pattes de col</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- including elision j' -->
                 <pattern>
                     <marker>
@@ -19346,6 +19347,18 @@ though, and has since been slightly modified)-->
                 <suggestion>{suggestion}</suggestion>
                 <example correction="a abandonné|abandonne|abandonna|abandonnait">Il <marker>abandonné</marker> ses fils.</example>
                 <example correction="a créé|crée|créa|crème|crête|crie|crêpe|crève|grée|rée">Dans l'aile ouest, on <marker>créé</marker> une brasserie.</example>
+            </rule>
+            <rule name="il à/a" default="temp_off">
+                <pattern>
+                    <token regexp="yes">il|on
+                        <exception postag="Z.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>à</token>
+                    </marker>
+                </pattern>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>a</suggestion>
+                <example correction="a">Il <marker>à</marker> beaucoup évolué.</example>
             </rule>
             <rule>
                 <pattern>
