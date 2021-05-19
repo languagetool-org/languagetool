@@ -19017,7 +19017,7 @@ though, and has since been slightly modified)-->
                 <suggestion>{suggestion}</suggestion>
                 <example correction="ai eu|eus">je les <marker>eu</marker> sans les pattes de col</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- including elision j' -->
                 <pattern>
                     <marker>
@@ -19268,6 +19268,18 @@ though, and has since been slightly modified)-->
                 <suggestion>{suggestion}</suggestion>
                 <example correction="a abandonné|abandonne|abandonna|abandonnait">Il <marker>abandonné</marker> ses fils.</example>
                 <example correction="a créé|crée|créa|crème|crête|crie|crêpe|crève|grée|rée">Dans l'aile ouest, on <marker>créé</marker> une brasserie.</example>
+            </rule>
+            <rule name="il à/a" default="temp_off">
+                <pattern>
+                    <token regexp="yes">il|on
+                        <exception postag="Z.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>à</token>
+                    </marker>
+                </pattern>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>a</suggestion>
+                <example correction="a">Il <marker>à</marker> beaucoup évolué.</example>
             </rule>
             <rule>
                 <pattern>
