@@ -5373,6 +5373,10 @@ though, and has since been slightly modified)-->
                     <token>a</token>
                     <token postag="D.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>n'</token>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">qu[ie]?</exception></token>
@@ -5405,6 +5409,8 @@ though, and has since been slightly modified)-->
                 <example>La crème a été brûlée avant d’être mise au frais.</example>
                 <example>Soit A une primitive de la fonction a.</example>
                 <example>Pave a écrit :</example>
+                <example>De quel côté tu es n'a pas d'importance.</example>
+                <example>Ce qu'il raconte n'a ni queue ni tête.</example>
             </rule>
             <rule>
                 <pattern>
@@ -45861,10 +45867,20 @@ though, and has since been slightly modified)-->
                     <exception postag="SENT_START"/></token>
                 <token case_sensitive="yes">Dan</token>
             </antipattern>
+            <antipattern>
+                <token>Dan</token>
+                <token postag="A|R.*" postag_regexp="yes" min="0" max="4"/>
+                <token postag="V.*[123].*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern case_sensitive="yes">
                 <token>Dan</token>
                 <token min="0">"</token>
                 <token regexp="yes">\p{Lu}.*|[\(]</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Dan</token>
+                <token regexp="yes" min="0">et|,</token>
+                <token regexp="yes">\p{Lu}.*</token>
             </antipattern>
             <antipattern>
                 <token postag="K|Y|D [em] s" postag_regexp="yes"/>
@@ -45883,12 +45899,12 @@ though, and has since been slightly modified)-->
                 <token>dan</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes" skip="1">grade|disciple|maître</token>
+                <token inflected="yes" skip="1">grade</token>
                 <token>dan</token>
             </antipattern>
             <antipattern>
                 <token skip="1">dan</token>
-                <token inflected="yes" regexp="yes">grade|disciple|maître</token>
+                <token inflected="yes">grade</token>
             </antipattern>
             <pattern>
                 <token>dan</token>
@@ -45897,7 +45913,12 @@ though, and has since been slightly modified)-->
             <example correction="dans">Rendez-vous <marker>dan</marker> mon bureau dans une heure.</example>
             <example correction="dans">Rendez-vous dans mon bureau <marker>dan</marker> une heure.</example>
             <example correction="dans">Commune <marker>dan</marker> la province de Grenade</example>
+            <example correction="Dans"><marker>Dan</marker> mon bureau dans une heure.</example>
             <example>6e dan de karaté</example>
+            <example>Dan aime la liberté d'expression.</example>
+            <example>Dan l'a bien compris.</example>
+            <example>Dan et Linda sont mariés depuis vingt ans.</example>
+            <example>Dan James Marlowe est un écrivain américain.</example>
         </rule>
         <rule id="CONFUSION_EST_ET" name="confusion est et">
             <antipattern>
