@@ -18831,7 +18831,7 @@ though, and has since been slightly modified)-->
             <example>Pour ne plus travailler.</example>
             <example correction="travailler">Pour ne plus jamais <marker>travaillez</marker>.</example>
         </rule>
-        <rulegroup id="FAIRE_VPPA" name="Comment + verbe ppa">
+        <rulegroup id="FAIRE_VPPA" name="verbe ppa -> inf">
             <rule>
                 <antipattern>
                     <token inflected="yes">venir</token>
@@ -18914,15 +18914,28 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes"/>
-                    <token postag="P"/>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">finir</token>
+                    <token postag="P">par</token>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
                 </pattern>
                 <message>Le verbe « \3 » devrait être à l’infinitif après le verbe « \1 ».</message>
                 <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
                 <example correction="changer">Il finira par <marker>changé</marker> de travail.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">continuer</token>
+                    <token postag="P" regexp="yes">à|de|d'</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \3 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
+                <example correction="fumer">Il continue de <marker>fumé</marker>.</example>
+                <example correction="fumer">Il a continué à <marker>fumé</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
