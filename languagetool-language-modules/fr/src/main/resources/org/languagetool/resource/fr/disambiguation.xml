@@ -138,7 +138,7 @@ RB => Règles Brutes
         <!-- They are usually nouns in apposition -->
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">fumeur|bruleur|brûleur|ordinateur|conducteur|utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">acquéreur|fumeur|bruleur|brûleur|ordinateur|conducteur|utilisateur|client|administrateur|entreprise|identifiant|prestataire</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="J.*"/>
@@ -1227,8 +1227,8 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">identifiant|tuteur|identité|réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session|garantie|réglage|assurance|section</token>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">consommateur|utilisateur|client|administrateur|entreprise|conducteur|constructeur</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réponse|identifiant|tuteur|identité|réclamation|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session|garantie|réglage|assurance|section</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">vendeur|consommateur|utilisateur|client|administrateur|entreprise|conducteur|constructeur</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1248,7 +1248,7 @@ RB => Règles Brutes
     </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nouveauté|dimension|fiche|retour|photo|recherche|image</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
         </pattern>
         <disambig action="filterall"/>
@@ -1311,7 +1311,7 @@ RB => Règles Brutes
     </rule>
     <rule name="réduction étudiant" id="EDITION_ABONNE">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">édition|réduction|remise|référence</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">étudiant|édition|réduction|remise|référence</token>
             <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">étudiant|abonné</token>
         </pattern>
         <disambig action="filterall"/>
@@ -3953,6 +3953,14 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="CRAINT" name="craint">
+        <pattern>
+            <marker>
+                <token postag="V ind pres 3 s">craint</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
     <rule id="FAIT_NO_IND" name="fait (not verbe ind)">
         <pattern>
             <token inflected="yes" regexp="yes">être|avoir</token>

@@ -73,6 +73,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
     <!ENTITY unusually_noun "piden|aman">
     <!ENTITY pronombre_personal_sujeto "yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|vos">
+    <!ENTITY palabras_guion "debate|binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traductor|corrector|par|figura|pareja|dualidad|razón">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -12691,6 +12692,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
             <antipattern>
+                <token>color</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="AQ.[MC][SP]." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <!-- MISSING_COMMA -->
                 <token regexp="yes">feliz|felices|buen|buenos|buenas|buena</token>
                 <token postag="N.*" postag_regexp="yes" regexp="yes">fiestas|fiesta|día|días|dia|dias|tardes?|noches?</token>
@@ -12741,10 +12747,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no"/>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">debate|binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traductor|corrector|par|figura|pareja|dualidad</token>
+                <token inflected="yes" regexp="yes">&palabras_guion;</token>
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 <token regexp="yes">[/yoeu-]|versus|vs</token>
                 <token/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">&palabras_guion;</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes" regexp="yes">.+-.+</token>
             </antipattern>
             <antipattern>
                 <token>por</token>
@@ -13317,6 +13327,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>A diario recibo docenas de pedidos.</example>
             <example>Son en lo general ignorantes de las consecuencias.</example>
             <example>Mesa solicitada bajo el n.° 2196.</example>
+            <example>Era de color naranja pálido.</example>
             <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.

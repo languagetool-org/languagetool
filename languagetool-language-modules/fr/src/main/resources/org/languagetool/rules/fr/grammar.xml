@@ -182,6 +182,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>S'il s'agit d'une personne, cela s'écrit <suggestion>le héros</suggestion>. S'il s'agit d'héroïne (la drogue), cela s'écrit <suggestion>l'héro</suggestion>.</message>
                 <example correction="Le héros|L'héro"><marker>Le héro</marker> grec.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>montages</token>
+                    <token>rocheuses</token></pattern>
+                <message>Vouliez-vous dire <suggestion>montagnes Rocheuses</suggestion> ?</message>
+                <example correction="montagnes Rocheuses">Les <marker>montages rocheuses</marker> en Alberta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>montage</token>
+                    <token>rocheuse</token></pattern>
+                <message>Vouliez-vous dire <suggestion>montagne rocheuse</suggestion> ?</message>
+                <example correction="montagne rocheuse">La <marker>montage rocheuse</marker> en Alberta.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
             <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
@@ -2968,6 +2982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>sous l'énorme platane qui la couvre, l'abrite et l'ombrage tout entière</example>
             <example>Il rejoint Total en 1982 où il est pendant 15 ans expert en mécanique des roches.</example>
             <example>soit dans la section fumeurs, soit dans la section non-fumeurs</example>
+            <example>La police craint qu'il n'y ait plus de survivants.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style">
@@ -14172,7 +14187,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token>ce</token>
                 <token>s</token>
-                <token postag="[NJ] [em] p|" postag_regexp="yes"/>
+                <token postag="[NJ] [em] p" postag_regexp="yes"/>
             </pattern>
             <message>Vouliez-vous dire <suggestion>\1s \3</suggestion> ?</message>
             <example correction="Ces débutants"><marker>Ce s débutants</marker></example>
