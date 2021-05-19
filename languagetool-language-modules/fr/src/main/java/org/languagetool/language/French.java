@@ -239,6 +239,7 @@ public class French extends Language implements AutoCloseable {
       case "DU_DU": return 100; // greater than DU_LE
       case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
+      case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
       case "BYTES": return 10; // needs to be higher than spell checker for 10MB style matches
