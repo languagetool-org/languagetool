@@ -2886,15 +2886,15 @@
 		<rule>
 		<!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
 			<antipattern>
-				<token regexp="yes">co</token>
+				<token>co</token>
 				<token regexp="yes" postag="NCMS000">h?[aá].*</token>
 			</antipattern>
 			<antipattern>
-				<token regexp="yes">co</token>
+				<token>co</token>
 				<token case_sensitive="yes">AVE</token>
 			</antipattern>
 			<pattern>
-				<token regexp="yes">co</token>
+				<token>co</token>
 				<token regexp="yes" postag="NCFS000">h?[aá].*</token>
 			</pattern>		
 			<message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)([ndc])?o" regexp_replace="$1oa" /> \2</suggestion>?</message>
@@ -3008,9 +3008,10 @@
           <filter class="org.languagetool.rules.gl.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V(.*) postagFrom:2 postagSelect:(PP.*) postagReplace:V\a1:\b1"/>
           <message>Os pronomes clíticos non poden ir no inicio da oración. Por regra xeral, o pronome átono vai colocado detrás do verbo.</message>
           <!--<suggestion><match no="3" case_conversion="startupper" /><match no="2" case_conversion="startlower" /></suggestion>-->
-          <example correction="deumo"><marker>Mo deu</marker> onte.</example>
-          <example correction="dixérasmo"><marker>Mo dixeras</marker></example>
-          <example correction="díxenvolo"><marker>Volo dixen</marker></example>
+          <suggestion>{suggestion}</suggestion>
+          <example correction="Deumo"><marker>Mo deu</marker> onte.</example>
+          <example correction="Dixérasmo"><marker>Mo dixeras</marker></example>
+          <example correction="Díxenvolo"><marker>Volo dixen</marker></example>
           <example><marker>Deumo</marker> onte.</example>
       </rule>
     <rule name="volo dixen (díxenvolo)">
@@ -4553,7 +4554,7 @@
  	<rulegroup id="ARCAÍSMOS" name="Arcaísmos">
     <rule id="DESQUE" name="desque (así que)">
       <pattern>
-          <token regexp="yes">desque</token>
+          <token>desque</token>
       </pattern>
       <message>A forma «desque» considérase arcaica. No seu lugar pódese empregar <suggestion>así que</suggestion>.</message>
       <example correction="Así que"><marker>Desque</marker> se acabou a guerra, guerra quere esta canalla?.</example>
