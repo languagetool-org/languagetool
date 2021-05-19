@@ -53,6 +53,7 @@ class CheckRequestAnalysis {
   private final List<Integer> minToCheckPara;       //  List of minimal to check paragraphs for different classes of text level rules
   private final Language docLanguage;               //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private final boolean useQueue;                   //  true: use queue to check text level rules (given by configuration)
+  private final boolean isImpress;                  //  true: is an Impress document
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
 
   private DocumentCache docCache;                   //  cache of paragraphs (only readable by parallel thread)
@@ -83,6 +84,7 @@ class CheckRequestAnalysis {
     xContext = mDocHandler.getContext();
     xComponent = singleDocument.getXComponent();
     docID = singleDocument.getDocID();
+    isImpress = singleDocument.isImpress();
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
     docCache = singleDocument.getDocumentCache();
     flatPara = singleDocument.getFlatParagraphTools();
@@ -116,7 +118,7 @@ class CheckRequestAnalysis {
     if (docCache == null) {
       docCursor = new DocumentCursorTools(xComponent);
       docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null);
+          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -234,6 +236,12 @@ class CheckRequestAnalysis {
    * gives Back the Position of flat paragraph / -1 if Paragraph can not be found
    */
   private int getParaPos(int nPara, String chPara, Locale locale, int startPos, int[] footnotePositions) {
+    
+    if (isImpress && docCache == null) {
+      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
+          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
+      singleDocument.setDocumentCache(docCache);
+    }
 
     if (nPara >= 0) {
       return nPara;
@@ -251,7 +259,7 @@ class CheckRequestAnalysis {
     if (docCache == null) {
       docCursor = new DocumentCursorTools(xComponent);
       docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null);
+          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -466,7 +474,7 @@ class CheckRequestAnalysis {
       docCursor = new DocumentCursorTools(xComponent);
     }
     docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-        docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null);
+        docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
     if (docCache.isEmpty()) {
       this.docCache = null;
       return -1;

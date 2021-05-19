@@ -79,6 +79,7 @@ class SingleCheck {
   private final List<Integer> minToCheckPara;       //  List of minimal to check paragraphs for different classes of text level rules
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
   private final int numParasToCheck;                // current number of Paragraphs to be checked
+  private final boolean isImpress;                  //  true: is an Impress document
   private final boolean isDialogRequest;            //  true: check was initiated by right mouse click or proofreading dialog
   private final boolean useQueue;                   //  true: use queue to check text level rules (will be overridden by config)
   private final Language docLanguage;               //  Language used for check
@@ -107,6 +108,7 @@ class SingleCheck {
     mDocHandler = singleDocument.getMultiDocumentsHandler();
     xComponent = singleDocument.getXComponent();
     docCache = singleDocument.getDocumentCache();
+    isImpress = singleDocument.isImpress();
     config = mDocHandler.getConfiguration();
     useQueue = numParasToCheck != 0 && !isDialogRequest && !mDocHandler.isTestMode() && config.useTextLevelQueue();
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
@@ -118,7 +120,7 @@ class SingleCheck {
    */
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, int lastChangedPara, boolean isIntern) {
-    if (lastChangedPara >= 0) {
+    if (!isImpress && lastChangedPara >= 0) {
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }
@@ -139,7 +141,7 @@ class SingleCheck {
     if (debugMode > 1) {
       MessageHandler.printToLogFile("paRes.aErrors.length: " + errors.length + "; docID: " + singleDocument.getDocID() + OfficeTools.LOG_LINE_BREAK);
     }
-    if (textIsChanged && nextSentence >= paraText.length()) {
+    if (!isImpress && textIsChanged && nextSentence >= paraText.length()) {
       if (numParasToCheck != 0 && paraNum >= 0) {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
@@ -245,7 +247,7 @@ class SingleCheck {
         startPos = endPos;
         footnotesBefore += footnotePos.length;
       }
-      if (useQueue && !isDialogRequest) {
+      if (!isImpress && useQueue && !isDialogRequest) {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }

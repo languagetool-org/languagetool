@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
+import org.languagetool.openoffice.OfficeDrawTools.ImpressParagraphContainer;
 
 import com.sun.star.lang.Locale;
+import com.sun.star.lang.XComponent;
 
 /**
  * Class to store the Text of a LO document (document cache)
@@ -44,12 +46,19 @@ public class DocumentCache implements Serializable {
   private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
   private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
   private int defaultParaCheck;
+  private boolean isImpress = false;
   private boolean isReset = false;
 
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale) {
+  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, 
+      Locale docLocale, XComponent xComponent, boolean isImpress) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
     this.defaultParaCheck = defaultParaCheck;
-    reset(docCursor, flatPara, docLocale);
+    this.isImpress = isImpress;
+    if (isImpress) {
+      resetImpressCache(xComponent);
+    } else {
+      reset(docCursor, flatPara, docLocale);
+    }
   }
   
   DocumentCache(DocumentCache in) {
@@ -60,6 +69,7 @@ public class DocumentCache implements Serializable {
     toTextMapping = new ArrayList<Integer>(in.toTextMapping);
     toParaMapping = new ArrayList<Integer>(in.toParaMapping);
     defaultParaCheck = in.defaultParaCheck;
+    isImpress = in.isImpress;
   }
   
   DocumentCache(List<String> paragraphs, List<String> textParagraphs, List<int[]> footnotes, Locale locale) {
@@ -76,6 +86,7 @@ public class DocumentCache implements Serializable {
   /**
    * reset the document cache
    * load the actual state of the document into the cache
+   * is only used for writer documents 
    */
   public synchronized void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
     try {
@@ -108,7 +119,11 @@ public class DocumentCache implements Serializable {
       isReset = false;
     }
   }
-  
+
+  /**
+   * Map text paragraphs to flat paragraphs
+   * is only used for writer documents 
+   */
   private void mapParagraphs(List<String> textParas) {
     if (debugMode) {
       MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
@@ -156,6 +171,25 @@ public class DocumentCache implements Serializable {
     }
   }
   
+  /**
+   * reset the document cache for impress documents
+   */
+  public void resetImpressCache(XComponent xComponent) {
+    ImpressParagraphContainer container = OfficeDrawTools.getAllParagraphs(xComponent);
+    paragraphs = container.paragraphs;
+    chapterBegins = container.pageBegins;
+    locales = new ArrayList<SerialLocale>();
+    for (Locale locale :  container.locales) {
+      locales.add(new SerialLocale(locale)) ;
+    }
+    footnotes = new ArrayList<>();
+    for (int i = 0; i < paragraphs.size(); i++) {
+      toTextMapping.add(i);
+      toParaMapping.add(i);
+      footnotes.add(new int[0]);
+    }
+  }
+
   /**
    * wait till reset is finished
    */

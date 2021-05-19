@@ -285,7 +285,7 @@ public class TextLevelCheckQueue {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
-      if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed()) {
+      if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed() && !documents.get(n).isImpress()) {
         QueueEntry queueEntry = documents.get(n).getNextQueueEntry(nPara);
         if (queueEntry != null) {
           return queueEntry;
@@ -295,7 +295,7 @@ public class TextLevelCheckQueue {
       }
     }
     for (int i = nDoc + 1; i < documents.size(); i++) {
-      if (!documents.get(i).isDisposed()) {
+      if (!documents.get(i).isDisposed() && !documents.get(i).isImpress()) {
         QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1);
         if (queueEntry != null) {
           return queueEntry;
@@ -303,7 +303,7 @@ public class TextLevelCheckQueue {
       }
     }
     for (int i = 0; i < nDoc; i++) {
-      if (!documents.get(i).isDisposed()) {
+      if (!documents.get(i).isDisposed() && !documents.get(i).isImpress()) {
         QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1);
         if (queueEntry != null) {
           return queueEntry;

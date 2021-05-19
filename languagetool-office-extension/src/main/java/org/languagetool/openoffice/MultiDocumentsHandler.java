@@ -236,8 +236,42 @@ public class MultiDocumentsHandler {
       }
       XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       if (curDoc == null) {
+        if (OfficeDrawTools.isImpressDocument(xComponent)) {
+          String docID = createImpressDocId();
+          try {
+            xComponent.addEventListener(xEventListener);
+          } catch (Throwable t) {
+            MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
+            xComponent = null;
+          }
+          SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
+          documents.add(newDocument);
+          MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
+          return newDocument;
+        }
         MessageHandler.printToLogFile("Is document, but not a text document!");
         isNotTextDodument = true;
+      }
+    }
+    return null;
+  }
+  
+  /**
+   * create new Impress document id
+   */
+  private String createImpressDocId() {
+    String docID;
+    for (int n = 1; n < documents.size() + 1; n++) {
+      docID = "I" + n;
+      boolean isValid = true;
+      for (SingleDocument document : documents) {
+        if (docID.equals(document.getDocID())) {
+          isValid = false;
+          break;
+        }
+      }
+      if (isValid) {
+        return docID;
       }
     }
     return null;
@@ -1209,12 +1243,12 @@ public class MultiDocumentsHandler {
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
           SingleDocument document = getCurrentDocument();
-          if (document != null) {
+          if (document != null && !document.isImpress()) {
             XComponent currentComponent = document.getXComponent();
             if (currentComponent != null) {
               DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
               ViewCursorTools viewCursor = new ViewCursorTools(xContext);
-              checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+              SpellAndGrammarCheckDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
             }
           }
           resetIgnoredMatches();
