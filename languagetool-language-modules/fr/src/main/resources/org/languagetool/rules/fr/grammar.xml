@@ -5350,6 +5350,12 @@ though, and has since been slightly modified)-->
                     <token>trait</token>
                     <token postag="P">à</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">soi(en)?t</token>
+                    <token>a</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">qu[ie]?</exception></token>
@@ -5357,14 +5363,16 @@ though, and has since been slightly modified)-->
                         <exception postag="[ZNRJ].*" postag_regexp="yes"/>
                         <exception postag="V inf"/>
                         <exception regexp="yes">puis|née?s?</exception></token>
+                        <token postag="A" postag_regexp="yes" min="0" max="3"/>
                     <marker>
                         <token>a</token>
                     </marker>
                     <token>
-                        <exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception></token>
+                        <exception regexp="yes">écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception></token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example correction="à">Ils s’apprêtent <marker>a</marker> le dépasser.</example>
+                <example correction="à">Cet endroit est trop <marker>a</marker> découvert.</example>
                 <example>Je ne pouvais pas le croire a priori.</example>
                 <example>La grève généralisée a paralysé tout le pays.</example>
                 <example>Fumer a nui à sa santé.</example>
@@ -5378,6 +5386,8 @@ though, and has since been slightly modified)-->
                 <example>Cela lui a pris trois mois.</example>
                 <example>L'orange a laissé un goût étrange dans ma bouche.</example>
                 <example>La crème a été brûlée avant d’être mise au frais.</example>
+                <example>Soit A une primitive de la fonction a.</example>
+                <example>Pave a écrit :</example>
             </rule>
             <rule>
                 <pattern>
@@ -5666,6 +5676,74 @@ though, and has since been slightly modified)-->
                 <example>Le ballast a lui aussi été refait.</example>
                 <example correction="à" type="triggers_error">Le jour de gloire <marker>a</marker> lui pour vous.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>à</token>
+                    <token postag="D.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token postag="[NVJ].*|C sub" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+                <example correction="à">Ce vin en fûts de chêne à la robe pourpre <marker>a</marker> violacée vient d'une cave réputée.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception scope="previous">qui</exception>
+                        <exception postag="V inf|[NJ].*|V ppr" postag_regexp="yes"/>
+                        <exception>couche</exception>
+                    </token>
+                    <token inflected="yes">de</token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+                <example correction="à">Ils sont d'intensité légère <marker>a</marker> modérée.</example>
+                <example>Cet individu qui souffre de troubles mentaux a développé une fascination pour cet acteur.</example>
+                <example>Une importante couche de matériel pyroclastique a recouvert la glace.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" inflected="yes" skip="-1">dont|qu[ei]|où|laquelle|lequel|lesquel(le)?s</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="V.* ppa.*" postag_regexp="yes" min="1" max="2"/>
+                    <token>a</token>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">quan[td]</token>
+                    <token regexp="yes">à|a</token>
+                    <token postag="R pers obj.*|V ppa.*" postag_regexp="yes"/>
+                    <token case_sensitive="yes">a</token>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V ppa.*|N.*" postag_regexp="yes"/></token>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">a</token>
+                    </marker>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+                <example correction="à">Ils sont légers <marker>a</marker> lourds.</example>
+                <example>Celui qui a semé a récolté.</example>
+                <example>Ce que Tom a vu a bouleversé sa vie.</example>
+                <example>Ligue nationale A féminine.</example>
+                <example>Le traité des Pyrénées quand a lui a connu un pic atteignant 2000 visites.</example>
+                <example>La flotte marchande néerlandaise a doublé depuis 1890.</example>
+                <example>Le récit qu'il en a fait a rencontré un certain succès.</example>
+                <example>La balle avec laquelle il a été touché a traversé son cœur.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="A_INFINITIF" name="a + infinitif">
             <!--<antipattern>
@@ -5727,7 +5805,7 @@ though, and has since been slightly modified)-->
                 <suggestion>à \2</suggestion>
                 <example correction="à pouvoir">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <token postag="J.*" postag_regexp="yes"/>
@@ -5798,7 +5876,7 @@ though, and has since been slightly modified)-->
                 <example>Les feuilles ont des trichomes complexes blancs à rouillés sur la surface inférieure.</example>
                 <example>Ce sont des langues que l'utilisateur à déclaré sur son site.</example>
             </rule>
-             <rule default="temp_off">
+             <rule>
                 <antipattern>
                     <token regexp="yes">numérotée?s?|permis|c[ôo]té|portée</token>
                     <token inflected="yes">de</token>
@@ -5857,7 +5935,7 @@ though, and has since been slightly modified)-->
                 <example>La Petite Hutte est jouée à reprises.</example>
                 <example>Elle est prise à partie dans le procès.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>il</token>
                     <token>y</token>
@@ -15653,7 +15731,7 @@ though, and has since been slightly modified)-->
                 <message>« \1 » et « \2 » ne peuvent ici pas se suivre. Veuillez vérifier.</message>
                 <example correction="">Mais <marker>à</marker> causé énormément</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">fromages?|viandes?|tirages?|poêles?|chaudières?|rangements?|moules?</token>
                     <marker>
@@ -15664,7 +15742,7 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
                 <example correction="à">Il a acheté du fromage <marker>a</marker> fondue.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="[DP].*" postag_regexp="yes"/>
@@ -15677,7 +15755,7 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
                 <example correction="à">Il veut une boite <marker>a</marker> surprises.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="[NJ].*" postag_regexp="yes"><exception>cuit</exception></token>
                     <token>a</token>
