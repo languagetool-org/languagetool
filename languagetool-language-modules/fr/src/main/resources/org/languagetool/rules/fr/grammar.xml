@@ -5893,6 +5893,19 @@ though, and has since been slightly modified)-->
                 <example>Vous avez le piolet à portée de main ?</example>
                 <example>Il y avait aussi des chansons à parties.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                <token postag="R pers.*" postag_regexp="yes"/>
+                    <token postag="V (ind|cond|sub).*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                      <token>à</token>
+                    <marker>
+                     <token postag="V ppa.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*<exception regexp="yes">[a-z].*-[a-z].*|c[ôo]té|portées?|cru|points|coordonnées|mort|vue|portée|chargée?|empreinte|partie|(dé)?couvert</exception></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe suivant la préposition '\3' est généralement à l'infinitif.</message>
+                <suggestion><match no="4" postag="V ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <example correction="adopter">Il continue à <marker>adopté</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="A_ACCENT_A1" name="À au lieu de A" default="temp_off">
             <rule>
