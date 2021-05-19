@@ -189,7 +189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">\d+</token>
-                    <token min="0" regexp="yes">de</token>
+                    <token min="0">de</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">&meses_ano_may;</token>
                     </marker>
@@ -8313,6 +8313,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="astro$1"/></suggestion>
                 <example correction="astroturismo">La promoción del <marker>astro turismo</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>co</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">.+<exception>-</exception></token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="co$1"/></suggestion>
+                <example correction="coexpositores">Son <marker>co expositores</marker> en Fitur.</example>
+                <example correction="coexpositores">Son <marker>co-expositores</marker> en Fitur.</example>
+                <example correction="con">Lo hace <marker>co n</marker> interés.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
