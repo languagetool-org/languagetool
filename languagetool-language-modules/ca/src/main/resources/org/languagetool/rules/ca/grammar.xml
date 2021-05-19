@@ -34138,6 +34138,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <rule id="DATA_OCTUBRE" name="abreviació de dates: octubre" default="temp_off">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">(\d|[12]\d|3[01])O</token>
+            </pattern>
+            <message>Si representa una data, val més escriure <suggestion><match no="1" regexp_match="O" regexp_replace="-O"/></suggestion> per a evitar confusions.</message>
+            <example correction="22-O">Les eleccions del <marker>22O</marker>.</example>
+        </rule>
         <rulegroup name="decret llei" id="DECRET_LLEI">
             <rule>
                 <pattern>
