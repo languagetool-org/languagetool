@@ -2435,6 +2435,25 @@ Assim aparece no ecrã um número muito grande. → Assim aparece um número mui
 	  
 	</rulegroup>
 
+	<!-- QUE FORAM/FOI/SÃO/É sendo -->
+    <rule id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foi → Sendo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 (17-MAR-2021+)      -->
+	<!--
+Esta que foi a maior crítica ao trabalho de Ana. → Esta sendo a maior crítica ao trabalho de Ana.
+	-->
+		<pattern>
+			<token postag='_PUNCT|DD.+' postag_regexp='yes'/>
+			<marker>
+				<token>que</token>
+				<token regexp='yes'>foram|foi|são|é</token>
+			</marker>
+			<token postag='DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Esta perífrase poderá ser simplificada.</message>
+		<suggestion>sendo</suggestion>
+		<example correction="sendo">Esta <marker>que foi</marker> a maior crítica ao trabalho de Ana.</example>
+    </rule>
+
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
     <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
