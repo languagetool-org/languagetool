@@ -10819,14 +10819,25 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
-    <rule name="Ignore spelling of file extensions" id="IGNORE_SPELLING_OF_FILE_EXTENSIONS">
+    <rulegroup name="Ignore spelling of file extensions" id="IGNORE_SPELLING_OF_FILE_EXTENSIONS">
         <!-- A .txt file-->
-        <pattern>
-            <token spacebefore="yes">.</token>
-            <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
-        </pattern>
-        <disambig action="ignore_spelling"></disambig>
-    </rule>
+        <rule>
+            <pattern>
+                <token spacebefore="yes">.</token>
+                <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <!-- this needs to be in sync with FILE_EXTENSIONS_CASE -->
+                    <token regexp="yes" case_sensitive="yes">pdf|jpe?g|gif|png|svg|docx|xlsx?|pptx?|html|php|s?css|jsx?|heif|mpe?g|exe|dmg|xml</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule name="Proper noun: Ho Chi Minh" id="HO_CHI_MINH"><!-- www.lexico.com/en/definition/ho_chi_minh -->
         <pattern case_sensitive="yes">
             <token>Ho</token>
