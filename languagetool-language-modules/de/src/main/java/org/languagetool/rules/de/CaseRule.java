@@ -729,6 +729,45 @@ public class CaseRule extends Rule {
       token("-"),
       regex("[DPO]"),
       regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // Straßenname: "Am Hohen Hain 6"
+      csToken("Am"),
+      csRegex("[A-ZÄÖÜ].+n"),
+      posRegex("(EIG|SUB|UNKNOWN).*"),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Am hohen Hain 6"
+      csToken("Am"),
+      new PatternTokenBuilder().posRegex("ADJ:.+").csTokenRegex("[a-zäöü].+n").build(),
+      csRegex("[A-ZÄÜÖ].*"),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Am Wasserturm 6"
+      csToken("Am"),
+      posRegex("(EIG|SUB|UNKNOWN).*"),
+      csRegex("\\d+[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Listenpunkt
+      tokenRegex("✓|✔|☑|✗|✘|✖|√"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // Zwei Kommas, die wie Anführungszeichen verwendet werden: ",,"
+      new PatternTokenBuilder().token(",").build(),
+      new PatternTokenBuilder().token(",").setIsWhiteSpaceBefore(false).build(),
+      new PatternTokenBuilder().csTokenRegex("[A-ZÄÜÖ].*").setIsWhiteSpaceBefore(false).build()
+    ),
+    Arrays.asList(
+      // Markup: "[H3] Die Headline"
+      SENT_START,
+      token("["),
+      csToken("[A-Z0-9]+"),
+      token("]"),
+      csRegex("[A-ZÄÜÖ].*")
     )
   );
 
@@ -805,6 +844,12 @@ public class CaseRule extends Rule {
     "Werktätige",
     "Werktätiger",
     "Werktätigen",
+    "Getestete", // temporary fix
+    "Getesteten", // temporary fix
+    "Genesene", // temporary fix
+    "Genesenen", // temporary fix
+    "Geimpfte", // temporary fix
+    "Geimpften", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",

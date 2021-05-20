@@ -387,6 +387,9 @@ public class CaseRuleTest {
     assertBad("Das ist Eine Schreibweise.");
     assertGood("Das ist ein Mann.");
     assertBad("Das ist Ein Mann.");
+
+    assertGood("Er wohnt Am Hohen Hain 6a");
+    assertGood("Das Bauvorhaben Am Wiesenhang 9");
   }
 
   private void assertGood(String input) throws IOException {
