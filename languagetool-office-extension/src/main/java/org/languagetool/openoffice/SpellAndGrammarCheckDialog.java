@@ -1823,7 +1823,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (startAtBegin) {
         x = 0;
       }
-      MessageHandler.printToLogFile("getNextError (x/y): (" + x + "/" + y + ") < text size (= " + docCache.textSize() + ")");
+      if (debugMode) {
+        MessageHandler.printToLogFile("getNextError (x/y): (" + x + "/" + y + ") < text size (= " + docCache.textSize() + ")");
+      }
       int nStart = 0;
       for (int i = 0; i <= y && y < docCache.textSize(); i++) {
         nStart += docCache.getTextParagraph(i).length() + 1;
@@ -2375,7 +2377,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           OfficeTools.dispatchCmd(".uno:NotesMode", xContext);
           //  Note: a delay interval is needed to put the dialog to front
           try {
-            Thread.sleep(100);
+            Thread.sleep(500);
           } catch (InterruptedException e) {
             MessageHandler.printException(e);
           }

@@ -401,7 +401,7 @@ public class OfficeDrawTools {
   private static int findParaInText(int nParaCount, int nPara, XText xText) {
     if (xText != null) {
       String sText = xText.getString();
-      if (nParaCount == nPara) {
+      if (nParaCount == nPara && sText.length() > 0) {
         return -1;
       }
       int lastParaEnd = 0;
