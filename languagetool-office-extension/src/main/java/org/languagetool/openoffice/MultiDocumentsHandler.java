@@ -261,6 +261,9 @@ public class MultiDocumentsHandler {
    */
   private String createImpressDocId() {
     String docID;
+    if (documents.size() == 0) {
+      return "I1";
+    }
     for (int n = 1; n < documents.size() + 1; n++) {
       docID = "I" + n;
       boolean isValid = true;
@@ -1205,6 +1208,7 @@ public class MultiDocumentsHandler {
   public void trigger(String sEvent) {
     try {
       if (!testDocLanguage(true)) {
+        MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
         return;
       }
       if ("configure".equals(sEvent)) {
@@ -1307,7 +1311,20 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
-      Locale locale = getDocumentLocale();
+      if (xContext == null) {
+        return false;
+      }
+      XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+      if (xComponent == null) {
+        return false;
+      }
+      Locale locale;
+      boolean isImpress = OfficeDrawTools.isImpressDocument(xComponent);
+      if (isImpress) {
+        locale = OfficeDrawTools.getDocumentLocale(xComponent);
+      } else {
+        locale = getDocumentLocale();
+      }
       try {
         int n = 0;
         while (locale == null && n < 100) {
@@ -1315,7 +1332,11 @@ public class MultiDocumentsHandler {
           if (debugMode) {
             MessageHandler.printToLogFile("Try to get locale: n = " + n);
           }
-          locale = getDocumentLocale();
+          if (isImpress) {
+            locale = OfficeDrawTools.getDocumentLocale(xComponent);
+          } else {
+            locale = getDocumentLocale();
+          }
           n++;
         }
       } catch (InterruptedException e) {
@@ -1344,8 +1365,20 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
-      resetCheck();
-      return false;
+      if (isImpress) {
+        langForShortName = getLanguage(locale);
+        docLanguage = langForShortName;
+        this.locale = locale;
+        extraRemoteRules.clear();
+        lt = initLanguageTool(true);
+        initCheck(lt, locale);
+        initDocuments();
+        setJavaLookAndFeel();
+        return true;
+      } else {
+        resetCheck();
+        return false;
+      }
     }
     return true;
   }

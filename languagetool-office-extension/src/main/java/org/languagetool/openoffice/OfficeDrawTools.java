@@ -541,7 +541,40 @@ public class OfficeDrawTools {
     }
     return false;
   }
-
+  
+  public static Locale getDocumentLocale(XComponent xComponent) {
+    try {
+      int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
+      for (int i = 0; i < pageCount; i++) {
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              XTextCursor xTextCursor = xText.createTextCursor();
+              XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+              return ((Locale) xParaPropSet.getPropertyValue("CharLocale"));
+            } else {
+              MessageHandler.printToLogFile("xShape " + j + " is null");
+            }
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+    return null;
+  }
+  
   public class ImpressParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
