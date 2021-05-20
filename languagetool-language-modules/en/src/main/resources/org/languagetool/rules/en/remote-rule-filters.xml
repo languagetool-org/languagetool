@@ -140,7 +140,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">On Sep <marker>20th</marker> of the year 2021.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AI_EN_G_R_ORTH" name="">
+        <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule><!-- don't split e-mail addresses -->
                 <pattern>
                     <token/>
@@ -169,40 +169,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Carbohydrates are a common source of energy in living organisms; <marker>however</marker>, no carbohydrate is an essential nutrient in humans.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AI_EN_G_PUNCT_REPL" name="">
-            <rule>
-                <pattern>
-                    <token regexp="yes">(\[|\(|\{|&lt;)</token>
-                    <token regexp="yes">(\]|\)|\}|&gt;)</token>
-                </pattern>
-                <example correction="">This is an empty set: <marker>[ ]</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token/>
-                    <token spacebefore="yes">“</token>
-                    <token spacebefore="no"/>
-                </pattern>
-                <example correction="">...until it reaches its goals of stopping Hamas’s rocket barrages and making the <marker>group “pay</marker> a price.”</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token/>
-                    <token postag="PCT"/>
-                    <token spacebefore="no">”</token>
-                </pattern>
-                <example correction="">...until it reaches its goals of stopping Hamas’s rocket barrages and making the group “pay a <marker>price.”</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>‘</token>
-                    <token max="-1"><exception>’</exception></token>
-                    <token spacebefore="no">’</token>
-                </pattern>
-                <example correction="">A <marker>‘Friend of Tom’</marker>: One Man’s Rules at Bank of America</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="AI_EN_G_R_VERB" name="">
+        <rulegroup id="AI_EN_G_REPLACE_VERB" name="">
             <rule>
                 <pattern>
                     <token/>
@@ -214,7 +181,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">He <marker>is singing</marker> with a lot of ornamentation.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AI_EN_G_R_VERB_TENSE" name="">
+        <rulegroup id="AI_EN_G_REPLACE_VERB_TENSE" name="">
             <rule>
                 <pattern>
                     <token postag="MD"/>
@@ -257,7 +224,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The frantic caller this morning was a long-time friend, and he insisted I <marker>came</marker> to Kingston.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AI_EN_G_R_VERB_SVA" name="">
+        <rulegroup id="AI_EN_G_REPLACE_VERB_SVA" name="">
             <rule>
                 <pattern>
                     <marker>
@@ -270,7 +237,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Rick, Attached <marker>are</marker> a clean copy of suggested modification of the body of this DASH as well as a copy of the original DASH.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AI_EN_G_U_VERB" name="">
+        <rulegroup id="AI_EN_G_DELETE_VERB" name="">
             <rule>
                 <pattern>
                     <token>attached</token>
@@ -279,17 +246,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Rick, attached <marker>are</marker> a clean copy of suggested modification of the body of this DASH as well as a copy of the original DASH.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="AI_EN_G_REPL" name="">
-            <rule>
-                <pattern>
-                    <token chunk_re="..NP.*">sentence</token>
-                    <marker>
-                        <token chunk_re="..NP.*">start</token>
-                    </marker>
-                </pattern>
-                <example correction="">An example is the lowercase sentence <marker>start</marker> at the beginning of an email.</example>
             </rule>
         </rulegroup>
     </category>
