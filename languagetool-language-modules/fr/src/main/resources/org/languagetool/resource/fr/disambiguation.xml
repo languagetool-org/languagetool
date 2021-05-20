@@ -4268,7 +4268,7 @@ RB => Règles Brutes
         </antipattern>
         <rule>
             <pattern>
-                <token postag="V.*[123].*" postag_regexp="yes"/>
+                <token postag="V.*[123].*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/></token>
                 <token min="0" max="3" postag="A"/>
                 <marker>
                     <token postag="D.*" postag_regexp="yes" regexp="yes">l'|la|le|les</token>
@@ -4276,6 +4276,7 @@ RB => Règles Brutes
                 <token postag="[NJ].*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="D.*"/>
+            <example type="untouched">Cela la dessert.</example>
         </rule>
         <rule>
             <pattern>

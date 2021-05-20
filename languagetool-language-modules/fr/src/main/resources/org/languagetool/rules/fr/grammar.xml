@@ -477,6 +477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="diverses préparations|diverse préparation">On trouve bien sûr des desserts mélangeant <marker>divers préparations</marker>.</example>
                 <example correction="quelque sacrifice|quelques sacrifices">Ils sauront faire <marker>quelques sacrifice</marker>.</example>
                 <example correction="la capsule|les capsules">J'ai regardé <marker>les capsule</marker> en ligne.</example>
+                <example correction="la date|les dates">Quelle est <marker>le date</marker> du jour ?</example>
                 <example>Henri VIII rencontre François Ier.</example>
                 <example>Il est né le quatre <marker>janvier</marker>.</example>
                 <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
@@ -1033,6 +1034,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="J_N" name="Concordance de l’adjectif avec le nom">
             <antipattern>
+                <token>de</token>
+                <token>nécessité</token>
+            </antipattern>
+            <antipattern>
                 <token>l'</token>
                 <token>une</token>
                 <token postag="C coor"/>
@@ -1356,6 +1361,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     durée</example>
                 <example>Une des caractéristiques type du discours masculiniste</example>
                 <example>L'Académie autorise l'une et l'autre formes.</example>
+                <example>Elle faisait de nécessité vertu.</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -5507,6 +5513,8 @@ though, and has since been slightly modified)-->
                 <example>Pave a écrit :</example>
                 <example>De quel côté tu es n'a pas d'importance.</example>
                 <example>Ce qu'il raconte n'a ni queue ni tête.</example>
+                <!-- FIXME:-->
+                <example type="triggers_error">la verdure qu'il éveille a besoin de temps pour germer</example>
             </rule>
             <rule>
                 <pattern>
@@ -19210,6 +19218,19 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="AUXILIAIRE_MANQUANT" name="auxiliaire manquant" default="temp_off">
+            <antipattern>
+                <!-- probable error TRAIT_UNION_INVERSION -->
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token regexp="yes" min="0" max="2">-|–|t|'|t'</token>
+                    </unify-ignore>
+                    <token postag="R.*" postag_regexp="yes" regexp="yes">je|j'|tu|il|elle|on|nous|vous|ils|elles</token>
+                </unify>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>tu</token>
