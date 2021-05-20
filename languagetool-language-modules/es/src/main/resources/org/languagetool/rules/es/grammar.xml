@@ -224,14 +224,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[\.\?!]</token>
                 <token regexp="yes">&dias_semana_may;</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">&dias_semana_may;</token>
+                </marker>
+            </antipattern>
             <pattern case_sensitive="yes">
-                <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
                     <token regexp="yes">&dias_semana_may;</token>
                 </marker>
             </pattern>
             <message>Los días de la semana se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
-            <suggestion><match case_conversion="alllower" no="2"/></suggestion>
+            <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="lunes" type="incorrect">Todos los <marker>Lunes</marker> son tristes.</example>
             <example type="correct">Los <marker>martes</marker> juego un partido de tenis.</example>
@@ -240,6 +246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Juan Domingo Perón.</example>
             <example>García Domingo.</example>
             <example>de F. Domingo, s. XX</example>
+            <example>- Domingos y feriados sin atención.</example>
         </rule>
         <rule id="MIN_ESTACIONES" name="Estaciones del año en minúscula">
             <antipattern>
@@ -8315,11 +8322,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="astro$1"/></suggestion>
                 <example correction="astroturismo">La promoción del <marker>astro turismo</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token>co</token>
+                    <token spacebefore="yes">co<exception case_sensitive="yes">CO</exception></token>
                     <token min="0">-</token>
-                    <token regexp="yes">.+<exception>-</exception></token>
+                    <token regexp="yes">.+<exception regexp="yes">-|que</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="co$1"/></suggestion>
