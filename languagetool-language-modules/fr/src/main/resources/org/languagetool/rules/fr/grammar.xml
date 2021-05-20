@@ -20461,6 +20461,7 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
+            <!-- TODO: make more general: preposition + verb -->
             <antipattern>
                 <token>aux</token>
                 <token regexp="yes">être|avoir</token>
@@ -20488,8 +20489,12 @@ though, and has since been slightly modified)-->
                     <token>l'</token>
                     <token regexp="yes">une?</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">de|d'|à</token>
+                    <token postag="V.*inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?
+                    <token regexp="yes">de|d'|aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?
                         <exception postag="N m s">ton</exception></token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
@@ -20541,6 +20546,7 @@ though, and has since been slightly modified)-->
                 <example>Un médecin n'est ni un dieu, ni un être parfait.</example>
                 <example>car vous parlez comme un être privé de raison</example>
                 <example>365 € correspondant à un équivalent par mois</example>
+                <example correction="entretien|entretiens">d'<marker>entretient</marker></example>
             </rule>
             <rule>
                 <antipattern>
@@ -20569,6 +20575,39 @@ though, and has since been slightly modified)-->
                 <example>Aurons-nous un été chaud ?</example>
                 <example>au fait « d'aller voir ailleurs »</example>
                 <example>Ami au prêter, ennemi au rendre.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">sur|de</token>
+                    <token postag="K"/>
+                </antipattern>
+                <pattern>
+                    <token postag="P"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/>
+                            </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:[NJZ].*|V.ppa.*"/>
+                <message>Le mot « \3 » ne peut pas être un verbe après « \1 ».</message>
+                <example correction="entretien|entretiens">de l'<marker>entretient</marker></example>
+                <example>Un ménage sur cinq réside dans la commune.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="P">à</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
+                <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
+                <example correction="entretien|entretiens">à <marker>entretient</marker></example>
+                <example>Un ménage sur cinq réside dans la commune.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe passé">
