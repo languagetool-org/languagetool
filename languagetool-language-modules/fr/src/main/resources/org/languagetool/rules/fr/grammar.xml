@@ -20493,6 +20493,10 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">de|d'|à</token>
                     <token postag="V.*inf" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>d'</token>
+                    <token>entre</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">de|d'|aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?
                         <exception postag="N m s">ton</exception></token>
@@ -20577,31 +20581,31 @@ though, and has since been slightly modified)-->
                 <example>Ami au prêter, ennemi au rendre.</example>
             </rule>
             <rule default="temp_off">
-                <antipattern>
-                    <token regexp="yes">sur|de</token>
+                <!--<antipattern>
+                    <token regexp="yes">sur|de|à|par|sauf|pour</token>
                     <token postag="K"/>
-                </antipattern>
+                </antipattern>-->
                 <pattern>
                     <token postag="P"/>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes">
+                        <exception postag="K"/></token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/>
-                            </token>
+                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/> </token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:[NJZ].*|V.ppa.*"/>
                 <message>Le mot « \3 » ne peut pas être un verbe après « \1 ».</message>
                 <example correction="entretien|entretiens">de l'<marker>entretient</marker></example>
                 <example>Un ménage sur cinq réside dans la commune.</example>
+                <example>Treize pour cent étaient contre.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
                     <token postag="P">à</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/>
-                        </token>
+                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/> </token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
@@ -26287,6 +26291,10 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <!-- rule IMP_PRON-->
                 <token postag="V.* imp .*" postag_regexp="yes"/>
+                <token>la</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
                 <token>la</token>
             </antipattern>
             <rule>
