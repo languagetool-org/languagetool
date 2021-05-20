@@ -18941,7 +18941,8 @@ though, and has since been slightly modified)-->
         <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">accepter|craindre|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
+                    <token inflected="yes" regexp="yes">accepter|craindre|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir
+                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token>de</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
@@ -18951,6 +18952,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="manger">Il a refusé de <marker>mangé</marker> avec nous.</example>
                 <example>Il a refusé de manger avec nous.</example>
+                <example>Un nombre fini de données.</example>
             </rule>
             <rule>
                 <pattern>
