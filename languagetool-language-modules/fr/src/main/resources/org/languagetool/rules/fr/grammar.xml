@@ -19022,30 +19022,73 @@ though, and has since been slightly modified)-->
                 <example>Je regarde la <marker>télé</marker>.</example>
                 <example>Je compte les <marker>invités</marker>.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="VERBE_PREP_INFINITIF" name="verbe + preposition + ppa -> inf">
             <rule default="temp_off">
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">finir</token>
+                    <token min="0" max="3" postag="A"/>
                     <token postag="P">par</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
                 </pattern>
-                <message>Le verbe « \3 » devrait être à l’infinitif après le verbe « \1 ».</message>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
+                <message>Le verbe « \4 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
                 <example correction="changer">Il finira par <marker>changé</marker> de travail.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">continuer</token>
-                    <token postag="P" regexp="yes">à|de|d'</token>
+                    <token min="0" max="3" postag="A"/>
                     <marker>
+                        <token postag="P" regexp="yes">à|de</token>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
                 </pattern>
-                <message>Le verbe « \3 » devrait être à l’infinitif après le verbe « \1 ».</message>
-                <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
-                <example correction="fumer">Il continue de <marker>fumé</marker>.</example>
-                <example correction="fumer">Il a continué à <marker>fumé</marker>.</example>
+                <message>Le verbe « \4 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion>\3 <match no="4" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
+                <example correction="de fumer">Il continue <marker>de fumé</marker>.</example>
+                <example correction="à fumer">Il a continué <marker>à fumé</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">continuer</token>
+                    <token min="0" max="3" postag="A"/>
+                    <marker>
+                        <token>d'</token>
+                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \4 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion>\3<match no="4" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
+                <example correction="d'aimer">Il continue <marker>d'aimé</marker> ses mots.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">viser|comencer</token>
+                    <token min="0" max="3" postag="A"/>
+                    <marker>
+                        <token postag="P" regexp="yes">à</token>
+                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \4 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
+                <example correction="améliorer">visant <marker>à amélioré</marker> les résultat.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="A"/>
+                    <marker>
+                        <token postag="P" regexp="yes">à</token>
+                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">mangée?s?</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \4 » devrait être à l’infinitif après le verbe « \1 ».</message>
+                <suggestion>à manger</suggestion>
+                <example correction="à manger">Il lui a apporté <marker>à mangé</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
