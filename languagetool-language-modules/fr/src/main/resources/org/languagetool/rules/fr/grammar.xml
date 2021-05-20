@@ -14253,6 +14253,28 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="HEURES_DEPASSEES" name="heures dépassées" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="N f p" regexp="yes" inflected="yes">&unites_temps;</token>
+                    <marker>
+                        <token regexp="yes">dépasser|dépass(é|ée|és)</token>
+                    </marker>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>dépassées</suggestion> ?</message>
+                <example correction="dépassées">Une fois six heures <marker>dépasser</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N m p" regexp="yes" inflected="yes">&unites_temps;</token>
+                    <marker>
+                        <token regexp="yes">dépasser|dépass(é|ée|ées)</token>
+                    </marker>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>dépassés</suggestion> ?</message>
+                <example correction="dépassés">Une fois six jours <marker>dépasser</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GRACE_A" name="grâce à" default="temp_off">
             <rule>
                 <pattern>
