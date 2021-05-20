@@ -14898,5 +14898,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    
+
+    <rule id="IGNORE_SPELLING_OF_WORDS_WITH_UNDERSCORE_OR_AT" name="ignore spelling of things like REMOTE_USER and name@company">
+        <pattern>
+            <marker>
+                <token regexp="yes">[\p{L}\p{Nd}_\-.]+[@_][\p{L}\p{Nd}_\-.]+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
 </rules>
