@@ -2454,6 +2454,33 @@ Esta que foi a maior crítica ao trabalho de Ana. → Esta sendo a maior crític
 		<example correction="sendo">Esta <marker>que foi</marker> a maior crítica ao trabalho de Ana.</example>
     </rule>
 
+	<!-- FREQUENTEMENTE É DADO é frequentemente dado -->
+    <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 (17-MAR-2021+)      -->
+	<!--
+Em alusão ao dinheiro frequentemente é dado o exemplo do Tio Patinhas. → Em alusão ao dinheiro é frequentemente dado o exemplo do Tio Patinhas.
+	-->
+		<pattern>
+			<token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
+			<marker>
+				<token postag='RM' postag_regexp='no'/>
+				<or>
+					<token postag='V.+' postag_regexp='yes'>
+						<exception postag_regexp='yes' postag='SPS.+|AQ0.+'/>
+					</token>
+					<token>são</token>
+				</or>
+				<token postag='VMP00.+' postag_regexp='yes'/>
+			</marker>
+			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Ter em conta a colocação do advérbio.</message>
+		<suggestion>\3 \2 \4</suggestion>
+		<example correction="é frequentemente dado">Em alusão ao dinheiro <marker>frequentemente é dado</marker> o exemplo do Tio Patinhas.</example>
+		<example>Você tem realmente ouvido para a música.</example>
+		<example>As vésperas de Natal e ano novo são geralmente marcadas pela união de parentes distantes.</example>		
+    </rule>
+
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
     <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
