@@ -44687,11 +44687,11 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">[mts]
                         <exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|parametre|variable|voyelle|où|[\d-]+|.</exception></token>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aâeéèêioôuh].*
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*
                         <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
-                <example correction="m’étais">Je <marker>m étais</marker> perdu.</example>
+                <message>Voulez-vous écrire <suggestion>\1'\2</suggestion> ?</message>
+                <example correction="m'étais">Je <marker>m étais</marker> perdu.</example>
                 <example>Je m’étais perdu.</example>
                 <example>La lettre l est mal écrite.</example>
                 <example>La variable x est constante.</example>
@@ -44703,15 +44703,15 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <marker>
                         <token>n</token>
-                        <token postag="V.*" postag_regexp="yes" regexp="yes"> [aâeéèêioôuh].*
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*
                             <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                     </marker>
                     <token min="0" max="1" regexp="yes">presque|toujours|encore</token>
                     <token regexp="yes">pas|guère|point|rien|jamais</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
-                <example correction="n’arrive">Il <marker>n arrive</marker> presque jamais à l’heure.</example>
-                <example correction="n’arrive">Il <marker>n arrive</marker> jamais à l’heure.</example>
+                <message>Voulez-vous écrire <suggestion>\1'\2</suggestion> ?</message>
+                <example correction="n'arrive">Il <marker>n arrive</marker> presque jamais à l’heure.</example>
+                <example correction="n'arrive">Il <marker>n arrive</marker> jamais à l’heure.</example>
                 <example>Il n’arrive jamais à l’heure.</example>
             </rule>
             <rule>
@@ -44721,15 +44721,16 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token>l
-                        <exception regexp="yes" scope="previous">lettre|consonne|symbole|dimension|fonction|variable|où|[\d-]+|.</exception></token>
-                    <token regexp="yes"> [aâeéèêioôuh].*
+                        <exception regexp="yes" scope="previous">lettre|consonne|symbole|dimension|fonction|variable|où|[\d-]+|[b-z]</exception></token>
+                    <token regexp="yes">[aâeéèêioôuh].*
                         <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>l’\2</suggestion> ?</message>
-                <example correction="L’histoire"><marker>L histoire</marker>.</example>
+                <message>Voulez-vous écrire <suggestion>l'\2</suggestion> ?</message>
+                <example correction="L'histoire"><marker>L histoire</marker>.</example>
                 <example>L’histoire.</example>
                 <example>On prend, dans l'ensemble L une constante au hasard.</example>
-                <example correction="L’ensemble"><marker>L ensemble</marker> L peut comporter des nombres.</example>
+                <example correction="L'ensemble"><marker>L ensemble</marker> L peut comporter des nombres.</example>
+                <example correction="l'arrivée">À <marker>l arrivée</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -44738,8 +44739,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" postag="[^V].*" postag_regexp="yes"> [aâeéèêioôuh].*
                         <exception regexp="yes" inflected="yes" postag="[^V].*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>d’\2</suggestion> ?</message>
-                <example correction="d’histoire">Un livre <marker>d histoire</marker> et géographie.</example>
+                <message>Voulez-vous écrire <suggestion>d'\2</suggestion> ?</message>
+                <example correction="d'histoire">Un livre <marker>d histoire</marker> et géographie.</example>
                 <example>Un livre d’histoire et géographie.</example>
                 <example>La vitamine D ou la vitamine C.</example>
             </rule>
