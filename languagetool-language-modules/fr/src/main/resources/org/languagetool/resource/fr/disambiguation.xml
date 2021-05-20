@@ -1600,6 +1600,20 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="D_AUCUNS" name="d'aucuns">
+        <pattern>
+            <marker>
+                <token>d'</token>
+                <token>aucuns</token>
+            </marker>
+            <token>
+                <exception postag="[NJ].*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="replace">
+            <wd pos="R m p" lemma="d'aucuns"/>
+            <wd pos="R m p" lemma="d'aucuns"/>
+        </disambig>
+    </rule>
     <rule id="CEST_LE" name="c'est le/la terre">
         <!-- with agreement error -->
         <pattern>
@@ -4268,7 +4282,8 @@ RB => Règles Brutes
         </antipattern>
         <rule>
             <pattern>
-                <token postag="V.*[123].*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/></token>
+                <token postag="V.*[123].*" postag_regexp="yes">
+                    <exception postag="R.*" postag_regexp="yes"/></token>
                 <token min="0" max="3" postag="A"/>
                 <marker>
                     <token postag="D.*" postag_regexp="yes" regexp="yes">l'|la|le|les</token>
