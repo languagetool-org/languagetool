@@ -45874,7 +45874,7 @@ though, and has since been slightly modified)-->
             <example>J'<marker>ai été</marker> au gouvernement en 1987.</example>
             <example>Lui aussi <marker>a été</marker> à la direction de l'entreprise.</example>
         </rule>
-        <rule id="CONFUSIONS_DAN_DANS" name="Dan/Dans" default="temp_off">
+        <rule id="CONFUSION_DAN_DANS" name="confusion dan/dans">
             <antipattern>
                 <token>
                     <exception postag="SENT_START"/></token>
@@ -45904,7 +45904,7 @@ though, and has since been slightly modified)-->
                 <token>dan</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\d+</token>
+                <token regexp="yes">premier|.*ème</token>
                 <token>dan</token>
             </antipattern>
             <antipattern>
@@ -45932,6 +45932,12 @@ though, and has since been slightly modified)-->
             <example>Dan l'a bien compris.</example>
             <example>Dan et Linda sont mariés depuis vingt ans.</example>
             <example>Dan James Marlowe est un écrivain américain.</example>
+            <!-- it should be capitalized: -->
+            <example>Sans elles, dan ne peut vivre.</example>
+            <example>Le premier dan.</example>
+            <example>onzième dan</example>
+            <example>11e dan</example>
+            <example>11ᵉ dan</example>
         </rule>
         <rule id="CONFUSION_EST_ET" name="confusion est et">
             <antipattern>
