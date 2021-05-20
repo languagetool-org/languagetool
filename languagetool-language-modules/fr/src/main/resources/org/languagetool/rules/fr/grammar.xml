@@ -19207,6 +19207,71 @@ though, and has since been slightly modified)-->
                 <example correction="élever"> la jument poussait sur ses postérieurs pour s'<marker>élevé</marker> au dessus.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AUXILIAIRE_MANQUANT" name="auxiliaire manquant" default="temp_off">
+           <rule>
+                <pattern>
+                    <token>tu</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>as \2</suggestion>
+                <suggestion>es \2</suggestion>
+                <suggestion><match no="2" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V.* ind psim 1 s"/></suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="as eu|es eu|eus|es|eus">Tu <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+            </rule>
+                 <rule>
+                <pattern>
+                    <token>nous</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>avons \2</suggestion>
+                <suggestion>sommes \2</suggestion>
+                <suggestion>avions \2</suggestion>
+                <suggestion>étions \2</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="avons eu|sommes eu|avions eu|étions eu">Nous <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+            </rule>
+                         <rule>
+                <pattern>
+                    <token>vous</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>avez \2</suggestion>
+                <suggestion>êtes \2</suggestion>
+                <suggestion>aviez \2</suggestion>
+                <suggestion>étiez \2</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="avez eu|êtes eu|aviez eu|étiez eu">Vous <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+            </rule>
+                         <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles</token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>ont \2</suggestion>
+                <suggestion>sont \2</suggestion>
+                <suggestion>avaient \2</suggestion>
+                <suggestion>étaient \2</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="ont eu|sont eu|avaient eu|étaient eu">Ils <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+            </rule>
+            </rulegroup>
         <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe">
             <!-- TODO: Mais qu'as donc tu fait pendant tout ce temps ! -->
             <antipattern>
@@ -19299,11 +19364,14 @@ though, and has since been slightly modified)-->
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <suggestion>ai \2</suggestion>
+                <suggestion>avais \2</suggestion>
+                <suggestion>suis \2</suggestion>
+                <suggestion>étais \2</suggestion>
                 <suggestion>{suggestion}</suggestion>
-                <example correction="ai eu|eus">J'<marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
-                <example correction="ai hoché|hoche|hochai|poche|hache|coche|loche|huche|côche|hochais">alors je <marker>hoché</marker> la tête. </example>
-                <example correction="ai pensé|pense|pensai|pèse|panse|pensais|pende">je <marker>pensé</marker></example>
-                <example correction="ai pu|pus|pue">je <marker>pu</marker> atteindre la porte</example>
+                <example correction="ai eu|avais eu|suis eu|étais eu|eus">J'<marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+                <example correction="ai hoché|avais hoché|suis hoché|étais hoché|hoche|hochai|poche|hache|coche|loche">alors je <marker>hoché</marker> la tête. </example>
+                <example correction="ai pensé|avais pensé|suis pensé|étais pensé|pense|pensai|pèse|panse|pensais|pende">je <marker>pensé</marker></example>
+                <example correction="ai pu|avais pu|suis pu|étais pu|pus|pue">je <marker>pu</marker> atteindre la porte</example>
             </rule>
             <rule>
                 <pattern>
@@ -19317,8 +19385,9 @@ though, and has since been slightly modified)-->
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*1.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <suggestion>ai \3</suggestion>
+                <suggestion>avais \3</suggestion>
                 <suggestion>{suggestion}</suggestion>
-                <example correction="ai eu|eus">je les <marker>eu</marker> sans les pattes de col</example>
+                <example correction="ai eu|avais eu|eus">je les <marker>eu</marker> sans les pattes de col</example>
             </rule>
             <rule>
                 <!-- including elision j' -->
@@ -19568,9 +19637,12 @@ though, and has since been slightly modified)-->
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <suggestion>a \2</suggestion>
+                <suggestion>avait \2</suggestion>
+                <suggestion>est \2</suggestion>
+                <suggestion>était \2</suggestion>
                 <suggestion>{suggestion}</suggestion>
-                <example correction="a abandonné|abandonne|abandonna|abandonnait">Il <marker>abandonné</marker> ses fils.</example>
-                <example correction="a créé|crée|créa|crème|crête|crie|crêpe|crève|grée|rée">Dans l'aile ouest, on <marker>créé</marker> une brasserie.</example>
+                <example correction="a abandonné|avait abandonné|est abandonné|était abandonné|abandonne|abandonna|abandonnait">Il <marker>abandonné</marker> ses fils.</example>
+                <example correction="a créé|avait créé|est créé|était créé|crée|créa|crème|crête|crie|crêpe">Dans l'aile ouest, on <marker>créé</marker> une brasserie.</example>
             </rule>
             <rule name="il à/a" default="temp_off">
                 <pattern>
