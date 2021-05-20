@@ -45136,6 +45136,263 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="BARBARISMES_COURANTS" name= "Barbarismes courants divers" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">antidiluvien(nes?|s)?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ant)i(diluvien(nes?|s)?)" regexp_replace="$1é$2"/></suggestion>
+                <example correction="antédiluviens">Nous avons consulté des parchemins <marker>antidiluviens</marker>.</example>
+                <example correction="antédiluvienne">C'est une pratique <marker>antidiluvienne</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">arborigènes?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(a)r(borigènes?)" regexp_replace="$1$2"/></suggestion>
+                    <example correction="aborigène">Nous avons rencontré une tribu <marker>arborigène</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">carapaçonn(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ca)rap(açonn(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1par$2"/></suggestion>
+                <example correction="caparaçonner">Le palefrenier sait comment <marker>carapaçonner</marker> son cheval.</example>
+                <example correction="caparaçonnant">Le palefrenier oeuvrait, <marker>carapaçonnant</marker> les chevaux comme à son habitude.</example>
+                <example correction="caparaçonnions">Le palefrenier oeuvrait, <marker>carapaçonnions</marker> les chevaux comme à son habitude.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">disgress(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions?|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(di)s(gress(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions?|iez|ent)?)?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1$2"/></suggestion>
+                <example correction="digression">Pardonnez ma <marker>disgression</marker>.</example>
+                <example correction="digressiez">Vous <marker>disgressiez</marker> pendant des heures.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">entrepreu?nariat</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion>entrepreneuriat</suggestion>
+                    <example correction="entrepreneuriat">De plus en plus, l'<marker>entrepreunariat</marker> se développe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pécuni[eè]re?s?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(pécuni)[eè]re?(s?)" regexp_replace="$1aire$2"/></suggestion>
+                    <example correction="pécuniaire">Il n'a qu'un soucis <marker>pécunier</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">péreins?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(pére)in(s?)" regexp_replace="$1nne$2"/></suggestion>
+                    <example correction="pérenne">Ce choix doit être <marker>pérein</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">réverbati(f|ve)s?</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ré)ver(bati(f|ve)s?)" regexp_replace="$1bar$2"/></suggestion>
+                <suggestion>rébarbatif</suggestion>
+                    <example correction="rébarbatif">Cela devient <marker>réverbatif</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">r[eé]-?ouv(r(e(s|z|nt)?|ons|ai(s|t|ent)|i(ons|ez|s|t|r(a?i?(s(ses?|i(ons|ez|ent))?|t|ons|ez|ont|ent)?))|î(t|mes|tes))|ert)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(r)[eé]-?(ouv(r(e(s|z|nt)?|ons|ai(s|t|ent)|i(ons|ez|s|t|r(a?i?(s(ses?|i(ons|ez|ent))?|t|ons|ez|ont|ent)?))|î(t|mes|tes))|ert))" regexp_replace="$1$2"/></suggestion>
+                <example correction="rouvrir">Les commerces vont <marker>réouvrir</marker>.</example>
+                <example correction="rouvriront">Les commerces <marker>réouvriront</marker> le dimanche prochain.</example>
+                <example correction="rouvert">Les commerces ont <marker>réouvert</marker> dimanche dernier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">des|une|l'</token>
+                    <marker>
+                        <token regexp="yes" >ast[eé]rix</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion>astérisque</suggestion>
+                    <example correction="astérisque">Le mot est marqué d'une <marker>astérix</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rénumér(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t?)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(ré)num(ér(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1mun$2"/></suggestion>
+                <example correction="rémunéré">Ce poste est-il bien <marker>rénuméré</marker>?</example>
+                <example correction="rémunération">Il demanda le niveau de <marker>rénumération</marker> pour ce poste.</example>
+                <example correction="rémunérassent">J'eus accepté le poste, pour peu qu'ils me <marker>rénumérassent</marker> correctement.</example>
+            </rule>
+            <rule>
+                <pattern>
+                <!--  case_sensitive="yes" is necessary to avoid FP with "Formentera" island in Baleares -->
+                    <token regexp="yes" case_sensitive="yes">forment(é|i?e(s|z|nt|r(a(i(ent)?|s|t?)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(fo)r(ment(é|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1$2"/></suggestion>
+                <example correction="fomenté">Ils ont <marker>formenté</marker> un coup d'état.</example>
+                <example correction="fomentation">Mis en cause dans la  <marker>formentation</marker> d'une rébellion, il clamait son innocence.</example>
+                <example correction="fomenterons">S'ils refusent, alors nous <marker>formenterons</marker> une riposte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>opprobe</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>opprobre</suggestion>
+                <example correction="opprobre">L’attitude inqualifiable du député jette l’<marker>opprobe</marker> sur toute la classe politique.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>infractus</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>infarctus</suggestion>
+                <example correction="infarctus">Son hygiène de vie lui fait courir le risque d'un <marker>infractus</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>dilemne</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>dilemme</suggestion>
+                <example correction="dilemme">Pour elle, en ces heures-là, aucun autre <marker>dilemne</marker> qu’être ou ne pas être.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>indemme</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>indemne</suggestion>
+                <example correction="indemne">Elle est miraculeusement sortie <marker>indemme</marker> de son accident.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">empruntes?</token>
+                    </marker>
+                    <token regexp="yes">digitales?</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>empreinte</suggestion>
+                <example correction="empreinte">La police procéda au relevé des <marker>empruntes</marker> digitales.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aréoports?</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>aéroport</suggestion>
+                <example correction="aéroport">Il se rend à l'<marker>aréoport</marker> afin d'y prendre son vol.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aréoports?</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>aéroport</suggestion>
+                <example correction="aéroport">Il se rend à l'<marker>aréoport</marker> afin d'y prendre son vol.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">têtes?</token>
+                    </marker>
+                    <token>d'</token>
+                   <token regexp="yes">oreiller</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(t)êt(es?)" regexp_replace="$1ai$2"/></suggestion>
+                <example correction="taies">Lorsque vous ferez le lit, n'oubliez pas de changer les <marker>têtes</marker> d'oreiller.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <marker>
+                        <token>définitif</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>définitive</suggestion>
+                <example correction="définitive">Il était en <marker>définitif</marker> le meilleur cardiologue de la région.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">hynoptis(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(hy)nop(tis(é|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1pno$2"/></suggestion>
+                <example correction="hypnotisé">Il a <marker>hynoptisé</marker> son auditoire.</example>
+                <example correction="hypnotisâmes">Soucieux de gagner les élections, nous <marker>hynoptisâmes</marker> les électeurs.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">infectueu(x|ses?)</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(infect)u(eu(x|ses?))" regexp_replace="$1i$2"/></suggestion>
+                <example correction="infectieuse">Il travaille sur une maladie <marker>infectueuse</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">insidueu(x|ses?)</token>
+                </pattern>
+                <message>Une erreur d’orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(insid)u(eu(x|ses?))" regexp_replace="$1i$2"/></suggestion>
+                <example correction="insidieuse"> La forme chronique de la peste porcine classique est plus <marker>insidueuse</marker> que la forme aiguë.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">obnibul(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(obn)ibu(l(é|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1ubi$2"/></suggestion>
+                <example correction="obnubilé">Il est <marker>obnibulé</marker> par son adversaire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">omnibul(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(o)mnibu(l(é|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1bnubi$2"/></suggestion>
+                <example correction="obnubilé">Il est <marker>omnibulé</marker> par son adversaire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">omnubil(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" regexp_match="(o)m(nubil(é|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?|tions?)?|â(mes|t(es)?)|èrent))" regexp_replace="$1b$2"/></suggestion>
+                <example correction="obnubilé">Il est <marker>omnubilé</marker> par son adversaire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">enduire</token>
+                    </marker>
+                    <token>en</token>
+                    <token>erreur</token>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="1" postag="V.*">induire</match></suggestion>
+                <example correction="induit">Ils m'ont <marker>enduit</marker> en erreur.</example>
+                <example correction="induisant">Il maintenait la confusion en <marker>enduisant</marker> en erreur son entourage .</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DE_MA_FAUTE" name="Ce n'est pas de ma faute (ma faute)" default="temp_off">
             <rule>
                 <pattern>
