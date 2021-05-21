@@ -21110,6 +21110,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="BUTTER_BEI_DIE_FISCHE" name="Butter bei die Fische!" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Butter|BUTTER</token>
+                <token regexp="yes">bei|BEI|an|AN</token>
+                <token regexp="yes">die|DIE</token>
+                <token regexp="yes">Fische|FISCHE</token>
+            </antipattern>
+            <pattern>
+                <token>butter</token>
+                <token regexp="yes">bei|an</token>
+                <token>die</token>
+                <token regexp="yes">fische?</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>Butter <match no="2" case_conversion="alllower" /> die Fische</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Butter_bei_die_Fische</url>
+            <example correction="Butter bei die Fische">Jetzt mal <marker>butter bei die fische</marker>!</example>
+        </rule>
         <rulegroup id="MUEHE_SUBST" name="mühe (Mühe) geben">
             <rule>
                 <pattern>

@@ -241,6 +241,7 @@ public class French extends Language implements AutoCloseable {
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
       case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
+      case "CONFUSION_PARLEZ_PARLER": return 10; // greater than N_V
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
       case "BYTES": return 10; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 10; // needs to be higher than spell checker for style suggestion
@@ -254,7 +255,8 @@ public class French extends Language implements AutoCloseable {
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
       case "FR_SIMPLE_REPLACE": return -10;
       case "IMP_PRON": return -10; // less than D_N
-      case "PREP_V": return -20;
+      case "PREP_VERBECONJUGUE": return -20;
+      case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "AGREEMENT_POSTPONED_ADJ": return -50;
@@ -265,7 +267,7 @@ public class French extends Language implements AutoCloseable {
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-      case "A_ACCENT_A1": return 10; // greater than A_ACCENT_A
+      case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
     }
     if (id.startsWith("grammalecte_")) {
       return -150;

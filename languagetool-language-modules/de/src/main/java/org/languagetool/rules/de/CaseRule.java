@@ -768,6 +768,14 @@ public class CaseRule extends Rule {
       csToken("[A-Z0-9]+"),
       token("]"),
       csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "B.4 Neue Herstellervorgaben"
+      SENT_START,
+      regex("[a-z]"),
+      token("."),
+      regex("\\d+"),
+      csRegex("[A-ZÄÜÖ].*")
     )
   );
 
