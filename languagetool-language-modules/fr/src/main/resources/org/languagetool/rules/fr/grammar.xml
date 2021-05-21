@@ -586,6 +586,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>C'est la pire chose que tu puisses faire !</example>
                 <example>C'est la seul fois où cela ce produit dans la bible.</example>
                 <example>C'est la triple peine.</example>
+                <example>Elle les martèle puis les patine de différentes manières.</example>
+                <example>Et plus le rate CPRI sera élevé.</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -3795,6 +3797,82 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="CONFUSION_DAN_DANS" name="confusion dan/dans">
+            <antipattern>
+                <token>
+                    <exception postag="SENT_START"/></token>
+                <token case_sensitive="yes">Dan</token>
+            </antipattern>
+            <antipattern>
+                <token>Dan</token>
+                <token postag="A|R.*" postag_regexp="yes" min="0" max="4"/>
+                <token postag="V.*[123].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Dan</token>
+                <token min="0">"</token>
+                <token regexp="yes">\p{Lu}.*|[\(]</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Dan</token>
+                <token regexp="yes" min="0">et|,</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Dan</token>
+                <token postag="C coor"/>
+                <token postag="D.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="K|Y|D [em] s" postag_regexp="yes"/>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d.*</token>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">premier|.*ème</token>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <token>niveau</token>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="1">grade</token>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">dan</token>
+                <token inflected="yes">grade</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">dan</token>
+            </antipattern>
+            <pattern>
+                <token>dan</token>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>dans</suggestion> ? "Dan" est un degré au judo et dans d'autres arts martiaux.</message>
+            <example correction="dans">Rendez-vous <marker>dan</marker> mon bureau dans une heure.</example>
+            <example correction="dans">Rendez-vous dans mon bureau <marker>dan</marker> une heure.</example>
+            <example correction="dans">Commune <marker>dan</marker> la province de Grenade</example>
+            <example correction="Dans"><marker>Dan</marker> mon bureau dans une heure.</example>
+            <example>6e dan de karaté</example>
+            <example>Dan aime la liberté d'expression.</example>
+            <example>Dan l'a bien compris.</example>
+            <example>Dan et Linda sont mariés depuis vingt ans.</example>
+            <example>Dan James Marlowe est un écrivain américain.</example>
+            <!-- it should be capitalized: -->
+            <example>Sans elles, dan ne peut vivre.</example>
+            <example>Le premier dan.</example>
+            <example>onzième dan</example>
+            <example>11e dan</example>
+            <example>11ᵉ dan</example>
+            <example>Dan et ses amis se sont rassemblés.</example>
+            <example>Dan en est encore à ses premières leçons d'italien.</example>
+        </rule>
         <rule id="HEUR_HEURE" name="heur/heure">
             <antipattern>
                 <token inflected="yes" skip="2">avoir</token>
@@ -5515,6 +5593,7 @@ though, and has since been slightly modified)-->
                 <example>Ce qu'il raconte n'a ni queue ni tête.</example>
                 <!-- FIXME:-->
                 <example type="triggers_error">la verdure qu'il éveille a besoin de temps pour germer</example>
+                <example type="triggers_error">La LACE a pour but de protéger des personnes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19128,7 +19207,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token inflected="yes" regexp="yes">accepter|craindre|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir
                         <exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token>de</token>
+                    <token regexp="yes">de|d'</token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
@@ -19136,21 +19215,10 @@ though, and has since been slightly modified)-->
                 <message>Le verbe « \3 » devrait être à l’infinitif.</message>
                 <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="manger">Il a refusé de <marker>mangé</marker> avec nous.</example>
-                <example>Il a refusé de manger avec nous.</example>
-                <example>Un nombre fini de données.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">accepter|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
-                    <token inflected="yes">de</token>
-                    <marker>
-                        <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
-                    </marker>
-                </pattern>
-                <message>Le verbe « \3 » devrait être à l’infinitif.</message>
-                <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="arriver">Il a refusé d’<marker>arrivé</marker> plus tôt.</example>
                 <example>Il a refusé d’arriver plus tôt.</example>
+                <example>Il a refusé de manger avec nous.</example>
+                <example>Un nombre fini de données.</example>
             </rule>
             <rule>
                 <pattern>
@@ -46562,71 +46630,6 @@ though, and has since been slightly modified)-->
             <example correction="sont allées|sont allés">Elles <marker>ont été</marker> à la boulangerie.</example>
             <example>J'<marker>ai été</marker> au gouvernement en 1987.</example>
             <example>Lui aussi <marker>a été</marker> à la direction de l'entreprise.</example>
-        </rule>
-        <rule id="CONFUSION_DAN_DANS" name="confusion dan/dans">
-            <antipattern>
-                <token>
-                    <exception postag="SENT_START"/></token>
-                <token case_sensitive="yes">Dan</token>
-            </antipattern>
-            <antipattern>
-                <token>Dan</token>
-                <token postag="A|R.*" postag_regexp="yes" min="0" max="4"/>
-                <token postag="V.*[123].*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>Dan</token>
-                <token min="0">"</token>
-                <token regexp="yes">\p{Lu}.*|[\(]</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>Dan</token>
-                <token regexp="yes" min="0">et|,</token>
-                <token regexp="yes">\p{Lu}.*</token>
-            </antipattern>
-            <antipattern>
-                <token postag="K|Y|D [em] s" postag_regexp="yes"/>
-                <token>dan</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d.*</token>
-                <token>dan</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">premier|.*ème</token>
-                <token>dan</token>
-            </antipattern>
-            <antipattern>
-                <token>niveau</token>
-                <token>dan</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" skip="1">grade</token>
-                <token>dan</token>
-            </antipattern>
-            <antipattern>
-                <token skip="1">dan</token>
-                <token inflected="yes">grade</token>
-            </antipattern>
-            <pattern>
-                <token>dan</token>
-            </pattern>
-            <message>Vouliez-vous dire <suggestion>dans</suggestion> ? "Dan" est un degré au judo et dans d'autres arts martiaux.</message>
-            <example correction="dans">Rendez-vous <marker>dan</marker> mon bureau dans une heure.</example>
-            <example correction="dans">Rendez-vous dans mon bureau <marker>dan</marker> une heure.</example>
-            <example correction="dans">Commune <marker>dan</marker> la province de Grenade</example>
-            <example correction="Dans"><marker>Dan</marker> mon bureau dans une heure.</example>
-            <example>6e dan de karaté</example>
-            <example>Dan aime la liberté d'expression.</example>
-            <example>Dan l'a bien compris.</example>
-            <example>Dan et Linda sont mariés depuis vingt ans.</example>
-            <example>Dan James Marlowe est un écrivain américain.</example>
-            <!-- it should be capitalized: -->
-            <example>Sans elles, dan ne peut vivre.</example>
-            <example>Le premier dan.</example>
-            <example>onzième dan</example>
-            <example>11e dan</example>
-            <example>11ᵉ dan</example>
         </rule>
         <rule id="CONFUSION_EST_ET" name="confusion est et">
             <antipattern>

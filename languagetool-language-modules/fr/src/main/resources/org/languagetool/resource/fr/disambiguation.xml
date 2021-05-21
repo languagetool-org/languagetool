@@ -689,6 +689,10 @@ RB => Règles Brutes
             <disambig postag="V etre ind pres 3 s"/>
         </rule>
         <rule>
+            <antipattern>
+                <token>en</token>
+                <token>est</token>
+            </antipattern>
             <pattern>
                 <token postag="P">
                     <exception postag="V ppr|A" postag_regexp="yes"/></token>
@@ -4283,10 +4287,11 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <token postag="V.*[123].*" postag_regexp="yes">
-                    <exception postag="R.*" postag_regexp="yes"/></token>
+                    <exception postag="R.*|A" postag_regexp="yes"/></token>
                 <token min="0" max="3" postag="A"/>
                 <marker>
-                    <token postag="D.*" postag_regexp="yes" regexp="yes">l'|la|le|les</token>
+                    <token postag="D.*" postag_regexp="yes" regexp="yes">l'|la|le|les
+                        <exception scope="previous" regexp="yes">puis|plus</exception></token>
                 </marker>
                 <token postag="[NJ].*" postag_regexp="yes"/>
             </pattern>
@@ -4299,7 +4304,8 @@ RB => Règles Brutes
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
                 <token min="0" max="3" postag="A"/>
                 <marker>
-                    <token postag="D.*" postag_regexp="yes" regexp="yes">l'|la|le|les</token>
+                    <token postag="D.*" postag_regexp="yes" regexp="yes">l'|la|le|les
+                        <exception scope="previous" regexp="yes">puis|plus</exception></token>
                 </marker>
                 <token postag="[NJ].*" postag_regexp="yes"/>
             </pattern>
