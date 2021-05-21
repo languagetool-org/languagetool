@@ -28086,6 +28086,8 @@ though, and has since been slightly modified)-->
                 <example>Il fait faire très attention.</example>
                 <example>Ça me fait très plaisir.</example>
                 <example>Prestation très pro.</example>
+                <!-- Is it correct? -->
+                <example type="triggers_error">Tom prend très soin de sa voiture.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AVOIR_FAIT_V_INF" name="fait + verbe infinitif">
@@ -44635,6 +44637,37 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(P.)?D.*|V etre.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>lève</token>
+                        <token regexp="yes">tôt|tard</token>
+                    </marker>
+                </pattern>
+                <message>Cette expression s'écrit généralement avec un trait d'union.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="lève-tôt">Dans ma famille, ce sont tous des <marker>lève tôt</marker>.</example>
+                <example correction="lève-tard">La fortune appartient aux <marker>lève tard</marker>.</example>
+                <example correction="lève-tôt">Il était <marker>lève tôt</marker> quand il était jeune.</example>
+                <example>Je me lève tôt demain.</example>
+                <example>Chaque matin, il se lève tôt.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">un|le|ce</token>
+                    <marker>
+                        <token>lève</token>
+                        <token regexp="yes">tôt|tard</token>
+                    </marker>
+                </pattern>
+                <message>Cette expression s'écrit généralement avec un trait d'union.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="lève-tôt">je suis un <marker>lève tôt</marker>.</example>
+                <example correction="lève-tôt">Dans ma famille, ce sont tous des <marker>lève tôt</marker>.</example>
+                <example>Je me lève tôt demain.</example>
+                <example>Chaque matin, il se lève tôt.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
