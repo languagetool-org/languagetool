@@ -25,8 +25,11 @@ import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * English Part-of-speech tagger.
@@ -95,9 +98,46 @@ public class EnglishTagger extends BaseTagger {
       pos += word.length();
     }
 
+    /** analyse contraction pattern before returning tags */
+    return filterContractionPattern(tokenReadings);
+  }
+  /**
+   * A Map stores English contraction pattern as following
+   * i.e can't or Can't
+   * key: ca or Ca
+   * value: ["can", "MD", "n't"]
+   *         verb   POS contraction suffix
+   */
+  private Map<String, List<String>> englishContraction = new HashMap<String, List<String> >();
+  /**
+   * The function looks for English Contraction pattern
+   * Found pattern get treated by upating the relavent readings
+   * @param tokenReadings 
+   * @return
+   */
+  private List<AnalyzedTokenReadings> filterContractionPattern(List<AnalyzedTokenReadings> tokenReadings) {
+    englishContraction.put("ca",Arrays.asList("can","MD", "n't"));
+    englishContraction.put("Ca",Arrays.asList("can","MD", "n't"));
+    
+    for(int i = 1; i < tokenReadings.size(); i++){
+      String contractionPrefix = tokenReadings.get(i-1).getCleanToken();
+      String contractionSuffix = tokenReadings.get(i).getCleanToken();
+      if(englishContraction.containsKey(contractionPrefix)){
+        List<String> contraction = englishContraction.get(contractionPrefix);
+        String matchSuffix = contraction.get(2);
+        if(contractionSuffix.equals(matchSuffix)){
+          AnalyzedToken token = new AnalyzedToken(
+            tokenReadings.get(i-1).getToken()
+            ,contraction.get(1)
+            ,contraction.get(0));
+          tokenReadings.get(i-1).addReading(token, "ruleApplied");
+          tokenReadings.get(i-1).leaveReading(token);
+        }
+      }
+    }
     return tokenReadings;
   }
-  
+
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       l.addAll(taggedTokens);

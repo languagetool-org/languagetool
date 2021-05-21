@@ -25,8 +25,11 @@ import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
+import junit.framework.Assert;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -87,5 +90,28 @@ public class EnglishTaggerTest {
     assertEquals("work", aToken.get(1).getReadings().get(0).getLemma());
     assertEquals("work", aToken.get(1).getReadings().get(1).getLemma());
   }
+
+
+  @Test
+  public void contractionTest1(){
+    EnglishTagger tagger = new EnglishTagger();
+    String text = "Can't, I can't go to a recruiting dinner.";
+    List<String> tokens = tokenizer.tokenize(text);
+    // System.out.println(tokens.toString());
+    List<AnalyzedTokenReadings> atrTokens = tagger.tag(tokens);
+
+    assertEquals("Ca[can/MD*]", atrTokens.get(0).toString());
+    assertEquals("ca[can/MD*]", atrTokens.get(6).toString());
+  }
+
+  @Test
+  public void contractionTest2(){
+    EnglishTagger tagger = new EnglishTagger();
+    String text = "Can't \"ditto\" Credit on that one.";
+    List<String> tokens = tokenizer.tokenize(text);
+    List<AnalyzedTokenReadings> atrTokens = tagger.tag(tokens);
+    assertEquals("Ca[can/MD*]", atrTokens.get(0).toString());
+  }
+
 
 }
