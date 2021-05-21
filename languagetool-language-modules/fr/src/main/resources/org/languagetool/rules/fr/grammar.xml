@@ -20596,73 +20596,54 @@ though, and has since been slightly modified)-->
                 <example>Je ne me « bourre pas de compléments alimentaires ».</example>
             </rule>
         </rulegroup>
-        <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
-            <!-- TODO: make more general: preposition + verb -->
+        <rulegroup id="PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF" name="pas de verbe conjugué après possessif ou démonstratif: mon, cette...">
             <antipattern>
                 <token>aux</token>
                 <token regexp="yes">être|avoir</token>
             </antipattern>
             <antipattern>
-                <token>monts</token>
-                <token>du</token>
-                <token>Forez</token>
+                <token regexp="yes">.*'|num[eé]ro|sauf</token>
+                <token regexp="yes">une?</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ayant</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">une?</token>
+                <token regexp="yes">est|fait|fut</token>
+            </antipattern>
+            <antipattern>
+                <token>l'</token>
+                <token regexp="yes">une?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="N m s">ton</token>
             </antipattern>
             <rule>
-                <antipattern>
-                    <token regexp="yes">.*'|num[eé]ro|sauf</token>
-                    <token regexp="yes">une?</token>
-                    <token postag="V.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>ayant</token>
-                    <token postag="V.* ppa.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">une?</token>
-                    <token regexp="yes">est|fait|fut</token>
-                </antipattern>
-                <antipattern>
-                    <token>l'</token>
-                    <token regexp="yes">une?</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">de|d'|à</token>
-                    <token postag="V.*inf" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>d'</token>
-                    <token>entre</token>
-                </antipattern>
                 <pattern>
-                    <token regexp="yes">de|d'|aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?
-                        <exception postag="N m s">ton</exception></token>
+                    <token postag=".* [me] (s|sp)" postag_regexp="yes" regexp="yes">[cdmts]es|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|une?</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="[NJ].*|V pp[ar].*" postag_regexp="yes"/>
-                            <exception regexp="yes">soit|(?-i)\p{Lu}+</exception>
-                            <exception regexp="yes">animes?</exception>
-                            <exception>bandai</exception>
-                            <exception>consumer</exception>
-                            <exception>Bordes-sur-Arize</exception></token>
+                            <exception postag="[NJZ].*|V pp[ar].*" postag_regexp="yes"/>
+                            <exception regexp="yes">soit|(?-i)\p{Lu}+</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
-                <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
-                <example correction="restaurant">Le chef du <marker>restaurent</marker>.</example>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].[me].(s|sp)|V.ppa.[me].(s|sp)"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après « \1 ».</message>
+                <example correction="délai|délié|délavé|délayé|délacé|délainé|délaité">Un <marker>délaie</marker> de paiement.</example>
                 <example>Le chef du <marker>restaurant</marker>.</example>
                 <example>Au revoir.</example>
                 <example>Partir aux USA.</example>
                 <example>Les montagnes du <marker>Jura</marker>.</example>
-                <example correction="démêlés|démaillés|femelles|semelles|décelés|démêlé|démêlées|dégelés|démêlée|dételés">Mes <marker>démêles</marker> avec X.</example>
                 <example>Mes <marker>démêlés</marker> avec X.</example>
                 <example>Le son <marker>a</marker> interféré avec l’image.</example>
                 <example>Une irradiation <marker>avec soit</marker> de la lumière ultraviolette, soit des protons.</example>
                 <example>Le glacier du <marker>Trient</marker>.</example>
                 <example>Le glacier des <marker>Bossons</marker>.</example>
                 <example>Ils ont des a priori sur nous.</example>
-                <example correction="délai|délais|délié|délavé|délayé|délacé|délainé|délaité">Un <marker>délaie</marker> de paiement.</example>
                 <example>Un <marker>délai</marker> de paiement.</example>
-                <example correction="paille|pillé|pelle|paillé|pelé|peille|pellé|palle|père|belle">Une <marker>pèle</marker>.</example>
                 <example>Une <marker>pelle</marker>.</example>
                 <example>Quelqu’un a pris mon téléphone.</example>
                 <example>L’un vit à Tokyo, l’autre vit à Paris.</example>
@@ -20686,8 +20667,48 @@ though, and has since been slightly modified)-->
                 <example>Un médecin n'est ni un dieu, ni un être parfait.</example>
                 <example>car vous parlez comme un être privé de raison</example>
                 <example>365 € correspondant à un équivalent par mois</example>
-                <example correction="entretien|entretiens">d'<marker>entretient</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag=".* [fe] (s|sp)" postag_regexp="yes" regexp="yes">[cdmts]es|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|une?</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="[NJZ].*|V pp[ar].*" postag_regexp="yes"/>
+                            <exception regexp="yes">soit|(?-i)\p{Lu}+</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].[fe].(s|sp)|V.ppa.[fe].(s|sp)"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après « \1 ».</message>
+                <example correction="paille|pelle|peille|palle|belle|peine|telle|veille|paire|pâle">Une <marker>pèle</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".* [me] (p|sp)" postag_regexp="yes" regexp="yes">[cdmts]es|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|une?</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="[NJZ].*|V pp[ar].*" postag_regexp="yes"/>
+                            <exception regexp="yes">soit|(?-i)\p{Lu}+</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].[me].(p|sp)|V.ppa.[me].(p|sp)"/>
+                <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
+                <example correction="démêlés|démaillés|femelles|décelés|dégelés|dételés|démenés">Ces <marker>démêles</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".* [fe] (p|sp)" postag_regexp="yes" regexp="yes">[cdmts]es|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|une?</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="[NJZ].*|V pp[ar].*" postag_regexp="yes"/>
+                            <exception regexp="yes">soit|(?-i)\p{Lu}+</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].[fe].(p|sp)|V.ppa.[fe].(p|sp)"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après « \1 ».</message>
+                <example correction="femelles|semelles|démêlées|démaillées|gémelles">Mes <marker>démêles</marker> avec X.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PREP_VERBECONJUGUE" name="pas de verbe conjugué après préposition : au, de, du, avec…">
             <rule>
                 <antipattern>
                     <token regexp="yes">ami|ennemi</token>
@@ -20695,20 +20716,19 @@ though, and has since been slightly modified)-->
                     <token postag="V inf"/>
                 </antipattern>
                 <pattern>
-                    <token>au</token>
+                    <token postag="P.D m s" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="[NJ].*|V pp[ar].*" postag_regexp="yes"/>
+                            <exception postag="[NJZ].*|V pp[ar].*" postag_regexp="yes"/>
                             <exception regexp="yes">revoir|sortir</exception>
                             <exception regexp="yes">(?-i)\p{Lu}+</exception>
-                            <exception>bandai</exception>
-                            <exception>consumer</exception>
-                            <exception>Bordes-sur-Arize</exception></token>
+                            <exception>consumer</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
-                <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
-                <example correction="marché|marche|marchés|marches|archer|marcheur|karcher">Je vais au <marker>marcher</marker>.</example>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].[me].(s|sp)|V.ppa.[me].(s|sp)"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après la préposition « <match no="1" case_conversion="alllower"/> ».</message>
+                <example correction="marché|archer|marcheur|karcher">Je vais au <marker>marcher</marker>.</example>
+                <example correction="restaurant">Le chef du <marker>restaurent</marker>.</example>
                 <example>Je vais au marché.</example>
                 <example>Au revoir.</example>
                 <example>Au sortir de la guerre.</example>
@@ -20716,39 +20736,81 @@ though, and has since been slightly modified)-->
                 <example>au fait « d'aller voir ailleurs »</example>
                 <example>Ami au prêter, ennemi au rendre.</example>
             </rule>
-            <rule default="temp_off">
-                <!--<antipattern>
-                    <token regexp="yes">sur|de|à|par|sauf|pour</token>
-                    <token postag="K"/>
-                </antipattern>-->
+            <rule>
+                <pattern>
+                    <token postag="P.D . p" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="[NJZ].*|V pp[ar].*" postag_regexp="yes"/>
+                            <exception regexp="yes">(?-i)\p{Lu}+</exception> </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].[me].(p|sp)|V.ppa.[me].(p|sp)"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après la préposition « <match no="1" case_conversion="alllower"/> ».</message>
+                <example correction="marchés">Je vais aux <marker>marcher</marker>.</example>
+                <example>Je vais au marché.</example>
+                <example>Au revoir.</example>
+                <example>Au sortir de la guerre.</example>
+                <example>Aurons-nous un été chaud ?</example>
+                <example>au fait « d'aller voir ailleurs »</example>
+                <example>Ami au prêter, ennemi au rendre.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token postag="P"/>
                     <token postag="D.*" postag_regexp="yes">
                         <exception postag="K"/></token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/> </token>
+                            <exception postag="[NJZ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:[NJZ].*|V.ppa.*"/>
-                <message>Le mot « \3 » ne peut pas être un verbe après « \1 ».</message>
+                <message>Le mot « \3 » ne peut pas être un verbe conjugué après la préposition « <match no="1" case_conversion="alllower"/> ».</message>
                 <example correction="entretien|entretiens">de l'<marker>entretient</marker></example>
                 <example>Un ménage sur cinq réside dans la commune.</example>
                 <example>Treize pour cent étaient contre.</example>
                 <example>D'aucuns prétendent que les cryptomonnaies vont permettre la plus grande redistribution de richesse de tous les temps.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token postag="P">à</token>
+                    <token postag="P.*" postag_regexp="yes">
+                        <exception regexp="yes">d|avant|côté|dehors|dedans|depuis|derrière|en|outre|passé|proche</exception>
+                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <!-- par, voici, suivant -->
                     <marker>
-                        <token postag="V.*" postag_regexp="yes">
-                            <exception postag="[NJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/> </token>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="[ZNJ].*|V pp[ar].*|V.* inf" postag_regexp="yes"/>
+                            <exception regexp="yes">google|anim[eé]|entre|fait|hue|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée|(?-i)\p{Lu}.*</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*"/>
-                <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*|V.*inf"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après la préposition « <match no="1" case_conversion="alllower"/> ».</message>
+                <example correction="manger|mangé|mangés|mangée">Vous êtes privé de <marker>mangez</marker>.</example>
                 <example correction="entretien|entretiens">à <marker>entretient</marker></example>
+                <example correction="entretien|entretiens">d'<marker>entretient</marker></example>
                 <example>Un ménage sur cinq réside dans la commune.</example>
+                <example>Il en profita.</example>
+                <example>C’est tout à fait correct.</example>
+                <example>Elles sont quasiment à portée de main.</example>
+                <example>Les filles sont de sortie.</example>
+                <example>Le voisin d’à côté est pénible.</example>
+                <example>Le gouvernement a depuis <marker>ordonné</marker> aux soldats de quitter le pays.</example>
+                <example>Le canal de Suez.</example>
+                <example>La pile de Volta.</example>
+                <example>Ils sont par <marker>contre restés</marker> à la maison.</example>
+                <example>Le cinéma tire à hue et à dia.</example>
+                <example>L’autour <marker>attrapa</marker> une souris.</example>
+                <example>Voici <marker>venu</marker> le temps des vacances.</example>
+                <example>Le participe passé a tout de suite été vu.</example>
+                <example>Il est né à <marker>Cabana</marker>.</example>
+                <example>D’où le maintien de projets d’avions construits totalement en bois.</example>
+                <example>C'est un sanctuaire incrusté de cristaux et rempli de restes pétrifiés.</example>
+                <example>Le coup de grâce est donné par Roland et Sabrina</example>
+                <example>Un adhésif double face est posé au dos du pictogramme.</example>
+                <example>Je n'ai rien trouvé d'équivalent comme parure de fenêtre sur mesure dans le marché.</example>
+                <example>Laisse-moi chercher cela sur google pour toi.</example>
+                <example>de jure ou de facto</example>
             </rule>
         </rulegroup>
         <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe passé">
@@ -27570,46 +27632,6 @@ though, and has since been slightly modified)-->
                 <example>Je ne l’y ait pas vu.</example>
             </rule>
         </rulegroup>
-        <rule id="PREP_V" name="verbe après préposition">
-            <antipattern>
-                <!-- https://www.larousse.fr/dictionnaires/francais/de_jure/23008?q=de+jure#22893 -->
-                <token>de</token>
-                <token>jure</token>
-            </antipattern>
-            <pattern>
-                <token postag="P">
-                    <exception regexp="yes">d|avant|côté|dehors|dedans|depuis|derrière|en|outre|par|passé|proche|suivant|voici</exception></token>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes">
-                        <exception postag="V.* inf" postag_regexp="yes"/>
-                        <exception postag="[^V].*" postag_regexp="yes"/>
-                        <exception regexp="yes">google|anim[eé]|entre|fait|hue|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée|(?-i)\p{Lu}.*</exception></token>
-                </marker>
-            </pattern>
-            <message>Le verbe « \2 » devrait être à l’infinitif après la préposition « \1 »</message>
-            <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
-            <example correction="manger">Vous êtes privé de <marker>mangez</marker>.</example>
-            <example>Il en profita.</example>
-            <example>C’est tout à fait correct.</example>
-            <example>Elles sont quasiment à portée de main.</example>
-            <example>Les filles sont de sortie.</example>
-            <example>Le voisin d’à côté est pénible.</example>
-            <example>Le gouvernement a depuis <marker>ordonné</marker> aux soldats de quitter le pays.</example>
-            <example>Le canal de Suez.</example>
-            <example>La pile de Volta.</example>
-            <example>Ils sont par <marker>contre restés</marker> à la maison.</example>
-            <example>Le cinéma tire à hue et à dia.</example>
-            <example>L’autour <marker>attrapa</marker> une souris.</example>
-            <example>Voici <marker>venu</marker> le temps des vacances.</example>
-            <example>Le participe passé a tout de suite été vu.</example>
-            <example>Il est né à <marker>Cabana</marker>.</example>
-            <example>D’où le maintien de projets d’avions construits totalement en bois.</example>
-            <example>C'est un sanctuaire incrusté de cristaux et rempli de restes pétrifiés.</example>
-            <example>Le coup de grâce est donné par Roland et Sabrina</example>
-            <example>Un adhésif double face est posé au dos du pictogramme.</example>
-            <example>Je n'ai rien trouvé d'équivalent comme parure de fenêtre sur mesure dans le marché.</example>
-            <example>Laisse-moi chercher cela sur google pour toi.</example>
-        </rule>
         <rule id="DOUBLE_NEG" name="Double négation">
             <pattern>
                 <token>pas</token>
