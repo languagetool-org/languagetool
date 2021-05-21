@@ -196,22 +196,22 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       return s.replace("ú", "ù");
     }
     if (s.contains("à")) {
-      return s.replace("à", "a");
+      return s.replace("à", "ä");
     }
     if (s.contains("è")) {
-      return s.replace("à", "e");
+      return s.replace("è", "ë");
     }
     if (s.contains("ì")) {
       return s.replace("ì", "i");
     }
     if (s.contains("ò")) {
-      return s.replace("ò", "o");
+      return s.replace("ò", "ö");
     }
     if (s.contains("ï")) {
-      return s.replace("ï", "i");
+      return s.replace("ï", "ì");
     }
     if (s.contains("ü")) {
-      return s.replace("ü", "u");
+      return s.replace("ü", "ù");
     }
     return s + "-";
   }
