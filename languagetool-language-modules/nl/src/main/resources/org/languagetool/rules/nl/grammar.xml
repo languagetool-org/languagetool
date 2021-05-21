@@ -1545,6 +1545,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="HOORDE_HORDE" name="waarschuwing bij gebruik horde i.p.v. hoorde">
 			<rule>
+				<antipattern><token postag_regexp="yes" postag="BNW.*"/><token>horde</token></antipattern>
 				<antipattern><token regexp="yes" skip="1">de|een</token><token>horde</token></antipattern>
 				<pattern>
 					   <token>horde</token>
@@ -11457,7 +11458,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ</exception></token>
-					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception></token>
+					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag="GET:MRV"/></token>
 				</pattern>
 				<message>Als <match no="1"/> en <match no="2"/> samen één (Nederlandstalig) begrip zijn, dan is het: <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/afkorting-in-samenstelling/</url>
@@ -17596,7 +17597,7 @@ steenwijk;Steenwijk
 				<antipattern><token>Als</token><token regexp="yes">het|dit|dat</token><token>maar</token></antipattern>
 				<antipattern><token>dat</token><token regexp="yes">ik|jij|je|hij|zij|ze|men|u</token><token>maar</token></antipattern>
 				<antipattern><token>maken</token><token>al</token><token>maar</token><token>beter</token></antipattern>
-				<antipattern><token postag=".*ONV" postag_regexp="yes"/><token>maar</token><token postag=".*ONV" postag_regexp="yes"/></antipattern>
+				<antipattern><token postag="BNW.*ONV" postag_regexp="yes"/><token>maar</token><token postag="BNW.*ONV" postag_regexp="yes"/></antipattern>
 				<antipattern><token>Laten</token><token>we</token><token>eerst</token><token>maar</token></antipattern>
 				<antipattern><token regexp="yes">dat|dit</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW.*EKV:DE_"/><token>maar</token><token postag="BYW"/></antipattern>
 				<antipattern><token>maar</token><token>liefs</token></antipattern>
@@ -32935,7 +32936,9 @@ steenwijk;Steenwijk
 				<antipattern><token regexp="yes">social|sociale</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
 				<antipattern><token regexp="yes">social|sociale</token><token>media</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 				<pattern>
-					<token regexp="yes">social|sociale</token><token>media</token><token postag_regexp="yes" postag="ZNW.*"/>
+					<token regexp="yes">social|sociale</token>
+					<token>media</token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception>zeer</exception></token>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2 word3:\3"/>
 				<message>Correct is <suggestion>\1\2\3</suggestion>.</message>
@@ -38528,7 +38531,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="JOU_JOUW" name="jou of jouw">
 			<rule>
-				<antipattern><token>Voor</token><token>jou</token><token>tien</token><token>anderen</token></antipattern>
+				<antipattern><token>Voor</token><token regexp="yes">jou|hem|mij</token><token postag="GET:MRV"/><token>anderen</token></antipattern>
 				<antipattern><token>jou</token><token postag_regexp="yes" postag="BNW.*"/><token postag=".*ZNW.*" postag_regexp="yes"/></antipattern>
 				<antipattern><token>jou</token><token postag_regexp="yes" postag="BYW.*"/></antipattern>
 				<pattern>
