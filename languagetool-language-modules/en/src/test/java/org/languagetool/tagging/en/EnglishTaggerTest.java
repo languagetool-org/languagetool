@@ -91,7 +91,10 @@ public class EnglishTaggerTest {
     assertEquals("work", aToken.get(1).getReadings().get(1).getLemma());
   }
 
-
+  /**
+   * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4585
+   * Test case for contraction issues #4585
+   */
   @Test
   public void contractionTest1(){
     EnglishTagger tagger = new EnglishTagger();
@@ -103,7 +106,10 @@ public class EnglishTaggerTest {
     assertEquals("Ca[can/MD*]", atrTokens.get(0).toString());
     assertEquals("ca[can/MD*]", atrTokens.get(6).toString());
   }
-
+  /**
+   * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4585
+   * Test case for contraction issues #4585
+   */
   @Test
   public void contractionTest2(){
     EnglishTagger tagger = new EnglishTagger();

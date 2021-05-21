@@ -24,6 +24,10 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -102,23 +106,23 @@ public class EnglishTagger extends BaseTagger {
     return filterContractionPattern(tokenReadings);
   }
   /**
+   * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4585
    * A Map stores English contraction pattern as following
    * i.e can't or Can't
    * key: ca or Ca
    * value: ["can", "MD", "n't"]
    *         verb   POS contraction suffix
    */
-  private Map<String, List<String>> englishContraction = new HashMap<String, List<String> >();
+  final String CONTRACTION_PATH_CSV = "src/main/resources/org/languagetool/resource/en/contractions_words.csv";
+  private Map<String, List<String>> englishContraction = readContractionsFromFile(CONTRACTION_PATH_CSV);
   /**
-   * The function looks for English Contraction pattern
+   * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4585
+   * The function looks for English contraction pattern
    * Found pattern get treated by upating the relavent readings
    * @param tokenReadings 
    * @return
    */
   private List<AnalyzedTokenReadings> filterContractionPattern(List<AnalyzedTokenReadings> tokenReadings) {
-    englishContraction.put("ca",Arrays.asList("can","MD", "n't"));
-    englishContraction.put("Ca",Arrays.asList("can","MD", "n't"));
-    
     for(int i = 1; i < tokenReadings.size(); i++){
       String contractionPrefix = tokenReadings.get(i-1).getCleanToken();
       String contractionSuffix = tokenReadings.get(i).getCleanToken();
@@ -136,6 +140,34 @@ public class EnglishTagger extends BaseTagger {
       }
     }
     return tokenReadings;
+  }
+  /**
+   * CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4585
+   * read Contraction word from CSV file
+   * @param contractionCSV path to CSV file
+   */
+  private static Map<String, List<String>> readContractionsFromFile(String contractionCSV){
+    Map<String, List<String>> englishContraction = new HashMap<String, List<String> >();
+    File file = new File(contractionCSV);
+    try(
+      BufferedReader br = new BufferedReader(new FileReader(file))
+    ){
+        String line = "";
+        String[] tempArr;
+        int nthline=-1;
+        while((line = br.readLine()) != null) {
+          nthline++;
+          if(nthline == 0) continue;
+          tempArr = line.split(",");
+          englishContraction.put(tempArr[0],Arrays.asList(tempArr[1], tempArr[2],tempArr[3]));
+        }
+    } catch (Exception e){
+      System.err.println(e.toString());
+      // fail-safe: the Exception won't crash the program
+      englishContraction.put("ca",Arrays.asList("can","MD", "n't"));
+      englishContraction.put("Ca",Arrays.asList("can","MD", "n't"));
+    }
+    return englishContraction;
   }
 
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
