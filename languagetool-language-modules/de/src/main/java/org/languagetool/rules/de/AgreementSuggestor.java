@@ -53,7 +53,7 @@ class AgreementSuggestor {
   /**
    * @since 5.4
    */
-  AgreementSuggestor(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings  adjToken, AnalyzedTokenReadings nounToken,
+  AgreementSuggestor(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings adjToken, AnalyzedTokenReadings nounToken,
                      AgreementRule.ReplacementType replacementType) {
     this.synthesizer = synthesizer;
     this.determinerToken = determinerToken;
