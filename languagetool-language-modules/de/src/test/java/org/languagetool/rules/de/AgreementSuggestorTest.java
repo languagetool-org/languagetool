@@ -38,7 +38,7 @@ public class AgreementSuggestorTest {
   private final JLanguageTool lt = new JLanguageTool(german);
 
   @Test
-  public void testSuggestions() {
+  public void testSuggestions() throws IOException {
     assertSuggestion("das/der/ART:DEF:NOM:SIN:NEU Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
     assertSuggestion("der/der/ART:DEF:NOM:SIN:MAS Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
     assertSuggestion("die/der/ART:DEF:NOM:PLU:FEM Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
@@ -51,6 +51,9 @@ public class AgreementSuggestorTest {
     assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S LAN-Kabels/LAN-Kabel/SUB:GEN:SIN:MAS", "[mehrere LAN-Kabel]");
     assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S WLAN-LAN-Kabels/WLAN-LAN-Kabel/SUB:GEN:SIN:MAS", "[mehrere WLAN-LAN-Kabel]");
     assertSuggestion("Ihren/mein/PRO:POS:AKK:SIN:MAS:BEG Verständnis/Verständnis/SUB:NOM:SIN:NEU", "[Ihr Verständnis]");
+    assertSuggestion1("das Haus", "[das Haus]");
+    assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser]");
+    assertSuggestion1("die Haus", "[das Haus, dem Haus, die Häuser]");
   }
 
   @Test
@@ -78,6 +81,16 @@ public class AgreementSuggestorTest {
     assertSuggestion2("keine richtiger Fahrerin", "[]");  // TODO
   }
 
+  private void assertSuggestion1(String input, String expectedSuggestions) throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
+    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    if (analyzedSentence.getTokensWithoutWhitespace().length != 3) {  // 2 tokens + sentence start token
+      fail("Please use 2 tokens (det, noun) as input: " + input);
+    }
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tags.get(1), tags.get(2), null);
+    assertThat(suggestor.getSuggestions().toString(), is(expectedSuggestions));
+  }
+  
   private void assertSuggestion2(String input, String expectedSuggestions) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
