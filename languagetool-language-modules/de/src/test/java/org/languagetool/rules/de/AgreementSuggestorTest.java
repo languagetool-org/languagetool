@@ -28,16 +28,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Languages;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.*;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.tagging.Tagger;
 
 public class AgreementSuggestorTest {
 
-  private final Synthesizer synthesizer = Languages.getLanguageForShortCode("de-DE").getSynthesizer();
+  private final Language german = Languages.getLanguageForShortCode("de-DE");
+  private final Synthesizer synthesizer = german.getSynthesizer();
+  private final JLanguageTool lt = new JLanguageTool(german);
 
   @Test
   public void testSuggestions() {
@@ -59,9 +57,9 @@ public class AgreementSuggestorTest {
   public void testDetAdjNounSuggestions() throws IOException {
     assertSuggestion2("eine schönes Auto", "[ein schönes Auto, einem schönen Auto]");
     assertSuggestion2("eine schöne Auto", "[ein schönes Auto, einem schönen Auto]");
-    assertSuggestion2("ein schöne Auto", "[ein schönes Auto, einem schönen Auto]");
+    assertSuggestion2("ein schöne Auto", "[ein schönes Auto]");
     assertSuggestion2("einen großen Auto", "[ein großes Auto, einem großen Auto]");
-    assertSuggestion2("das schönes Auto", "[das schöne Auto, dem schönen Auto]");
+    assertSuggestion2("das schönes Auto", "[das schöne Auto]");
     assertSuggestion2("das schöneren Auto", "[das schönere Auto, dem schöneren Auto]");
     assertSuggestion2("das schöneren Auto", "[das schönere Auto, dem schöneren Auto]");
     assertSuggestion2("das schönstem Auto", "[das schönste Auto, dem schönsten Auto]");
@@ -77,15 +75,16 @@ public class AgreementSuggestorTest {
     assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, der südliche Kontinent]");  // TODO: "des südlichen Kontinents"
     assertSuggestion2("die erwartet Entwicklung", "[]");  // TODO? weil erwartet = PA2:PRD:GRU:VER
     assertSuggestion2("die verschieden Ämter", "[]");  // TODO? weil erwartet = PA2:PRD:GRU:VER
+    assertSuggestion2("keine richtiger Fahrerin", "[]");  // TODO
   }
 
   private void assertSuggestion2(String input, String expectedSuggestions) throws IOException {
-    Tagger tagger = new GermanyGerman().getTagger();
-    List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList(input.split(" ")));
-    if (tags.size() != 3) {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
+    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    if (analyzedSentence.getTokensWithoutWhitespace().length != 4) {  // 3 tokens + sentence start token
       fail("Please use 3 tokens (det, adj, noun) as input: " + input);
     }
-    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tags.get(0), tags.get(1), tags.get(2), null);
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tags.get(1), tags.get(2), tags.get(3), null);
     assertThat(suggestor.getSuggestions().toString(), is(expectedSuggestions));
   }
   
