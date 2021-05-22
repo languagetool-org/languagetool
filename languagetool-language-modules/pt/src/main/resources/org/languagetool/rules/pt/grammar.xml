@@ -3730,6 +3730,20 @@ De valor diferenciado por terem como origem fontes imparciais e isentas.
 		</token>
       </antipattern>  
 <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-22 (17-MAR-2021+) *START* -->
+<!--
+Este é o modelo que mostra descontinuidades.
+É uma pena que você não possa comprar milagres da mesma forma que compra batatas.
+Um lobo a dormir não apanha ovelhas.
+Peça desculpas ou será punido.
+O palestrante é tão bem conhecido que dispensa apresentações.
+-->
+      <antipattern>
+		<token postag='CS|RN|SENT_START' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-05-22 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3776,6 +3790,12 @@ De valor diferenciado por terem como origem fontes imparciais e isentas.
 	  <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
 	  <example>O senhor Camargo cria codornas em sua chácara.</example>	
 	  <example>De valor diferenciado por terem como origem fontes imparciais e isentas.</example>
+	  
+	  <example type='correct'>Este é o modelo que <marker>mostra descontinuidades</marker>.</example>
+	  <example>É uma pena que você não possa comprar milagres da mesma forma que compra batatas.</example>
+	  <example>Um lobo a dormir não apanha ovelhas.</example>
+	  <example>Peça desculpas ou será punido.</example>
+	  <example>O palestrante é tão bem conhecido que dispensa apresentações.</example>	  
 	</rule>
     <rule>
       <antipattern>
