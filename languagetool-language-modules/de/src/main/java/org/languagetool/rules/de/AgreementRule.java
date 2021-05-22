@@ -88,6 +88,12 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("diese"),  // "...damit diese ausreichend Sauerstoff geben."
+      tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
+      posRegex("SUB:NOM:SIN:.*"),
+      posRegex("VER:.*")
+    ),
+    Arrays.asList(
       posRegex("VER:MOD:.*"),  // "Sollten zu diesem weitere Informationen benötigt werden, ..."
       token("zu"),
       regex("diese[mnr]"),

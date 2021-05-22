@@ -564,6 +564,7 @@ public class AgreementRuleTest {
     assertGood("Eine Zeitreise durch die 68er Revolte");
     assertGood("Ich besitze ein Modell aus der 300er Reihe.");
     assertGood("Aber ansonsten ist das erste Sahne");
+    assertGood("...damit diese ausreichend Sauerstoff geben.");
 
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
