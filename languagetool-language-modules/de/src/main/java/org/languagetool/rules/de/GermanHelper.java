@@ -82,6 +82,14 @@ public final class GermanHelper {
   }
 
   /**
+   * @since 5.4
+   */
+  public static String getComparison(String posTag) {
+    // input e.g. ADJ:AKK:PLU:MAS:KOM:SOL
+    return getIndexOrEmptyString(posTag, 4);
+  }
+
+  /**
    * @since 2.4
    */
   public static String getDeterminerCase(String posTag) {

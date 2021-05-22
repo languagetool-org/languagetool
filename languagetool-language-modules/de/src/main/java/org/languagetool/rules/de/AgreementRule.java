@@ -67,6 +67,7 @@ public class AgreementRule extends Rule {
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private JLanguageTool lt;
+  private boolean returnSuggestions = true;
 
   enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
@@ -1193,6 +1194,10 @@ public class AgreementRule extends Rule {
     return map;
   }
 
+  void disableSuggestions() {
+    returnSuggestions = false;
+  }
+  
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -1254,8 +1259,9 @@ public class AgreementRule extends Rule {
               // avoid false alarm for e.g. "weniger farbenprächtig als das anderer Papageien"
               continue;
             }
+            boolean allowSuggestion = tokenPos == i + 2;  // prevent incomplete suggestion for e.g. "einen 142 Meter hoher Obelisken" (-> "einen hohen Obelisken")
             RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
-                nextToken, tokens[tokenPos], sentence, i);
+                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
@@ -1390,9 +1396,10 @@ public class AgreementRule extends Rule {
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }*/
-      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
-      List<String> suggestions = suggestor.getSuggestions();
-      ruleMatch.setSuggestedReplacements(suggestions);
+      if (returnSuggestions) {
+        AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
+      }
     }
     return ruleMatch;
   }
@@ -1504,7 +1511,7 @@ public class AgreementRule extends Rule {
   }
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos) {
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2)
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token3 == null || token3.getToken().length() < 2) {
@@ -1541,6 +1548,10 @@ public class AgreementRule extends Rule {
             "statt 'mein kleines Haus'";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
+      if (returnSuggestions && replMap != null) {
+        AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
+      }
     }
     return ruleMatch;
   }

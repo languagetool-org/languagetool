@@ -18,17 +18,22 @@
  */
 package org.languagetool.rules.de;
 
+import static junit.framework.Assert.fail;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Languages;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
 
 public class AgreementSuggestorTest {
 
@@ -50,6 +55,40 @@ public class AgreementSuggestorTest {
     assertSuggestion("Ihren/mein/PRO:POS:AKK:SIN:MAS:BEG Verständnis/Verständnis/SUB:NOM:SIN:NEU", "[Ihr Verständnis]");
   }
 
+  @Test
+  public void testDetAdjNounSuggestions() throws IOException {
+    assertSuggestion2("eine schönes Auto", "[ein schönes Auto, einem schönen Auto]");
+    assertSuggestion2("eine schöne Auto", "[ein schönes Auto, einem schönen Auto]");
+    assertSuggestion2("ein schöne Auto", "[ein schönes Auto, einem schönen Auto]");
+    assertSuggestion2("einen großen Auto", "[ein großes Auto, einem großen Auto]");
+    assertSuggestion2("das schönes Auto", "[das schöne Auto, dem schönen Auto]");
+    assertSuggestion2("das schöneren Auto", "[das schönere Auto, dem schöneren Auto]");
+    assertSuggestion2("das schöneren Auto", "[das schönere Auto, dem schöneren Auto]");
+    assertSuggestion2("das schönstem Auto", "[das schönste Auto, dem schönsten Auto]");
+    assertSuggestion2("das schönsten Auto", "[das schönste Auto, dem schönsten Auto]");
+    assertSuggestion2("der schöne Auto", "[das schöne Auto, dem schönen Auto]");
+    assertSuggestion2("der kleine Auto", "[das kleine Auto, dem kleinen Auto]");
+    assertSuggestion2("der kleiner Auto", "[das kleine Auto, dem kleinen Auto]");
+    assertSuggestion2("das stärkste Körperteil", "[den stärksten Körperteil, dem stärksten Körperteil, der stärkste Körperteil]");
+    assertSuggestion2("die benötigten Unterlage", "[die benötigte Unterlage, der benötigten Unterlage]");
+    assertSuggestion2("die voller Verzierungen", "[die vollen Verzierungen, den vollen Verzierungen, der vollen Verzierungen]"); // evtl. Fehlalarm...
+    assertSuggestion2("zu zukünftigen Vorstands", "[]");  // ?
+    assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischsten Gebäuden]");  // TODO: "der ikonischsten Gebäude"
+    assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, der südliche Kontinent]");  // TODO: "des südlichen Kontinents"
+    assertSuggestion2("die erwartet Entwicklung", "[]");  // TODO? weil erwartet = PA2:PRD:GRU:VER
+    assertSuggestion2("die verschieden Ämter", "[]");  // TODO? weil erwartet = PA2:PRD:GRU:VER
+  }
+
+  private void assertSuggestion2(String input, String expectedSuggestions) throws IOException {
+    Tagger tagger = new GermanyGerman().getTagger();
+    List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList(input.split(" ")));
+    if (tags.size() != 3) {
+      fail("Please use 3 tokens (det, adj, noun) as input: " + input);
+    }
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tags.get(0), tags.get(1), tags.get(2), null);
+    assertThat(suggestor.getSuggestions().toString(), is(expectedSuggestions));
+  }
+  
   private void assertSuggestion(String input, String expectedSuggestions) {
     String[] tokens = input.split(" ");
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
