@@ -67,6 +67,9 @@
 	
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|ll?[aeo]s?|vos|che)">
+    <!ENTITY pronomes_atonos "me|te|che|lle|nos|vos|lles|o|a|os|as|lo|la|los|las|mo|ma|mos|mas|cho|cha|chos|chas|llo|lla|llos|llas|nolo|nola|nolos|nolas|volo|vola|volos|volas|llelo|llela|llelos|llelas">
+    <!ENTITY pronomes_atonos_simples "me|te|che|lle|nos|vos|lles|o|a|os|as|lo|la|los|las">
+    <!ENTITY pronomes_atonos_compostos "mo|ma|mos|mas|cho|cha|chos|chas|llo|lla|llos|llas|nolo|nola|nolos|nolas|volo|vola|volos|volas|llelo|llela|llelos|llelas">
 
     <!ENTITY precede_nome_proprio "(asociación|avenida|balneario|parella?|coalición|colección|cometa|concurso|copa|curso|designación|designado|distribución|escola|estación|estilo|filme|fundación|galardón|xeración|illa|imperio|iniciativa|instituto|titulado|lagoa?|lei|libro|monte|museo|navío|novela|obra|orquestra|praza|premio|programa|proxecto|quinta|rexistro|reino|informe|revista|río|rúa|serra|teatro|tema|tipo|universidade|versión)">
     <!ENTITY contraccions_MS "(?:ao|d(?:o|un|el|est?e|aquel|ist?o|aquilo|outro|algún)|n(?:o|un|el|est?e|aquel|ist?o|aquilo|outro|algún)|algún|polo)"><!-- XXX lost 'me+o|che+o|lle+o'-->
@@ -2996,9 +2999,9 @@
     </rule>
   </rulegroup>
 
-	<rulegroup id="CLITICOS" name="colocación dos clíticos">
+	<rulegroup id="CLITICS" name="colocación dos clíticos">
 	<!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
-		<rule name="Clíticos en inicio de oración">
+		<rule id="CLITICS_01" name="Clíticos en inicio de oración">
 			<!-- Was: "volo dixen (díxenvolo)" -->
 			<antipattern>
 				<token postag="SENT_START" />
@@ -3013,7 +3016,7 @@
 			<pattern>
 				<token postag='SENT_START'></token>
 				<marker>
-					<token postag='PP.[MFC][SP].00(:PP.[MFC][SP].00)*' postag_regexp='yes'><exception postag='PP.[MF]S000|PP1CSN00|PP1CPO00|PP2CSO00|PP3.P[A0]00|PP3CSO00|PPC[PS]000|DA0.S0' postag_regexp='yes'></exception></token>				<!-- False positives: Perífrases verbais con partícula intermedia (TODO, soon) -->
+					<token postag='PP.[MFC][SP].00(:PP.[MFC][SP].00)*' postag_regexp='yes'><exception postag='PP.[MF]S000|PP1CSN00|PP1CPO00|PP2CSO00|PP3.P[A0]00|PP3CSO00|PPC[PS]000|DA0.S0' postag_regexp='yes'></exception></token>	
 					<token postag='V.*' postag_regexp='yes'></token>     
 				</marker>
 			</pattern>			
@@ -3025,7 +3028,46 @@
 			<short>Colocación do pronome</short>
       <example correction="Díxenvolo"><marker>Volo dixen</marker></example>
       <example><marker>Díxenvolo</marker></example> 
+		</rule> 
+	
+		<rule id="CLITICS_02A" name="Cliticos en interrogativas e exclamativas - ditransitivas">
+			<pattern>
+          <token postag="SENT_START"/>
+					<token regexp="yes" postag="PR.*" postag_regexp="yes">cando|canto|como|onde|quen</token>
+				<marker>
+					<token skip="-1" postag="VM.*:PP...[AD].*" postag_regexp="yes" regexp="yes">.*(&pronomes_atonos_compostos;)<exception regexp="yes">lema|estamos|poderíamos|faríamos</exception></token>
+					<!-- TODO: These are ad hoc exceptions from 4 Wikipedia false positives. -->
+				</marker>
+          <token regexp="yes">\!|\?</token>
+			</pattern>
+			<message>Nas preguntas e exclamacións os pronomes átonos van antes do verbo.</message>
+				<suggestion><match no="3" regexp_match="(?iu).*(&pronomes_atonos_compostos;)$" regexp_replace="$1"/> <match no="3" postag="(VM.....):PP.*" postag_regexp="yes" postag_replace="$1"/></suggestion>
+				<url>https://gl.wikipedia.org/wiki/Colocaci%C3%B3n_do_pronome_%C3%A1tono_en_galego</url>
+			<short>Colocación do pronome</short>
+			<example correction="llelo deches">Cando <marker>déchesllelo</marker>?</example>
+			<example>Quen ma soubera cantar!</example>
+			<example>Onde llela amañaches?</example>
+		</rule>   
+	
+		<rule id="CLITICS_02B" name="Cliticos en interrogativas e exclamativas - monotransitivas">
+			<pattern>
+          <token postag="SENT_START"/>
+					<token regexp="yes" postag="PR.*" postag_regexp="yes">cando|canto|como|onde|quen</token>
+				<marker>
+					<token skip="-1" postag="VM.*:PP...[AD].*" postag_regexp="yes" regexp="yes">.*(&pronomes_atonos_simples;)<exception regexp="yes">creo|falas|lema|estamos|poderíamos|faríamos</exception></token>
+					<!-- TODO: These are ad hoc exceptions from 7 Wikipedia false positives. -->
+				</marker>
+          <token regexp="yes">\!|\?</token>
+			</pattern>
+			<message>Nas preguntas e exclamacións os pronomes átonos van antes do verbo.</message>
+				<suggestion><match no="3" regexp_match="(?iu).*(&pronomes_atonos_simples;)$" regexp_replace="$1"/> <match no="3" postag="(VM.....):PP.*" postag_regexp="yes" postag_replace="$1"/></suggestion>
+				<url>https://gl.wikipedia.org/wiki/Colocaci%C3%B3n_do_pronome_%C3%A1tono_en_galego</url>
+			<short>Colocación do pronome</short>
+			<example correction="lle custou">Canto <marker>custoulle</marker>?</example>
+			<example>Como o fixeches?</example>
+			<example>Quen mo dera!</example>
 		</rule>
+		
 	</rulegroup>
 
   <rulegroup id="REFLEXIVOS" name="cásome, me caso (caso)">
