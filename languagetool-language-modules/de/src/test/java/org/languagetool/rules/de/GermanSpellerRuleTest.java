@@ -470,6 +470,15 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Second-Hand-Shops", "Secondhandshops", rule, lt);
     assertFirstSuggestion("mediterranischer", "mediterraner", rule, lt);
     assertFirstSuggestion("unterschreibungsfähige", "unterschriftsfähige", rule, lt);
+    assertFirstSuggestion("interplementiert", "implementiert", rule, lt);
+    assertFirstSuggestion("hochalterlich", "hochmittelalterlich", rule, lt);
+    assertFirstSuggestion("posiniert", "positioniert", rule, lt);
+    assertFirstSuggestion("russophobische", "russophobe", rule, lt);
+    assertFirstSuggestion("unsachmässiger", "unsachgemäßer", rule, lt);
+    assertFirstSuggestion("modernisches", "modernes", rule, lt);
+    assertFirstSuggestion("intapretation", "Interpretation", rule, lt);
+    assertFirstSuggestion("Rethorikkurses", "Rhetorikkurses", rule, lt);
+    assertFirstSuggestion("Deprisonen", "Depressionen", rule, lt);
     
     assertFirstSuggestion("-Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Teex", "Tee", rule, lt);
