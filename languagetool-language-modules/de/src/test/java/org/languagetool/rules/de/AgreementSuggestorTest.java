@@ -69,15 +69,15 @@ public class AgreementSuggestorTest {
     assertSuggestion2("das schönsten Auto", "[das schönste Auto, dem schönsten Auto]");
     assertSuggestion2("der schöne Auto", "[das schöne Auto, dem schönen Auto]");
     assertSuggestion2("der kleine Auto", "[das kleine Auto, dem kleinen Auto]");
-    assertSuggestion2("der kleiner Auto", "[das kleine Auto, dem kleinen Auto]");
+    assertSuggestion2("der kleiner Auto", "[das kleine Auto, das kleinere Auto, dem kleinen Auto, dem kleineren Auto]");
     assertSuggestion2("das stärkste Körperteil", "[den stärksten Körperteil, dem stärksten Körperteil, der stärkste Körperteil]");
     assertSuggestion2("die benötigten Unterlage", "[die benötigte Unterlage, der benötigten Unterlage]");
-    assertSuggestion2("die voller Verzierungen", "[die vollen Verzierungen, den vollen Verzierungen, der vollen Verzierungen]"); // evtl. Fehlalarm...
+    assertSuggestion2("die voller Verzierungen", "[die vollen Verzierungen, die volleren Verzierungen, den vollen Verzierungen, den volleren Verzierungen, der vollen Verzierungen, der volleren Verzierungen]"); // evtl. Fehlalarm...
     assertSuggestion2("zu zukünftigen Vorstands", "[]");  // ?
     assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischsten Gebäuden]");  // TODO: "der ikonischsten Gebäude"
     assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, der südliche Kontinent]");  // TODO: "des südlichen Kontinents"
-    assertSuggestion2("die erwartet Entwicklung", "[]");  // TODO? weil erwartet = PA2:PRD:GRU:VER
-    assertSuggestion2("die verschieden Ämter", "[]");  // TODO? weil erwartet = PA2:PRD:GRU:VER
+    assertSuggestion2("die erwartet Entwicklung", "[die erwartete Entwicklung, der erwarteten Entwicklung]");
+    assertSuggestion2("die verschieden Ämter", "[die verschiedenen Ämter, der verschiedenen Ämter]");
     assertSuggestion2("keine richtiger Fahrerin", "[]");  // TODO
   }
 

@@ -82,11 +82,17 @@ public final class GermanHelper {
   }
 
   /**
+   * @return GRU, KOM, or SUP
    * @since 5.4
    */
   public static String getComparison(String posTag) {
     // input e.g. ADJ:AKK:PLU:MAS:KOM:SOL
-    return getIndexOrEmptyString(posTag, 4);
+    String cmp = getIndexOrEmptyString(posTag, 4);
+    if (!cmp.equals("GRU") && !cmp.equals("KOM") && !cmp.equals("SUP")) {
+      // for cases like "PA2:PRD:GRU:VER"
+      cmp = getIndexOrEmptyString(posTag, 2);
+    }
+    return cmp;
   }
 
   /**
