@@ -306,6 +306,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       j++;
     }
+    // comma + plural noun
+    isPlural = isPlural || (i - 2 > 0 && cNMP[0] + cNFP[0] + cNCP[0] > 0 && tokens[i - 2].getToken().equals(","));
+
     // there is no noun, (no determinant --> && cDtotal==0)
     if (cNtotal == 0 && cDtotal == 0) {
       return null;
