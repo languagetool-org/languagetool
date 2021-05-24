@@ -3458,22 +3458,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
       </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2019-12-16 ***START***-->
-	<!-- "São Jerónimo traduziu a palavra hebraica Elohim" -->
-      <antipattern>
-		  <token postag='NCFS000' postag_regexp='no'/>
-		  <token postag='AQ0FS0' postag_regexp='no'/>
-          <token postag='NP.*|NC[MFC][SP]000' postag_regexp='yes'/>
-      </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2019-12-16 ***END***-->
-	<!-- Added by Marco A.G.Pinto - 2019-12-28 ***START***-->
-      <antipattern>
-		  <token postag='NCFS000' postag_regexp='no'/>
-		  <token postag='Z0CN0' postag_regexp='no'>	
-			<exception regexp='yes'>1|uma</exception></token>
-		  <token postag='NCFP000' postag_regexp='no'/>
-      </antipattern>	
-	<!-- Added by Marco A.G.Pinto - 2019-12-28 ***END***-->
 	<!-- Added by Marco A.G.Pinto - 2020-01-09 ***START***-->
 	<!-- "No “Life” são colocadas na grelha células com valores" -->
       <antipattern>	
@@ -3508,34 +3492,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		<token postag='SPS00' postag_regexp='no'/>
       </antipattern>  
 <!-- MARCOAGPINTO 2020-05-25 *END* -->
-<!-- MARCOAGPINTO 2020-05-25 *START* -->
-<!-- "A medicina ocidental foi ensinada pela primeira vez a estudantes japoneses no país." -->
-<!-- "A medicina ocidental foi ensinada pela primeira vez a alunos japoneses no país." -->
-<!-- "A medicina ocidental foi ensinada pela primeira vez a alunas japonesas no país." -->
-      <antipattern>
-	    <token>a</token>
-		<token postag='NC[FMC]P000' postag_regexp='yes'/>
-		<token postag='NC[FM]P000' postag_regexp='yes'/>
-      </antipattern>  
-<!-- MARCOAGPINTO 2020-05-25 *END* -->
-<!-- MARCOAGPINTO 2020-05-30 *START* -->
-<!-- "Temos a referência mais antiga a epidemias no país." -->
-<!-- "Temos a referência mais antiga a comboios no país." -->
-<!-- "Temos a referência mais antiga a agentes no país." -->
-      <antipattern>
-          <token postag='DA0FS0|PD0FS000|PP3FSA00' postag_regexp='yes'/>	  	  
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-		  <token regexp='yes'>no|na|em|por</token>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-05-30 *END* -->
-<!-- MARCOAGPINTO 2020-06-01 *START* -->
-<!-- "Assim como a agentes stressantes abióticos." -->
-      <antipattern>
-		  <token postag='DA0FS0' postag_regexp='no'/>	 
-		  <token postag='NC[CFM]P000' postag_regexp='yes'/>	
-		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-01 *END* -->
 <!-- MARCOAGPINTO 2020-06-01 *START* -->
 <!-- "Foi acusado de manipular informações." -->
 <!-- "Foi acusado de manipular agentes." -->
@@ -3569,22 +3525,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		  <token postag='DI0FP0|PI0FP000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-03 *END* -->
-<!-- MARCOAGPINTO 2020-06-03 *START* -->
-<!-- "Levará, seguramente, a sucessivas alterações da estrutura classificativa." -->
-      <antipattern>
-		  <token postag='DA0FS0' postag_regexp='no'/>
-		  <token postag='AQ0FP0' postag_regexp='no'/>		  
-		  <token postag='NCFP000' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-03 *END* -->
-<!-- MARCOAGPINTO 2020-06-04 *START* -->
-<!-- "Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal." -->
-      <antipattern>
-		  <token postag='DA0FS0' postag_regexp='no'/>
-		  <token postag='Z0FP0' postag_regexp='no'/>
-		  <token postag='SPS00' postag_regexp='no'/>		  
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-04 *END* -->
 <!-- MARCOAGPINTO 2020-06-14 *START* -->
 <!-- "Os remanescentes do regime derrubado juntaram-se a diferentes grupos." -->
 <!-- "Os remanescentes do regime derrubado juntaram-se a diferentes organizações." -->
@@ -3594,14 +3534,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-14 *END* -->
-<!-- MARCOAGPINTO 2020-06-18 *START* -->
-<!-- "O vento carrega sementes por longas distâncias." -->
-      <antipattern>
-		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
-		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-18 *END* -->
 <!-- MARCOAGPINTO 2020-07-03 (2-JUL-2020+) *START* -->
 <!-- "E da pobreza provenientes do conflito armado." -->
       <antipattern>  	
@@ -3617,16 +3549,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		  <token postag='AQ0CP0' postag_regexp='no'/>	    
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-03 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-10-16 (2-JUL-2020+) *START* --> 
-<!-- "O Rui quer enfrentar de forma eficaz ações entrópicas." -->
-      <antipattern>	
-		  <token negate="yes" regexp='yes'>a|o</token>
-	      <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-	  </antipattern>
-<!-- MARCOAGPINTO 2020-10-16 (2-JUL-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
 <!-- "Ao testar um modelo tendo por base dados." -->
 <!-- "Ao testar um modelo tendo por resultado dados." -->
@@ -3640,7 +3562,7 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		  <token regexp='yes'>a|à|boa|cada|com|como|cuja|da|desta|em|essa|grande|maior|maioria|minoria|na|naquela|nesta|nossa|ou|pela|por|qual|sua|tal|toda|uma|[,(]</token>
 		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
 		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-      </antipattern>
+      </antipattern>	  
       <antipattern>
 		  <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
 		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
@@ -3648,12 +3570,6 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *START* --> 
-	  <!-- "Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana." -->
-      <antipattern>		  
-		  <token regexp="no">a</token>
-		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-	  </antipattern>
 	  <!-- "O profeta, mas a evidências que apoiam que esta reivindicação é falsa." -->
 	  <!-- "A duzentas no inverno." -->
 	  <!-- "Vendendo-os posteriormente a crianças menores de idade." -->
@@ -3744,6 +3660,51 @@ O palestrante é tão bem conhecido que dispensa apresentações.
 		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-05-22 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *START* -->
+<!--
+São Jerónimo traduziu a palavra hebraica Elohim.
+No final, isto levará provavelmente a uma vitória do segundo ciclista, que teve uma corrida mais fácil graças o trabalho do primeiro corredor.
+-->
+      <antipattern>
+		  <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+		  <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='NP.*|NC.+|AQ0.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *START* -->
+<!--
+Por exemplo, tirando-se os pontos 6 e 2, o jogador pode optar por mover uma peça 6 casas e outra 2 casas, ou 6 mais 2 casas com uma só peça;
+Júpiter é o maior deles, com massa 318 vezes a da Terra, e Saturno o segundo, com 95 vezes a massa da Terra.
+-->
+      <antipattern>
+		  <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+		  <token postag='Z0C.+' postag_regexp='yes'>	
+			<exception regexp='yes'>1|uma</exception></token>
+		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+      </antipattern>	
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *START* -->
+<!--
+Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana.
+-->
+      <antipattern>	
+		  <token postag='DA0.S.+' postag_regexp='yes'/>
+		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *START* -->
+<!--
+Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal.
+Vimos os fogos de artifício a quatro de julho.
+A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o aniversário natalício do sober...
+-->
+      <antipattern>
+		  <token postag='DA0.S.+|PD0.S.+|PP3.SA.+' postag_regexp='yes'/>
+		  <token postag='Z0.P.+' postag_regexp='yes'/>
+		  <token postag='SPS00' postag_regexp='no'/>		  
+      </antipattern>
+<!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3796,6 +3757,18 @@ O palestrante é tão bem conhecido que dispensa apresentações.
 	  <example>Um lobo a dormir não apanha ovelhas.</example>
 	  <example>Peça desculpas ou será punido.</example>
 	  <example>O palestrante é tão bem conhecido que dispensa apresentações.</example>	  
+	  
+	  <example>São Jerónimo traduziu a palavra hebraica Elohim.</example>
+	  <example>No final, isto levará provavelmente a uma vitória do segundo ciclista, que teve uma corrida mais fácil graças o trabalho do primeiro corredor.</example>
+	  
+	  <example>Por exemplo, tirando-se os pontos 6 e 2, o jogador pode optar por mover uma peça 6 casas e outra 2 casas, ou 6 mais 2 casas com uma só peça;</example>
+	  <example>Júpiter é o maior deles, com massa 318 vezes a da Terra, e Saturno o segundo, com 95 vezes a massa da Terra.</example>
+  
+	  <example>Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana.</example>
+	  
+	  <example>Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal.</example>
+	  <example>Vimos os fogos de artifício a quatro de julho.</example>
+	  <example>A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o aniversário natalício do sober...</example>
 	</rule>
     <rule>
       <antipattern>
