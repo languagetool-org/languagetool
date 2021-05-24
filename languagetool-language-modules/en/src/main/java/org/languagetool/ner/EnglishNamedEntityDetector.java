@@ -44,8 +44,7 @@ public class EnglishNamedEntityDetector {
   private static volatile TokenizerModel tokenModel;
   private static volatile POSModel posModel;
   private static volatile TokenNameFinderModel nerModel;
-
-  private static NameFinderME ner = null;
+  private static volatile NameFinderME ner = null;
 
   public EnglishNamedEntityDetector() {
     try {
