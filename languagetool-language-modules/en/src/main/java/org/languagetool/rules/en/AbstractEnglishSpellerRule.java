@@ -330,6 +330,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
                    !k.getReplacement().endsWith(" sphere") &&
+                   !k.getReplacement().endsWith(" ell") &&
                    !k.getReplacement().endsWith(" con") &&
                    !k.getReplacement().endsWith(" sis") &&
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
