@@ -1251,6 +1251,7 @@ public class AgreementRule extends Rule {
           break;
         }
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
+        AnalyzedTokenReadings maybePreposition = i-1 >= 0 ? tokens[i-1] : null;
         if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = tokenPosAfterModifier + 1;
           if (tokenPos >= tokens.length) {
@@ -1266,14 +1267,14 @@ public class AgreementRule extends Rule {
               continue;
             }
             boolean allowSuggestion = tokenPos == i + 2;  // prevent incomplete suggestion for e.g. "einen 142 Meter hoher Obelisken" (-> "einen hohen Obelisken")
-            RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
+            RuleMatch ruleMatch = checkDetAdjNounAgreement(maybePreposition, tokens[i],
                 nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence, i, replMap);
+          RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -1363,7 +1364,7 @@ public class AgreementRule extends Rule {
   }
 
   @Nullable
-  private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
+  private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                           AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
     // TODO: remove "-".equals(token2.getToken()) after the bug fix
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
@@ -1404,6 +1405,7 @@ public class AgreementRule extends Rule {
       }*/
       if (returnSuggestions) {
         AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
+        suggestor.setPreposition(maybePreposition);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
       }
     }
@@ -1516,7 +1518,7 @@ public class AgreementRule extends Rule {
     return categories;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
+  private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2)
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
@@ -1556,6 +1558,7 @@ public class AgreementRule extends Rule {
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
       if (returnSuggestions && replMap != null) {
         AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
+        suggestor.setPreposition(maybePreposition);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
       }
     }

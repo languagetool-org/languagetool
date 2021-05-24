@@ -44,6 +44,8 @@ class AgreementSuggestor {
   private final AgreementRule.ReplacementType replacementType;
   private final AgreementRule agreementRule;
   private final JLanguageTool lt;
+  
+  private AnalyzedTokenReadings prepositionToken;
 
   AgreementSuggestor(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings nounToken,
                      AgreementRule.ReplacementType replacementType) {
@@ -66,35 +68,55 @@ class AgreementSuggestor {
     lt = new JLanguageTool(german);
   }
 
+  void setPreposition(AnalyzedTokenReadings prep) {
+    this.prepositionToken = prep;
+  }
+
   List<String> getSuggestions() {
     Set<String> suggestionSet = new HashSet<>();
     try {
       List<String> adjResult = new ArrayList<>();
       for (AnalyzedToken token2Reading : nounToken.getReadings()) {
-        String nounCase = GermanHelper.getNounCase(token2Reading.getPOSTag());
+        List<String> nounCases = new ArrayList<>();
+        nounCases.add(GermanHelper.getNounCase(token2Reading.getPOSTag()));
         String nounNumber = GermanHelper.getNounNumber(token2Reading.getPOSTag());
         String nounGender = GermanHelper.getNounGender(token2Reading.getPOSTag());
-        for (AnalyzedToken token1Reading : determinerToken.getReadings()) {
-          List<String> articleSuggestions = getArticleSuggestions(nounCase, nounNumber, nounGender, token1Reading);
-          suggestionSet.addAll(articleSuggestions);
-          List<String> pronounSuggestions = getPronounSuggestions(nounCase, nounNumber, nounGender, token1Reading);
-          suggestionSet.addAll(pronounSuggestions);
-          List<String> nounSuggestions = getNounSuggestions(token2Reading, token1Reading);
-          suggestionSet.addAll(nounSuggestions);
-          if (adjToken != null) {
-            fillAdjResult(suggestionSet, nounCase, nounNumber, nounGender, token1Reading, adjResult);
+        if (prepositionToken != null) {
+          // some prepositions require specific cases, so only generated those:
+          List<PrepositionToCases.Case> cases = PrepositionToCases.getCasesFor(prepositionToken.getToken());
+          if (cases.size() > 0) {
+            nounCases = new ArrayList<>();
+            for (PrepositionToCases.Case aCase : cases) {
+              String val = aCase.name().toLowerCase();
+              if (!nounCases.contains(val)) {
+                nounCases.add(val.toUpperCase());
+              }
+            }
+          }
+        }
+        for (String nounCase : nounCases) {
+          for (AnalyzedToken token1Reading : determinerToken.getReadings()) {
+            List<String> articleSuggestions = getArticleSuggestions(nounCase, nounNumber, nounGender, token1Reading);
+            suggestionSet.addAll(articleSuggestions);
+            List<String> pronounSuggestions = getPronounSuggestions(nounCase, nounNumber, nounGender, token1Reading);
+            suggestionSet.addAll(pronounSuggestions);
+            List<String> nounSuggestions = getNounSuggestions(token2Reading, token1Reading);
+            suggestionSet.addAll(nounSuggestions);
+            if (adjToken != null) {
+              fillAdjResult(suggestionSet, nounCase, nounNumber, nounGender, token1Reading, adjResult);
+            }
           }
         }
       }
       if (adjToken != null) {
-        return filterAdjResult(adjResult);
+        return filterResult(adjResult);
       }
+      List<String> suggestions = new ArrayList<>(filterResult(suggestionSet));
+      Collections.sort(suggestions);
+      return suggestions;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    List<String> suggestions = new ArrayList<>(suggestionSet);
-    Collections.sort(suggestions);
-    return suggestions;
   }
 
   // over-generates, result needs to be filtered (i.e. erroneous entries be removed again):
@@ -123,15 +145,15 @@ class AgreementSuggestor {
   }
 
   @NotNull
-  private List<String> filterAdjResult(List<String> adjResult) throws IOException {
-    List<String> cleanAdjResult = new ArrayList<>();
-    for (String s : adjResult) {
+  private List<String> filterResult(Collection<String> result) throws IOException {
+    List<String> cleanResult = new ArrayList<>();
+    for (String s : result) {
       RuleMatch[] matches = agreementRule.match(lt.getAnalyzedSentence(s));
       if (matches.length == 0) {
-        cleanAdjResult.add(s);
+        cleanResult.add(s);
       }
     }
-    return cleanAdjResult;
+    return cleanResult;
   }
 
   private List<String> getArticleSuggestions(String nounCase, String nounNumber, String nounGender, AnalyzedToken article) throws IOException {
@@ -149,6 +171,7 @@ class AgreementSuggestor {
 
   private List<String> getPronounSuggestions(String nounCase, String nounNumber, String nounGender, AnalyzedToken pronoun) throws IOException {
     String correctPosTag = "PRO:POS:" + nounCase + ":" + nounNumber + ":" + nounGender + ":BEG";  // BEG = begleitend
+    //System.out.println(">>"+correctPosTag);
     return getDeterminerSuggestionsForPosTag(pronoun, correctPosTag, determinerToken.getToken().substring(0, 1));
   }
 
@@ -160,6 +183,7 @@ class AgreementSuggestor {
     String determinerNumber = GermanHelper.getDeterminerNumber(determiner.getPOSTag());
     String determinerGender = GermanHelper.getDeterminerGender(determiner.getPOSTag());
     String correctPosTag = "SUB:" + determinerCase + ":" + determinerNumber + ":" + determinerGender;
+    //System.out.println("C="+correctPosTag);
     return getNounSuggestionsForPosTag(determinerToken, token2Reading, correctPosTag);
   }
 
@@ -211,5 +235,4 @@ class AgreementSuggestor {
     }
     return suggestions;
   }
-
 }

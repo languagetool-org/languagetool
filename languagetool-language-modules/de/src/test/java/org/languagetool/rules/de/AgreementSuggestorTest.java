@@ -81,6 +81,26 @@ public class AgreementSuggestorTest {
     assertSuggestion2("keine richtiger Fahrerin", "[]");  // TODO
   }
 
+  @Test
+  public void testDetNounSuggestionsWithPreposition() throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("für dein Schmuck");
+    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tags.get(2), tags.get(3), null);
+    assertThat(suggestor.getSuggestions().toString(), is("[dein Schmuck, deinem Schmuck, deinen Schmuck]"));
+    suggestor.setPreposition(tags.get(1));  // "für"
+    assertThat(suggestor.getSuggestions().toString(), is("[deinen Schmuck]"));
+  }
+
+  @Test
+  public void testDetAdjNounSuggestionsWithPreposition() throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("über ein hilfreichen Tipp");
+    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tags.get(2), tags.get(3), tags.get(4), null);
+    assertThat(suggestor.getSuggestions().toString(), is("[einen hilfreichen Tipp, einem hilfreichen Tipp, ein hilfreicher Tipp]"));
+    suggestor.setPreposition(tags.get(1));  // "über"
+    assertThat(suggestor.getSuggestions().toString(), is("[einem hilfreichen Tipp, einen hilfreichen Tipp]"));
+  }
+
   private void assertSuggestion1(String input, String expectedSuggestions) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());

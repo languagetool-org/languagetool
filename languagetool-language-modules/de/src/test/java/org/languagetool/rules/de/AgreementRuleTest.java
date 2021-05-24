@@ -55,7 +55,7 @@ public class AgreementRuleTest {
     assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität", "Die derzeitige Standard-Priorität");
     assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
     assertBad("Danke für deine Account Daten", "deine Accountdaten", "deine Account-Daten");
-    assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
+    assertBad("Mit seinem Konkurrent Alistair Müller", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
@@ -403,8 +403,8 @@ public class AgreementRuleTest {
     assertBad("Er erzählte von den Leute und den Dingen, die er gesehen hatte.");
     assertBad("Diese Partnerschaft wurde 1989 nach den Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
 
-    assertBad("Das Dach von meine Auto.", "mein Auto", "meine Autos", "meinem Auto");
-    assertBad("Das Dach von meinen Auto.", "mein Auto", "meinem Auto", "meinen Autos");
+    assertBad("Das Dach von meine Auto.", "meine Autos", "meinem Auto");
+    assertBad("Das Dach von meinen Auto.", "meinem Auto", "meinen Autos");
 
     assertBad("Das Dach mein Autos.", "mein Auto", "meine Autos", "meinen Autos", "meiner Autos", "meines Autos");
     assertBad("Das Dach meinem Autos.", "meine Autos", "meinem Auto", "meinen Autos", "meiner Autos", "meines Autos");
