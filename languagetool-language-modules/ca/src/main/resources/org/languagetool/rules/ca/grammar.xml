@@ -1776,6 +1776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="negre">Moix <marker>negra</marker>.</example>
             <example correction="corteses">Paraules <marker>cortès</marker>.</example>
             <example correction="cortesos">Mots <marker>cortès</marker>.</example>
+            <example correction="rurals">D'Ariany a Inca, camins <marker>rural</marker>.</example>
             <example>És en alguns casos <marker>documentat</marker>.</example>
             <!-- ambiguous -->
             <example>Però en la majoria dels casos molt reduït.</example>
@@ -31876,6 +31877,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion>hi havia</suggestion> (v. 'haver')? Correcte si sé del v. 'aviar'.</message>
                 <example correction="hi havia">No <marker>hi avia</marker> temps.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>n'</token>
+                        <token>hi</token>
+                    </marker>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>ni</suggestion> (conjunció negativa)?</message>
+                <example correction="ni">Els <marker>n'hi</marker> se n'adonen.</example>
+            </rule>
+            <rule id="NHI_NI" name="n'hi/ni">
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token>la</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>en la</suggestion>?</message>
+                <suggestion>la</suggestion>
+                <suggestion>de la</suggestion>
+                <suggestion>el</suggestion>
+                <example correction="en la|la|de la|el">Ho has de posar <marker>el la</marker> factura.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
@@ -40417,11 +40442,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="estira-i-arronsa">Aquest <marker>tira-i-arronsa</marker></example>
         </rule>
         <rule id="ALT_EL_FOC" name="*alt el foc/alto el foc">
-            <regexp case_sensitive="no">\balt[\s-]+[ae]l[\s-]+foc\b</regexp>
+            <antipattern>
+                <token>alto</token>
+                <token>el</token>
+                <token>foc</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">alto?</token>
+                <token min="0" max="2" regexp="yes">-|a</token>
+                <token regexp="yes">el|l|al</token>
+                <token min="0">-</token>
+                <token>foc</token>
+            </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>alto el foc</suggestion>
             <example correction="alto el foc">Van declarar l'<marker>alt el foc</marker>.</example>
             <example correction="alto el foc">Van declarar un <marker>alt-al-foc</marker>.</example>
+            <example correction="alto el foc">Van declarar l'<marker>alto al foc</marker>.</example>
         </rule>
         <rule id="A_TOTES_LLUMS" name="a totes llums">
             <pattern>

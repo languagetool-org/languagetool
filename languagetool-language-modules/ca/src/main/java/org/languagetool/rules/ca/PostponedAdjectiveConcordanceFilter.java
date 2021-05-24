@@ -151,6 +151,12 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     int level = 0;
     j = 1;
     initializeApparitions();
+    
+//    if (match.getSentence().getText().contains("camins rural")) {
+//      int ii=0;
+//      ii++;
+//    }
+    
     while (i - j > 0 && keepCounting(tokens[i - j]) && level < maxLevels) {
       if (!isPrevNoun) {
         if (matchPostagRegexp(tokens[i - j], NOM) || (
@@ -281,6 +287,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       j++;
     }
+    // comma + plural noun
+    isPlural = isPlural || (i - 2 > 0 && cNMP[0] + cNFP[0] + cNCP[0] > 0 && tokens[i - 2].getToken().equals(","));
+    
     // there is no noun, (no determinant --> && cDtotal==0)
     if (cNtotal == 0 && cDtotal == 0) {
       return null;
@@ -351,7 +360,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       // look into previous words
       j = 1;
       initializeApparitions();
-      while (i - j > 0 && keepCounting(tokens[i - j])) {
+      while (i - j > 0 && keepCounting(tokens[i - j]) && (level > 1 || j < 4)) {
         // there is a previous agreeing noun
         if (!matchPostagRegexp(tokens[i - j], _GN_) && matchPostagRegexp(tokens[i - j], NOM_DET)
             && matchPostagRegexp(tokens[i - j], substPattern)) {
