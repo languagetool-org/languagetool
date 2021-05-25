@@ -93,7 +93,9 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       token("das"),  // "in das damalige Reichenbach in Schlesien"
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
-      token("Reichenbach")
+      tokenRegex("Reichenbach|Albstadt|Arnstadt|Darmstadt|Duderstadt|Eberstadt|Eibelstadt|Erftstadt|Freudenstadt|Bergneustadt|" +
+        "Neustadt|Burgkunstadt|Diemelstadt|Ebermannstadt|Eisenhüttenstadt|Friedrichstadt|Filderstadt|Freystadt|Florstadt|Glückstadt|" +
+        "Grünstadt|Hallstadt|Halberstadt|Ingolstadt|Johanngeorgenstadt|Karlstadt")  // TODO: extend, https://de.wikipedia.org/wiki/Liste_der_St%C3%A4dte_in_Deutschland
     ),
     Arrays.asList(
       token("das"),  // "Einwohnerzahl stieg um das Zweieinhalbfache"
