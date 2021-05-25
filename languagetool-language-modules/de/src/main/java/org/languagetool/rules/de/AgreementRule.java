@@ -87,6 +87,12 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("dem"),  // "dem Abhilfe zu schaffen"
+      token("Abhilfe"),
+      new PatternTokenBuilder().token("zu").min(0).build(),
+      token("schaffen")
+    ),
+    Arrays.asList(
       token("die"),  // "Die Müllers aus Hamburg"
       new PatternTokenBuilder().posRegex("EIG.*").tokenRegex(".*s").build()
     ),
