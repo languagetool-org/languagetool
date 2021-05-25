@@ -19528,6 +19528,7 @@ though, and has since been slightly modified)-->
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="R pers suj.*|[NJ].*" postag_regexp="yes"/>
                 <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">tenir|adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
                 <token regexp="yes">[vn]ous</token>
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
@@ -19540,6 +19541,23 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token regexp="yes">(?-i)[a-z].*</token>
                 <token regexp="yes">(?-i)[NV]ous|Tu|Ils|Elles</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="R dem.*|R pers suj.*|[NJ].*" postag_regexp="yes"/>
+                <token inflected="yes">ne</token>
+                <token regexp="yes">[vn]ous</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">tenir</token>
+                <token regexp="yes">[vn]ous</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token inflected="yes">ne</token>
+                 <token regexp="yes">[vn]ous</token>
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -19578,7 +19596,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token>nous
-                        <exception scope="previous" regexp="yes" inflected="yes">ne|pas|comme|devant|derrière|sommes</exception>
+                        <exception scope="previous" regexp="yes" inflected="yes">pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
@@ -19634,9 +19652,8 @@ though, and has since been slightly modified)-->
                 <suggestion>a \2</suggestion>
                 <suggestion>êtes \2</suggestion>
                 <suggestion>aviez \2</suggestion>
-                <suggestion>étiez \2</suggestion>
                 <suggestion>{suggestion}</suggestion>
-                <example correction="avez eu|a eu|êtes eu|aviez eu|étiez eu">Vous <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+                <example correction="avez eu|a eu|êtes eu|aviez eu">Vous <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
                 <example>Comment etes vous arrivée jusqu'à ce niveau de comprehension de la vie ?</example>
                 <example>Comme vous exilée, enfin sur cette rive.</example>
                 <example>Notre société vous établie un devis gratuit.</example>
