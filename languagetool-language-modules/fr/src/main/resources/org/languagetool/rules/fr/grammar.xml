@@ -45105,14 +45105,20 @@ though, and has since been slightly modified)-->
                 <example>Mon grand-père a 100 ans.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">avoir</token>
+                    <token postag="A" min="0" max="2"/>
+                    <token>ouï</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ou[iï]e?</token>
                     <token>dire</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>ouï-dire</suggestion> ?</message>
+                <message>S'il s'agit d'un nom, il est écrit avec un trait d'union.</message>
+                <suggestion>ouï-dire</suggestion>
                 <url>https://fr.wiktionary.org/wiki/ou%C3%AF-dire</url>
-                <example correction="ouï-dire">J’ai <marker>ouï dire</marker> qu’il ne viendra pas.</example>
-                <example>J’ai ouï-dire qu’il ne viendra pas.</example>
+                <example correction="ouï-dire">Il ne m’est connue que par <marker>ouï dire</marker>.</example>
+                <example>J’ai ouï dire qu’il ne viendra pas.</example>
             </rule>
             <rule>
                 <regexp>\b(porte)[-‑‐  ](feuilles?)\b</regexp>
