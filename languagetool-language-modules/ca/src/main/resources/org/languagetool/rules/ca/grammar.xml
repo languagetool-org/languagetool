@@ -1287,6 +1287,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CONCORDANCES_NOUNS" name="Z) Concordances en grups nominals" type="grammar">
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordança d'adjectiu posposat a substantius">
             <antipattern>
+                <token>categoria</token>
+                <token regexp="yes">prebenjamí|benjamí|aleví|cadet</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">VO</token>
+                <token postag="A.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token/>
                 <token spacebefore="no" regexp="yes">-|\+</token>
                 <token spacebefore="no"/>
@@ -5008,6 +5016,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://dlc.iec.cat/Results?DecEntradaText=ritual</url>
                 <example correction="Aquests rituals"><marker>Aquestes rituals</marker> són molt bonics.</example>
                 <example>Les rituals trobades de la tribu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>avis</token>
+                    <token>legal</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>avís legal</suggestion>?</message>
+                <example correction="Avís legal"><marker>Avis legal</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup name="el/la fi" id="FI">
