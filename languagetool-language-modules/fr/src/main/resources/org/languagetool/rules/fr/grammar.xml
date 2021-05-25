@@ -6464,7 +6464,7 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START|P.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="SENT_START|P.*|UNKNOWN|Y" postag_regexp="yes"><exception>'</exception></token>
                     <token>à</token>
                     <token postag="V ppa.*" postag_regexp="yes"/>
                 </antipattern>
@@ -6491,7 +6491,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">à|á</token>
-                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                    <token postag="V.*ppa.*" postag_regexp="yes"><exception>été</exception></token>
                     <token postag="V.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -6507,17 +6507,34 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <token>à</token>
-                    <token>surprises</token>
+                    <token regexp="yes">surprises|avancées?|enceintes?</token>
                 </antipattern>
-                <antipattern>
+                 <antipattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <token>à</token>
-                    <token regexp="yes">joints?</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">et|ou|,</token>
+                    <token>à</token>
+                    <token postag="N.*" postag_regexp="yes"/>
                     <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token regexp="yes">poussées?</token>
+                    <token regexp="yes">vectorielles?</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V etre.*|V avoir .*" postag_regexp="yes"/>
                     <token postag="V.*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token postag="V.*ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                     <token>à</token>
                     <token postag="V.*ppa.*" postag_regexp="yes"/>
                 </antipattern>
@@ -6533,26 +6550,33 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token postag="V.* ppa.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes">faire</token>
+                    <token>suite</token>
+                    <token>à</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">à|á
                             <exception scope="previous" postag="V.*" postag_regexp="yes"/>
-                            <exception scope="previous">grâce</exception></token>
+                            <exception scope="previous" regexp="yes">quelque|grâce</exception></token>
                     </marker>
                     <token postag="V.* ppa.*" postag_regexp="yes">
-                        <exception regexp="yes">croisées?|fait|forfaits?|partie|pointe?s?|issues?|coté|partis?|portées?|prises?|mort|vue|revenus?|tapis|visées?|(?-i)Vitré</exception></token>
+                        <exception regexp="yes">[a-z].*-[a-z].*|(dé)?couvert|carrés?|croisées?|fait|forfaits?|partie|pointe?s?|issues?|coté|partis?|portées?|prises?|mort|vue|revenus?|tapis|visées?|(?-i)Vitré</exception></token>
                 </pattern>
                 <message>L'auxiliaire avoir est généralement attendu avant le participe passé '\2'.</message>
                 <suggestion>a</suggestion>
                 <example correction="a">Il <marker>à</marker> été aux États-Unis.</example>
-                <example>Il a été aux États-Unis.</example>
-                <example>Ne sortez jamais de la chambre à demi-vêtu.</example>
-                <example>Il a été à Rome et à Visé.</example>
-                <example>Ils auront plus de DIFFICULTÉS à traversée la rivière.</example>
-                <example>A cru, le cavalier va plus vite.</example>
                 <example correction="a">Paul <marker>à</marker> travaillé tard.</example>
                 <example correction="a">Tom <marker>à</marker> dit qu'il mange.</example>
                 <example correction="a">M. Waters les <marker>à</marker> surprises.</example>
+                <example>Il a été aux États-Unis.</example>
+                <example>Ne sortez jamais de la chambre à demi-vêtu.</example>
+                <example>Il a été à Rome et à Visé.</example>
+                <example>Ils s'enfoncent et contiennent une eau à captée pour l'alimentation hydrique </example>
+                <example>La conception d'un dérivé du Su-27 à poussée vectorielle.</example>
+                <example>Ils auront plus de DIFFICULTÉS à traversée la rivière.</example>
+                <example>A cru, le cavalier va plus vite.</example>
                 <example>Je suis tout à fait d’accord.</example>
                 <example>Pack à branché directement sur un ordinateur.</example>
                 <example>Des trajectoires larges l'ont obligé à adopté un autre style de conduite.</example>
