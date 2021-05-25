@@ -66,6 +66,7 @@ public class FrenchSentenceTokenizerTest {
     testSplit("IVe siècle av. J.-C. en architecture");
     testSplit("sa mort le 19 août 14 apr. J.-C.");
     testSplit("Je suis Chris.[4] ", "Je suis Chris."); 
+    testSplit("gaffa.org");
     
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, …?) sur ce qui nous attend.");
     // TODO:
