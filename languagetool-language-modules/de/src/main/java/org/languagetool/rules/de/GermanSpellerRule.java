@@ -53,6 +53,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final int MAX_EDIT_DISTANCE = 2;
 
+  private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
+    "verjuden", "verjudet", "verjudeter", "verjudetes", "verjudeter", "verjudeten", "verjudetem",
+    "entjuden", "entjudet", "entjudete", "entjudetes", "entjudeter", "entjudeten", "entjudetem"
+  ));
+  
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
@@ -2013,6 +2018,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else {
       super.addProhibitedWords(words);
     }
+  }
+
+  @Override
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l.stream().filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());
   }
 
 }
