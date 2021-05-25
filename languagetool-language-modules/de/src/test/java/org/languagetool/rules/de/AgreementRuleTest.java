@@ -175,6 +175,7 @@ public class AgreementRuleTest {
     assertGood("Im Jahr 1922 verlieh ihm König George V. den erblichen Titel eines Baronet. ");
     assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
     assertGood("Ein Geschenk, das Maßstäbe setzt");
+    assertGood("Einwohnerzahl stieg um das Zweieinhalbfache");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");

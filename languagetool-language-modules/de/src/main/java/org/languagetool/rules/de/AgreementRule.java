@@ -40,7 +40,6 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
@@ -87,6 +86,15 @@ public class AgreementRule extends Rule {
   }
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      token("das"),  // "in das damalige Reichenbach in Schlesien"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      token("Reichenbach")
+    ),
+    Arrays.asList(
+      token("das"),  // "Einwohnerzahl stieg um das Zweieinhalbfache"
+      tokenRegex("(zwei|drei|vier|fünd|sechs|sieben|acht|neun|zehn|elf|zwölf).*fache")
+    ),
     Arrays.asList(
       token("diese"),  // "...damit diese ausreichend Sauerstoff geben."
       tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
