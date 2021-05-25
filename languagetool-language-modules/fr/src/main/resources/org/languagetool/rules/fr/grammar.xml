@@ -21081,6 +21081,34 @@ though, and has since been slightly modified)-->
                 <!-- ignore some Englihs words -->
                 <token regexp="yes">love|patcher|States</token>
             </antipattern>
+            <!-- better suggestions -->
+            <rule>
+                <pattern>
+                    <token>rien</token>
+                    <marker>
+                        <token>de</token>
+                        <token postag="V.* 3 s" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:[NJZ].*|V.ppa.*|V.*inf"/>
+                <message>Le mot « \3 » ne peut pas être un verbe conjugué après la préposition « <match no="2" case_conversion="alllower"/> ».</message>
+                <suggestion>ne \3</suggestion>
+                <suggestion>de {suggestion}</suggestion>
+                <example correction="ne fonctionne|de fonctionné|de fonctions|de fonctionner|de fonctionnel|de ponctionné">Oui, bilan nul car rien <marker>de fonctionne</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:[NJZ].*|V.ppa.*|V.*inf"/>
+                <message>Le mot « \2 » ne peut pas être un verbe conjugué après la préposition « <match no="1" case_conversion="alllower"/> ».</message>
+                <suggestion>se \2</suggestion>
+                <suggestion>ce \2</suggestion>
+                <suggestion>de {suggestion}</suggestion>
+                <example correction="se popularise|ce popularise|de popularisé|de popularité|de populariser|de popularisée|de popularisés">Plus cette méthode <marker>de popularise</marker>.</example>
+                <example correction="se soit|ce soit|de sort|de soir|de soin|de toit|de Smith|de soie|de soif|de séduit">Puis-je faire quoi que <marker>de soit</marker> pour vous ?</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">ami|ennemi</token>
