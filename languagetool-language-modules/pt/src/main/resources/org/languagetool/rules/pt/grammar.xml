@@ -11777,14 +11777,20 @@ Eu comprei-a quando fui à loja.
       <example correction="Nós sabemos"><marker>Nos sabemos</marker> a resposta.</example>
     </rule>
 
-    <!-- NUM SEI não sei -->
-    <rule id='NUM_SEI' name="Confusão: num/não">
+    <!-- NUM não -->
+    <rule id='NUM_NÃO' name="Confusão: num/não">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
       <pattern>
-          <token>num</token>
-          <token>sei</token>
+		  <marker>
+			<token>num</token>
+		  </marker>
+		  <token postag_regexp='yes' postag="V.+">
+            <exception postag_regexp='yes' postag='VMN0000|AQ0.+|NC.+|AO.+'/>
+		  </token>
+		  <token negate_pos="yes" postag_regexp='yes' postag="AQ0.+|NC.+|V.+"/>
       </pattern>
-      <message>Substitua por <suggestion>não sei</suggestion>.</message>
-      <example correction="não sei">Como podes ver, <marker>num sei</marker> a resposta.</example>
+      <message>Substitua por <suggestion>não</suggestion>.</message>
+      <example correction="não">A Ana <marker>num</marker> sabe a resposta.</example>
     </rule>
 
     <!-- O MAS o mais -->
