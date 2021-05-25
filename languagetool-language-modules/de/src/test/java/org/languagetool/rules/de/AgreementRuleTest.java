@@ -30,8 +30,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class AgreementRuleTest {
 
