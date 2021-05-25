@@ -176,6 +176,7 @@ public class AgreementRuleTest {
     assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
     assertGood("Ein Geschenk, das Maßstäbe setzt");
     assertGood("Einwohnerzahl stieg um das Zweieinhalbfache");
+    assertGood("Die Müllers aus Hamburg.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
