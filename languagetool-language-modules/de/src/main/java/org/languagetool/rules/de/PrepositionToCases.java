@@ -23,9 +23,10 @@ import java.util.*;
 import static org.languagetool.rules.de.PrepositionToCases.Case.*;
 
 /**
+ * Note: this is tuned for AgreementSuggestor, be careful when using it for other use cases.
  * @since 5.4
  */
-public class PrepositionToCases {
+class PrepositionToCases {
   
   private final static Map<String, List<Case>> prep2Cases = new HashMap<>();
   
@@ -84,7 +85,7 @@ public class PrepositionToCases {
     add("halber", Gen);
     add("hinsichtlich", Gen);
     add("hinter", Dat, Akk);
-    add("in", Dat, Akk);
+    //add("in", Dat, Akk);  // "und in das Sauerstoff nur ..."
     add("in puncto", Gen);
     add("infolge", Gen);
     add("inklusive", Gen);
@@ -107,7 +108,7 @@ public class PrepositionToCases {
     add("neben", Dat, Akk);
     add("nebst", Dat);
     add("nächst", Dat);
-    add("ob", Gen);
+    //add("ob", Gen);   // "ob das Touristen überhaupt betrifft"
     add("oberhalb", Gen);
     add("ohne", Akk);
     add("per", Akk);
