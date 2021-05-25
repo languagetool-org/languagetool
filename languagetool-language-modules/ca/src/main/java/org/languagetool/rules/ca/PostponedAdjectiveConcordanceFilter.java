@@ -360,7 +360,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       // look into previous words
       j = 1;
       initializeApparitions();
-      while (i - j > 0 && keepCounting(tokens[i - j]) && (level > 1 || j < 4)) {
+      while (i - j > 0 && keepCounting(tokens[i - j])) { //&& (level > 1 || j < 4)
         // there is a previous agreeing noun
         if (!matchPostagRegexp(tokens[i - j], _GN_) && matchPostagRegexp(tokens[i - j], NOM_DET)
             && matchPostagRegexp(tokens[i - j], substPattern)) {

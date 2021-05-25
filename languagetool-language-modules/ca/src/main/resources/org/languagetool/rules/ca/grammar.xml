@@ -108,7 +108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar|hackejar">
     <!ENTITY verbs_no_intrans_consonant "felicitar|perjudicar|concernir|cansar|sorprendre|complaure"> <!--|preocupar|molestar-->
-    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar|obsequiar">
+    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|acusar|obsequiar|ajudar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY verbs_colloquials "digue|vulgue|estigue|sigue|tingue|sàpigue|dugue">
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
@@ -7208,7 +7208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <and>
-                            <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                            <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes">ajudar</exception></token>
                             <token postag="_GV_"/>
                         </and>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
@@ -7229,7 +7229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <and>
-                            <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                            <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes">ajudar</exception></token>
                             <token postag="_GV_"/>
                         </and>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
@@ -29351,7 +29351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">sols?</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">agrícola|sorrenc|arenós|desèrtic|fèrtil|humit|sec|infèrtil|al·luvial|volcànic|urbanitzable|calcari|urbanitzar|quaternari|.*pelvià|argilós|inculte|cultivar|conrear|rústic|urbà|municipal</token>
+                    <token inflected="yes" regexp="yes">industrial|agrícola|sorrenc|arenós|desèrtic|fèrtil|humit|sec|infèrtil|al·luvial|volcànic|urbanitzable|calcari|urbanitzar|quaternari|.*pelvià|argilós|inculte|cultivar|conrear|rústic|urbà|municipal</token>
                 </pattern>
                 <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
                 <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
@@ -31916,6 +31916,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>de la</suggestion>
                 <suggestion>el</suggestion>
                 <example correction="en la|la|de la|el">Ho has de posar <marker>el la</marker> factura.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                        <token>l'</token>
+                        <token>hi</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>se li</suggestion>?</message>
+                <example correction="Se li"><marker>Se l'hi</marker> ofereixen diferents oportunitats.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
