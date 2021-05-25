@@ -11977,23 +11977,22 @@ Eu comprei-a quando fui à loja.
       <example correction="a">O Rui perfilha <marker>da</marker> doutrina de Buda.</example>
     </rule>
 
-    <rule id='PERSISTEM_AO_LONGO_DE_TEMPO' name="Persistem + há + Tempo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-09 (2-JUL-2020+)   -->
+    <rule id='PERSISTIR_AO_LONGO_DE_TEMPO' name="Persistir + há + tempo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
       <pattern>
-	      <and>
-			<token inflected='yes'>persistir</token>
-			<token postag='VMIP3P0' postag_regexp='no'/>			
-		  </and>	
+		  <token inflected='yes'>persistir</token>
 		  <marker>
 			<token>ao</token>
 			<token>longo</token>
-			<token>de</token>
-			<token min="0" max="1" postag='DI0[FM]P0|AQ0[CFM]P0' postag_regexp='yes'/>
-			<token regexp='yes'>segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milénios</token>
+			<token regexp='yes'>de|d[ao]s</token>
+			<token min="0" max="1" postag='Z0.+|DI.+|AQ0.+|NC.+' postag_regexp='yes'/>
+			<token regexp='yes'>segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milénios|gerações|tempos|sessões</token>
 		  </marker>
       </pattern>
-      <message>Substitua por <suggestion>há \5 \6</suggestion>.</message>
-      <example correction="há décadas">Devemos melhorar as deficiências que persistem <marker>ao longo de décadas</marker>.</example>
+      <message>Substitua por</message>
+	  <suggestion>há \5 \6</suggestion>
+	  <suggestion>durante \5 \6</suggestion>
+      <example correction="há décadas|durante décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
     </rule>
 
     <!-- PIOR EDUCADO mais mal-educado -->
@@ -12005,18 +12004,6 @@ Eu comprei-a quando fui à loja.
       <message>Substitua por <suggestion>mais mal-educado</suggestion>.</message>
       <example correction="mais mal-educado">O Jorge é <marker>pior educado</marker> do que parecia.</example>
     </rule>
-
-    <!-- POR CAUSA QUE porque>
-    <rule id='POR_CAUSA_QUE' name="Confusão: por causa - porque">
-     XXX Moved to wordiness. Remove after release.
-      <pattern>
-          <token>por</token>
-          <token>causa</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>porque</suggestion>.</message>
-      <example correction="porque">Fiquei contente <marker>por causa que</marker> ninguém se feriu.</example>
-    </rule -->
 
     <!-- POR DINHEIRO E PUDER por dinheiro e poder -->
     <rule id='POR_DINHEIRO_E_PUDER' name="Confusão: puder/poder">
