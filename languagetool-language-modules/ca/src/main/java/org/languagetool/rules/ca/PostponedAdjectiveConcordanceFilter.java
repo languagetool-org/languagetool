@@ -103,7 +103,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
   private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000|UNKNOWN");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni"); // |\\d+%?|%
-  private static final Pattern STOP_COUNT = Pattern.compile(";");
+  private static final Pattern STOP_COUNT = Pattern.compile("[;:]");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb|sense|contra|com");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
