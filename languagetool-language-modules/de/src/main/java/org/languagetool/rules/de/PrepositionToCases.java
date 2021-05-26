@@ -43,7 +43,7 @@ class PrepositionToCases {
     add("an", Dat, Akk);
     add("angesichts", Gen);
     add("anhand", Gen);
-    add("anläßlich", Gen);
+    add("anlässlich", Gen);
     add("anstatt", Gen);
     add("anstelle", Gen);
     add("auf", Dat, Akk);
