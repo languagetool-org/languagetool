@@ -171,7 +171,6 @@ class AgreementSuggestor {
 
   private List<String> getPronounSuggestions(String nounCase, String nounNumber, String nounGender, AnalyzedToken pronoun) throws IOException {
     String correctPosTag = "PRO:POS:" + nounCase + ":" + nounNumber + ":" + nounGender + ":BEG";  // BEG = begleitend
-    //System.out.println(">>"+correctPosTag);
     return getDeterminerSuggestionsForPosTag(pronoun, correctPosTag, determinerToken.getToken().substring(0, 1));
   }
 
@@ -183,7 +182,6 @@ class AgreementSuggestor {
     String determinerNumber = GermanHelper.getDeterminerNumber(determiner.getPOSTag());
     String determinerGender = GermanHelper.getDeterminerGender(determiner.getPOSTag());
     String correctPosTag = "SUB:" + determinerCase + ":" + determinerNumber + ":" + determinerGender;
-    //System.out.println("C="+correctPosTag);
     return getNounSuggestionsForPosTag(determinerToken, token2Reading, correctPosTag);
   }
 
