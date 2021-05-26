@@ -6619,31 +6619,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se te "regresará".</example>
             </rule>
         </rulegroup>
-        <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
+        <rulegroup id="HACIA_NO_TILDE" name="hacia -> hacía" type="misspelling" default="temp_off">
+            <antipattern>
+                <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
+                <token>hacía</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hacía</token>
+                    </marker>
+                    <token regexp="yes">atrás|delante|adelante|arriba|abajo</token>
+                </pattern>
+                <message>Si es una preposición (que indica dirección), se escribe sin tilde.</message>
+                <suggestion>hacia</suggestion>
+                <example correction="hacia">Se fue <marker>hacía</marker> delante.</example>
+                <example>Se hacía delante de la casa.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HACIA_TILDE" name="hacia -> hacía" type="misspelling">
             <antipattern>
                 <token>lo</token>
                 <token>hacia</token>
                 <token regexp="yes">arriba|abajo|adentro|afuera</token>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
-                    <token>hacia</token>
-                </marker>
-            </pattern>
-            <message>Si es del v. 'hacer', se escribe con tilde.</message>
-            <suggestion>\1 hacía</suggestion>
-            <example correction="se hacía">Eso <marker>se hacia</marker> mal.</example>
-            <example correction="le hacía">Eso <marker>le hacia</marker> mal.</example>
-            <example correction="la hacía">Esa bota <marker>la hacia</marker> otra compañía.</example>
-            <example>Depende de lo hacia abajo que apuntes.</example>
-        </rule>
-        <rulegroup id="HACIA" name="hacia / hacía" type="misspelling">
-            <antipattern>
-                <token>lo</token>
-                <token>hacia</token>
-                <token regexp="yes">arriba|abajo|adentro|afuera</token>
-            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
+                        <token>hacia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>\1 hacía</suggestion>
+                <example correction="se hacía">Eso <marker>se hacia</marker> mal.</example>
+                <example correction="le hacía">Eso <marker>le hacia</marker> mal.</example>
+                <example correction="la hacía">Esa bota <marker>la hacia</marker> otra compañía.</example>
+                <example>Depende de lo hacia abajo que apuntes.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
