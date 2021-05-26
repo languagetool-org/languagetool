@@ -4519,67 +4519,80 @@ though, and has since been slightly modified)-->
                 <example>Je ne connais pas si bien que ça Paris.</example>
             </rule>
         </rulegroup>
-        <rule id="SA_CA" name="SA au lieu de ÇA">
-            <pattern>
-                <marker>
-                    <token>sa
-                        <exception case_sensitive="yes">SA</exception></token>
-                </marker>
-                <token postag="[VR].*|C sub" postag_regexp="yes">
-                    <exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
-            <example correction="Ça"><marker>Sa</marker> va ?</example>
-            <example correction="Ça"><marker>Sa</marker> fait mal.</example>
-            <example correction="ça">C'est pour <marker>sa</marker> que je les aime.</example>
-            <example>Sa voiture est en panne.</example>
-            <example>C’est sa préférée.</example>
-            <example>Il a pour chef-lieu Carcassonne, avec sa célèbre ville médiévale fortifiée.</example>
-            <example>POLYVAP SA est une membrane bitumineuse</example>
-            <example>vers la forêt d'Ida suit sa brillante route</example>
-            <example>le français préfère afficher sa brillante rouerie et sa sagacité</example>
-        </rule>
-        <rule id="SA_CA_FAIT" name="SA au lieu de ÇA">
-            <pattern>
-                <marker>
-                    <token>sa
-                        <exception case_sensitive="yes">SA</exception></token>
-                </marker>
-                <token>fait</token>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
-            <example correction="Ça"><marker>Sa</marker> fait mal.</example>
-            <example correction="Ça"><marker>Sa</marker> fait bien long temps</example>
-        </rule>
-        <rule id="CA_ET_LA" name="ça et là → çà et là">
-            <pattern>
-                <marker>
-                    <token regexp="yes">c[àa]|ça</token>
-                </marker>
-                <token>et</token>
-                <token>là</token>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>çà</suggestion> ?</message>
-            <example correction="çà">Il trouva de la nourriture <marker>ça</marker> et là.</example>
-        </rule>
-        <rule id="CA_CA" name="çà → ça">
-            <pattern>
-                <marker>
-                    <token>çà</token>
-                </marker>
-                <or>
-                    <token postag="[VM].*|R pers obj.*" postag_regexp="yes"/>
-                    <token regexp="yes">ne|n'</token>
-                </or>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
-            <example correction="Ça"><marker>Çà</marker> me va.</example>
-            <example correction="Ça"><marker>Çà</marker> ne marche pas.</example>
-            <example correction="Ça"><marker>Çà</marker> avance.</example>
-            <example correction="Ça"><marker>Çà</marker> n’avance pas.</example>
-            <example correction="ça">Tu n’es pas si fort que <marker>çà</marker>.</example>
-            <example>Il trouva de la nourriture çà et là.</example>
-        </rule>
+        <rulegroup id="SA_CA_SE" name="confusions sa/ça/se">
+            <rule>
+                <pattern>
+                    <token postag="P"/>
+                    <marker>
+                        <token>sa</token>
+                    </marker>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>se</suggestion> (pronom) au lieu de "sa" (possessif) ?</message>
+                <example correction="se">Ève ne tarde pas à <marker>sa</marker> faire des ennemies.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sa
+                            <exception case_sensitive="yes">SA</exception></token>
+                    </marker>
+                    <token postag="[VR].*|C sub" postag_regexp="yes">
+                        <exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ça</suggestion> (pronom) au lieu de "sa" (possessif) ?</message>
+                <example correction="Ça"><marker>Sa</marker> va ?</example>
+                <example correction="Ça"><marker>Sa</marker> fait mal.</example>
+                <example correction="ça">C'est pour <marker>sa</marker> que je les aime.</example>
+                <example>Sa voiture est en panne.</example>
+                <example>C’est sa préférée.</example>
+                <example>Il a pour chef-lieu Carcassonne, avec sa célèbre ville médiévale fortifiée.</example>
+                <example>POLYVAP SA est une membrane bitumineuse</example>
+                <example>vers la forêt d'Ida suit sa brillante route</example>
+                <example>le français préfère afficher sa brillante rouerie et sa sagacité</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sa
+                            <exception case_sensitive="yes">SA</exception></token>
+                    </marker>
+                    <token>fait</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
+                <example correction="Ça"><marker>Sa</marker> fait mal.</example>
+                <example correction="Ça"><marker>Sa</marker> fait bien long temps</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">c[àa]|ça</token>
+                    </marker>
+                    <token>et</token>
+                    <token>là</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>çà</suggestion> ?</message>
+                <example correction="çà">Il trouva de la nourriture <marker>ça</marker> et là.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>çà</token>
+                    </marker>
+                    <or>
+                        <token postag="[VM].*|R pers obj.*" postag_regexp="yes"/>
+                        <token regexp="yes">ne|n'</token>
+                    </or>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
+                <example correction="Ça"><marker>Çà</marker> me va.</example>
+                <example correction="Ça"><marker>Çà</marker> ne marche pas.</example>
+                <example correction="Ça"><marker>Çà</marker> avance.</example>
+                <example correction="Ça"><marker>Çà</marker> n’avance pas.</example>
+                <example correction="ça">Tu n’es pas si fort que <marker>çà</marker>.</example>
+                <example>Il trouva de la nourriture çà et là.</example>
+            </rule>
+        </rulegroup>
         <rule id="QUAND_QUANT" name="Quand au lieu de quant">
             <antipattern>
                 <token regexp="yes">[«‹»›„“‟”’"❝❞❮❯⹂〝〞〟＂‚‘‛❛❜❟]</token>
@@ -20933,6 +20946,10 @@ though, and has since been slightly modified)-->
                 <token>sa</token>
                 <token postag="[VR].*|C sub" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>du</token>
+                <token>votre</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">UN|TA|SA</token>
@@ -20940,10 +20957,6 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token regexp="yes">plus|moins|et|contre|par</token>
                     <token>un</token>
-                </antipattern>
-                <antipattern>
-                    <token>du</token>
-                    <token>votre</token>
                 </antipattern>
                 <pattern>
                     <token postag=".* [me] (s|sp)" postag_regexp="yes" regexp="yes">[cmts]es|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|une?</token>
