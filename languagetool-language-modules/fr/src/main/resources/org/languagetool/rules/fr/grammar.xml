@@ -5785,14 +5785,14 @@ though, and has since been slightly modified)-->
                     <token/>
                     <marker>
                         <token>a
-                            <exception scope="previous" postag="UNKNOWN"/>
-                            <exception scope="previous" regexp="yes" inflected="yes">ne|en|y</exception></token>
+                            <exception scope="previous" regexp="yes" inflected="yes">ne|en|y|y'en</exception></token>
                     </marker>
                     <token regexp="yes">quo?i</token>
                 </pattern>
                 <message>Dans cette expression, la préposition 'a' possède un accent grave.</message>
                 <suggestion>à</suggestion>
                 <example correction="à">Tu penses <marker>a</marker> quoi ?</example>
+                <example correction="À">"<marker>A</marker> quoi penses-tu ?"</example>
                 <example>Il y en <marker>a</marker> qui dorment.</example>
                 <example>Fais-moi savoir s’il y <marker>a</marker> quoi que ce soit que je puisse faire.</example>
                 <example>Il y'en a qui polluent l'atmosphère.</example>
@@ -20892,7 +20892,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">être|avoir</token>
             </antipattern>
             <antipattern>
-                <token>couvre</token>
+                <token regexp="yes">couvre|protège</token>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no"/>
             </antipattern>
@@ -21209,6 +21209,9 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token>rappelons</token>
                     <token>-le</token>
+                </antipattern>
+                <antipattern>
+                    <token>mettons</token>
                 </antipattern>
                 <pattern>
                     <token postag="P.*" postag_regexp="yes">
@@ -26229,16 +26232,17 @@ though, and has since been slightly modified)-->
                 <example>Miguel Diaz-Canel est porté sur les fonts néo-post-castristes.</example>
                 <example>Elle poursuit les séries et aligne sur la post saison 14,3 points</example>
             </rule>
-            <rule default="temp_off">
+            <!-- <rule default="temp_off">
                 <pattern>
                     <token>sur</token>
                     <token min="0">-</token>
-                    <token inflected="yes">mettre</token>
+                    <token inflected="yes">mettre<exception>mettons</exception></token>
                 </pattern>
                 <message>Le verbe 'surmettre' est écrit en un seul mot.</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="Surmettons"><marker>Sur mettons</marker> 18%.</example>
-            </rule>
+                <example>Sur mettons 17% des musulmans qui ont le droit de vote à Bruxelles.</example>
+            </rule>-->
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
             <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
@@ -28303,7 +28307,6 @@ though, and has since been slightly modified)-->
                 <example>Prestation très pro.</example>
                 <!-- Are these correct? -->
                 <example type="triggers_error">Tom prend très soin de sa voiture.</example>
-                <example type="triggers_error">Sandrine étaient très fan de lui.</example>
                 <example type="triggers_error">Sandrine étaient très fan de lui.</example>
             </rule>
         </rulegroup>
@@ -45415,19 +45418,8 @@ though, and has since been slightly modified)-->
             <example>Non merci.</example>
             <example>Je me demande s’il avait ou <marker>non conscience</marker> que son arme était chargée.</example>
         </rule>
-        <rule id="ETC" name="etc...">
-            <pattern>
-                <token>etc</token>
-                <token>.</token>
-                <token>.</token>
-                <token>.</token>
-            </pattern>
-            <message>« Etc... » est une faute de typographie. Employez <suggestion>etc.</suggestion>, <suggestion>...</suggestion>, et non les deux à la fois.</message>
+        <rulegroup id="ETCETERA" name="etc...">
             <url>http://www.langue-fr.net/spip.php?article142</url>
-            <example correction="etc.|..."><marker>etc...</marker></example>
-            <example><marker>etc.</marker></example>
-        </rule>
-        <rulegroup id="ETCETERA" name="etc..." default="temp_off">
             <rule>
                 <pattern>
                     <token>etc</token>
