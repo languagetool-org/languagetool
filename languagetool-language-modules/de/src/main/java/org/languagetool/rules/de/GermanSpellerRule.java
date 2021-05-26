@@ -54,8 +54,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
+    // some of these are taken fom hunspell's dictionary where non-suggested words use tag "/n":
     "verjuden", "verjudet", "verjudeter", "verjudetes", "verjudeter", "verjudeten", "verjudetem",
-    "entjuden", "entjudet", "entjudete", "entjudetes", "entjudeter", "entjudeten", "entjudetem"
+    "entjuden", "entjudet", "entjudete", "entjudetes", "entjudeter", "entjudeten", "entjudetem",
+    "auschwitzmythos",
+    "judensippe", "judensippen",
+    "judensippschaft", "judensippschaften",
+    "nigger", "niggern", "niggers",
+    "neger", "negern", "negers",
+    "negerin", "negerinnen",
+    "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
+    "möse", "mösen",
+    "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
+    "judenrein", "judenreine", "judenreiner", "judenreines", "judenreinen", "judenreinem"
   ));
   
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:

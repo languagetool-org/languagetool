@@ -831,6 +831,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);
+    assertFirstSuggestion("Auschwitzmythxs,", null, rule, lt);  // correction prevented by lcDoNotSuggestWords
   }
   
   @Test
