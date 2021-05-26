@@ -428,6 +428,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           addError(rule, "Empty incorrect example sentence after cleaning/trimming.");
           continue;
       }
+      
+      String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
+      if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(","))) {
+        System.err.println("Warning: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
+          "doesn't have a space in the suggestion: " + origBadSentence + " => " + origBadExample.getCorrections());
+      }
 
       // necessary for XML Pattern rules containing <or>
       List<RuleMatch> matches = new ArrayList<>();
