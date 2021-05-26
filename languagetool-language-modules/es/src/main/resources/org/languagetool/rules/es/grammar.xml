@@ -6629,7 +6629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>hacía</token>
                     </marker>
-                    <token regexp="yes">atrás|delante|adelante|arriba|abajo</token>
+                    <token regexp="yes">atrás|delante|adelante|arriba|abajo|afuera|fuera|dentro|adentro</token>
                 </pattern>
                 <message>Si es una preposición (que indica dirección), se escribe sin tilde.</message>
                 <suggestion>hacia</suggestion>
@@ -6673,7 +6673,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vamos hacia abajo.</example>
                 <example>Fabricada hacia 1988.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token postag="_PUNCT.*|V.N.*|SPS.*|RG|C.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Se concentraba en lo que <marker>hacia</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">poco|mucho|muchísimo|poquísimo|que|más|menos|tiempo|falta|ya|&unidades_tiempo;|de|del|con|en|tanto|rato|tan|caso|cada|todo|daño|nada|siempre|solo|sólo|bien|pregunta|referencia|sino|difícil|juego|ni|bastante|imposible|gala|esfuerzo|aún|ilusión|cargo|yo|desde|honor|tarde|viento|pedazo|cola|comentario|ademán|evidente</token>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="Hacía"><marker>Hacia</marker> mucho que no se veían.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="Hacía"><marker>Hacia</marker> dos años que no se veían.</example>
+            </rule>
+            <!--<rule default="temp_off">
                 <antipattern>
                     <token regexp="yes" inflected="yes">enlace|dirección|redirección|atajo|camino</token>
                     <token>hacia</token>
@@ -6700,7 +6734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Entonces él <marker>hacia</marker> lo mismo.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rulegroup id="NO_TILDE" name="palabras sin tilde según el contexto">
             <rule>
