@@ -6645,6 +6645,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>hacia</token>
                 <token regexp="yes">arriba|abajo|adentro|afuera</token>
             </antipattern>
+            <antipattern>
+                <token>hacia</token>
+                <token postag="CC"/>
+                <token regexp="yes">desde|fuera|alejándo.*</token>
+            </antipattern>
+            <antipattern>
+                <token>hacia</token>
+                <token postag="CC"/>
+                <token>en</token>
+                <token>contra</token>
+            </antipattern>
+            <antipattern>
+                <token>hacia</token>
+                <token postag="CC"/>
+                <token>a</token>
+                <token>través</token>
+            </antipattern>
+            <antipattern>
+                <token>hacia</token>
+                <token>o</token>
+                <token>el</token>
+                <token>mismo</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -6664,7 +6687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>hacia</token>
                     </marker>
-                    <token min="0">mucho</token>
+                    <token min="0" regexp="yes">mucho|poco|demasiado|muchísimo|poquísimo</token>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes">calor|frío|tiempo<exception regexp="yes">\d+</exception></token>
                 </pattern>
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
@@ -6679,36 +6702,154 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>hacia</token>
+                        <token>tras</token>
                     </marker>
-                    <token postag="_PUNCT.*|V.N.*|SPS.*|C.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/> <!--RG|-->
+                </pattern>
+                <message>Para indicar movimiento, se escribe "hacia atrás". Si es del v. 'hacer', "hacía" se escribe con tilde.</message>
+                <suggestion>hacia atrás</suggestion>
+                <suggestion>hacía tras</suggestion>
+                <example correction="hacia atrás|hacía tras">Caía <marker>hacia tras</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                        <token>así</token>
+                    </marker>
+                </pattern>
+                <message>Si es un pronombre reflexivo, se escribe "hacia sí". Si es del v. 'hacer', "hacía" se escribe con tilde.</message>
+                <suggestion>hacia sí</suggestion>
+                <suggestion>hacía así</suggestion>
+                <example correction="hacia sí|hacía así">Caía <marker>hacia así</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                        <token>medio</token>
+                        <token>día</token>
+                    </marker>
+                </pattern>
+                <message>Si es una parte del día se escribe 'mediodía'. Si es del v. 'hacer', "hacía" se escribe con tilde.</message>
+                <suggestion>hacia mediodía</suggestion>
+                <suggestion>hacía medio día</suggestion>
+                <example correction="hacia mediodía|hacía medio día">Vino <marker>hacia medio día</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>hacia</token>
+                    <token>en</token>
+                    <token>medio</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                        <token>en</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'hacer', "hacía" se escribe con tilde.</message>
+                <suggestion>hacía en</suggestion>
+                <suggestion>hacia el</suggestion>
+                <example correction="hacía en|hacia el">¿Qué <marker>hacia en</marker> aquel lugar?</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>hacia</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token postag="_PUNCT.*|V.N.*|SPS.*|CC|&pronombre_personal_atono_POS;" postag_regexp="yes"><exception postag="D.*|_GN_.*|_QM_OPEN" postag_regexp="yes"/><exception case_sensitive="yes" regexp="yes">\p{Lu}.*|…</exception></token>
+                    <!--RG|-->
                 </pattern>
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Se concentraba en lo que <marker>hacia</marker>.</example>
+                <example>Hay una escalera que asciende hacia donde calculábamos.</example>
+                <example>Se volvió hacia O'Neill.</example>
+                <example>Se dirigió hacia «su avenida».</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>hacia</token>
+                    <token>ya</token>
+                    <token min="0" max="2" regexp="yes">no|solo|sólo|Dios</token>
+                    <token inflected="yes">saber</token>
+                    <token><exception>cuanto</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes" skip="3">dirigir|avanzar|encaminar</token>
+                    <token>hacia</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>hacia</token>
                     </marker>
-                    <token regexp="yes">pajas|burbujas|frecuentemente|amistad|caricias|frufrú|morisquetas|buenos|aconsejable|carreras|es|té|terriblemente|pasteles|averiguaciones|maravillosamente|aparición|paquetes|creíble|impensable|excesivo|pizca|palanca|nudos|excepciones|vieja|obvio|necesariamente|extensivo|mofa|colección|progresivamente|frenéticos|crucigramas|digno|estiramientos|cuántos|veía|mimos|infinitamente|obras|investigaciones|real|marcha|listas|pequeño|referencias|mohines|gracias|impenetrable|comentario|resultaba|siquiera|merecedora|ímprobos|pronto|gratis|comedia|cuestión|imposibles|bolas|torpes|inmensamente|temible|tolerable|proyectos|extraños|pensaba|víctima|ligeramente|siguiendo|cumplidos|suyas|contraste|prisioneros|minutos|superior|sugerencias|pensó|rápido|débiles|tantísimos|había|impacto|causa|sonidos|prodigios|señal|sentirnos|atractiva|trabajo|comparaciones|traición|gesto|preparativos|funciones|círculos|infeliz|siglo|rara|mujer|invencible|claro|invariablemente|carrera|borroso|luna|fintas|inaccesible|bolsas|larga|ángulo|poca|contigo|conjunto|continuas|partícipes|generalmente|extraña|continuos|penoso|bulto|malabares|consciente|peligrosa|seña|pan|innumerables|aposta|palpable|sentirte|audible|distingos|extraordinariamente|merecedor|movimiento|lento|arrumacos|verdaderamente|perfecto|limpieza|contrabando|compras|dueño|objeciones|alusiones|junto|única|dijo|política|preguntarme|coro|encima|enormes|centenares|demostraciones|tonterías|sumamente|astillas|explosión|insinuaciones|capaz|propaganda|remolinos|incursiones|películas|tremendamente|visera|ganchillo|noche|travesuras|irreconocible|mentalmente|débil|ofrendas|hace|idea|recuento|indicaciones|automáticamente|humano|chapuzas|incómodo|regularmente|negocio|gárgaras|mes|hombre|intentos|favores|pensando|deliberadamente|excursiones|copias|equilibrio|bocetos|vio|visajes|gorgoritos|justamente|transparente|primero|urgente|inmediatamente|denodados|tantísimo|alto|distinta|jamás|música|vulnerables|cómplice|responsables|vanos|penitencia|culpable|directamente|café|eterna|breves|invisibles|difíciles|decenas|esfuerzo|labores|extremadamente|borrosa|suyo|insufrible|proposiciones|innecesarias|rico|hora|pipí|diariamente|rápidos|fiestas|incontables|parte|perfectamente|mala|quizá|dinero|iba|pesada|pareja|invulnerable|simpático|completamente|interesante|totalmente|inútiles|tic|hacia|teatro|molinetes|contacto|inmune|cortes|tilín|últimamente|turnos|grande|innecesaria|agradable|números|autoestop|intención|sería|polvo|irrespirable|clic|declaraciones|constantes|insostenible|cábalas|único|acreedor|amigo|fotografías|según|correctamente|duro|carantoñas|jirones|antaño|atractivo|maldita|indispensable|sitio|pendiente|pruebas|trucos|desesperados|trampa|distinto|pesas|conjeturas|bochorno|espuma|experimentos|aun|inventario|tratos|viajes|lentamente|escasas|magia|sacrificios|publicidad|campaña|balance|innecesario|visibles|buenas|muchísima|igual|podía|doblemente|antiguamente|solitarios|llamadas|apuestas|despacio|deporte|contra|blanco|decenios|parecía|fácilmente|distinción|particularmente|concesiones|garabatos|largas|novillos|lustros|suya|autostop|observaciones|rápidamente|peor|sola|extensiva|maravillas|pesado|amago|pero|inútil|eses|versos|jogging|irresistible|pis|escasamente|distinciones|peligroso|pequeñas|incluso|calceta|votos|flexiones|signos|ruiditos|mediante|alrededor|continuamente|simplemente|absolutamente|constantemente|eran|cruces|únicamente|anotaciones|verdaderos|intolerable|vulnerable|amigos|cuentas|chistes|justo|adrede|inevitable|tenía|pausas|eterno|ademanes|precisamente|pucheros|soportable|pequeños|progresos|burla|eones|después|felices|lenguas|normalmente|pública|prácticas|público|pie|piruetas|preciso|conmigo|confidencias|escala|footing|fotos|cuesta|reproches|fácil|juegos|demasiados|fuerte|entrega|relativamente|frecuentes|chantaje|promesas|suficiente|ante|visitas|memoria|vida|especialmente|gimnasia|presente|guiños|punto|cuánto|recados|ejercicios|cálculos|bueno|año|trizas|imprescindible|viejo|movimientos|dibujos|milagros|ostentación|largos|especial|aspavientos|prácticamente|solamente|bastantes|presión|buena|malabarismos|habitualmente|gran|trabajos|necesaria|fuego|fuerza|equilibrios|estaba|partícipe|entre|demasiadas|ascos|furor|reverencias|mientras|regalos|escasos|interminable|cabriolas|muchísimos|oídos|realmente|objeto|sombra|tantas|diferente|efecto|presa|tictac|hasta|demasiada|acto|cerca|alarde|cosa|invisible|nunca|aproximadamente|ruidos|le|bromas|trampas|acopio|negocios|durante|extraño|realidad|raro|alusión|mella|me|entonces|visible|esquina|generaciones|hincapié|tanta|estragos|planes|medio|ejercicio|responsable|todavía|patente|mejor|señales|así|mención|agua|grandes|ilusión|justicia|uso|sobre|añicos|también|pocas|sol|se|compañía|mayor|eco|evidente|ademán|comentarios|del|cuanto|cola|pedazos|viento|tarde|exactamente|honor|posible|o|frente|muecas|esto|fresco|necesario|insoportable|guardia|porque|ruido|muchísimo|sin|desde|ahora|mal|largo|feliz|antes|muchas|cosquillas|pocos|gestos|buen|yo|cargo|ilusiones|mucha|aún|esfuerzos|varias|imposible|gala|bastante|ni|juego|como|difícil|sino|referencia|bien|preguntas|gracia|cuando|apenas|señas|menos|sólo|solo|demasiado|siempre|era|para|daño|caso|tan|muy|por|calor|rato|tanto|frío|en|con|poco|de|ya|falta|tiempo|que|mucho</token>
+                    <token regexp="yes"
+                        >pajas|burbujas|frecuentemente|amistad|caricias|frufrú|morisquetas|buenos|aconsejable|carreras|es|té|terriblemente|pasteles|averiguaciones|maravillosamente|aparición|paquetes|creíble|impensable|excesivo|pizca|palanca|nudos|excepciones|vieja|obvio|necesariamente|extensivo|mofa|colección|progresivamente|frenéticos|crucigramas|digno|estiramientos|cuántos|veía|mimos|infinitamente|obras|investigaciones|real|marcha|listas|pequeño|referencias|mohines|gracias|impenetrable|comentario|resultaba|siquiera|merecedora|ímprobos|pronto|gratis|comedia|cuestión|imposibles|bolas|torpes|inmensamente|temible|tolerable|proyectos|pensaba|víctima|ligeramente|siguiendo|cumplidos|suyas|contraste|prisioneros|minutos|superior|sugerencias|pensó|rápido|débiles|había|impacto|causa|sonidos|prodigios|señal|sentirnos|atractiva|trabajo|comparaciones|traición|gesto|preparativos|círculos|infeliz|siglo|rara|mujer|invencible|claro|invariablemente|carrera|borroso|luna|fintas|inaccesible|bolsas|larga|ángulo|poca|contigo|conjunto|continuas|partícipes|generalmente|extraña|continuos|penoso|bulto|malabares|consciente|peligrosa|seña|pan|aposta|palpable|sentirte|audible|distingos|extraordinariamente|merecedor|movimiento|lento|arrumacos|verdaderamente|perfecto|limpieza|contrabando|compras|dueño|objeciones|alusiones|junto|única|dijo|política|preguntarme|coro|encima|enormes|centenares|demostraciones|tonterías|sumamente|astillas|explosión|insinuaciones|capaz|propaganda|remolinos|incursiones|películas|tremendamente|visera|ganchillo|noche|travesuras|irreconocible|mentalmente|débil|ofrendas|hace|idea|recuento|indicaciones|automáticamente|humano|chapuzas|incómodo|regularmente|negocio|gárgaras|mes|hombre|intentos|favores|pensando|deliberadamente|excursiones|copias|equilibrio|bocetos|vio|visajes|gorgoritos|justamente|transparente|primero|urgente|inmediatamente|denodados|tantísimo|alto|distinta|jamás|música|vulnerables|cómplice|responsables|vanos|penitencia|culpable|directamente|café|eterna|breves|difíciles|decenas|esfuerzo|labores|extremadamente|borrosa|suyo|insufrible|proposiciones|innecesarias|rico|hora|pipí|diariamente|rápidos|fiestas|incontables|perfectamente|mala|quizá|dinero|iba|pesada|pareja|invulnerable|simpático|completamente|interesante|totalmente|inútiles|tic|hacia|teatro|molinetes|contacto|inmune|cortes|tilín|últimamente|turnos|grande|innecesaria|agradable|números|autoestop|intención|sería|polvo|irrespirable|clic|declaraciones|constantes|insostenible|cábalas|único|acreedor|amigo|fotografías|según|correctamente|duro|carantoñas|jirones|antaño|atractivo|maldita|indispensable|pendiente|pruebas|trucos|desesperados|trampa|distinto|pesas|conjeturas|bochorno|espuma|experimentos|aun|inventario|tratos|viajes|lentamente|escasas|magia|sacrificios|publicidad|campaña|balance|innecesario|visibles|buenas|muchísima|igual|podía|doblemente|antiguamente|solitarios|llamadas|apuestas|despacio|deporte|contra|blanco|decenios|parecía|fácilmente|distinción|particularmente|concesiones|garabatos|largas|novillos|lustros|suya|autostop|observaciones|rápidamente|sola|extensiva|maravillas|pesado|amago|pero|inútil|eses|versos|jogging|irresistible|pis|escasamente|distinciones|peligroso|incluso|calceta|votos|flexiones|signos|ruiditos|mediante|alrededor|continuamente|simplemente|absolutamente|constantemente|eran|cruces|únicamente|anotaciones|verdaderos|intolerable|vulnerable|amigos|cuentas|chistes|justo|adrede|inevitable|tenía|pausas|eterno|ademanes|precisamente|pucheros|soportable|progresos|burla|eones|después|felices|lenguas|normalmente|pública|público|pie|piruetas|preciso|conmigo|confidencias|escala|footing|fotos|cuesta|reproches|fácil|juegos|demasiados|fuerte|entrega|relativamente|frecuentes|chantaje|promesas|suficiente|ante|visitas|memoria|vida|especialmente|gimnasia|presente|guiños|punto|cuánto|recados|ejercicios|cálculos|bueno|año|trizas|imprescindible|viejo|movimientos|dibujos|milagros|ostentación|largos|especial|aspavientos|prácticamente|solamente|presión|buena|malabarismos|habitualmente|gran|trabajos|necesaria|fuego|fuerza|equilibrios|estaba|partícipe|entre|demasiadas|ascos|furor|reverencias|mientras|regalos|escasos|interminable|cabriolas|muchísimos|oídos|realmente|objeto|sombra|diferente|efecto|presa|tictac|hasta|demasiada|acto|cerca|alarde|cosa|invisible|nunca|aproximadamente|ruidos|le|bromas|trampas|acopio|negocios|durante|extraño|realidad|raro|alusión|mella|me|entonces|visible|esquina|generaciones|hincapié|tanta|estragos|planes|medio|ejercicio|responsable|todavía|patente|mejor|señales|mención|agua|ilusión|justicia|uso|sobre|añicos|también|pocas|sol|se|compañía|mayor|eco|evidente|ademán|comentarios|del|cola|pedazos|viento|tarde|exactamente|honor|posible|frente|muecas|fresco|necesario|insoportable|guardia|porque|ruido|muchísimo|sin|desde|ahora|mal|largo|feliz|antes|cosquillas|pocos|gestos|buen|yo|cargo|ilusiones|mucha|aún|esfuerzos|varias|imposible|gala|bastante|ni|juego|como|difícil|sino|referencia|bien|preguntas|gracia|cuando|apenas|señas|menos|sólo|solo|demasiado|siempre|era|para|daño|caso|tan|muy|por|calor|rato|tanto|frío|con|poco|de|ya|falta|tiempo|que|mucho</token>
                 </pattern>
+                <!--tantas, tantísimos, bastantes, grandes, así, cuanto, esto, extraños, funciones, innumerables, invisibles, muchas, parte, peor, pequeños, pequeñas, prácticas, sitio-->
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="Hacía"><marker>Hacia</marker> mucho que no se veían.</example>
+                <!-- hacia viajes sin destino. -->
+                <example>camina hacia ya sabe dónde</example>
+                <example>hacia ya no sé qué rincones</example>
+                <example>se había dirigido cada vez más hacia precisamente esto</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>hacia</token>
+                    <token regexp="yes">\d+</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>segundo</token>
+                    <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>segundo</token>
+                    <token regexp="yes">de|ESO|EGB|bachillerato|BUP</token>
+                </antipattern>
+                <antipattern>
+                    <token>semana</token>
+                    <token>laboral</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>hacia</token>
                     </marker>
-                    <token postag="D[NI].*" postag_regexp="yes" min="0"/>
-                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                    <token min="0" max="2" regexp="yes">casi|ya|más|menos|de</token>
+                    <token postag="D[NI].*|_PUNCT.*|CC" postag_regexp="yes" min="0" max="3"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;|rato|tiempo<exception>tiempos</exception></token>
                 </pattern>
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="Hacía"><marker>Hacia</marker> dos años que no se veían.</example>
+                <example correction="Hacía"><marker>Hacia</marker> muchos, muchos meses que no se veían.</example>
+                <example correction="Hacía"><marker>Hacia</marker> casi dos años que no se veían.</example>
                 <example correction="Hacía"><marker>Hacia</marker> tantos años que no se veían.</example>
+                <example correction="hacía">De eso <marker>hacia</marker> ya treinta y tres días.</example>
+                <example correction="hacía">De eso <marker>hacia</marker> ya unos cuantos años.</example>
+                <example>Se volvió hacia O'Neill.</example>
+                <example>hacia tiempos pasados</example>
+                <example>Benjamín Otálora cuenta, hacia 1891, diecinueve años.</example>
+                <example>Cruzaron una galería hacia un segundo patio.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>desde</token>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Pasaba desde <marker>hacia</marker> demasiado tiempo.</example>
             </rule>
             <!--<rule default="temp_off">
                 <antipattern>
