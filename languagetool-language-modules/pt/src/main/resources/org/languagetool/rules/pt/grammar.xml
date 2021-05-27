@@ -10733,14 +10733,36 @@ Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
       <example correction="à meia-noite">O encontro é <marker>à meia noite</marker>.</example>
     </rule>
 
-    <rule id='À_MUITO' name="Há muito">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>à</token>
-          <token regexp='yes'>muito|pouco</token>
+    <rule id='À_HÁ_CONFUSÃO' name="Confusão: à/há">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-27 (Enhanced) (17-MAR-2021+)      -->
+<!--
+Ainda à muito para fazer. → Ainda há muito para fazer. 
+Ainda à pouco para fazer. → Ainda há pouco para fazer.
+Ainda à bastante para fazer. → Ainda há bastante para fazer.
+Ainda à imenso para fazer. → Ainda há imenso para fazer.
+-->	
+      <antipattern>
+		<token postag='RG' postag_regexp='no'/>
+		<token>à</token>
+		<token regexp='yes'>noite|tarde|esquerda|direita|frente|disposição|medida|primeira</token>
+	  </antipattern>
+	  <pattern>
+		  <token postag='RG' postag_regexp='no'>
+            <exception postag_regexp='yes' postag='DI.+|NC.+|AQ0.+|PI.+|CC|I|SPS.+'/>
+		  </token>
+		  <marker>
+			<token>à</token>
+		  </marker>
+		  <token postag='PI.+|RG' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+		  </token>
       </pattern>
-      <message>Substitua por <suggestion>há muito</suggestion>.</message>
-      <example correction="há muito">Ainda <marker>à muito</marker> a fazer.</example>
+      <message>Substitua por <suggestion>há</suggestion>.</message>
+      <example correction="há">Ainda <marker>à</marker> muito a fazer.</example>
+	  <example>Ainda há muito para fazer.</example>
+	  <example>Ainda há pouco para fazer.</example>
+	  <example>Ainda há bastante para fazer.</example>
+	  <example>Ainda há imenso para fazer.</example>
     </rule>
 
     <rule id='A_PREÇO_PELO' name="Confusão: a preço/apreço">
