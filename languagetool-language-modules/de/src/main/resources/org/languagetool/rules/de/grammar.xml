@@ -21224,6 +21224,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADJ:.*|UNKNOWN" postag_regexp="yes" min="0" />
                 <token>Kraft</token>
             </antipattern>
+            <antipattern>
+                <token>:</token>
+                <token>Kraft</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token case_sensitive="yes">Kraft</token>
@@ -21584,7 +21588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        .*[a-z].*
+                        .*[a-z,].*
                         <exception regexp="yes">ein|das|dieses|jedes|.+illionen|.+illiarden|.*tausend|.*hundert|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig</exception>
                         <exception postag="ADJ:.+|UNKNOWN" postag_regexp="yes" />
                     </token>
@@ -23747,10 +23751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="KRAFT_MEINES_AMTES" name="'Kraft (kraft) meines Amtes'">
             <pattern case_sensitive="yes">
-                <token>
-                    <exception postag="SENT_START"/>
-                    <exception regexp="yes">&anf;</exception>
-                </token>
+                <token regexp="yes">.*[a-z0-9\),].*</token>
                 <marker>
                     <token>Kraft</token>
                 </marker>
@@ -23762,6 +23763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="kraft">Der Pfleger ist <marker>Kraft</marker> seines Amtes dazu nicht berechtigt.</example>
             <example><marker>Kraft</marker> meines Amtes verfüge ich folgendes.</example>
             <example>Sie sprach: „<marker>Kraft</marker> meines Amtes erkläre ich euch zu Mann und Frau.“</example>
+            <example>Die Standesbeamtin sagte: Kraft meines Amtes ernenne ich euch zu Mann und Frau.</example>
         </rule>
         <rule id="WUNDER_PUNKT" name="'Wunde (wunde) Punkt'">
             <pattern case_sensitive="yes">
@@ -24171,10 +24173,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag_regexp="yes" postag="PRO:REF:.+" skip="1"/>
                     <token case_sensitive="yes" regexp="yes">scheiße|scheisse</token>
-                    <token inflected="yes">fühlen</token>
+                    <token inflected="yes" regexp="yes">fühlen|gehen|finden</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">fühlen</token>
+                    <token inflected="yes" regexp="yes">fühlen|gehen|finden</token>
                     <token postag_regexp="yes" postag="PRO:REF:.+"/>
                     <token case_sensitive="yes" regexp="yes">scheiße|scheisse</token>
                 </antipattern>
@@ -24188,13 +24190,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">sein</token>
                     <token>Übriges</token>
                 </antipattern>
+                <antipattern>
+                    <token>stelle</token>
+                    <token>sicher</token>
+                </antipattern>
+                <antipattern>
+                    <token>sucht</token>
+                    <token>laufend</token>
+                    <token>nach</token>
+                </antipattern>
+                <antipattern>
+                    <token>richtig</token>
+                    <token>liege</token>
+                </antipattern>
+                <antipattern>
+                    <token>sucht</token>
+                    <token skip="-1">reife</token>
+                    <token regexp="yes">Frauen|Männer</token>
+                </antipattern>
+                <antipattern>
+                    <token>dies</token>
+                    <token>tat</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).+|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token>wolle</token>
+                </antipattern>
+                <antipattern>
+                    <token>Maske</token>
+                    <token regexp="yes">tragen?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Leute|Mitarbeiter|Angestellte|Menschen|Entwickler|Experten</token>
+                    <token>sucht</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">ab(fahrt|frage|fuhr|reise|sage)|an(fahrt|frage|klage|rede|reise|richte|sage|zeige)|asche|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|beichte|beize|beule|beute|binde|blase|bombe|bräune|brause|braut|bremse|buche|bucht|bürde|bürste|creme|decke|delle|dichte|durchfahrt|durchreiche|durchreise|durchsage|dusche|düse|ehre|eiche|eile|einbrenne|einfahrt|einreise|erde|fahrt|falle|falte|feier|feile|flamme|flaute|fliege|fliese|flöte|flucht|folge|frage|fräse|fresse|fülle|furche|geige|gemeinde|glotze|gnade|grenze|grille|großtat|grosstat|gurke|hacke|halle|harke|härte|haut|hecke|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|initiative|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klampfe|klappe|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kotze|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|last|lauge|lehne|lehre|leier|leiste|leuchte|liege|linse|locke|lüge|lymphe|menge|messe|miete|mühe|münze|nachfolge|nachfrage|nähe|naht|nässe|pappe|pauke|pause|pelle|perle|pfeife|pflanze|pisse|plane|posaune|predigt|presse|probe|prostituierte|pumpe|quelle|ramme|ranke|rassel|rast|rate|ratsche|raute|rede|reibe|reihe|reise|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|sause|salbe|schabe|schanze|scharte|schau|schaufel|schaukel|scheide|scheiße|scheisse|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schliesse|schlinge|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwitze|sehne|seife|senke|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spritze|spucke|spule|spüle|stärke|stelle|stiege|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taufe|trage|träne|tränke|trommel|trompete|tröte|tunke|tüte|unke|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|wacht|walze|wand|wärme|warte|weide|weile|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wohltat|wolle|würze|zeche|zicke|zufuhr|zusage|zwinge</token>
                     </marker>
                     <token postag="VER:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">^[a-zäöü].+
-                        <exception regexp="yes">ein(en?)?|deutschen?|klaren?|bitte|dringend|anscheinend</exception>
+                        <exception regexp="yes">ein(en?)?|sein|deutschen?|klaren?|bitte|schnell|sicher|gleich|dringend|anscheinend|andauernd|anschlie(ß|ss)end|zunehmend</exception>
                         <exception postag="ADV:MOD" />
                     </token>
                 </pattern>
@@ -24206,6 +24242,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich trage deutschen Wein in meiner Einkaufstasche.</example>
                 <example>Ich wünschte, der Regen würde aufhören.</example>
                 <example>Er hat die <marker>Miete</marker> überwiesen.</example>
+                <example>Bitte stelle sicher, dass das funktioniert.</example>
+                <example>Wenn ich richtig liege ist heute dein Geburtstag.</example>
+                <example>Willy tat sein Bestes.</example>
+                <example>BMW wolle führend bei E-Mobilität werden.</example>
                 <example>Die Firma im US-Bundesstaat Ohio <marker>sucht</marker> dringend qualifizierte Fachkräfte</example>
                 <example correction="Miete">Er hat keine <marker>miete</marker> gezahlt.</example>
                 <example correction="Flöte">Du kannst überhaupt nicht <marker>flöte</marker> spielen.</example>
@@ -24237,10 +24277,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:3:SIN:KJ1:NON" regexp="yes" case_sensitive="yes">[a-zäöüß].+e
                             <exception postag="ADJ:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">bitte|nehme|kenne</exception>
+                            <exception regexp="yes">bitte|nehme|kenne|werde</exception>
                         </token>
                     </marker>
-                    <token postag="VER:.+|SENT_END" postag_regexp="yes"/>
+                    <token postag="VER:.+|SENT_END" postag_regexp="yes">
+                        <exception regexp="yes">sicher|gleich|m?einen</exception>
+                    </token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <example correction="Biege">Er machte die <marker>biege</marker>.</example>
@@ -24248,6 +24290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Biege">Er fragte, ob sie die <marker>biege</marker> mache.</example>
                 <example>Ich nehme die heiße.</example>
                 <example>Da recherchiere ich lieber nochmal, bevor ich die nehme.</example>
+                <example>Die werde sicher auch kontaktiert werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HUELLE_UND_FUELLE" name="'in hülle (Hülle) und fülle (Fülle)'">
@@ -26200,7 +26243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">.*[a-z].*</token>
+                    <token regexp="yes">.*[a-z,].*</token>
                     <marker>
                         <token>Wohl</token>
                         <token regexp="yes">[Oo]der</token>
@@ -50899,6 +50942,10 @@ Andere Projekte</example>
             <antipattern>
                 <token skip="1" regexp="yes">the|of</token>
                 <token regexp="yes">.*ph.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Bibliographische[ns]?</token>
+                <token regexp="yes">Institute?s?</token>
             </antipattern>
             <rule>
                 <pattern>
