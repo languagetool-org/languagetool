@@ -229,7 +229,7 @@ public class French extends Language implements AutoCloseable {
       case "FR_COMPOUNDS": return 500; // greater than agreement rules
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
-      case "SA_CA": return 100; // greater than D_N
+      case "SA_CA_SE": return 100; // greater than D_N
       case "MA": return 100; // greater than D_J
       case "SON_SONT": return 100; // greater than D_J
       case "JE_TES": return 100; // greater than D_J
