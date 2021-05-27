@@ -6629,7 +6629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>hacía</token>
                     </marker>
-                    <token regexp="yes">abajo|adelante|adentro|afuera|ambos|arriba|casa|delante|donde|dónde|ellas|ellos|finales|mediodía|nosotros|nuestra|nuestro|poniente|popa|ti|tierra|sí|mí|atrás</token>
+                    <token regexp="yes">mediados|abajo|adelante|adentro|afuera|ambos|arriba|casa|delante|donde|dónde|ellas|ellos|finales|mediodía|nosotros|nuestra|nuestro|poniente|popa|ti|tierra|sí|mí|atrás</token>
                     <!-- fuera, dentro -->
                 </pattern>
                 <message>Si es una preposición (que indica dirección), se escribe sin tilde.</message>
@@ -6667,6 +6667,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>o</token>
                 <token>el</token>
                 <token>mismo</token>
+            </antipattern>
+            <antipattern>
+                <token>hacia</token>
+                <token regexp="yes">mediados|abajo|adelante|adentro|afuera|ambos|arriba|casa|delante|donde|dónde|ellas|ellos|finales|mediodía|nosotros|nuestra|nuestro|poniente|popa|ti|tierra|sí|mí|atrás</token>
+            </antipattern>
+            <antipattern>
+                <token>hacia</token>
+                <token regexp="yes">\d\d\d\d</token>
+                <token><exception regexp="yes" inflected="yes">&unidades_tiempo;</exception></token>
             </antipattern>
             <rule>
                 <pattern>
@@ -6785,6 +6794,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes" skip="3">dirigir|avanzar|encaminar</token>
                     <token>hacia</token>
                 </antipattern>
+                <antipattern>
+                    <token>hacia</token>
+                    <token case_sensitive="yes" regexp="yes">Gran|Cortes</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>hacia</token>
@@ -6850,6 +6863,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Pasaba desde <marker>hacia</marker> demasiado tiempo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token regexp="yes">más|sino|otro|otra|nada|nunca|jamás</token>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">No <marker>hacia</marker> más que moverse.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>lo</token>
+                    <token>que</token>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Lo que <marker>hacia</marker> no tenía importancia.</example>
+                <example>de lo que hacia 1920 significaba para el orgullo de mi madre</example>
             </rule>
             <!--<rule default="temp_off">
                 <antipattern>
