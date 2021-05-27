@@ -7306,6 +7306,19 @@ though, and has since been slightly modified)-->
                 <example correction="ont parlé|on parle">Ses habitants <marker>on parlé</marker> aux forces de la nature.</example>
                 <example correction="ont été|on est">Les années qui ont suivi <marker>on été</marker> noirs</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>on<exception scope="previous">t'</exception></token>
+                        </marker>
+                        <token>besoin</token>
+                </pattern>
+                <message>Un verbe est attendu avant le nom '\2'.</message>
+                <suggestion>ont</suggestion>
+                <suggestion>a</suggestion>
+                <example correction="ont|a">Les fleurs ont de l'eau, <marker>on</marker> besoin de soleil et ont beaucoup de terre.</example>
+                <example>A t'on besoin de crampons ?</example>
+            </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
             <pattern>
