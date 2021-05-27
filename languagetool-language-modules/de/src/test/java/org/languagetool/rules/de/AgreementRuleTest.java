@@ -464,6 +464,7 @@ public class AgreementRuleTest {
     assertGood("Ein ID 3 von Volkswagen.");
     assertGood("Der ID.3 von Volkswagen.");
     assertGood("Der ID3 von Volkswagen.");
+    assertGood("Das bedeutet Krieg!");
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");

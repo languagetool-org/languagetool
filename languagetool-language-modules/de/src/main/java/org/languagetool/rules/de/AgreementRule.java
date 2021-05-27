@@ -1089,6 +1089,11 @@ public class AgreementRule extends Rule {
       token("Sturm"),
       token("und"),
       csRegex("Drangs?")
+    ),
+    Arrays.asList(
+      csRegex("das|es|dies"),
+      csRegex("bedeutete?"),
+      token("Krieg")
     )
   );
 
