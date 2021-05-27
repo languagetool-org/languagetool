@@ -115,7 +115,11 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   }
   
   private boolean isFalsePair(String token1, String token2, String equalWord, String containedWord) {
-    return ((token1.equals(equalWord) && token2.contains(containedWord)) || token2.equals(equalWord) && token1.contains(containedWord));
+    token1 = token1.toLowerCase();
+    token2 = token2.toLowerCase();
+    equalWord = equalWord.toLowerCase();
+    containedWord = containedWord.toLowerCase();
+    return ((token1.equals(equalWord) && token2.contains(containedWord)) || (token2.equals(equalWord) && token1.contains(containedWord)));
   }
 
   @Override
@@ -130,6 +134,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           && (!isFalsePair(testTokenText, tokenText, "kommen", "kommentier"))
           && (!isFalsePair(testTokenText, tokenText, "weit", "weiter"))
           && (!isFalsePair(testTokenText, tokenText, "weite", "weiter"))
+          && (!isFalsePair(testTokenText, tokenText, "Wand", "Wander"))
           && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
           || testTokenText.length() > tokenText.length() + 3)
           || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
