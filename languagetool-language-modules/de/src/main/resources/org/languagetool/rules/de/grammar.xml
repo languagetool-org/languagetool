@@ -38196,6 +38196,18 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="ESS" name="ess (iss)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token>ess</token>
+                </marker>
+                <token postag="ADJ:.+|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="SUB:.+" postag_regexp="yes" />
+            </pattern>
+            <message>Die korrekte Verbform hier ist <suggestion>Iss</suggestion> oder <suggestion>Esst</suggestion>.</message>
+            <example correction="Iss|Esst"><marker>Ess</marker> weniger Fleisch!</example>
+        </rule>
         <rulegroup id="SIMPLE_AGREEMENT_MAS" name="Die (Der) Tisch ist">
             <short>Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus</short>
 
