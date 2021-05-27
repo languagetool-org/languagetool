@@ -19829,6 +19829,52 @@ though, and has since been slightly modified)-->
                 <example correction="ont eu|sont eu|avaient eu|étaient eu">Ils <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
                 <example>Plusieurs remorques ont quant à elles eu une seconde vie.</example>
             </rule>
+              <rule>
+            <antipattern>
+                <token regexp="yes">quan[td]</token>
+                <token regexp="yes">a|à</token>
+                <token regexp="yes">il|elle</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (etre|avoir).*|P.*" postag_regexp="yes"/>
+                <token regexp="yes">il|elle</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>elle</token>
+                <token regexp="yes" inflected="yes">ne|aussi|pas|m[êe]me|peut-être</token>
+                <token postag="A" min="0" max="2"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">il|elle<exception scope="previous" regexp="yes">t'|'|t|[/]|malgré</exception>
+                </token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token postag="V.* ppa.*" postag_regexp="yes"><exception postag="V ind pres 3 s"/></token>
+                </marker>
+            </pattern>
+            <message>Un auxiliaire est généralement attendu avant le participe passé '\3'.</message>
+            <suggestion>a \2 \3</suggestion>
+            <suggestion>est \2 \3</suggestion>
+            <example correction="a aussi eu|est aussi eu">Il aussi <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+            <example>A t'il voulu échapper à un exil certain ?</example>
+            <example>Pourquoi est-il/elle venu(e) ?</example>
+            <example>La terrasse inférieure est quant à elle entièrement humanisée.</example>
+            <example>La est elle aussi particulièrement touchée par le traité de Versailles.</example>
+            <example>La cape est elle accrochée via une épingle ou un nœud.</example>
+            <example>Quelqu'un est il motivé pour les fusionner ?</example>
+            <example>L'art est il uniquement limité aux capacités littéraires ?</example>
+            <example>Ce dernier sera t'il incarcéré ?</example>
+            <example>Elle sera malgré elle entraînée dans les aventures d'Indiana Jones.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe">
             <!-- TODO: Mais qu'as donc tu fait pendant tout ce temps ! -->
