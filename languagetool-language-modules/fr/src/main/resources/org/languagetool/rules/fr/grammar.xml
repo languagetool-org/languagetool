@@ -26321,6 +26321,37 @@ though, and has since been slightly modified)-->
                 <example correction="Surmettons"><marker>Sur mettons</marker> 18%.</example>
                 <example>Sur mettons 17% des musulmans qui ont le droit de vote à Bruxelles.</example>
             </rule>-->
+            <rule default="temp_off">
+                <pattern>
+                    <token>super</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                        <exception regexp="yes">&H_ASPIRE;|vision|classe|intendant|welters</exception>
+                        </token>
+                </pattern>
+                <message suppress_misspelled="yes">Le préfixe '\1' est généralement associé au terme qu'il précède.</message>
+                <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="super$1" case_conversion="preserve"/></suggestion>
+                <example correction="supernova">Il a découvert une <marker>super nova</marker>.</example>
+                <example>Il a une super vision de loin.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>super</token>
+                    <token regexp="yes">intendants?|pression|consommation|abondance|abondante?s?|accélation|accidents?|agressivité|attentats?|endettement|capitalisation|médiatisation|éminence</token>
+                </pattern>
+                <message suppress_misspelled="yes">Une préférence pour le préfixe 'sur' est génélament accordée dans ce contexte.</message>
+                <suggestion><match no="1" regexp_match="super" regexp_replace="sur" case_conversion="preserve"/>\2</suggestion>
+                <url>https://fr.wiktionary.org/wiki/super-</url>
+                <example correction="surintendant">Il connait le <marker>super intendant</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">super(intendants?|pression|consommation|abondance|abondante?s?|accélation|accidents?|agressivité|attentats?|endettements?|capitalisation|médiatisation|éminence)</token>
+                </pattern>
+                <message suppress_misspelled="yes">Une préférence pour le préfixe 'sur' est génélament accordée dans ce contexte.</message>
+                <suggestion><match no="1" regexp_match="super(?-iu)" regexp_replace="sur" case_conversion="preserve"/></suggestion>
+                <url>https://fr.wiktionary.org/wiki/super-</url>
+                <example correction="surabondante">Sa consommation est <marker>superabondante</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DEMI" name="demi et demie">
             <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
