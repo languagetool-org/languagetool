@@ -14579,6 +14579,51 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="LUI_AUSSI_EUX_AUSSI" name="lui aussi eux aussi" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>il</token>
+                    <token>aussi</token>
+                    <token postag="V.* ppa.*|A" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>il</token>
+                    <token>aussi</token>
+                    <token postag="V etre.*" postag_regexp="yes" min="0" max="1"/>
+                    <token>possible</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>il<exception scope="previous" postag="V.*" postag_regexp="yes"/>
+                            <exception scope="previous" regexp="yes">t|t'|'</exception>
+                        </token>
+                        <token>aussi</token>
+                    </marker>
+                </pattern>
+                <message>Dans le langage formel, cet adverbe est généralement placé après le verbe.</message>
+                <suggestion>lui \2</suggestion>
+                <example correction="Lui aussi"><marker>Il aussi</marker> décide de venir accompagné.</example>
+                <example>Pour qui se prend il aussi?</example>
+                <example>Il aussi participé à la Collection des cent.</example>
+                <example>Il aussi peut-être un lien avec d'autres mots.</example>
+                <example>Il aussi est possible de visiter l'épave d'un avion.</example>
+                <example>Il aussi notamment été entraîneur-adjoint.</example>
+            </rule>
+            <rule>
+            <pattern>
+                <marker>
+                    <token>ils<exception scope="previous" postag="V.*" postag_regexp="yes"/>
+                        <exception scope="previous">t'</exception>
+                    </token>
+                    <token>aussi</token>
+                    </marker>
+                </pattern>
+                <message>Dans le langage formel, cet adverbe est généralement placé après le verbe.</message>
+                <suggestion>eux \2</suggestion>
+                <example correction="Eux aussi"><marker>Ils aussi</marker> décident de venir accompagné.</example>
+                <example>Pour qui se prennent ils aussi?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HEURES_DEPASSEES" name="heures dépassées" default="temp_off">
             <rule>
                 <pattern>
