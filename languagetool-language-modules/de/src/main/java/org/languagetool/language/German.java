@@ -344,6 +344,7 @@ public class German extends Language implements AutoCloseable {
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
+      case "SUBJUNKTION_KOMMA_2": return -11; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
       case "TOO_LONG_PARAGRAPH": return -15;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;

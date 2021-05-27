@@ -24224,6 +24224,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Leute|Mitarbeiter|Angestellte|Menschen|Entwickler|Experten</token>
                     <token>sucht</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">ich|e[rs]|sie|ihr|und|man</token>
+                    <token postag="ZUS" min="0" />
+                    <token posag="VER:.+" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
                     <marker>
@@ -47452,23 +47457,23 @@ Andere Projekte</example>
                 <example>Das Rauchen ist hier streng verboten, wenn der Föhn weht oder bei großer Dürre.</example>
                 <example>Der Plan ist viel zu kompliziert, als dass wir ihn ausführen könnten.</example>
             </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token skip="-1" regexp="yes">Dass|Obwohl|Obgleich|Sodass|Wenn<exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception></token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">\p{P}</token>
-                </pattern>
-                <message>Der von '<match case_conversion="alllower" no="2"/>' eingeleitete Nebensatz muss in der Regel mit einem Komma vom Hauptsatz getrennt werden.</message>
-                <example>Obwohl er groß ist, kommt er dran.</example>
-                <example correction=""><marker>Obwohl</marker> er groß ist kommt er dran.</example>
-                <example>"Obwohl das so ist!"</example>
-                <example>Weil am Rhein</example>
-                <example>Obwohl das der 25. ist, ist es gut.</example>
-                <example><marker>Wenn</marker> möglich wird er beendet.</example>
-            </rule>
         </rulegroup>
+        <rule id="SUBJUNKTION_KOMMA_2" name="Fehlendes Komma bei Subjunktion">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <marker>
+                    <token skip="-1" regexp="yes">Dass|Obwohl|Obgleich|Sodass|Wenn<exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception></token>
+                </marker>
+                <token postag="SENT_END" regexp="yes">\p{P}</token>
+            </pattern>
+            <message>Der von '<match case_conversion="alllower" no="2"/>' eingeleitete Nebensatz muss in der Regel mit einem Komma vom Hauptsatz getrennt werden.</message>
+            <example>Obwohl er groß ist, kommt er dran.</example>
+            <example correction=""><marker>Obwohl</marker> er groß ist kommt er dran.</example>
+            <example>"Obwohl das so ist!"</example>
+            <example>Weil am Rhein</example>
+            <example>Obwohl das der 25. ist, ist es gut.</example>
+            <example><marker>Wenn</marker> möglich wird er beendet.</example>
+        </rule>
         <rule id="BISSTRICH_STATT_WAEHRUNG" name="Bis-Strich statt Währungssymbol">
             <pattern>
                 <token regexp="yes">[0-9]{1,4}</token>
