@@ -11461,6 +11461,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<!-- 2014-08-20 TaalTik -->
+			<antipattern><token postag="VRZ"/><token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 			<antipattern><token>nu</token><token>weg</token></antipattern>
 			<antipattern><token>niet</token><token>meer</token></antipattern>
 			<antipattern><token/><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
@@ -17600,6 +17601,13 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token postag="WKW:TGW:3EP"/><token regexp="yes">haar|zijn|ons|hun|onze|jouw|uw</token><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>maar</token><token>beter</token></antipattern>
+				<antipattern><token regexp="yes">en|of</token><token>maar</token></antipattern>
+				<antipattern><token>die</token><token>maar</token></antipattern>
+				<antipattern><token>om</token><token>maar</token><token>niet</token><token postag=".*ONV" postag_regexp="yes"/><token>te</token></antipattern>
+				<antipattern><token>dan</token><token regexp="yes">kun|kan</token><token>je</token><token regexp="yes">ons|hemḧaar|mij|hen|ze</token><token>maar</token><token>beter</token><token postag="WKWLTGW:INF"/></antipattern>
+				<antipattern><token postag="WKW:VLT:1EP"/><token>maar</token><token postag_regexp="yes" postag=".*ONV"/></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">je|mijnzijn|haar|hun</token><token postag=".*MRV" postag_regexp="yes"/><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token postag="WKW:TGW:3EP"/><token regexp="yes">haar|zijn|ons|hun|onze|jouw|uw</token><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>zolang</token><token regexp="yes">het|dit|dat</token><token>maar</token></antipattern>
 				<antipattern><token>Laten</token><token>we</token><token regexp="yes">het|dit|dat</token><token>maar</token></antipattern>
@@ -19379,7 +19387,7 @@ steenwijk;Steenwijk
 					<token postag_regexp="yes" postag="VNW:PER:[23]EP:EKV:ACT"/>
 					<token postag_regexp="yes" postag="VNW.*PSF"/>
 					<marker>
-						<token regexp="yes" postag="WKW:TGW:1EP">.*d<exception postag="BNW:STL:ONV"/></token>
+						<token regexp="yes" postag="WKW:TGW:1EP">.*d<exception postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV.*"/></token>
 					</marker>
 				</pattern>
 				<message>U bedoelt mogelijk <suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>.</message>
@@ -19391,7 +19399,7 @@ steenwijk;Steenwijk
 					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*"/></token>
 					<token postag_regexp="yes" postag="VNW.*PSF"/>
 					<marker>
-						<token regexp="yes" postag="WKW:TGW:1EP">.*d</token>
+						<token regexp="yes" postag="WKW:TGW:1EP">.*d<exception postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV.*"/></token>
 					</marker>
 				</pattern>
 				<message>U bedoelt mogelijk <suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>.</message>
