@@ -45808,6 +45808,25 @@ though, and has since been slightly modified)-->
                 <example>Un chef-d’œuvre</example>
                 <example>« qu' »</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">(?-i).*[a-z]$</token>
+                    <token case_sensitive="yes">N</token>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>n</token>
+                    <token regexp="yes">en|y</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Une apostrophe est nécessaire entre ces deux mots.</message>
+                <suggestion>\1'\2</suggestion>
+                <example correction="n'y">Il <marker>n y</marker> arrive jamais la première fois.</example>
+                <example>La N y circule ainsi tous les jours.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="TRAIT_UNION_ESPACE" name="trait d'union + espace">
             <rule>
