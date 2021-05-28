@@ -6964,6 +6964,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se encaminó hacia más altas metas.</example>
                 <example>iban hacia más felices regiones.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>por</token>
+                    <token>qué</token>
+                </antipattern>
+                <pattern>
+                    <token>qué</token>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">¿Qué <marker>hacia</marker> en la calle?</example>
+                <example>¿Por qué hacia el norte?</example>
+                <example>¿Para qué hacia atrás?</example>
+            </rule>
             <!--<rule default="temp_off">
                 <antipattern>
                     <token regexp="yes" inflected="yes">enlace|dirección|redirección|atajo|camino</token>
