@@ -9697,7 +9697,7 @@ onwaarschijnlijk
 						<token postag="ENM:ORG"/>
 						<token postag_regexp="yes" postag="ZNW.*">
 							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
-							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu</exception>
+							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu|(&weekdays;)(avond|ochtend|middag|morgen)</exception>
 							<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
 						</token>
 					</marker>
@@ -12501,13 +12501,14 @@ onwaarschijnlijk
 				<antipattern><token>als</token><token regexp="yes">je|hij|zij|men</token><token postag="WKW:TGW:3EP"/></antipattern>
 				<antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger</token><token>als</token></antipattern>
 				<antipattern><token>als</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
+				<antipattern><token>als</token><token regexp="yes">ik|jij|hij|zij|u|men</token></antipattern>
 				<pattern>
 					<token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"/>
 					<token>als</token>
 				</pattern>
 				<message>Als dit een vergelijking is, dan vinden velen beter: <suggestion><match no="1"/> dan</suggestion>.</message>
 				<short>dan</short>
-				<example correction="grotere dan">Het is een <marker>grotere als</marker> hij dacht.</example>
+				<example correction="grotere dan">Het is een <marker>grotere als</marker> die andere.</example>
 				<example correction="Verder dan"><marker>Verder als</marker> de living gingen ze niet.</example>
 			</rule>
 		</rulegroup>
@@ -17601,11 +17602,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>met</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:3EP"/><token regexp="yes">haar|zijn|ons|hun|onze|jouw|uw</token><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token regexp="yes">en|of</token><token>maar</token></antipattern>
 				<antipattern><token>die</token><token>maar</token></antipattern>
 				<antipattern><token>om</token><token>maar</token><token>niet</token><token postag=".*ONV" postag_regexp="yes"/><token>te</token></antipattern>
-				<antipattern><token>dan</token><token regexp="yes">kun|kan</token><token>je</token><token regexp="yes">ons|hemḧaar|mij|hen|ze</token><token>maar</token><token>beter</token><token postag="WKWLTGW:INF"/></antipattern>
+				<antipattern><token>dan</token><token regexp="yes">kun|kan</token><token>je</token><token regexp="yes">ons|hem|ḧaar|mij|hen|ze</token><token>maar</token><token>beter</token><token postag="WKWLTGW:INF"/></antipattern>
 				<antipattern><token postag="WKW:VLT:1EP"/><token>maar</token><token postag_regexp="yes" postag=".*ONV"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">je|mijnzijn|haar|hun</token><token postag=".*MRV" postag_regexp="yes"/><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token postag="WKW:TGW:3EP"/><token regexp="yes">haar|zijn|ons|hun|onze|jouw|uw</token><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
@@ -18761,6 +18763,8 @@ steenwijk;Steenwijk
 				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/komma-algemene-regels</url>
 				<example correction="iedereen, maar">Zij vertelde het aan <marker>iedereen maar</marker> toch was dat niet de bedoeling.</example>
+				<example>Ze zei dat haar man haar sloeg maar eigenlijk was het andersom.</example>
+
 			</rule>
 		</rulegroup>
 		
@@ -35136,6 +35140,7 @@ steenwijk;Steenwijk
 				<antipattern><token>stem</token><token>des</token><token>volks</token></antipattern>
 				<antipattern><token/><token>des</token><token>te</token></antipattern>
 				<antipattern case_sensitive="yes"><token>DES</token></antipattern>
+				<antipattern><token>Des</token><token>Bouvrie</token></antipattern>
 				<pattern>
 					<token/>
 					<marker>
@@ -35235,7 +35240,7 @@ steenwijk;Steenwijk
 				<antipattern><token>van</token><token>den</token><token>beginne</token></antipattern>
 				<antipattern><token>van</token><token>den</token><token>domme</token></antipattern>
 				<antipattern><token>in</token><token>den</token><token>treure</token></antipattern>
-				<antipattern><token regexp="yes">een|slanke|grove</token><token>den</token></antipattern>
+				<antipattern><token regexp="yes">een|slanke|grove|iele</token><token>den</token></antipattern>
 				<antipattern><token/><token>den</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern> <!-- eigennamen -->
 				<!-- TODO Afraden van al deze ouderwetsigheid -->
 				<pattern>
