@@ -6630,13 +6630,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>hacía</token>
                     </marker>
                     <token regexp="yes">mediados|abajo|adelante|adentro|afuera|ambos|arriba|casa|delante|donde|dónde|ellas|ellos|finales|mediodía|nosotros|nuestra|nuestro|poniente|popa|ti|tierra|sí|mí|atrás</token>
-                    <!-- fuera, dentro -->
+                    <!-- fuera, dentro, allá, allí? -->
                 </pattern>
                 <message>Si es una preposición (que indica dirección), se escribe sin tilde.</message>
                 <suggestion>hacia</suggestion>
                 <example correction="hacia">Se fue <marker>hacía</marker> delante.</example>
                 <example>Se hacía delante de la casa.</example>
                 <example>Entonces se hacía atrás.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>hacía</token>
+                    </marker>
+                    <token>más</token>
+                    <token regexp="yes">abajo|adelante|adentro|afuera|arriba|atrás|allá</token>
+                    <!-- fuera, dentro -->
+                </pattern>
+                <message>Si es una preposición (que indica dirección), se escribe sin tilde.</message>
+                <suggestion>hacia</suggestion>
+                <example correction="hacia">Se fue <marker>hacía</marker> más allá.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HACIA_TILDE" name="hacia -> hacía" type="misspelling">
@@ -6696,8 +6709,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>hacia</token>
                     </marker>
-                    <token min="0" regexp="yes">mucho|poco|demasiado|muchísimo|poquísimo</token>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes">calor|frío|tiempo<exception regexp="yes">\d+</exception></token>
+                    <token min="0" regexp="yes">mucho|poco|demasiado|muchísimo|poquísimo|más|menos</token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">calor|frío|tiempo</token>
                 </pattern>
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
                 <suggestion>hacía</suggestion>
@@ -6764,15 +6777,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <antipattern>
                     <token>hacia</token>
+                    <token>a</token>
+                    <token regexp="yes">bajo|abajo</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Si indica movimento, sobra la 'a'. Si es del v. 'hacer', "hacía" se escribe con tilde.</message>
+                <suggestion>hacia</suggestion>
+                <suggestion>hacía a</suggestion>
+                <example correction="hacia|hacía a">Se fue <marker>hacia a</marker> la puerta.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>hacia</token>
                     <token>.</token>
                     <token>.</token>
                     <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">inclinación|atención|inclinar</token>
+                    <token>hacia</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token>hacia</token>
                     </marker>
-                    <token postag="_PUNCT.*|V.N.*|SPS.*|CC|&pronombre_personal_atono_POS;" postag_regexp="yes"><exception postag="D.*|_GN_.*|_QM_OPEN" postag_regexp="yes"/><exception case_sensitive="yes" regexp="yes">\p{Lu}.*|…</exception></token>
+                    <token postag="_PUNCT.*|V.N.*|SPS.*|CC|&pronombre_personal_atono_POS;" postag_regexp="yes"><exception postag="D.*|_GN_.*|_QM_OPEN" postag_regexp="yes"/><exception case_sensitive="yes" regexp="yes">\p{Lu}.*|…|-|a</exception></token>
                     <!--RG|-->
                 </pattern>
                 <message>Si es del v. 'hacer', se escribe con tilde.</message>
@@ -6793,7 +6828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes" inflected="yes" skip="5">dirigir|avanzar|encaminar</token>
                     <token>hacia</token>
-                   <!-- <token postag="N.*" postag_regexp="yes"/>-->
+                    <!-- <token postag="N.*" postag_regexp="yes"/>-->
                 </antipattern>
                 <antipattern>
                     <token>hacia</token>
@@ -6840,7 +6875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>hacia</token>
                     </marker>
-                    <token min="0" max="2" regexp="yes">casi|ya|más|menos|de</token>
+                    <token min="0" max="3" regexp="yes">casi|ya|más|menos|de|o</token>
                     <token postag="D[NI].*|_PUNCT.*|CC" postag_regexp="yes" min="0" max="3"/>
                     <token regexp="yes" inflected="yes">&unidades_tiempo;|rato|tiempo<exception>tiempos</exception></token>
                 </pattern>
@@ -6852,6 +6887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hacía"><marker>Hacia</marker> tantos años que no se veían.</example>
                 <example correction="hacía">De eso <marker>hacia</marker> ya treinta y tres días.</example>
                 <example correction="hacía">De eso <marker>hacia</marker> ya unos cuantos años.</example>
+                <example correction="Hacía"><marker>Hacia</marker> más o menos una hora que no se veían.</example>
                 <example>Se volvió hacia O'Neill.</example>
                 <example>hacia tiempos pasados</example>
                 <example>Benjamín Otálora cuenta, hacia 1891, diecinueve años.</example>
@@ -6892,6 +6928,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Lo que <marker>hacia</marker> no tenía importancia.</example>
                 <example>de lo que hacia 1920 significaba para el orgullo de mi madre</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>hacia</token>
+                    <token>más</token>
+                    <token regexp="yes">abajo|adelante|adentro|afuera|arriba|atrás|allá|hondo</token>
+                </antipattern>
+                <antipattern>
+                    <token>más</token>
+                    <token inflected="yes" regexp="yes" postag="AQ..P." postag_regexp="yes">grande|alto</token>
+                    <token postag="NC.P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">volar|vuelo|avanzar|continuar|seguir|llevar|ir|cabalgar</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>hacia</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="20">hacia</token>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token>más</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hacia</token>
+                    </marker>
+                    <token>más</token>
+                </pattern>
+                <message>Si es del v. 'hacer', se escribe con tilde.</message>
+                <suggestion>hacía</suggestion>
+                <example correction="hacía">Él <marker>hacia</marker> más difícil la solución.</example>
+                <example>Se encaminó hacia más altas metas.</example>
+                <example>iban hacia más felices regiones.</example>
             </rule>
             <!--<rule default="temp_off">
                 <antipattern>
@@ -15548,6 +15619,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="ABAJO" name="a bajo / abajo" default="temp_off">
+            <antipattern>
+                <token>bajo</token>
+                <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">abajo|bajo</token>
+            </pattern>
+            <message>Para indicar posición, se escribe <suggestion>abajo</suggestion>.</message>
+            <example correction="abajo">Vive <marker>a bajo</marker>.</example>
+            <example correction="abajo">Corre hacia <marker>a bajo</marker>.</example>
+            <example>Se vendía a bajo precio.</example>
+        </rule>
         <rule id="AVECES" name="aveces/a veces">
             <antipattern>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
