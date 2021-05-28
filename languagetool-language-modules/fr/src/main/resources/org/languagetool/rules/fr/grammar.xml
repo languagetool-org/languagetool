@@ -215,7 +215,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>à</token>
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">du|avant</token>
+                <token>tout</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* [123] p" postag_regexp="yes"/>
+                <token min="0" max="3" postag="A|V.*ppa .*" postag_regexp="yes"/>
+                <token regexp="yes">tous|toutes</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">-nous|-vous|-ils|-elles</token>
+                <token min="0" postag="A"/>
+                <token regexp="yes">tous|toutes</token>
+            </antipattern>
+            <antipattern>
+                <token>presque</token>
+                <token regexp="yes">tous|toutes</token>
+            </antipattern>
             <rule>
+                <antipattern>
+                    <token>toutes</token>
+                    <token>les</token>
+                    <token postag="_GN_FP" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">tout|toute|toutes</token>
@@ -228,10 +251,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Tous"><marker>Toute</marker> les hommes.</example>
                 <example correction="Tous"><marker>Toutes</marker> les hommes.</example>
                 <example correction="tous">J'ai le devoir de dire à <marker>tout</marker> les hommes la vérité.</example>
+                <example correction="tous">On ne peut pas gagner à <marker>tout</marker> les coups.</example>
+                <example correction="tous">Faire ça <marker>tout</marker> les matins doit être annuyant pour toi.</example>
                 <example>Toutes les femmes.</example>
+                <example>Toutes les cours de récréation ont leur tyran.</example>
                 <!--<example correction="tous">J'ai le devoir de dire à <marker>toutes</marker> les hommes la vérité.</example>-->
+                <example>mais passent toutes les trois-quarts de leur temps</example>
+                <example>Je vais toutes les fins de semaine à la campagne.</example>
+                <example>Tom n'aimait pas du tout les blagues de Mary.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>tous</token>
+                    <token>les</token>
+                    <token postag="_GN_MP" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">tout|toute|tous</token>
@@ -243,7 +277,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Toutes"><marker>Tout</marker> les femmes.</example>
                 <example correction="Toutes"><marker>Toute</marker> les femmes.</example>
                 <example correction="Toutes"><marker>Tous</marker> les femmes.</example>
+                <example correction="toutes">Ta sœur est plus fainéante que <marker>tous</marker> les autres étudiantes.</example>
                 <example>Tous les hommes.</example>
+                <example>Ils se tenaient tous les côtes de rire.</example>
+                <example>Je pense que nous connaissons tous les règles.</example>
+                <!-- ambiguous? -->
+                <example>Listons tous les raisons de ne pas faire cela.</example>
             </rule>
             <rule>
                 <pattern>
@@ -257,6 +296,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Tout"><marker>Tous</marker> le monde.</example>
                 <example correction="Tout"><marker>Toute</marker> le monde.</example>
                 <example correction="Tout"><marker>Toutes</marker> le monde.</example>
+                <example correction="tout">Elle m'envoie des SMS <marker>tous</marker> le temps.</example>
+                <example>Mais nous avons tous le mal de mer.</example>
+                <example>Mais nous n'avons pas tous le même horizon.</example>
+                <example>Regardez tous le tableau noir.</example>
+                <example>J'attends que vous donniez tous le meilleur de vous-mêmes.</example>
+                <example type="triggers_error">nous ont jeté des pierres à tous le soir au sortir de classe</example>
+                <example type="triggers_error">nous partageons, en fait, tous le même titre de fierté</example>
+                <example>Nous méritons toutes le respect. </example>
+                <example>Les Palestiniens ont tous le droit de retour en Palestine.</example>
             </rule>
             <rule>
                 <pattern>
@@ -272,6 +320,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Toute"><marker>Tous</marker> la vérité.</example>
                 <example>J'ai le devoir de dire à tous la vérité</example>
                 <example>J'ai le devoir de dire à toutes la vérité</example>
+                <example>Ils attendaient tous la pause avec impatience.</example>
+                <example>Nos possibilités et nos vies sont tous la propriété d'autres hommes.</example>
+                <example>Nous voulons toutes la même chose.</example>
+                <example>Ceux qui ont entendu le poème que j’ai déclamé ont eu tous la chair de poule.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
