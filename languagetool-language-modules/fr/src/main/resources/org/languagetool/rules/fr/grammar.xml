@@ -14653,6 +14653,20 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="NE_PAS" name="ne pas" default="temp_off">
+            <pattern>
+            <token postag="R pers suj.*" postag_regexp="yes"><exception scope="previous" postag="V.*" postag_regexp="yes"/></token>
+            <marker>
+                <token>ne</token>
+                <token>pas</token>
+                <token postag="V.*" postag_regexp="yes"><exception postag="V.* inf|V ppa.*" postag_regexp="yes"/></token>
+            </marker>
+            </pattern>
+            <message>Le verbe est généralement situé entre les deux adverbes de négation.</message>
+            <suggestion>\2 \4 \3</suggestion>
+            <example correction="ne parle pas">Je <marker>ne pas parle</marker> français.</example>
+            <example>Que faut il ne pas louper ?</example>
+        </rule>
         <rulegroup id="LUI_AUSSI_EUX_AUSSI" name="lui aussi eux aussi">
             <rule>
                 <antipattern>
