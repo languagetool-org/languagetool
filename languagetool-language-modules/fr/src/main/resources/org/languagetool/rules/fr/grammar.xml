@@ -3892,7 +3892,8 @@ though, and has since been slightly modified)-->
                     <token>vers</token>
                 </marker>
             </pattern>
-            <message>Vouliez-vous dire <suggestion>ver</suggestion> ?</message>
+            <message>Une faute de frappe semble s'être glissée dans cette expression.</message>
+            <suggestion>ver</suggestion>
             <example correction="ver">Les trous de <marker>vers</marker>.</example>
         </rule>
         <rule id="CONFUSION_DAN_DANS" name="confusion dan/dans">
@@ -16840,7 +16841,8 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">\p{Lu}.*</exception></token>
                     </marker>
                 </pattern>
-                <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
+                <message>Un verbe à l'infinitif est attendu après la préposition '\1' dans ce contexte.</message>
+                <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
                 <example correction="parler">Il est temps de <marker>parlez</marker>.</example>
                 <example correction="créer">Où on clique pour <marker>crée</marker> une page ?</example>
                 <example>Plusieurs d'entre eux sont morts.</example>
@@ -16859,7 +16861,8 @@ though, and has since been slightly modified)-->
                         </and>
                     </marker>
                 </pattern>
-                <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
+                <message>Un verbe à l'infinitif est attendu après le complément d'objet '\2'.</message>
+                <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>
                 <example correction="parler">Le temps est venu de vous <marker>parlez</marker> de moi-même.</example>
                 <example>Plusieurs d'entre eux sont morts.</example>
             </rule>
@@ -23795,7 +23798,8 @@ though, and has since been slightly modified)-->
                         <exception postag="V.* inf" postag_regexp="yes"/>
                         <exception regexp="yes">y|en</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\2-\3</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le verbe et le pronom personnel '\3' à l'impératif.</message>
+                <suggestion>\2-\3</suggestion>
                 <example correction="Laisse-nous"><marker>Laisse nous</marker> ici.</example>
                 <example>Laisse-nous ici.</example>
                 <example>Veuillez nous réveiller à sept heures.</example>
@@ -23827,7 +23831,8 @@ though, and has since been slightly modified)-->
                     <token postag="V.* imp .*" postag_regexp="yes"/>
                     <token regexp="yes">[mt]oi</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le verbe et le pronom personnel '\2' à l'impératif.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="Laisse-moi"><marker>Laisse moi</marker> faire comme ça.</example>
                 <example correction="Marie-moi"><marker>Marie moi</marker> et oublie Pierre.</example>
                 <example>Marie toi et moi faisons une bonne équipe.</example>
@@ -23843,7 +23848,8 @@ though, and has since been slightly modified)-->
                     <token>
                         <exception postag="V.* inf" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1-\2\3</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le verbe et le pronom à l'impératif.</message>
+                <suggestion>\1-\2\3</suggestion>
                 <example correction="Donne-m'en"><marker>Donne m’en</marker> un peu.</example>
                 <example>Donne-m’en un peu.</example>
                 <example correction="Trouve-t'en"><marker>Trouve t’en</marker> toi-même !</example>
@@ -23873,7 +23879,8 @@ though, and has since been slightly modified)-->
                         <exception postag="[NJ] . sp?|V ppa.* sp?|V.* inf|Y" postag_regexp="yes"/>
                         <exception regexp="yes">plus|moins|une?|même</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\2-\3</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le verbe et le pronom '\3' à l'impératif.</message>
+                <suggestion>\2-\3</suggestion>
                 <example correction="Donne-la"><marker>Donne la</marker> à ton frère.</example>
                 <example correction="Activez-le"><marker>Activez le</marker> si vous utilisez DX.</example>
                 <example>Donne-la à ton frère.</example>
@@ -23912,7 +23919,8 @@ though, and has since been slightly modified)-->
                         <exception postag="[NJ] .*p|V ppa .*p|V.* inf|Y" postag_regexp="yes"/>
                         <exception regexp="yes">plus|moins|autres|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|dix-.*|vingt-.*|trente-.*|quarante-.*|cinquante-.*|soixante-.*|quatre-.*|octante-.*|huitante-.*|nonante-.*</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\2-\3</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le verbe et le pronom à l'impératif.</message>
+                <suggestion>\2-\3</suggestion>
                 <example correction="Coupez-les"><marker>Coupez les</marker> une autre fois.</example>
                 <example><marker>Coupez les</marker> autres légumes.</example>
                 <example><marker>Coupez les</marker> 3 feuilles.</example>
@@ -23926,7 +23934,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">-(en|les|l[ae])</token>
                     <token regexp="yes">[mt]oi|lui</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le complément '\1' et le pronom '\2' à l'impératif.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="-le-moi">Donne<marker>-le moi</marker> plus tard.</example>
                 <example>Donne-le-moi plus tard.</example>
                 <example correction="-en-lui">Donne<marker>-en lui</marker>.</example>
@@ -23952,7 +23961,8 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">en|y|leur</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le pronom '\1' et le complément '\2' à l'impératif.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="-leur-en">Offre<marker>-leur en</marker>.</example>
                 <example>Offre-leur-en.</example>
                 <example correction="-vous-y">Appuyez<marker>-vous y</marker>.</example>
@@ -23978,7 +23988,8 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag_regexp="yes" postag="P|SENT_END|[CM] .*"/>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le complément '\1' et le pronom '\2' à l'impératif.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="-la-nous">Envoie<marker>-la nous</marker>.</example>
                 <example>Envoie-la-nous.</example>
                 <example>Voulez-vous vous en aller ?</example>
@@ -23989,7 +24000,8 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" regexp="yes">en|[nv]ous</exception></token>
                     <token>en</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Un trait d'union est nécessaire entre le verbe '\1' et le complément '\2' à l'impératif.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="convenons-en">La cuisine anglaise, <marker>convenons en</marker>, ne jouit pas d’une bonne réputation.</example>
                 <example>Nous convenons en particulier ce qui suit.</example>
             </rule>
@@ -26631,7 +26643,8 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">-?(ils?|elles?|on)</token>
                     </marker>
                 </pattern>
-                <message>Le t euphonique de liaison s'entoure toujours de tirets. Voulez-vous dire <suggestion>\1-t-<match no="4" regexp_match="-" regexp_replace=""/></suggestion> ?</message>
+                <message>Le t euphonique de liaison est généralement encadré par des traits d'union.</message>
+                <suggestion>\1-t-<match no="4" regexp_match="-" regexp_replace=""/></suggestion>
                 <example correction="rencontrera-t-elle">Quelles péripéties <marker>rencontrera t-elle</marker> ?</example>
                 <example correction="parle-t-on">Où <marker>parle t-on</marker> l'anglais ?</example>
                 <example correction="valide-t-il">L'éloge ne <marker>valide - t-il</marker> pas l'habit ?</example>
@@ -26674,7 +26687,8 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token negate_pos="yes" postag="V .* 1 s" postag_regexp="yes"/>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
                 <example>Puis-je déposer mes affaires ?</example>
                 <example>Sans doute je ne vais pas.</example>
@@ -26714,7 +26728,8 @@ though, and has since been slightly modified)-->
                         <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/></token>
                     <token>je</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion>
                 <example correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
                 <example>Quel genre de musique j’écoute.</example>
                 <example>Si j'en trouve je les corrigerai.</example>
@@ -26740,7 +26755,8 @@ though, and has since been slightly modified)-->
                     <token postag="R pers suj 2 s">
                         <exception regexp="yes">-.+</exception></token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
                 <example correction="Seras-tu"><marker>Seras tu</marker> à la maison pour Noël ?</example>
                 <example correction="As-tu"><marker>As tu</marker> des adresses.</example>
@@ -26800,7 +26816,8 @@ though, and has since been slightly modified)-->
                         <exception postag_regexp="yes" postag="V( avoir| etre)? (ind|con|sub|imp).*"/>
                         <exception>aussi</exception></token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-t-\2</suggestion> ?</message>
+                <message>Un t euphonique est nécessaire afin de faire la liaison entre le verbe et le sujet dans une phrase interrogative.</message>
+                <suggestion>\1-t-\2</suggestion>
                 <example correction="mange-t-il">Que <marker>mange il</marker> ?</example>
                 <example>Que prend-il ?</example>
                 <example>Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
@@ -26867,7 +26884,8 @@ though, and has since been slightly modified)-->
                         <exception postag_regexp="yes" postag="V( avoir| etre)? (ind|con|sub|imp).*"/>
                         <exception>aussi</exception></token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="prend-il">Que <marker>prend il</marker> ?</example>
                 <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
                 <example correction="est-elle">La mère de Bertrand Delanoë <marker>est elle</marker> d'origine périgourdine.</example>
@@ -26904,7 +26922,8 @@ though, and has since been slightly modified)-->
                         <token>nous</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
                 <example correction="pouvons-nous">Ne <marker>pouvons nous</marker> pas nous en passer ?</example>
                 <example correction="pourrions-nous">Comment <marker>pourrions nous</marker> définir une langue ?</example>
@@ -26948,7 +26967,8 @@ though, and has since been slightly modified)-->
                     <token>
                         <exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="mangez-vous">Que <marker>mangez vous</marker> ?</example>
                 <example>Que mangez-vous ?</example>
                 <example>Veuillez vous rendre à l’accueil.</example>
@@ -26991,7 +27011,8 @@ though, and has since been slightly modified)-->
                     <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
                     <token>?</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\2</suggestion>
                 <example correction="allez-vous">Quelles mesures <marker>allez vous</marker> prendre face au terrorisme ?</example>
                 <example correction="Pouvez-vous"><marker>Pouvez vous</marker> faire en sorte que ce procédé ne soit qu'une option ?</example>
                 <example correction="Pouvez-vous"><marker>Pouvez vous</marker> expliquer de manière plus détaillée ?</example>
@@ -27009,7 +27030,8 @@ though, and has since been slightly modified)-->
                     <token>-</token>
                     <token regexp="yes">t'(ils?|elles?|on)</token>
                 </pattern>
-                <message>Voulez-vous dire <suggestion>\1\2<match no="3" regexp_match="'" regexp_replace="-"/></suggestion> ?</message>
+                <message>L'apostrophe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion>\1\2<match no="3" regexp_match="'" regexp_replace="-"/></suggestion>
                 <example correction="mange-t-on">Que <marker>mange-t’on</marker> ?</example>
             </rule>
         </rulegroup>
@@ -47593,7 +47615,7 @@ though, and has since been slightly modified)-->
                 <token postag="[NZD].*" postag_regexp="yes">
                     <exception>de</exception></token>
             </pattern>
-            <message>Une erreur d’orthographe semble être détectée.</message>
+            <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
             <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match> <match no="1" postag="(V avoir) (.* [123]) ([sp])" postag_regexp="yes" postag_replace="V ppa . $3">aller</match></suggestion>
             <url> https://www.projet-voltaire.fr/regles-orthographe/j-ai-ete-ou-je-suis-alle/</url>
             <example correction="sont allées|sont allés">Elles <marker>ont été</marker> à la boulangerie.</example>
