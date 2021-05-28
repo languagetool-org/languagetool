@@ -1881,7 +1881,7 @@ public class JLanguageTool {
           throw e;
         } catch (StackOverflowError e) {
           System.out.println("Could not check sentence due to StackOverflowError (language: " + language + "): <sentcontent>"
-                  + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>");
+                  + StringUtils.abbreviate(sentence.analyzed.toTextString(), 10_000) + "</sentcontent>");
           throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>"
