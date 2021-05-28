@@ -27274,6 +27274,25 @@ though, and has since been slightly modified)-->
                 <token>la</token>
                 <token>la</token>
             </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token>la</token>
+                <token regexp="yes">sur|sous</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token>la</token>
+                <token postag="K"/>
+            </antipattern>
+            <antipattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token>la</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">au|du</token>
+                <token>la</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -27282,13 +27301,16 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" case_sensitive="yes">où|que|qu'|à|aux?|en|sur|sous|aucune?|beaucoup|plusieurs|se|est|pour|debout|dans|jusqu|avant|après|un|[cdlmts]es?|du|[mts]on|[nv]os|cette|cet|ceux|celui|celles|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize
                         <exception regexp="yes">.*ième</exception></token>
                 </pattern>
-                <message>L'adverbe de lieu <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
+                <message>Dans ce contexte, <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
                 <example correction="là">Il l’a trouvé <marker>la</marker> où je l’avais laissé.</example>
                 <example correction="là">C’est <marker>la</marker> que je l’ai trouvé.</example>
                 <example>Il a écrit l’article à la une aujourd’hui.</example>
                 <example correction="là">Il y <marker>la</marker> un risque.</example>
                 <example>Les pays de la CE.</example>
                 <example>La quarante-quatrième.</example>
+                <example>Nous avons conscience des dangers de la sur consommation.</example>
+                <example>Et une noisette à la deux  !</example>
+                <example>Le la du diapason est employé comme note.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27303,18 +27325,34 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="SENT_END">la</token>
                 </pattern>
-                <message>L'adverbe de lieu <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
+                <message>Dans ce contexte, <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
                 <example correction="là">Si cet homme est tout le temps <marker>la</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="[DPAV].*" postag_regexp="yes"><exception postag="V.* ppa.*" postag_regexp="yes"/></token>
+                    <token>la</token>
+                </antipattern>
+                <antipattern>
+                <token inflected="yes">que</token>
+                    <token>la</token>
+                </antipattern>
+                <antipattern>
+                <token>la</token>
+                <token min="0" max="1">,</token>
+                    <token>la</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>la</token>
                     </marker>
                     <token postag="M.*" postag_regexp="yes"/>
                 </pattern>
-                <message>L'adverbe de lieu <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
+                <message>Dans ce contexte, <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
                 <example correction="là">Si cet homme est tout le temps <marker>la</marker>.</example>
+                <example>Oui, la structure du LA, c'est théologique !</example>
+                <example>Elle est plus étendue et plus brillante que la...</example>
+                <example>La, la, la ... et clap de fin !</example>
             </rule>
             <rule>
                 <pattern>
@@ -27326,7 +27364,7 @@ though, and has since been slightly modified)-->
                         <token postag="SENT_END"/>
                     </and>
                 </pattern>
-                <message>L'adverbe de lieu <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
+                <message>Dans ce contexte, <suggestion>là</suggestion> s'écrit avec un accent grave.</message>
                 <example correction="là">Si cet homme est tout le temps <marker>la</marker>.</example>
             </rule>
         </rulegroup>
