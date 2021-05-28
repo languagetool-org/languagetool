@@ -51256,6 +51256,32 @@ though, and has since been slightly modified)-->
                 <example correction="mieux">C’est <marker>mieux mieux</marker> comme ça.</example>
                 <example>Les chiens aboient à qui mieux mieux.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="R pers suj.*" postag_regexp="yes">vous</token>
+                        <token postag="R pers obj.*" postag_regexp="yes">vous</token>
+                    </marker>
+                <token postag="A" min="0" max="1"/>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Une faute de frappe est possible car le pronom personnel sujet '\1' est répété.</message>
+                <suggestion>\1</suggestion>
+                <example correction="vous">J'aimerais vraiment que <marker>vous vous</marker> n'ayez pas vu cela..</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="R pers suj.*" postag_regexp="yes">nous</token>
+                        <token postag="R pers obj.*" postag_regexp="yes">nous</token>
+                    </marker>
+                    <token postag="A" min="0" max="1"/>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Une faute de frappe est possible car le pronom personnel sujet '\1' est répété.</message>
+                <suggestion>\1</suggestion>
+                <example correction="nous">J'aimerais vraiment que <marker>nous nous</marker> n'ayons pas vu cela..</example>
+            </rule>
         </rulegroup>
         <rule id="DISPO" name="Dispo">
             <pattern>
