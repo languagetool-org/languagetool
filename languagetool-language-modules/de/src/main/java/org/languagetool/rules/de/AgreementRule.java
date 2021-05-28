@@ -1011,6 +1011,7 @@ public class AgreementRule extends Rule {
       tokenRegex(".+")
     ),
     Arrays.asList(
+      tokenRegex(".+"),
       tokenRegex("Customer|User"),
       tokenRegex("Journeys?")
     ),
@@ -1090,6 +1091,17 @@ public class AgreementRule extends Rule {
       token("und"),
       csRegex("Drangs?")
     ),
+    Arrays.asList( // die Funke Mediengruppe
+      token("die"),
+      token("Funke"),
+      token("Mediengruppe")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("meinen").matchInflectedForms().setSkip(3).build(),
+      token("das"),
+      new PatternTokenBuilder().token("wirklich").min(0).build(),
+      token("Ernst")
+    ),
     Arrays.asList(
       csRegex("das|es|dies"),
       csRegex("bedeutete?"),
@@ -1133,6 +1145,7 @@ public class AgreementRule extends Rule {
     "dir",
     "dich",
     "du",
+    "d",
     "er", "sie", "es",
     "wir",
     "mir",

@@ -21119,6 +21119,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="VERSPRECHEN_SUBST" name="das versprechen (Versprechen)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="2">halten|geben|brechen</token>
+                    <token regexp="yes">das|ihre?|[smd]eine?|unse?re|unser|dieses?|solche|ein</token>
+                    <marker>
+                        <token case_sensitive="yes">versprechen</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Versprechen</suggestion> wird großgeschrieben.</message>
+                <example correction="Versprechen">Na klar, halte ich mein <marker>versprechen</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">wir|sie</token>
+                    <token postag="ZUS" min="0" />
+                    <token>versprechen</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">versprechen</token>
+                    </marker>
+                    <token postag="ADV:.*|ZUS" postag_regexp="yes" min="0" />
+                    <token inflected="yes" regexp="yes" skip="2">halten|geben|brechen</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Versprechen</suggestion> wird großgeschrieben.</message>
+                <example correction="Versprechen">Ich habe mein <marker>versprechen</marker> gehalten.</example>
+                <example>Fehlendes Komma: Was wir versprechen halten wir auch.</example>
+            </rule>
+        </rulegroup>
         <rule id="BUTTER_BEI_DIE_FISCHE" name="Butter bei die Fische!" default="temp_off">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Butter|BUTTER</token>
