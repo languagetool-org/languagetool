@@ -720,7 +720,7 @@ abstract class TextChecker {
     DetectedLanguage detected;
     //String mode;
     //long t1 = System.nanoTime();
-    String cleanText = ngramIdentifier.cleanAndShortenText(text);
+    String cleanText = ngramIdentifier != null ? ngramIdentifier.cleanAndShortenText(text) : fastTextIdentifier.cleanAndShortenText(text);
     if (ngramIdentifier != null && cleanText.length() < NGRAM_THRESHOLD) {
       detected = ngramIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
       //mode = "ngram";
