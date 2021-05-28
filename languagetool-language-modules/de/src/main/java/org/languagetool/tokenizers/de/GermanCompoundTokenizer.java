@@ -232,6 +232,11 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Donautor", asList("Donau", "tor"));
     wordSplitter.addException("Donautors", asList("Donau", "tore"));
     wordSplitter.addException("Donautores", asList("Donau", "tores"));
+    wordSplitter.addException("Gewohnheitstier", asList("Gewohnheits", "tier"));
+    wordSplitter.addException("Gewohnheitstiers", asList("Gewohnheits", "tiers"));
+    wordSplitter.addException("Gewohnheitstiere", asList("Gewohnheits", "tiere"));
+    wordSplitter.addException("Gewohnheitstieren", asList("Gewohnheits", "tieren"));
+    wordSplitter.addException("Gewohnheitstieres", asList("Gewohnheits", "tieres"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
