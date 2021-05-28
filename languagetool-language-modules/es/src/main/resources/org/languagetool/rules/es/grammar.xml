@@ -6619,7 +6619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se te "regresará".</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HACIA_NO_TILDE" name="hacia -> hacía" type="misspelling" default="temp_off">
+        <rulegroup id="HACIA_NO_TILDE" name="hacia -> hacía" type="misspelling">
             <antipattern>
                 <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
                 <token>hacía</token>
@@ -6791,12 +6791,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>cuanto</exception></token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes" skip="3">dirigir|avanzar|encaminar</token>
+                    <token regexp="yes" inflected="yes" skip="5">dirigir|avanzar|encaminar</token>
                     <token>hacia</token>
+                   <!-- <token postag="N.*" postag_regexp="yes"/>-->
                 </antipattern>
                 <antipattern>
                     <token>hacia</token>
-                    <token case_sensitive="yes" regexp="yes">Gran|Cortes</token>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -6813,6 +6814,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>camina hacia ya sabe dónde</example>
                 <example>hacia ya no sé qué rincones</example>
                 <example>se había dirigido cada vez más hacia precisamente esto</example>
+                <example>Debió huir hacia Buenos Aires.</example>
+                <example>Hay que dirigir el tráfico o la atención hacia cuentas, productos o iniciativas no relacionados.</example>
+                <example>Primer Encuentro “hacia Política Integral de Desarrollo”.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
