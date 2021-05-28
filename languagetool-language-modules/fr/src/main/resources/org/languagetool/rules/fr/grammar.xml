@@ -14653,6 +14653,92 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="FAUTES_DE_FRAPPE" name="fautes de frappe" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V.* inf" postag_regexp="yes"/></token>
+                    <token postag="A" min="0" max="3"/>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Une faute de frappe semble être détectée.</message>
+                <suggestion><match no="4" regexp_match="tu" regexp_replace="te"/></suggestion>
+                <example correction="te">J'aimerais juste <marker>tu</marker> poser une question.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>peu<exception scope="previous">un</exception></token>
+                    </marker>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Le verbe pouvoir comporte un 't' à la troisième personne du singulier du présent de l'indicatif.</message>
+                <suggestion>peut</suggestion>
+                <example correction="Peut"><marker>Peu</marker> on manger des crêpes ?</example>
+                <example correction="peut">Quelqu'un <marker>peu</marker> nous aider à départager ça, s'il vous plait ?</example>
+                <example>J'espere que ça va un peu vous éclairer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="C coor|A" postag_regexp="yes" min="0" max="1"/>
+                    <token>n'</token>
+                    <marker>
+                        <token>est</token>
+                    </marker>
+                    <token>pas</token>
+                    <token inflected="yes">que</token>
+                </pattern>
+                <message>Un mot semble être manquant dans cette expression.</message>
+                <suggestion>est-ce</suggestion>
+                <example correction="est-ce">N'<marker>est</marker> pas qu'il n'est pas en forme ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>n'</token>
+                    <marker>
+                        <token>est</token>
+                    </marker>
+                    <token>pas</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Un mot semble être manquant dans cette expression.</message>
+                <suggestion>est-ce</suggestion>
+                <example correction="est-ce">Il n'est pas en forme n'<marker>est</marker> pas ?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Non|E</token>
+                    <token>se</token>
+                    <token>ne</token>
+                    <token regexp="yes">parla|va</token>
+                </antipattern>
+                <antipattern>
+                    <token><exception postag="R pers suj.*|[NJ].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">[ml]e</token>
+                    <token>ne</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[lmts]e<exception scope="previous">per</exception></token>
+                        <token>ne</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V etre.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>L'ordre de ces deux mots est généralement inversé.</message>
+                <suggestion>\2 \1</suggestion>
+                <example correction="ne se">Ce qui <marker>se ne</marker> remarque pas tout de suite pourrait se révéler important plus tard.</example>
+                <example>La SE ne parvient plus à obtenir le charbon de qualité qu'il avait auparavant.</example>
+                <example>Il retourne au rap avec MadMan, réalisant single Non se ne parla.</example>
+                <example>Les outils CU per se ne sont pas pertinents.</example>
+                <example>Un temps prévu dans les discussions, le ne participera pas.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LUI_AUSSI_EUX_AUSSI" name="lui aussi eux aussi">
             <rule>
                 <antipattern>
