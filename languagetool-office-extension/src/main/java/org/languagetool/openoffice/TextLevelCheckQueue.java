@@ -72,43 +72,51 @@ public class TextLevelCheckQueue {
   * Add a new entry to queue
   * add it only if the new entry is not identical with the last entry or the running
   */
-  public void addQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, String docId, boolean overrideRunning) {
-    if (nStart < 0 || nEnd <= nStart || cacheNum < 0 || docId == null) {
+  public void addQueueEntry(int nStart, int nEnd, int nCache, int nCheck, String docId, boolean overrideRunning) {
+    if (nStart < 0 || nEnd <= nStart || nCache < 0 || docId == null) {
       if (debugMode) {
-        MessageHandler.printToLogFile("Return without add to queue: cacheNum = " + cacheNum
+        MessageHandler.printToLogFile("Return without add to queue: nCache = " + nCache
             + ", nStart = " + nStart + ", nEnd = " + nEnd 
             + ", nCheck = " + nCheck + ", docId = " + docId + ", overrideRunning = " + overrideRunning);
       }
       return;
     }
-    QueueEntry queueEntry = new QueueEntry(nStart, nEnd, cacheNum, nCheck, docId, overrideRunning);
+    QueueEntry queueEntry = new QueueEntry(nStart, nEnd, nCache, nCheck, docId, overrideRunning);
     int setIn = -1;
     if (!textRuleQueue.isEmpty()) {
-      if (!overrideRunning && nStart >= lastStart  && nEnd <= lastEnd && cacheNum == lastCache && docId.equals(lastDocId)) {
+      if (!overrideRunning && nStart >= lastStart  && nEnd <= lastEnd && nCache == lastCache && docId.equals(lastDocId)) {
         return;
       }
       synchronized(textRuleQueue) {
-        for (int i = 0; i < textRuleQueue.size(); i++) {
+        for (int i = textRuleQueue.size() - 1; i >= 0; i--) {
           QueueEntry entry = textRuleQueue.get(i);
-          if (entry.isEqualOrSmaller(queueEntry)) {
+          if (entry.isObsolete(queueEntry)) {
             if (!overrideRunning && entry.overrideRunning) {
               queueEntry.overrideRunning = true;
             }
             textRuleQueue.remove(i);
-            i--;
+            if (setIn > i) {
+              setIn = i;
+            }
             if (debugMode) {
               MessageHandler.printToLogFile("remove queue entry: docId = " + entry.docId + ", nStart = " + entry.nStart + ", nEnd = " + entry.nEnd 
                   + ", nCache = " + entry.nCache + ", nCheck = " + entry.nCheck + ", overrideRunning = " + entry.overrideRunning);
             }
           } else if (entry.isEqualButSmallerCacheNumber(queueEntry)) {
             setIn = i;
+            if (debugMode) {
+              MessageHandler.printToLogFile("smaler nCache (old): docId = " + entry.docId + ", nStart = " + entry.nStart + ", nEnd = " + entry.nEnd 
+                  + ", nCache = " + entry.nCache + ", nCheck = " + entry.nCheck + ", overrideRunning = " + entry.overrideRunning);
+              MessageHandler.printToLogFile("smaler nCache (new): docId = " + docId + ", nStart = " + nStart + ", nEnd = " + nEnd 
+                  + ", nCache = " + nCache + ", nCheck = " + nCheck + ", overrideRunning = " + overrideRunning);
+            }
           }
         }
       }
     }
     if (debugMode) {
       MessageHandler.printToLogFile("add queue entry: docId = " + docId + ", nStart = " + nStart + ", nEnd = " + nEnd 
-          + ", nCache = " + cacheNum + ", nCheck = " + nCheck + ", overrideRunning = " + overrideRunning);
+          + ", nCache = " + nCache + ", nCheck = " + nCheck + ", overrideRunning = " + overrideRunning);
     }
     if (setIn >= 0) {
       textRuleQueue.add(setIn, queueEntry);
@@ -394,7 +402,7 @@ public class TextLevelCheckQueue {
     }
 
     /**
-     * entry is equal but number of cache is smaller
+     * entry is equal but number of cache is smaller then new entry e
      */
     public boolean isEqualButSmallerCacheNumber(QueueEntry e) {
       if (e == null) {
@@ -407,13 +415,14 @@ public class TextLevelCheckQueue {
     }
 
     /**
-     * entry is equal but number of cache is smaller
+     * entry is obsolete and should be replaced by new entry e
      */
-    public boolean isEqualOrSmaller(QueueEntry e) {
-      if (e == null) {
+    public boolean isObsolete(QueueEntry e) {
+      if (e == null || nCheck != e.nCheck || nCache != e.nCache || !docId.equals(e.docId)) {
         return false;
       }
-      if (nStart >= e.nStart && nEnd <= e.nEnd && nCache == e.nCache && nCheck == e.nCheck && docId.equals(e.docId)) {
+      if (nCheck < 1 || (nCheck == -1 && e.nStart >= nStart && e.nStart <= nEnd) 
+          || (nCheck >= 0 && nStart == e.nStart && nEnd == e.nEnd)) {
         return true;
       }
       return false;
