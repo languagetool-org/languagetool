@@ -42293,6 +42293,107 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+        <rule id="POINT_D_INTERROGATION" name="point d'interrogation" default="temp_off">
+            <antipattern>
+                <token postag="R pers.*" postag_regexp="yes"/>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes" skip="-1"/>
+                <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+                <token>est</token>
+                <token regexp="yes">(-?)elle</token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>a</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes" skip="-1"/>
+                <token min="1" max="10">.</token>
+                <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes" skip="-1"/>
+                <token regexp="yes" skip="-1">[/(]</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[",']</token>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+                <token regexp="yes">[,.]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">sans|à|quant</token>
+                <token skip="-1"  regexp="yes">doute|peine|à</token>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"><exception postag="V.* inf" postag_regexp="yes"/></token>
+                <token postag="R pers suj.*" postag_regexp="yes"></token>
+                <token postag="V ppa.*" postag_regexp="yes" skip="-1"></token>
+                <token >.</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="[JPA].*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"  skip="-1"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="[JPA].*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="A inte" min="0" max="1"><exception>ainsi</exception>
+                </token>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"><exception postag="V.* inf" postag_regexp="yes"/><exception>soit</exception></token>
+                <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">(elles?|eux|[nv]ous|[mt]oi|lui)-mêmes?|eux</exception></token>
+                <token postag="V ppa.*" postag_regexp="yes" skip="-1"></token>
+                <marker>
+                    <token>.<exception scope="previous">etc</exception></token>
+                </marker>
+            </pattern>
+            <message>Une phrase interrogative fini généralement par un point d'interrogation.</message>
+            <suggestion>?</suggestion>
+            <example correction="?">As-tu mangé des crêpes<marker>.</marker></example>
+            <example>Où ai je raté quelque chose ?.......</example>
+            <example>Sont elles formées en ce moment etc etc....et biensur à quel endroit précisément?</example>
+            <example>Les navires constitutifs étaient eux-mêmes numérotés, et le TE 11.2.1.2 sera le second navire.</example>
+            <example>Sans doute s'était il accroché à une cloche...</example>
+            <example>Elle aurait été descendue d'un seul jet en bob, m'a-t-on dit...</example>
+            <example>Il est plutôt dans le genre m'as tu vu.</example>
+            <example>Les historiens sont eux divisés.</example>
+            <example>M. Tew a lui-même tiré sa célébrité d'Internet...</example>
+            <example>Commentaire :je tiens a vous informé que monsieur THEODORE K...</example>
+            <example>Qu'en pensez vous (cramponnage, rigidité, isothermie....)</example>
+            <example>Aussi est-elle honnie par les Janeites.</example>
+            <example>Soit on choisi la performance avec des synthétiques, et là, ça devient du consommable...</example>
+            <example>Tout en regardant la partition des Prélude à l'après-midi d'un faune de Debussy, a-t-il commenté, "Il est orchestré avec beaucoup de goût...</example>
+            <example>Très vite est elle nommée prieure du couvent.</example>
+            <example>Je suis curieux de savoir sous quelle pseudonyme ce « journaliste » a-t-il pu contribuer...</example>
+            <example>Que c'est il passé chez les prévisionnistes, j'aimerais bien avoir leur point de vue...</example>
+        </rule>
         <rule id="TIRET_BAS" name="tiret bas erroné" tags="picky">
             <!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
             <antipattern>
