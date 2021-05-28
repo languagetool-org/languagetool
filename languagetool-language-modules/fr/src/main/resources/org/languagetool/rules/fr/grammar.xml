@@ -208,6 +208,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bonne marche|bon marché">La <marker>bonne marché</marker> de leurs activités.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_TOUT_LE" name="Concordance tout + le" default="temp_off">
+            <antipattern>
+                <!-- this and similar patterns can be ambiguous -->
+                <token inflected="yes">dire</token>
+                <token>à</token>
+                <token regexp="yes">tous|toutes</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tout|toute|toutes</token>
+                    </marker>
+                    <token postag="_GN_MP">les</token>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion>tous</suggestion>
+                <example correction="Tous"><marker>Tout</marker> les hommes.</example>
+                <example correction="Tous"><marker>Toute</marker> les hommes.</example>
+                <example correction="Tous"><marker>Toutes</marker> les hommes.</example>
+                <example correction="tous">J'ai le devoir de dire à <marker>tout</marker> les hommes la vérité.</example>
+                <example>Toutes les femmes.</example>
+                <!--<example correction="tous">J'ai le devoir de dire à <marker>toutes</marker> les hommes la vérité.</example>-->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tout|toute|tous</token>
+                    </marker>
+                    <token postag="_GN_FP">les</token>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion>toutes</suggestion>
+                <example correction="Toutes"><marker>Tout</marker> les femmes.</example>
+                <example correction="Toutes"><marker>Toute</marker> les femmes.</example>
+                <example correction="Toutes"><marker>Tous</marker> les femmes.</example>
+                <example>Tous les hommes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tous|toute|toutes</token>
+                    </marker>
+                    <token postag="_GN_MS">le</token>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion>tout</suggestion>
+                <example correction="Tout"><marker>Tous</marker> le monde.</example>
+                <example correction="Tout"><marker>Toute</marker> le monde.</example>
+                <example correction="Tout"><marker>Toutes</marker> le monde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tout|toutes|tous</token>
+                    </marker>
+                    <token postag="_GN_FS">la</token>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion>toute</suggestion>
+                <example correction="Toute"><marker>Tout</marker> la vérité.</example>
+                <example correction="Toute"><marker>Toutes</marker> la vérité.</example>
+                <example correction="Toute"><marker>Tous</marker> la vérité.</example>
+                <example>J'ai le devoir de dire à tous la vérité</example>
+                <example>J'ai le devoir de dire à toutes la vérité</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
             <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
             <antipattern>
