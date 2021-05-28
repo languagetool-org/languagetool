@@ -720,11 +720,12 @@ abstract class TextChecker {
     DetectedLanguage detected;
     //String mode;
     //long t1 = System.nanoTime();
-    if (ngramIdentifier != null && text.length() < NGRAM_THRESHOLD) {
-      detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+    String cleanText = ngramIdentifier.cleanAndShortenText(text);
+    if (ngramIdentifier != null && cleanText.length() < NGRAM_THRESHOLD) {
+      detected = ngramIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
       //mode = "ngram";
     } else {
-      detected = fastTextIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+      detected = fastTextIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
       //mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
     }
     //long t2 = System.nanoTime();

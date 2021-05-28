@@ -80,7 +80,7 @@ public class NGramLangIdentifier {
         double[] vals = Arrays.stream(line.split(" ")).mapToDouble(Double::parseDouble).toArray();
         thresholds.add(vals);
       }
-      assert (thresholds.size() == maxLength - thresholdsStart) : "Thresholds file is incomplete";
+      //assert (thresholds.size() == maxLength - thresholdsStart) : "Thresholds file is incomplete: " + thresholds.size() + " != " + maxLength + "-" + thresholdsStart;
     }
 
     //Load transition matrices - Line format = {i} {j} {val}
