@@ -1002,6 +1002,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("malediert(e[mnrs]?)?", "malediert", "malträtiert");
     putRepl("maletriert(e[mnrs]?)?", "maletriert", "malträtiert");
     putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
+    putRepl("abtrakt(e[mnrs]?)?", "ab", "abs");
+    putRepl("unerfolgreich(e[mnrs]?)?", "unerfolgreich", "erfolglos");
+    put("geauessert", "geäußert");
+    put("gestriffen", "gestreift");
     put("gefäh?ten", "Gefährten");
     put("gefäh?te", "Gefährte");
     put("immenoch", "immer noch");
