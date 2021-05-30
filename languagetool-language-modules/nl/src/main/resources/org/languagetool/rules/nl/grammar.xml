@@ -10107,9 +10107,9 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token>beiden</token>
-					<token postag_regexp="yes" postag=".*MRV.*"><exception regexp="yes">de|onze</exception></token>
+					<token postag_regexp="yes" postag=".*MRV.*"><exception regexp="yes">de|onze|[0-9]+</exception></token>
 				</pattern>
-				<message>Als het \1 en \2 bij elkaar horen, moet het 'beide' zijn.</message>
+				<message>Als \1 en \2 bij elkaar horen, moet het 'beide' zijn.</message>
 				<suggestion>beide \2</suggestion>
 				<example correction="beide deuren">Ik zie dat <marker>beiden deuren</marker> dicht zijn.</example>
 			</rule>			
@@ -12165,7 +12165,7 @@ onwaarschijnlijk
 			<!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
 			<rule>
 				<pattern>
-					<token regexp="yes">.*(fuck|godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*|spleetoo?g|nikker|neger).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">knikker.*|[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita|godsvrezend|oorlogshitsers|negeren|.*wijf</exception></token>
+					<token regexp="yes">.*(fuck|godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*|spleetoo?g|nikker|neger).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit|merde|damn(ed)?</exception><exception regexp="yes" case_sensitive="yes">knikker.*|[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita|godsvrezend|oorlogshitsers|negeren|.*wijf</exception></token>
 				</pattern>
 				<message>Dit taalgebruik kan als ongepast, grof of beledigend worden ervaren.</message>
 				<short>ongepast</short>
@@ -12506,7 +12506,7 @@ onwaarschijnlijk
 					<token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"/>
 					<token>als</token>
 				</pattern>
-				<message>Als dit een vergelijking is, dan vinden velen beter: <suggestion><match no="1"/> dan</suggestion>.</message>
+				<message>Als dit een vergelijking is (en 'als' niet 'indien' is), dan vinden velen beter: <suggestion><match no="1"/> dan</suggestion>.</message>
 				<short>dan</short>
 				<example correction="grotere dan">Het is een <marker>grotere als</marker> die andere.</example>
 				<example correction="Verder dan"><marker>Verder als</marker> de living gingen ze niet.</example>
@@ -17602,6 +17602,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>als</token><token>ik</token><token regexp="yes">het|dit|dat</token><token>maar</token><token postag="BNW:STL:ONV"/></antipattern>
+				<antipattern><token>en</token><token postag_regexp="yes" postag="WKW.*"/><token>maar</token></antipattern>
+				<antipattern><token>het</token><token>maar</token><token regexp="yes">(al)?vast</token></antipattern>
 				<antipattern><token>met</token><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:3EP"/><token regexp="yes">haar|zijn|ons|hun|onze|jouw|uw</token><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token regexp="yes">en|of</token><token>maar</token></antipattern>
@@ -19559,6 +19562,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token>mensen</token><token>thuis</token></antipattern>
 				<antipattern><token postag="GET.*" postag_regexp="yes"/><token postag="ZNW.*HET" postag_regexp="yes"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token/><token/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
@@ -27663,11 +27667,11 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>ondergetekende</token>
 				</pattern>
-				<message>&vlotter_mess; <suggestion>ik</suggestion> of <suggestion>bij mij</suggestion>.</message>
+				<message>&vlotter_mess; <suggestion>ik</suggestion> of <suggestion>bij mij</suggestion> of <suggestion>ondertekende</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="Ik|Bij mij"><marker>Ondergetekende</marker> kon er helaas niet bij zijn.</example>
-				<example correction="ik|bij mij">Nuja, <marker>ondergetekende</marker> haalt ook af en toe wel eens een dwaze actie uit dus wat zouden we het de scheids verwijten.</example>
-				<example correction="Ik|Bij mij"><marker>Ondergetekende</marker> wil dan ook eens bij de Gemeente polsen of een gigantische spiegel achter de goals mogelijk is.</example>
+				<example correction="Ik|Bij mij|Ondertekende"><marker>Ondergetekende</marker> kon er helaas niet bij zijn.</example>
+				<example correction="ik|bij mij|ondertekende">Nuja, <marker>ondergetekende</marker> haalt ook af en toe wel eens een dwaze actie uit dus wat zouden we het de scheids verwijten.</example>
+				<example correction="Ik|Bij mij|Ondertekende"><marker>Ondergetekende</marker> wil dan ook eens bij de Gemeente polsen of een gigantische spiegel achter de goals mogelijk is.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ONDERHAVIG" name="onderhavig">
@@ -32028,6 +32032,7 @@ steenwijk;Steenwijk
 		<rulegroup id="ZAL_ZUL" name="zal of zul">
 			<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">ik|men|hij|zij|ze</token><token postag="SENT_END"/></antipattern>
 			<antipattern><token regexp="yes">het|dit|dat</token><token>zal</token></antipattern>
+			<antipattern><token postag="VRZ"/><token>je</token><token>zal</token></antipattern>
 			<rule>
 				<!-- TODO: false positives bestrijden -->
 				<antipattern><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>zal</token></antipattern>
@@ -33087,7 +33092,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token>net-niet</token>
-					<token postag ="ZNW.*" postag_regexp="yes"><exception negate_pos="yes" postag ="ZNW.*" postag_regexp="yes"/><exception>tegen</exception></token>
+					<token postag ="ZNW.*" postag_regexp="yes"><exception negate_pos="yes" postag ="ZNW.*|BNW.*" postag_regexp="yes"/><exception>tegen</exception></token>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
 				<example correction="net-nietgeneratie">QQ <marker>net-niet generatie</marker> QQQ.</example>
