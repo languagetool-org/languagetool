@@ -8643,6 +8643,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="astro$1"/></suggestion>
                 <example correction="astroturismo">La promoción del <marker>astro turismo</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="SPS00"/>
+                    <token>todo</token>
+                </antipattern>
+                <pattern>
+                    <token>todo</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">poderoso|terreno</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="todo$1"/></suggestion>
+                <example correction="todopoderosa">La <marker>todo poderosa</marker> liga profesional de fútbol.</example>
+                <example>Era en todoo poderoso</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token spacebefore="no">.</token>
