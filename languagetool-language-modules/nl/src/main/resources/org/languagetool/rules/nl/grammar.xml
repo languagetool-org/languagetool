@@ -17602,6 +17602,13 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>,</token><token postag="WKW:TGW:INF"/><token>maar</token><token>en</token></antipattern>
+				<antipattern><token>maar</token><token>niet</token><token postag_regexp="yes" postag="DVW|VRZ"/><token postag="SENT_END"/></antipattern>
+				<antipattern><token>dus</token><token>maar</token></antipattern>
+				<antipattern><token>maar</token><token postag="GET:MRV"/></antipattern>
+				<antipattern><token>toch</token><token>maar</token></antipattern>
+				<antipattern><token>die</token><token>maar</token><token>net</token><token>genoeg</token></antipattern>
+				<antipattern><token>bleef</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>als</token><token>ik</token><token regexp="yes">het|dit|dat</token><token>maar</token><token postag="BNW:STL:ONV"/></antipattern>
 				<antipattern><token>en</token><token postag_regexp="yes" postag="WKW.*"/><token>maar</token></antipattern>
 				<antipattern><token>het</token><token>maar</token><token regexp="yes">(al)?vast</token></antipattern>
@@ -30626,7 +30633,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">verstenen</token>
 				</pattern>
-				<message>Als het om stenen leggen gaan, wordt &vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">bestraten</match></suggestion>.</message>
+				<message>Als het om stenen leggen gaat, wordt &vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">bestraten</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="bestraten">Bij Medusa denk ik aan de zeenimf uit de Griekse mythologie met haar slangenhaar die iedereen die in haar ogen keek kon doen <marker>verstenen</marker>.</example>
 			</rule>
@@ -35245,7 +35252,7 @@ steenwijk;Steenwijk
 				<antipattern><token>van</token><token>den</token><token>beginne</token></antipattern>
 				<antipattern><token>van</token><token>den</token><token>domme</token></antipattern>
 				<antipattern><token>in</token><token>den</token><token>treure</token></antipattern>
-				<antipattern><token regexp="yes">een|slanke|grove|iele</token><token>den</token></antipattern>
+				<antipattern><token regexp="yes">een|slanke|grove|iele|rode</token><token>den</token></antipattern>
 				<antipattern><token/><token>den</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern> <!-- eigennamen -->
 				<!-- TODO Afraden van al deze ouderwetsigheid -->
 				<pattern>
@@ -41209,6 +41216,7 @@ steenwijk;Steenwijk
 		
 		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'" >
 			<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+			<antipattern><token>de</token><token>eind</token><token postag_regexp="yes" postag=".*VRB"/></antipattern>
 			<antipattern><token>de</token><token>commissie-Van</token></antipattern>
 			<antipattern><token>de</token><token postag="ZNW:EKV"/></antipattern>
 			<antipattern><token>de</token><token postag="ZNW:EKV:DE_"/></antipattern>
