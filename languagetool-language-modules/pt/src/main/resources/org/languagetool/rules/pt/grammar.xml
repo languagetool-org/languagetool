@@ -2593,14 +2593,6 @@ O que o torna perigoso é haver civis inocentes.
           <token postag='(?:NC|A..)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes'>alvo|padrão</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-01-06 *START* -->
-<!-- "cujos recibos anexo" -->
-      <antipattern>
-          <token postag='PR0MP000' postag_regexp='no'/>
-          <token postag='NCMP000' postag_regexp='no'/>
-          <token postag='VMIP1S0' postag_regexp='no'/>		  
-      </antipattern>
-<!-- MARCOAGPINTO 2020-01-06 *END* -->
 <!-- MARCOAGPINTO 2020-01-14 *START* -->
 <!-- "para diversos fins baseado nos slides de Marco" -->
 <!-- "para vários fins baseado nos slides de Marco" -->
@@ -2834,6 +2826,16 @@ Queremos os protestos anti Marco.
 		  <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-05-30 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-30 (Enhanced) (17-MAR-2021+) *START* -->
+<!--
+Os pagamentos cujos recibos anexo.
+-->
+      <antipattern>
+          <token postag='PR0.P.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>		  
+      </antipattern>
+<!-- MARCOAGPINTO 2021-05-30 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -2895,7 +2897,9 @@ Queremos os protestos anti Marco.
 	  <example>Para além de Trajano, as principais perseguições foram ordenadas pelos imperadores Marco Aurélio, Décio, Valeriano e Diocleciano.</example>
 	  <example>A Ucrânia é uma república com um sistema de governo semi-presidencial e poderes legislativo, executivo e judiciário separados.</example>	
 
-	  <example>Queremos os protestos anti Marco.</example>	  
+	  <example>Queremos os protestos anti Marco.</example>
+	  
+	  <example>Os pagamentos cujos recibos anexo.</example>
     </rule>
     <rule>
       <antipattern>
@@ -4050,6 +4054,16 @@ Queremos os protestos anti Marco.
 		  <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-05-30 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-30 (Enhanced) (17-MAR-2021+) *START* -->
+<!--
+Os pagamentos cujos recibos anexo.
+-->
+      <antipattern>
+          <token postag='PR0.P.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>		  
+      </antipattern>
+<!-- MARCOAGPINTO 2021-05-30 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -4108,6 +4122,8 @@ Queremos os protestos anti Marco.
 	  <example>A atividade de nascimento de estrelas dura normalmente cerca de dez milhões de anos.</example>
 	  
 	  <example>Queremos os protestos anti Marco.</example>
+	  
+	  <example>Os pagamentos cujos recibos anexo.</example>
     </rule>
     <rule>
       <antipattern>
