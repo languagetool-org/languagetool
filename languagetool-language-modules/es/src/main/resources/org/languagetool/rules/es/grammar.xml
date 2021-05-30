@@ -15636,32 +15636,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="ABAJO" name="a bajo / abajo" default="temp_off">
-            <antipattern>
-                <token>bajo</token>
-                <token postag="NC[MC][SN].*" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <token>a</token>
-                <token regexp="yes">abajo|bajo</token>
-            </pattern>
-            <message>Para indicar posición, se escribe <suggestion>abajo</suggestion>.</message>
-            <example correction="abajo">Vive <marker>a bajo</marker>.</example>
-            <example correction="abajo">Corre hacia <marker>a bajo</marker>.</example>
-            <example>Se vendía a bajo precio.</example>
-        </rule>
-        <rule id="AVECES" name="aveces/a veces">
-            <antipattern>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                <token>aveces</token>
-            </antipattern>
-            <pattern>
-                <token>aveces</token>
-            </pattern>
-            <message>¿Quería decir <suggestion>a veces</suggestion>? "Aveces" es una forma correcta del v. 'avezar'.</message>
-            <example correction="A veces"><marker>Aveces</marker> pienso lo mismo.</example>
-            <example>Cuando te aveces, lo entenderás.</example>
-        </rule>
+        <rulegroup id="ABAJO" name="a bajo / abajo">
+            <rule>
+                <pattern>
+                    <token>arriba</token>
+                    <token>a</token>
+                    <marker>
+                        <token>bajo</token>
+                    </marker>
+                </pattern>
+                <message>Para indicar posición, se escribe <suggestion>abajo</suggestion>.</message>
+                <example correction="abajo">De arriba a <marker>bajo</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>bajo</token>
+                    <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>a</token>
+                    <token>bajo</token>
+                </pattern>
+                <message>Para indicar posición, se escribe <suggestion>abajo</suggestion>.</message>
+                <example correction="abajo">Vive <marker>a bajo</marker>.</example>
+                <example correction="abajo">Corre hacia <marker>a bajo</marker>.</example>
+                <example>Se vendía a bajo precio.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>arriba</token>
+                    <token>a</token>
+                    <token>abajo</token>
+                </antipattern>
+                <pattern>
+                    <token>a</token>
+                    <token>abajo</token>
+                </pattern>
+                <message>Para indicar posición, se escribe <suggestion>abajo</suggestion>.</message>
+                <example correction="abajo">Corre hacia <marker>a abajo</marker>.</example>
+                <example>De arriba a abajo.</example>
+            </rule>
+        </rulegroup>
         <rule id="PARA_MI_ERA" name="para mi/mí era">
             <pattern>
                 <token>para</token>
