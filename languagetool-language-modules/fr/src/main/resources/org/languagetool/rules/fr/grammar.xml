@@ -13645,15 +13645,15 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
-        <rule id="MULTI_ADJ" name="accord entre plusieurs adjectifs">
+        <rule id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
             <pattern>
                 <unify negate="yes">
                     <feature id="number"/>
                     <feature id="gender"/>
                     <token postag="J.*" postag_regexp="yes"/>
                 <unify-ignore>
-                    <token min="0" max="1">,</token>
-                    <token>et|ni</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">et|ni</token>
                 </unify-ignore>
                     <token postag="J.*" postag_regexp="yes"/>
                 </unify>
