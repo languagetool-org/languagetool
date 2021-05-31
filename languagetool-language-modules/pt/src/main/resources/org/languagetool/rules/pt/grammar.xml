@@ -3166,16 +3166,6 @@ Os pagamentos cujos recibos anexo.
 		  <token postag='RG' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-21 *END* -->
-<!-- MARCOAGPINTO 2020-06-21 *START* -->
-<!-- "O mendigo vendeu ao homem jornais antigos." -->
-<!-- "O mendigo vendeu à mulher jornais antigos." -->
-<!-- "O mendigo vendeu à agente jornais antigos." -->
-      <antipattern>  
-		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
-		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
-		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-21 *END* -->
 <!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *START* -->
 <!-- "Com coeficientes de rácio de atrito constantes e simétricos." -->
       <antipattern>
@@ -3307,18 +3297,6 @@ Os pagamentos cujos recibos anexo.
 		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
 	  </antipattern> 
 <!-- MARCOAGPINTO 2020-10-02 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *START* -->
-<!-- "As simulações deviam ser o mais realistas que há." -->
-<!-- "As simulações devem ser o mais realistas que há." -->
-<!-- "As simulações são o mais realistas que há." -->
-      <antipattern>
-		  <token postag='VM..3P0' postag_regexp='yes'/>
-          <token min="0" max="1" postag='VMN0000'></token>
-		  <token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>
-          <token postag='RG'></token>
-		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
 <!-- "Ao testar um modelo tendo por base dados." -->
 <!-- "Ao testar um modelo tendo por resultado dados." -->
@@ -3350,9 +3328,49 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 		<token postag='SPS.+' postag_regexp='yes'/>
 		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
 		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-		<token postag='SPS.+|VMI.3P.+|NC.N.+' postag_regexp='yes'/>
+		<token postag='SPS.+|V...3P.+|NC.N.+|AQ0.N.+' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-03-24 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-31 (Enhanced) (17-MAR-2021+) *START* -->
+<!--
+O mendigo vendeu ao homem jornais antigos.
+Ela deixava de lado compassos inteiros.
+Cria-se que no último dia do ano espíritos malignos regressariam à terra.
+-->
+      <antipattern>  
+		  <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *START* -->
+<!--
+Óxido de etileno ou epóxido de etileno utilizados como inseticida.
+D. Afonso IV não ficou agradado com o favoritismo concedidos aos castelhanos.
+-->
+      <antipattern>
+		  <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+		  </token>
+		  <token postag='V....P.+' postag_regexp='yes'/>
+		  <token postag='CS|RG|SPS.+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-05-31 (Enhanced) (17-MAR-2021+) *START* -->
+<!--
+As simulações deviam ser o mais realistas que há.
+As simulações devem ser o mais realistas que há.
+As simulações são o mais realistas que há.
+As simulações são as mais realistas que há.
+-->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='VMN0000' postag_regexp='no'/>
+		  <token postag='DA.+|PD.+|PP.+|SPS.+' postag_regexp='yes'/>
+		  <token postag='RG|CS' postag_regexp='yes'/>
+		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3390,7 +3408,19 @@ A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo
 	 
 	 <example type='correct'>Lançamento de 2 referências de <marker>bacalhau oriundos</marker> de pesca sustentável.</example>
 	 <example>Em seguida, as tropas do general Robles tomaram a cidade.</example>
-	 <example>A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo paralelo 38º N.</example>	 
+	 <example>A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo paralelo 38º N.</example>
+	 
+	 <example>O mendigo vendeu ao homem jornais antigos.</example>
+	 <example>Ela deixava de lado compassos inteiros.</example>
+	 <example>Cria-se que no último dia do ano espíritos malignos regressariam à terra.</example>
+	 
+	 <example>Óxido de etileno ou epóxido de etileno utilizados como inseticida.</example>
+	 <example>D. Afonso IV não ficou agradado com o favoritismo concedidos aos castelhanos.</example>
+	 
+	 <example>As simulações deviam ser o mais realistas que há.</example>
+	 <example>As simulações devem ser o mais realistas que há.</example>
+	 <example>As simulações são o mais realistas que há.</example>
+	 <example>As simulações são as mais realistas que há.</example>
     </rule>
     <rule>
       <antipattern>
