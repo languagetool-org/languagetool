@@ -59,6 +59,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
 
+<!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
 
 <!-- definieer macro voor gespelde afkortingen als cd -->
 <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km">
@@ -9697,7 +9698,7 @@ onwaarschijnlijk
 						<token postag="ENM:ORG"/>
 						<token postag_regexp="yes" postag="ZNW.*">
 							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
-							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu|(&weekdays;)(avond|ochtend|middag|morgen)</exception>
+							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu|(&weekdays;)(avond|ochtend|middag|morgen)|sprake</exception>
 							<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
 						</token>
 					</marker>
@@ -11461,6 +11462,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<!-- 2014-08-20 TaalTik -->
+			<antipattern><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token>de</token><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="ZNW.*HET" postag_regexp="yes"/><token postag="VRZ"/></antipattern>
 			<antipattern><token postag="VRZ"/><token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 			<antipattern><token>nu</token><token>weg</token></antipattern>
 			<antipattern><token>niet</token><token>meer</token></antipattern>
@@ -16216,7 +16218,7 @@ steenwijk;Steenwijk
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische)$</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan)</token></antipattern>
 				<antipattern>
@@ -16233,7 +16235,8 @@ steenwijk;Steenwijk
 						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
 					</marker>
 				</pattern>
-				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied); bedoelt u: <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
+				<suggestion suppress_misspelled="yes"><match no="2" case_conversion="startlower"/></suggestion>
 				<example correction="is">Dit, <marker>Is</marker> een fout.</example>
 				<example>Dit <marker>is</marker> wel goed.</example>
 			</rule>
@@ -17602,8 +17605,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>kunnen</token><token regexp="yes">wij|we|ze|zij</token><token>maar</token><token>het</token><token>beste</token></antipattern>
+				<antipattern><token>dat</token><token>door</token><token postag="ZNW.*" postag_regexp="yes"/><token>maar</token><token postag=".*ONV" postag_regexp="yes"/></antipattern>
+				<antipattern><token regexp="yes">daar|hier</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/><token regexp="yes">je|jij</token><token regexp="yes">je|hem|haar|mij|hen</token><token>maar</token><token regexp="yes">&DVW;</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token postag="WKW:TGW:INF"/><token postag_regexp="yes" postag=".*BEZ"/><token postag="ZNW.*" postag_regexp="yes"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>,</token><token postag="WKW:TGW:INF"/><token>maar</token><token>en</token></antipattern>
-				<antipattern><token>maar</token><token>niet</token><token postag_regexp="yes" postag="DVW|VRZ"/><token postag="SENT_END"/></antipattern>
+				<antipattern><token>maar</token><token>niet</token><token postag="VRZ"/><token postag="SENT_END"/></antipattern>
 				<antipattern><token>dus</token><token>maar</token></antipattern>
 				<antipattern><token>maar</token><token postag="GET:MRV"/></antipattern>
 				<antipattern><token>toch</token><token>maar</token></antipattern>
@@ -17657,7 +17664,7 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>zelfs</token><token>maar</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/><token>ze</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
-				<antipattern><token>maar</token><token postag="DVW"/><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>maar</token><token regexp="yes">&DVW;</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">zelfs|ook</token><token>maar</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"/><token regexp="yes">ze|zij|hij|ie|u|men</token><token>maar</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token>Dan</token><token>maar</token></antipattern>
@@ -18765,7 +18772,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<marker>
 						<token><exception postag="SENT_START"/><exception regexp="yes">&apostrof;|&quote;</exception></token>
-						<token skip="-1">maar</token>
+						<token case_sensitive="yes" skip="-1">maar</token>
 					</marker>
 					<token skip="-1" postag_regexp="yes" postag="WKW.*"/>
 					<token postag="SENT_END"/>
@@ -34164,7 +34171,7 @@ steenwijk;Steenwijk
 		<rulegroup id="BEDOENING" name="Bedoening → bedoeling">
 			<rule>
 				<pattern>
-					<token postag="BNW:STL:VRB"><exception regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze|hele|vrolijke|vreemde|dure|vieze|levendige|chique|krappe|treurige|bloederige|eenzame|doelpuntrijke</exception></token>
+					<token postag="BNW:STL:VRB"><exception regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze|hele|vrolijke|vreemde|dure|vieze|levendige|chique|krappe|treurige|bloederige|eenzame|doelpuntrijke|nerveuze</exception></token>
 					<token>bedoening</token>
 				</pattern>
 				<message>Bedoelt u misschien: <suggestion>\1 bedoeling</suggestion> (intentie)?</message>
@@ -34198,6 +34205,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="CADET" name="Cadet of kadet">
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1">opleiding</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token regexp="yes">cadet|cadetten</token>
 				</pattern>
@@ -34636,6 +34644,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VERVANG_VOOR" name="Vervangen voor → vervangen door">
 			<rule>
+				<antipattern><token>vlak</token><token>voor</token></antipattern>
 				<pattern>
 					<token inflected="yes" skip="3">vervangen<exception regexp="yes">vervangende|vervangend</exception></token>
 					<marker>
