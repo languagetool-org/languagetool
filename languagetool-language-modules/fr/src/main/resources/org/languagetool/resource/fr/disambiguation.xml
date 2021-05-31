@@ -4096,6 +4096,11 @@ RB => Règles Brutes
         <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
     <rule name="RP : Det + Adj + Nom" id="RP-D_J_AMBIG_N">
+        <antipattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes"/>
+            <token postag="J.*" postag_regexp="yes"/>            
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/>
