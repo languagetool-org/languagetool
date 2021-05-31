@@ -11269,7 +11269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>rundum</token>
                     <token regexp="yes">sorg(en)?los</token>
-                    <token regexp="yes">paket(en?|s|es)?</token>
+                    <token regexp="yes">paket(en?|s|es)?|services?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="3" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rundum Sorglos Paket</marker>.</example>
@@ -11279,7 +11279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>rund</token>
                     <token>um</token>
                     <token regexp="yes">sorg(en)?los</token>
-                    <token regexp="yes">paket(en?|s|es)?</token>
+                    <token regexp="yes">paket(en?|s|es)?|services?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="4" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rund um Sorglos Paket</marker>.</example>
@@ -11287,7 +11287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">rundum-?sorg(en)?los</token>
-                    <token regexp="yes">paket(en?|s|es)?</token>
+                    <token regexp="yes">paket(en?|s|es)?|services?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>rundum-sorglos Paket</marker>.</example>
@@ -14203,7 +14203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="INWIEFERN" name="'in wie fern (inwiefern)' etc.">
-            <regexp>\b(in) (wie|so) (fern|weit)\b</regexp>
+            <regexp>\b(in) (wie|so)\s*(fern|weit)\b</regexp>
             <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
             <url>https://www.korrekturen.de/beliebte_fehler/in-wie-weit.shtml</url>
             <example correction="Inwiefern"><marker>In wie fern</marker> das auch für uns gilt, muss noch geklärt werden.</example>
@@ -21119,7 +21119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="VERSPRECHEN_SUBST" name="das versprechen (Versprechen)" default="temp_off">
+        <rulegroup id="VERSPRECHEN_SUBST" name="das versprechen (Versprechen)">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="2">halten|geben|brechen</token>
@@ -21149,7 +21149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fehlendes Komma: Was wir versprechen halten wir auch.</example>
             </rule>
         </rulegroup>
-        <rule id="BUTTER_BEI_DIE_FISCHE" name="Butter bei die Fische!" default="temp_off">
+        <rule id="BUTTER_BEI_DIE_FISCHE" name="Butter bei die Fische!">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Butter|BUTTER</token>
                 <token regexp="yes">bei|BEI|an|AN</token>
@@ -38235,7 +38235,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="ESS" name="ess (iss)" default="temp_off">
+        <rule id="ESS" name="ess (iss)">
             <pattern>
                 <token postag="SENT_START" />
                 <marker>
