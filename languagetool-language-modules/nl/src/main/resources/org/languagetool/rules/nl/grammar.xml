@@ -17606,6 +17606,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token regexp="yes">ik|jij|hij|zij|u|men</token><token regexp="yes">hem|haar|mij|hen</token><token>maar</token><token postag_regexp="yes" postag=".*ONV"/></antipattern>
 				<antipattern><token>je</token><token>zult</token><token>maar</token></antipattern>
 				<antipattern><token>maar</token><token>eens</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>kunnen</token><token regexp="yes">wij|we|ze|zij</token><token>maar</token><token>het</token><token>beste</token></antipattern>
@@ -32828,6 +32829,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="JIJ_LOOP" name="jij loop">
 			<rule>
+				<antipattern><token>Jij</token><token>wel</token><token regexp="yes">[.!!?;,;]</token></antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
