@@ -38,7 +38,6 @@ public abstract class AbstractDashRule extends Rule {
     super(messages);
     setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setTags(Collections.singletonList(Tag.picky));
-    
   }
 
   @Override
