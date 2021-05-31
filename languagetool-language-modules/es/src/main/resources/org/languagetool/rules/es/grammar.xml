@@ -15692,6 +15692,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De arriba a abajo.</example>
             </rule>
         </rulegroup>
+        <rule id="AVECES" name="aveces/a veces">
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>aveces</token>
+            </antipattern>
+            <pattern>
+                <token>aveces</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>a veces</suggestion>? "Aveces" es una forma correcta del v. 'avezar'.</message>
+            <example correction="A veces"><marker>Aveces</marker> pienso lo mismo.</example>
+            <example>Cuando te aveces, lo entenderás.</example>
+        </rule>
         <rule id="PARA_MI_ERA" name="para mi/mí era">
             <pattern>
                 <token>para</token>
@@ -15824,7 +15836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión. ¿Quería decir <suggestion>junto a</suggestion>?</message>
                 <example correction="junto a">La vemos <marker>junto</marker> mares.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>todo</token>
                     <token>junto</token>
