@@ -79,7 +79,7 @@ public class JLanguageToolTest {
     Language lang = new GermanyGerman();
     assertEquals(lang.toAdvancedTypography("Das ist..."), "Das ist…");
     assertEquals(lang.toAdvancedTypography("Meinten Sie \"entschieden\" oder \"entscheidend\"?"), "Meinten Sie „entschieden“ oder „entscheidend“?");
-    assertEquals(lang.toAdvancedTypography("Meinten Sie \'entschieden\' oder \'entscheidend\'?"), "Meinten Sie ‚entschieden‘ oder ‚entscheidend‘?");
+    assertEquals(lang.toAdvancedTypography("Meinten Sie 'entschieden' oder 'entscheidend'?"), "Meinten Sie ‚entschieden‘ oder ‚entscheidend‘?");
     
     assertEquals(lang.toAdvancedTypography("z. B."), "z.\u00a0B.");
     assertEquals(lang.toAdvancedTypography("z.B."), "z.\u00a0B.");
