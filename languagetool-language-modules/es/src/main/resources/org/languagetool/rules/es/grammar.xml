@@ -21232,6 +21232,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://es.wikipedia.org/wiki/Humphrey_Bogart</url>
                 <example correction="Humphrey Bogart"><marker>Humfrey Bogard</marker> protagoniza 'Casablanca'.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Emmanuel</token>
+                    <token>Macron</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[EÉ]m+an+uel+e?</token>
+                    <token regexp="yes">Ma[ck]+a?ron</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Emmanuel Macron</suggestion>, presidente de Francia?</message>
+                <url>https://es.wikipedia.org/wiki/Emmanuel_Macron</url>
+                <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
+                <example correction="Emmanuel Macron"><marker>Emmanuel Makron</marker></example>
+            </rule>
         </rulegroup>
     </category>
 </rules>

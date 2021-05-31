@@ -66866,6 +66866,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://ca.wikipedia.org/wiki/Humphrey_Bogart</url>
                 <example correction="Humphrey Bogart"><marker>Humfrey Bogard</marker> surt en 'Casablanca'.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Emmanuel</token>
+                    <token>Macron</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[EÉ]m+an+uel+e?</token>
+                    <token regexp="yes">Ma[ck]+a?ron</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Emmanuel Macron</suggestion>, president de França?</message>
+                <url>https://ca.wikipedia.org/wiki/Emmanuel_Macron</url>
+                <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
+                <example correction="Emmanuel Macron"><marker>Emmanuele Mackron</marker></example>
+            </rule>
         </rulegroup>
     </category>
     <category name="adaptador valencià" id="ADAPTADOR_VALENCIA" default="off">
