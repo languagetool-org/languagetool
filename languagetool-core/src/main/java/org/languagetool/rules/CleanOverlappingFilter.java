@@ -31,9 +31,9 @@ import java.util.List;
  */
 public class CleanOverlappingFilter implements RuleMatchFilter {
 
-  private final Language language;
+  private static final int negativeConstant = Integer.MIN_VALUE + 10000;
   
-  private final int negativeConstant = Integer.MIN_VALUE + 10000;
+  private final Language language;
   
   public CleanOverlappingFilter(Language lang) {
     this.language = lang;
@@ -43,7 +43,7 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
   public final List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     List<RuleMatch> cleanList = new ArrayList<>();
     RuleMatch prevRuleMatch = null;
-    for(RuleMatch ruleMatch: ruleMatches) {
+    for (RuleMatch ruleMatch: ruleMatches) {
       if (prevRuleMatch == null) {  // first item
         prevRuleMatch = ruleMatch;
         continue;
@@ -85,6 +85,5 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
     }
     return cleanList;
   }
-
   
 }
