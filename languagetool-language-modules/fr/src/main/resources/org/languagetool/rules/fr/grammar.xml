@@ -26797,6 +26797,19 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">.*[^éèe]</exception></token>
                     <token>je</token>
                 </antipattern>
+                <antipattern>
+                    <token>puis</token>
+                    <token skip="-1">je</token>
+                    <token postag="M fin.*" postag_regexp="yes"><exception postag="M fin inte"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R pers suj 1 s"/>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V .* 1 s" postag_regexp="yes"/>
+                    <token>je</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V .* 1 s" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="V .* 1 s" postag_regexp="yes">
@@ -26811,6 +26824,8 @@ though, and has since been slightly modified)-->
                 <suggestion>\1-\2</suggestion>
                 <example correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
                 <example>Puis-je déposer mes affaires ?</example>
+                <example>Puis je me lance et l'invente.</example>
+                <example>La prochaine fois que j'y vais je t'envoie un message !</example>
                 <example>Sans doute je ne vais pas.</example>
                 <example>Si d’aventure on en a.</example>
                 <example>Tant que je vivrai je n’oublierai pas.</example>
@@ -26833,6 +26848,12 @@ though, and has since been slightly modified)-->
                     <token postag="R pers suj 1 s"/>
                 </antipattern>
                 <antipattern>
+                    <token postag="V .* 1 s" postag_regexp="yes"/>
+                    <token>je</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V .* 1 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">j[e']|t[u']|ils?|elles?|on|y|[mts]on</token>
                     <token>en</token>
                     <token postag="V .* 1 s" postag_regexp="yes">
@@ -26853,6 +26874,7 @@ though, and has since been slightly modified)-->
                 <example correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
                 <example>Quel genre de musique j’écoute.</example>
                 <example>Si j'en trouve je les corrigerai.</example>
+                <example>Si on me l'offre je le lirais peut-être.</example>
             </rule>
             <rule name="deuxième personne du singulier">
                 <antipattern>
@@ -26922,6 +26944,20 @@ though, and has since been slightly modified)-->
                     <token postag="V .* 3 s" postag_regexp="yes"/>
                     <token postag="R pers suj 3 s"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="R pers suj 1 s| R pers suj 3 . s" postag_regexp="yes"/>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V .* [13] s" postag_regexp="yes"/>
+                    <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"/>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V .* 3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="V .* 3 s" postag_regexp="yes"/>
+                    <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="V .* 3 s" postag_regexp="yes">
@@ -26940,9 +26976,11 @@ though, and has since been slightly modified)-->
                 <suggestion>\1-t-\2</suggestion>
                 <example correction="mange-t-il">Que <marker>mange il</marker> ?</example>
                 <example>Que prend-il ?</example>
+                <example>Comme je l'aime elle m'a aimé.</example>
                 <example>Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
                 <example>Ce prédateur réintroduit il y a 30 ans.</example>
                 <example>L’auditoire était on ne peut plus ravi.</example>
+                <example>Tout les hérétiques qui on tenu votre discoure on toujours été brûlés de tout temps.</example>
                 <example>La présence à cet endroit d'un hôpital de convalescence des soldats du Roi constituait il est vrai un terrain favorable à la prostitution et aux excès alcooliques et tabagiques.</example>
                 <example>Ni à quelle date précise il prit son nom actuel</example>
                 <example>En moyenne on observe chaque année deux à trois tempêtes dépassant les dans le Finistère.</example>
@@ -26991,6 +27029,18 @@ though, and has since been slightly modified)-->
                     <token>soit</token>
                     <token regexp="yes">il|elle|on</token>
                 </antipattern>
+                <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token skip="-1">elle</token>
+                <token postag="M fin.*" postag_regexp="yes"><exception postag="M fin inte"/></token>
+                </antipattern>
+                <antipattern>
+                <token>soit</token>
+                <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes"  min="0" max="3"/>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="V .* 3 s" postag_regexp="yes">
@@ -27008,11 +27058,13 @@ though, and has since been slightly modified)-->
                 <suggestion>\1-\2</suggestion>
                 <example correction="prend-il">Que <marker>prend il</marker> ?</example>
                 <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
-                <example correction="est-elle">La mère de Bertrand Delanoë <marker>est elle</marker> d'origine périgourdine.</example>
+                <example>La mère de Bertrand Delanoë <marker>est elle</marker> d'origine périgourdine.</example>
                 <example correction="peut-elle">La pâte <marker>peut elle</marker> être réalisée sans oeufs ?</example>
                 <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le traité de Maastricht prévoyant l’euro.</example>
                 <example>On dit qu'en fait il n'avait rien à voir avec ça.</example>
                 <example>Soit il viendra, soit il m'appellera.</example>
+                <example>En fait, Vikki est elle aussi une extraterrestre.</example>
+                <example>Soit j'ai perdu ma montre, soit on me l'a volée.</example>
                 <example>Une fois atteint il ne reste plus qu'à descendre.</example>
                 <example>Anatole allait lui emprunter de l'argent et baiser ses belles épaules.</example>
             </rule>
@@ -27076,6 +27128,20 @@ though, and has since been slightly modified)-->
                     <token>vous</token>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="V imp pres 2 p"/>
+                    <token>vous</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="V .* 2 p" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">ne</token>
+                    <token postag="V imp pres 2 p"/>
+                    <token regexp="yes" min="0" max="1">plus|pas</token>
+                    <token min="0" max="1">,</token>
+                    <token postag="V .* 2 p" postag_regexp="yes"/>
+                    <token>vous</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="V .* 2 p" postag_regexp="yes">
@@ -27093,6 +27159,8 @@ though, and has since been slightly modified)-->
                 <example>Que mangez-vous ?</example>
                 <example>Veuillez vous rendre à l’accueil.</example>
                 <example>Sachez vous éloigner.</example>
+                <example>Que vous devriez retarder le statut, assurez vous n'êtes pas une personne.</example>
+                <example>N'attendez plus, demandez vous aussi votre devis de serrurerie.</example>
                 <example>Vous pouvez vous asseoir.</example>
                 <example>Si vous vous dépêchez vous pouvez encore attraper votre train.</example>
                 <example>Vous ne pouvez vous promener nu dans cet hôtel.</example>
@@ -27150,7 +27218,7 @@ though, and has since been slightly modified)-->
                     <token>-</token>
                     <token regexp="yes">t'(ils?|elles?|on)</token>
                 </pattern>
-                <message>L'apostrophe peut être considéré comme familier dans un contexte formel.</message>
+                <message>L'apostrophe peut être considérée comme une formulation familière dans un contexte formel.</message>
                 <suggestion>\1\2<match no="3" regexp_match="'" regexp_replace="-"/></suggestion>
                 <example correction="mange-t-on">Que <marker>mange-t’on</marker> ?</example>
             </rule>
