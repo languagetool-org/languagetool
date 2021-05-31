@@ -25,7 +25,6 @@ import org.languagetool.TestTools;
 import org.languagetool.UserConfig;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
@@ -39,7 +38,7 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
   @Test
   public void testMatch() throws Exception {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    LongSentenceRule rule = new LongSentenceRule(TestTools.getMessages("de"), new UserConfig(), 6, true, false);
+    LongSentenceRule rule = new LongSentenceRule(TestTools.getMessages("de"), new UserConfig(), 6);
     
     assertNoMatch("Eins zwei drei vier fünf sechs.", rule, lt);
     //  Words after colon are treated like a separate sentence
