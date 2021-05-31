@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -58,6 +59,7 @@ public class PunctuationMarkAtParagraphEndTest {
       lt.disableRule(rule.getId());
     }
     PunctuationMarkAtParagraphEnd rule = new PunctuationMarkAtParagraphEnd(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    rule.setTags(Collections.emptyList());
     lt.addRule(rule);
   }
 

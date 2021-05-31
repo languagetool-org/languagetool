@@ -48331,7 +48331,7 @@ Andere Projekte</example>
             <example>So sieht’s aus :/</example>
             <example>Das Ergebnis von 4 : 2 ist 2.</example>
         </rule>
-        <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs">
+        <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs" tags="picky">
             <!-- TODO: wir unterscheiden nicht zwischen "1920 - 1950" ("bis") und "1920 - 1950" ("minus") -->
             <!-- https://de.wikipedia.org/wiki/Halbgeviertstrich#Gedankenstrich -->
             <regexp mark="1">[^0-9]( - )[^0-9]</regexp>
@@ -48342,7 +48342,7 @@ Andere Projekte</example>
             <example>Frau Müller-Lüdenscheidt</example>
             <example>50.000 - 1000 = 49.000</example>
         </rule>
-        <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen und Prime">
+        <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen und Prime" tags="picky">
             <!-- TODO: mit  spacebefore="no/yes" öffnende und schließende Anführungszeichen unterscheiden und entsprechend vorschlagen? -->
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
             <rule>
@@ -48544,7 +48544,7 @@ Andere Projekte</example>
 <!--                 <example correction="›Anführungszeichen‹">Sie sagte: »Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example> -->
             </rule>
         </rulegroup>
-  <rulegroup id='MULTIPLICATION_SIGN' name="Mathematik: Multiplikation: x - × ">
+  <rulegroup id='MULTIPLICATION_SIGN' name="Mathematik: Multiplikation: x - × " tags="picky">
     <!-- Localised from Portuguese by Tiago F. Santos, 2019-09-09  -->
     <rule>
       <antipattern>
@@ -48654,7 +48654,7 @@ Andere Projekte</example>
                 <example correction="c’t">Die <marker>c`t</marker> ist eine Computerzeitschrift.</example>
             </rule>
         </rulegroup>
-        <rule id="BISSTRICH" name="Bis-Strich vs. Bindestrich">
+        <rule id="BISSTRICH" name="Bis-Strich vs. Bindestrich" tags="picky">
             <pattern case_sensitive="yes">
                 <token negate="yes" regexp="yes">IS[BS]N|ISO|DIN|IEC</token>
                 <marker>
@@ -48666,7 +48666,7 @@ Andere Projekte</example>
             <short>Als Bis-Strich sollte der Gedankenstrich ohne Leerzeichen verwendet werden.</short>
             <example correction="40–50">Der Täter ist etwa <marker>40-50</marker> Jahre alt.</example>
         </rule>
-        <rulegroup id="AUSLASSUNGSPUNKTE" name="Auslassungspunkte">
+        <rulegroup id="AUSLASSUNGSPUNKTE" name="Auslassungspunkte" tags="picky">
             <!-- TODO: Add &nbsp; before '…' if not already present. -->
             <rule>
                 <regexp>\.\.\.</regexp>
@@ -48701,7 +48701,7 @@ Andere Projekte</example>
                 <example correction="&nbsp;…">Er geht nach Hause<marker>…</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ABKUERZUNG_LEERZEICHEN" name="geschütztes Leerzeichen bei Abkürzungen wie 'z. B.'">
+        <rulegroup id="ABKUERZUNG_LEERZEICHEN" name="geschütztes Leerzeichen bei Abkürzungen wie 'z. B.'" tags="picky">
             <!-- Generalize? How can we make sure we're not only replacing part of an abbreviation? -->
             <url>https://de.wikipedia.org/wiki/Abk%C3%BCrzung#Abk.C3.BCrzungen_mit_Punkt_und_Leerzeichen</url>
             <rule>
