@@ -33,7 +33,8 @@ public class SimpleGermanTest extends LanguageSpecificTest {
     String s = "Fügen Sie hier Ihren Text ein oder benutzen Sie diesen Text als Beispiel. Dieser Text wurde nur zum Testen geschrieben. Die Donaudampfschifffahrt darf da nicht fehlen. Und die Nutzung des Genitivs auch nicht.";
     SimpleGerman lang = new SimpleGerman();
     testDemoText(lang, s,
-      Arrays.asList("ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ", "TOO_LONG_SENTENCE_DE", "PASSIV", "LANGES_WORT", "VERNEINUNG", "ABSTRAKTE_WOERTER", "GENITIV")
+      Arrays.asList("ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ", /*"TOO_LONG_SENTENCE_DE", -- filtered due to overlapping other errors */
+        "PASSIV", "LANGES_WORT", "VERNEINUNG", "ABSTRAKTE_WOERTER", "GENITIV")
     );
     runTests(lang, "de-DE-x-simple-language");
   }
