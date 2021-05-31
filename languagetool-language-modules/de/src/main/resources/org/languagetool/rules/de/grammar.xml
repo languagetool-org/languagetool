@@ -38616,6 +38616,15 @@ Andere Projekte</example>
                 <example correction="Dos and Don'ts">Das sind die <marker>Do's and Donts</marker> von denen ich sprach.</example>
             </rule>
         </rulegroup>
+        <rule id="DIE_SEINESGLEICHEN" name="die seinesgleichen (ihresgleichen) sucht">
+            <pattern>
+                <token>die</token>
+                <marker><token>seinesgleichen</token></marker>
+                <token regexp="yes">sucht(en?)?|suchen</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>ihresgleichen</suggestion>?</message>
+            <example correction="ihresgleichen">Er besitzt eine Formulierkunst, die <marker>seinesgleichen</marker> sucht.</example>
+        </rule>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst|bauen?|baus?t|gebaut)</token>
@@ -38663,7 +38672,7 @@ Andere Projekte</example>
                 <example correction="out of the box">Das System funktioniert <marker>out of the Box</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="FUER_INBESONDERE" name="für inbesondere (für besonders)">
+        <rule id="FUER_INSBESONDERE" name="für insbesondere (für besonders)">
             <pattern>
                 <marker>
                     <token regexp="yes">für|bei|(da)?mit|ohne|auf|unter</token>
