@@ -430,8 +430,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       }
       
       String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
-      if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(","))) {
-        System.err.println("Warning: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
+      if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith("."))) {
+        System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
           "doesn't have a space in the suggestion: " + origBadSentence + " => " + origBadExample.getCorrections());
       }
 
