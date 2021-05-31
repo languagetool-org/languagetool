@@ -28,6 +28,9 @@
 
 #### German
   * added and improved rules
+  * The sentence length rule (`TOO_LONG_SENTENCE_DE`) is now a text-level rule
+    and it underlines the whole sentence, not just the position where the threshold is
+    reached.
 
 #### Portuguese
   * added and improved rules
