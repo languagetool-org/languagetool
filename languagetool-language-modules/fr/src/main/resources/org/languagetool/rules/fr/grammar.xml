@@ -19893,17 +19893,18 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token>tu</token>
+                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
-                <suggestion>as \2</suggestion>
-                <suggestion>es \2</suggestion>
+                <suggestion>as \2 \3</suggestion>
+                <suggestion>es \2 \3</suggestion>
                 <suggestion><match no="2" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V.* ind psim 1 s"/></suggestion>
                 <suggestion>{suggestion}</suggestion>
-                <example correction="as eu|es eu|eus|es|eus">Tu <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+                <example correction="as eu|es eu||es|eus">Tu <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -19915,6 +19916,7 @@ though, and has since been slightly modified)-->
                     <token>nous
                         <exception scope="previous" regexp="yes" inflected="yes">pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
+                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception regexp="yes">parue?s?|diffusée?s?</exception> </token>
@@ -19922,11 +19924,11 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
-                <suggestion>avons \2</suggestion>
-                <suggestion>a \2</suggestion>
-                <suggestion>sommes \2</suggestion>
-                <suggestion>avions \2</suggestion>
-                <suggestion>étions \2</suggestion>
+                <suggestion>avons \2 \3</suggestion>
+                <suggestion>a \2 \3</suggestion>
+                <suggestion>sommes \2 \3</suggestion>
+                <suggestion>avions \2 \3</suggestion>
+                <suggestion>étions \2 \3</suggestion>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="avons eu|a eu|sommes eu|avions eu|étions eu">Nous <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
                 <example correction="avons demandé|a demandé|sommes demandé|avions demandé|étions demandé">Notre professeur de français nous <marker>demandé</marker> d'expliquer notre réponse.</example>
@@ -19958,6 +19960,7 @@ though, and has since been slightly modified)-->
                     <token>vous
                         <exception scope="previous" regexp="yes" inflected="yes">ne|pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
+                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception regexp="yes">parue?s?|diffusée?s?</exception> </token>
@@ -19965,10 +19968,10 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
-                <suggestion>avez \2</suggestion>
-                <suggestion>a \2</suggestion>
-                <suggestion>êtes \2</suggestion>
-                <suggestion>aviez \2</suggestion>
+                <suggestion>avez \2 \3</suggestion>
+                <suggestion>a \2 \3</suggestion>
+                <suggestion>êtes \2 \3</suggestion>
+                <suggestion>aviez \2 \3</suggestion>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="avez eu|a eu|êtes eu|aviez eu">Vous <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
                 <example>Comment etes vous arrivée jusqu'à ce niveau de comprehension de la vie ?</example>
@@ -19979,16 +19982,17 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">ils|elles
                         <exception scope="previous" postag="P"/></token>
+                        <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
-                <suggestion>ont \2</suggestion>
-                <suggestion>sont \2</suggestion>
-                <suggestion>avaient \2</suggestion>
-                <suggestion>étaient \2</suggestion>
+                <suggestion>ont \2 \3</suggestion>
+                <suggestion>sont \2 \3</suggestion>
+                <suggestion>avaient \2 \3</suggestion>
+                <suggestion>étaient \2 \3</suggestion>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="ont eu|sont eu|avaient eu|étaient eu">Ils <marker>eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
                 <example>Plusieurs remorques ont quant à elles eu une seconde vie.</example>
@@ -20020,7 +20024,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">il|elle
                         <exception scope="previous" regexp="yes">t'|'|t|[/]|malgré</exception> </token>
-                    <token postag="A" min="0" max="3"/>
+                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception postag="V ind pres 3 s"/></token>
@@ -20041,6 +20045,120 @@ though, and has since been slightly modified)-->
                 <example>Elle sera malgré elle entraînée dans les aventures d'Indiana Jones.</example>
                 <!-- FIXME: other subrules are needed when there are adverbs
                   <example correction="n'a jamais rencontré|n'est jamai rencontré">Les célibataires et il ne jamais rencontrés au delà d'une date-->
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">quan[td]</token>
+                    <token regexp="yes">a|à</token>
+                    <token regexp="yes">il|elle</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>il</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">il|elle
+                        <exception scope="previous" regexp="yes">t'|'|t|[/]|malgré</exception></token>
+                                            <marker>
+                    <token inflected="yes">ne</token>
+                    <token postag="A" min="0" max="3"><exception>peut-être</exception></token>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception postag="V ind pres 3 s"/></token>
+                    </marker>
+                </pattern>
+                <message>Un auxiliaire est généralement attendu avant le participe passé '\3'.</message>
+                <suggestion>n'a \3 \4</suggestion>
+                <suggestion>n'est \3 \4</suggestion>
+                <suggestion>ne <match no="4" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V ind psim 3 s"/></suggestion>
+                <example correction="n'a jamais rencontrés|n'est jamais rencontrés|ne rencontra">Les célibataires et il <marker>ne jamais rencontrés</marker> au delà d'une date.</example>
+                <example>L’Orient heurte les rochers, la coque déchirée, il ne peut-être dégagé.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tu</token>
+                    <marker>
+                        <token inflected="yes">ne</token>
+                        <token postag="A" min="0" max="3"><exception>peut-être</exception></token>
+                        <token postag="V.* ppa.*" postag_regexp="yes"><exception scope="next">pas</exception></token>
+                    </marker>
+                </pattern>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>n'as \3 \4</suggestion>
+                <suggestion>n'es \3 \4</suggestion>
+                <example correction="n'as plus eu|n'es plus eu">Tu <marker>ne plus eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+                <example>Tu ne fini pas de le passer dans le nœud et ça fait ta première boucle.</example>
+            </rule>
+           <rule>
+                <antipattern>
+                    <token postag="V imp pres 1 p"/>
+                    <token>nous</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>nous
+                        <exception scope="previous" regexp="yes" inflected="yes">pas|comme|devant|derrière|sommes</exception>
+                        <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
+                                           <marker>
+                    <token inflected="yes">ne</token>
+                    <token postag="A" min="0" max="3"/>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception regexp="yes">parue?s?|diffusée?s?</exception> </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>n'avons \3 \4</suggestion>
+                <suggestion>n'a \3 \4</suggestion>
+                <suggestion>ne sommes \3 \4</suggestion>
+                <suggestion>n'avions \3 \4</suggestion>
+                <suggestion>n'étions \3 \4</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="n'avons pas eu|n'a pas eu|ne sommes pas eu|n'avions pas eu|n'étions pas eu">Nous <marker>ne pas eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+            </rule>
+               <rule>
+                <pattern>
+                    <token>vous
+                        <exception scope="previous" regexp="yes" inflected="yes">ne|pas|comme|devant|derrière|sommes</exception>
+                        <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
+                        <marker>
+                    <token inflected="yes">ne</token>
+                    <token postag="A" min="0" max="3"/>
+                                            <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception regexp="yes">faites?|dites?</exception> </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>n'avez \3 \4</suggestion>
+                <suggestion>n'a \3 \4</suggestion>
+                <suggestion>n'êtes \3 \4</suggestion>
+                <suggestion>n'aviez \3 \4</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="n'avez pas eu|n'a pas eu|n'êtes pas eu|n'aviez pas eu">Vous <marker>ne pas eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
+                <example>Comment etes vous arrivée jusqu'à ce niveau de comprehension de la vie ?</example>
+                <example>Comme vous exilée, enfin sur cette rive.</example>
+                <example>Notre société vous établie un devis gratuit.</example>
+            </rule>
+          <rule>
+                <pattern>
+                    <token regexp="yes">ils|elles
+                        <exception scope="previous" postag="P"/></token>
+                                                <marker>
+                    <token inflected="yes">ne</token>
+                    <token postag="A" min="0" max="3"/>
+                        <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
+                <suggestion>n'ont \3 \4</suggestion>
+                <suggestion>ne sont \3 \4</suggestion>
+                <suggestion>n'avaient \3 \4</suggestion>
+                <suggestion>n'étaient \3 \4</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="n'ont pas eu|ne sont pas eu|n'avaient pas eu|n'étaient pas eu">Ils <marker>ne pas eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONSUJ_NONVERBE" name="pronom sujet + non verbe">
