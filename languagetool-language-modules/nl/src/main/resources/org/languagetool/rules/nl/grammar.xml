@@ -13330,6 +13330,7 @@ onwaarschijnlijk
 
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
+				<antipattern case_sensitive="yes"><token>Zondag</token><token>met</token><token>Lubach</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token postag="SENT_START"/><token regexp="yes">&apostrof;|&quot;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<pattern>
@@ -17605,6 +17606,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>je</token><token>zult</token><token>maar</token></antipattern>
+				<antipattern><token>maar</token><token>eens</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>kunnen</token><token regexp="yes">wij|we|ze|zij</token><token>maar</token><token>het</token><token>beste</token></antipattern>
 				<antipattern><token>dat</token><token>door</token><token postag="ZNW.*" postag_regexp="yes"/><token>maar</token><token postag=".*ONV" postag_regexp="yes"/></antipattern>
 				<antipattern><token regexp="yes">daar|hier</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/><token regexp="yes">je|jij</token><token regexp="yes">je|hem|haar|mij|hen</token><token>maar</token><token regexp="yes">&DVW;</token><token postag="WKW:TGW:INF"/></antipattern>
