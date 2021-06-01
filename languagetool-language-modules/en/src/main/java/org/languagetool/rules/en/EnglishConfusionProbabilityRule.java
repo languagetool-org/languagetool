@@ -441,6 +441,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "us three", // vs is
       "way to go", // vs was
       "way won't", // was
+      "way over", // was
+      "way in the past", // was
+      "way in the future", // was
+      "aisle way", // was
+      "airport way", // was
       "and now him", // vs know
       "and now us,", // vs is
       "to control us", // vs is
