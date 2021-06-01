@@ -1111,6 +1111,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Gerelaunch(ed|t)", "Relauncht");
     put("Bowl", "Bowle");
     put("Dark[Ww]eb", "Darknet");
+    put("Sachs?en-Anhal?t", "Sachsen-Anhalt");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
