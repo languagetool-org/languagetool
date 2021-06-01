@@ -525,6 +525,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule id="D_N" name="Concordance du déterminant avec le nom">
                 <antipattern>
+                    <token postag="D f s"/>
+                    <token min="1" max="3" postag="K"/>
+                    <token regexp="yes">.*ème</token>
+                </antipattern>
+                <antipattern>
                     <token postag="R pers obj.*" postag_regexp="yes"/>
                     <token postag="V inf"/>
                 </antipattern>
@@ -756,6 +761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>C'est la triple peine.</example>
                 <example>Elle les martèle puis les patine de différentes manières.</example>
                 <example>Et plus le rate CPRI sera élevé.</example>
+                <example>Est-ce que nous voyons la cent millième partie de ce qui existe ?</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -19925,7 +19931,8 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token>tu</token>
-                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
+                    <token postag="A" min="0" max="3">
+                        <exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes"/>
                     </marker>
@@ -19948,7 +19955,8 @@ though, and has since been slightly modified)-->
                     <token>nous
                         <exception scope="previous" regexp="yes" inflected="yes">pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
-                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
+                    <token postag="A" min="0" max="3">
+                        <exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception regexp="yes">parue?s?|diffusée?s?</exception> </token>
@@ -19992,7 +20000,8 @@ though, and has since been slightly modified)-->
                     <token>vous
                         <exception scope="previous" regexp="yes" inflected="yes">ne|pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
-                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
+                    <token postag="A" min="0" max="3">
+                        <exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception regexp="yes">parue?s?|diffusée?s?</exception> </token>
@@ -20014,7 +20023,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">ils|elles
                         <exception scope="previous" postag="P"/></token>
-                        <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
+                    <token postag="A" min="0" max="3">
+                        <exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes"/>
                     </marker>
@@ -20056,7 +20066,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">il|elle
                         <exception scope="previous" regexp="yes">t'|'|t|[/]|malgré</exception> </token>
-                    <token postag="A" min="0" max="3"><exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
+                    <token postag="A" min="0" max="3">
+                        <exception regexp="yes" inflected="yes">ne|jamais|plus|rien|aucun|pas|guère|point</exception></token>
                     <marker>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception postag="V ind pres 3 s"/></token>
@@ -20093,9 +20104,10 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">il|elle
                         <exception scope="previous" regexp="yes">t'|'|t|[/]|malgré</exception></token>
-                                            <marker>
-                    <token inflected="yes">ne</token>
-                    <token postag="A" min="0" max="3"><exception>peut-être</exception></token>
+                    <marker>
+                        <token inflected="yes">ne</token>
+                        <token postag="A" min="0" max="3">
+                            <exception>peut-être</exception></token>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception postag="V ind pres 3 s"/></token>
                     </marker>
@@ -20112,8 +20124,10 @@ though, and has since been slightly modified)-->
                     <token>tu</token>
                     <marker>
                         <token inflected="yes">ne</token>
-                        <token postag="A" min="0" max="3"><exception>peut-être</exception></token>
-                        <token postag="V.* ppa.*" postag_regexp="yes"><exception scope="next">pas</exception></token>
+                        <token postag="A" min="0" max="3">
+                            <exception>peut-être</exception></token>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception scope="next">pas</exception></token>
                     </marker>
                 </pattern>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
@@ -20122,7 +20136,7 @@ though, and has since been slightly modified)-->
                 <example correction="n'as plus eu|n'es plus eu">Tu <marker>ne plus eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
                 <example>Tu ne fini pas de le passer dans le nœud et ça fait ta première boucle.</example>
             </rule>
-           <rule>
+            <rule>
                 <antipattern>
                     <token postag="V imp pres 1 p"/>
                     <token>nous</token>
@@ -20132,9 +20146,9 @@ though, and has since been slightly modified)-->
                     <token>nous
                         <exception scope="previous" regexp="yes" inflected="yes">pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
-                                           <marker>
-                    <token inflected="yes">ne</token>
-                    <token postag="A" min="0" max="3"/>
+                    <marker>
+                        <token inflected="yes">ne</token>
+                        <token postag="A" min="0" max="3"/>
                         <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception regexp="yes">parue?s?|diffusée?s?</exception> </token>
                     </marker>
@@ -20149,15 +20163,15 @@ though, and has since been slightly modified)-->
                 <suggestion>{suggestion}</suggestion>
                 <example correction="n'avons pas eu|n'a pas eu|ne sommes pas eu|n'avions pas eu|n'étions pas eu">Nous <marker>ne pas eu</marker> la chance d'exercer le métier de conseiller pendant 1 an.</example>
             </rule>
-               <rule>
+            <rule>
                 <pattern>
                     <token>vous
                         <exception scope="previous" regexp="yes" inflected="yes">ne|pas|comme|devant|derrière|sommes</exception>
                         <exception scope="previous" postag="P.*|V etre.*|V avoir.*|R pers suj.*|UNKNOWN" postag_regexp="yes"/></token>
-                        <marker>
-                    <token inflected="yes">ne</token>
-                    <token postag="A" min="0" max="3"/>
-                                            <token postag="V.* ppa.*" postag_regexp="yes">
+                    <marker>
+                        <token inflected="yes">ne</token>
+                        <token postag="A" min="0" max="3"/>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
                             <exception regexp="yes">faites?|dites?</exception> </token>
                     </marker>
                 </pattern>
@@ -20173,13 +20187,13 @@ though, and has since been slightly modified)-->
                 <example>Comme vous exilée, enfin sur cette rive.</example>
                 <example>Notre société vous établie un devis gratuit.</example>
             </rule>
-          <rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">ils|elles
                         <exception scope="previous" postag="P"/></token>
-                                                <marker>
-                    <token inflected="yes">ne</token>
-                    <token postag="A" min="0" max="3"/>
+                    <marker>
+                        <token inflected="yes">ne</token>
+                        <token postag="A" min="0" max="3"/>
                         <token postag="V.* ppa.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
@@ -45659,6 +45673,22 @@ though, and has since been slightly modified)-->
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
             <rule default="temp_off">
                 <pattern>
+                    <or>
+                        <token postag="P.*|D.*" postag_regexp="yes"/>
+                        <token regexp="yes">un|le|des</token>
+                    </or>
+                    <marker>
+                        <token>rendez</token>
+                        <token>vous</token>
+                    </marker>
+                </pattern>
+                <message>S'il s'agit d'un nom, il est écrit avec un trait d'union.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="rendez-vous">Un <marker>rendez vous</marker>.</example>
+                <example correction="rendez-vous">À votre <marker>rendez vous</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>contre</token>
                     <token regexp="yes" inflected="yes">réforme|réformer</token>
                 </pattern>
@@ -45682,7 +45712,7 @@ though, and has since been slightly modified)-->
                 <example>Je me lève tôt demain.</example>
                 <example>Chaque matin, il se lève tôt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">un|le|ce</token>
                     <marker>
