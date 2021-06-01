@@ -4,6 +4,7 @@
 Polish, Russian, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
+* **[Jobs at LanguageTool](https://languagetool.org/careers)**
 * [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
 * [HTTP API documentation](https://languagetool.org/http-api/swagger-ui/#!/default/post_check)
 * [How to use our public server via HTTP](https://dev.languagetool.org/public-http-api)
