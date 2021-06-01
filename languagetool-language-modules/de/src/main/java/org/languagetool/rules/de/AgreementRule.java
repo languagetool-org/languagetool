@@ -1170,6 +1170,7 @@ public class AgreementRule extends Rule {
     "alle",
     "etwas",
     "irgendetwas",
+    "irgendwas",
     "was",
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
