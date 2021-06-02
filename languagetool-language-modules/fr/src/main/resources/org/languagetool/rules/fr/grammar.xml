@@ -208,10 +208,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bonne marche|bon marché">La <marker>bonne marché</marker> de leurs activités.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_TOUT_LE" name="Concordance tout + le" default="temp_off">
+        <rulegroup id="AGREEMENT_TOUT_LE" name="Concordance tout + le">
+            <!-- TODO: que nous avons toutes les hommes . -->
             <antipattern>
                 <!-- this and similar patterns can be ambiguous -->
-                <token inflected="yes" regexp="yes">dire|imposer|faciliter</token>
+                <token inflected="yes" regexp="yes">dire|imposer|faciliter|souhaiter</token>
                 <token>à</token>
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
@@ -226,12 +227,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="V.* [123] p" postag_regexp="yes"/>
-                <token min="0" max="4" postag="A|V.*ppa .*|M nonfin" postag_regexp="yes"/>
+                <token min="0" max="4" postag="A|V.*ppa .*|M nonfin" postag_regexp="yes">
+                    <exception regexp="yes">tous|toutes</exception></token>
+                <token regexp="yes">tous|toutes</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* [123] p" postag_regexp="yes"/>
+                <token postag="R .*" postag_regexp="yes" spacebefore="no"/>
+                <token min="0" max="4" postag="A|V.*ppa .*|M nonfin" postag_regexp="yes">
+                    <exception regexp="yes">tous|toutes</exception></token>
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">-nous|-vous|-ils|-elles</token>
-                <token min="0" postag="A"/>
+                <token min="0" postag="A">
+                    <exception regexp="yes">tous|toutes</exception></token>
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
             <antipattern>
@@ -239,22 +249,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
             <antipattern>
-                <token>à</token>
+                <token postag="P"/>
                 <token regexp="yes">tous|toutes</token>
                 <token postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">&parties_journee;</token>
+                <token regexp="yes">&parties_journee;|&unites_temps;</token>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_.*" postag_regexp="yes" inflected="yes">tout</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">tout</token>
+                <token>des</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>tout</token>
+                <token>et</token>
+                <token>pour</token>
+                <token>tout</token>
+            </antipattern>
+            <antipattern>
+                <token postag="P"/>
+                <token regexp="yes">nous|vous</token>
+                <token regexp="yes">tous|toutes</token>
             </antipattern>
             <rule>
                 <antipattern>
                     <token>toutes</token>
-                    <token regexp="yes">les|ces</token>
+                    <token postag="D [ef] p" postag_regexp="yes"/>
                     <token postag="_GN_FP"/>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">tout|toute|toutes</token>
                     </marker>
-                    <token postag="_GN_MP" regexp="yes">les|ces</token>
+                    <and>
+                        <token postag="_GN_MP"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </and>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
                 <suggestion>tous</suggestion>
@@ -265,24 +297,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tous">On ne peut pas gagner à <marker>tout</marker> les coups.</example>
                 <example correction="tous">Faire ça <marker>tout</marker> les matins doit être annuyant pour toi.</example>
                 <example correction="tous">Il marche <marker>tout</marker> les matins.</example>
+                <example correction="tous"> je veux perdre <marker>tout</marker> mes kilos.</example>
                 <example>Toutes les femmes.</example>
                 <example>Toutes les cours de récréation ont leur tyran.</example>
                 <!--<example correction="tous">J'ai le devoir de dire à <marker>toutes</marker> les hommes la vérité.</example>-->
                 <example>mais passent toutes les trois-quarts de leur temps</example>
                 <example>Je vais toutes les fins de semaine à la campagne.</example>
                 <example>Tom n'aimait pas du tout les blagues de Mary.</example>
+                <example>Nous avons toutes nos secrets.</example>
             </rule>
             <rule>
                 <antipattern>
                     <token>tous</token>
-                    <token regexp="yes">les|ces</token>
+                    <token postag="D [em] p" postag_regexp="yes"/>
                     <token postag="_GN_MP"/>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">tout|toute|tous</token>
                     </marker>
-                    <token postag="_GN_FP" regexp="yes">les|ces</token>
+                    <and>
+                        <token postag="_GN_FP"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </and>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
                 <suggestion>toutes</suggestion>
@@ -292,6 +329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Toutes"><marker>Tous</marker> les femmes.</example>
                 <example correction="toutes">Ta sœur est plus fainéante que <marker>tous</marker> les autres étudiantes.</example>
                 <example correction="Toutes"><marker>Toute</marker> ces erreurs qu’il fait</example>
+                <example correction="toutes">Par avance merci de <marker>toute</marker> tes contributions.</example>
                 <example>Tous les hommes.</example>
                 <example>Ils se tenaient tous les côtes de rire.</example>
                 <example>Je pense que nous connaissons tous les règles.</example>
@@ -301,6 +339,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Je peux tous les lire.</example>
                 <example>Ils ont tous une moto.</example>
                 <example>C’est pour nous tous une mauvaise nouvelle.</example>
+                <example>Les rhinocéros ont-ils tous deux cornes ?</example>
+                <example>On en voit le tout et le tout des conséquences.</example>
+                <example>Les hommes ignorent tout des femmes.</example>
+                <example>Je l’ai utilisé en tout et pour tout deux fois.</example>
                 <!-- ambiguous? -->
                 <example>Listons tous les raisons de ne pas faire cela.</example>
             </rule>
@@ -309,7 +351,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">tous|toute|toutes</token>
                     </marker>
-                    <token postag="_GN_MS" regexp="yes">le|ce|cet</token>
+                    <and>
+                        <token postag="_GN_MS"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </and>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
                 <suggestion>tout</suggestion>
@@ -328,13 +373,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Les Palestiniens ont tous le droit de retour en Palestine.</example>
                 <example>Il sera connu de tous un jour.</example>
                 <example>Ils sont tous au travail.</example>
+                <example>Montrons-lui tous notre amour.</example>
+                <example>Les belles femmes n'ont pas toutes un cœur.</example>
+                <example>Vous avez toutes l'air en forme.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">tout|toutes|tous</token>
                     </marker>
-                    <token postag="_GN_FS" regexp="yes">la|cette</token>
+                    <and>
+                        <token postag="_GN_FS"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </and>
                 </pattern>
                 <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
                 <suggestion>toute</suggestion>
@@ -352,6 +403,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ils n’apprécient pas tous la nourriture.</example>
                 <example>C’est pour nous tous une mauvaise nouvelle.</example>
                 <example>Je souhaite à tous une bonne année.</example>
+                <example>La haute technologie nous facilite à tous la vie.</example>
+                <example type="triggers_error">Tout l'alarme, et la nuit sa crainte veille.</example>
             </rule>
             <rule>
                 <pattern>
@@ -365,6 +418,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tous">Merci à <marker>tout</marker> ceux qui sont venus.</example>
                 <example>Merci à tous ceux qui sont venus.</example>
                 <example>Je remercie avant tout ceux qui sont venus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tout|toute</token>
+                    </marker>
+                    <token postag="D e p"/>
+                    <token postag="N e (sp|p)" postag_regexp="yes"/>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion>tous</suggestion>
+                <suggestion>toutes</suggestion>
+                <example correction="Tous|Toutes"><marker>Tout</marker> les artistes.</example>
+                <example correction="tous|toutes">Tom et Marie étaient <marker>tout</marker> deux alcooliques.</example>
+                <example>Mes trois frères sont maintenant tous quelque part à Boston.</example>
+                <example>Tom rencontre sa petite amie tous les après-midi dans ce café.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
@@ -27197,7 +27266,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">il|elle|on</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[a-z].*<exception inflected="yes">ne</exception></token>
+                    <token regexp="yes">[a-z].*
+                        <exception inflected="yes">ne</exception></token>
                     <token postag="V .* 3 s" postag_regexp="yes"/>
                     <token skip="-1">elle</token>
                     <token postag="M fin.*" postag_regexp="yes">
@@ -27952,7 +28022,7 @@ though, and has since been slightly modified)-->
                 <example correction="mol">Le <marker>mou</marker> obstacle d'une résistance toute passive.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes">
+        <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes" default="temp_off">
             <antipattern>
                 <token>nous</token>
                 <token regexp="yes">voulons|désirons</token>
