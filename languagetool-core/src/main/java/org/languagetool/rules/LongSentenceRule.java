@@ -70,7 +70,7 @@ public class LongSentenceRule extends Rule {
    * @since 4.2
    */
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
-    this(messages, userConfig, defaultWords, defaultActive, false);
+    this(messages, userConfig, defaultWords, defaultActive, true);
   }
 
   /**

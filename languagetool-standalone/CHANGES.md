@@ -36,6 +36,7 @@
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
+  * the sentence length rule is now active in 'picky' mode
 
 #### Russian
   * added and improved rules
