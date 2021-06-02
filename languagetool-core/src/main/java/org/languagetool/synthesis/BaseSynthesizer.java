@@ -25,6 +25,7 @@ import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -102,8 +103,7 @@ public class BaseSynthesizer implements Synthesizer {
       synchronized (this) {
         dict = this.dictionary;
         if (dict == null) {
-          URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
-          this.dictionary = dict = Dictionary.read(url);
+          dictionary = dict = MorfologikSpeller.getDictionaryWithCaching(resourceFileName);
         }
       }
     }
