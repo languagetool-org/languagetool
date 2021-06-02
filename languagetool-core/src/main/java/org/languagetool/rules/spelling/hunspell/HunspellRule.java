@@ -495,8 +495,6 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private void addIgnoreWords() throws IOException {
-    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOL);
-    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOLER);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
     List<String> ignoreLines = Resources.readLines(ignoreUrl, StandardCharsets.UTF_8);
     for (String ignoreLine : ignoreLines) {
@@ -504,6 +502,15 @@ public class HunspellRule extends SpellingCheckRule {
         wordsToBeIgnored.add(ignoreLine);
       }
     }
+  }
+
+  @Override
+  protected boolean isInIgnoredSet(String word) {
+    return super.isInIgnoredSet(word) ||
+           // We don't add these words to the main set to prevent startsWithIgnoredWord honoring them,
+           // and thus to avoid the bogus "LanguageToolaccount" suggestion in AgreementRuleTest.
+           // A better way might be nice.
+           SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word);
   }
 
   private static String getDictionaryPath(String dicName,
