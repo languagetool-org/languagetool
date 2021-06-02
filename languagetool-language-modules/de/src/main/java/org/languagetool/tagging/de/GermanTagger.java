@@ -25,10 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.synthesis.GermanSynthesizer;
-import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.CombiningTagger;
 import org.languagetool.tagging.ManualTagger;
@@ -86,7 +84,7 @@ public class GermanTagger extends BaseTagger {
   private final ManualTagger removalTagger;
   private static final Supplier<Map<String, PrefixInfixVerb>> verbInfos = Suppliers.memoize(GermanTagger::initVerbInfos);
 
-  private GermanCompoundTokenizer compoundTokenizer;
+  public static final GermanTagger INSTANCE = new GermanTagger();
 
   public GermanTagger() {
     super("/de/german.dict", Locale.GERMAN);
@@ -94,8 +92,6 @@ public class GermanTagger extends BaseTagger {
   }
 
   private static Map<String, PrefixInfixVerb> initVerbInfos() {
-    Synthesizer synthesizer = new GermanSynthesizer(new GermanyGerman());
-
     Map<String, PrefixInfixVerb> verbInfos = new THashMap<>();
     List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
     for (String line : spellingWords) {
@@ -106,7 +102,7 @@ public class GermanTagger extends BaseTagger {
       String prefix = parts[0];
       String verbBaseform = parts[1];
       try {
-        String[] forms = synthesizer.synthesize(new AnalyzedToken(verbBaseform, "FAKE", verbBaseform), "VER:.*", true);
+        String[] forms = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(verbBaseform, "FAKE", verbBaseform), "VER:.*", true);
         for (String form : forms) {
           if (!form.contains("ß")) {  // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
             verbInfos.put(prefix + form, new PrefixInfixVerb(prefix, "", verbBaseform));
@@ -143,7 +139,7 @@ public class GermanTagger extends BaseTagger {
       String lastPart = splitWord.length > 1 && !splitWord[splitWord.length - 1].trim().equals("") ? splitWord[splitWord.length - 1] : word;
 
       //Find only the actual important part of the word
-      List<String> compoundedWord = compoundTokenizer.tokenize(lastPart);
+      List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(lastPart);
       if (compoundedWord.size() > 1) {
         lastPart = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
       } else {
@@ -187,8 +183,6 @@ public class GermanTagger extends BaseTagger {
   }
 
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens, boolean ignoreCase) throws IOException {
-    initializeIfRequired();
-
     boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
@@ -249,7 +243,7 @@ public class GermanTagger extends BaseTagger {
             readings.add(new AnalyzedToken(word, tag, word));
           }
         } else if (!StringUtils.isAllBlank(word)) {
-          List<String> compoundParts = compoundTokenizer.tokenize(word);
+          List<String> compoundParts = GermanCompoundTokenizer.getStrictInstance().tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
@@ -280,7 +274,7 @@ public class GermanTagger extends BaseTagger {
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
 
                 //Tokenize, start word uppercase if it's a result of splitting
-                List<String> compoundedWord = compoundTokenizer.tokenize(word);
+                List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(word);
                 if (compoundedWord.size() > 1) {
                   word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
                 } else {
@@ -437,12 +431,6 @@ public class GermanTagger extends BaseTagger {
       }
     }
     return Collections.emptyList();
-  }
-
-  private synchronized void initializeIfRequired() throws IOException {
-    if (compoundTokenizer == null) {
-      compoundTokenizer = new GermanCompoundTokenizer();
-    }
   }
 
   private AnalyzedToken getNoInfoToken(String word) {

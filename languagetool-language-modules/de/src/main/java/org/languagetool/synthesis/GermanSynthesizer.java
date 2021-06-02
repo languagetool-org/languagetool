@@ -21,11 +21,15 @@ package org.languagetool.synthesis;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * German word form synthesizer. Also supports compounds.
@@ -33,16 +37,10 @@ import java.util.*;
  * @since 2.4
  */
 public class GermanSynthesizer extends BaseSynthesizer {
+  public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
 
-  private final GermanCompoundTokenizer splitter;
-  
   public GermanSynthesizer(Language lang) {
     super("/de/german_synth.dict", "/de/german_tags.txt", lang);
-    try {
-      splitter = new GermanCompoundTokenizer();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
@@ -81,7 +79,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
 
   @NotNull
   private String[] getCompoundForms(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
-    List<String> parts = splitter.tokenize(token.getLemma());
+    List<String> parts = GermanCompoundTokenizer.getStrictInstance().tokenize(token.getLemma());
     if (parts.size() == 0) {
       return parts.toArray(new String[0]);
     }
