@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.VisibleForTesting;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -27,6 +28,7 @@ import org.languagetool.language.German;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
@@ -1397,7 +1399,7 @@ public class CaseRule extends Rule {
     languages.add("Weißrussisch");
   }
 
-  private static final Set<Pattern[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
+  private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
@@ -1904,9 +1906,9 @@ public class CaseRule extends Rule {
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
-    for (Pattern[] patterns : exceptionPatterns) {
+    for (StringMatcher[] patterns : exceptionPatterns) {
       for (int j = 0; j < patterns.length; j++) {
-        if (patterns[j].matcher(tokens[i].getToken()).matches()) {
+        if (patterns[j].matches(tokens[i].getToken())) {
           int startIndex = i-j;
           if (compareLists(tokens, startIndex, startIndex+patterns.length-1, patterns)) {
             return true;
@@ -1917,14 +1919,14 @@ public class CaseRule extends Rule {
     return false;
   }
 
-  // non-private for tests
-  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, Pattern[] patterns) {
+  @VisibleForTesting
+  static boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, StringMatcher... patterns) {
     if (startIndex < 0) {
       return false;
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= patterns.length || j >= tokens.length || !patterns[i].matcher(tokens[j].getToken()).matches()) {
+      if (i >= patterns.length || j >= tokens.length || !patterns[i].matches(tokens[j].getToken())) {
         return false;
       }
       i++;

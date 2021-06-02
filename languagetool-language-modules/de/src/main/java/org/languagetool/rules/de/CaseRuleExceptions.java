@@ -21,36 +21,25 @@ package org.languagetool.rules.de;
 import gnu.trove.THashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.patterns.StringMatcher;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  * @since 3.0
  */
 final class CaseRuleExceptions {
 
-  private static final Set<String> exceptions = loadExceptions(
-    "/de/case_rule_exceptions.txt"
-  );
-
-  private CaseRuleExceptions() {
-  }
-
-  public static Set<String> getExceptions() {
-    return exceptions;
-  }
-
-  public static Set<Pattern[]> getExceptionPatterns() {
-    THashSet<Pattern[]> exceptionPatterns = new THashSet<>(250);
-    for (String phrase : exceptions) {
+  static Set<StringMatcher[]> getExceptionPatterns() {
+    THashSet<StringMatcher[]> exceptionPatterns = new THashSet<>(250);
+    for (String phrase : loadExceptions("/de/case_rule_exceptions.txt")) {
       String[] parts = StringUtils.split(phrase, ' ');
-      Pattern[] patterns = new Pattern[parts.length];
+      StringMatcher[] patterns = new StringMatcher[parts.length];
       for (int j = 0; j < parts.length; j++) {
-        patterns[j] = Pattern.compile(parts[j]);
+        patterns[j] = StringMatcher.create(parts[j], true, true);
       }
       exceptionPatterns.add(patterns);
     }
