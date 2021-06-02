@@ -37,10 +37,8 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends TextLevelRule {
 
-  private static final int DEFAULT_MAX_WORDS = 50;
-  protected int maxWords = DEFAULT_MAX_WORDS;
-
   private final ResourceBundle messages;
+  private final int maxWords;
 
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     this.messages = messages;
@@ -49,15 +47,14 @@ public class LongSentenceRule extends TextLevelRule {
     setTags(Collections.singletonList(Tag.picky));
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
                    Example.fixed("<marker>Dies ist ein kurzer Satz.</marker>"));
-    if (defaultWords > 0) {
-      this.maxWords = defaultWords;
-    }
+    int maxWords = defaultWords;
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
       if (confWords > 0) {
-        this.maxWords = confWords;
+        maxWords = confWords;
       }
     }
+    this.maxWords = maxWords;
   }
 
   @Override
