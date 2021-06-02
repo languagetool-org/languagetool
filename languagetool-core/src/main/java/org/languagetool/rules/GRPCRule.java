@@ -179,9 +179,13 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   private final Connection conn;
+  private final int batchSize;
 
   public GRPCRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
     super(language, messages, config, inputLogging);
+
+    this.batchSize = Integer.parseInt(config.getOptions().getOrDefault("batchSize",
+                                                                       String.valueOf(DEFAULT_BATCH_SIZE)));
 
     synchronized (servers) {
       Connection conn = null;
@@ -214,8 +218,6 @@ public abstract class GRPCRule extends RemoteRule {
 
     List<MLServerProto.MatchRequest> requests = new ArrayList();
 
-    int batchSize = DEFAULT_BATCH_SIZE;
-    // TODO: make batchSize configurable in rule options
     for (int offset = 0; offset < sentences.size(); offset += batchSize) {
       MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
         .addAllSentences(text.subList(offset, Math.min(text.size(), offset + batchSize)))
