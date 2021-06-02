@@ -30,6 +30,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.rules.spelling.CommonFileTypes;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
@@ -77,7 +78,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
-  private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
+  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
@@ -1115,15 +1116,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(wordPattern), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(wordPattern, true, true), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
   }
 
   private static void put(String pattern, String replacement) {
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), w -> Collections.singletonList(replacement));
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(pattern, true, true), w -> Collections.singletonList(replacement));
   }
 
   private static void put(String pattern, Function<String, List<String>> f) {
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), f);
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(pattern, true, true), f);
   }
 
   private static final GermanWordSplitter splitter = getSplitter();
@@ -1735,9 +1736,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("ch")) {
       return Collections.singletonList("ich");
     } else {
-      for (Pattern p : ADDITIONAL_SUGGESTIONS.keySet()) {
-        if (p.matcher(word).matches()) {
-          return ADDITIONAL_SUGGESTIONS.get(p).apply(word);
+      for (Map.Entry<StringMatcher, Function<String, List<String>>> entry : ADDITIONAL_SUGGESTIONS.entrySet()) {
+        if (entry.getKey().matches(word)) {
+          return entry.getValue().apply(word);
         }
       }
     }
