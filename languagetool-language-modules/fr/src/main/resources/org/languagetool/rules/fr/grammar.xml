@@ -22716,6 +22716,47 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="IL_NOUS_A_VPPA" name="il nous a informé → il nous a informés">
+            <rule default="temp_off">
+            <antipattern>
+                <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+|si|que|entre|soir|matin|après-midi|d'|après</token>
+                <token regexp="yes">nous|les</token>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token>toute</token>
+                <token>façon</token>
+                <token regexp="yes">nous|les</token>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">chacune?</token>
+                <token>de</token>
+                <token regexp="yes">nous|les</token>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START|R rel.*|C coor|[J].*|C sub" postag_regexp="yes"/>
+                <token regexp="yes">nous|les</token>
+                <token postag="V avoir .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>nous</token>
+                <token postag="V avoir . 1 s" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">nous|les<exception scope="previous">nous</exception></token>
+                <token postag="V avoir .*" postag_regexp="yes"><exception postag="V avoir ppr"/></token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token postag="V ppa . s" postag_regexp="yes" regexp="yes" inflected="yes">abandonner|absorber|r?accompagner|accueillir|accuser|aimer|amuser|apercevoir|arrêter|attendre|avertir|baiser|choquer|combattre|combler|condamner|connaître|contacter|contaminer|contraindre|contrarier|convaincre|craindre|défendre|dépasser|dépouiller|divertir|divorcer|éclabousser|écouter|éduquer|effrayer|élire|embarrasser|embêter|embrasser|emmener|enchanter|entendre|engueuler|entraîner|étonner|exciter|exterminer|féliciter|forcer|frôler|gâter|gêner|guider|guérir|héberger|informer|inviter|gronder|marier|nourrir|observer|offenser|offusquer|oublier|percuter|prévenir|protéger|priver|quitter|ranger|recevoir|(re)?conduire|regarder|rencontrer|remarquer|redouter|rejoindre|rescaper|renseigner|respecter|retarder|sauver|(pour)?suivre|surprendre|taquiner|torturer|trahir|transporter|tromper|tuer|vexer|visiter|voir</token>
+                </marker>
+            </pattern>
+            <message>Le participe passé placé avant l’auxiliaire « avoir » doit s’accorder avec le complément d’objet direct « \2 ».</message>
+            <suggestion>\5s</suggestion>
+            <suggestion>\5es</suggestion>
+            <example correction="informés|informées">Il nous a déjà <marker>informé</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
@@ -22725,7 +22766,8 @@ though, and has since been slightly modified)-->
                         <token postag="V ppa . s" postag_regexp="yes" regexp="yes" inflected="yes">abandonner|absorber|r?accompagner|accueillir|accuser|aimer|amuser|apercevoir|arrêter|attendre|avertir|baiser|choquer|combattre|combler|condamner|connaître|contacter|contaminer|contraindre|contrarier|convaincre|craindre|défendre|dépasser|dépouiller|divertir|divorcer|éclabousser|écouter|éduquer|effrayer|élire|embarrasser|embêter|embrasser|emmener|enchanter|entendre|engueuler|entraîner|étonner|exciter|exterminer|féliciter|forcer|frôler|gâter|gêner|guider|guérir|héberger|informer|inviter|gronder|marier|nourrir|observer|offenser|offusquer|oublier|percuter|prévenir|protéger|priver|quitter|ranger|recevoir|(re)?conduire|regarder|rencontrer|remarquer|redouter|rejoindre|rescaper|renseigner|respecter|retarder|sauver|(pour)?suivre|surprendre|taquiner|torturer|trahir|transporter|tromper|tuer|vexer|visiter|voir</token>
                     </marker>
                 </pattern>
-                <message>Le participe passé employé avec l’auxiliaire « avoir » doit s’accorder avec le complément d’objet direct « \2 » quand celui-ci est antéposé. Voulez-vous écrire <suggestion>\4s</suggestion> ?</message>
+                <message>Le participe passé placé avant l’auxiliaire « avoir » doit s’accorder avec le complément d’objet direct.</message>
+                <suggestion>\4s</suggestion>
                 <example correction="informés">Il nous a <marker>informé</marker>.</example>
                 <example correction="informées">Il nous a <marker>informée</marker>.</example>
                 <example>Il nous a informés.</example>
