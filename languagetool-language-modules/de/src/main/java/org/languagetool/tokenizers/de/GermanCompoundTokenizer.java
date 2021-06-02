@@ -18,6 +18,7 @@
  */
 package org.languagetool.tokenizers.de;
 
+import com.google.common.base.Suppliers;
 import de.danielnaber.jwordsplitter.EmbeddedGermanDictionary;
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
 
@@ -37,6 +39,20 @@ import static java.util.Arrays.asList;
  * @author Daniel Naber
  */
 public class GermanCompoundTokenizer implements Tokenizer {
+  private static final Supplier<GermanCompoundTokenizer> strictInstance = Suppliers.memoize(() -> {
+    try {
+      return new GermanCompoundTokenizer(true);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  });
+  private static final Supplier<GermanCompoundTokenizer> nonStrictInstance = Suppliers.memoize(() -> {
+    try {
+      return new GermanCompoundTokenizer(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  });
 
   private final ExtendedGermanWordSplitter wordSplitter;
   
@@ -252,6 +268,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
     } catch (InputTooLongException e) {
       return Collections.singletonList(word);
     }
+  }
+
+  public static GermanCompoundTokenizer getStrictInstance() {
+    return strictInstance.get();
+  }
+
+  public static GermanCompoundTokenizer getNonStrictInstance() {
+    return nonStrictInstance.get();
   }
 
   public static void main(String[] args) throws IOException {

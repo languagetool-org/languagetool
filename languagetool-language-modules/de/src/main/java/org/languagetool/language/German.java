@@ -51,8 +51,6 @@ public class German extends Language implements AutoCloseable {
 
   private static final Language GERMANY_GERMAN = new GermanyGerman();
 
-  private CompoundWordTokenizer compoundTokenizer;
-  private GermanCompoundTokenizer strictCompoundTokenizer;
   private LanguageModel languageModel;
   private List<Rule> nnRules;
   private Word2VecModel word2VecModel;
@@ -99,13 +97,13 @@ public class German extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new GermanTagger();
+    return GermanTagger.INSTANCE;
   }
 
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new GermanSynthesizer(this);
+    return GermanSynthesizer.INSTANCE;
   }
 
   @Override
@@ -197,29 +195,15 @@ public class German extends Language implements AutoCloseable {
    * @since 2.7
    */
   public CompoundWordTokenizer getNonStrictCompoundSplitter() {
-    if (compoundTokenizer == null) {
-      try {
-        GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
-        compoundTokenizer = word -> new ArrayList<>(tokenizer.tokenize(word));
-      } catch (IOException e) {
-        throw new RuntimeException("Could not set up German compound splitter", e);
-      }
-    }
-    return compoundTokenizer;
+    GermanCompoundTokenizer tokenizer = GermanCompoundTokenizer.getNonStrictInstance();  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
+    return word -> new ArrayList<>(tokenizer.tokenize(word));
   }
 
   /**
    * @since 2.7
    */
   public GermanCompoundTokenizer getStrictCompoundTokenizer() {
-    if (strictCompoundTokenizer == null) {
-      try {
-        strictCompoundTokenizer = new GermanCompoundTokenizer();
-      } catch (IOException e) {
-        throw new RuntimeException("Could not set up strict German compound splitter", e);
-      }
-    }
-    return strictCompoundTokenizer;
+    return GermanCompoundTokenizer.getStrictInstance();
   }
 
   @Override
