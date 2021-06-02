@@ -217,6 +217,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
             <antipattern>
+                <token>tous</token>
+                <token>les</token>
+                <token>putains</token>
+                <token>de</token>
+                <token postag="N [me] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">du|avant|en|malgré</token>
                 <token>tout</token>
             </antipattern>
@@ -245,6 +252,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
             <antipattern>
+                <token>on</token>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+                <token min="0" max="4" postag="A|V.*ppa .*|M nonfin" postag_regexp="yes">
+                    <exception regexp="yes">tous|toutes</exception></token>
+                <token regexp="yes">tous|toutes</token>
+            </antipattern>
+            <antipattern>
                 <token>presque</token>
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
@@ -267,6 +281,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>et</token>
                 <token>pour</token>
                 <token>tout</token>
+            </antipattern>
+            <antipattern>
+                <token>une</token>
+                <token>fois</token>
+                <token>pour</token>
+                <token>toutes</token>
             </antipattern>
             <antipattern>
                 <token postag="P"/>
@@ -404,6 +424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>C’est pour nous tous une mauvaise nouvelle.</example>
                 <example>Je souhaite à tous une bonne année.</example>
                 <example>La haute technologie nous facilite à tous la vie.</example>
+                <example>On connait toutes cette petite éponge rose inimitable.</example>
                 <example type="triggers_error">Tout l'alarme, et la nuit sa crainte veille.</example>
             </rule>
             <rule>
