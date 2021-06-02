@@ -1,5 +1,13 @@
 # LanguageTool Change Log
 
+## 5.4-SNAPSHOT (release planned for 2021-06-25)
+
+#### General
+  * The sentence length rule is now a text-level rule
+    and it underlines the whole sentence, not just the position where the threshold
+    is reached.
+
+
 ## 5.3 (2021-03-29)
 
 #### Arabic
@@ -28,9 +36,6 @@
 
 #### German
   * added and improved rules
-  * The sentence length rule (`TOO_LONG_SENTENCE_DE`) is now a text-level rule
-    and it underlines the whole sentence, not just the position where the threshold is
-    reached.
 
 #### Portuguese
   * added and improved rules

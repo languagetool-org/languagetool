@@ -76,7 +76,7 @@ public class Greek extends Language {
             new GenericUnpairedBracketsRule("EL_UNPAIRED_BRACKETS", messages,
                     Arrays.asList("[", "(", "{", "“", "\"", "«"),
                     Arrays.asList("]", ")", "}", "”", "\"", "»")),
-            new LongSentenceRule(messages, userConfig),
+            new LongSentenceRule(messages, userConfig, 50),
             new MorfologikGreekSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Η τελεία είναι σημείο στίξης. <marker>δείχνει</marker> το τέλος μίας πρότασης."),
