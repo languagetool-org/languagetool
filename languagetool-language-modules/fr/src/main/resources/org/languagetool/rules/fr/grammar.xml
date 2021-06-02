@@ -27763,6 +27763,28 @@ though, and has since been slightly modified)-->
                 <message>L'adverbe de lieu et l'interjection <suggestion>là</suggestion> s'écrivent avec un accent grave.</message>
                 <example correction="là">Si cet homme est tout le temps <marker>la</marker>.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="1"/>
+                <token min="0" max="1">pas</token>
+                <token>la</token>
+                <token regexp="yes">plus|moins|mieux|de|(?-i)N|quasi|trop|non|presque|fois|suite|bas|haut|très|demi|dessus|sous</token>
+            </antipattern>
+            <pattern>
+                <token postag="V etre.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="1"/>
+                <token min="0" max="1">pas</token>
+                <marker>
+                    <token>la</token>
+                </marker>
+                <token postag="A|C sub" postag_regexp="yes">
+                    <exception regexp="yes">(?-i)[A-Z].*</exception>
+                </token>                </pattern>
+            <message>L'adverbe de lieu et l'interjection <suggestion>là</suggestion> s'écrivent avec un accent grave.</message>
+            <example correction="là">Il est <marker>la</marker> demain.</example>
+            <example correction="là">C’est <marker>la</marker> que je l’ai trouvé.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="INV_T_EUPHONIQUE" name="t euphonique invalide">
             <antipattern>
