@@ -18,6 +18,7 @@
  */
 package org.languagetool.synthesis;
 
+import gnu.trove.THashSet;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -47,8 +48,9 @@ public final class ManualSynthesizer {
   private final Set<String> possibleTags;
 
   public ManualSynthesizer(InputStream inputStream) throws IOException {
-    HashSet<String> tags = new HashSet<>();
+    THashSet<String> tags = new THashSet<>();
     mapping = new MostlySingularMultiMap<>(loadMapping(inputStream, tags));
+    tags.trimToSize();
     possibleTags = Collections.unmodifiableSet(tags);
   }
 

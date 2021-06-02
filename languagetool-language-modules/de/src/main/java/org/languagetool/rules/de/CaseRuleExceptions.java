@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import gnu.trove.THashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 
@@ -44,7 +45,7 @@ final class CaseRuleExceptions {
   }
 
   public static Set<Pattern[]> getExceptionPatterns() {
-    HashSet<Pattern[]> exceptionPatterns = new HashSet<>(250);
+    THashSet<Pattern[]> exceptionPatterns = new THashSet<>(250);
     for (String phrase : exceptions) {
       String[] parts = StringUtils.split(phrase, ' ');
       Pattern[] patterns = new Pattern[parts.length];
@@ -53,6 +54,7 @@ final class CaseRuleExceptions {
       }
       exceptionPatterns.add(patterns);
     }
+    exceptionPatterns.trimToSize();
     return Collections.unmodifiableSet(exceptionPatterns);
   }
 
