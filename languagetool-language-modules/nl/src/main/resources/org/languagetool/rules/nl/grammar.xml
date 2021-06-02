@@ -12186,10 +12186,24 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="CONSTRUCTIEFOUT" name="Constructiefout">
+		<rulegroup id="IS_VERHUIST_NAAR" name="Verkeerde werkwoordvorm" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag=".*MRV.*|.*ONV"/></token>
+					<marker>
+						<token postag="WKW:TGW:3EP" regexp="yes">.*t<exception postag_regexp="yes" postag="ZNW.*|BYW|VRZ|.*ONV"/><exception regexp="yes">niet|uit</exception></token>
+					</marker>
+					<token postag="VRZ"/>
+				</pattern>
+				<message>Dit is vast een dt-fout.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VTD:ONV"/></suggestion>
+				<example correction="verhuisd">Het is <marker>verhuist</marker> naar Rome.</example>
+				<example>In de komende weken wordt in de praktijk onderzocht</example>
+				<example>die je minimaal nodig hebt om zelfstandig</example>
+			</rule>
+		</rulegroup>
 
-		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te" default="off">
-			
-
+		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te">
 			<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 			<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
 			<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
@@ -12198,17 +12212,17 @@ onwaarschijnlijk
 			<rule>
 				<pattern><token>des</token><token>te</token><marker><token postag="BNW:STL:ONV"/></marker></pattern>
 				<message>Er staat een onverwacht woord na 'des te'.</message>
-				<suggestion><match no="3" postag_regexp="yes" postag="(BNW):(STL):(.*)" postag_replace="$1:OVR:$3"/></suggestion>
-				<example correction="belangrijkst">Dit zal nog des te <marker>belangrijk</marker> worden.</example>
+				<suggestion><match no="3" postag_regexp="yes" postag="(BNW):(STL):(.*)" postag_replace="$1:VGR:$3"/></suggestion>
+				<example correction="belangrijker">Dit zal nog des te <marker>belangrijk</marker> worden.</example>
 			</rule>
 			<rule>
-				<pattern><token>des</token><token>te</token><marker><token><exception postag="BNW:STL:ONV"/></token></marker></pattern>
+				<pattern><token>des</token><token>te</token><marker><token><exception postag="BNW:VGR:ONV"/></token></marker></pattern>
 				<message>Er staat een onverwacht woord na 'des te'.</message>
 				<example correction="">Dit zal nog des te <marker>meet</marker> worden.</example>
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
+		<rulegroup id="VREEMD_VRZ_HIJ" name="Vreemd voorzetsel">
 			<rule>
 				<antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
 				<pattern>
@@ -12508,7 +12522,7 @@ onwaarschijnlijk
 					<token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"/>
 					<token>als</token>
 				</pattern>
-				<message>Als dit een vergelijking is (en 'als' niet 'indien' is), dan vinden velen beter: <suggestion><match no="1"/> dan</suggestion>.</message>
+				<message>Als dit een vergelijking is, dan vinden velen beter: <suggestion><match no="1"/> dan</suggestion>.</message>
 				<short>dan</short>
 				<example correction="grotere dan">Het is een <marker>grotere als</marker> die andere.</example>
 				<example correction="Verder dan"><marker>Verder als</marker> de living gingen ze niet.</example>
@@ -16349,6 +16363,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KERSTMAN" name="een kerstman, de Kerstman" type="misspelling">
 			<rule>
+				<antipattern><token>Mijn</token><token>god</token><token>,</token></antipattern>
 				<antipattern><token regexp="yes" skip="2">o|oh</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
@@ -17606,6 +17621,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>maar</token><token>te</token><token>pas</token></antipattern>
+				<antipattern><token>maar</token><token postag="WKW:TGW:INF"/><token regexp="yes">[.,;:&quot;]</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token>de</token><token postag_regexp="yes" postag=".*MRV.*"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>maar</token><token>en</token></antipattern>
+				<antipattern><token>dat</token><token>dat</token><token>maar</token></antipattern>
+				<antipattern><token>Steeds</token><token>maar</token><token>weer</token></antipattern>
 				<antipattern><token regexp="yes">Had|was</token><token regexp="yes">ik|je|jij|hij|men|zij|ze</token><token postag_regexp="yes" postag=".*MRV"/><token>maar</token></antipattern>
 				<antipattern><token>die</token><token regexp="yes">we|wij|ze|zij</token><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token regexp="yes">ik|jij|hij|zij|u|men</token><token regexp="yes">hem|haar|mij|hen</token><token>maar</token><token postag_regexp="yes" postag=".*ONV"/></antipattern>
@@ -19487,7 +19508,7 @@ steenwijk;Steenwijk
 				<antipattern><token>gedaagden</token><token>sub</token></antipattern>
 				<antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
 				<pattern>
-					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten</exception></token>
+					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
 					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet</exception></token>
 				</pattern>
 				<message>Er staat misschien een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion>.</message>
@@ -35151,6 +35172,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DES" name="Waarschuwen voor 'des' buiten staande uitdrukkingen">
 			<rule>
+				<antipattern><token>Promenade</token><token>des</token><token>Anglais</token></antipattern>
 				<antipattern><token/><token>des</token><token>duivels</token></antipattern>
 				<antipattern><token/><token>plaats</token><token>des</token><token>onheils</token></antipattern>
 				<antipattern><token/><token>des</token><token>mensen</token></antipattern>
@@ -38524,7 +38546,7 @@ steenwijk;Steenwijk
 	</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
 		<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
-			<antipattern><token>Dai</token><token>Dai</token><token>N'tab</token></antipattern>
+			<antipattern><token>Dai</token><token>Dai</token><token regexp="yes">N'?tab</token></antipattern>
 			<antipattern><token postag="WKW.*" postag_regexp="yes"/><token>wat</token><token>wat</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
 			<antipattern><token postag="VGW"/><token>het</token><token>het</token><token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/></antipattern><!-- alsof het het begin is -->
 			<antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
