@@ -18,15 +18,18 @@
  */
 package org.languagetool.tokenizers.de;
 
-import java.io.IOException;
-import java.util.*;
-
 import de.danielnaber.jwordsplitter.EmbeddedGermanDictionary;
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
+import gnu.trove.THashSet;
 import org.languagetool.tokenizers.Tokenizer;
 
-import static java.util.Arrays.*;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
 
 /**
  * Split German nouns using the jWordSplitter library.
@@ -46,7 +49,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       super(hideInterfixCharacters, extendedList());
     }
     static Set<String> extendedList() {
-      Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
+      THashSet<String> words = new THashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
       words.add("edge");
       words.add("opera");
@@ -149,6 +152,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("impfungen");
       words.add("call");
       words.add("cloud");
+      words.trimToSize();
       return words;
     }
   }
