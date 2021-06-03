@@ -12186,22 +12186,6 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="CONSTRUCTIEFOUT" name="Constructiefout">
-		<rulegroup id="IS_VERHUIST_NAAR" name="Verkeerde werkwoordvorm" default="temp_off">
-			<rule>
-				<pattern>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag=".*MRV.*|.*ONV"/></token>
-					<marker>
-						<token postag="WKW:TGW:3EP" regexp="yes">.*t<exception postag_regexp="yes" postag="ZNW.*|BYW|VRZ|.*ONV"/><exception regexp="yes">niet|uit</exception></token>
-					</marker>
-					<token postag="VRZ"/>
-				</pattern>
-				<message>Dit is vast een dt-fout.</message>
-				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VTD:ONV"/></suggestion>
-				<example correction="verhuisd">Het is <marker>verhuist</marker> naar Rome.</example>
-				<example>In de komende weken wordt in de praktijk onderzocht</example>
-				<example>die je minimaal nodig hebt om zelfstandig</example>
-			</rule>
-		</rulegroup>
 
 		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te">
 			<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
@@ -17621,6 +17605,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">je|jij</token><token>het</token><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token>maar</token><token>te</token><token>pas</token></antipattern>
 				<antipattern><token>maar</token><token postag="WKW:TGW:INF"/><token regexp="yes">[.,;:&quot;]</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token>de</token><token postag_regexp="yes" postag=".*MRV.*"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
@@ -19234,6 +19219,7 @@ steenwijk;Steenwijk
 		<rulegroup id="REPORTER" name="reporter → verslaggever">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
+				<antipattern><token>The</token><token>Hollywood</token><token>Reporter</token></antipattern>
 				<antipattern><token>De</token><token>Nieuwe</token><token>Reporter</token></antipattern>
 				<pattern>
 					<token inflected="yes">reporter</token>
@@ -19603,6 +19589,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token>keer</token><token>extra</token></antipattern>
 				<antipattern><token>mensen</token><token>thuis</token></antipattern>
 				<antipattern><token postag="GET.*" postag_regexp="yes"/><token postag="ZNW.*HET" postag_regexp="yes"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token/><token/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
@@ -41393,6 +41380,34 @@ steenwijk;Steenwijk
 				<example correction="klein|kleine|kleinst|kleinste">De correcties <marker>blijven kleins</marker>.</example>
 			</rule>
 		</rulegroup>
-	</category>	
+		<!--
+		<rulegroup id="VANG_NAAM" name="van voor- en achternaam">
+			<rule>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[a-z].*</token>
+					<marker>
+						<token regexp="yes">San|Palace|Puerto|Saint|Sporting|Intra|Bible|VV|Deutsche|Sports|Rockets</token>
+						<token regexp="yes" postag="UNKNOWN">[A-Z].*</token>
+					</marker>
+					<token regexp="yes">[a-z].*</token>
+				</pattern>
+				<message>x</message>
+				<example type="incorrect">De correcties <marker>San Baarsx</marker> en meer.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[a-z].*</token>
+					<marker>
+						<token regexp="yes" postag="UNKNOWN">[A-Z].*</token>
+						<token regexp="yes">San|Palace|Puerto|Saint|Sporting|Intra|Bible|VV|Deutsche|Sports|Rockets</token>
+					</marker>
+					<token regexp="yes">[a-z].*</token>
+				</pattern>
+				<message>x</message>
+				<example type="incorrect">De correcties <marker>Mrinex San</marker> en meer.</example>
+			</rule>
+		</rulegroup>
+		-->
+	</category>
 
 </rules>
