@@ -209,10 +209,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_TOUT_LE" name="Concordance tout + le">
-            <!-- TODO: que nous avons toutes les hommes . -->
+            <!-- TODO: que nous avons toutes les hommes. -->
             <antipattern>
                 <!-- this and similar patterns can be ambiguous -->
-                <token inflected="yes" regexp="yes">dire|imposer|faciliter|souhaiter</token>
+                <token inflected="yes" regexp="yes">dire|imposer|faciliter|souhaiter|présenter|dispenser|recommander</token>
                 <token>à</token>
                 <token regexp="yes">tous|toutes</token>
             </antipattern>
@@ -269,7 +269,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&parties_journee;|&unites_temps;</token>
             </antipattern>
             <antipattern>
-                <token postag="_GN_.*" postag_regexp="yes" inflected="yes">tout</token>
+                <token postag="_GN_MS">tout</token>
+                <token postag="_GN_MS"/>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_FS">toute</token>
+                <token postag="_GN_FS"/>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_MP">tous</token>
+                <token postag="_GN_MP"/>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_FP">toutes</token>
+                <token postag="_GN_FP"/>
             </antipattern>
             <antipattern>
                 <token inflected="yes">tout</token>
@@ -363,6 +376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>On en voit le tout et le tout des conséquences.</example>
                 <example>Les hommes ignorent tout des femmes.</example>
                 <example>Je l’ai utilisé en tout et pour tout deux fois.</example>
+                <example>Je vous présente à tous mes excuses.</example>
                 <!-- ambiguous? -->
                 <example>Listons tous les raisons de ne pas faire cela.</example>
             </rule>
@@ -396,6 +410,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Montrons-lui tous notre amour.</example>
                 <example>Les belles femmes n'ont pas toutes un cœur.</example>
                 <example>Vous avez toutes l'air en forme.</example>
+                <example>L'UNESCO recommande à tous l'usage de trois langues.</example>
             </rule>
             <rule>
                 <pattern>
@@ -413,6 +428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Toute"><marker>Toutes</marker> la vérité.</example>
                 <example correction="Toute"><marker>Tous</marker> la vérité.</example>
                 <example correction="Toute"><marker>Toutes</marker> la saison</example>
+                <example correction="toute">J'ai été très occupé <marker>tout</marker> la matinée.</example>
                 <example>J'ai le devoir de dire à tous la vérité</example>
                 <example>J'ai le devoir de dire à toutes la vérité</example>
                 <example>Ils attendaient tous la pause avec impatience.</example>
@@ -28043,7 +28059,7 @@ though, and has since been slightly modified)-->
                 <example correction="mol">Le <marker>mou</marker> obstacle d'une résistance toute passive.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes" default="temp_off">
+        <rulegroup id="TOUT_LES" name="Accord avec adjectifs tout/tous/toute/toutes" default="off">
             <antipattern>
                 <token>nous</token>
                 <token regexp="yes">voulons|désirons</token>
