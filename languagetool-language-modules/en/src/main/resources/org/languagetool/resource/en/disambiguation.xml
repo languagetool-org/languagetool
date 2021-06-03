@@ -14575,6 +14575,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="remove" postag="NNS"/>
     </rule>
 
+    <rulegroup id="HAVE_NN" name="remove 'NN' from 'have'">
+        <rule>
+            <pattern>
+                <token postag="PRP_S.*" postag_regexp="yes" />
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <token postag="MD" />
+                <marker>
+                    <token>have</token>
+                </marker>
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <token postag="VBN" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="remove" postag="NN"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PRP_S.*" postag_regexp="yes" />
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <marker>
+                    <token>have</token>
+                </marker>
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <token postag="VBN" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="remove" postag="NN"/>
+        </rule>
+    </rulegroup>
+
     <rulegroup id="SPELLING_DE_AND_ET" name="ignore spelling of 'de/et/el/un' in Spanish names/expressions">
         <rule>
             <pattern>
