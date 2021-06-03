@@ -11802,27 +11802,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vivien sota dominació turca.</example>
             </rule>
         </rulegroup>
-        <rule id="ACOSTUMAR_A" name="acostumar *(a)">
-            <pattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">acostumar|tornar|ajudar</token>
-                </marker>
-                <token min="0" max="2" postag="RN|RG" postag_regexp="yes"/>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Potser hi falta una preposició.</message>
-            <suggestion>\1 a</suggestion>
-            <example correction="Acostumen a"><marker>Acostumen</marker> venir tard.</example>
-            <example correction="Acostumen a"><marker>Acostumen</marker> no venir tard.</example>
-            <example correction="acostumat a">Està <marker>acostumat</marker> venir tard.</example>
-            <example correction="tornar a">Li tocarà <marker>tornar</marker> guanyar.</example>
-            <example correction="ajudar a">Pretén <marker>ajudar</marker> cobrir.</example>
-            <example correction="ajudar a" type="triggers_error" reason="ambiguous">Us pot <marker>ajudar</marker> restablir l'estat inicial.</example>
-            <example>acostumen a no tenir gaires ancoratges</example>
-            <example>acostumen a venir tard</example>
-            <example>poc acostumada es va allargassar</example>
-            <example>M'ha costat Déu i ajuda pujar l'escala.</example>
-        </rule>
+        <rulegroup id="ACOSTUMAR_A" name="acostumar *(a)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">acostumar|tornar|ajudar|atrevir</token>
+                    </marker>
+                    <token min="0" max="2" postag="RN|RG" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement hi falta una preposició.</message>
+                <suggestion>\1 a</suggestion>
+                <example correction="Acostumen a"><marker>Acostumen</marker> venir tard.</example>
+                <example correction="Acostumen a"><marker>Acostumen</marker> no venir tard.</example>
+                <example correction="acostumat a">Està <marker>acostumat</marker> venir tard.</example>
+                <example correction="tornar a">Li tocarà <marker>tornar</marker> guanyar.</example>
+                <example correction="ajudar a">Pretén <marker>ajudar</marker> cobrir.</example>
+                <example correction="ajudar a" type="triggers_error" reason="ambiguous">Us pot <marker>ajudar</marker> restablir l'estat inicial.</example>
+                <example>acostumen a no tenir gaires ancoratges</example>
+                <example>acostumen a venir tard</example>
+                <example>poc acostumada es va allargassar</example>
+                <example>M'ha costat Déu i ajuda pujar l'escala.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">acostumar|tornar|ajudar|atrevir</token>
+                        <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    </marker>
+                    <token min="0" max="2" postag="RG|RN" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Potser hi falta una preposició.</message>
+                <suggestion>\1\2 a</suggestion>
+                <example correction="atrevir-se a">Va <marker>atrevir-se</marker> venir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">acostumar|tornar|ajudar|atrevir</token>
+                        <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                        <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    </marker>
+                    <token min="0" max="2" postag="RG|RN" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Potser hi falta una preposició.</message>
+                <suggestion>\1\2\3 a</suggestion>
+                <example correction="tornar-se-li a">Va <marker>tornar-se-li</marker> encarar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
             <url>http://www.uoc.edu/portal/ca/servei-linguistic/criteris/gramatica/preposicions/index.html#7</url>
             <antipattern>
