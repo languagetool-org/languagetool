@@ -1085,6 +1085,10 @@ public class AgreementRule extends Rule {
       token("Präsident"),
       token("Xi")
     ),
+    Arrays.asList(
+      token("Porsche"),
+      token("Museum")
+    ),
     Arrays.asList( // des Sturm und Drangs
       token("des"),
       token("Sturm"),

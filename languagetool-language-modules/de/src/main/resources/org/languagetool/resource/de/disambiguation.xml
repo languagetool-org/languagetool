@@ -4336,4 +4336,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+" />
     </rule>
+
+    <rule id="WALT_DISNEY" name="'Walt' kein Verb">
+        <pattern>
+            <marker>
+                <token>walt</token>
+            </marker>
+            <token postag="EIG:.*|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+        <disambig action="remove" postag="VER:.+" />
+    </rule>
 </rules>
