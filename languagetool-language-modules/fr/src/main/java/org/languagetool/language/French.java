@@ -271,6 +271,9 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
+      case "D_N": return 10; // needs higher priority than ACCORD_NOM_VERBE and QUI_VCONJ
+      case "AUXILIAIRE_MANQUANT": return 10; // needs higher priority than ACCORD_NOM_VERBE
+      case "ACCORD_NOM_VERBE": return 1; // needs higher priority than TRAIT_UNION_INVERSION
     }
     if (id.startsWith("grammalecte_")) {
       return -150;
