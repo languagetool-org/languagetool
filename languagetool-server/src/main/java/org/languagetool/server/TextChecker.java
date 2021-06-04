@@ -588,13 +588,10 @@ abstract class TextChecker {
                                          List<String> preferredLangs, List<String> preferredVariants,
                                          RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
-      double hitRate = cache.hitRate();
-      String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
-      logger.info("Cache stats: " + hitPercentage + "% hit rate");
-      //print("Matches    : " + cache.getMatchesCache().stats().hitRate() + " hit rate");
-      //print("Sentences  : " + cache.getSentenceCache().stats().hitRate() + " hit rate");
-      //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
-      //logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
+      String sentenceHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getSentenceCache().stats().hitRate() * 100.0f);
+      String matchesHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getMatchesCache().stats().hitRate() * 100.0f);
+      String remoteHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getRemoteMatchesCache().stats().hitRate() * 100.0f);
+      logger.info("Cache stats: " + sentenceHitPercentage + "% / " + matchesHitPercentage + "% / " + remoteHitPercentage + "% hit rate");
     }
 
     if (parameters.get("sourceText") != null) {
