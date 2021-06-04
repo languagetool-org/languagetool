@@ -274,6 +274,7 @@ public class French extends Language implements AutoCloseable {
       case "D_N": return 10; // needs higher priority than ACCORD_NOM_VERBE and QUI_VCONJ
       case "AUXILIAIRE_MANQUANT": return 10; // needs higher priority than ACCORD_NOM_VERBE
       case "ACCORD_NOM_VERBE": return 1; // needs higher priority than TRAIT_UNION_INVERSION
+      case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
     }
     if (id.startsWith("grammalecte_")) {
       return -150;
