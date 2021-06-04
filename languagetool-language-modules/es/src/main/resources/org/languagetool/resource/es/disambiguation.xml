@@ -1704,11 +1704,11 @@ Copyright (C) 2011 Juan Martorell
     <rule id="propuesta" name="propuesta (nombre)">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" inflected="yes">propuesta</token>    
+                <token postag="N.*" postag_regexp="yes" inflected="yes">propuesta</token>
             </marker>
             <token>que</token>
         </pattern>
-        <disambig action="filter" postag="N.*"></disambig>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rulegroup id="nombre_seguidode_nombrepropio" name="nombre seguido de nombre propio: calle Ayacuco">
         <rule>
@@ -3340,6 +3340,34 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.[ISM].*"/>
     </rule>
+    <rulegroup id="la_cosas" name="la cosas (nombre, incluyendo error">
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="CS|PR.*" postag_regexp="yes"/></token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                    </and>
+                </marker>
+                <token postag="V.*[123].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="la_planta" name="la planta (noun), exception to next rule">
         <rule>
             <pattern>
