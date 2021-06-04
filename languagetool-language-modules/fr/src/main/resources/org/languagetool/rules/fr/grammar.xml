@@ -757,6 +757,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quelque sacrifice|quelques sacrifices">Ils sauront faire <marker>quelques sacrifice</marker>.</example>
                 <example correction="la capsule|les capsules">J'ai regardé <marker>les capsule</marker> en ligne.</example>
                 <example correction="la date|les dates">Quelle est <marker>le date</marker> du jour ?</example>
+                <example correction="des pains|du pain">J'ai <marker>du pains</marker>.</example>
+                <example correction="des Bahamas">Le Parlement <marker>du Bahamas</marker>.</example>
+                <example>Albert du Boys</example>
+                <example>au concours du CAPES</example>
+                <example>à la construction du Paris du baron Haussmann</example>
                 <example>Henri VIII rencontre François Ier.</example>
                 <example>Il est né le quatre <marker>janvier</marker>.</example>
                 <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
@@ -21369,41 +21374,6 @@ though, and has since been slightly modified)-->
                 <example correction="de l'">Je fais <marker>du l'</marker>architecture.</example>
             </rule>
         </rulegroup>
-        <rule id="DU_PL_SING" name="du *pains/pain">
-            <pattern>
-                <token>du</token>
-                <token postag="[JN] .* p" postag_regexp="yes">
-                    <exception postag=".* (sp|s)" postag_regexp="yes"/>
-                    <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception></token>
-            </pattern>
-            <message>Accord de nombre erroné.</message>
-            <suggestion suppress_misspelled="yes">du <match no="2" postag="([JN] .*) p" postag_regexp="yes" postag_replace="$1 (sp|s)" case_conversion="preserve"/></suggestion>
-            <suggestion>des \2</suggestion>
-            <example correction="du pain|des pains">J'ai <marker>du pains</marker>.</example>
-            <example correction="des Bahamas">Le Parlement <marker>du Bahamas</marker>.</example>
-            <example>Albert du Boys</example>
-            <example>au concours du CAPES</example>
-            <example>à la construction du Paris du baron Haussmann</example>
-        </rule>
-        <!-- commented out due to false positive, recreated above
-    <rule id="DU_LE" name="du le">
-      <pattern>
-        <token>du</token>
-        <token>
-          <exception postag="[KNJY].*|UNKNOWN" postag_regexp="yes"/>
-          <exception regexp="yes">bien|fort|ou|même|mieux|moins|peu|plus|seul|tout|très|zéro|(?-i)[A-Z].*|:</exception>
-        </token>
-      </pattern>
-      <message>Incohérence : « \1 » ne peut pas se trouver devant « \2 ».</message>
-        <suggestion>du<match no="2" regexp_match="le" regexp_replace=""/></suggestion>
-      <example correction="du">Je vais acheter <marker>du le</marker> jambon.</example>
-      <example>Je vais acheter du jambon.</example>
-      <example>Du bon jambon.</example>
-      <example>Du très bon jambon.</example>
-      <example>Il écoute du Chopin.</example>
-      <example>Au voisinage du zéro absolu de température.</example>
-    </rule>
-    -->
         <rulegroup id="JE_VERBE" name="je + verbe">
             <rule>
                 <pattern>
