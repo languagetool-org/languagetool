@@ -230,6 +230,7 @@ public class French extends Language implements AutoCloseable {
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
       case "SA_CA_SE": return 100; // greater than D_N
+      case "QUASI_NOM": return 100; // greater than D_N
       case "MA": return 100; // greater than D_J
       case "SON_SONT": return 100; // greater than D_J
       case "JE_TES": return 100; // greater than D_J
@@ -240,9 +241,11 @@ public class French extends Language implements AutoCloseable {
       case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
       case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
-      case "TRAIT_UNION": return 20; // greater than other rules for trait d'union
+      case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
+      case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
+      case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
+      case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
-      case "VIRGULE_EXPRESSIONS_FIGEES": return 10; // greater than agreement rules
       case "CONFUSION_PARLEZ_PARLER": return 10; // greater than N_V
       case "AGREEMENT_TOUT_LE": return 10; // compare to TOUT_LES
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
@@ -253,9 +256,12 @@ public class French extends Language implements AutoCloseable {
       case "JE_M_APPEL": return 10;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 10;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 10;  // needs higher priority than spell checker
-      //case "D_N": return 1; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher
+      //case "D_N": return 10; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher: CAT_REGIONALISMES, CAT_TYPOGRAPHIE, CAT_GRAMMAIRE...
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
-      case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
+      case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
+      case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
+      case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
+      case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "FR_SIMPLE_REPLACE": return -10;
       case "IMP_PRON": return -10; // less than D_N
       case "PREP_VERBECONJUGUE": return -20;
@@ -270,11 +276,6 @@ public class French extends Language implements AutoCloseable {
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-      case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
-      case "D_N": return 10; // needs higher priority than ACCORD_NOM_VERBE and QUI_VCONJ
-      case "AUXILIAIRE_MANQUANT": return 10; // needs higher priority than ACCORD_NOM_VERBE
-      case "ACCORD_NOM_VERBE": return 1; // needs higher priority than TRAIT_UNION_INVERSION
-      case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
     }
     if (id.startsWith("grammalecte_")) {
       return -150;
