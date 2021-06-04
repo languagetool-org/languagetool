@@ -18881,10 +18881,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Euretwegen"><marker>Wegen euch</marker> kommt er zu spät.</example>
             </rule>
             <rule default="temp_off">
-                <regexp>\b(wegen) (denen)\b</regexp>
+                <pattern>
+                    <marker>
+                        <token>wegen</token>
+                        <token>denen</token>
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>derentwegen</suggestion>
-                <example correction="Derentwegen"><marker>Wegen denen</marker> kommt er zu spät.</example>
+                <example correction="Derentwegen"><marker>Wegen denen</marker> muss ich jetzt später Feierabend machen!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>wegen</token>
+                        <token>denen</token>
+                    </marker>
+                </pattern>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
+                <suggestion>derentwegen</suggestion>
+                <example correction="Derentwegen"><marker>Wegen denen</marker> muss ich jetzt später Feierabend machen!</example>
             </rule>
         </rulegroup>
         <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
@@ -46311,7 +46328,8 @@ Andere Projekte</example>
                     <token regexp="yes">&fragewoerter;</token>
                     <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|nicht|nur|bloß|bloss</token>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46333,7 +46351,8 @@ Andere Projekte</example>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
                     <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß|bloss</token>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46348,7 +46367,7 @@ Andere Projekte</example>
                 <example correction="?">Was willst du denn überhaupt<marker>.</marker></example>
                 <example correction="?">Was soll das denn<marker>.</marker></example>
                 <example correction="?">Und wer ist das<marker>.</marker></example>
-                <example correction="?">Wie geht es <marker>dir</marker></example>
+                <!-- <example correction="?">Wie geht es <marker>dir</marker></example> -->
             </rule>
             <rule><!-- 3 -->
                 <pattern>
@@ -46360,7 +46379,8 @@ Andere Projekte</example>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
                     <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß|bloss</token>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46380,7 +46400,8 @@ Andere Projekte</example>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
                     <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht</token>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46403,7 +46424,8 @@ Andere Projekte</example>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
                     <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht</token>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46423,7 +46445,8 @@ Andere Projekte</example>
                     <token>du</token>
                     <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes"/>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46436,11 +46459,14 @@ Andere Projekte</example>
             <rule><!-- 7 -->
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="VER:(AUX:)?3:SIN:.+" postag_regexp="yes"/>
+                    <token regexp="yes">ist|war</token>
                     <token postag="PRO:PER:NOM:SIN:(MAS|FEM|NEU)|EIG:.+" postag_regexp="yes"/>
-                    <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes">
+                        <exception regexp="yes">jedenfalls|trotzdem|bitte</exception>
+                    </token>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46450,6 +46476,7 @@ Andere Projekte</example>
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example correction="?">Ist er blöd<marker>.</marker></example>
                 <example correction="?">Ist Peter blöd<marker>.</marker></example>
+                <example>Findet Michelle jedenfalls.</example>
             </rule>
             <rule><!-- 8 -->
                 <pattern>
@@ -46459,7 +46486,8 @@ Andere Projekte</example>
                     <token>es</token>
                     <token min="0"/>
                     <marker>
-                        <token postag="SENT_END">
+                        <token postag="SENT_END" regexp="yes">
+                            \p{P}
                             <exception>?</exception>
                         </token>
                     </marker>
@@ -46505,8 +46533,8 @@ Andere Projekte</example>
                     <token postag="VER:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>kann</token>
+                    <token postag="SENT_START" skip="1" />
+                    <token regexp="yes">kann|mag</token>
                     <token>sein</token>
                     <token>,</token>
                 </antipattern>
@@ -46533,6 +46561,7 @@ Andere Projekte</example>
                 <example correction="?">Könnte das perspektivisch auch über die API direkt im Webbrowser realisiert werden, z.B. zum Diktieren des Artikel-Textes<marker>.</marker></example>
                 <!--<example correction="?">"Soll er schon nach Hause gehen<marker>.</marker></example> TODO: doesn't work because tagger confused by quote character -->
                 <example>Mach es bitte ein zweites Mal.</example>
+                <example>Mag sein, dass sie die Tatsachen kennt.</example>
                 <example>Sollte das auch nicht klappen, werde ich Ihren Account manuell freischalten.</example>
                 <example>Sollte es damit Probleme geben, melden Sie sich bitte erneut per E-Mail bei uns.</example>
                 <example>Sollten einzelne Bestimmungen der AGB unwirksam oder undurchführbar sein oder unwirksam oder undurchführbar werden, bleibt davon die Wirksamkeit der AGB im Übrigen unberührt.</example>
@@ -46866,6 +46895,20 @@ Andere Projekte</example>
                     <token>s</token>
                     <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">King|Queen|Lord|Saint|St</token>
+                    <token min="0">.</token>
+                    <token postag="EIG:.*" postag_regexp="yes" />
+                    <token regexp="yes">'|’</token>
+                    <token>s</token>
+                    <token postag="UNKNOWN|SUB:.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="EIG:.*" postag_regexp="yes" />
+                    <token regexp="yes">'|’</token>
+                    <token>s</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                </antipattern>
                 <pattern>
                     <token postag="EIG:.*" postag_regexp="yes">
                         <exception>King</exception>
@@ -46874,6 +46917,7 @@ Andere Projekte</example>
                         <exception>Andrea</exception>
                         <exception>Mary</exception>
                         <exception>Paul</exception>
+                        <exception>Edward</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
@@ -46886,6 +46930,8 @@ Andere Projekte</example>
                 <example correction="Peters"><marker>Peter’s</marker> Bude.</example>
                 <example>Das St Mary’s Hospital ist ein Krankenhaus im Londoner Stadtteil Paddington.</example>
                 <example>St Paul's Cathedral</example>
+                <example>Nach seinem zweiwöchigen Sommerurlaub 1912, den er bei King Edward’s Horse, einem Kavallerieregiment, hauptsächlich im Pferdesattel verbrachte</example>
+                <example>Die Familie zog kurz darauf in die Gilbert Street und etwa fünf Jahre später in die Jacob’s Well Mews.</example>
             </rule>
             <rule>
                 <pattern>
@@ -48725,6 +48771,19 @@ Andere Projekte</example>
         <rulegroup id="AKZENT_STATT_APOSTROPH" name="Akzent statt Apostroph">
             <url>https://de.wikipedia.org/wiki/Apostroph#Typografisch_falsch</url>
             <rule>
+                <antipattern>
+                    <token regexp="yes">&anfauf;</token>
+                    <token postag="EIG:.*" postag_regexp="yes" spacebefore="no" />
+                    <token regexp="yes">´|`|‘</token>
+                    <token>s</token>
+                    <token postag="UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>Victor</token>
+                    <token regexp="yes">´|`|‘</token>
+                    <token>s</token>
+                    <token regexp="yes">Group|Bau|Holding</token>
+                </antipattern>
                 <pattern>
                     <token postag="UNKNOWN" negate_pos="yes"/>
                     <token regexp="yes">´|`|‘</token>
@@ -48738,6 +48797,7 @@ Andere Projekte</example>
                 <example correction="Beck'sche|Beck’sche">Die <marker>Beck´sche</marker> Reihe</example>
                 <example correction="McDonald's|McDonald’s"><marker>McDonald´s</marker></example>
                 <example correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
+                <example>Die erste "Sarah´s Scribbles" Sammlung der Brooklyner Künstlerin Sarah Andersen kam in den Handel und war schon bald darauf ausverkauft.</example>
             </rule>
             <rule>
                 <regexp>[‘´`](nen|ne|n|s)\b</regexp>
@@ -50759,9 +50819,9 @@ Andere Projekte</example>
                     <token postag="ADJ.*|PA[12].*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="EIG.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="EIG.*|UNKNOWN|SUB.*" postag_regexp="yes"/>
                     <token>,</token>
-                    <token postag="EIG.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="EIG.*|UNKNOWN|SUB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="SUB.*" postag_regexp="yes"/>
@@ -50832,7 +50892,7 @@ Andere Projekte</example>
                    <token postag="KON:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">Hallo|Hey|Hi|Moin|Servus</token>
+                    <token regexp="yes">Hallo|Heya?|Hi|Moin|Servus</token>
                     <token regexp="yes" skip="2">ihr|du|sie</token>
                     <token>,</token>
                 </antipattern>
@@ -50840,6 +50900,12 @@ Andere Projekte</example>
                     <token>,</token>
                     <token postag="ADV:(MOD|CAU)" postag_regexp="yes"/>
                     <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="1" />
+                    <token>guten</token>
+                    <token regexp="yes" skip="2">tag|abend|morgen|mittag</token>
+                    <token>,</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
@@ -50872,6 +50938,12 @@ Andere Projekte</example>
                     <token regexp="yes">jetzt|gleich|heute|(über)?morgen</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token>egal</token>
+                    <token skip="4">ob</token>
+                    <token skip="2">oder</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -50888,6 +50960,12 @@ Andere Projekte</example>
                 <suggestion> \3</suggestion>
                 <example correction=" aß">Nach dem großen Stück Torte<marker>, aß</marker> ich noch von dem Kuchen.</example>
                 <example>Staaten wie Südkorea, Singapur und Brasilien signalisierten ihre Zustimmung.</example>
+                <example>Die OPEC-Mitgliedsstaaten aus Asien, Afrika und Südamerika fördern zusammen etwa 40 % der weltweiten Erdölproduktion und verfügen über rund drei Viertel der weltweiten Erdölreserven.</example>
+                <example>Hans Rudolf Berliner, Alexander Haase und Nikolai legen vom 8.-10. Februar 1914 3053 km zurück.</example>
+                <example>Egal ob jung oder alt, Single oder Familie – rund um Australien findet sich für jeden Geschmack die passende Kreuzfahrtroute.</example>
+                <example>Im Netz: Per Telefon, Facebook oder Twitter – immer wieder konfrontieren tausende Menschen ihre/n Abgeordnete/n vor Ort mit den Folgen des Handelsabkommens für unser Trinkwasser.</example>
+                <example>Nur zwischen den Niederlanden, Deutschland und Dänemark wurde der Boden nach langwierigen Auseinandersetzungen und einem Spruch des Internationalen Gerichtshofs anders verteilt.</example>
+                <example>August von Hannover, König von Großbritannien gegründet und hat eine lange Liste berühmter Persönlichkeiten hervorgebracht.</example>
                 <example>Der Süßwassermangel, mit dem wir weltweit konfrontiert sein werden, rührt von großer Verschwendung her.</example>
                 <example>Was immer das in drei, fünf oder zehn Jahren bedeuten mag.</example>
                 <example>Sehr geehrte Frau Schmidt, zum 20. Jahrestag Ihrer Firma gratulieren wir Ihnen recht herzlich!</example>
