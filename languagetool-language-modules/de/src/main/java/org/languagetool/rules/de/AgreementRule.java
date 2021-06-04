@@ -1089,6 +1089,14 @@ public class AgreementRule extends Rule {
       token("Porsche"),
       token("Museum")
     ),
+    Arrays.asList(
+      token("Queen"),
+      posRegex("EIG:.*")
+    ),
+    Arrays.asList(
+      token("King"),
+      posRegex("EIG:.*")
+    ),
     Arrays.asList( // des Sturm und Drangs
       token("des"),
       token("Sturm"),
