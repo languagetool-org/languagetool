@@ -13328,6 +13328,7 @@ onwaarschijnlijk
 
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
+				<antipattern case_sensitive="yes"><token>Witte</token><token>Donderdag</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Zondag</token><token>met</token><token>Lubach</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token postag="SENT_START"/><token regexp="yes">&apostrof;|&quot;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
@@ -17606,6 +17607,11 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>die</token><token>hij</token><token>maar</token></antipattern>
+				<antipattern><token>eerst</token><token>maar</token><token>wat</token></antipattern>
+				<antipattern><token>maar</token><token>weer</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>kunt</token><token>maar</token><token>beter</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>dat</token><token regexp="yes">hij|zij|ze|men|u</token><token regexp="yes">er|hier|daar</token><token>maar</token><token postag_regexp="yes" postag=".*ONV"/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token/><token postag=".*MRV.*" postag_regexp="yes"/><token>maar</token><token>even</token></antipattern>
 				<antipattern><token>maar</token><token>deels</token><token postag_regexp="yes" postag=".*ONV"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">je|jij</token><token>het</token><token>maar</token><token postag="VRZ"/></antipattern>
@@ -19445,6 +19451,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm">
 			<rule>
+				<antipattern><token>ben</token></antipattern>
 				<pattern>
 					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|wil</exception></token>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
@@ -19498,7 +19505,7 @@ steenwijk;Steenwijk
 				<antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
-					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond</exception></token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond|hen</exception></token>
 				</pattern>
 				<message>Er staat misschien een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion>.</message>
 				<example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
@@ -19607,7 +19614,7 @@ steenwijk;Steenwijk
 					<token regexp="yes">het|dit|dat</token>
 					<marker>
 						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
-						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen</exception><exception postag="WKW:TGW:INF"/></token>
+						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig</exception><exception postag="WKW:TGW:INF"/></token>
 					</marker>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
@@ -32991,6 +32998,7 @@ steenwijk;Steenwijk
 		
 		<rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
 			<rule>
+				<antipattern><token postag="VRZ"/><token>sociale</token><token>media</token></antipattern>
 				<antipattern><token regexp="yes">social|sociale</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
 				<antipattern><token regexp="yes">social|sociale</token><token>media</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 				<pattern>
@@ -33124,7 +33132,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token>net-niet</token>
-					<token postag ="ZNW.*" postag_regexp="yes"><exception negate_pos="yes" postag ="ZNW.*|BNW.*" postag_regexp="yes"/><exception>tegen</exception></token>
+					<token postag ="ZNW.*" postag_regexp="yes"><exception negate_pos="yes" postag ="ZNW.*|BNW.*" postag_regexp="yes"/><exception regexp="yes">tegen|meer</exception></token>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
 				<example correction="net-nietgeneratie">QQ <marker>net-niet generatie</marker> QQQ.</example>
@@ -38536,6 +38544,8 @@ steenwijk;Steenwijk
 	</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
 		<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
+			<antipattern><token>het</token><token>het</token><token>minst</token></antipattern>
+			<antipattern><token>het</token><token>het</token><token postag="BNW:OVR:ONV"/></antipattern>
 			<antipattern><token>Dai</token><token>Dai</token><token regexp="yes">N'?tab</token></antipattern>
 			<antipattern><token postag="WKW.*" postag_regexp="yes"/><token>wat</token><token>wat</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
 			<antipattern><token postag="VGW"/><token>het</token><token>het</token><token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/></antipattern><!-- alsof het het begin is -->
