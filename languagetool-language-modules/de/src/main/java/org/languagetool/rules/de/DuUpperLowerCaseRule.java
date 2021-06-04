@@ -45,7 +45,6 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
                         "euch", "euer", "eure", "euere", "euren", "eueren", "euern", "eurer", "euerer",
                         "eurem", "euerem", "eures", "eueres")
   );
-  private static final String IHR = "ihr";
 
   public DuUpperLowerCaseRule(ResourceBundle messages) {
     super(messages);
@@ -79,27 +78,17 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
         AnalyzedTokenReadings token = tokens[i];
         String word = token.getToken();
         String lcWord = word.toLowerCase();
-        if (lowerWords.contains(lcWord) || lcWord.equals(IHR)) {
+        if (lowerWords.contains(lcWord)) {
           if (firstUse == null) {
-            if (!word.equals(IHR)) {
-              firstUse = word;
-            }
+            firstUse = word;
           } else {
             boolean firstUseIsUpper = StringTools.startsWithUppercase(firstUse);
             String msg = null;
             String replacement = null;
             if (firstUseIsUpper && !StringTools.startsWithUppercase(word)) {
               replacement =  StringTools.uppercaseFirstChar(word);
-              String prevWord = i > 0 ? tokens[i-1].getToken() : "";
-              if (word.equals(IHR)) {
-                if (!prevWord.matches("aus|bei|beim|binnen|entgegen|fern|entsprechend|gemäß|gegenüber|mit|mitsamt|nach|nahe|nebst|samt|via|zuliebe|von|zu|zur|zuwider")) {
-                  msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
-                          "Nur falls es sich hier auch um eine Anrede handelt: Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
-                }
-              } else {
-                msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
-                        "Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
-              }
+              msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
+                      "Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
             } else if (!firstUseIsUpper && StringTools.startsWithUppercase(word) && !StringUtils.isAllUpperCase(word)) {
               replacement = StringTools.lowercaseFirstChar(word);
               msg = "Vorher wurde bereits '" + firstUse + "' kleingeschrieben. " +
