@@ -207,6 +207,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>bon marché</suggestion>
                 <example correction="bonne marche|bon marché">La <marker>bonne marché</marker> de leurs activités.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D f s"/>
+                    <marker>
+                        <token regexp="yes">saint|st</token>
+                        <token regexp="yes">valentin|Patrick</token>
+                    </marker>
+                </pattern>
+                <message>Erreur de typographie.</message>
+                <suggestion>\1 Saint-<match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="la Saint-Valentin">J’ai reçu des fleurs pour la <marker>saint Valentin</marker>.</example>
+                <example>J’ai reçu des fleurs pour la <marker>Saint-Valentin</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_TOUT_LE" name="Concordance tout + le">
             <!-- TODO: que nous avons toutes les hommes. -->
@@ -27143,6 +27156,17 @@ though, and has since been slightly modified)-->
                 <token>part</token>
                 <token/>
             </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="person"/>
+                    <token regexp="yes">je|j'|tu|il|ell|on|nous|vous|ils|elles</token>
+                    <unify-ignore>
+                        <token postag="A" min="0"/>
+                    </unify-ignore>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
             <rule name="trait d'union manquant">
                 <pattern>
                     <marker>
@@ -27266,6 +27290,7 @@ though, and has since been slightly modified)-->
                 <example>Quel genre de musique j’écoute.</example>
                 <example>Si j'en trouve je les corrigerai.</example>
                 <example>Si on me l'offre je le lirais peut-être.</example>
+                <example>Avant que Marc et Antoine arrive je n'étais pas là.</example>
             </rule>
             <rule name="deuxième personne du singulier">
                 <antipattern>
@@ -46851,19 +46876,6 @@ though, and has since been slightly modified)-->
                 <example correction="l’|l'"><marker>l''</marker>homme</example>
             </rule>
         </rulegroup>
-        <rule id="SAINT_VALENTIN" name="Saint Valentin">
-            <pattern>
-                <token postag="D f s"/>
-                <marker>
-                    <token regexp="yes">saint|st</token>
-                    <token regexp="yes">valentin|Patrick</token>
-                </marker>
-            </pattern>
-            <message>Erreur de typographie.</message>
-            <suggestion>\1 Saint-<match no="3" case_conversion="startupper"/></suggestion>
-            <example correction="la Saint-Valentin">J’ai reçu des fleurs pour la <marker>saint Valentin</marker>.</example>
-            <example>J’ai reçu des fleurs pour la <marker>Saint-Valentin</marker>.</example>
-        </rule>
         <rule id="VIRGULE_ETC" name="Usage de la virgule: , etc.">
             <pattern>
                 <token>
