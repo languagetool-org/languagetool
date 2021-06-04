@@ -88,7 +88,7 @@ abstract class TextChecker {
   // keep track of timeouts of the hidden matches server, check health periodically;
   // -1 => healthy, else => check timed out at given date, check back if time difference > config.getHiddenMatchesFailTimeout()
   private long lastHiddenMatchesServerTimeout;
-  // counter; mark as down if this reaches hidenMatchesServerFall
+  // counter; mark as down if this reaches hiddenMatchesServerFall
   private long hiddenMatchesServerFailures = 0;
   private final LanguageIdentifier fastTextIdentifier;
   private final ExecutorService executorService;
