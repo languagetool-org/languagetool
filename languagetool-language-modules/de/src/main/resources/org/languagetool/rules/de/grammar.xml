@@ -5308,6 +5308,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="SICH_DICH" name="Ich freue mich auf sich (dich)" default="temp_off">
+            <antipattern>
+                <token>auf</token>
+                <token>sich</token>
+                <token>beruhen</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes">freuen</token>
+                    <token regexp="yes">uns|mich</token>
+                    <token>auf</token>
+                    <marker>
+                        <token>sich</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>dich</suggestion>?</message>
+                <example correction="dich">Ich freu mich auf <marker>sich</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="1">kommen</token>
+                    <token>auf</token>
+                    <marker>
+                        <token>sich</token>
+                    </marker>
+                    <token>zu</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dich</suggestion>?</message>
+                <example correction="dich">Sie kommen deswegen auf <marker>sich</marker> zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token case_sensitive="yes">Auf</token>
+                    <marker>
+                        <token>sich</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>dich</suggestion>?</message>
+                <example correction="dich">Auf <marker>sich</marker> war niemand vorbereitet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token>dich</token>
+                    </marker>
+                    <token>beruhen</token>
+                    <token>lassen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>sich</suggestion>?</message>
+                <example correction="sich">Wir sollten es auf <marker>dich</marker> beruhen lassen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WIDER_WIEDER" name="wider vs wieder">
             <rule>
                 <pattern>
@@ -18882,22 +18936,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <marker>
-                        <token>wegen</token>
-                        <token>denen</token>
-                    </marker>
-                    <token postag="VER.*" postag_regexp="yes" />
-                </pattern>
-                <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
-                <suggestion>derentwegen</suggestion>
-                <example correction="Derentwegen"><marker>Wegen denen</marker> muss ich jetzt später Feierabend machen!</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <marker>
-                        <token>wegen</token>
-                        <token>denen</token>
-                    </marker>
+                    <token>wegen</token>
+                    <token>denen</token>
                 </pattern>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>derentwegen</suggestion>
@@ -48776,7 +48816,7 @@ Andere Projekte</example>
                     <token postag="EIG:.*" postag_regexp="yes" spacebefore="no" />
                     <token regexp="yes">´|`|‘</token>
                     <token>s</token>
-                    <token postag="UNKNOWN" postag_regexp="yes" />
+                    <token postag="UNKNOWN" />
                 </antipattern>
                 <antipattern>
                     <token>Victor</token>

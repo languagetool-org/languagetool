@@ -146,12 +146,6 @@ public class CaseRule extends Rule {
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
-      // https://github.com/languagetool-org/languagetool/issues/1515
-      SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤|/|_|✒︎|☑️"),
-      regex(".*")
-    ),
-    Arrays.asList(
       // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of a sentence)
       SENT_START,
       regex("^[^A-Za-z0-9ÄÖÜäöüàÀß]{1,2}$"),
@@ -305,9 +299,9 @@ public class CaseRule extends Rule {
       token("innen")
     ),
     Arrays.asList(
-      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
+      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", "Dorian Klug" ...
       new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build(),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug")
     ),
     Arrays.asList(
       token(","),
@@ -647,7 +641,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // §1 Allgemeine Bedingungen
       SENT_START,
-      regex("§\\d"),
+      regex("§\\d+"),
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
@@ -753,9 +747,28 @@ public class CaseRule extends Rule {
       csRegex("\\d+[a-hA-H]?")
     ),
     Arrays.asList(
-      // Listenpunkt
-      tokenRegex("✓|✔|☑|✗|✘|✖|√"),
-      csRegex("[A-ZÄÜÖ].*")
+      // Straßenname: "Neue Kantstraße 6"
+      csToken("Neue"),
+      csRegex("[A-Z].+stra(ss|ß)e"),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Neue Kantstr. 6"
+      csToken("Neue"),
+      csRegex("[A-Z].+str"),
+      token("."),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      SENT_START,
+      // Listenpunkt https://github.com/languagetool-org/languagetool/issues/1515
+      regex("\\*|-|/|_|%"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|☞|❤|✒︎|☑️|✗|✘|✖|➢"),
+      regex(".*")
     ),
     Arrays.asList(
       // Zwei Kommas, die wie Anführungszeichen verwendet werden: ",,"
@@ -767,7 +780,7 @@ public class CaseRule extends Rule {
       // Markup: "[H3] Die Headline"
       SENT_START,
       token("["),
-      csToken("[A-Z0-9]+"),
+      regex("[A-Z0-9]+"),
       token("]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
@@ -777,6 +790,35 @@ public class CaseRule extends Rule {
       regex("[a-z]"),
       token("."),
       regex("\\d+"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "1-) Ich bin ein Listenpunkt"
+      SENT_START,
+      regex("\\d+-"),
+      regex("[\\)\\]]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "1, Ich bin ebenfalls ein Listenpunkt"
+      SENT_START,
+      regex("[a-z0-9]"),
+      token(","),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "T = Das Ziel"
+      SENT_START,
+      regex("[A-Z0-9]+"),
+      token("="),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "(2c) Der Betrieb ist untersagt"
+      SENT_START,
+      regex("[\\[\\(]"),
+      token("[a-z0-9]{1,3}"),
+      regex("[\\]\\)]"),
       csRegex("[A-ZÄÜÖ].*")
     )
   );
@@ -809,6 +851,7 @@ public class CaseRule extends Rule {
   private static final String[] exceptions = {
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)
+    "Adult", // eng
     "Mo",
     "Di",
     "Mi",
@@ -860,6 +903,10 @@ public class CaseRule extends Rule {
     "Genesenen", // temporary fix
     "Geimpfte", // temporary fix
     "Geimpften", // temporary fix
+    "Geflüchtete", // temporary fix
+    "Geflüchteten", // temporary fix
+    "Projektbeteiligte", // temporary fix
+    "Projektbeteiligten", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",

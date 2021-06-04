@@ -372,6 +372,7 @@ public class CaseRuleTest {
     assertGood("Audi A5 Sportback 2.0 TDI");
     assertGood("§ 1 Allgemeine Bedingungen");
     assertGood("§1 Allgemeine Bedingungen");
+    assertGood("[H3] Was ist Daytrading?");
     assertGood(" Das ist das Aus des Airbus A380.");
     assertGood("Wir sollten ihr irgendwas Erotisches schenken.");
     assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
