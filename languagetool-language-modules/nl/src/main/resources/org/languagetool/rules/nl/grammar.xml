@@ -10271,7 +10271,7 @@ onwaarschijnlijk
 					<token regexp="yes">de|een|geen</token>
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception regexp="yes">zijn|beiden|bergen|wenen</exception><exception postag_regexp="yes" postag=".*MRV.*|BNW.*|WKW:VTD:ONV|ZNW.*"/></token>
-						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes">moet|goed|waar|was|waard|kan|bent|he|want|tegen|over|weet</exception><exception postag_regexp="yes" postag="BYW.*|BNW.*"/></token>
+						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes">moet|goed|waar|was|waard|kan|bent|he|want|tegen|over|weet|wil</exception><exception postag_regexp="yes" postag="BYW.*|BNW.*"/></token>
 					</marker>
 				</pattern>
 				<message>Dit is taalkundig wat krom.</message>
@@ -41321,6 +41321,8 @@ steenwijk;Steenwijk
 				<example correction="Het surplus"><marker>De surplus</marker> die ik zag.</example>
 			</rule>
 			<rule>
+				<!-- spatiefouten worden te vaak genegeerd, sluit die uit, en vang die in een andere regel op -->
+				<antipattern><token>de</token><token postag="ZNW:EKV:HET"/><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
 				<pattern>
 					<token>de</token>
 					<token/>
