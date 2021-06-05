@@ -3328,6 +3328,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eso no se ve tan difícil.</example>
                 <example>Es necesario que se aparte de este caso.</example>
                 <example>Este se acerca de manera peligrosa.</example>
+                <example>No se lo abras.</example>
+                <example>No se lo dejes al azar.</example>
+                <example>No se lo coma.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5347,6 +5350,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>con una poco seria tercera persona omnisciente</example>
                 <example>Tuvimos una charla seria el uno con el otro.</example>
                 <example>Una institución lingüística seria jamás censuraría una traducción.</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <marker>
+                        <token>seria<exception postag="_GN_FS"/></token>
+                    </marker>
+                    <token regexp="yes">de|del</token>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería">Debido al gran interes de este tema <marker>seria</marker> de gran utilidad.</example>
+                <example>Una evaluación seria de todo el proceso.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
@@ -12081,6 +12096,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El plazo termina el 1º de mayo.</example>
                 <example>¿Puede alguno de estos ser real?</example>
                 <example>¿Qué tal todos en casa?</example>
+                <example>La presente ley busca proteger el derecho a libre amamantamiento de toda madre.</example>
+                <example>Las mates son como el amor.</example>
+                <example>Las presentes Condiciones Generales son las únicas condiciones aplicables.</example>
+                <example>No la dejes conducir.</example>
+                <example>Después de haber tomado la firme decisión.</example>
+                <example>¡No la mires!</example>
+                <example>Cuando alargues la mano y la saques llena de mocos, te darás cuenta.</example>
+                <example>Pídele al propietario que los quite para que puedas verificarlo.</example>
+                <example>A Tom no le gusta las mates.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
                 <!-- que una espacio y tiempo (possible but rare) -->
             </rule>
@@ -12127,6 +12151,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="La cosa|Las cosas"><marker>La cosas</marker> es estraña.</example>
                 <example correction="la cosa|las cosas">Parece que <marker>la cosas</marker> mejoran.</example>
                 <example correction="la cosa|las cosas">Parece que <marker>las cosa</marker> mejoran.</example>
+                <example correction="La relación|Las relaciones"><marker>La relaciones</marker> entre Grecia y Alemania son tensas.</example>
+                <example correction="esta tarde|estas tardes">Tengo tiempo libre <marker>este tarde</marker>.</example>
+                <example>No los decepciones.</example>
                 <example>Quiero que la cosas hoy.</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
@@ -13780,6 +13807,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Comunicar al mercado propuestas que triunfan.</example>
             <example>Toma características del cubismo.</example>
             <example>Desencanta cualquier saber mitificado o indudable verdad, saber y verdad colocados ahora en crisis.</example>
+            <example>No lo dejes abierto.</example>
+            <example>Llevo meses metida en mi propia envoltura.</example>
+            <example>Encuentro bella la casa.</example>
+            <example>El camino se hace muy aparente y sales cercano al dique de la presa.</example>
+            <example type="triggers_error">—Ponle las cosas muy clarito, cielo.</example>
+            <example>Todo esfuerzo que hace queda corto en los ojos de su papá.</example>
+            <example>No se puede confiar en ella porque miente harto.</example>
+            <example>Tú no quedas indiferente.</example>
+            <example>Cierra los ojos mientras escuchas música.</example>
+            <example>Aprovecha y lanza otro lp.</example>
+            <example>Aprovecha y lanza otro LP.</example>
+            <example>Si un árbol muere, planta otro en su lugar.</example>
+            <example>La madera que pedí vino torcida.</example>
+            <example>Si sales vivo y lo puedes contar en el foro.</example>
             <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -13812,6 +13853,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Esta área"><marker>Este área</marker>.</example>
                 <example>Un área mayor.</example>
                 <example>2016/08/09 Alta probabilidad de brillo.</example>
+                <example>Por favor, no lo abra.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17637,6 +17679,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le encanta todo lo irracional.</example>
                 <example>En función de lo duro o suave que sea.</example>
                 <example>Todo lo sucedido pudo haber sido distinto.</example>
+                <example>No lo deje tomar.</example>
+                <example>No se lo coma.</example>
+                <example>Disculpe, ¿usted sabe lo tarde que es?</example>
+                <example>¡No hay quién lo aguante!</example>
             </rule>
             <!-- <rule default="off">
                 catch-all rule, no suggestions; exception: se
@@ -19508,6 +19554,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
                 <token>sino</token>
             </antipattern>
+            <antipattern>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                <token>otra</token>
+                <token>cosa</token>
+                <token>sino</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -20959,14 +21012,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token postag="[DSCP].*" postag_regexp="yes"/>
+                    <token postag="[DCP].*|SP.*" postag_regexp="yes" regexp="yes">..+</token>
                     <token postag="RG"/>
-                    <token><match no="0"></match></token>
+                    <token><match no="0"/></token>
                 </pattern>
                 <message>Repetición probablemente incorrecta.</message>
                 <suggestion>\2 \3</suggestion>
                 <suggestion>\1 \2</suggestion>
                 <example correction="ya las|las ya">Le dicen que son <marker>las ya las</marker> cuatro de la tarde.</example>
+                <example>Después de haber tomado la firme decisión.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PHRASE_REPETITION" name="Repetición de dos palabras ('en casa en casa')">
