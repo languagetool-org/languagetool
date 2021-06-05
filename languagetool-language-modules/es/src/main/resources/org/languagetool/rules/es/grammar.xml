@@ -1328,6 +1328,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DIACRITICS" name="Diacríticos (tilde)" type="misspelling">
+        <rule id="COLERA" name="colera/cólera" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">coleras?</token>
+                </marker>
+            </pattern>
+            <message>Si es el nombre de una enfermedad (m) o sinónimo de "ira, enojo" (f), se escribe con tilde. "Colera" (sin tilde) es sinónimo de "colista".</message>
+            <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ó" case_conversion="preserve"/></suggestion>
+            <example correction="cólera">El <marker>colera</marker> hizo estragos</example>
+        </rule>
         <rulegroup id="FALTA_ELEMENTO_ENTRE_VERBOS" name="Falta un elemento entre verbos: hay algo *(que) es claro">
             <antipattern>
                 <token>ya</token>
@@ -12226,14 +12236,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Error de concordancia.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> \3</suggestion>
-                <example correction="de los camiones"><marker>del camiones</marker></example>
-                <example correction="A los pisos"><marker>Al pisos</marker></example>
-                <example correction="de las médicas"><marker>del médicas</marker></example>
-                <example correction="de la médica"><marker>del médica</marker></example>
+                <suggestion suppress_misspelled="yes">\1 <match no="3" postag="N.[MF][SP].*" postag_regexp="yes" postag_replace="N.[MC][SN].*"/></suggestion>
+                <example correction="de los camiones|del camión"><marker>del camiones</marker></example>
+                <example correction="A los pisos|Al piso"><marker>Al pisos</marker></example>
+                <example correction="de las médicas|del médico"><marker>del médicas</marker></example>
+                <example correction="de la médica|del médico"><marker>del médica</marker></example>
                 <example correction="de las aguas"><marker>del aguas</marker></example>
-                <example correction="de los parques">Ha vuelto <marker>del parques</marker> pronto.</example>
+                <example correction="de los parques|del parque">Ha vuelto <marker>del parques</marker> pronto.</example>
                 <example correction="De la silla"><marker>Del silla</marker></example>
                 <example correction="De la interfaz"><marker>Del interfaz</marker></example>
+                <example correction="a los números|al número">Respecto <marker>al números</marker> de entidades.</example>
                 <!--<example correction="De la manera"><marker>Del manera</marker> similar</example>-->
                 <example>Debes estar al corriente.</example>
                 <example>Monsour del Rosario</example>
@@ -15793,6 +15805,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="A_FINES" name="a fines" default="temp_off">
+            <pattern>
+                <token>al</token>
+                <token>fines</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>a fines</suggestion>?</message>
+            <suggestion>a fin</suggestion>
+            <suggestion>a los fines</suggestion>
+            <example correction="A fines|A fin|A los fines"><marker>Al fines</marker> de año vendré.</example>
+        </rule>
         <rulegroup id="ABAJO" name="a bajo / abajo">
             <rule>
                 <pattern>
@@ -21012,7 +21034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token postag="[DCP].*|SP.*" postag_regexp="yes" regexp="yes">..+</token>
+                    <token postag="D.*" postag_regexp="yes" regexp="yes">..+</token>
                     <token postag="RG"/>
                     <token><match no="0"/></token>
                 </pattern>
@@ -21021,6 +21043,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2</suggestion>
                 <example correction="ya las|las ya">Le dicen que son <marker>las ya las</marker> cuatro de la tarde.</example>
                 <example>Después de haber tomado la firme decisión.</example>
+                <example>Un triángulo de más de 180 grados</example>
+                <example>Piensa diariamente en algo en que nadie más esté pensando. </example>
+                <example>Algo de alrededor de ochocientos reales.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PHRASE_REPETITION" name="Repetición de dos palabras ('en casa en casa')">

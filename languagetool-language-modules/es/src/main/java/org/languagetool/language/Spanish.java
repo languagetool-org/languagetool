@@ -199,14 +199,14 @@ public class Spanish extends Language implements AutoCloseable{
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
       case "AGREEMENT_DET_ABREV": return 25; // greater than AGREEMENT_DET_NOUN
       case "MUCHO_NF": return 25; // greater than AGREEMENT_DET_NOUN
-      case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN 
+      case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN
+      case "TYPOGRAPHY": return 25; // greater than AGREEMENT_DET_NOUN
       case "AGREEMENT_DET_NOUN": return 20;
       case "ETCETERA": return 20; // greater than ESPACIO_DESPUES_DE_PUNTO
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "P_EJ": return 20;
       case "ESPACIO_DESPUES_DE_PUNTO": return 15;
       case "AGREEMENT_DET_ADJ": return 10;
-      case "TYPOGRAPHY": return 10;
       case "HALLA_HAYA": return 10;
       case "VALLA_VAYA": return 10;
       case "TE_TILDE2": return 10; // less than PRONOMBRE_SIN_VERBO
