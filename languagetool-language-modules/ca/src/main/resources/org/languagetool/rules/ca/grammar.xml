@@ -25685,6 +25685,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No vindrà mai.</example>
             </rule>
             </rulegroup> -->
+        <rule default="temp_off">
+            <pattern>
+                <token postag="[DSCP].*" postag_regexp="yes"/>
+                <token postag="RG"/>
+                <token><match no="0"></match></token>
+            </pattern>
+            <message>Repetició probablement incorrecta.</message>
+            <suggestion>\2 \3</suggestion>
+            <suggestion>\1 \2</suggestion>
+            <example correction="ja les|les ja">Li fan saber que són <marker>les ja les</marker> deu de la nit. </example>
+        </rule>
     </category>
     <category id="APOSTROPHATION" name="Y) Apostrofació" type="grammar">
         <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D, la UPF">

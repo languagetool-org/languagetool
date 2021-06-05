@@ -20957,6 +20957,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2</suggestion>
                 <example correction="a mi">Vuelvo <marker>a mi a</marker> madriguera.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="[DSCP].*" postag_regexp="yes"/>
+                    <token postag="RG"/>
+                    <token><match no="0"></match></token>
+                </pattern>
+                <message>Repetición probablemente incorrecta.</message>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>\1 \2</suggestion>
+                <example correction="ya las|las ya">Le dicen que son <marker>las ya las</marker> cuatro de la tarde.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PHRASE_REPETITION" name="Repetición de dos palabras ('en casa en casa')">
             <!--  made more general-->
