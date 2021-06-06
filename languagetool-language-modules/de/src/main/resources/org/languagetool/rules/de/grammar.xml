@@ -21178,7 +21178,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-
+        <rulegroup id="IHR_EUCH" name="Ihr euch (Euch)" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Ihr</token>
+                    <marker>
+                        <token regexp="yes">euch|eure[snmr]?|euer</token>
+                    </marker>
+                </pattern>
+                <message>Wenn "Ihr" großgeschrieben wird, sollte auch <suggestion><match no="2" case_conversion="startupper" /></suggestion> großgeschrieben werden.</message>
+                <example correction="Euch">Wie stellt Ihr <marker>euch</marker> das vor?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>ihr</token>
+                    <marker>
+                        <token regexp="yes">Euch|Eure[snmr]?|Euer</token>
+                    </marker>
+                </pattern>
+                <message>Wenn "ihr" kleingeschrieben wird, sollte auch <suggestion><match no="2" case_conversion="startlower" /></suggestion> kleingeschrieben werden.</message>
+                <example correction="euch">Wie stellt ihr <marker>Euch</marker> das vor?</example>
+            </rule>
+        </rulegroup>
         <rule id="EHRE_SUBST" name="die ehre (Ehre)">
             <pattern>
                 <token regexp="yes">[dm]ir|uns|ih[rm]|ihnen|euch|ist|war</token>
