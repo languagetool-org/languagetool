@@ -22590,16 +22590,25 @@ Apenas adultos podem assistir àquele filme.
       <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
     </rule>
 
-    <rule id='AI' name="Confusão: ai/aí">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+	<!-- AI aí -->
+    <rule id='AI_AÍ' name="Confusão: ai/aí">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-06 (Enhanced) (17-MAR-2021+)      -->
+	<!--
+A diferença é que aí pagas aos trabalhadores.
+O que você faz aí fora a essa hora?
+E aí as coisas se mostrariam bem diferentes.
+	-->
       <pattern>
-          <token postag_regexp="yes" postag="SPS00|V.+"/>
+          <token postag_regexp="yes" postag="SPS.+|V.+|CS|RG|CC"/>
         <marker>
-          <token>ai</token>
+          <token case_sensitive='yes'>ai</token>
         </marker>
       </pattern>
       <message>Substitua por <suggestion>aí</suggestion>.</message>
       <example correction="aí">Vou por <marker>ai</marker> fora a cantar.</example>
+	  <example>A diferença é que aí pagas aos trabalhadores.</example>
+	  <example>O que você faz aí fora a essa hora?</example>
+	  <example>E aí as coisas se mostrariam bem diferentes.</example>
     </rule>
 	
     <rule id='ARREAR_A_AS_VELA_S_BANDEIRA_S' name="Confusão: arrear/arriar">
