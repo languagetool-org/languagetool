@@ -19535,6 +19535,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		
 		<rulegroup id="EEN_LELIJKE_MEISJE" name="Een lelijke meisje">
+			<antipattern><token>een</token><token postag="ZNW:EKV:DE_"/><token postag="WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>bed</token><token>and</token><token>breakfast</token></antipattern>
 			<antipattern><token>een</token><token/><token postag="BNW.*" postag_regexp="yes"/></antipattern>
 			<antipattern><token>een</token><token regexp="yes">laatste|enkele</token><token/></antipattern>
@@ -19542,12 +19543,12 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>een</token>
 					<marker>
-						<token postag=".*BNW:.*VRB.*" postag_regexp="yes"><exception regexp="yes">.*n|luxe|online|bos</exception><exception postag="BNW:STL:ONV"/></token>
+						<token postag="BNW:STL:VRB.*" postag_regexp="yes"><exception regexp="yes">.*n|luxe|online|bos</exception><exception postag=".*ONV"/></token>
 					</marker>
 					<token postag_regexp="yes" postag=".*ZNW.*HET.*"><exception postag=".*ZNW.*DE_|VRZ" postag_regexp="yes"/></token>
 					<token><exception postag=".*ZNW.*" postag_regexp="yes"/></token>
 				</pattern>
-				<message>Tussen 'een' en een de-woord wordt het bijvoeglijk naamwoord verbogen: <suggestion><match no="2" postag="BNW:STL:ONV" postag_regexp="yes"/></suggestion>.</message>
+				<message>Tussen 'een' en een het-woord wordt het bijvoeglijk naamwoord niet verbogen: <suggestion><match no="2" postag="BNW:STL:ONV" postag_regexp="yes"/></suggestion>.</message>
 				<example correction="lelijk">Een <marker>lelijke</marker> huis.</example>
 				<example correction="mooi">Een <marker>mooie</marker> hotel.</example>
 				<example correction="nieuw">Een <marker>nieuwe</marker> horloge.</example>
@@ -33142,7 +33143,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token>net-niet</token>
-					<token postag ="ZNW.*" postag_regexp="yes"><exception negate_pos="yes" postag ="ZNW.*|BNW.*" postag_regexp="yes"/><exception regexp="yes">tegen|meer</exception></token>
+					<token regexp="yes">generatie|situatie|wedstrijd</token>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
 				<example correction="net-nietgeneratie">QQ <marker>net-niet generatie</marker> QQQ.</example>
@@ -41266,6 +41267,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="SPATIEFOUT_HET_DE" name="de-hetfout of spatiefout">
 			<rule>
+				<antipattern case_sensitive="yes"><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes">[A-Z][a-z].*</token></antipattern>
 				<pattern>
 					<token>de</token>
 					<marker>
