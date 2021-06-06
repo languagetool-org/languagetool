@@ -97,6 +97,12 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("EIG.*").tokenRegex(".*s").build()
     ),
     Arrays.asList(
+      tokenRegex("ist|war|sei|wäre"),  // "war das Absicht"
+      token("das"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      tokenRegex("Absicht")
+    ),
+    Arrays.asList(
       token("das"),  // "in das damalige Reichenbach in Schlesien"
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       tokenRegex("Reichenbach|Albstadt|Arnstadt|Darmstadt|Duderstadt|Eberstadt|Eibelstadt|Erftstadt|Freudenstadt|Bergneustadt|" +
