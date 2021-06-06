@@ -907,6 +907,8 @@ public class CaseRule extends Rule {
     "Geflüchteten", // temporary fix
     "Projektbeteiligte", // temporary fix
     "Projektbeteiligten", // temporary fix
+    "Heranwachsende", // temporary fix
+    "Heranwachsenden", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
