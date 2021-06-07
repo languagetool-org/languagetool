@@ -2482,7 +2482,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="VLOGT_VLOCHT" name="waarschuwing bij gebruik vlocht i.p.v. vlogt">
 			<rule>
-				<antipattern><token postag="SENT_START" skip="-1"/><token>haar</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">haar|haren</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>vlocht</token></pattern>
 				<message>Bedoelt u misschien <suggestion>vlogt</suggestion> (een video-log maken)? Of toch 'vlechten'?</message>
 				<example correction="vlogt">Het woord <marker>vlocht</marker> kan een vergissing zijn.</example>
@@ -9851,6 +9851,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="DE_WKWVLT3EP" name="De aanlegde" >
 			<rule>
+				<antipattern><token>De</token><token postag="BNW:STL:ONV"/><token postag="WKW:VTD:ONV"/><token postag="ZNW.*DE_" postag_regexp="yes"/></antipattern>
 				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern>
 					<token>de</token>
@@ -13334,6 +13335,7 @@ onwaarschijnlijk
 
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
+				<antipattern case_sensitive="yes"><token>April</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 				<antipattern case_sensitive="yes"><token>Witte</token><token>Donderdag</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Zondag</token><token>met</token><token>Lubach</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
@@ -16379,6 +16381,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="EIGENNAMEN_HOOFDLETTER" name="Namen van organisatie met spatie" type="misspelling">
 			<rule>
+				<antipattern case_sensitive="yes"><token>Europees</token><token regexp="yes">Parlement.*</token></antipattern>
 				<antipattern case_sensitive="yes"><token regexp="yes">Tweede|Eerste</token><token regexp="yes">Kamer.*</token></antipattern>
 				<antipattern case_sensitive="yes"><token>centrale</token><token>banken</token></antipattern>
 				<pattern>
@@ -17613,6 +17616,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token regexp="yes">hij|zij|ze|men|u</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>maar</token><token>dat</token></antipattern>
+				<antipattern><token>Kon</token><token regexp="yes">hij|zij|ze|men|u</token><token regexp="yes">dat|dit|het</token><token>maar</token></antipattern>
+				<antipattern><token>wordt</token><token>maar</token><token>zo'n</token></antipattern>
+				<antipattern><token>namelijk</token><token>maar</token></antipattern>
+				<antipattern><token postag="WKW:VLT:INF"/><token regexp="yes">het|dit|dat</token><token>maar</token><token postag="BNW:STL:ONV"/></antipattern>
+				<antipattern><token>Zolang</token><token regexp="yes">ze|zij|we|wij|men|hij|ie|u</token><token>maar</token></antipattern>
 				<antipattern><token>Zo</token><token>zien</token><token regexp="yes">we|wij|ze|zij</token><token>maar</token><token>weer</token></antipattern>
 				<antipattern><token>die</token><token postag=".*MRV.*" postag_regexp="yes"/><token>maar</token><token>weer</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">je|jouw|mijn|haar|zijn</token><token postag=".*MRV.*" postag_regexp="yes"/><token>maar</token><token postag="BNW:STL:ONV"/></antipattern>
@@ -33433,7 +33442,7 @@ steenwijk;Steenwijk
 		-->
 		<rulegroup id="TE_BERDE" name="te berde etc.">
 			<rule>
-				<antipattern case_sensitive="yes"><token>Thomas</token><token>Berge</token></antipattern>
+				<antipattern case_sensitive="yes"><token regexp="yes">Thomas|[Dd]en</token><token>Berge</token></antipattern>
 				<pattern>
 					<token negate="yes">te</token>
 					<token regexp="yes">berde|berge|gelde</token>
@@ -34379,7 +34388,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VERAS" name="verassen i.p.v. verrassen">
 			<rule>
-				<antipattern><token skip="-1" postag="SENT_START"/><token skip="-1" regexp="yes">.*(feest|verjaar).*</token><token postag="SENT_END"/></antipattern>
+				<antipattern><token skip="-1" postag="SENT_START"/><token skip="-1" regexp="yes">.*(feest|verjaar|Overasselt).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token regexp="yes">.*veras.*</token>
 				</pattern>
@@ -35242,6 +35251,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
 			<rule>
+				<antipattern><token>Commandant</token><token>der</token><token>Strijdkrachten</token></antipattern>
 				<antipattern><token>her</token><token>en</token><token>der</token></antipattern>
 				<antipattern><token>tocht</token><token>der</token><token>tochten</token></antipattern>
 				<antipattern><token>von</token><token>der</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
@@ -41273,11 +41283,16 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="SPATIEFOUT_HET_DE" name="de-hetfout of spatiefout">
 			<rule>
+				<antipattern><token>honderd</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Tennis</token><token>Masters</token><token>Cup</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Internet</token><token>Movie</token><token>Database</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Internet</token><token>Engineering</token><token>Task</token><token>Force</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Les</token><token>Fatals</token><token>Picards</token></antipattern>
 				<antipattern case_sensitive="yes"><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes">[A-Z][a-z].*</token></antipattern>
 				<pattern>
 					<token>de</token>
 					<marker>
-						<token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_"/></token>
+						<token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG"/></token>
 						<token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
 					</marker>
 				</pattern>
@@ -41290,6 +41305,9 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'" >
 			<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+			<antipattern><token>first</token><token>lady</token></antipattern>
+			<antipattern><token>de</token><token>nummer</token><token postag="GET:MRV"/></antipattern>
+			<antipattern><token>de</token><token>intensive</token><token>cares</token></antipattern>
 			<antipattern><token>de</token><token>3FM</token><token>Award</token></antipattern>
 			<antipattern><token>de</token><token>eind</token><token postag_regexp="yes" postag=".*VRB"/></antipattern>
 			<antipattern><token>de</token><token>commissie-Van</token></antipattern>
