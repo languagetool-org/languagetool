@@ -3194,240 +3194,240 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag='Prep:Simp'>i</token>
                     <marker>
-		<token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes"><exception postag=".*:Ecl.*" postag_regexp="yes"/>[bcdfgmpst].*</token>
-	    </marker>
-	</pattern>
-	<message>Ba chóir duit <suggestion><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion> a scríobh.</message>
-	<example correction="bpáirc">i <marker>páirc</marker></example>
-	<example>I measc na mbailte eile a...</example>
-    </rule>
-    <rule>
-	<pattern>
-	    <marker>
-		<token postag='Prep:Simp'>i</token>
-		<token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl).*' postag_regexp="yes" regexp="yes" inflected="yes">[aeiouáéíóú].*</token>
-	    </marker>
-	</pattern>
-	<message>Ba chóir duit <suggestion>in <match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1"/></suggestion> a scríobh.</message>
-	<example correction="in áit"><marker>i áit</marker></example>
-    </rule>
-</rulegroup>
-</category>
-<category id="GRAMADOIR_CAIGHDEAN" name="Foirm neamhchaighdeánach" type="non-conformance">
-<rule id="AG_MARBHADH" name="ag marbhadh">
-    <pattern>
-	<token>ag</token>
-	<marker>
-	    <token>marbhadh</token>
-	</marker>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>marú</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="marú">ag <marker>marbhadh</marker></example>
-</rule>
-<rule id="MARBHADH" name="marbhadh">
-    <pattern>
-	<token>marbhadh</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>maraíodh</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="maraíodh"><marker>marbhadh</marker></example>
-</rule>
-<rule id="MUR_N" name="mur N">
-    <pattern>
-	<marker>
-	    <token>mur</token>
-	</marker>
-	<token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes"></token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>bhur</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="bhur"><marker>mur</marker> leithéidí.</example>
-</rule>
-<rule id="MUR" name="mur">
-    <pattern>
-	<token>mur</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>mura</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="mura"><marker>mur</marker></example>
-</rule>
-<rule id="NA_GNAITHE" name="na gnaithe">
-    <pattern>
-	<token>na</token>
-	<token regexp="yes">n?gh?naithe</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>na gnóthaí</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="na gnóthaí"><marker>na gnaithe</marker></example>
-</rule>
-<rule id="GNAITHE" name="gnaithe">
-    <pattern>
-	<token regexp="yes">n?gh?naithe</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(n?gh?)naithe" regexp_replace="$1nó"/></suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="ghnó"><marker>ghnaithe</marker></example>
-</rule>
-<rule id="NA_NDATHACHA" name="na ndathacha">
-    <pattern>
-	<token>na</token>
-	<token>ndathacha</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>na ndaitheacha</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="na ndaitheacha"><marker>na ndathacha</marker></example>
-</rule>
-<rule id="A_DHAMHARC" name="a dh'amharc">
-    <pattern>
-	<token>a</token>
-	<token>dh</token>
-	<token regexp="yes" spacebefore="no">&apost;</token>
-	<token spacebefore="no">amharc</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>ag amharc</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="ag amharc"><marker>a dh'amharc</marker></example>
-</rule>
-<rule id="A_DHOL" name="a dh'ól">
-    <pattern>
-	<token>a</token>
-	<token>dh</token>
-	<token regexp="yes" spacebefore="no">&apost;</token>
-	<token spacebefore="no">ól</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>ag ól</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="ag ól"><marker>a dh'ól</marker></example>
-</rule>
-<rule id="I_MBARACH" name="i mbárach">
-    <pattern>
-	<token>i</token>
-	<token>mbárach</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>amárach</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="amárach"><marker>i mbárach</marker></example>
-</rule>
-<rule id="I_MBARAIGH" name="i mbáraigh">
-    <pattern>
-	<token>i</token>
-	<token>mbáraigh</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>amárach</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="amárach"><marker>i mbáraigh</marker></example>
-</rule>
-<rule id="DA_RIRIBH" name="dá ríribh">
-    <pattern>
-	<token>dá</token>
-	<token>ríribh</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>dáiríre</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="dáiríre"><marker>dá ríribh</marker></example>
-</rule>
-<rule id="IN_ALLOD" name="in allód">
-    <pattern>
-	<token>in</token>
-	<token>allód</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>anallód</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="anallód"><marker>in allód</marker></example>
-</rule>
-<rule id="I_N-ALLOD" name="i n-allód">
-    <pattern>
-	<token>i</token>
-	<token>n-allód</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>anallód</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="anallód"><marker>i n-allód</marker></example>
-</rule>
-<rule id="SAN_ALLOD" name="san allód">
-    <pattern>
-	<token>san</token>
-	<token>allód</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>anallód</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="anallód"><marker>san allód</marker></example>
-</rule>
-<rule id="DE_N-A" name="de n-a">
-    <pattern>
-	<token regexp="yes">d[eo]</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>dá</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="dá"><marker>de n-a</marker></example>
-</rule>
-<rule id="TRI_N-A" name="trí n-a">
-    <pattern>
-	<token>trí</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>trína</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="trína"><marker>trí n-a</marker></example>
-</rule>
-<rule id="O_N-A" name="ó n-a">
-    <pattern>
-	<token>ó</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>óna</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="óna"><marker>ó n-a</marker></example>
-</rule>
-<rule id="LE_N-A" name="le n-a">
-    <pattern>
-	<token>le</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>lena</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="lena"><marker>le n-a</marker></example>
-</rule>
-<rule id="I_N-A" name="i n-a">
-    <pattern>
-	<token>i</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>ina</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="ina"><marker>i n-a</marker></example>
-</rule>
-<rule id="FA_N-A" name="fá n-a">
-    <pattern>
-	<token>fá</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="faoina"><marker>fá n-a</marker></example>
-</rule>
-<rule id="FE_N-A" name="fé n-a">
-    <pattern>
-	<token>fé</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="faoina"><marker>fé n-a</marker></example>
-</rule>
-<rule id="FAOI_N-A" name="faoi n-a">
-    <pattern>
-	<token>faoi</token>
-	<token>n-a</token>
-    </pattern>
-    <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
-    <short>Neamhchaighdeánach</short>
-    <example correction="faoina"><marker>faoi n-a</marker></example>
-</rule>
-<rule id="N-A" name="n-a">
-    <antipattern>
+                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes"><exception postag=".*:Ecl.*" postag_regexp="yes"/>[bcdfgmpst].*</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion> a scríobh.</message>
+                <example correction="bpáirc">i <marker>páirc</marker></example>
+                <example>I measc na mbailte eile a...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='Prep:Simp'>i</token>
+                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl).*' postag_regexp="yes" regexp="yes" inflected="yes">[aeiouáéíóú].*</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>in <match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1"/></suggestion> a scríobh.</message>
+                <example correction="in áit"><marker>i áit</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="GRAMADOIR_CAIGHDEAN" name="Foirm neamhchaighdeánach" type="non-conformance">
+        <rule id="AG_MARBHADH" name="ag marbhadh">
+            <pattern>
+                <token>ag</token>
+                <marker>
+                    <token>marbhadh</token>
+                </marker>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>marú</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="marú">ag <marker>marbhadh</marker></example>
+        </rule>
+        <rule id="MARBHADH" name="marbhadh">
+            <pattern>
+                <token>marbhadh</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>maraíodh</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="maraíodh"><marker>marbhadh</marker></example>
+        </rule>
+        <rule id="MUR_N" name="mur N">
+            <pattern>
+                <marker>
+                    <token>mur</token>
+                </marker>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>bhur</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="bhur"><marker>mur</marker> leithéidí.</example>
+        </rule>
+        <rule id="MUR" name="mur">
+            <pattern>
+                <token>mur</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>mura</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="mura"><marker>mur</marker></example>
+        </rule>
+        <rule id="NA_GNAITHE" name="na gnaithe">
+            <pattern>
+                <token>na</token>
+                <token regexp="yes">n?gh?naithe</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>na gnóthaí</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="na gnóthaí"><marker>na gnaithe</marker></example>
+        </rule>
+        <rule id="GNAITHE" name="gnaithe">
+            <pattern>
+                <token regexp="yes">n?gh?naithe</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(n?gh?)naithe" regexp_replace="$1nó"/></suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="ghnó"><marker>ghnaithe</marker></example>
+        </rule>
+        <rule id="NA_NDATHACHA" name="na ndathacha">
+            <pattern>
+                <token>na</token>
+                <token>ndathacha</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>na ndaitheacha</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="na ndaitheacha"><marker>na ndathacha</marker></example>
+        </rule>
+        <rule id="A_DHAMHARC" name="a dh'amharc">
+            <pattern>
+                <token>a</token>
+                <token>dh</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token spacebefore="no">amharc</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>ag amharc</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="ag amharc"><marker>a dh'amharc</marker></example>
+        </rule>
+        <rule id="A_DHOL" name="a dh'ól">
+            <pattern>
+                <token>a</token>
+                <token>dh</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token spacebefore="no">ól</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>ag ól</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="ag ól"><marker>a dh'ól</marker></example>
+        </rule>
+        <rule id="I_MBARACH" name="i mbárach">
+            <pattern>
+                <token>i</token>
+                <token>mbárach</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>amárach</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="amárach"><marker>i mbárach</marker></example>
+        </rule>
+        <rule id="I_MBARAIGH" name="i mbáraigh">
+            <pattern>
+                <token>i</token>
+                <token>mbáraigh</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>amárach</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="amárach"><marker>i mbáraigh</marker></example>
+        </rule>
+        <rule id="DA_RIRIBH" name="dá ríribh">
+            <pattern>
+                <token>dá</token>
+                <token>ríribh</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>dáiríre</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="dáiríre"><marker>dá ríribh</marker></example>
+        </rule>
+        <rule id="IN_ALLOD" name="in allód">
+            <pattern>
+                <token>in</token>
+                <token>allód</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>anallód</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="anallód"><marker>in allód</marker></example>
+        </rule>
+        <rule id="I_N-ALLOD" name="i n-allód">
+            <pattern>
+                <token>i</token>
+                <token>n-allód</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>anallód</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="anallód"><marker>i n-allód</marker></example>
+        </rule>
+        <rule id="SAN_ALLOD" name="san allód">
+            <pattern>
+                <token>san</token>
+                <token>allód</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>anallód</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="anallód"><marker>san allód</marker></example>
+        </rule>
+        <rule id="DE_N-A" name="de n-a">
+            <pattern>
+                <token regexp="yes">d[eo]</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>dá</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="dá"><marker>de n-a</marker></example>
+        </rule>
+        <rule id="TRI_N-A" name="trí n-a">
+            <pattern>
+                <token>trí</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>trína</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="trína"><marker>trí n-a</marker></example>
+        </rule>
+        <rule id="O_N-A" name="ó n-a">
+            <pattern>
+                <token>ó</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>óna</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="óna"><marker>ó n-a</marker></example>
+        </rule>
+        <rule id="LE_N-A" name="le n-a">
+            <pattern>
+                <token>le</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>lena</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="lena"><marker>le n-a</marker></example>
+        </rule>
+        <rule id="I_N-A" name="i n-a">
+            <pattern>
+                <token>i</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>ina</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="ina"><marker>i n-a</marker></example>
+        </rule>
+        <rule id="FA_N-A" name="fá n-a">
+            <pattern>
+                <token>fá</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="faoina"><marker>fá n-a</marker></example>
+        </rule>
+        <rule id="FE_N-A" name="fé n-a">
+            <pattern>
+                <token>fé</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="faoina"><marker>fé n-a</marker></example>
+        </rule>
+        <rule id="FAOI_N-A" name="faoi n-a">
+            <pattern>
+                <token>faoi</token>
+                <token>n-a</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="faoina"><marker>faoi n-a</marker></example>
+        </rule>
+        <rule id="N-A" name="n-a">
+            <antipattern>
                 <token regexp='yes'>d[eo]|trí|ó|le|i|f[áé]|faoi</token>
                 <token>n-a</token>
             </antipattern>
@@ -17900,12 +17900,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ar"><marker>ag</marker> an aonach</example>
         </rule>
 	<rule id="AG_AN_LEIBHÉAL" name="ar an leibhéal">
-            <antipattern>
-                <token>ag</token>
-		<token>an</token>
-                <token>leibhéal</token>
-                <token>idirchontae</token>
-            </antipattern>
             <pattern>
                 <marker>
                     <token>ag</token>
