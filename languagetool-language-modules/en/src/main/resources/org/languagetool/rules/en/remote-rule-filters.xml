@@ -169,6 +169,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">The crisis has affected the public <marker>sector</marker> as well</example>
             </rule>
+            <rule>
+                <!-- no comma before yet/now/also -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z0-9].*</token>
+                    </marker>
+                    <token regexp="yes">yet|now|also</token>
+                </pattern>
+                <example correction="">He hasn't done <marker>that</marker> yet.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule><!-- don't split e-mail addresses -->
