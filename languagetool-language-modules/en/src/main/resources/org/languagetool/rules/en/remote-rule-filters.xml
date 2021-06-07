@@ -139,6 +139,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">On Sep <marker>2nd</marker> of the year 2021.</example>
                 <example correction="">On Sep <marker>20th</marker> of the year 2021.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\p{L}+</token>
+                    </marker>
+                    <token>because</token>
+                </pattern>
+                <example correction="">That a local phone number was disconnected is <marker>irrelevant</marker> because keegan called my cell phone number and spoke with my fiance.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule><!-- don't split e-mail addresses -->
