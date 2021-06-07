@@ -1018,8 +1018,16 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       tokenRegex(".+"),
+      tokenRegex(".+"),
       tokenRegex("Customer|User"),
       tokenRegex("Journeys?")
+    ),
+    Arrays.asList(
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      token("Hall"),
+      token("of"),
+      token("Fame")
     ),
     Arrays.asList( // Wir trinken ein kühles Blondes
       token("kühles"),
@@ -1124,6 +1132,17 @@ public class AgreementRule extends Rule {
       csRegex("das|es|dies"),
       csRegex("bedeutete?"),
       token("Krieg")
+    ),
+    Arrays.asList(
+      csRegex("das|es|dies"),
+      csRegex("weite"),
+      token("Teile")
+    ),
+    Arrays.asList(
+      token("hat"),
+      token("das"),
+      csRegex("Einfluss|Auswirkungen"),
+      token("auf")
     )
   );
 

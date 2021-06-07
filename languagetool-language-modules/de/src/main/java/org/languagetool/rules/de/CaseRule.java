@@ -820,6 +820,18 @@ public class CaseRule extends Rule {
       token("[a-z0-9]{1,3}"),
       regex("[\\]\\)]"),
       csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Sie/Er hat recht."
+      SENT_START,
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Er trank ein paar Halbe."
+      regex("paar|einige|zwei|drei|vier|\\d+"),
+      token("Halbe")
     )
   );
 

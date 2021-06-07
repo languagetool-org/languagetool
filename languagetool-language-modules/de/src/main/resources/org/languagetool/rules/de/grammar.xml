@@ -8498,6 +8498,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="JOE_BIDEN" name="Joe Biden" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Joe|JOE</token>
+                <token regexp="yes">Biden|BIDEN</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Joe?</token>
+                <token>beiden</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Joe?</token>
+                <token regexp="yes">B(ei|ie|i|o)dens?</token>
+            </pattern>
+            <message>Meinten Sie den amerikanischen Präsidenten <suggestion>Joe Biden<match no="2" regexp_match="^.+iden" regexp_replace="" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Joe_Biden</url>
+            <example correction="Joe Biden"><marker>Joe Beiden</marker> ist der 46. Präsident der USA.</example>
+            <example>Dass passiert, wenn Joe beiden eine 6 in Mathe gibt.</example>
+        </rule>
         <rulegroup id="ANNALENA_BAERBOCK" name="Annalena Baerbock">
             <url>https://de.wikipedia.org/wiki/Annalena_Baerbock</url>
             <antipattern case_sensitive="yes">
@@ -8509,7 +8527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">ann?[ea]?-?lenn?a</token>
                     <token regexp="yes">b(ä|ae|e|a)rbocks?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Annalena Baerbock<match no="2" regexp_match=".+bock" regexp_replace="" /></suggestion> (= Politikerin der Grünen)?</message>
+                <message>Meinten Sie <suggestion>Annalena Baerbock<match no="2" regexp_match="^.+bock" regexp_replace="" /></suggestion> (= Politikerin der Grünen)?</message>
                 <example correction="Annalena Baerbock"><marker>Anna-Lena Bärbock</marker> ist die Kanzlerkandidatin der Grünen.</example>
             </rule>
             <rule>
@@ -10270,6 +10288,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="IRGEND_COMPOUND" name="Ich komme irgend wann (irgendwann) zur Party.">
+            <pattern>
+                <token>irgend</token>
+                <token regexp="yes">ein(mal)?|(et)?was|jemand|wann|welch|wer|wie|wo(her|hin)?</token>
+            </pattern>
+            <message>Möchten Sie die empfohlene Schreibweise <suggestion>irgend<match no="2" case_conversion="alllower" /></suggestion> verwenden?</message>
+            <example correction="irgendetwas">Da stört <marker>irgend etwas</marker> Lautes.</example>
+            <example correction="irgendjemand">Da stört <marker>irgend jemand</marker>.</example>
+        </rule>
         <rule id="DUDEN_MENTOR_HYPHEN" name="Duden-Mentor">
             <pattern>
                 <token>Duden</token>
@@ -21178,6 +21205,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="LINK_SUBST" name="der link (Link)" default="temp_off">
+            <pattern>
+                <token postag="(PRO|ART):.+" postag_regexp="yes">
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihr|uns|euch|dich|mich</exception>
+                </token>
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">[a-zöäü].*</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">links?</token>
+                </marker>
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes" />
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Link">Der <marker>link</marker> funktioniert nicht.</example>
+            <example>Allmählich wächst mein Verständnis für die Wähler, die uns links liegen lassen!</example>
+        </rule>
         <rulegroup id="IHR_EUCH" name="Ihr euch (Euch)">
             <rule>
                 <pattern case_sensitive="yes">

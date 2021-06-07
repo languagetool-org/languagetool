@@ -375,6 +375,8 @@ public class CaseRuleTest {
     assertGood("[H3] Was ist Daytrading?");
     assertGood(" Das ist das Aus des Airbus A380.");
     assertGood("Wir sollten ihr irgendwas Erotisches schenken.");
+    assertGood("Er trank ein paar Halbe.");
+    assertGood("Sie/Er hat Schuld.");
     assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
 
     // uppercased adjective compounds

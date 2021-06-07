@@ -474,8 +474,13 @@ public class AgreementRuleTest {
     assertGood("Das ist doch lächerlich, was ist denn das für eine Klinik?");
     assertGood("Was ist denn das für ein Typ?");
     assertGood("Hier geht's zur Customer Journey.");
+    assertGood("Das führt zur Verbesserung der gesamten Customer Journey.");
     assertGood("Meint er das wirklich Ernst?");
     assertGood("Meinen Sie das Ernst?");
+    assertGood("Die können sich in unserer Hall of Fame verewigen.");
+    assertGood("Die können sich in unserer neuen Hall of Fame verewigen.");
+    assertGood("Auch, wenn das weite Teile der Bevölkerung betrifft.");
+    assertGood("Hat das Einfluss auf Ihr Trinkverhalten?");
 
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
