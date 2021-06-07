@@ -148,6 +148,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">That a local phone number was disconnected is <marker>irrelevant</marker> because keegan called my cell phone number and spoke with my fiance.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>as</token>
+                    <token>well</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">The crisis has affected the public <marker>sector</marker> as well.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>as</token>
+                    <token postag="SENT_END">well</token>
+                </pattern>
+                <example correction="">The crisis has affected the public <marker>sector</marker> as well</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule><!-- don't split e-mail addresses -->
