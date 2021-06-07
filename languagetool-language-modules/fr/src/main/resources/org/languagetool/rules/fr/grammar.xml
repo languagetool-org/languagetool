@@ -14889,6 +14889,43 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="ACCORDS_PARTICULIERS_SINGULIER" name="accords particuliers au singulier" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>un</token>
+                    <token>d'</token>
+                    <token min="0" max="1">entre</token>
+                    <token>eux</token>
+                    <token postag="R pers obj.*|A" min="0" max="1" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+                            <exception scope="next" postag="V inf"/>
+                            </token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \6 » devrait être à la 3ᵉ personne du singulier.</message>
+                <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="arrive">Plusieurs colis ont été envoyés et l'un d'entre eux <marker>arrivent</marker> aujourd'hui.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>que</token>
+                        <token postag="D . s" postag_regexp="yes"/>
+                        <token postag="N . s" postag_regexp="yes"/>
+                        <token inflected="yes" min="0">ne</token>
+                        <marker>
+                            <token regexp="yes">(?-i)ai</token>
+                        </marker>
+                </pattern>
+                <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
+                <suggestion>ait</suggestion>
+                <suggestion>est</suggestion>
+                <suggestion>a</suggestion>
+                <example correction="ait|est|a">C'est dommage que la pluie <marker>ai</marker> pris le dessus sur le soleil magique des dernières heures.</example>
+                <example>Il comprit alors que le roi Ai n'en avait plus pour longtemps.</example>
+            </rule>
+        </rulegroup>
         <rule id="NE_PAS" name="ne pas">
             <pattern>
                 <token postag="R pers suj.*" postag_regexp="yes">
@@ -24579,12 +24616,18 @@ though, and has since been slightly modified)-->
                 <example>Était-ce toi qui as laissé la porte ouverte ?</example>
                 <example>Des copains plus vieux que toi qui fumaient.</example>
             </rule>
-            <rule default="off">
+            <rule>
+            <antipattern>
+                    <token postag="P"/>
+                    <token>eux</token>
+                    <token>qui</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">du?|des?|en</exception></token>
                     <token postag="[NR].* p" postag_regexp="yes">
-                        <exception regexp="yes">[mt]oi|[nvt]ous|eux|-.*</exception>
+                        <exception regexp="yes">[mt]oi|[nvt]ous|-.*</exception>
                         <exception postag="[NZ].* sp?" postag_regexp="yes"/></token>
                     <token>qui</token>
                     <token min="0">ne</token>
@@ -24612,11 +24655,18 @@ though, and has since been slightly modified)-->
                 <!-- TODO: Un système d'information géographique est un système d'informations qui permet de collecter, manipuler des renseignements de cartographie -->
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="P"/>
+                    <token>eux</token>
+                    <token>qui</token>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">d|du|des?|en</exception></token>
                     <token postag="[NR].* p" postag_regexp="yes">
-                        <exception regexp="yes">-?([mt]oi|[nv]ous|eux)</exception></token>
+                        <exception regexp="yes">-?([mt]oi|[nv]ous)</exception></token>
                     <token>qui</token>
                     <token postag="R pers obj.*" postag_regexp="yes"/>
                     <marker>
@@ -26131,6 +26181,13 @@ though, and has since been slightly modified)-->
                 <example>Dominique lui qui <marker>est</marker> si riche.</example>
             </rule>
             <rule name="sujet singulier + verbe 3e personne singulier">
+                <antipattern>
+                    <token>que</token>
+                    <token postag="D . s" postag_regexp="yes"/>
+                    <token postag="N . s" postag_regexp="yes"/>
+                    <token inflected="yes" min="0">ne</token>
+                    <token>ai</token>
+                </antipattern>
                 <antipattern>
                     <token>service</token>
                     <token>marchandises</token>
