@@ -1282,20 +1282,16 @@ public class JLanguageTool {
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
+    if (paraMode == ParagraphHandling.ONLYPARA) {
+      return Collections.emptyList();
+    }
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (Rule rule : rules) {
+      if (rule instanceof TextLevelRule || !checkRemoteRules && rule instanceof RemoteRule) {
+        continue;
+      }
       if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
         break;
-      }
-
-      if (rule instanceof TextLevelRule) {
-        continue;
-      }
-      if (!checkRemoteRules && rule instanceof RemoteRule) {
-        continue;
-      }
-      if (paraMode == ParagraphHandling.ONLYPARA) {
-        continue;
       }
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
       Collections.addAll(sentenceMatches, thisMatches);
@@ -1788,10 +1784,10 @@ public class JLanguageTool {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<AnalyzedSentence> analyzedSentences = null;
       for (Rule rule : rules.allRules()) {
-        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
-          break;
-        }
         if (rule instanceof TextLevelRule && paraMode != ParagraphHandling.ONLYNONPARA) {
+          if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
+            break;
+          }
           if (analyzedSentences == null) {
             analyzedSentences = sentences.stream().map(s -> s.analyzed).collect(Collectors.toList());
           }
@@ -1833,9 +1829,6 @@ public class JLanguageTool {
       List<Range> ignoreRanges = new ArrayList<>();
       int wordCounter = 0;
       for (SentenceData sentence : sentences) {
-        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
-          break;
-        }
         wordCounter += sentence.wordCount;
         try {
           //comment in to trigger an exception via input text:
@@ -1857,6 +1850,9 @@ public class JLanguageTool {
             cache.put(cacheKey, sentenceMatches);
           }
           if (!sentenceMatches.isEmpty()) {
+            if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
+              break;
+            }
             for (RuleMatch elem : sentenceMatches) {
               RuleMatch thisMatch = adjustRuleMatchPos(elem, sentence.startOffset, sentence.startColumn, sentence.startLine, sentence.text, annotatedText);
               if (elem.getErrorLimitLang() != null) {
