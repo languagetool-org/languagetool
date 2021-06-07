@@ -510,7 +510,7 @@ class CheckRequestAnalysis {
       for (int i = 0; i < minToCheckPara.size(); i++) {
         if (minToCheckPara.get(i) != 0) {
           for (int n = from; n <= to; n++) {
-            singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false);
+            singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
           }
         }
       }
@@ -554,7 +554,7 @@ class CheckRequestAnalysis {
           if (minToCheckPara.get(i) == 0) {
             paragraphsCache.get(i).remove(nPara);
           } else {
-            singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara < 0 ? false : true);
+            singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara < 0 ? false : true, numLastFlPara < 0 ? false : true);
           }
         }
       } else {

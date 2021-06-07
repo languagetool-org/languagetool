@@ -315,7 +315,7 @@ public class DocumentCache implements Serializable {
   /**
    * Gives back the start paragraph for text level check
    */
-  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean addParas) {
+  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean checkOnlyParagraph, boolean useQueue, boolean addParas) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
@@ -332,7 +332,7 @@ public class DocumentCache implements Serializable {
       } 
       headingBefore = heading;
     }
-    if (headingBefore == numCurPara || parasToCheck < 0 || (useQueue && !textIsChanged)) {
+    if (headingBefore == numCurPara || parasToCheck < 0 || (useQueue && !checkOnlyParagraph)) {
       return headingBefore;
     }
     int startPos = numCurPara - parasToCheck;
@@ -348,7 +348,7 @@ public class DocumentCache implements Serializable {
   /**
    * Gives back the end paragraph for text level check
    */
-  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean addParas) {
+  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean checkOnlyParagraph, boolean useQueue, boolean addParas) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
@@ -368,11 +368,11 @@ public class DocumentCache implements Serializable {
     if (headingAfter <= numCurPara || headingAfter > toParaMapping.size()) {
       headingAfter = toParaMapping.size();
     }
-    if (parasToCheck < 0 || (useQueue && !textIsChanged)) {
+    if (parasToCheck < 0 || (useQueue && !checkOnlyParagraph)) {
       return headingAfter;
     }
     int endPos = numCurPara + 1 + parasToCheck;
-    if (!textIsChanged) {
+    if (!checkOnlyParagraph) {
       endPos += defaultParaCheck;
     } 
     if (addParas) {
@@ -387,9 +387,9 @@ public class DocumentCache implements Serializable {
   /**
    * Gives Back the full Text as String
    */
-  public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean hasFootnotes) {
-    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
-    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
+  public String getDocAsString(int numCurPara, int parasToCheck, boolean checkOnlyParagraph, boolean useQueue, boolean hasFootnotes) {
+    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, checkOnlyParagraph, useQueue, true);
+    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, checkOnlyParagraph, useQueue, true);
     if (startPos < 0 || endPos < 0 || (hasFootnotes && getTextParagraph(startPos).isEmpty() && getTextParagraphFootnotes(startPos).length > 0)) {
       return "";
     }

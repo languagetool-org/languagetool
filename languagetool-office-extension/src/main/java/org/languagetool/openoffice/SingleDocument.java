@@ -91,6 +91,7 @@ class SingleDocument {
   private int changeTo = 0;                       //  Change result cache to paragraph
   private int paraNum;                            //  Number of current checked paragraph
   private int lastChangedPara;                    //  lastPara which was detected as changed
+  private List<Integer> lastChangedParas;         //  lastPara which was detected as changed
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
   private boolean isImpress = false;              //  true: is an Impress document 
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
@@ -371,6 +372,18 @@ class SingleDocument {
     resetDocCache = true;
   }
   
+  /** set last changed paragraphs
+   */
+  void setLastChangedParas(List<Integer> lastChangedParas) {
+    this.lastChangedParas = lastChangedParas;
+  }
+  
+  /** get last changed paragraphs
+   */
+  List<Integer> getLastChangedParas() {
+    return lastChangedParas;
+  }
+  
   /** Update document cache and get it
    */
   DocumentCache getUpdatedDocumentCache(int nPara) {
@@ -454,13 +467,13 @@ class SingleDocument {
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
    */
-  public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean overrideRunning) {
+  public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
     if (mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
       int nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara >= 0) {
         int nStart;
         int nEnd;
-        if (overrideRunning && nCheck > 0) {
+        if (checkOnlyParagraph && nCheck > 0) {
           nStart = nTPara;
           nEnd = nTPara + 1;
         } else {
@@ -516,10 +529,10 @@ class SingleDocument {
   /**
    * run a text level check from a queue entry (initiated by the queue)
    */
-  public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool lt) {
+  public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
     if (flatPara != null && docCache.isFinished()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
-      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, doReset, false, hasFootnotes);
+      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, nEnd == nStart + 1, override, false, hasFootnotes);
     }
   }
   
