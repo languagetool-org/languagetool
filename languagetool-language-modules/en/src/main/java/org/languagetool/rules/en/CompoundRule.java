@@ -56,6 +56,27 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().token("off").build(),
         new PatternTokenBuilder().token("key").build()
       ),
+      Arrays.asList( // see saw seen
+        new PatternTokenBuilder().token("see").build(),
+        new PatternTokenBuilder().token("saw").build(),
+        new PatternTokenBuilder().token("seen").build()
+      ),
+      Arrays.asList( // moving forward looking for ...
+        new PatternTokenBuilder().token("forward").build(),
+        new PatternTokenBuilder().token("looking").build(),
+        new PatternTokenBuilder().posRegex("IN|TO").build()
+      ),
+      Arrays.asList( // Go through the store front door
+        new PatternTokenBuilder().token("store").build(),
+        new PatternTokenBuilder().token("front").build(),
+        new PatternTokenBuilder().tokenRegex("doors?").build()
+      ),
+      Arrays.asList( // It goes from surface to surface
+        new PatternTokenBuilder().token("from").build(),
+        new PatternTokenBuilder().token("surface").build(),
+        new PatternTokenBuilder().token("to").build(),
+        new PatternTokenBuilder().token("surface").build()
+      ),
       Arrays.asList( // year end
         new PatternTokenBuilder().tokenRegex("senior|junior").build(),
         new PatternTokenBuilder().token("year").build(),

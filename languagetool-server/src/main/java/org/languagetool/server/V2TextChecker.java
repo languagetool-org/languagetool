@@ -112,7 +112,7 @@ class V2TextChecker extends TextChecker {
     if (getLanguageAutoDetect(parameters)) {
       givenLang = detectedLang.getDetectedLanguage();
     } else {
-      givenLang = Languages.getLanguageForShortCode(langParam);
+      givenLang = parseLanguage(langParam);
     }
     return new DetectedLanguage(givenLang, detectedLang.getDetectedLanguage(), detectedLang.getDetectionConfidence());
   }

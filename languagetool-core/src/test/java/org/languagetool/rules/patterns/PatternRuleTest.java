@@ -161,6 +161,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     MultiThreadedJLanguageTool allRulesLt = new MultiThreadedJLanguageTool(lang);
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
+    validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
     testExamplesExist(rules);
@@ -222,12 +223,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
       }
       Category category = rule.getCategory();
-      if (category != null && category.getId() != null) {
-        String catId = category.getId().toString();
-        if (!catId.matches("[A-Z0-9_-]+") && !categoryIds.contains(catId)) {
-          System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z0-9_-]+");
-          categoryIds.add(catId);
-        }
+      String catId = category.getId().toString();
+      if (!catId.matches("[A-Z0-9_-]+") && !categoryIds.contains(catId)) {
+        System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z0-9_-]+");
+        categoryIds.add(catId);
       }
     }
   }
@@ -254,6 +253,33 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
+  /*
+   * Check <unify-ignore> at the start of <unify>
+   */
+  protected void validateUnifyIgnoreAtTheStartOfUnify(JLanguageTool lt) {
+    System.out.println("Check that <unify-ignore> is not at the start of <unify>....");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        List<PatternToken> patternTokens = ((AbstractPatternRule) rule).getPatternTokens();
+        if (patternTokens != null) {
+          boolean hasUnify = patternTokens.stream().anyMatch(PatternToken::isUnified);
+          if (hasUnify) {
+            for (PatternToken patternToken : patternTokens) {
+              if (patternToken.isUnified()) {
+                if (patternToken.isUnificationNeutral()) {
+                  String failure = "<ignore-unify> at the start of <unify> - please move the token outside of <unify>";
+                  addError((AbstractPatternRule) rule, failure);
+                }
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
   private static void disableSpellingRules(JLanguageTool lt) {
     List<Rule> allRules = lt.getAllRules();
     for (Rule rule : allRules) {
@@ -402,6 +428,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           addError(rule, "Empty incorrect example sentence after cleaning/trimming.");
           continue;
       }
+      
+      String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
+      if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith(".") && !k.startsWith("…"))) {
+        System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
+          "doesn't have a space, comma or dot at the start of the suggestion: " + origBadSentence + " => " + origBadExample.getCorrections());
+      }
 
       // necessary for XML Pattern rules containing <or>
       List<RuleMatch> matches = new ArrayList<>();
@@ -426,7 +458,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           if (rule instanceof RegexPatternRule) {
             info = "\nRegexp: " + ((RegexPatternRule) rule).getPattern();
           }
-          String failure = badSentence + "\"\n"
+          String failure = "\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
                   + "Errors found   : " + matches.size() + "\n"
                   + "Message: " + rule.getMessage() + "\n" + sb + "\nMatches: " + matches + info;

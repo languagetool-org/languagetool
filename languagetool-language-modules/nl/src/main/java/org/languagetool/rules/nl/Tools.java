@@ -46,7 +46,7 @@ class Tools {
       char lastChar = compound.charAt(compound.length() - 1);
       char firstChar = word2.charAt(0);
       String connection = lastChar + String.valueOf(firstChar);
-      if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
+      if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu","ée", "éi", "éu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
         compound = compound + '-' + word2;
       } else if (isUpperCase(firstChar) && isLowerCase(lastChar)) {
         compound = compound + '-' + word2;

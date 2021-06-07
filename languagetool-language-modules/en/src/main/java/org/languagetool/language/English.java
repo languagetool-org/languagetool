@@ -328,9 +328,6 @@ public class English extends Language implements AutoCloseable {
       case "MAY_MANY":                  return 1;   // higher prio than MAY_MANY_MY
       case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
       case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
-      case "UPPERCASE_SENTENCE_START":  return 1;   // higher prio than AI_HYDRA_LEO
-      case "TO_TOO":                    return 1;   // higher prio than AI_HYDRA_LEO_REPLACE_*
-      case "CAR_CARE":                  return 1;   // higher prio than AI_HYDRA_LEO_MISSING_THE
       case "LUV":                       return 1;   // higher prio than spell checker
       case "DAT":                       return 1;   // higher prio than spell checker
       case "MAC_OS":                    return 1;   // higher prio than spell checker
@@ -407,6 +404,7 @@ public class English extends Language implements AutoCloseable {
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
+      case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
       case "NEEDS_FIXED":               return -1;  // less priority than MISSING_TO_BEFORE_A_VERB
@@ -497,6 +495,12 @@ public class English extends Language implements AutoCloseable {
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
+    }
+    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      return -11;
+    }
+    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules (also speller)
+      return -21;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;

@@ -108,7 +108,7 @@ public class Arabic extends Language implements AutoCloseable {
         Arrays.asList("[", "(", "{", "«", "﴾", "\"", "'"),
         Arrays.asList("]", ")", "}", "»", "﴿", "\"", "'")),
       new CommaWhitespaceRule(messages, true),
-      new LongSentenceRule(messages, userConfig, -1, false),
+      new LongSentenceRule(messages, userConfig, 50, false),
 
       // specific to Arabic :
       new ArabicHunspellSpellerRule(messages, userConfig),

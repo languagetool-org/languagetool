@@ -263,6 +263,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
                    !k.getReplacement().endsWith(" sphere") &&
+                   !k.getReplacement().endsWith(" ell") &&
                    !k.getReplacement().endsWith(" con") &&
                    !k.getReplacement().endsWith(" sis") &&
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
@@ -405,6 +406,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("ap", Arrays.asList("app", "up", "AP"));
+    s.put("Ap", Arrays.asList("App", "Up", "AP"));
+    s.put("aps", Arrays.asList("apps"));
+    s.put("Aps", Arrays.asList("Apps"));
+    s.put("hehe", Arrays.asList("he-he"));
+    s.put("Hehe", Arrays.asList("He-he"));
     s.put("defacto", Arrays.asList("de facto"));
     s.put("Defacto", Arrays.asList("De facto"));
     s.put("differently-abled", Arrays.asList("differently abled"));

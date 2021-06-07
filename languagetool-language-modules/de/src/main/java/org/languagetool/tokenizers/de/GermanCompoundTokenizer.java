@@ -18,15 +18,20 @@
  */
 package org.languagetool.tokenizers.de;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.google.common.base.Suppliers;
 import de.danielnaber.jwordsplitter.EmbeddedGermanDictionary;
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
+import gnu.trove.THashSet;
 import org.languagetool.tokenizers.Tokenizer;
 
-import static java.util.Arrays.*;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+
+import static java.util.Arrays.asList;
 
 /**
  * Split German nouns using the jWordSplitter library.
@@ -34,6 +39,20 @@ import static java.util.Arrays.*;
  * @author Daniel Naber
  */
 public class GermanCompoundTokenizer implements Tokenizer {
+  private static final Supplier<GermanCompoundTokenizer> strictInstance = Suppliers.memoize(() -> {
+    try {
+      return new GermanCompoundTokenizer(true);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  });
+  private static final Supplier<GermanCompoundTokenizer> nonStrictInstance = Suppliers.memoize(() -> {
+    try {
+      return new GermanCompoundTokenizer(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  });
 
   private final ExtendedGermanWordSplitter wordSplitter;
   
@@ -46,7 +65,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       super(hideInterfixCharacters, extendedList());
     }
     static Set<String> extendedList() {
-      Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
+      THashSet<String> words = new THashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
       words.add("edge");
       words.add("opera");
@@ -88,6 +107,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("kritischen");
       words.add("kritischem");
       words.add("fortbewegung");
+      words.add("verträglich");
+      words.add("verträgliche");
+      words.add("verträgliches");
+      words.add("verträglicher");
+      words.add("verträglichen");
+      words.add("verträglichem");
       words.add("freundlich");
       words.add("freundliche");
       words.add("freundliches");
@@ -143,6 +168,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("impfungen");
       words.add("call");
       words.add("cloud");
+      words.trimToSize();
       return words;
     }
   }
@@ -226,6 +252,11 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Donautor", asList("Donau", "tor"));
     wordSplitter.addException("Donautors", asList("Donau", "tore"));
     wordSplitter.addException("Donautores", asList("Donau", "tores"));
+    wordSplitter.addException("Gewohnheitstier", asList("Gewohnheits", "tier"));
+    wordSplitter.addException("Gewohnheitstiers", asList("Gewohnheits", "tiers"));
+    wordSplitter.addException("Gewohnheitstiere", asList("Gewohnheits", "tiere"));
+    wordSplitter.addException("Gewohnheitstieren", asList("Gewohnheits", "tieren"));
+    wordSplitter.addException("Gewohnheitstieres", asList("Gewohnheits", "tieres"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
@@ -237,6 +268,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
     } catch (InputTooLongException e) {
       return Collections.singletonList(word);
     }
+  }
+
+  public static GermanCompoundTokenizer getStrictInstance() {
+    return strictInstance.get();
+  }
+
+  public static GermanCompoundTokenizer getNonStrictInstance() {
+    return nonStrictInstance.get();
   }
 
   public static void main(String[] args) throws IOException {

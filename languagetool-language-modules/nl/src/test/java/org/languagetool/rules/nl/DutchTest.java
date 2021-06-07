@@ -35,6 +35,6 @@ public class DutchTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("TE_ZNW", "MORFOLOGIK_RULE_NL_NL", "MORFOLOGIK_RULE_NL_NL", "MORFOLOGIK_RULE_NL_NL", "ZO_OPTIMAAL_MOGELIJK", "UPPERCASE_SENTENCE_START", "SPATIE_LEESTEKEN",  "NL_SIMPLE_REPLACE_MUSTHAVE", "BIJ_VOORBEELD", "DATE_WEEKDAY")
     );
-    runTests(lang, null, "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-");
+    runTests(lang, null, "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-₃");
   }
 }

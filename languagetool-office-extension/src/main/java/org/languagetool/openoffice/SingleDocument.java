@@ -91,7 +91,9 @@ class SingleDocument {
   private int changeTo = 0;                       //  Change result cache to paragraph
   private int paraNum;                            //  Number of current checked paragraph
   private int lastChangedPara;                    //  lastPara which was detected as changed
+  private List<Integer> lastChangedParas;         //  lastPara which was detected as changed
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
+  private boolean isImpress = false;              //  true: is an Impress document 
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
@@ -105,6 +107,9 @@ class SingleDocument {
     this.xContext = xContext;
     this.config = config;
     this.docID = docID;
+    if (docID.charAt(0) == 'I') {
+      isImpress = true;
+    }
     this.xComponent = xComponent;
     setDokumentListener(xComponent);
     this.mDocHandler = mDH;
@@ -185,7 +190,7 @@ class SingleDocument {
     if (docLanguage == null) {
       docLanguage = lt.getLanguage();
     }
-    if (ltMenus == null) {
+    if (!isImpress && ltMenus == null) {
       ltMenus = new LanguageToolMenus(xContext, this, config);
     }
     
@@ -267,6 +272,13 @@ class SingleDocument {
    */
   void dispose() {
     disposed = true;
+  }
+  
+  /**
+   * is an Impress document
+   */
+  boolean isImpress() {
+    return isImpress;
   }
   
   /**
@@ -360,6 +372,18 @@ class SingleDocument {
     resetDocCache = true;
   }
   
+  /** set last changed paragraphs
+   */
+  void setLastChangedParas(List<Integer> lastChangedParas) {
+    this.lastChangedParas = lastChangedParas;
+  }
+  
+  /** get last changed paragraphs
+   */
+  List<Integer> getLastChangedParas() {
+    return lastChangedParas;
+  }
+  
   /** Update document cache and get it
    */
   DocumentCache getUpdatedDocumentCache(int nPara) {
@@ -443,13 +467,13 @@ class SingleDocument {
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
    */
-  public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean overrideRunning) {
-    if (mDocHandler.isSortedRuleForIndex(nCache)) {
+  public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
+    if (mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
       int nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara >= 0) {
         int nStart;
         int nEnd;
-        if (overrideRunning && nCheck > 0) {
+        if (checkOnlyParagraph && nCheck > 0) {
           nStart = nTPara;
           nEnd = nTPara + 1;
         } else {
@@ -505,10 +529,10 @@ class SingleDocument {
   /**
    * run a text level check from a queue entry (initiated by the queue)
    */
-  public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool lt) {
+  public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
     if (flatPara != null && docCache.isFinished()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
-      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, doReset, false, hasFootnotes);
+      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, nEnd == nStart + 1, override, false, hasFootnotes);
     }
   }
   
@@ -517,9 +541,16 @@ class SingleDocument {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+    singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, mDocHandler.getLanguageTool());
   }
 
+  /**
+   * is a ignore once entry in cache
+   */
+  public boolean isIgnoreOnce(int xFrom, int xTo, int y, String ruleId) {
+    return ignoredMatches.isIgnored(xFrom, xTo, y, ruleId);
+  }
+  
   /**
    * reset the ignore once cache
    */
@@ -544,7 +575,7 @@ class SingleDocument {
    */
   public void setIgnoredMatch(int x, int y, String ruleId) {
     ignoredMatches.setIgnoredMatch(x, y, ruleId);
-    if (numParasToCheck != 0) {
+    if (!isImpress && numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
       remarkChangedParagraphs(changedParas);
@@ -802,6 +833,13 @@ class SingleDocument {
      */
     public boolean isEmpty() {
       return ignoredMatches.isEmpty();
+    }
+
+    /**
+     * size: number of paragraphs containing ignored matches
+     */
+    public int size() {
+      return ignoredMatches.size();
     }
 
     /**

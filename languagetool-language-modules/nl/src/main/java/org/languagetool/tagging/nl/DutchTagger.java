@@ -38,7 +38,6 @@ public class DutchTagger extends BaseTagger {
   // custom code to deal with words carrying optional accents
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
@@ -121,7 +120,7 @@ public class DutchTagger extends BaseTagger {
 
       // set word to original
       word = originalWord;
-      
+
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(originalWord, null, null));
       }

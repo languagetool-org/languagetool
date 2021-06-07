@@ -3806,7 +3806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Dlaczego tak jest - nie wiem.</example>
 						</rule>
 				</rulegroup>
-				<rulegroup id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
+				<rulegroup id="BRAK_KROPKI" name="Brak kropki na końcu zdania" tags="picky">
 						<rule>
                                 <antipattern case_sensitive="yes"> <!-- Wikipedia -->
                                     <marker><token>Zobacz</token></marker>
@@ -4518,7 +4518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="—">Rozumiesz <marker>--</marker> przegrywasz.</example>
 						<example>Rozumiesz — przegrywasz.</example>
 				</rule>
-                <rulegroup id="DYWIZ_MYSLNIK" name="Dywiz zamiast myślnika">
+                <rulegroup id="DYWIZ_MYSLNIK" name="Dywiz zamiast myślnika" tags="picky">
                   <rule>
                     <pattern>
                       <token>”</token>
@@ -4883,7 +4883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="”">To jest wyraz „krowa<marker>“</marker>.</example>
 						</rule>
 				</rulegroup>
-				<rulegroup id="CUDZYSLOW_DRUKARSKI" name="Zmiana cudzysłowu komputerowego (&quot;) na drukarskie">
+				<rulegroup id="CUDZYSLOW_DRUKARSKI" name="Zmiana cudzysłowu komputerowego (&quot;) na drukarskie" tags="picky">
 						<rule>
 								<pattern>
 										<token regexp="yes" spacebefore="ignore">[\[\({]</token>
@@ -11188,8 +11188,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <marker>
                       <token inflected="yes" postag="(:?verb|pcon).*" postag_regexp="yes">posiadać</token>
                   </marker>
+                  <token postag="adv.*" postag_regexp="yes"/>
                   <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
-                    <unify-ignore><token postag="adv.*" postag_regexp="yes"/></unify-ignore>
                     <token postag="adj.*" postag_regexp="yes"/>
 										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
                   </unify>

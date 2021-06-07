@@ -40,7 +40,6 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
@@ -67,6 +66,7 @@ public class AgreementRule extends Rule {
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private JLanguageTool lt;
+  private boolean returnSuggestions = true;
 
   enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
@@ -86,6 +86,39 @@ public class AgreementRule extends Rule {
   }
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      token("dem"),  // "dem Abhilfe zu schaffen"
+      token("Abhilfe"),
+      new PatternTokenBuilder().token("zu").min(0).build(),
+      token("schaffen")
+    ),
+    Arrays.asList(
+      token("die"),  // "Die Müllers aus Hamburg"
+      new PatternTokenBuilder().posRegex("EIG.*").tokenRegex(".*s").build()
+    ),
+    Arrays.asList(
+      tokenRegex("ist|war|sei|wäre"),  // "war das Absicht"
+      token("das"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      tokenRegex("Absicht")
+    ),
+    Arrays.asList(
+      token("das"),  // "in das damalige Reichenbach in Schlesien"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      tokenRegex("Reichenbach|Albstadt|Arnstadt|Darmstadt|Duderstadt|Eberstadt|Eibelstadt|Erftstadt|Freudenstadt|Bergneustadt|" +
+        "Neustadt|Burgkunstadt|Diemelstadt|Ebermannstadt|Eisenhüttenstadt|Friedrichstadt|Filderstadt|Freystadt|Florstadt|Glückstadt|" +
+        "Grünstadt|Hallstadt|Halberstadt|Ingolstadt|Johanngeorgenstadt|Karlstadt")  // TODO: extend, https://de.wikipedia.org/wiki/Liste_der_St%C3%A4dte_in_Deutschland
+    ),
+    Arrays.asList(
+      token("das"),  // "Einwohnerzahl stieg um das Zweieinhalbfache"
+      tokenRegex("(zwei|drei|vier|fünd|sechs|sieben|acht|neun|zehn|elf|zwölf).*fache")
+    ),
+    Arrays.asList(
+      token("diese"),  // "...damit diese ausreichend Sauerstoff geben."
+      tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
+      posRegex("SUB:NOM:SIN:.*"),
+      posRegex("VER:.*")
+    ),
     Arrays.asList(
       posRegex("VER:MOD:.*"),  // "Sollten zu diesem weitere Informationen benötigt werden, ..."
       token("zu"),
@@ -967,7 +1000,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
       csToken("Business"),
-      tokenRegex("Angel[ns]?")
+      tokenRegex("Angel[ns]?|Cases?")
     ),
     Arrays.asList( // "des Manager Magazins"
       csToken("Manager"),
@@ -984,8 +1017,17 @@ public class AgreementRule extends Rule {
       tokenRegex(".+")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
-      new PatternTokenBuilder().tokenRegex("Journeys?").build()
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      tokenRegex("Customer|User"),
+      tokenRegex("Journeys?")
+    ),
+    Arrays.asList(
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      token("Hall"),
+      token("of"),
+      token("Fame")
     ),
     Arrays.asList( // Wir trinken ein kühles Blondes
       token("kühles"),
@@ -1053,11 +1095,54 @@ public class AgreementRule extends Rule {
       token("der"),
       csRegex("Haars?")
     ),
+    Arrays.asList(
+      token("Präsident"),
+      token("Xi")
+    ),
+    Arrays.asList(
+      token("Porsche"),
+      token("Museum")
+    ),
+    Arrays.asList(
+      token("Queen"),
+      posRegex("EIG:.*")
+    ),
+    Arrays.asList(
+      token("King"),
+      posRegex("EIG:.*")
+    ),
     Arrays.asList( // des Sturm und Drangs
       token("des"),
       token("Sturm"),
       token("und"),
       csRegex("Drangs?")
+    ),
+    Arrays.asList( // die Funke Mediengruppe
+      token("die"),
+      token("Funke"),
+      token("Mediengruppe")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("meinen").matchInflectedForms().setSkip(3).build(),
+      token("das"),
+      new PatternTokenBuilder().token("wirklich").min(0).build(),
+      token("Ernst")
+    ),
+    Arrays.asList(
+      csRegex("das|es|dies"),
+      csRegex("bedeutete?"),
+      token("Krieg")
+    ),
+    Arrays.asList(
+      csRegex("das|es|dies"),
+      csRegex("weite"),
+      token("Teile")
+    ),
+    Arrays.asList(
+      token("hat"),
+      token("das"),
+      csRegex("Einfluss|Auswirkungen"),
+      token("auf")
     )
   );
 
@@ -1097,6 +1182,7 @@ public class AgreementRule extends Rule {
     "dir",
     "dich",
     "du",
+    "d",
     "er", "sie", "es",
     "wir",
     "mir",
@@ -1121,6 +1207,7 @@ public class AgreementRule extends Rule {
     "alle",
     "etwas",
     "irgendetwas",
+    "irgendwas",
     "was",
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
@@ -1189,6 +1276,10 @@ public class AgreementRule extends Rule {
     return map;
   }
 
+  void disableSuggestions() {
+    returnSuggestions = false;
+  }
+  
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -1236,6 +1327,7 @@ public class AgreementRule extends Rule {
           break;
         }
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
+        AnalyzedTokenReadings maybePreposition = i-1 >= 0 ? tokens[i-1] : null;
         if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = tokenPosAfterModifier + 1;
           if (tokenPos >= tokens.length) {
@@ -1250,14 +1342,15 @@ public class AgreementRule extends Rule {
               // avoid false alarm for e.g. "weniger farbenprächtig als das anderer Papageien"
               continue;
             }
-            RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
-                nextToken, tokens[tokenPos], sentence, i);
+            boolean allowSuggestion = tokenPos == i + 2;  // prevent incomplete suggestion for e.g. "einen 142 Meter hoher Obelisken" (-> "einen hohen Obelisken")
+            RuleMatch ruleMatch = checkDetAdjNounAgreement(maybePreposition, tokens[i],
+                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence, i, replMap);
+          RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -1347,7 +1440,7 @@ public class AgreementRule extends Rule {
   }
 
   @Nullable
-  private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
+  private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                           AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
     // TODO: remove "-".equals(token2.getToken()) after the bug fix
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
@@ -1386,9 +1479,11 @@ public class AgreementRule extends Rule {
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }*/
-      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
-      List<String> suggestions = suggestor.getSuggestions();
-      ruleMatch.setSuggestedReplacements(suggestions);
+      if (returnSuggestions) {
+        AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
+        suggestor.setPreposition(maybePreposition);
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
+      }
     }
     return ruleMatch;
   }
@@ -1499,8 +1594,8 @@ public class AgreementRule extends Rule {
     return categories;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos) {
+  private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2)
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token3 == null || token3.getToken().length() < 2) {
@@ -1537,6 +1632,11 @@ public class AgreementRule extends Rule {
             "statt 'mein kleines Haus'";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
+      if (returnSuggestions && replMap != null) {
+        AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
+        suggestor.setPreposition(maybePreposition);
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
+      }
     }
     return ruleMatch;
   }

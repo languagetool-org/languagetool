@@ -64,6 +64,9 @@ public class ManualTagger implements WordTagger {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
+        if (line.contains("\u00A0")) {
+          throw new RuntimeException("Non-breaking space found in line '" + line + "', please remove it");
+        }
         line = StringUtils.substringBefore(line, "#").trim();
         String[] parts = line.split("\t");
         if (parts.length != 3) {

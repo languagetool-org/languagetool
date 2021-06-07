@@ -29,17 +29,38 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
-  private final LanguageIdentifier identifier = new LanguageIdentifier();
   private final static String fastTextBinary = "/prg/fastText-0.1.0/fasttext";
   private final static String fastTextModel = "/prg/fastText-0.1.0/data/lid.176.bin";
+  private final static String ngramData = "/home/languagetool/model_ml50_new.zip";
   private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
           "ale zahrnuje do něj též veškeré programové vybavení";
 
+  private final LanguageIdentifier identifier = new LanguageIdentifier();
+
+  @Test
+  @Ignore("requires ngram data from https://languagetool.org/download/ngram-lang-detect/")
+  public void cleanAndShortenText() {
+    LanguageIdentifier ident = new LanguageIdentifier(20);
+    assertThat(ident.cleanAndShortenText("foo"), is("foo"));
+    assertThat(ident.cleanAndShortenText("foo this is so long it will be cut off"), is("foo this is so long "));
+    assertThat(ident.cleanAndShortenText("clean\uFEFF\uFEFFme"), is("clean me"));
+    assertThat(ident.cleanAndShortenText("a https://x.com blah"), is("a https://x.com blah"));
+    LanguageIdentifier ident2 = new LanguageIdentifier(100);
+    ident2.enableNgrams(new File(ngramData));
+    assertThat(ident2.cleanAndShortenText("foo https://www.example.com blah"), is("foo   blah"));
+    assertThat(ident2.cleanAndShortenText("foo https://example.com?foo-bar blah"), is("foo   blah"));
+    assertThat(ident2.cleanAndShortenText("foo foo.bla@example.com blah"), is("foo   blah"));
+    assertThat(ident2.cleanAndShortenText("But @handle said so on twitter!"), is("But  said so on twitter!"));
+    assertThat(ident2.cleanAndShortenText("A non\u00A0breaking space."), is("A non breaking space."));
+  }
+  
   @Test
   public void testDetection() {
     langAssert("de", "Das ist ein deutscher Text");

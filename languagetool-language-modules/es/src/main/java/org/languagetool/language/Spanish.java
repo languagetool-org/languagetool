@@ -194,23 +194,23 @@ public class Spanish extends Language implements AutoCloseable{
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
       case "LO_LOS": return 30;
+      case "ES_SIMPLE_REPLACE": return 30; // greater than typography rules
+      case "ETCETERA": return 30; // greater than other typography rules
+      case "P_EJ": return 30; // greater than other typography rules
+      case "ESPACIO_DESPUES_DE_PUNTO": return 25; // greater than other typography rules
       case "AGREEMENT_ADJ_NOUN_AREA": return 30; // greater than AGREEMENT_DET_NOUN
       case "SE_CREO": return 25; // less than DIACRITICS_VERB_N_ADJ
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
       case "AGREEMENT_DET_ABREV": return 25; // greater than AGREEMENT_DET_NOUN
       case "MUCHO_NF": return 25; // greater than AGREEMENT_DET_NOUN
-      case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN 
-      case "AGREEMENT_DET_NOUN": return 20;
-      case "ETCETERA": return 20; // greater than ESPACIO_DESPUES_DE_PUNTO
+      case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN
+      case "TYPOGRAPHY": return 20; // greater than AGREEMENT_DET_NOUN
+      case "AGREEMENT_DET_NOUN": return 15;
       //case "PRONOMBRE_SIN_VERBO": return 20;
-      case "P_EJ": return 20;
-      case "ESPACIO_DESPUES_DE_PUNTO": return 15;
       case "AGREEMENT_DET_ADJ": return 10;
-      case "TYPOGRAPHY": return 10;
       case "HALLA_HAYA": return 10;
       case "VALLA_VAYA": return 10;
       case "TE_TILDE2": return 10; // less than PRONOMBRE_SIN_VERBO
-      case "ES_SIMPLE_REPLACE": return 10;
       case "SINGLE_CHARACTER": return 5;
       case "SEPARADO": return 1;
       case "E_EL": return -10;

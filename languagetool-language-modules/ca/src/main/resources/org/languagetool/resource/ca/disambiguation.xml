@@ -8118,6 +8118,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="adj_costum" name="adj + costum">
+        <pattern>
+            <marker>
+                <token postag="A.*" postag_regexp="yes"/>
+            </marker>
+            <token inflected="yes">costum</token>
+        </pattern>
+        <disambig action="filter" postag="A.*"/>
+    </rule>
     <rule id="amic_nom" name="amic nom darrere d'adjectiu">
         <pattern>
             <unify>
@@ -8277,6 +8286,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">la|el|l'|els|les|en</token>
         </antipattern>
         <rule id="dosPP_VERB" name="dos pronoms personals més verb">
+            <antipattern>
+                <token>el</token>
+                <token>la</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="&pronom_feble;|PP[12]C[SP]000" postag_regexp="yes"><exception regexp="yes">['-].+|nosaltres|vosaltres|tu|mi</exception></token>
@@ -16947,6 +16960,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </disambig>
     </rule>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
+        <rule name="dates">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">(\d|[12]\d|3[01])[GFMAJSOND]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
         <rule>
             <!-- minus sign -->
             <pattern>

@@ -470,6 +470,15 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Second-Hand-Shops", "Secondhandshops", rule, lt);
     assertFirstSuggestion("mediterranischer", "mediterraner", rule, lt);
     assertFirstSuggestion("unterschreibungsfähige", "unterschriftsfähige", rule, lt);
+    assertFirstSuggestion("interplementiert", "implementiert", rule, lt);
+    assertFirstSuggestion("hochalterlich", "hochmittelalterlich", rule, lt);
+    assertFirstSuggestion("posiniert", "positioniert", rule, lt);
+    assertFirstSuggestion("russophobische", "russophobe", rule, lt);
+    assertFirstSuggestion("unsachmässiger", "unsachgemäßer", rule, lt);
+    assertFirstSuggestion("modernisches", "modernes", rule, lt);
+    assertFirstSuggestion("intapretation", "Interpretation", rule, lt);
+    assertFirstSuggestion("Rethorikkurses", "Rhetorikkurses", rule, lt);
+    assertFirstSuggestion("Deprisonen", "Depressionen", rule, lt);
     
     assertFirstSuggestion("-Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Teex", "Tee", rule, lt);
@@ -515,6 +524,7 @@ public class GermanSpellerRuleTest {
   public void testDashAndHyphenEtc() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    TestTools.disableAllRulesExcept(lt, GermanSpellerRule.RULE_ID);
 
     assertEquals(2, lt.check("\uFEFF-Product Development Coordinator").size());
     assertEquals(2, lt.check("-Product Development Coordinator").size());
@@ -821,6 +831,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);
+    assertFirstSuggestion("Auschwitzmythxs,", null, rule, lt);  // correction prevented by lcDoNotSuggestWords
   }
   
   @Test

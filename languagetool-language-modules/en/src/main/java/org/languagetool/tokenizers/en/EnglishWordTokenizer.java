@@ -111,39 +111,44 @@ public class EnglishWordTokenizer extends WordTokenizer {
   /* Splits a word containing hyphen(-’') if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
+    int hyphensAtEnd = 0;
     synchronized (this) { // speller is not thread-safe
       if (!s.isEmpty()) {
-        if (s.startsWith("-")) {
+        while (s.startsWith("-")) {
           l.add("-");
-          l.addAll(wordsToAdd(s.substring(1)));
-          return l;
+          s = s.substring(1);
         }
-        if (s.endsWith("-")) {
-          l.addAll(wordsToAdd(s.substring(0,s.length()-1)));
-          l.add("-");
-          return l;
+        while (s.endsWith("-")) {
+          s = s.substring(0,s.length()-1);
+          hyphensAtEnd++;
         }
-        if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
-          l.add(s);
-        } else {
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
-            l.add(s);
-          }
-          // some camel-case words containing hyphen (is there any better fix?)
-          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
-              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
-              || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaida")) {
+        if (!s.isEmpty()) {
+          if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
             l.add(s);
           } else {
-            // if not found, the word is split
-            //final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
-            final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
-            while (st2.hasMoreElements()) {
-              l.add(st2.nextToken());
+            if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+              l.add(s);
+            }
+            // some camel-case words containing hyphen (is there any better fix?)
+            else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
+                || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
+                || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
+                || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaida")) {
+              l.add(s);
+            } else {
+              // if not found, the word is split
+              // final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
+              final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
+              while (st2.hasMoreElements()) {
+                l.add(st2.nextToken());
+              }
             }
           }
         }
+      }
+      while (hyphensAtEnd > 0) {
+        l.add("-");
+        hyphensAtEnd--;
       }
       return l;
     }

@@ -84,7 +84,7 @@ public class Irish extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}", "\"", "”")),
       new DoublePunctuationRule(messages),
       new UppercaseSentenceStartRule(messages, this),
-      new LongSentenceRule(messages, userConfig, -1, true),
+      new LongSentenceRule(messages, userConfig, 50, true),
       new LongParagraphRule(messages, this, userConfig),
       new UppercaseSentenceStartRule(messages, this),
       new MultipleWhitespaceRule(messages, this),

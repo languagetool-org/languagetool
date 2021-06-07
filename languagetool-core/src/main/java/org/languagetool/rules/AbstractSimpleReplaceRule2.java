@@ -145,9 +145,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
         if (checkingCase) {
           String[] parts = line.split("=");
-          line = parts[0].toLowerCase() + "=" + parts[0];
+          line = parts[0].toLowerCase().trim() + "=" + parts[0].trim();
           if (parts.length == 2) {
-            line = line + "\t" + parts[1];
+            line = line + "\t" + parts[1].trim();
           } 
         }
 

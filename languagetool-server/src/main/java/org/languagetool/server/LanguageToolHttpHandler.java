@@ -151,7 +151,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
-          int code = HttpURLConnection.HTTP_FORBIDDEN;
+          int code = 429; // too many requests
           sendError(httpExchange, code, errorMessage);
           // already logged via DatabaseAccessLimitLogEntry
           logError(errorMessage, code, parameters, httpExchange, false);
@@ -164,7 +164,7 @@ class LanguageToolHttpHandler implements HttpHandler {
                 textSizeMessage +
                 " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
-        int code = HttpURLConnection.HTTP_FORBIDDEN;
+        int code = 429; // too many requests
         sendError(httpExchange, code, errorMessage);
         logError(errorMessage, code, parameters, httpExchange);
         return;
@@ -439,8 +439,8 @@ class LanguageToolHttpHandler implements HttpHandler {
           String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
           parameters.put(key, value);
         } catch (IllegalArgumentException e) {
-          throw new RuntimeException("Could not decode query. Query length: " + query.length() +
-                                     " Request method: " + httpExchange.getRequestMethod(), e);
+          throw new BadRequestException("Could not decode query. Query length: " + query.length() +
+                                     " Request method: " + httpExchange.getRequestMethod());
         }
       }
     }

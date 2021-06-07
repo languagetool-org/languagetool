@@ -65,7 +65,7 @@ public class MorfologikSpeller {
    * @param fileInClassPath path in classpath to morfologik dictionary
    */
   public MorfologikSpeller(String fileInClassPath, int maxEditDistance) {
-    this(dictCache.getUnchecked(fileInClassPath), maxEditDistance);
+    this(getDictionaryWithCaching(fileInClassPath), maxEditDistance);
   }
 
   /**
@@ -84,6 +84,14 @@ public class MorfologikSpeller {
     this.dictionary = dictionary;
     this.maxEditDistance = maxEditDistance;
     speller = new Speller(dictionary, maxEditDistance);
+  }
+
+  /**
+   * Load a dictionary from the given path or reuse a cached instance, if present.
+   * @param fileInClassPath path in classpath to morfologik dictionary
+   */
+  public static Dictionary getDictionaryWithCaching(@NotNull String fileInClassPath) {
+    return dictCache.getUnchecked(fileInClassPath);
   }
 
   public boolean isMisspelled(String word) {

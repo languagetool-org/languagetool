@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.IOException;
 
@@ -34,7 +35,9 @@ public class PostReformPortugueseDashRuleTest {
   public void test() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
     TestTools.disableAllRulesExcept(lt, "PT_POSAO_DASH_RULE");
-    assertThat(lt.check("ab-reação").size(), is(0));
-    assertThat(lt.check("ab—reação").size(), is(1));
+    assertThat(lt.check(new AnnotatedTextBuilder().addText("ab-reação").build(), true,
+      JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY).size(), is(0));
+    assertThat(lt.check(new AnnotatedTextBuilder().addText("ab—reação").build(), true,
+      JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY).size(), is(1));
   }
 }

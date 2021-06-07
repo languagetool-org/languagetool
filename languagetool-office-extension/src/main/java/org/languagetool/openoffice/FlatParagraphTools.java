@@ -556,6 +556,16 @@ public class FlatParagraphTools {
       tmpFlatPara = startFlatPara;
       int num = 0;
       int nMarked = 0;
+/*
+      for (int n : changedParas.keySet()) {
+        List<SentenceErrors> listErrors = changedParas.get(n);
+        String s = "";
+        for (int i = 0; i < listErrors.size(); i++) {
+          s += "(" + listErrors.get(i).sentenceStart + "," + listErrors.get(i).sentenceEnd + ") ";
+        }
+        MessageHandler.printToLogFile("Mark Para " + n + ": " + s);
+      }
+*/
       while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.textSize()) {
         int nTextPara = docCache.getNumberOfTextParagraph(num);
         if (changedParas.containsKey(num)) {

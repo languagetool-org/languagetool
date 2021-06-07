@@ -127,13 +127,9 @@ public class RuleMatchAsXmlSerializer {
         xml.append(" url=\"").append(escapeXMLForAPIOutput(match.getRule().getUrl().toString())).append('"');
       }
       Category category = match.getRule().getCategory();
-      if (category != null) {
-        xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append('"');
-        CategoryId id = category.getId();
-        if (id != null) {
-          xml.append(" categoryid=\"").append(escapeXMLForAPIOutput(id.toString())).append('"');
-        }
-      }
+      xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append('"');
+      CategoryId id = category.getId();
+      xml.append(" categoryid=\"").append(escapeXMLForAPIOutput(id.toString())).append('"');
       ITSIssueType type = match.getRule().getLocQualityIssueType();
       if (type != null) {
         xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type.toString())).append('"');

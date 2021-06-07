@@ -10,7 +10,7 @@
     <!ENTITY file_name_extensions "ai|aspx?|avi|ba[kt]|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|docx?|dll|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|jsp?|lnk|mdb?|mid|mov|mp[34ag]|ods|pdf|php|pl|png|pp[st]|psd?|py|rar|rss|sh|scss|shtml|sql|svg|sys|tar|tiff?|tmp|ts|txt|wav|wma|xhtml|xlsx?|xsl|xml|yaml|yml|zipx?">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
-    <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Instituto|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma|Águas|Costa">
+    <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Banquo|Instituto|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma|Águas|Costa|Isla">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
     <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|tha[nt]|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
      <!--<!ENTITY abbreviated_negated_verbs "ain|aren|isn|wasn|weren|can|couldn|don|doesn|didn|hasn|hadn|haven|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn">-->
@@ -71,7 +71,7 @@
                 </marker>
                 <token spacebefore="no">n't</token>
             </pattern>
-            <disambig action="add">
+            <disambig action="replace">
                 <wd lemma="can" pos="MD"/>
             </disambig>
         </rule>
@@ -111,7 +111,7 @@
                 </marker>
                 <token spacebefore="no">n't</token>
             </pattern>
-            <disambig action="add">
+            <disambig action="replace">
                 <wd lemma="shall" pos="MD"/>
             </disambig>
         </rule>
@@ -10819,14 +10819,25 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
-    <rule name="Ignore spelling of file extensions" id="IGNORE_SPELLING_OF_FILE_EXTENSIONS">
+    <rulegroup name="Ignore spelling of file extensions" id="IGNORE_SPELLING_OF_FILE_EXTENSIONS">
         <!-- A .txt file-->
-        <pattern>
-            <token spacebefore="yes">.</token>
-            <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
-        </pattern>
-        <disambig action="ignore_spelling"></disambig>
-    </rule>
+        <rule>
+            <pattern>
+                <token spacebefore="yes">.</token>
+                <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <!-- this needs to be in sync with FILE_EXTENSIONS_CASE -->
+                    <token regexp="yes" case_sensitive="yes">pdf|jpe?g|gif|png|svg|docx|xlsx?|pptx?|html|php|s?css|jsx?|heif|mpe?g|exe|dmg|xml</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule name="Proper noun: Ho Chi Minh" id="HO_CHI_MINH"><!-- www.lexico.com/en/definition/ho_chi_minh -->
         <pattern case_sensitive="yes">
             <token>Ho</token>
@@ -14564,6 +14575,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="remove" postag="NNS"/>
     </rule>
 
+    <rulegroup id="HAVE_NN" name="remove 'NN' from 'have'">
+        <rule>
+            <pattern>
+                <token postag="PRP_S.*" postag_regexp="yes" />
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <token postag="MD" />
+                <marker>
+                    <token>have</token>
+                </marker>
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <token postag="VBN" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="remove" postag="NN"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PRP_S.*" postag_regexp="yes" />
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <marker>
+                    <token>have</token>
+                </marker>
+                <token postag="RB" min="0">
+                    <exception postag="IN|EX" postag_regexp="yes" />
+                </token>
+                <token postag="VBN" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="remove" postag="NN"/>
+        </rule>
+    </rulegroup>
+
     <rulegroup id="SPELLING_DE_AND_ET" name="ignore spelling of 'de/et/el/un' in Spanish names/expressions">
         <rule>
             <pattern>
@@ -14898,5 +14945,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    
+
+    <rule id="IGNORE_SPELLING_OF_WORDS_WITH_UNDERSCORE_OR_AT" name="ignore spelling of things like REMOTE_USER and name@company">
+        <pattern>
+            <marker>
+                <token regexp="yes">[\p{L}\p{Nd}_\-.]+[@_][\p{L}\p{Nd}_\-.]+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
 </rules>

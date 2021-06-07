@@ -229,15 +229,26 @@ public class French extends Language implements AutoCloseable {
       case "FR_COMPOUNDS": return 500; // greater than agreement rules
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
-      case "SA_CA": return 100; // greater than D_N
+      case "SA_CA_SE": return 100; // greater than D_N
+      case "QUASI_NOM": return 100; // greater than D_N
       case "MA": return 100; // greater than D_J
+      case "SON_SONT": return 100; // greater than D_J
+      case "JE_TES": return 100; // greater than D_J
       case "A_INFINITIF": return 100;
       case "ON_ONT": return 100; // greater than PRONSUJ_NONVERBE
       case "LEURS_LEUR": return 100; // greater than N_V
       case "DU_DU": return 100; // greater than DU_LE
       case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
+      case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
+      case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
+      case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
+      case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
+      case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
+      case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
+      case "CONFUSION_PARLEZ_PARLER": return 10; // greater than N_V
+      case "AGREEMENT_TOUT_LE": return 10; // compare to TOUT_LES
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
       case "BYTES": return 10; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 10; // needs to be higher than spell checker for style suggestion
@@ -246,16 +257,22 @@ public class French extends Language implements AutoCloseable {
       case "JE_M_APPEL": return 10;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 10;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 10;  // needs higher priority than spell checker
-      //case "D_N": return 1; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher
+      //case "D_N": return 10; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher: CAT_REGIONALISMES, CAT_TYPOGRAPHIE, CAT_GRAMMAIRE...
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
-      case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
+      case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
+      //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
+      //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
+      case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "FR_SIMPLE_REPLACE": return -10;
       case "IMP_PRON": return -10; // less than D_N
-      case "PREP_V": return -20;
+      case "PREP_VERBECONJUGUE": return -20;
+      case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "FR_SPELLING_RULE": return -100;
+      case "ET_SENT_START": return -151; // lower than grammalecte rules
+      case "MAIS_SENT_START": return -151; // lower than grammalecte rules
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE

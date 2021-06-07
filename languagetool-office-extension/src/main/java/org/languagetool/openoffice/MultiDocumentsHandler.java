@@ -236,8 +236,45 @@ public class MultiDocumentsHandler {
       }
       XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       if (curDoc == null) {
+        if (OfficeDrawTools.isImpressDocument(xComponent)) {
+          String docID = createImpressDocId();
+          try {
+            xComponent.addEventListener(xEventListener);
+          } catch (Throwable t) {
+            MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
+            xComponent = null;
+          }
+          SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
+          documents.add(newDocument);
+          MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
+          return newDocument;
+        }
         MessageHandler.printToLogFile("Is document, but not a text document!");
         isNotTextDodument = true;
+      }
+    }
+    return null;
+  }
+  
+  /**
+   * create new Impress document id
+   */
+  private String createImpressDocId() {
+    String docID;
+    if (documents.size() == 0) {
+      return "I1";
+    }
+    for (int n = 1; n < documents.size() + 1; n++) {
+      docID = "I" + n;
+      boolean isValid = true;
+      for (SingleDocument document : documents) {
+        if (docID.equals(document.getDocID())) {
+          isValid = false;
+          break;
+        }
+      }
+      if (isValid) {
+        return docID;
       }
     }
     return null;
@@ -1171,6 +1208,7 @@ public class MultiDocumentsHandler {
   public void trigger(String sEvent) {
     try {
       if (!testDocLanguage(true)) {
+        MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
         return;
       }
       if ("configure".equals(sEvent)) {
@@ -1212,9 +1250,13 @@ public class MultiDocumentsHandler {
           if (document != null) {
             XComponent currentComponent = document.getXComponent();
             if (currentComponent != null) {
-              DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
-              ViewCursorTools viewCursor = new ViewCursorTools(xContext);
-              checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+              if (!document.isImpress()) {
+                DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
+                ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+                SpellAndGrammarCheckDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+              } else {
+                OfficeDrawTools.setCurrentPage(0, currentComponent);
+              }
             }
           }
           resetIgnoredMatches();
@@ -1269,7 +1311,20 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
-      Locale locale = getDocumentLocale();
+      if (xContext == null) {
+        return false;
+      }
+      XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+      if (xComponent == null) {
+        return false;
+      }
+      Locale locale;
+      boolean isImpress = OfficeDrawTools.isImpressDocument(xComponent);
+      if (isImpress) {
+        locale = OfficeDrawTools.getDocumentLocale(xComponent);
+      } else {
+        locale = getDocumentLocale();
+      }
       try {
         int n = 0;
         while (locale == null && n < 100) {
@@ -1277,7 +1332,11 @@ public class MultiDocumentsHandler {
           if (debugMode) {
             MessageHandler.printToLogFile("Try to get locale: n = " + n);
           }
-          locale = getDocumentLocale();
+          if (isImpress) {
+            locale = OfficeDrawTools.getDocumentLocale(xComponent);
+          } else {
+            locale = getDocumentLocale();
+          }
           n++;
         }
       } catch (InterruptedException e) {
@@ -1306,8 +1365,20 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
-      resetCheck();
-      return false;
+      if (isImpress) {
+        langForShortName = getLanguage(locale);
+        docLanguage = langForShortName;
+        this.locale = locale;
+        extraRemoteRules.clear();
+        lt = initLanguageTool(true);
+        initCheck(lt, locale);
+        initDocuments();
+        setJavaLookAndFeel();
+        return true;
+      } else {
+        resetCheck();
+        return false;
+      }
     }
     return true;
   }

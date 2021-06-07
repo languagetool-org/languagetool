@@ -195,9 +195,11 @@ public class LtDictionary {
     }
     List<String> userDictionaries = new ArrayList<String>();
     for (XDictionary dictionary : dictionaryList) {
-      String name = dictionary.getName();
-      if (!name.startsWith("__LT_") && !name.equals(listIgnoredWords.getName())) {
-        userDictionaries.add(new String(name));
+      if (dictionary.isActive()) {
+        String name = dictionary.getName();
+        if (!name.startsWith("__LT_") && !name.equals(listIgnoredWords.getName())) {
+          userDictionaries.add(new String(name));
+        }
       }
     }
     return userDictionaries.toArray(new String[userDictionaries.size()]);

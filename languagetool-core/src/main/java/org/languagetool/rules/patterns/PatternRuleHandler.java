@@ -113,7 +113,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
         boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
         String tabName = attrs.getValue(TABNAME);
-        category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault, tabName);
+        category = new Category(new CategoryId(catId), catName, location, onByDefault, tabName);
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }

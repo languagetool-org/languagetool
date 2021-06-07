@@ -25,6 +25,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Streams;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import io.grpc.ManagedChannel;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -38,6 +40,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
+import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
+import org.languagetool.rules.ml.MLServerProto.MatchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
@@ -73,6 +78,7 @@ import java.util.stream.Collectors;
  */
 public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
+  private static final int DEFAULT_BATCH_SIZE = 8;
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z_]", "_").toUpperCase();
@@ -115,7 +121,7 @@ public abstract class GRPCRule extends RemoteRule {
 
   static class Connection {
     final ManagedChannel channel;
-    final MLServerGrpc.MLServerBlockingStub stub;
+    final MLServerFutureStub stub;
 
     private ManagedChannel getChannel(String host, int port, boolean useSSL,
                                       @Nullable String clientPrivateKey, @Nullable  String clientCertificate,
@@ -144,7 +150,8 @@ public abstract class GRPCRule extends RemoteRule {
       String cert = serviceConfiguration.getOptions().get("clientCertificate");
       String ca = serviceConfiguration.getOptions().get("rootCertificate");
       this.channel = getChannel(host, port, ssl, key, cert, ca);
-      this.stub = MLServerGrpc.newBlockingStub(channel);
+      this.stub = MLServerGrpc.newFutureStub(channel);
+
 
     }
 
@@ -172,9 +179,13 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   private final Connection conn;
+  private final int batchSize;
 
   public GRPCRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
     super(language, messages, config, inputLogging);
+
+    this.batchSize = Integer.parseInt(config.getOptions().getOrDefault("batchSize",
+                                                                       String.valueOf(DEFAULT_BATCH_SIZE)));
 
     synchronized (servers) {
       Connection conn = null;
@@ -188,11 +199,11 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   protected class MLRuleRequest extends RemoteRule.RemoteRequest {
-    final MLServerProto.MatchRequest request;
+    final List<MLServerProto.MatchRequest> requests;
     final List<AnalyzedSentence> sentences;
 
-    public MLRuleRequest(MLServerProto.MatchRequest request, List<AnalyzedSentence> sentences) {
-      this.request = request;
+    public MLRuleRequest(List<MLServerProto.MatchRequest> requests, List<AnalyzedSentence> sentences) {
+      this.requests = requests;
       this.sentences = sentences;
     }
   }
@@ -205,27 +216,44 @@ public abstract class GRPCRule extends RemoteRule {
       ids = Collections.nCopies(text.size(), textSessionId);
     }
 
-    MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
-      .addAllSentences(text)
-      .setInputLogging(inputLogging)
-      .addAllTextSessionID(ids)
-      .build();
-    return new MLRuleRequest(req, sentences);
+    List<MLServerProto.MatchRequest> requests = new ArrayList();
+
+    for (int offset = 0; offset < sentences.size(); offset += batchSize) {
+      MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
+        .addAllSentences(text.subList(offset, Math.min(text.size(), offset + batchSize)))
+        .setInputLogging(inputLogging)
+        .addAllTextSessionID(textSessionId != null ?
+                             ids.subList(offset, Math.min(text.size(), offset + batchSize))
+                             : Collections.emptyList())
+        .build();
+      requests.add(req);
+    }
+    if (requests.size() > 1) {
+      logger.info("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
+    }
+    return new MLRuleRequest(requests, sentences);
   }
 
   @Override
-  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
+  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest requestArg, long timeoutMilliseconds) throws TimeoutException {
     return () -> {
-      MLRuleRequest req = (MLRuleRequest) request;
+      MLRuleRequest reqData = (MLRuleRequest) requestArg;
 
-      MLServerProto.MatchResponse response;
+      List<ListenableFuture<MatchResponse>> futures = new ArrayList<>();
+      List<MatchResponse> responses = new ArrayList();
       try {
-        if (timeoutMilliseconds > 0) {
-          response = conn.stub
-            .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
-            .match(req.request);
-        } else {
-          response = conn.stub.match(req.request);
+        for (MLServerProto.MatchRequest req : reqData.requests) {
+          if (timeoutMilliseconds > 0) {
+            futures.add(conn.stub
+              .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
+              .match(req));
+          } else {
+            futures.add(conn.stub.match(req));
+          }
+        }
+        // TODO: handle partial failures
+        for (ListenableFuture<MatchResponse> res : futures) {
+          responses.add(res.get());
         }
       } catch (StatusRuntimeException e) {
         if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
@@ -233,8 +261,12 @@ public abstract class GRPCRule extends RemoteRule {
         } else {
           throw e;
         }
+      } catch (InterruptedException | ExecutionException e) {
+          throw new TimeoutException(e + Objects.toString(e.getMessage()));
       }
-      List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
+      
+      List<RuleMatch> matches = Streams.zip(responses.stream().flatMap(res -> res.getSentenceMatchesList().stream()),
+                                            reqData.sentences.stream(), (matchList, sentence) ->
         matchList.getMatchesList().stream().map(match -> {
             GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), match.getRuleDescription());
             String message = match.getMatchDescription();
@@ -255,7 +287,7 @@ public abstract class GRPCRule extends RemoteRule {
           }
         )
       ).flatMap(Function.identity()).collect(Collectors.toList());
-      RemoteRuleResult result = new RemoteRuleResult(true, true, matches, req.sentences);
+      RemoteRuleResult result = new RemoteRuleResult(true, true, matches, reqData.sentences);
       return result;
     };
   }

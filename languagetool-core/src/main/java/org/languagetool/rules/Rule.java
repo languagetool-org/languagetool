@@ -319,6 +319,7 @@ public abstract class Rule {
   /**
    * @return a category (never null since LT 3.4)
    */
+  @NotNull
   public Category getCategory() {
     return category;
   }

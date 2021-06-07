@@ -66,6 +66,10 @@ public class CommonWordsTest {
     assertThat(res7.get(es), is(3));
     assertThat(res7.get(pt), is(4));
     assertThat(res7.get(ca), is(2));
+
+    Map<Language, Integer> res8 = cw.getKnownWordsPerLanguage("Autohaus-Wirklichkeit");  // "Wirklichkeit" is in common_words.txt
+    assertNull(res8.get(en));
+    assertThat(res8.get(de), is(1));
   }
 
 }
