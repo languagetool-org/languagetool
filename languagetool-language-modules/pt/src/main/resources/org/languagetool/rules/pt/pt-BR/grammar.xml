@@ -1033,6 +1033,29 @@ Tu vens com a gente? → Tu vens conosco?
       <short>Linguagem informal</short>
       <example correction="conosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
     </rule>
+
+    <rule id='FORMAL_COM_NÓS_PT_BR' name="Expressões 'com nós'">
+    <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
+<!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *START* -->
+<!--
+Ele veio com nós para o revéillon. → Ele veio conosco para o revéillon.
+-->
+      <antipattern>
+        <token>com</token>
+        <token>nós</token>
+		<token postag='Z0.+|DI.+|PI.+' postag_regexp='yes'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *END* -->
+      <pattern>
+          <token>com</token>
+          <token>nós</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>conosco</suggestion>?</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+      <short>Linguagem informal</short>
+      <example correction="conosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
+    </rule>
 	
  </category>  
   
