@@ -61,6 +61,12 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Ken dachte, du wärst ich."
+      token("du"),
+      token("wärst"),
+      token("ich")
+    ),
+    Arrays.asList(
       // "Bekommst sogar eine Sicherheitszulage"
       pos("SENT_START"),
       posRegex("VER:2:SIN:.*"),
