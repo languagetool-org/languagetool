@@ -7,6 +7,9 @@
 
 #### Portuguese
   * the sentence length rule is now active in 'picky' mode
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
 
 #### General
   * The sentence length rule is now a text-level rule
