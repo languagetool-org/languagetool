@@ -1142,7 +1142,7 @@ public class AgreementRule extends Rule {
       token("hat"),
       token("das"),
       csRegex("Einfluss|Auswirkungen"),
-      token("auf")
+      csRegex("auf|darauf")
     )
   );
 

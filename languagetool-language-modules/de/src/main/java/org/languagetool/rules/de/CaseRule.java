@@ -767,7 +767,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|☞|❤|✒︎|☑️|✗|✘|✖|➢"),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢"),
       regex(".*")
     ),
     Arrays.asList(
@@ -816,14 +816,23 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // "(2c) Der Betrieb ist untersagt"
       SENT_START,
-      regex("[\\[\\(]"),
-      token("[a-z0-9]{1,3}"),
-      regex("[\\]\\)]"),
+      regex("[\\[\\(\\{]"),
+      token("[a-z0-9]{1,5}"),
+      regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
       // "Sie/Er hat recht."
       SENT_START,
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Sie/Er/Es hat recht."
+      SENT_START,
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
       csRegex("[A-ZÄÜÖ].*"),
       token("/"),
       csRegex("[A-ZÄÜÖ].*")
@@ -921,6 +930,10 @@ public class CaseRule extends Rule {
     "Projektbeteiligten", // temporary fix
     "Heranwachsende", // temporary fix
     "Heranwachsenden", // temporary fix
+    "Interessierte", // temporary fix
+    "Interessierten", // temporary fix
+    "Infizierte", // temporary fix
+    "Infizierten", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
