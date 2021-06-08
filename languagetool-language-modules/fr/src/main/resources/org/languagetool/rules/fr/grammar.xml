@@ -92,6 +92,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag=".* pres.*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <phrases>
+        <phrase id="SUJET_SINGULIER01">
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+            <token min="1" max="4" postag="D . s|[JN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="SUJET_SINGULIER02">
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+            <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+            <token postag="P.*" postag_regexp="yes"/>
+            <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="SUJET_SINGULIER">
+            <includephrases>
+                <phraseref idref="SUJET_SINGULIER01"/>
+                <phraseref idref="SUJET_SINGULIER02"/>
+            </includephrases>
+        </phrase>
+    </phrases>
+    <phrases>
+        <phrase id="SUJET_PLURIEL01">
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+            <token min="1" max="4" postag="D . p|[JN] . (p|sp)|V ppa . P" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="SUJET_PLURIEL02">
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+            <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . P" postag_regexp="yes"/>
+            <token postag="P.*" postag_regexp="yes"/>
+            <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="SUJET_PLURIEL">
+            <includephrases>
+                <phraseref idref="SUJET_PLURIEL01"/>
+                <phraseref idref="SUJET_PLURIEL02"/>
+            </includephrases>
+        </phrase>
+    </phrases>
     <category name="Concordances" id="AGREEMENT">
         <!-- TODO:
             - det + adv + adj: le plus belle
@@ -26366,6 +26406,38 @@ though, and has since been slightly modified)-->
                 <example correction="pense|pensé">Que <marker>pensè</marker> son ami ?</example>
                 <example>Que pensè-je ?</example>
                 <example>Me trompè-je ?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ACCORD_SUJET_VERBE" name="accord sujet/verbe" default="temp_off">
+            <rule>
+                <pattern>
+                    <phraseref idref="SUJET_SINGULIER"/>
+                    <token regexp="yes" min="0" max="2">[lmnt][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du singulier.</message>
+                <!--<suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>-->
+                <example correction="">L’enfant lui <marker>dis</marker> merci.</example>
+                <example correction="">L’enfant dans les bois lui <marker>dis</marker> merci.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <phraseref idref="SUJET_PLURIEL"/>
+                    <token regexp="yes" min="0" max="2">[lmnt][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <!--<suggestion><match no="5" postag="(V.*) 3 s" postag_regexp="yes" postag_replace="$1 3 p" case_conversion="alllower"/></suggestion>-->
+                <example correction="">Les gens <marker>était</marker> partis.</example>
+                <example correction="">Les enfants dans le jardin <marker>joue</marker> en bas.</example>
+                <example>Les enfants jouent en bas.</example>
+                <example>Les régions situées au sud sont chaudes.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="temp_off">
