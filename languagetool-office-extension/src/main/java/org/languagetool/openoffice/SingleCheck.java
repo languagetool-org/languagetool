@@ -340,8 +340,8 @@ class SingleCheck {
   public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara, SwJLanguageTool lt) {
     if (!mDocHandler.isSwitchedOff()) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
-      for (int nPara : changedParas) {
-        changedParasMap.put(nPara, getSentenceErrosAsList(nPara, lt));
+      for (int i = 0; i < changedParas.size(); i++) {
+        changedParasMap.put(changedParas.get(i), getSentenceErrosAsList(changedParas.get(i), lt));
       }
       flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
     }
