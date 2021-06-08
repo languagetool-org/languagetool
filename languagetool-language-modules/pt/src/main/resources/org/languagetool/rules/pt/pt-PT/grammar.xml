@@ -165,7 +165,16 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <short>Erro de colocação pronominal</short>
-    <rule>
+    <rule>	
+<!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *START* -->
+<!--
+Quem as abordou a perguntar se iam pagar com multibanco?
+-->
+      <antipattern>
+		<token postag='SPS.+|PD.+|PP.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *END* -->	
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
@@ -175,6 +184,7 @@ title="Easy editing stylesheet" ?>
       <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1-\2-\3</suggestion>
       <example correction='dar-nos-á'>A vida <marker>dar nos á</marker> sempre mais do que achamos que merecemos.</example>
+	  <example>Quem as abordou a perguntar se iam pagar com multibanco?</example>
     </rule>
   </rulegroup>
 
