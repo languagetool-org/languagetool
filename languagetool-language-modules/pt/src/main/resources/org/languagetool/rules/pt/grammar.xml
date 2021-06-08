@@ -34786,6 +34786,49 @@ ISBN 978-3-8321-7760-7.
     </rule>
   </rulegroup>
 
+	<!-- NEM SABE ESCREVER O NOME nem o nome sabe escrever -->
+    <rulegroup id='DESLOCACAO_A_ESQUERDA' name="Nem/até o nome sabe escrever (Nem/até sabe escrever o nome)" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-08 (17-MAR-2021+)      -->
+	<!--
+Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
+	-->
+	  <rule>
+		<pattern>
+			<token regexp="yes">nem|até</token>
+			<marker>
+				<token postag='V.+' postag_regexp='yes'>
+					<exception postag_regexp='no' postag='VMN0000'/>
+				</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+				<token postag='DA.+|DI.+' postag_regexp='yes'/>
+				<token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
+			</marker>
+			<token negate_pos="yes" postag='SPS.+|CC|NP.+|NC.+|AQ0.+|V.+|RG|RN|DI.+|PI.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Num registo formal, poderia ser preferível colocar o objeto depois do verbo.</message>
+		<suggestion>\4 \5 \2 \3</suggestion>
+		<example correction="o nome sabe escrever">Ele nem <marker>sabe escrever o nome</marker>.</example>
+      </rule>
+	  <rule>
+		<pattern>
+			<token regexp="yes">nem|até</token>
+			<marker>
+				<token postag='V.+' postag_regexp='yes'>
+					<exception postag_regexp='no' postag='VMN0000'/>
+				</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+				<token postag='DA.+|DI.+' postag_regexp='yes'/>
+				<token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
+				<token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
+			</marker>
+			<token negate_pos="yes" postag='SPS.+|CC|NP.+|NC.+|AQ0.+|V.+|RG|RN|DI.+|PI.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Num registo formal, poderia ser preferível colocar o objeto depois do verbo.</message>
+		<suggestion>\4 \5 \6 \2 \3</suggestion>
+		<example correction="o nome próprio sabe escrever">Ele nem <marker>sabe escrever o nome próprio</marker>.</example>
+      </rule>	  
+	</rulegroup>
+
     <!--          Style rules from English grammar.xml      - START-->
     <rule id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky">
       <antipattern>
