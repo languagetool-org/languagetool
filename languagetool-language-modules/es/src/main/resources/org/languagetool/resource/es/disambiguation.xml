@@ -6356,4 +6356,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
+
+    <rule id="IGNORE_SUBDOMAIN_SPELLING" name="Ignore spelling of subdomains">
+        <pattern>
+            <token regexp="yes">[a-z0-9\-]+</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">[a-z0-9\-]+</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">org|com|net|de|co|es|fr|nl|be|eu|biz|ru|ai|au|uk|in|ca|gov|edu|info|cn|us|name|ly|ch|at|mx|no|lu|br|jp|se|it</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
