@@ -10371,6 +10371,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="GUT_DUENKEN" name="gut dünken (Gutdünken)">
+            <pattern>
+                <token>gut</token>
+                <token>dünken</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Gutdünken</suggestion> wird zusammengeschrieben.</message>
+            <example correction="Gutdünken">Ich mache das nach <marker>gut Dünken</marker>.</example>
+        </rule>
         <rule id="IRGEND_COMPOUND" name="Ich komme irgend wann (irgendwann) zur Party.">
             <pattern>
                 <token>irgend</token>
@@ -10702,9 +10710,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * schwer Punkt
                 * warm Wasser
                 * blau Licht
+                * roh Zustand
                 * billig Laden
                 * spät Start
-                * negativ Haltung
                 * immun System
                 * frontal Aufnahme
                 * nieder Lage
@@ -10712,26 +10720,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * kurz Abfrage
                 * kurz Text
                 * klein Kinder
-                * komplett Preis
                 * digital Form
                 * digital Druck
                 * psychisch Kranke
                 * national Galerie
                 * normal Zustand
                 * alternativ Termin
+                * schlecht Wetter
+                * flüssig Beton
+                * klein Gruppen
+                * grob Vorstellung
+                * geistig behinderte
             -->
             <rule>
                 <antipattern>
                     <token>DA</token>
                     <token>Direkt</token>
                 </antipattern>
+                <antipattern>
+                    <token skip="10">Hilfe</token>
+                    <token regexp="yes" inflected="yes">bekommen|beantragen|erhalten</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="10">nehmen</token>
+                    <token>direkt</token>
+                    <token>Bezug</token>
+                </antipattern>
+                <antipattern>
+                    <token>direkt</token>
+                    <token skip="2">Bezug</token>
+                    <token inflected="yes">nehmen</token>
+                </antipattern>
                 <pattern>
                     <token>direkt</token>
-                    <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme|bestätigung</token>
+                    <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme|bestätigung|verknüpfung</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Direkt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Direktvertrieb">Das Unternehmen bot auch einen <marker>direkt Vertrieb</marker> an.</example>
                 <example>Eventuell muss man mit denen direkt Kontakt aufnehmen.</example>
+                <example>Sie haben direkt Hilfe bekommen.</example>
+                <example>In Ihrer E-Mail nimmt sie direkt Bezug dadrauf.</example>
             </rule>
             <rule>
                 <antipattern><!-- Das Original hülle ich erst ...-->
@@ -10740,7 +10768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?|Kaufpreis(es)?|Verkaufspreis(es)?|Blatt(es|s)?|Bestellung</token>
+                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?|Kaufpreis(es)?|Verkaufspreis(es)?|Blatt(es|s)?|Bestellung|Artikels?|Akkus?|Führerscheins?|Farbe</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
@@ -10748,7 +10776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes" case_sensitive="yes">Kunstwerk(es|s)?|Werk(es|s)?|Bei?trags?|Kosten|Kaufpreis(es)?|Verkaufspreis(es)?|Preis(es)?|Umsatz(es)?|Gewinns?|Schule|Schulden|Volumen|Bevölkerung|Einkommens?|Höhe|Jahr(es|s)?|Menge|Paket(es|s)?|Länge|Situation|Ausgangssituation|Wert(es|s)?|Fläche|Schadens?|Produktion|Gewicht(es|s)?|Betriebsrat(es|s)?|Unterricht(es|s)?|Auflage|Bild(es|s)?|Eindruck(es|s)?|Ergebnis(ses)?|Erscheinung|Interesses?|Wertung|Mannschaft|Zahl|Vergrö(ß|ss)erung|Budget|Laufleistung|Leistung|Niederschlags?|Ausgaben|Einnahmen|Anteils?|Objekt(es|s)?</token>
+                    <token regexp="yes" case_sensitive="yes">Kunstwerk(es|s)?|Werk(es|s)?|Bei?trags?|Kosten|Kaufpreis(es)?|Verkaufspreis(es)?|Preis(es)?|Umsatz(es)?|Gewinns?|Schule|Schulden|Volumen|Bevölkerung|Einkommens?|Höhe|Jahr(es|s)?|Menge|Paket(es|s)?|Länge|Situation|Ausgangssituation|Wert(es|s)?|Fläche|Schadens?|Produktion|Gewicht(es|s)?|Betriebsrat(es|s)?|Unterricht(es|s)?|Auflage|Bild(es|s)?|Eindruck(es|s)?|Ergebnis(ses)?|Erscheinung|Interesses?|Wertung|Mannschaft|Zahl|Vergrö(ß|ss)erung|Budget|Laufleistung|Leistung|Niederschlags?|Ausgaben|Einnahmen|Anteils?|Objekt(es|s)?|Miete|Note</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -10808,7 +10836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>privat</token>
-                    <token regexp="yes" case_sensitive="yes">Verkauf(es|s)?|Haftpflicht|Schule|Senders?|Adresse|Nummer|Angelegenheit|Armee|Besitz(es)?|Eigentums?|Gebrauch(es|s)?|Bereich(es|s)?|Gespräch(es|s)?|Vermögens?|Person|Weg(es|s)?|Wohnung|Anleger(in|s)?|Anwender(s|in)?|Autos?|Detektivs?|Flugzeug(es|s)?|Fahrzeug(es|s)?|Jets?|Kredit(es|s)?|Kunde|Kundin|Lebens?|Patient(es|s)?|Versicherung|Anschrift|Kundenbereichs?|Clubs?|Klubs?|Projekt(es|s)?|Nachricht</token>
+                    <token regexp="yes" case_sensitive="yes">Verkauf(es|s)?|Haftpflicht|Schule|Senders?|Adresse|Nummer|Angelegenheit|Armee|Besitz(es)?|Eigentums?|Gebrauch(es|s)?|Bereich(es|s)?|Gespräch(es|s)?|Vermögens?|Person|Weg(es|s)?|Wohnung|Anleger(in|s)?|Anwender(s|in)?|Autos?|Detektivs?|Flugzeug(es|s)?|Fahrzeug(es|s)?|Jets?|Kredit(es|s)?|Kunde|Kundin|Lebens?|Patient(es|s)?|Versicherung|Anschrift|Kundenbereichs?|Clubs?|Klubs?|Projekt(es|s)?|Nachricht|Kontakts?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Privat<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Privatschule">Mein Sohn geht auf eine <marker>privat Schule</marker>.</example>
@@ -10881,10 +10909,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>eigen</token>
-                    <token case_sensitive="yes" regexp="yes">Saft(es|s)?|Geruch(es|s)?|Interesse|Marken?|Produktion|Initiative|Verbrauch|Dynamik|Bedarfs?|Geschmack(es|s)?|Verantwortung|Antrieb|Wille|Lebens?|Gewicht(es|s)?|Gewächs|Brötlers?</token>
+                    <token case_sensitive="yes" regexp="yes">Saft(es|s)?|Geruch(es|s)?|Interesse|Marken?|Produktion|Initiative|Verbrauch|Dynamik|Bedarfs?|Geschmack(es|s)?|Verantwortung|Antrieb|Wille|Lebens?|Gewicht(es|s)?|Gewächs|Brötlers?|Kosten</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Eigen<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Eigengeruch">Der <marker>eigen Geruch</marker> ist einzigartig.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>negativ</token>
+                    <token case_sensitive="yes" regexp="yes">Zins(en)?|Beispiels?|Haltung</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Negativ<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Negativzins">Der <marker>negativ Zins</marker> kostet den deutschen Sparern viel Geld.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>komplett</token>
+                    <token case_sensitive="yes" regexp="yes">Preis(es)?|Ausfalls?|Paket(es|s)?|Angebot(es|s)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Komplett<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Komplettausfall">Thomas Müller war in dem Spiel ein <marker>komplett Ausfall</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -11783,7 +11827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>Champions</token>
-                <token>Cup</token>
+                <token regexp="yes">Cup|Hockey</token>
             </antipattern>
             <antipattern>
                 <token>Ernährungs</token>
@@ -11800,7 +11844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|.*cessions|Therions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Combustions|Dandelions|.*cessions|Therions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -21283,10 +21327,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="NEUES_WAGEN" name="neues (Neues) wagen" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">neues</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes" case_sensitive="yes">wagen</token>
+                </pattern>
+                <message>Hier wird <suggestion>Neues</suggestion> großgeschrieben.</message>
+                <example correction="Neues">Er möchte <marker>neues</marker> wagen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" case_sensitive="yes" skip="1">wagen</token>
+                    <marker>
+                        <token case_sensitive="yes">neues</token>
+                    </marker>
+                </pattern>
+                <message>Hier wird <suggestion>Neues</suggestion> großgeschrieben.</message>
+                <example correction="Neues">Wir wagen <marker>neues</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="LINK_SUBST" name="der link (Link)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihr|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|uns|euch|dich|mich</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -21424,7 +21491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="RUF_SUBST" name="sein ruf (Ruf)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihr|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|uns|euch|dich|mich</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -21444,7 +21511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="REISE_SUBST" name="ihre reise (Reise)">
             <pattern>
                 <token postag="(PRO:POS|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das</exception>
+                    <exception>das</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -21463,7 +21530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="WELLEN_SUBST" name="Alle wellen (Wellen)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihr|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|uns|euch|dich|mich</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -25926,7 +25993,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihr|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|uns|euch|dich|mich</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -31933,6 +32000,7 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="HERZEN_SUBST" name="'von herzen (Herzen)'">
+            <short>&prgk;.</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]u</token>
@@ -31942,7 +32010,6 @@ Andere Projekte</example>
                     <token inflected="yes">nehmen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Herzen">Du darfst dir das nicht so zu <marker>herzen</marker> nehmen.</example>
             </rule>
             <rule>
@@ -31953,7 +32020,6 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Herzen">Es kommt von <marker>herzen</marker>.</example>
             </rule>
             <rule>
@@ -31965,8 +32031,23 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Herzen">Sie hat doch etwas auf dem <marker>herzen</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">[md]ich|sie|uns|euch|ihn|ihr</token>
+                    <token>zu</token>
+                    <token>herzen</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" skip="4">nehmen</token>
+                    <token>zu</token>
+                    <marker>
+                        <token case_sensitive="yes">herzen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
+                <example correction="Herzen">Wir nehmen uns das zu <marker>herzen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BAD_SUBST" name="'das Kind mit dem bade (Bade)'">
@@ -33870,7 +33951,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihr|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|uns|euch|dich|mich</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -41709,7 +41790,10 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <token>Smart</token>
-                <token regexp="yes">City|Trade|Shopping|Apps?</token>
+                <token regexp="yes">City|Trade|Shopping|Apps?|Boards?|Soundbars?</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Smart</token>
             </antipattern>
             <antipattern>
                 <token>National</token>
@@ -41724,8 +41808,8 @@ Andere Projekte</example>
                 <token>Brand</token>
             </antipattern>
             <antipattern>
-                <token>Customer</token>
-                <token regexp="yes">Journey|Experience</token>
+                <token regexp="yes">Customer|User</token>
+                <token regexp="yes">Journey|Experience|Service</token>
             </antipattern>
             <antipattern>
                 <token>Urban</token>
@@ -41742,6 +41826,10 @@ Andere Projekte</example>
             <antipattern>
                 <token case_sensitive="yes">real</token>
                 <token regexp="yes">(Super)?Markt|Kunden(service|dienst|konto)|Marktplatz|GmbH</token>
+            </antipattern>
+            <antipattern>
+                <token>Schwäbisch</token>
+                <token>Hall</token>
             </antipattern>
             <rule>
                 <antipattern>
@@ -41782,7 +41870,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>ohne</token>
-                    <token regexp="yes">gleich|mühsam|ständig|wirklich|unnötig</token>
+                    <token regexp="yes">gleich|mühsam|ständig|wirklich|unnötig|direkt</token>
                     <token postag="SUB:.+" postag_regexp="yes" skip="2"/>
                     <token>zu</token>
                 </antipattern>
@@ -41828,6 +41916,23 @@ Andere Projekte</example>
                     <token regexp="yes" skip="-1">vertretbar|möglich</token>
                     <token>zu</token>
                 </antipattern>
+                <antipattern>
+                    <token>mit</token>
+                    <token>ordentlich</token>
+                </antipattern>
+                <antipattern>
+                    <token>jetzt</token>
+                    <token>auf</token>
+                    <token>gleich</token>
+                </antipattern>
+                <antipattern>
+                    <token>plus</token>
+                    <token>unbegrenzt</token>
+                </antipattern>
+                <antipattern>
+                    <token>mit</token>
+                    <token>doppelt</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="PRP:.+" postag_regexp="yes"><exception regexp="yes">um|zu|als|seit</exception></token>
@@ -41861,6 +41966,7 @@ Andere Projekte</example>
                 <example>Auf gut Deutsch gesagt.</example>
                 <example>Eine Frau mit ordentlich Holz vor der Hütte.</example>
                 <example>Ich mache es, ohne ständig Anschiss zu bekommen.</example>
+                <example>Mit doppelt Knoblauch bitte!</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
@@ -41890,6 +41996,10 @@ Andere Projekte</example>
                     <token regexp="yes">Lust|Bock</token>
                     <token>auf</token>
                 </antipattern>
+                <antipattern>
+                    <token>eine</token>
+                    <token>zeitlang</token>
+                </antipattern>
                 <pattern>
                     <token><exception>,</exception></token>
                     <marker>
@@ -41906,6 +42016,7 @@ Andere Projekte</example>
                 <example><marker>Eine blaue Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
                 <example><marker>Die erst Mitte</marker> der 1920er Jahre veröffentliche Untersuchung ist fehlerhaft.</example>
                 <example>Dies ist eine Wortform, <marker>die gleichzeitig Person</marker> und Numerus anzeigt.</example>
+                <example>... auch wenn es mir eine zeitlang Freude gemacht hat.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41945,6 +42056,10 @@ Andere Projekte</example>
                     <token>echt</token>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>meinen</token>
+                    <token>sicher</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">m?ein
                         <exception>ihr</exception>
@@ -41968,6 +42083,7 @@ Andere Projekte</example>
                 <example>Ihre Rolle einer psychisch Kranken in dem Film</example>
                 <example>Er war Schüler einer Berliner Schule.</example>
                 <example>Das bereitet einem auch echt Bauchschmerzen.</example><!-- ugs. -->
+                <example>Sie meinen sicher Ironie.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -41979,6 +42095,10 @@ Andere Projekte</example>
                     <token regexp="yes">[mds]?eine[mnr]</token>
                     <token/>
                     <token regexp="yes">.+en</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="1">meinen</token>
+                    <token>sicher</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">m?ein

@@ -1020,7 +1020,7 @@ public class AgreementRule extends Rule {
       tokenRegex(".+"),
       tokenRegex(".+"),
       tokenRegex("Customer|User"),
-      tokenRegex("Journeys?")
+      tokenRegex("Journeys?|Service")
     ),
     Arrays.asList(
       tokenRegex(".+"),

@@ -377,6 +377,9 @@ public class CaseRuleTest {
     assertGood("Wir sollten ihr irgendwas Erotisches schenken.");
     assertGood("Er trank ein paar Halbe.");
     assertGood("Sie/Er hat Schuld.");
+    assertGood("Das war irgendein Irrer.");
+    assertGood("Wir wagen Neues.");
+    assertGood("Vielleicht reden wir später mit ein paar Einheimischen.");
     assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
 
     // uppercased adjective compounds
