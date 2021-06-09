@@ -104,14 +104,27 @@ public class UkrainianDisambiguationRuleTest {
         + " була/[бути]verb:imperf:past:f",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
-    TestTools.myAssert("Олег П'ятниця метнув",
+//    TestTools.myAssert("Олег П'ятниця метнув",
+//        "/[null]SENT_START"
+//        + " Олег/[Олег]noun:anim:m:v_naz:prop:fname"
+//        + "  /[null]null"
+//        + " П'ятниця/[П'ятниця]noun:anim:m:v_naz:prop:lname"
+//        + "  /[null]null"
+//        + " метнув/[метнути]verb:perf:past:m",
+//        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Віра Горобець метнула",
         "/[null]SENT_START"
-        + " Олег/[Олег]noun:anim:m:v_naz:prop:fname"
-        + "  /[null]null"
-        + " П'ятниця/[П'ятниця]noun:anim:m:v_naz:prop:lname"
-        + "  /[null]null"
-        + " метнув/[метнути]verb:perf:past:m",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
+            + " Віра/[Віра]noun:anim:f:v_naz:prop:fname|Віра/[віра]intj|Віра/[віра]noun:inanim:f:v_naz"
+            + "  /[null]null"
+            + " Горобець/[Горобець]noun:anim:f:v_naz:prop:lname|Горобець/[Горобець]noun:anim:f:v_oru:nv:prop:lname|Горобець/[Горобець]noun:anim:f:v_zna:nv:prop:lname"
+            + "  /[null]null"
+            + " метнула/[метнути]verb:perf:past:f",
+            tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Віра Росії коштувала", 
+        "/[null]SENT_START Віра/[Віра]noun:anim:f:v_naz:prop:fname|Віра/[віра]intj|Віра/[віра]noun:inanim:f:v_naz  /[null]null Росії/[Росія]noun:inanim:f:v_dav:prop:geo|Росії/[Росія]noun:inanim:f:v_rod:prop:geo  /[null]null коштувала/[коштувати]verb:imperf:past:f",
+         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   
   
@@ -144,6 +157,12 @@ public class UkrainianDisambiguationRuleTest {
         + " зелені/[зелений]adj:p:v_kly:compb|зелені/[зелений]adj:p:v_naz:compb|зелені/[зелений]adj:p:v_zna:rinanim:compb|зелені/[зелень]noun:inanim:f:v_dav|зелені/[зелень]noun:inanim:f:v_rod|зелені/[зелені]noun:anim:p:v_kly:ns|зелені/[зелені]noun:anim:p:v_naz:ns  /[null]null"
         + " чортики/[чортик]noun:anim:p:v_kly|чортики/[чортик]noun:anim:p:v_naz",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("Харкові",
+        "/[null]SENT_START "
+        + "Харкові/[Харків]noun:inanim:m:v_mis:prop:geo",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
   }
   
   @Test
@@ -153,6 +172,12 @@ public class UkrainianDisambiguationRuleTest {
       "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf:coll"
       + "  /[null]null крило/[крило]noun:inanim:n:v_naz|крило/[крило]noun:inanim:n:v_zna|крило/[крити]verb:imperf:past:n",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("більше того,",
+        "/[null]SENT_START більше/[більше]adv:compc|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
+        + "  /[null]null того/[те]noun:inanim:n:v_rod:&pron:dem|того/[той]adj:m:v_rod:&pron:dem|того/[той]adj:m:v_zna:ranim:&pron:dem|того/[той]adj:n:v_rod:&pron:dem"
+        + " ,/[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("І до",
       "/[null]SENT_START"
@@ -215,7 +240,7 @@ public class UkrainianDisambiguationRuleTest {
     TestTools.myAssert("Леонідів Кравчука та Кучму",
         "/[null]SENT_START Леонідів/[Леонід]noun:anim:p:v_rod:prop:fname|Леонідів/[Леонід]noun:anim:p:v_zna:prop:fname|Леонідів/[Леонідів]adj:m:v_kly|Леонідів/[Леонідів]adj:m:v_naz|Леонідів/[Леонідів]adj:m:v_zna:rinanim"
         + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname"
-        + "  /[null]null та/[та]conj:coord|та/[та]part  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname|Кучму/[кучма]noun:inanim:f:v_zna",
+        + "  /[null]null та/[та]conj:coord|та/[та]part  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   

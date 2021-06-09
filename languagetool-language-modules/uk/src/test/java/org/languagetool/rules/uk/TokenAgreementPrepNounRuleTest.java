@@ -120,6 +120,9 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("ні до чого доброго силові дії не призведуть");
     
     assertEmptyMatch("у святая святих");
+
+    assertEmptyMatch("станом на зараз виконавча влада");
+    
 //    assertEmptyMatch("Імена від Андрій до Юрій");  // називний між від і до рідко зустрічається але такий виняток ховає багато помилок 
 
 //    assertEmptyMatch("як у Конана Дойла")).length); //TODO

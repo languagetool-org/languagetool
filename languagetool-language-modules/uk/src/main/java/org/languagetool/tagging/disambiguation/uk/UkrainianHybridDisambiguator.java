@@ -87,6 +87,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
+    simpleDisambiguator.removeRareForms(input);
     removeVmis(input);
     retagFemNames(input);
     retagInitials(input);
@@ -95,7 +96,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     removePluralForNames(input);
     removeLowerCaseHomonymsForAbbreviations(input);
     removeLowerCaseBadForUpperCaseGood(input);
-    simpleDisambiguator.removeRareForms(input);
     disambiguateSt(input);
 
     return input;
@@ -137,6 +137,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           }
           // Олег П'ятниця
           else if( LemmaHelper.isCapitalized(nameToken.getCleanToken())
+              && ! PosTagHelper.hasPosTagPart(nameToken, ":prop")
               && PosTagHelper.hasPosTagStart(tokens[i], animPropTagPrefix + ":fname") ) {
             for (AnalyzedToken analyzedToken : nameToken) {
               nameToken.removeReading(analyzedToken, ruleApplied);
