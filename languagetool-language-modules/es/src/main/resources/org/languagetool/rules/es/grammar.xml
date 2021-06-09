@@ -9167,6 +9167,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>descubrirá que Rodríguez se halla implicado </example>
                 <example>El calor al que se halla sometido.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>que</token>
+                    <marker>
+                        <token>halla</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">más|menos|un</token>
+                </pattern>
+                <message>Incorrecto si es del v. 'haber'. Correcto si es del v. 'hallar' (encontrar).</message>
+                <suggestion>haya</suggestion>
+                <example correction="haya">Si no quieren que <marker>halla</marker> más huelga, que se espabilen.</example>
+                <example correction="haya">Si no quieren que <marker>halla</marker> una huelga, que se espabilen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="HAYA_HALLA" name="haya/halla">
             <antipattern>
