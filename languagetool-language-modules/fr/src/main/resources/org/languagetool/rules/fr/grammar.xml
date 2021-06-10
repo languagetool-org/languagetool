@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY departement "Ain|Aisne|Allier|Alpes-de-Haute-Provence|Hautes-Alpes|Alpes-Maritimes|Ardèche|Ardennes|Ariège|Aube|Aude|Aveyron|Bouches-du-Rhône|Calvados|Cantal|Charente|Charente-Maritime|Cher|Corrèze|Corse-du-Sud|Haute-Corse|Côte-d'Or|Côtes d'Armor|Creuse|Dordogne|Doubs|Drôme|Eure|Eure-et-Loir|Finistère|Gars|Haute-Garonne|Gers|Gironde|Hérault|Ille-et-Vilaine|Indre|Indre-et-Loire|Isère|Jura|Landes|Loir-et-Cher|Loire|Haute-Loire|Loire-Atlantique|Loiret|Lot|Lot-et-Garonne|Lozère|Maine-et-Loire|Manche|Marne|Haute-Marne|Mayenne|Meurthe-et-Moselle|Meuse|Morbihan|Moselle|Nièvre|Nord|Oise|Orne|Pas-de-Calais|Puy-de-Dôme|Pyrénées-Atlantiques|Hautes-Pyrénées|Pyrénées-Orientales|Bas-Rhin|Haut-Rhin|Rhône|Haute-Saône|Saône-et-Loire|Sarthe|Savoie|Haute-Savoie|Paris|Seine-Maritime|Seine-et-Marne|Yvelines|Deux-Sèvres|Somme|Tarn|Tarn-et-Garonne|Var|Vaucluse|Vandée|Vienne|Haute-Vienne|Vosges|Yonne|Territoire de Belfort|Essonne|Hauts-de-Seine|Seine-St-Denis|Val-de-Marne|Val-D'Oise|Guadeloupe|Martinique|Guyane|La Réunion|Mayotte">
     <!ENTITY monnaies "afghani|rand|lek|d[ie]nar|euro|kwanza|dollar|florin|riyal|peso|dram|manat|taka|rouble|franc|r(h)?oupie|boliviano|mark|pula|couronne|real|(bulgarian)? lev|riel|peso|escudo|yuan|livre|won|kuna|colon|dirham|birr|dalasi|lari|ghana cedi|quetzal|gourde|lempira|forint|rupiah|rial|yen|tenge|shilling|som|kip|rans|loti|lats|litas|pataca|malagasy|ringgit|kwacha|rufiyaa|ouguija|leu|tugrik|metical|kyat|rand|cordoba|naira|soum|balboa|kina|guarani|(nouveau)? sol|zloty|tala|dobra|leone|lilangeni|somoni|baht|pa'anga|manat|hryvnia|vatu|bolivar|dong|kwacha">
     <!ENTITY comp_mots "[a-zàâéèêîôûïëüçœ'-]">
-    <!ENTITY exceptions_sujet_singulier "plupart|nombre">
+    <!ENTITY exceptions_sujet_singulier "plupart|nombre|poignée">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
@@ -7521,6 +7521,10 @@ though, and has since been slightly modified)-->
                 <example correction="ont">Des rapports qui ne coïncidaient pas <marker>ont ont</marker> incité le patron</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="10">soit</token>
+                    <token>soit</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>ont</token>
@@ -7538,6 +7542,7 @@ though, and has since been slightly modified)-->
                 <example>Les méthodes qui ont cours.</example>
                 <example>Ils ont hâte de vous voir.</example>
                 <example>Ils comprennent qu’ils ont affaire à un épisode tragique.</example>
+                <example>Plusieurs Polyommatinae ont soit leur recto soit leur verso qui prêtent à confusion.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26468,7 +26473,7 @@ though, and has since been slightly modified)-->
             <!-- Singulier -->
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START|C sub" postag_regexp="yes" regexp="yes">|que|qu'<exception scope="previous" regexp="yes" inflected="yes">tel|ainsi</exception></token>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"><exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
@@ -26526,6 +26531,10 @@ though, and has since been slightly modified)-->
                 <example>Quel âge aurez-vous l'an prochain ?</example>
                 <example>Ce soir nous allons à l'église.</example>
                 <example>Ce matin nous avons froid.</example>
+                <example correction="a">Comment se fait-il que le réveil qui n’<marker>ai</marker> pas sonné.</example>
+                <example>Et parmi les rares livres qui parlaient des calls, il n'y en avait qu'une poignée qui expliquaient comment effectuer les appels.</example>
+                <!-- TODO -->
+                <example type="triggers_error">La prestation qui t'ai proposée.</example>
             </rule>
             <rule>
                 <pattern>
