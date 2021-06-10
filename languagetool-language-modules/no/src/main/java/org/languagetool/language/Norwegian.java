@@ -103,7 +103,7 @@ public class Norwegian extends Language {
       new WhiteSpaceBeforeParagraphEnd(messages, this),
       new WhiteSpaceAtBeginOfParagraph(messages),
       new EmptyLineRule(messages, this),
-      new LongSentenceRule(messages, userConfig, 33, true, true),
+      new LongSentenceRule(messages, userConfig, 33),
       new LongParagraphRule(messages, this, userConfig),
       new ParagraphRepeatBeginningRule(messages, this),
       new PunctuationMarkAtParagraphEnd(messages, this),
