@@ -614,7 +614,6 @@ public class FlatParagraphTools {
         MessageHandler.printToLogFile("xMarkingAccess == null");
       } else {
         xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
-        flatPara.setChecked(TextMarkupType.PROOFREADING, true);
         XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
         if (markComponent != null) {
           markComponent.dispose();
@@ -651,6 +650,7 @@ public class FlatParagraphTools {
       if (override) {
         props = flatPara.getMarkupInfoContainer();
         flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
+        flatPara.setChecked(TextMarkupType.PROOFREADING, true);
       }
     }
   }

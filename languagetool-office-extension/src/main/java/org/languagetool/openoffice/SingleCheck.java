@@ -133,7 +133,7 @@ class SingleCheck {
       }
       if (changedParas.contains(lastChangedPara) )
       changedParas.add(lastChangedPara);
-      remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
+      remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
     }
     this.lastSinglePara = lastSinglePara;
     if (numParasToCheck != 0 && paraNum >= 0) {
@@ -157,9 +157,9 @@ class SingleCheck {
         if (isDialogRequest && textIsChanged) {
           List<Integer> changedParas = new ArrayList<Integer>();
           changedParas.add(paraNum);
-          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
+          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
         } else if (!useQueue || isDialogRequest) {
-          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
+          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
         }
       }
     }
@@ -269,7 +269,9 @@ class SingleCheck {
         if (oldCache != null) {
           for (int nText = startPara; nText < endPara; nText++) {
             int nFlat = docCache.getFlatParagraphNumber(nText);
-            if (override || paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
+            // TODO: remove after tests
+//            if (override || paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
+            if (paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
               if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getCacheEntry(nFlat), oldCache.getCacheEntry(nFlat))) {
                 changedParas.add(nFlat);
               }
@@ -286,7 +288,7 @@ class SingleCheck {
               MessageHandler.printToLogFile(tmpText);
             }
             singleDocument.setLastChangedParas(changedParas);
-            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt);
+            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, override);
           } else if (debugMode > 1) {
             MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara + ": No Paras to Mark, nTPara: " + nTPara + ", nFPara: " + nFPara);
           }
@@ -337,13 +339,14 @@ class SingleCheck {
    * remark changed paragraphs
    * override existing marks
    */
-  public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara, SwJLanguageTool lt) {
+  public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, 
+      FlatParagraphTools flatPara, SwJLanguageTool lt, boolean override) {
     if (!mDocHandler.isSwitchedOff()) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int i = 0; i < changedParas.size(); i++) {
         changedParasMap.put(changedParas.get(i), getSentenceErrosAsList(changedParas.get(i), lt));
       }
-      flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
+      flatPara.markParagraphs(changedParasMap, docCache, override, cursor);
     }
   }
   
