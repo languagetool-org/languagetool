@@ -2537,6 +2537,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!--  both ok: кількість, перевага, більшість, меншість -->
     </rulegroup>
 
+    <rulegroup id="vika_viku" name="віка і віку">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="num.*"/>
+          <marker>
+            <token>віка</token>
+          </marker>
+        </pattern>
+        <message>Родовий відмінок від «вік» є <suggestion>віку</suggestion></message>
+        <example correction="віку">події ХХ <marker>віка</marker>.</example>
+        <example>розглядала його віка, губи</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]сі|на|кінця|од|до|чверть|середин.*|дожив.*|[ву]корот.*</token>
+          <marker>
+            <token>віка</token>
+          </marker>
+        </pattern>
+        <message>Родовий відмінок від «вік» є <suggestion>віку</suggestion></message>
+        <example correction="віку">на всі <marker>віка</marker>.</example>
+        <example>розглядала його віка, губи</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>віка</token>
+          </marker>
+          <token min="0">не</token>
+          <token regexp="yes">збав.*|дожив.*</token>
+        </pattern>
+        <message>Родовий відмінок від «вік» є <suggestion>віку</suggestion></message>
+        <example correction="віку">хочеш <marker>віка</marker> збавити.</example>
+        <example>розглядала його віка, губи</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
   <category id="LOGICAL_ERRORS" name="Логічні помилки">

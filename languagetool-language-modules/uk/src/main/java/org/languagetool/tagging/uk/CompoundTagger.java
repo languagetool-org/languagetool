@@ -90,7 +90,7 @@ class CompoundTagger {
   );
 
   private static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
-    "багато", "мало", "високо", "низько", "старо", "ново"
+    "багато", "мало", "високо", "низько", "старо", "важко", "зовнішньо", "внутрішньо", "ново", "південно", "північно", "західно", "східно"
   );
 
   // TODO: чемпіонат світу-2014, людина року-2018, Червона рута-2011, Нова хвиля-2012, Фабрика зірок-2
@@ -457,23 +457,24 @@ class CompoundTagger {
 
     // allow га-га!
 
+    List<AnalyzedToken> noDashAnalyzedTokens = new ArrayList<>();
+    
     boolean hasIntj = PosTagHelper.hasPosTagStart(leftAnalyzedTokens, "intj");
     if( ! hasIntj ) {
       String noDashWord = word.replace("-", "");
       List<TaggedWord> noDashWordList = tagAsIsAndWithLowerCase(noDashWord);
-      List<AnalyzedToken> noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);
-
-      if( ! noDashAnalyzedTokens.isEmpty() )
-        return null;
+      noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);
     }
 
 
     // вгору-вниз, лікар-гомеопат, жило-було
 
-    if( ! leftWdList.isEmpty() && (leftWord.length() > 2 || hasIntj) ) {
-      List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
-      if( tagMatch != null ) {
-        return tagMatch;
+    if( noDashAnalyzedTokens.isEmpty() ) {
+      if( ! leftWdList.isEmpty() && (leftWord.length() > 2 || hasIntj) ) {
+        List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
+        if( tagMatch != null ) {
+          return tagMatch;
+        }
       }
     }
 
@@ -512,10 +513,6 @@ class CompoundTagger {
     if( leftWord.length() < 3 )
       return null;
     
-    // багато..., мало.... пишуться разом
-    if( LEFT_O_ADJ_INVALID.contains(leftWord.toLowerCase()) )
-      return null;
-
     // дво-триметровий...
     if( NUMR_ADJ_PATTERN.matcher(leftWord).matches() ) {
       return numrAdjMatch(word, rightAnalyzedTokens, leftWord);
@@ -1265,13 +1262,27 @@ class CompoundTagger {
         return null;
 
       // важконапрацьований - разом
-      if(! extraTag.equals(":bad") && taggedWords.get(0).getPosTag().startsWith(IPOSTag.adv.getText())
-          && PosTagHelper.hasPosTagPart(analyzedTokens, "adjp")) {
-        extraTag = ":bad";
-      }
-
-      if (! extraTag.equals(":bad") && PosTagHelper.hasPosTagPart2(taggedWords, ":bad")) {
+      if(! extraTag.equals(":bad")) {
+        if (taggedWords.get(0).getPosTag().startsWith(IPOSTag.adv.getText()) && PosTagHelper.hasPosTagPart(analyzedTokens, "adjp")) {
           extraTag = ":bad";
+        }
+        else if ( PosTagHelper.hasPosTagPart2(taggedWords, ":bad")) {
+          extraTag = ":bad";
+        }
+        // багато..., мало.... пишуться разом
+        else if( LEFT_O_ADJ_INVALID.contains(leftWord.toLowerCase()) ) {
+          extraTag = ":bad";
+        }
+        else {
+          // 
+          String noDashWord = word.replace("-", "");
+          List<TaggedWord> noDashWordList = tagAsIsAndWithLowerCase(noDashWord);
+          List<AnalyzedToken> noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);
+
+          if( ! noDashAnalyzedTokens.isEmpty() ) {
+            extraTag = ":bad";
+          }
+        }
       }
     }
 
@@ -1281,9 +1292,11 @@ class CompoundTagger {
         if( posTag.contains(":comp") ) {
           posTag = PosTagHelper.ADJ_COMP_REGEX.matcher(posTag).replaceFirst("");
         }
-        if( ! posTag.contains(":bad") ) {
-          posTag += extraTag;
+        if( extraTag.contains(":bad") ) {
+          posTag = posTag.replace(":arch", "");
         }
+        posTag = PosTagHelper.addIfNotContains(posTag, extraTag);
+
         newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord.toLowerCase() + "-" + analyzedToken.getLemma()));
       }
     }
