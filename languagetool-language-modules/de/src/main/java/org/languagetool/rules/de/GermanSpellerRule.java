@@ -332,6 +332,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]nn?[ou]ll?ie?rung", "Annullierung");
     put("[sS]charm", "Charme");
     put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
+    put("[eE]rledung", "Erledigung");
+    put("erledigigung", "Erledigung");
+    put("woltest", "wolltest");
+    put("[iI]ntranzparentheit", "Intransparenz");
+    put("dunkellilane[mnrs]?", "dunkellila");
+    put("helllilane[mnrs]?", "helllila");
+    put("Behauptungsthese", "Behauptung");
+    putRepl("[eE]rhaltbar(e[mnrs]?)?", "haltbar", "hältlich");
+    putRepl("[aA]ufkeinenfall?", "keinenfall?", " keinen Fall");
     putRepl("[Dd]rumrum", "rum$", "herum");
     putRepl("([uU]n)?proff?esionn?ell?(e[mnrs]?)?", "proff?esionn?ell?", "professionell");
     putRepl("[kK]inderlich(e[mnrs]?)?", "inder", "ind");
