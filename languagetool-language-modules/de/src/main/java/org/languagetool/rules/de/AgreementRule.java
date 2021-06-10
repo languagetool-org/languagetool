@@ -953,9 +953,17 @@ public class AgreementRule extends Rule {
       csToken("Mario")
     ),
     Arrays.asList(
-      csToken("Toyota"), // Die FC Bayern München Hymne (Vorschlag macht keinen Sinn "FC-Bayern")
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      csToken("Toyota"),
       csToken("Motor"),
       tokenRegex("Corp(oration)?|Company")
+    ),
+    Arrays.asList(
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      csToken("Metropolitan"),
+      tokenRegex("Police|Community|City|Books")
     ),
     Arrays.asList(
       tokenRegex("Office|Microsoft"),
