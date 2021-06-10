@@ -2816,7 +2816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[/\-]</token>
                 <token>bas</token>
             </antipattern>
-            <!--         
+            <!--
           <antipattern>
             <token regexp="yes" skip="-1" inflected="yes">ouvrage|livre|dictionnaire|roman|film|titre</token>
             <token postag="J m .|V ppa m ." postag_regexp="yes"/>
@@ -21233,7 +21233,7 @@ though, and has since been slightly modified)-->
                 <example correction="">Nous ne <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Nous ne <marker>dix</marker> rien.</example>
                 <!-- TODO:
-                <example correction="">Nous l’<marker>abandonné</marker>.</example> 
+                <example correction="">Nous l’<marker>abandonné</marker>.</example>
                 <example correction="">Nous l'<marker>impressionnée</marker> de devenir dingue.</example>-->
                 <example>C'est parce que nous avons en nous le début et la possibilité pour cela.</example>
                 <example>L'anglais était pour nous la langue de repli.</example>
@@ -26423,13 +26423,19 @@ though, and has since been slightly modified)-->
                 <token postag="SENT_START"/>
                 <token postag="V imp .*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>notre</token>
+                <token>père</token>
+                <token>qui</token>
+                <token regexp="yes">es|êtes</token>
+            </antipattern>
             <!-- Singulier -->
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"><exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
-                    <token regexp="yes" min="0" max="4">qui|[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}+
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
@@ -26437,7 +26443,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du singulier.</message>
                 <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-                <example correction="dit">L’enfant lui <marker>dis</marker> merci.</example>             
+                <example correction="dit">L’enfant lui <marker>dis</marker> merci.</example>
                 <example correction="dit">L’enfant <marker>dis</marker> merci.</example>
                 <example correction="dit">L’enfant qui <marker>dis</marker> merci est heureux.</example>
                 <example>L'enfant qui dit merci est heureux</example>
@@ -26476,6 +26482,31 @@ though, and has since been slightly modified)-->
                 <example correction="veut">Mon enfant qui ne lui en <marker>veux</marker> pas.</example>
                 <example correction="est">Mon enfant qui lui <marker>sont</marker> intelligent</example>
                 <example correction="est">Mon enfant qui ne s'<marker>es</marker> pas réveillé.</example>
+                <example>Ce fut l’entreprise de marketing de la décennie.</example>
+                <example>Mon enfant ne m’en veut pas.</example>
+                <example>Un loup qui déguisé en ... autruche.</example>
+                <example>Notre père qui êtes odieux de Violaine Bérot.</example>
+                <example>Puis un film Qui sont mes juges ?</example>
+                <example>Quel âge aurez-vous l'an prochain ?</example>
+                <example>Ce soir nous allons à l'église.</example>
+                <example>Ce matin nous avons froid.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">,|qui</token>
+                    <token regexp="yes">lui|elle</token>
+                    <token regexp="yes" min="0" max="4">,|[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}+
+                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du singulier.</message>
+                <suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="veut">Mon enfant qui lui ne m’en <marker>veux</marker> pas.</example>
+                <example correction="veut">Mon enfant, lui ne m’en <marker>veux</marker> pas.</example>
+                <example correction="veut">Mon enfant, lui, ne m’en <marker>veux</marker> pas.</example>
+                <example>Mon enfant qui lui ne m’en veut pas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26517,29 +26548,112 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
                 <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="arrivent">Les camions n’<marker>arrive</marker> pas.</example>
+                <example correction="attendent">Les enfants ne l’<marker>attend</marker> pas.</example>
+                <example correction="attendent">Les enfants qui n’<marker>attende</marker> pas seront punis.</example>
+                <example correction="attendent">Mes enfants qui ne m’<marker>attende</marker> pas.</example>
+                <example correction="composent">Les États-Unis se <marker>compose</marker> de 50 états.</example>
+                <example correction="mangent">Les enfants en <marker>manges</marker>.</example>
+                <example correction="ont">Les enfants qui lui <marker>a</marker> dit.</example>
+                <example correction="prennent">Des cases qui <marker>prenne</marker> deux places.</example>
+                <example correction="sont">Mes enfants qui ne s'<marker>est</marker> pas réveillé.</example>
+                <example correction="veulent">Mes enfants ne m’en <marker>veux</marker> pas.</example>
+                <example correction="veulent">Mes enfants qui ne lui en <marker>veux</marker> pas.</example>
+                <example correction="veulent">Mes enfants qui ne m’en <marker>veux</marker> pas.</example>
+                <example correction="veulent">Mes enfants qui ne s’en <marker>veux</marker> pas.</example>
+                <example correction="veulent">Mes enfants qui ne t’en <marker>veux</marker> pas.</example>
                 <example correction="étaient">Les gens <marker>était</marker> partis.</example>
-                <example>Le contexte troublé.</example>
-                <example>Ma mère étant malade n’est pas venue.</example>
-                <example>Un bruit sifflant de vapeur.</example>
-                <example>Un souffle ardent</example>
                 <example>Au diable toutes ces histoires</example>
-                <example>Le verbe aimer est facile à conjuguer.</example>
+                <example>Aucune forme de non-respect envers les joueurs, les arbitres, les juges ou les spectateurs n'est tolérée.</example>
+                <example>Ce sont les quelque plantes, fleurs et arbustes qui chaque année embellissent Montbrison.</example>
+                <example>Ces <marker>rues désertes</marker></example>
+                <example>Ces choses nous les partageons.</example>
                 <example>Comment se fait-il que le réveil <marker>ait</marker> sonné.</example>
+                <example>Comment se fait-il que le réveil n’ait pas sonné.</example>
+                <example>Des petites <marker>zones</marker> favorables à la biodiversité.</example>
+                <example>Du tronc poussent les branches.</example>
+                <example>Il est responsable de l'association Des sourires et des vies qui aide les enfants hospitalisés. </example>
+                <example>Il fait partie à la fois des animaux et des plantes mais, n'est lui-même la proie d'aucun d'eux.</example>
+                <example>Il voit la criminalité et les inégalités se développer.</example>
+                <example>l'Homme qui suivrait toujours ses désirs et ses passions ne pourrait pas être considéré comme libre.</example>
+                <example>L'invasion une guerre civile entre les chiites et les sunnites, qui n'existait pas avant.</example>
+                <example>La diversité des espèces et des milieux y est remarquable.</example>
+                <example>La prépondérance de celles-ci sur les relations traditionnelles ne devient effective que plus tard.</example>
+                <example>La question des gammes et des tempéraments ne se pose pratiquement pas.</example>
+                <example>La répartition de la richesse et des revenus n'a pas besoin d'être égale.</example>
+                <example>La somme des dons et des cotisations versées par un individu à un ou plusieurs partis ne peut excéder 7 500 euros par an.</example>
+                <example>Le contexte troublé.</example>
+                <example>Le droit de retrait en cas de danger, pour un ou des salariés, n'est soumis à aucune formalité particulière.</example>
+                <example>Le dénudement progressif des femmes et des hommes n'est pas du goût de la norme de l'époque.</example>
+                <example>Le ministère de l'Éducation, de la Culture et des Sports lui remet la médaille d'or.</example>
+                <example>Le verbe aimer est facile à conjuguer.</example>
+                <example>Le voyage entre le bourg et les ardoisières se faisait à pied.</example>
+                <example>Lequel des élèves est sorti ?</example>
+                <example>Les autres minorités ethniques comme les Roms ne représente qu'une part des morts.</example>
                 <example>Les boissons et la nourriture étaient servis à volonté.</example>
-                <example>Quel âge ont vos enfants ?</example>
+                <example>Les camions n’arrivent pas.</example>
+                <example>Les cuillères en bois commencent à moisir.</example>
+                <example>les employés et la direction n’aboutirent à aucun résultat.</example>
+                <example>Les enfants <marker>jouent</marker> en bas.</example>
+                <example>Les enfants en mangent.</example>
+                <example>Les enfants jouent en bas.</example>
+                <example>Les enfants ne l’attendent pas.</example>
+                <example>Les garçons, ne croyez surtout pas que cette bête entrera dans la maison.</example>
+                <example>Les NO sont également produits lors de la combustion du bois.</example>
+                <example>Les personnes sourd-muettes</example>
+                <example>Les pierres doivent frémir sous ses sandales et les étoiles se pencher pour la voir !</example>
+                <example>Les quartiers conquis par l’armée.</example>
+                <example>Les régions <marker>situées</marker> au sud sont chaudes.</example>
+                <example>Les régions situées au sud sont chaudes.</example>
+                <example type="triggers_error" reason="proper noun/common noun ambiguity">Les Visiteurs ne remporte finalement qu'une seule récompense.</example>
+                <example>Les États-Unis se composent de 50 états.</example>
+                <example>L’eau des lacs et des rivières est douce.</example>
+                <example>Ma mère étant malade n’est pas venue.</example>
+                <example>Mars a deux lunes.</example>
+                <example>Mes enfants ne m’en veulent pas.</example>
+                <example>Mes enfants qui ne m’en veulent pas.</example>
+                <example>Mon fils ne passera pas.</example>
+                <example>Mon fils n’arrive pas à faire les additions.</example>
+                <example type="triggers_error" reason="plural used as singular">Neuf heures lui conviendrait.</example>
                 <example>Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
+                <example>Nos <marker>bagages étant</marker> enregistrés</example>
+                <example>Onze nouvelles compositions dont la moitié sont de brefs interludes vocaux.</example>
+                <example>Que ce poète des champs, des bois et des pâtures se consacre de préférence à d'autres choses !</example>
+                <example>Quel âge ont vos enfants ?</example>
+                <example>Quels changements attendre de la réalité augmentée ?</example>
+                <example>Qui l'ose réveiller peut s'en laisser surprendre.</example>
+                <example>Savoir les tenants et les aboutissants n’a aucun sens.</example>
+                <example>Tant pour le service voyageurs que le service marchandises.</example>
+                <example>Tout Paris est à la fête.</example>
+                <example>Un bruit sifflant de vapeur.</example>
                 <example>Un petit sourire.</example>
                 <example>Un seul <marker>être</marker> vous manque.</example>
-                <example>Tant pour le service voyageurs que le service marchandises.</example>
-                <example>Comment se fait-il que le réveil n’ait pas sonné.</example>
-                <example>les employés et la direction n’aboutirent à aucun résultat.</example>
-                <example>Les NO sont également produits lors de la combustion du bois.</example>
-                <example>Ce sont les quelque plantes, fleurs et arbustes qui chaque année embellissent Montbrison.</example>
-                <example>Onze nouvelles compositions dont la moitié sont de brefs interludes vocaux.</example>
-                <example>Qui l'ose réveiller peut s'en laisser surprendre.</example>
-                <example>Les enfants jouent en bas.</example>
-                <example>Les régions situées au sud sont chaudes.</example>
-                <example>Mars a deux lunes.</example>
+                <example>Un souffle ardent</example>
+                <example>Un tiens vaut mieux que deux tu l'auras.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token>qui</token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes">
+                            <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="ont">Les enfants, qui lui <marker>a</marker> dit.</example>
             </rule>
             <rule>
                 <antipattern>
