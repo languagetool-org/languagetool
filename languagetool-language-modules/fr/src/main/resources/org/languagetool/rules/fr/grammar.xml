@@ -26409,9 +26409,12 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_SUJET_VERBE" name="accord sujet/verbe" default="temp_off">
+            <!-- Singulier -->
             <rule>
                 <pattern>
-                    <phraseref idref="SUJET_SINGULIER"/>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="2">[lmnt][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
@@ -26419,13 +26422,32 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du singulier.</message>
-                <!--<suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>-->
-                <example correction="">L’enfant lui <marker>dis</marker> merci.</example>
-                <example correction="">L’enfant dans les bois lui <marker>dis</marker> merci.</example>
+                <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="dit">L’enfant lui <marker>dis</marker> merci.</example>
             </rule>
             <rule>
                 <pattern>
-                    <phraseref idref="SUJET_PLURIEL"/>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="2">[lmnt][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du singulier.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="dit">L’enfant dans les bois lui <marker>dis</marker> merci.</example>
+            </rule>
+            <!-- Pluriel -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JN] . (p|sp)|V ppa . P" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="2">[lmnt][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
@@ -26433,9 +26455,27 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
-                <!--<suggestion><match no="5" postag="(V.*) 3 s" postag_regexp="yes" postag_replace="$1 3 p" case_conversion="alllower"/></suggestion>-->
-                <example correction="">Les gens <marker>était</marker> partis.</example>
-                <example correction="">Les enfants dans le jardin <marker>joue</marker> en bas.</example>
+                <suggestion><match no="5" postag="(V.*) 3 s" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="étaient">Les gens <marker>était</marker> partis.</example>
+                <example>Les enfants jouent en bas.</example>
+                <example>Les régions situées au sud sont chaudes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . P" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="2">[lmnt][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="7" postag="(V.*) 3 s" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="jouent">Les enfants dans le jardin <marker>joue</marker> en bas.</example>
                 <example>Les enfants jouent en bas.</example>
                 <example>Les régions situées au sud sont chaudes.</example>
             </rule>
