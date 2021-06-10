@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -175,7 +176,13 @@ public class TokenAgreementPrepNounRule extends Rule {
       }
 
       Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(prepTokenReadings, IPOSTag.prep.name());
-      
+
+      // згідно з документа
+      if( (prep.equalsIgnoreCase("з") || prep.equalsIgnoreCase("із"))
+          && i >= 3 && tokens[i-2].getCleanToken().equalsIgnoreCase("згідно") ) {
+        expectedCases = new HashSet<>(Set.of("v_oru"));
+      }
+
       // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
 //      if( expectedCases.isEmpty() ) {
 //        prepTokenReadings = null;
