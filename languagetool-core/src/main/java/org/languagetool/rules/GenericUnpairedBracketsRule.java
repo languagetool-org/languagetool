@@ -286,6 +286,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
               || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches()
               || endSymbols.contains(tokens[i + 1].getToken())
+              || tokens[i + 1].getToken().startsWith("-") // e.g. >>"Go"-button<<
               || "s".equals(tokens[i + 1].getToken());// e.g. >>"I"s<< has and needs no space
     }
     return followedByWhitespace;
@@ -369,6 +370,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     public Symbol(String symbol, Type symbolType) {
       this.symbol = symbol;
       this.symbolType = symbolType;
+    }
+
+    @Override
+    public String toString() {
+      return symbol;
     }
   }
 }

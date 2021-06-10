@@ -27,6 +27,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_MISSING_THE" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Clubhouse</token>
+                    </marker>
+                </pattern>
+                <example correction="">He is using <marker>Clubhouse</marker> to communicate with his friends.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_TO" name="">
             <rule>
                 <pattern>
@@ -181,6 +191,33 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">['’`´‘ʻ]</token>
+                    <token skip="-1" spacebefore="no"/>
+                    <marker>
+                        <token/>
+                        <token spacebefore="no" regexp="yes">['’`´‘ʻ]</token>
+                        <token/>
+                    </marker>
+                </pattern>
+                <example correction="">Would you like the 'Marco <marker>Polo' package</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(https?://).*[^\p{P}]</token>
+                </pattern>
+                <example correction="">Visit <marker>https://www.dropbox.com/s/0ih8kwt2imwr5kb/Image%20error.mov?dl=0</marker> now!</example>
+                <example>Visit https://www.dropbox.com/s/0ih8kwt2imwr5kb/Image%20error.mov?dl=0!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\w+</token>
+                    <token spacebefore="no">:</token>
+                    <token spacebefore="no">-</token>
+                </pattern>
+                <example correction=""><marker>Date:-</marker> now!</example>
+            </rule>
             <rule><!-- don't split e-mail addresses -->
                 <pattern>
                     <token/>
@@ -297,6 +334,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">I'm <marker>meeting</marker> him in ten minutes.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_G_REPLACE_OTHER" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(https?://).*[^\p{P}]</token>
+                </pattern>
+                <example correction="">Visit <marker>https://www.dropbox.com/s/0ih8kwt2imwr5kb/Image%20error.mov?dl=0</marker> now!</example>
+                <example>Visit https://www.dropbox.com/s/0ih8kwt2imwr5kb/Image%20error.mov?dl=0!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_G_INSERT_OTHER" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\w+</token>
+                        <token spacebefore="no">:</token>
+                    </marker>
+                    <token regexp="yes">(https?://).*[^\p{P}]</token>
+                </pattern>
+                <example correction=""><marker>Visit:</marker> https://www.dropbox.com/s/0ih8kwt2imwr5kb/Image%20error.mov?dl=0 now!</example>
             </rule>
         </rulegroup>
     </category>

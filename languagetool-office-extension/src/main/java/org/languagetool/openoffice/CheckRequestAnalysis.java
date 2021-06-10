@@ -480,18 +480,42 @@ class CheckRequestAnalysis {
       return -1;
     }
     int from = 0;
-    while (from < docCache.size() && from < oldDocCache.size()
-        && docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from))) {
-      from++;
+    int to = 1;
+    // to prevent spontaneous recheck of nearly the whole text
+    // the change of text contents has to be checked first
+    // ignore headers and footers and the change of function inside of them
+    int fromText = 0;
+    while (fromText < docCache.textSize() && fromText < oldDocCache.textSize()
+        && docCache.getTextParagraph(fromText).equals(oldDocCache.getTextParagraph(fromText))) {
+      fromText++;
+    }
+    boolean isTextChange = fromText < docCache.textSize() && fromText < oldDocCache.textSize();
+    if (isTextChange) {
+      // if change in text is found check the number of text paragraphs which have changed
+      int toText = 1;
+      while (toText <= docCache.textSize() && toText <= oldDocCache.textSize()
+          && docCache.getTextParagraph(docCache.textSize() - toText).equals(
+                  oldDocCache.getTextParagraph(oldDocCache.textSize() - toText))) {
+        toText++;
+      }
+      from = docCache.getFlatParagraphNumber(fromText);
+      to = docCache.getFlatParagraphNumber(toText);
+    } else {
+      // if no change in text is found check the number of flat paragraphs which have changed
+      while (from < docCache.size() && from < oldDocCache.size()
+          && (docCache.getNumberOfTextParagraph(from) >= 0
+          || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
+        from++;
+      }
+      while (to <= docCache.size() && to <= oldDocCache.size()
+          && (docCache.getNumberOfTextParagraph(docCache.size() - to) >= 0
+          || docCache.getFlatParagraph(docCache.size() - to).equals(
+                  oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
+        to++;
+      }
+      to = docCache.size() - to;
     }
     changeFrom = from - numParasToChange;
-    int to = 1;
-    while (to <= docCache.size() && to <= oldDocCache.size()
-        && docCache.getFlatParagraph(docCache.size() - to).equals(
-            oldDocCache.getFlatParagraph(oldDocCache.size() - to))) {
-      to++;
-    }
-    to = docCache.size() - to;
     changeTo = to + numParasToChange + 1;
     singleDocument.removeAndShiftIgnoredMatch(from, to, oldDocCache.size(), docCache.size());
     if (debugMode > 0) {
@@ -502,10 +526,22 @@ class CheckRequestAnalysis {
     }
     this.docCache = docCache;
     singleDocument.setDocumentCache(docCache);
-    if (useQueue) {
+    if (useQueue && isTextChange) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("Number of Paragraphs has changed: new: " + docCache.size() 
-        +",  old: " + oldDocCache.size()+ ", docID: " + docID);
+        + ",  old: " + oldDocCache.size()+ ", docID: " + docID);
+        if (to - from > 1) {
+          MessageHandler.printToLogFile("Number of Paragraphs has changed: Difference from " + from + " to " + to);
+          MessageHandler.printToLogFile("Old Cache size: " + oldDocCache.size());
+          MessageHandler.printToLogFile("new docCache(from): '" + docCache.getFlatParagraph(from) + "'");
+          if (from < oldDocCache.size()) {
+            MessageHandler.printToLogFile("old docCache(from): '" + oldDocCache.getFlatParagraph(from) + "'");
+          }
+          MessageHandler.printToLogFile("new docCache(to): '" + docCache.getFlatParagraph(to) + "'");
+          if (to < oldDocCache.size()) {
+            MessageHandler.printToLogFile("old docCache(to): '" + oldDocCache.getFlatParagraph(to) + "'");
+          }
+        }
       }
       for (int i = 0; i < minToCheckPara.size(); i++) {
         if (minToCheckPara.get(i) != 0) {

@@ -681,7 +681,7 @@ public class CaseRule extends Rule {
     Arrays.asList( // "Sa. oder So."
       csRegex("Mo|Di|Mi|Do|Fr|Sa"),
       token("."),
-      csRegex("&|und|oder"),
+      csRegex("&|und|oder|-"),
       csToken("So"),
       token(".")
     ),
@@ -762,13 +762,19 @@ public class CaseRule extends Rule {
     Arrays.asList(
       SENT_START,
       // Listenpunkt https://github.com/languagetool-org/languagetool/issues/1515
-      regex("\\*|-|/|_|%"),
+      regex("\\*|-|/|_|%|o"),
       regex(".*")
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|☞|❤|✒︎|☑️|✗|✘|✖|➢"),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|="),
       regex(".*")
+    ),
+    Arrays.asList(
+      // Pfeil "=>"
+      regex("[=\\-–]"),
+      token(">"),
+      csRegex("[A-ZÄÖÜ].*")
     ),
     Arrays.asList(
       // Zwei Kommas, die wie Anführungszeichen verwendet werden: ",,"
@@ -816,9 +822,9 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // "(2c) Der Betrieb ist untersagt"
       SENT_START,
-      regex("[\\[\\(]"),
-      token("[a-z0-9]{1,3}"),
-      regex("[\\]\\)]"),
+      regex("[\\[\\(\\{]"),
+      token("[a-z0-9]{1,5}"),
+      regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
@@ -829,9 +835,44 @@ public class CaseRule extends Rule {
       csRegex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
+      // "Sie/Er/Es hat recht."
+      SENT_START,
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
       // "Er trank ein paar Halbe."
       regex("paar|einige|zwei|drei|vier|\\d+"),
       token("Halbe")
+    ),
+    Arrays.asList(
+      // "Wir machen das Sa So Mo" (fehlender Punkt)
+      csToken("Sa"),
+      csToken("So")
+    ),
+    Arrays.asList(
+      // "Wir machen das Sa oder So" (fehlender Punkt)
+      csToken("Sa"),
+      regex("&|und|oder|-"),
+      csToken("So")
+    ),
+    Arrays.asList(
+      // Vielleicht reden wir später mit ein paar Einheimischen.
+      token("ein"),
+      token("paar"),
+      new PatternTokenBuilder().posRegex(".*SUB.*").csTokenRegex("[A-ZÖÜÄ].+").build(),
+      new PatternTokenBuilder().csTokenRegex("[a-zäöüß.,!?:;\\-–].*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Neues").setSkip(1).build(),
+      new PatternTokenBuilder().token("wagen").matchInflectedForms().build()
+    ),
+    Arrays.asList( // Wir wagen Neues.
+      new PatternTokenBuilder().token("wagen").matchInflectedForms().build(),
+      token("Neues")
     )
   );
 
@@ -921,6 +962,10 @@ public class CaseRule extends Rule {
     "Projektbeteiligten", // temporary fix
     "Heranwachsende", // temporary fix
     "Heranwachsenden", // temporary fix
+    "Interessierte", // temporary fix
+    "Interessierten", // temporary fix
+    "Infizierte", // temporary fix
+    "Infizierten", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
@@ -1837,7 +1882,7 @@ public class CaseRule extends Rule {
         // "aus sechs Überwiegend muslimischen Ländern"
         return false;
       }
-      return ((prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|weniger?|einiger?|mehr|aufs") && tokens[i].hasPartialPosTag("SUB"))
+      return ((prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs") && tokens[i].hasPartialPosTag("SUB"))
               || isNumber(prevTokenStr)) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(((i < 4 && tokens.length > 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma("sein")) && prevToken.hasPosTagStartingWith("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag(":STD")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"

@@ -688,73 +688,59 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       Map<Integer, List<Integer>> replacePoints = new HashMap<Integer, List<Integer>>();
       try {
-        if (isImpress) {
-          //  TODO: Add remote support
-          for (int n = 0; n < docCache.size(); n++) {
-            AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(docCache.getFlatParagraph(n));
-            AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
-            for (int i = tokens.length - 1; i >= 0 ; i--) {
-              List<Integer> x ;
-              if (tokens[i].getToken().equals(word)) {
-                OfficeDrawTools.changeTextOfParagraph(n, tokens[i].getStartPos(), word.length(), replace, xComponent);
-                if (replacePoints.containsKey(n)) {
-                  x = replacePoints.get(n);
-                } else {
-                  x = new ArrayList<Integer>();
-                }
-                x.add(0, tokens[i].getStartPos());
-                replacePoints.put(n, x);
-                if (debugMode) {
-                  MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
-                }
-              }
-            }
-          }
-        } else {
-          for (int n = 0; n < docCache.size(); n++) {
-            if (docCache.getNumberOfTextParagraph(n) < 0) {
-              if (lt.isRemote()) {
-                String text = docCache.getFlatParagraph(n);
-                List<RuleMatch> matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
-                for (RuleMatch match : matches) {
-                  List<Integer> x;
-                  String matchWord = text.substring(match.getFromPos(), match.getToPos());
-                  if (matchWord.equals(word)) {
+        for (int n = 0; n < docCache.size(); n++) {
+          if (isImpress || docCache.getNumberOfTextParagraph(n) < 0) {
+            if (lt.isRemote()) {
+              String text = docCache.getFlatParagraph(n);
+              List<RuleMatch> matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
+              for (RuleMatch match : matches) {
+                List<Integer> x;
+                String matchWord = text.substring(match.getFromPos(), match.getToPos());
+                if (matchWord.equals(word)) {
+                  if (isImpress) {
+                    OfficeDrawTools.changeTextOfParagraph(n, match.getFromPos(), word.length(), replace, xComponent);
+                  } else {
                     flatPara.changeTextOfParagraph(n, match.getFromPos(), word.length(), replace);
-                    if (replacePoints.containsKey(n)) {
-                      x = replacePoints.get(n);
-                    } else {
-                      x = new ArrayList<Integer>();
-                    }
-                    x.add(0, match.getFromPos());
-                    replacePoints.put(n, x);
-                    if (debugMode) {
-                      MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
-                    }
+                  }
+                  if (replacePoints.containsKey(n)) {
+                    x = replacePoints.get(n);
+                  } else {
+                    x = new ArrayList<Integer>();
+                  }
+                  x.add(0, match.getFromPos());
+                  replacePoints.put(n, x);
+                  if (debugMode) {
+                    MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
                   }
                 }
-              } else {
-                AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(docCache.getFlatParagraph(n));
-                AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
-                for (int i = tokens.length - 1; i >= 0 ; i--) {
-                  List<Integer> x ;
-                  if (tokens[i].getToken().equals(word)) {
+              }
+            } else {
+              AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(docCache.getFlatParagraph(n));
+              AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
+              for (int i = tokens.length - 1; i >= 0 ; i--) {
+                List<Integer> x ;
+                if (tokens[i].getToken().equals(word)) {
+                  if (isImpress) {
+                    OfficeDrawTools.changeTextOfParagraph(n, tokens[i].getStartPos(), word.length(), replace, xComponent);
+                  } else {
                     flatPara.changeTextOfParagraph(n, tokens[i].getStartPos(), word.length(), replace);
-                    if (replacePoints.containsKey(n)) {
-                      x = replacePoints.get(n);
-                    } else {
-                      x = new ArrayList<Integer>();
-                    }
-                    x.add(0, tokens[i].getStartPos());
-                    replacePoints.put(n, x);
-                    if (debugMode) {
-                      MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
-                    }
+                  }
+                  if (replacePoints.containsKey(n)) {
+                    x = replacePoints.get(n);
+                  } else {
+                    x = new ArrayList<Integer>();
+                  }
+                  x.add(0, tokens[i].getStartPos());
+                  replacePoints.put(n, x);
+                  if (debugMode) {
+                    MessageHandler.printToLogFile("add change undo: y = " + n + ", NumX = " + replacePoints.get(n).size());
                   }
                 }
               }
             }
           }
+        }
+        if (!isImpress) {
           WordsFromParagraph wParas = new WordsFromParagraph(0, cursorTools);
           Map<Integer, List<Integer>> docReplaces = wParas.replaceWordInText(word, replace);
           for (int n : docReplaces.keySet()) {

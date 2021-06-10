@@ -200,6 +200,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().startsWith("ins ") && // instable (ins table)
                    !k.getReplacement().toLowerCase().startsWith("pre ") &&
                    !k.getReplacement().toLowerCase().startsWith("inter ") &&
+                   !k.getReplacement().toLowerCase().startsWith("multi ") &&
+                   !k.getReplacement().toLowerCase().startsWith("retro ") &&
+                   !k.getReplacement().toLowerCase().startsWith("extra ") &&
                    !k.getReplacement().toLowerCase().startsWith("meta ") &&
                    !k.getReplacement().toLowerCase().startsWith("uni ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
@@ -406,6 +409,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("hiphop", Arrays.asList("hip-hop"));
+    s.put("Hiphop", Arrays.asList("Hip-hop", "Hip-Hop"));
     s.put("ap", Arrays.asList("app", "up", "AP"));
     s.put("Ap", Arrays.asList("App", "Up", "AP"));
     s.put("aps", Arrays.asList("apps"));

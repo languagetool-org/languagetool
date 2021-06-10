@@ -310,6 +310,7 @@ public class German extends Language implements AutoCloseable {
       case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
+      case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "GEFEATURED": return -1; // prefer over spell checker

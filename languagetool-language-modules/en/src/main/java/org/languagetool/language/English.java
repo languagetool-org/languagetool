@@ -182,7 +182,7 @@ public class English extends Language implements AutoCloseable {
         new WhiteSpaceBeforeParagraphEnd(messages, this),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages, this),
-        new LongSentenceRule(messages, userConfig, 40, true, true),
+        new LongSentenceRule(messages, userConfig, 40),
         new LongParagraphRule(messages, this, userConfig),
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
@@ -405,6 +405,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
+      case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
       case "NEEDS_FIXED":               return -1;  // less priority than MISSING_TO_BEFORE_A_VERB

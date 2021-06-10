@@ -112,7 +112,7 @@ public class Spanish extends Language implements AutoCloseable{
             new MultipleWhitespaceRule(messages, this),
             new SpanishWikipediaRule(messages),
             new SpanishWrongWordInContextRule(messages),
-            new LongSentenceRule(messages, userConfig, 50, true, true),
+            new LongSentenceRule(messages, userConfig, 50),
             new LongParagraphRule(messages, this, userConfig),
             new SimpleReplaceRule(messages),
             new SimpleReplaceVerbsRule(messages, this)
@@ -197,7 +197,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "ES_SIMPLE_REPLACE": return 30; // greater than typography rules
       case "ETCETERA": return 30; // greater than other typography rules
       case "P_EJ": return 30; // greater than other typography rules
-      case "ESPACIO_DESPUES_DE_PUNTO": return 25; // greater than other typography rules
+      //case "ESPACIO_DESPUES_DE_PUNTO": return 25; // greater than other typography rules
       case "AGREEMENT_ADJ_NOUN_AREA": return 30; // greater than AGREEMENT_DET_NOUN
       case "SE_CREO": return 25; // less than DIACRITICS_VERB_N_ADJ
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?

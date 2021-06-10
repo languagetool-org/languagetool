@@ -1544,7 +1544,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <rule name="FORMULE_1-DING" id="FORMULE_1-DING">
         <pattern>
            <token>formule</token>
-           <token regexp="yes">[12E3][-](seizoen|coureur|race|coureurs|team|teams|kalender|baas|carrière|auto|piloot|loopbaan|auto's|kampioen|weekend|testdag|record|races|legende|directeur|circus|wereld|organisatie|kampioenschap|wereldkampioen|verslaggever|testdagen|stoeltje|renstal|regels|geschiedenis|circuit|ongeval)</token>
+           <token regexp="yes">[12E3][-](seizoen|coureur|race|coureurs|team|teams|kalender|baas|carrière|auto|piloot|loopbaan|auto's|kampioen|weekend|testdag|record|races|legendes?|directeur|circus|wereld|organisatie|kampioenschap|wereldkampioen|verslaggever|testdagen|stoeltje|renstal|regels|geschiedenis|circuit|ongeval)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1681,13 +1681,26 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
-<!--
-	<rule name="NOT_DUTCH" id="NOT_DUTCH">
+    <rule name="TEMPERATURE" id="TEMPERATURE">
+		<!-- -20°C wordt gewaarschuwd door betere regel dan spelling -->
         <pattern case_sensitive="yes">
-			<token regexp="yes">'|&quot;|:|;|,|-</token>
-			<token postag="UNKNOWN" min="3" />
-			<token regexp="yes">&quot;|[:;,?!-]</token>
+			<token regexp="yes">[-]?[0-9]+°[CKF]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ATP_NUM" id="ATP_NUM">
+		<!-- ATP-178 -->
+        <pattern case_sensitive="yes">
+			<token regexp="yes">(ATP|WTA)[-][0-9]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+	<!--
+	<rule name="NOT_DUTCH_SENTENCE" id="NOT_DUTCH_SENTENCE">
+        <pattern case_sensitive="yes">
+			<token postag="SENT_START" skip="-1"/>
+			<token postag_regexp="yes" postag="UNKNOWN" min="3" />
+			<token postag="SENT_END"/>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

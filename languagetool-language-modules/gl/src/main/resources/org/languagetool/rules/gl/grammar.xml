@@ -4929,6 +4929,38 @@
   </rulegroup>
 
  </category>
+ <category id="CASING" name="Maiúsculas e minúsculas">
+		<rulegroup id="BINOMIAL_NOMENCLATURE" name="Nomenclatura binomial">
+            <rule id="BINOMIAL_GENRE_LOWER">
+                <pattern case_sensitive='yes'>
+                    <token>homo</token>
+										<token regexp="yes">[a-zA-Z].*</token>
+                </pattern>
+                <message>Na nomenclatura binomial, que se escribe en cursiva, o xénero vai en maiúscula e a especie e a subespecie en minúscula.</message>
+                <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="alllower"/></suggestion>                         
+                <short>Nomenclatura binomial</short>
+                <example correction="Homo sapiens">Nós somos <marker>homo Sapiens</marker>.</example>
+                <example correction="Homo habilis">O polgar do <marker>homo habilis</marker> xa era opoñíbel.</example>
+            </rule> 	
+            <rule id="BINOMIAL_SPECIES_UPPER">
+            	<antipattern> <!-- 1000 Homo DJs project by Ministry -->
+            		<token>Homo</token>
+            		<token>DJs</token>
+            	</antipattern>
+                <pattern case_sensitive='yes'>
+                    <token>Homo</token>
+										<token regexp="yes">[A-Z].*</token>
+                </pattern>
+                <message>Na nomenclatura binomial, que se escribe en cursiva, o xénero vai en maiúscula e a especie e a subespecie en minúscula.</message>                
+                <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="alllower"/></suggestion>
+                <short>Nomenclatura binomial</short>
+                <example correction="Homo sapiens">Nós somos <marker>Homo Sapiens</marker>.</example>
+                <example correction="Homo habilis">O polgar do <marker>Homo Habilis</marker> xa era opoñíbel.</example>
+            </rule>  
+ 
+ 
+ </rulegroup>
+ </category>
 
 <category id='REPETITIONS' name='Repeticións' type='duplication'>
 

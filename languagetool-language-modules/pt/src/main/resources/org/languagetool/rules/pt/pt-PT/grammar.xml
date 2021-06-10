@@ -165,7 +165,16 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
       <short>Erro de colocação pronominal</short>
-    <rule>
+    <rule>	
+<!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *START* -->
+<!--
+Quem as abordou a perguntar se iam pagar com multibanco?
+-->
+      <antipattern>
+		<token postag='SPS.+|PD.+|PP.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *END* -->	
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception regexp='yes'>como|para|casa|nada</exception></token>
@@ -175,6 +184,7 @@ title="Easy editing stylesheet" ?>
       <message>Forma hifenizada. Será que quis dizer:</message>
         <suggestion>\1-\2-\3</suggestion>
       <example correction='dar-nos-á'>A vida <marker>dar nos á</marker> sempre mais do que achamos que merecemos.</example>
+	  <example>Quem as abordou a perguntar se iam pagar com multibanco?</example>
     </rule>
   </rulegroup>
 
@@ -2635,6 +2645,43 @@ Tu vens com a gente? → Tu vens connosco?
       <short>Linguagem informal</short>
       <example correction="connosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
     </rule>
+
+    <rule id='FORMAL_COM_NÓS_PT_PT' name="Expressões 'com nós'">
+    <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
+<!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *START* -->
+<!--
+Ele veio com nós para o revéillon. → Ele veio connosco para o revéillon.
+-->
+      <antipattern>
+        <token>com</token>
+        <token>nós</token>
+		<token postag='Z0.+|DI.+|PI.+' postag_regexp='yes'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *END* -->
+      <pattern>
+          <token>com</token>
+          <token>nós</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>connosco</suggestion>?</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+      <short>Linguagem informal</short>
+      <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
+    </rule>
+	
+	<!-- PUTO (INFORMAL IN pt-PT) -->
+    <rule id='PUTO_PT_PT' name="Puto (informal pt_PT)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-10 (17-MAR-2021+)      -->
+	<!--
+O puto era um génio.  → O rapaz era um génio.
+	-->
+      <pattern>
+		  <token regexp="yes">putos?</token>
+      </pattern>
+      <message>Linguagem informal. Considere as alternativas.</message>
+      <example type="incorrect">O <marker>puto</marker> era brilhante.</example>
+      <example type="correct">O <marker>rapaz</marker> era brilhante.</example>
+    </rule>	
 	
  </category>
  

@@ -285,6 +285,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("То вона, то Гриць виринають перед її душею");
     assertEmptyMatch("Кожен чоловік і кожна жінка мають");
     assertEmptyMatch("каналізація і навіть охорона пропонувалися");
+    assertEmptyMatch("Кавказ загалом і Чечня зокрема лишаться");
     assertEmptyMatch("Європейський Союз і моя рідна дочка переживуть це збурення");
     assertEmptyMatch("Бразилія, Мексика, Індія збувають");
     assertEmptyMatch("Банкова й особисто президент дістали");

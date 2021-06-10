@@ -379,13 +379,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
             pos0left -= 1;
           }
 
+          List<String> osobysto = Arrays.asList("особисто", "зокрема", "загалом");
+          
           // він особисто й облдержадміністрація винесли
-          if( LemmaHelper.hasLemma(tokens[pos0left-1], "особисто") ) {
+          if( osobysto.contains(tokens[pos0left-1].getCleanToken()) ) {
             pos0left -= 1;
           }
 
           // громада, або ти особисто закликаєте
-          if( tokens[verbPos-1].getCleanToken().equals("особисто") ) {
+          if( osobysto.contains(tokens[verbPos-1].getCleanToken()) ) {
             logException();
             return true;
           }

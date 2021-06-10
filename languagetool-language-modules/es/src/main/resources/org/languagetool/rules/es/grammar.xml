@@ -9167,6 +9167,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>descubrirá que Rodríguez se halla implicado </example>
                 <example>El calor al que se halla sometido.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>que</token>
+                    <marker>
+                        <token>halla</token>
+                    </marker>
+                    <token regexp="yes">más|menos|un|una|unos|unas</token>
+                </pattern>
+                <message>Incorrecto si es del v. 'haber'. Correcto si es del v. 'hallar' (encontrar).</message>
+                <suggestion>haya</suggestion>
+                <example correction="haya">Si no quieren que <marker>halla</marker> más huelga, que se espabilen.</example>
+                <example correction="haya">Si no quieren que <marker>halla</marker> una huelga, que se espabilen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="HAYA_HALLA" name="haya/halla">
             <antipattern>
@@ -19588,6 +19601,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>cosa</token>
                 <token>sino</token>
             </antipattern>
+            <antipattern>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                <token>nada</token>
+                <token>sino</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -19605,6 +19624,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No sólo en lo institucional sino también en lo político, ya que la universidad ha ido consolidándose.</example>
                 <example>Sabes que no quiero a nadie sino a él.</example>
                 <example>No deseaba sino retornar a la sede.</example>
+                <example>Mi madre no hizo nada sino llorar.</example>
             </rule>
             <rule>
                 <pattern>

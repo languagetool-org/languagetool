@@ -69,6 +69,7 @@ public class EnglishSynthesizerTest {
     assertEquals("[one thousand two hundred forty-three]",Arrays.toString(synth.synthesize(dummyToken("1243"), "_spell_number_", false)));
     assertEquals("[twelve]",Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", true)));
     
+    //assertEquals("[I]",Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP_S1S", true)));
     
   }
 

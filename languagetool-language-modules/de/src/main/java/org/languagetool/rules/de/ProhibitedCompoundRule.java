@@ -707,6 +707,7 @@ public class ProhibitedCompoundRule extends Rule {
           "pullert",
           "Meisterchor",
           "Bienenfarm",
+          "Windknoten",
           "Feuchtmann" //name
   ));
 

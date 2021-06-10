@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.spelling;
 
-import gnu.trove.THashMap;
+import com.google.common.base.Strings;
 import gnu.trove.THashSet;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
@@ -74,13 +74,12 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
-  private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
   private final Set<String> wordsToBeProhibited = new THashSet<>();
 
-  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new THashMap<>();
-  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new THashMap<>();
-  
+  private volatile String[] wordsToBeIgnoredDictionary = null;
+  private volatile String[] wordsToBeIgnoredDictionaryIgnoreCase = null;
+
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
@@ -224,19 +223,11 @@ public abstract class SpellingCheckRule extends Rule {
    */
   public void addIgnoreTokens(List<String> tokens) {
     wordsToBeIgnored.addAll(tokens);
-    updateIgnoredWordDictionary();
   }
 
-  //(re)create a Map<String, Set<String>> of all words to be ignored:
-  // The words' first char serves as key, and the Set<String> contains all Strings starting with this char
   private void updateIgnoredWordDictionary() {
-    wordsToBeIgnoredDictionary = wordsToBeIgnored
-      .stream()
-      .collect(Collectors.groupingBy(s -> s.substring(0,1), THashMap::new, Collectors.toCollection(THashSet::new)));
-    wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
-      .stream()
-      .map(String::toLowerCase)
-      .collect(Collectors.groupingBy(s -> s.substring(0,1), THashMap::new, Collectors.toCollection(THashSet::new)));
+    wordsToBeIgnoredDictionaryIgnoreCase = null;
+    wordsToBeIgnoredDictionary = null;
   }
 
   /**
@@ -299,15 +290,19 @@ public abstract class SpellingCheckRule extends Rule {
     if (mHasNoLetter.matches()) {
       return true;
     }
-    if (word.endsWith(".") && !wordsToBeIgnored.contains(word)) {
+    if (word.endsWith(".") && !isInIgnoredSet(word)) {
       return isIgnoredNoCase(word.substring(0, word.length()-1));  // e.g. word at end of sentence
     }
     return isIgnoredNoCase(word);
   }
 
+  protected boolean isInIgnoredSet(String word) {
+    return wordsToBeIgnored.contains(word);
+  }
+
   protected boolean isIgnoredNoCase(String word) {
-    return wordsToBeIgnored.contains(word) ||
-           (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+    return isInIgnoredSet(word) ||
+           (convertsCase && isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||
            (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
@@ -595,20 +590,31 @@ public abstract class SpellingCheckRule extends Rule {
     if (word.length() < 4) {
       return 0;
     }
-    Optional<String> match = Optional.empty();
-    if(caseSensitive) {
-      Set<String> subset = wordsToBeIgnoredDictionary.get(word.substring(0, 1));
-      if (subset != null) {
-        match = subset.stream().filter(s -> word.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
-      }
-    } else {
-      String lowerCaseWord = word.toLowerCase();
-      Set<String> subset = wordsToBeIgnoredDictionaryIgnoreCase.get(lowerCaseWord.substring(0, 1));
-      if (subset != null) {
-        match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
+    Comparator<String> comparator = caseSensitive ? Comparator.naturalOrder() : String.CASE_INSENSITIVE_ORDER;
+    String[] array = caseSensitive ? wordsToBeIgnoredDictionary : wordsToBeIgnoredDictionaryIgnoreCase;
+    if (array == null) {
+      array = wordsToBeIgnored.stream().sorted(comparator).toArray(String[]::new);
+      if (caseSensitive) {
+        wordsToBeIgnoredDictionary = array;
+      } else {
+        wordsToBeIgnoredDictionaryIgnoreCase = array;
       }
     }
-    return match.map(String::length).orElse(0);
+
+    while (!word.isEmpty()) {
+      int result = Arrays.binarySearch(array, word, comparator);
+      if (result >= 0) break;
+
+      int prev = -result - 2;
+      if (prev < 0) return 0;
+
+      String commonPrefix = caseSensitive
+                            ? Strings.commonPrefix(word, array[prev])
+                            : Strings.commonPrefix(word.toLowerCase(Locale.ROOT), array[prev].toLowerCase(Locale.ROOT));
+      assert commonPrefix.length() < word.length();
+      word = caseSensitive ? commonPrefix : word.substring(0, commonPrefix.length());
+    }
+    return word.length();
   }
   
   // tokenize words from files spelling.txt, prohibit.txt...
