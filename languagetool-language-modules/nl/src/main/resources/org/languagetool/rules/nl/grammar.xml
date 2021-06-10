@@ -9691,6 +9691,7 @@ onwaarschijnlijk
 
 		<rulegroup id="SAMENSTELLING_EIGENNAAM" name="eBay ding / eBayding" >
 			<rule>
+				<antipattern><token>Kia</token><token>e-Niro</token></antipattern>
 				<antipattern><token regexp="yes">trof|nam</token><token postag="ENM.*" postag_regexp="yes"/><token>maatregelen</token></antipattern>
 				<antipattern><token>MAX</token><token>vakantieman</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="ENM:.*"/><token postag_regexp="yes" postag=".*MRV.*" skip="5"/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
@@ -17615,6 +17616,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>nu</token><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token>is</token><token>maar</token><token>klein</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"/><token>ik</token><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token>En</token><token min="1" max="10"><exception regexp="yes">[,;:-]</exception></token><token>maar</token></antipattern>
@@ -19954,6 +19956,7 @@ steenwijk;Steenwijk
 		<rulegroup id="WELKE" name="Welke → die">
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
+				<antipattern><token>de</token><token>vraag</token><token>welke</token><token>andere</token></antipattern>
 				<antipattern><token>vermelden</token><token>welke</token><token>persoonlijke</token><token>gegevens</token></antipattern>
 				<antipattern><token>welke</token><token postag=".*DE_.*" postag_regexp="yes"><exception>een</exception></token></antipattern>
 				<pattern>
