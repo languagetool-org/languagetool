@@ -552,6 +552,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("übertr[äa]gte", "übertrug");
     put("übertr[äa]gten", "übertrugen");
     put("NodeJS", "Node.js");
+    put("Express", "Express.js");
     put("erlas", "Erlass");
     put("schlagte", "schlug");
     put("schlagten", "schlugen");
