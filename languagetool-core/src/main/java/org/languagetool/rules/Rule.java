@@ -276,7 +276,7 @@ public abstract class Rule {
    * Set the examples that are correct and thus do not trigger the rule.
    */
   public final void setCorrectExamples(List<CorrectExample> correctExamples) {
-    this.correctExamples = Objects.requireNonNull(correctExamples);
+    this.correctExamples = correctExamples.isEmpty() ? null : correctExamples;
   }
 
   /**
@@ -290,7 +290,7 @@ public abstract class Rule {
    * Set the examples that are incorrect and thus do trigger the rule.
    */
   public final void setIncorrectExamples(List<IncorrectExample> incorrectExamples) {
-    this.incorrectExamples = Objects.requireNonNull(incorrectExamples);
+    this.incorrectExamples = incorrectExamples.isEmpty() ? null : incorrectExamples;
   }
 
   /**
@@ -305,7 +305,7 @@ public abstract class Rule {
    * @since 3.5
    */
   public final void setErrorTriggeringExamples(List<ErrorTriggeringExample> examples) {
-    this.errorTriggeringExamples = Objects.requireNonNull(examples);
+    this.errorTriggeringExamples = examples.isEmpty() ? null : examples;
   }
 
   /**
