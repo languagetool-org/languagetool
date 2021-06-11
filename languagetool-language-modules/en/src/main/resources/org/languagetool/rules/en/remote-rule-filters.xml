@@ -189,6 +189,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">He hasn't done <marker>that</marker> yet.</example>
             </rule>
+            <rule>
+                <!-- no comma in numbers with decimal point (caused by stray &amp;) -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.\d+</token>
+                    </marker>
+                    <token>.</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">We made <marker>&amp;127508</marker>.45 moving power incrementally.</example>
+            </rule>
+            <rule>
+                <!-- no comma before % -->
+                <pattern>
+                        <token regexp="yes">\d+%</token>
+                </pattern>
+                <example correction="">Since 1986, the Hager portfolios have earned an annualized return of 30.8 M, while outperforming the Dow by <marker>1530%</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
