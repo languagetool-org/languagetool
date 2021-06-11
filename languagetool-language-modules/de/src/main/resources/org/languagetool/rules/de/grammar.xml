@@ -10372,7 +10372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="BURN_DOWN_CHART" name="Burn-Down-Chart" default="temp_off">
+        <rulegroup id="BURN_DOWN_CHART" name="Burn-Down-Chart">
             <url>https://de.wikipedia.org/wiki/Burn-Down-Chart</url>
             <rule>
                 <pattern>
@@ -21396,7 +21396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="ANSTAND_SUBST" name="keinen anstand (Anstand)" default="temp_off">
+        <rulegroup id="ANSTAND_SUBST" name="keinen anstand (Anstand)">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">haben|besitzen</token>
@@ -21422,7 +21422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Anstand">Ich entschuldige mich bei allen, die <marker>anstand</marker> haben.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BLICK_SUBST" name="der blick (Blick)" default="temp_off">
+        <rulegroup id="BLICK_SUBST" name="der blick (Blick)">
             <rule>
                 <antipattern>
                     <token>ich</token>
@@ -21497,7 +21497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Blicke">Seine <marker>blicke</marker> ziehen mich aus.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NEUES_WAGEN" name="neues (Neues) wagen" default="temp_off">
+        <rulegroup id="NEUES_WAGEN" name="neues (Neues) wagen">
             <rule>
                 <pattern>
                     <marker>
@@ -32205,7 +32205,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
                 <example correction="Herzen">Sie hat doch etwas auf dem <marker>herzen</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">[md]ich|sie|uns|euch|ihn|ihr</token>
                     <token>zu</token>
@@ -33440,7 +33440,7 @@ Andere Projekte</example>
                 <example correction="Ende">Sie stand am hinteren <marker>ende</marker> des Raumes.</example>
                 <example correction="Ende">Der Preis liegt am oberen <marker>ende</marker> der Skala.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">an|zu|nach</token>
                     <token min="0">dem</token>
@@ -38946,12 +38946,12 @@ Andere Projekte</example>
                     <token>eine</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[dmsk]eine|ihre|unsere</token>
+                    <token regexp="yes">[dmsk]eine|ihre|unsere|irgendeine</token>
                     <token postag=".+:NOM:PLU:.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[dmsk]?eine|ihre|unsere</token>
+                        <token regexp="yes">[dmsk]?eine|ihre|unsere|irgendeine</token>
                         <token postag="SUB:NOM:SIN:MAS">
                             <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
                         </token>
@@ -38995,6 +38995,10 @@ Andere Projekte</example>
                     <token>von</token>
                     <token>der</token>
                     <token>Haar</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">mit|von|zu|ohne</token>
+                    <token>der</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -39070,7 +39074,7 @@ Andere Projekte</example>
                     <token>eine</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[dmsk]eine|ihre|unsere</token>
+                    <token regexp="yes">[dmsk]eine|ihre|unsere|irgendeine</token>
                     <token postag=".+:NOM:PLU:.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
@@ -39079,7 +39083,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[dmsk]?eine|ihre|unsere</token>
+                        <token regexp="yes">[dmsk]?eine|ihre|unsere|irgendeine</token>
                         <token postag="SUB:NOM:SIN:NEU">
                             <exception postag=".+:NOM:SIN:FEM.*" postag_regexp="yes" />
                         </token>
