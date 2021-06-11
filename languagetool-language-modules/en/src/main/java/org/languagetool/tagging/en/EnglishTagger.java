@@ -20,7 +20,6 @@ package org.languagetool.tagging.en;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -36,6 +35,8 @@ import java.util.Locale;
  * @author Marcin Milkowski
  */
 public class EnglishTagger extends BaseTagger {
+  public static final EnglishTagger INSTANCE = new EnglishTagger();
+
   public EnglishTagger() {
     // intern tags because we only have 47 types and get megabytes of duplicated strings
     super("/en/english.dict", Locale.ENGLISH, false, true);
