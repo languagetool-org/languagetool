@@ -25637,10 +25637,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No només no pot fer-ho, no pot ni dir-ho.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token regexp="yes">més|menys</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">el|la|els|les</token>
+                    <token inflected="yes">mateix</token>
+                </antipattern>
                 <pattern>
                     <token postag="D.*" postag_regexp="yes" regexp="yes">..+</token>
-                    <token postag="RG"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
-                    <token><match no="0"></match></token>
+                    <token postag="RG"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token><match no="0"/></token>
                 </pattern>
                 <message>Repetició probablement incorrecta.</message>
                 <suggestion>\2 \3</suggestion>
@@ -25648,6 +25656,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ja les|les ja">Li fan saber que són <marker>les ja les</marker> deu de la nit. </example>
                 <example>Una història de més de tres-cents anys.</example>
                 <example>El primer el faig jo.</example>
+                <example>Dos més dos són quatre.</example>
+                <example>2 més 2 són quatre.</example>
+                <example>És el mateix el que va venir.</example>
+                <example>És la mateixa la que va venir.</example>
             </rule>
         </rulegroup>
         <rule id="REPETICIO_INFINITIU" name="infinitiu repetit">
