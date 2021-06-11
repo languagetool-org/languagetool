@@ -156,7 +156,7 @@ public class UkrainianTaggerTest {
   }
 
   @Test
-  public void testDynamicTaggingNum() throws IOException {
+  public void testDynamicTaggingNumeric() throws IOException {
     // numr-numr
     TestTools.myAssert("одним-двома", "одним-двома/[один-два]numr:p:v_oru", tokenizer, tagger);
     TestTools.myAssert("одного-другого", "одного-другого/[один-другий]numr:m:v_rod:&numr|одного-другого/[один-другий]numr:m:v_zna:ranim:&numr|одного-другого/[один-другий]numr:n:v_rod:&numr", tokenizer, tagger);
@@ -180,7 +180,7 @@ public class UkrainianTaggerTest {
   }
 
   @Test
-  public void testDynamicTaggingNums() throws IOException {
+  public void testDynamicTaggingNumbers() throws IOException {
     TestTools.myAssert("100-річному", "100-річному/[100-річний]adj:m:v_dav|100-річному/[100-річний]adj:m:v_mis|100-річному/[100-річний]adj:n:v_dav|100-річному/[100-річний]adj:n:v_mis", tokenizer, tagger);
     TestTools.myAssert("1-2-відсотковим", "1-2-відсотковим/[1-2-відсотковий]adj:m:v_oru|1-2-відсотковим/[1-2-відсотковий]adj:n:v_oru|1-2-відсотковим/[1-2-відсотковий]adj:p:v_dav", tokenizer, tagger);
     TestTools.myAssert("10-класників", "10-класників/[10-класник]noun:anim:p:v_rod|10-класників/[10-класник]noun:anim:p:v_zna", tokenizer, tagger);
@@ -431,11 +431,13 @@ public class UkrainianTaggerTest {
   }
   
   @Test
-  public void testCompoundUpper() throws IOException {
+  public void testCompoundUpperCase() throws IOException {
     // dictionary only has "соціал-демократичний" and LT only uppercases first letter
     TestTools.myAssert("Соціал-Демократичний", "Соціал-Демократичний/[соціал-демократичний]adj:m:v_kly|Соціал-Демократичний/[соціал-демократичний]adj:m:v_naz|Соціал-Демократичний/[соціал-демократичний]adj:m:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("Івано-Франківська", "Івано-Франківська/[Івано-Франківськ]noun:inanim:m:v_rod:prop:geo|Івано-Франківська/[івано-франківський]adj:f:v_kly|Івано-Франківська/[івано-франківський]adj:f:v_naz", tokenizer, tagger);
+    TestTools.myAssert("Івано-Франківської", "Івано-Франківської/[івано-франківський]adj:f:v_rod", tokenizer, tagger);
     TestTools.myAssert("Переяслав-Хмельницького", "Переяслав-Хмельницького/[переяслав-хмельницький]adj:m:v_rod|Переяслав-Хмельницького/[переяслав-хмельницький]adj:m:v_zna:ranim|Переяслав-Хмельницького/[переяслав-хмельницький]adj:n:v_rod", tokenizer, tagger);
+    TestTools.myAssert("Південно-Західній", "Південно-Західній/[південно-західний]adj:f:v_dav|Південно-Західній/[південно-західний]adj:f:v_dav:bad|Південно-Західній/[південно-західний]adj:f:v_mis|Південно-Західній/[південно-західний]adj:f:v_mis:bad|Південно-Західній/[південно-західній]adj:f:v_dav:bad|Південно-Західній/[південно-західній]adj:f:v_mis:bad|Південно-Західній/[південно-західній]adj:m:v_kly:bad|Південно-Західній/[південно-західній]adj:m:v_naz:bad|Південно-Західній/[південно-західній]adj:m:v_zna:rinanim:bad", tokenizer, tagger);
   }  
   
   @Test
@@ -543,6 +545,8 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("дво-триметровий", "дво-триметровий/[дво-триметровий]adj:m:v_kly|дво-триметровий/[дво-триметровий]adj:m:v_naz|дво-триметровий/[дво-триметровий]adj:m:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("три-чотириметровий", "три-чотириметровий/[три-чотириметровий]adj:m:v_kly|три-чотириметровий/[три-чотириметровий]adj:m:v_naz|три-чотириметровий/[три-чотириметровий]adj:m:v_zna:rinanim", tokenizer, tagger);
+    TestTools.myAssert("три-річний", "три-річний/[три-річний]adj:m:v_kly:bad|три-річний/[три-річний]adj:m:v_naz:bad|три-річний/[три-річний]adj:m:v_zna:rinanim:bad", tokenizer, tagger);
+    TestTools.myAssert("п'яти-зірковий", "п'яти-зірковий/[п'яти-зірковий]adj:m:v_kly:bad|п'яти-зірковий/[п'яти-зірковий]adj:m:v_naz:bad|п'яти-зірковий/[п'яти-зірковий]adj:m:v_zna:rinanim:bad", tokenizer, tagger);
 
     // :bad
 //    TestTools.myAssert("трьох-чотирьохметровий", "трьох-чотирьохметровий/[трьох-чотирьохметровий]adj:m:v_kly:bad|трьох-чотирьохметровий/[трьох-чотирьохметровий]adj:m:v_naz:bad|трьох-чотирьохметровий/[трьох-чотирьохметровий]adj:m:v_zna:rinanim:bad", tokenizer, tagger);
@@ -555,9 +559,6 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("учбово-спортивної", "учбово-спортивної/[учбово-спортивний]adj:f:v_rod:bad", tokenizer, tagger);
 
     TestTools.myAssert("етико-філологічний", "етико-філологічний/[етико-філологічний]adj:m:v_kly|етико-філологічний/[етико-філологічний]adj:m:v_naz|етико-філологічний/[етико-філологічний]adj:m:v_zna:rinanim", tokenizer, tagger);
-
-    // :bad - має бути без дефісу: "важконапрацьований"
-    TestTools.myAssert("важко-напрацьований", "важко-напрацьований/[важко-напрацьований]adj:m:v_kly:&adjp:pasv:perf:bad|важко-напрацьований/[важко-напрацьований]adj:m:v_naz:&adjp:pasv:perf:bad|важко-напрацьований/[важко-напрацьований]adj:m:v_zna:rinanim:&adjp:pasv:perf:bad", tokenizer, tagger);
 
     TestTools.myAssert("Альпійсько-Карпатського", "Альпійсько-Карпатського/[альпійсько-карпатський]adj:m:v_rod|Альпійсько-Карпатського/[альпійсько-карпатський]adj:m:v_zna:ranim|Альпійсько-Карпатського/[альпійсько-карпатський]adj:n:v_rod", tokenizer, tagger);
     TestTools.myAssert("Азово-Чорноморського", "Азово-Чорноморського/[азово-чорноморський]adj:m:v_rod|Азово-Чорноморського/[азово-чорноморський]adj:m:v_zna:ranim|Азово-Чорноморського/[азово-чорноморський]adj:n:v_rod", tokenizer, tagger);
@@ -572,6 +573,8 @@ public class UkrainianTaggerTest {
 //    assertNotTagged("внутрішньо-економічний");
 //    assertNotTagged("високо-релевантною");
 //    assertNotTagged("всесвітньо-відомі");
+
+    // :bad - має бути без дефісу: "важконапрацьований", Західноудмуртський тощо
 
     TestTools.myAssert("Західно-Удмуртської",
         "Західно-Удмуртської/[західно-удмуртський]adj:f:v_rod:bad"
@@ -588,6 +591,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Червоно-градського",
         "Червоно-градського/[червоно-градський]adj:m:v_rod:bad|Червоно-градського/[червоно-градський]adj:m:v_zna:ranim:bad|Червоно-градського/[червоно-градський]adj:n:v_rod:bad"
         , tokenizer, tagger);
+
+    TestTools.myAssert("важко-напрацьований", "важко-напрацьований/[важко-напрацьований]adj:m:v_kly:&adjp:pasv:perf:bad|важко-напрацьований/[важко-напрацьований]adj:m:v_naz:&adjp:pasv:perf:bad|важко-напрацьований/[важко-напрацьований]adj:m:v_zna:rinanim:&adjp:pasv:perf:bad", tokenizer, tagger);
     
 //    TestTools.myAssert("американо-блакитний", "американо-блакитний/[null]null", tokenizer, tagger);
 

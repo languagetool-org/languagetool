@@ -193,14 +193,8 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     // Івано-Франківська as adj from івано-франківський
-    if( word.indexOf('-') > 1 && ! word.endsWith("-") ) {
-      String[] parts = word.split("-");
-      if( Stream.of(parts).allMatch(LemmaHelper::isCapitalized) ) {
-        String lowerCasedWord = word.toLowerCase(); //Stream.of(parts).map(String::toLowerCase).collect(Collectors.joining("-"));
-        List<TaggedWord> wdList = wordTagger.tag(lowerCasedWord);
-        if( PosTagHelper.hasPosTagPart2(wdList, "adj") ) {
-          List<AnalyzedToken> analyzedTokens = asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
-          analyzedTokens = PosTagHelper.filter(analyzedTokens, Pattern.compile("adj.*"));
+    List<AnalyzedToken> analyzedTokens = analyzeAllCapitamizedAdj(word);
+    if( analyzedTokens.size() > 0 ) {
           if( tokens.get(0).hasNoTag() ) {
             tokens = analyzedTokens;
           }
@@ -212,11 +206,26 @@ public class UkrainianTagger extends BaseTagger {
               }
             }
           }
-        }
-      }
     }
 
     return tokens;
+  }
+
+
+  protected List<AnalyzedToken> analyzeAllCapitamizedAdj(String word) {
+    if( word.indexOf('-') > 1 && ! word.endsWith("-") ) {
+      String[] parts = word.split("-");
+      if( Stream.of(parts).allMatch(LemmaHelper::isCapitalized) ) {
+        String lowerCasedWord = word.toLowerCase(); //Stream.of(parts).map(String::toLowerCase).collect(Collectors.joining("-"));
+        List<TaggedWord> wdList = wordTagger.tag(lowerCasedWord);
+        if( PosTagHelper.hasPosTagPart2(wdList, "adj") ) {
+          List<AnalyzedToken> analyzedTokens = asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+          analyzedTokens = PosTagHelper.filter(analyzedTokens, Pattern.compile("adj.*"));
+          return analyzedTokens;
+        }
+      }
+    }
+    return new ArrayList<>();
   }
 
 

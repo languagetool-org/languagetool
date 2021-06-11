@@ -1274,13 +1274,19 @@ class CompoundTagger {
           extraTag = ":bad";
         }
         else {
-          // 
+          // do not mark Івано-Франківської as :bad
+          
+          List<AnalyzedToken> allCapTokens = ukrainianTagger.analyzeAllCapitamizedAdj(word);
+        
+          if( allCapTokens.size() == 0 ) {
+          // марк високо-продуктивний as :bad
           String noDashWord = word.replace("-", "");
           List<TaggedWord> noDashWordList = tagAsIsAndWithLowerCase(noDashWord);
           List<AnalyzedToken> noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);
 
           if( ! noDashAnalyzedTokens.isEmpty() ) {
             extraTag = ":bad";
+          }
           }
         }
       }
@@ -1317,6 +1323,11 @@ class CompoundTagger {
       // двох-трьохметровий - bad
       if( leftWord.matches(".*?(двох|трьох|чотирьох)") ) {
         //        taggedWords = wordTagger.tag("два");
+        extraTag = ":bad";
+      }
+      // три-метровий - bad
+      else if( analyzedTokens.size() > 0 
+          && ! analyzedTokens.get(0).getToken().matches("(дво|три|чотири|п'яти|шести|семи|вісьми|двох|трьох|чотирьох).+") ) {
         extraTag = ":bad";
       }
 
