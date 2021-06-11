@@ -5411,22 +5411,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchaighdeánach</short>
             <example correction="cá mhéad"><marker>cá mhéid</marker></example>
         </rule>
-        <rule id="AG_DEIREADH_AN_LAE" name="Ag deireadh an lae">
-            <antipattern>
-                <token>ag</token>
-                <token>deireadh</token>
-                <token>an</token>
-		<token>lae</token>
-            </antipattern>
-            <pattern>
-                <token>i</token>
-                <token>ndeireadh</token>
-		<token>na</token>
-		<token>dálai</token>
-            </pattern>
-            <message>Is é<suggestion>i ndeireadh na dála</suggestion> an nath ceart i nGaeilge.</message>
-            <example correction="i ndeireadh na dála">Ach <marker>i ndeireadh na dála</marker> rop sí lámh léi amach san fhuinneog.</example>
-        </rule>
         <rule id="CARNAN_CAISIL" name="carnán caisil">
             <pattern>
                 <token regexp="yes">g?ch?arnán</token>
@@ -9706,6 +9690,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ní úsáidtear an focal seo ach san abairtín “go treis, sa treis” de ghnáth</message>
             <short>In abairt</short>
             <example correction=""><marker>treis</marker></example>
+        </rule>
+    </category>
+    <category id="NON_GRAMADOIR_INPHRASE" name="San abairtín" type="other">
+        <rule id="I_NDEIREADH_NA_DALAI" name="i ndeireadh na dála">
+            <pattern>
+                <token>i</token>
+                <token>ndeireadh</token>
+		<token>na</token>
+		<token>dálai</token>
+            </pattern>
+            <message>Is é <suggestion>i ndeireadh na dála</suggestion> an nath ceart i nGaeilge.</message>
+            <example correction="i ndeireadh na dála">Ach <marker>i ndeireadh na dálai</marker> rop sí lámh léi amach san fhuinneog.</example>
         </rule>
     </category>
     <category id="GRAMADOIR_UIMHREACHA" name="Uimhreacha" type="grammar">
