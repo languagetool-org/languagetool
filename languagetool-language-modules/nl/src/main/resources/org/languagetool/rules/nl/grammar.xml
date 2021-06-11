@@ -2485,7 +2485,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="VLOGT_VLOCHT" name="waarschuwing bij gebruik vlocht i.p.v. vlogt">
 			<rule>
-				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">haar|haren</token><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">haar|haren|twijgen|takken</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>vlocht</token></pattern>
 				<message>Bedoelt u misschien <suggestion>vlogt</suggestion> (een video-log maken)? Of toch 'vlechten'?</message>
 				<example correction="vlogt">Het woord <marker>vlocht</marker> kan een vergissing zijn.</example>
@@ -7199,6 +7199,7 @@ onwaarschijnlijk
 				<example type="incorrect">75% is meer dan voldoende in het middelbaar <marker>aso</marker>.</example>
 			</rule>
 			<rule>
+				<antipattern><token regexp="yes">grove|zware</token><token>botten</token></antipattern>
 				<antipattern><token regexp="yes">dit|dat|het</token><token>bot</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">spier.*|vlees|merg</token><token
 				postag="SENT_END"/></antipattern>
@@ -9700,7 +9701,7 @@ onwaarschijnlijk
 				<antipattern><token>geef</token><token>je</token><token/><token/><token>om</token></antipattern>
 				<antipattern><token>Google</token><token>Home</token></antipattern>
 				<antipattern><token>ov</token><token>chipkaart</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token/><token/><token postag="WKW:TGW:VTD:ONV"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|GET.*"/><token/><token/><token postag="WKW:TGW:VTD:ONV"/></antipattern>
 				<pattern>
 					<token/>
 					<marker>
@@ -16228,7 +16229,7 @@ steenwijk;Steenwijk
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan)</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan|park)</token></antipattern>
 				<antipattern>
 					<!-- taal -->
 					<token regexp="yes">[,;]</token>
@@ -19645,7 +19646,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">het|dit</token>
 					<marker>
-						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
+						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
 						<token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
 					</marker>
 				</pattern>
@@ -41457,27 +41458,13 @@ steenwijk;Steenwijk
 		<rulegroup id="VANG_NAAM" name="van voor- en achternaam">
 			<rule>
 				<pattern case_sensitive="yes">
-					<token regexp="yes">[a-z].*</token>
 					<marker>
-						<token regexp="yes">San|Palace|Puerto|Saint|Sporting|Intra|Bible|VV|Deutsche|Sports|Rockets</token>
-						<token regexp="yes" postag="UNKNOWN">[A-Z].*</token>
+						<token skip="2" postag_regexp="yes" postag="ENM:PER:FST.*"/>
+						<token postag_regexp="yes" postag="ENM:PER:LST.*"/>
 					</marker>
-					<token regexp="yes">[a-z].*</token>
 				</pattern>
 				<message>x</message>
-				<example type="incorrect">De correcties <marker>San Baarsx</marker> en meer.</example>
-			</rule>
-			<rule>
-				<pattern case_sensitive="yes">
-					<token regexp="yes">[a-z].*</token>
-					<marker>
-						<token regexp="yes" postag="UNKNOWN">[A-Z].*</token>
-						<token regexp="yes">San|Palace|Puerto|Saint|Sporting|Intra|Bible|VV|Deutsche|Sports|Rockets</token>
-					</marker>
-					<token regexp="yes">[a-z].*</token>
-				</pattern>
-				<message>x</message>
-				<example type="incorrect">De correcties <marker>Mrinex San</marker> en meer.</example>
+				<example type="incorrect">De correcties <marker>Jan van den Baars</marker> en meer.</example>
 			</rule>
 		</rulegroup>
 		-->
