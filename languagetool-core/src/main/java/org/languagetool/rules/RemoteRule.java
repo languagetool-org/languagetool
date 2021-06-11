@@ -25,7 +25,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
-import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +58,6 @@ public abstract class RemoteRule extends Rule {
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
-  private AnnotatedText annotatedText;
   protected final boolean filterMatches;
   protected final Language ruleLanguage;
 
@@ -91,7 +89,7 @@ public abstract class RemoteRule extends Rule {
     return run(sentences, null);
   }
 
-  protected class RemoteRequest {}
+  protected static class RemoteRequest {}
 
   /**
    * run local preprocessing steps (or just store sentences)
@@ -237,10 +235,10 @@ public abstract class RemoteRule extends Rule {
     FutureTask<RemoteRuleResult> task = run(Collections.singletonList(sentence));
     task.run();
     try {
-      return task.get().getMatches().toArray(new RuleMatch[0]);
+      return task.get().getMatches().toArray(RuleMatch.EMPTY_ARRAY);
     } catch (InterruptedException | ExecutionException e) {
       logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 
