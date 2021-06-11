@@ -30,7 +30,7 @@ import java.util.Map;
  * A map containing multiple values per key, memory-optimized for case when there's only one value.
  */
 public class MostlySingularMultiMap<K, V> {
-  private final Map<K, Object> map;
+  private final THashMap<K, Object> map;
 
   public MostlySingularMultiMap(Map<K, List<V>> contents) {
     map = new THashMap<>(contents.size());
@@ -38,6 +38,7 @@ public class MostlySingularMultiMap<K, V> {
       List<V> value = entry.getValue();
       map.put(entry.getKey(), value.size() == 1 ? value.get(0) : value.toArray());
     }
+    map.trimToSize();
   }
 
   @Nullable
