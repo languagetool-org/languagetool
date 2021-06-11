@@ -32,6 +32,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
@@ -313,6 +314,10 @@ public class PatternToken implements Cloneable {
     PatternToken exception = new PatternToken(token, caseSensitivity == null ? isCaseSensitive() : caseSensitivity, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
+    addException(scopeNext, scopePrevious, exception);
+  }
+
+  void addException(boolean scopeNext, boolean scopePrevious, PatternToken exception) {
     exception.exceptionValidNext = scopeNext;
     initRareFields().addException(exception, scopePrevious);
   }
@@ -782,15 +787,14 @@ public class PatternToken implements Cloneable {
     private final boolean posUnknown;
 
     public PosToken(String posTag, boolean regExp, boolean negation) {
+      this(posTag, negation, regExp ? StringMatcher.create(posTag, true, true) : null);
+    }
+
+    PosToken(String posTag, boolean negation, StringMatcher matcher) {
       this.posTag = posTag;
       this.negation = negation;
-      if (regExp) {
-        posPattern = StringMatcher.create(posTag, true, true);
-        posUnknown = posPattern.matches(UNKNOWN_TAG);
-      } else {
-        posPattern = null;
-        posUnknown = UNKNOWN_TAG.equals(posTag);
-      }
+      posPattern = matcher;
+      posUnknown = posPattern != null ? posPattern.matches(UNKNOWN_TAG) : UNKNOWN_TAG.equals(posTag);
     }
 
     @Override
