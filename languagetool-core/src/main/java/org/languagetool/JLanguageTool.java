@@ -1056,8 +1056,10 @@ public class JLanguageTool {
             }
             remoteMatches.addAll(adjustedMatches);
           }
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | CancellationException e) {
           logger.warn("Failed to fetch result from remote rule.", e);
+        } catch (ExecutionException e) {
+          logger.error("Failed to fetch result from remote rule.", e);
         }
       }
 
