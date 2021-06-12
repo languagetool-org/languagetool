@@ -5061,9 +5061,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar|aconseguir|assolir</token>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token>a</token>
+                    <token min="0">a</token>
                     <marker>
                         <token postag="D..F.*" postag_regexp="yes"/>
                         <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
@@ -5073,13 +5073,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> \5</suggestion>
                 <example correction="aqueix fi">Dedicat expressament a <marker>aqueixa fi</marker>.</example>
                 <example correction="aqueixos fins">Dedicat expressament a <marker>aqueixes fins</marker>.</example>
+                <example correction="un fi">Ho van fer per aconseguir <marker>una fi</marker>.</example>
                 <example>Dedicat a aqueixes fins demà.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar|aconseguir|assolir</token>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token>a</token>
+                    <token min="0">a</token>
                     <marker>
                         <token postag="D..F.*" postag_regexp="yes"/>
                         <token postag="A..[FC].*" postag_regexp="yes"/>
@@ -5090,6 +5091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="5" postag="(A..)[FC](.*)" postag_regexp="yes" postag_replace="$1[MC]$2"/> \6</suggestion>
                 <example correction="un bo fi|un bon fi">Dedicat expressament a <marker>una bona fi</marker>.</example>
                 <example correction="aquests nobles fins">Dedicat expressament a <marker>aquestes nobles fins</marker>.</example>
+                <example correction="un bo fi|un bon fi">Ho van fer per aconseguir <marker>una bona fi</marker>.</example>
                 <example>Dedicat a aqueixes fins demà.</example>
             </rule>
         </rulegroup>
@@ -16537,6 +16539,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rulegroup id="TREU_TEU" name="treu/teu" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <marker>
+                        <token>treu</token>
+                    </marker>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>teu</suggestion>?</message>
+                <example correction="teu">He parlat amb el <marker>treu</marker> amic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>els</token>
+                    <marker>
+                        <token>treus</token>
+                    </marker>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>teus</suggestion>?</message>
+                <example correction="teus">He parlat amb els <marker>treus</marker> amics.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token inflected="yes">el</token>
+                    <marker>
+                        <token regexp="yes">treu|treus</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="3" regexp_match="(?iu)r" regexp_replace="" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="teus">He parlat amb els <marker>treus</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ENSORTIR" name="ensortir/sortir">
             <rule>
                 <pattern>
@@ -47318,7 +47355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                 <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">el|un</token>
-                <token inflected="yes" regexp="yes">rentaplats|rentadora|llavadora|rentavaixella|televisió|ràdio|tele|tocadiscs|tocadiscos|CD|magnetòfon|gravadora|enregistrador</token>
+                <token inflected="yes" regexp="yes">rentaplats|rentadora|llavadora|rentavaixella|televisió|ràdio|tele|tocadiscs|tocadiscos|CD|magnetòfon|gravadora|enregistrador|televisor|vídeo</token>
             </pattern>
             <message>Val més usar una altra expressió.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encendre</match></suggestion>
