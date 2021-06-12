@@ -7201,6 +7201,8 @@ onwaarschijnlijk
 			<rule>
 				<antipattern><token regexp="yes">grove|zware</token><token>botten</token></antipattern>
 				<antipattern><token regexp="yes">dit|dat|het</token><token>bot</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes">gedragen|stellen</token><token
+				postag="SENT_END"/></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">spier.*|vlees|merg</token><token
 				postag="SENT_END"/></antipattern>
 				<antipattern><token>broze</token><token>botten</token></antipattern>
@@ -9705,7 +9707,7 @@ onwaarschijnlijk
 				<pattern>
 					<token/>
 					<marker>
-						<token postag="ENM:ORG"/>
+						<token postag="ENM:ORG"><exception postag="GET:MRV"/></token>
 						<token postag_regexp="yes" postag="ZNW.*">
 							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
 							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu|(&weekdays;)(avond|ochtend|(na)?middag|morgen)|sprake|thuis</exception>
@@ -10320,8 +10322,9 @@ onwaarschijnlijk
 		
 		<rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
 			<rule>
+				<antipattern><token>de</token><token>mini</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
 				<pattern>
-					<token regexp="yes">mini|ultra|giga|mega|tera|nano|micro|macro</token>
+					<token regexp="yes" >mini|ultra|giga|mega|tera|nano|micro|macro</token>
 					<token postag_regexp="yes" postag="ZNW.*|BNW.*"/>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
@@ -17618,6 +17621,10 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>Je</token><token>gaat</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>en</token><token>gewoon</token><token>maar</token><token postag="VRZ"/></antipattern>
+				<antipattern><token>mag</token><token>je</token><token>maar</token><token>beperkte</token></antipattern>
+				<antipattern><token>die</token><token>ze</token><token>maar</token><token>niet</token></antipattern>
 				<antipattern><token>nu</token><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token>is</token><token>maar</token><token>klein</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"/><token>ik</token><token>maar</token><token postag="VRZ"/></antipattern>
@@ -19552,7 +19559,24 @@ steenwijk;Steenwijk
 				<example correction="paarsgewijs">Fouten komen vaak <marker>paars gewijs</marker> langs.</example>
 			</rule>
 		</rulegroup>
-		
+
+		<rulegroup id="HET_STUK_DIE" name="Dat vs die">
+		<!-- Het stuk die je speelt is mooi. -->
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token regexp="yes">het|dit|dat</token>
+					<token postag="ZNW.*HET" postag_regexp="yes"><exception>net</exception></token>
+					<marker>
+						<token>die</token>
+					</marker>
+				</pattern>
+				<message>'\3' is een het-woord, dus is de verwijzing verkeerd.</message>
+				<suggestion>dat</suggestion>
+				<example correction="dat">Het stuk <marker>die</marker> ik speel is mooi.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="EEN_LELIJKE_MEISJE" name="Een lelijke meisje">
 			<antipattern><token>een</token><token postag="ZNW:EKV:DE_"/><token postag="WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>bed</token><token>and</token><token>breakfast</token></antipattern>
@@ -19630,6 +19654,8 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token>het</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+				<antipattern><token>het</token><token>koning</token><token>Boudewijnstadion</token></antipattern>
 				<antipattern><token regexp="yes">&weekdays;</token><token>thuis</token></antipattern>
 				<antipattern><token>staat</token><token>zwart</token></antipattern>
 				<antipattern><token>keer</token><token>extra</token></antipattern>
@@ -41454,37 +41480,6 @@ steenwijk;Steenwijk
 				<example correction="klein|kleine|kleinst|kleinste">De correcties <marker>blijven kleins</marker>.</example>
 			</rule>
 		</rulegroup>
-		<!--
-		<rulegroup id="VANG_NAAM" name="van voor- en achternaam">
-			<rule>
-				<pattern case_sensitive="yes">
-					<marker>
-						<token skip="2" postag_regexp="yes" postag="ENM:PER:FST.*"/>
-						<token postag_regexp="yes" postag="ENM:PER:LST.*"/>
-					</marker>
-				</pattern>
-				<message>x</message>
-				<example type="incorrect">De correcties <marker>Jan van den Baars</marker> en meer.</example>
-			</rule>
-		</rulegroup>
-		-->
-	</category>
-	<category id="HELE_ZIN" name="Fout in zin">
-		<!-- Het stuk die je speelt is mooi. -->
-		<rulegroup id="HET_STUK_DIE" name="Dat vs die">
-			<rule>
-				<pattern>
-					<token postag="SENT_START"/>
-					<token regexp="yes">het|dit|dat</token>
-					<token postag="ZNW.*HET" postag_regexp="yes"><exception>net</exception></token>
-					<marker>
-						<token>die</token>
-					</marker>
-				</pattern>
-				<message>'\3' is een het-woord, dus is de verwijzing verkeerd.</message>
-				<suggestion>dat</suggestion>
-				<example correction="dat">Het stuk <marker>die</marker> ik speel is mooi.</example>
-			</rule>
-		</rulegroup>
+
 	</category>
 </rules>
