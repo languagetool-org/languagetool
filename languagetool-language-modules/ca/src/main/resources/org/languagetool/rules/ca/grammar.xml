@@ -3766,15 +3766,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CONCORDANCES_PARTICIPI_ABSOLUT" name="concordances participi absolut">
             <rule>
                 <antipattern>
-                    <marker>
-                        <token skip="3" postag="D[DAI].*" postag_regexp="yes"/>
-                        <token inflected="yes" regexp="yes">&estacions;|&mesos_any;|&parts_dia;|&unitats_temps;|&dies_setmana;|vegada|volta|pic|col?p</token>
-                    </marker>
+                    <token skip="3" postag="D[DAI].*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">&estacions;|&mesos_any;|&parts_dia;|&unitats_temps;|&dies_setmana;|vegada|volta|pic|col?p</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.P.*" postag_regexp="yes" inflected="yes">fer</token>
                     <token>una</token>
                     <token regexp="yes">coca|truita|merda|sopa</token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token>mateix</token>
+                    <token regexp="yes">\d+</token>
                 </antipattern>
                 <pattern>
                     <!-- <token postag="[DANVPIYCR].*|SP.*|_.*|complement.*|.*LOC.*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">\d+</exception></token> -->
@@ -22634,7 +22637,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception>ho</exception><!--<exception regexp="yes">que|ho</exception>--></token>
                     <token inflected="yes" regexp="yes">no|voler|desitjar|sense</token>
+                    <token min="0" inflected="yes" regexp="yes">anar|haver</token>
                     <token inflected="yes" regexp="yes">saber|entendre|comprendre</token>
+                    <token min="0" postag="RG"/>
                     <marker>
                         <token>perquè</token>
                     </marker>
@@ -22645,6 +22650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="per què">Rajoy no entén <marker>perquè</marker> se'n sorprenen.</example>
                 <example correction="per què">que no entenen <marker>perquè</marker> se'n van.</example>
                 <example correction="per què">Vam decidir-ho sense saber <marker>perquè</marker>.</example>
+                <example correction="per què">No he sabut mai <marker>perquè</marker> triaren aquest nom.</example>
                 <!--<example>Coses que no sabíem perquè eren poc freqüents.</example>-->
             </rule>
             <rule>
