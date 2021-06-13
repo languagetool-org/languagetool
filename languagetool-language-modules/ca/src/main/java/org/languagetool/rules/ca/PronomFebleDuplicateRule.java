@@ -28,7 +28,7 @@ public class PronomFebleDuplicateRule extends Rule {
   private static final Pattern GERUNDI = Pattern.compile("V.G.*");
   private static final String[] ABANS_DE_GERUNDI = { "continuar", "seguir", "prosseguir", "anar", "estar" };
   private static final String[] ABANS_DE_INFINITIU = { "anar", "poder", "voler", "deure" };
-  private static final String[] ABANS_DE_A = { "començar", "tornar", "acostumar", "atrevir" }; //"ajudar",
+  private static final String[] ABANS_DE_A = { "començar", "tornar" }; //"ajudar", "atrevir" , "acostumar"
   //private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
 
   @Override
