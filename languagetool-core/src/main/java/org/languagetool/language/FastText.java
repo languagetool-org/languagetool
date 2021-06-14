@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +46,14 @@ public class FastText {
     fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8));
   }
 
+  // for tests only
+  FastText() {
+    fasttextProcess = null;
+    fasttextIn = null;
+    fasttextOut = null;
+  }
+
   public Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
-    Map<String, Double> probabilities = new HashMap<>();
     String joined = text.replace("\n", " ");
     String buffer;
     synchronized (this) {
@@ -68,11 +75,21 @@ public class FastText {
         }
       }
     }
+    return parseBuffer(buffer, additionalLanguageCodes);
+  }
+
+  @NotNull
+  Map<String, Double> parseBuffer(String buffer, List<String> additionalLanguageCodes) {
     String[] values = buffer.split(" ");
     if (values.length % 2 != 0) {
       logger.error("Error while parsing fasttext output '{}'", buffer);
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
     }
+    if (!buffer.startsWith("__label__")) {
+      logger.warn("FastText output is expected to start with '__label__', will continue anyway: '{}'", buffer);
+      // TODO: throw exception once we know this doesn't commonly happen
+    }
+    Map<String, Double> probabilities = new HashMap<>();
     for (int i = 0; i < values.length; i += 2) {
       String lang = values[i];
       String langCode = lang.substring(lang.lastIndexOf("__") + 2);
