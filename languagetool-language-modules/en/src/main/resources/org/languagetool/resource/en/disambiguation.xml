@@ -4589,37 +4589,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     </and>
                 </marker>
             </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"/></disambig>
+            <disambig action="remove" postag="VBP?"/><!-- #5193 -->
             <example type="untouched">Adverb. There are <marker>still</marker> problems with the tests.</example>
+            <example type="untouched">There are <marker>back</marker> issues of the magazine on the shelf.</example>
+            <example type="ambiguous" inputform="sound[sound/JJ,sound/NN:UN,sound/VB,sound/VBP]" outputform="sound[sound/JJ,sound/NN:UN]">There are <marker>sound</marker> reasons for doing this test.</example>
         </rule>
         <rule>
             <pattern>
                 <token postag="EX"/>
                 <token regexp="yes">is|was|are|were</token>
+                <token postag="RB"><exception postag="CC"/></token>
                 <marker>
-                    <token postag="RB"><exception postag="CC"/></token>
+                    <and>
+                        <token postag="VB"/>
+                        <token postag_regexp="yes" postag="NN.*|JJ.*"/>
+                    </and>
                 </marker>
-                <and>
-                    <token postag="VB"/>
-                    <token postag_regexp="yes" postag="NN.*|JJ.*"/>
-                </and>
             </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"/></disambig>
+            <disambig action="remove" postag="VBP?"/>
+            <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/JJ,still/NN,still/RB]"><!-- Adverb (probably)-->There are usually <marker>still</marker> problems with the tests.</example><!-- #5193 -->
+            <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/JJ,still/NN,still/RB]"><!-- Noun -->There were occasionally <marker>still</marker> problems, but they were corrected when the new filters for the stills were installed.</example><!-- #5193 -->
         </rule>
         <rule>
             <pattern>
                 <token postag="EX"/>
                 <token regexp="yes">ha(ve|s)</token>
                 <token>been</token>
+                <token postag="RB"><exception postag="CC"/></token>
                 <marker>
-                    <token postag="RB"><exception postag="CC"/></token>
+                    <and>
+                        <token postag="VB"/>
+                        <token postag_regexp="yes" postag="NN.*|JJ.*"/>
+                    </and>
                 </marker>
-                <and>
-                    <token postag="VB"/>
-                    <token postag_regexp="yes" postag="NN.*|JJ.*"/>
-                </and>
             </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"/></disambig>
+            <disambig action="remove" postag="VBP?"/>
+            <example type="ambiguous" inputform="close[close/JJ,close/NN,close/RB,close/VB,close/VBP]" outputform="close[close/JJ,close/NN,close/RB]">There has been much <marker>close</marker> weather recently.</example><!-- #5193 -->
         </rule>
     </rulegroup>
 <!-- 2020-03-26 MFU. The disambiguated postag possibly should be CC. 'While' as a preposition is Northern BrE only: https://www.lexico.com/definition/while. Refer also to https://github.com/languagetooler-gmbh/languagetool-premium/issues/1079
