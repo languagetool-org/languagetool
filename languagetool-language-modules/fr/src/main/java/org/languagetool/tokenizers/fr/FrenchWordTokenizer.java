@@ -38,7 +38,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   private static final int maxPatterns = 7;
   private final Pattern[] patterns = new Pattern[maxPatterns];
-  private final FrenchTagger tagger;
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -74,8 +73,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
       "rendez-vous", "garde-à-vous", "chez-eux", "chez-moi", "chez-nous", "chez-soi", "chez-toi", "chez-vous", "m'as-tu-vu");
 
   public FrenchWordTokenizer() {
-    
-    tagger = new FrenchTagger();
 
     // words not to be split
     patterns[0] = Pattern.compile("^(m'as-tu-vu|c'est-à-dire|add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -184,7 +181,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (FrenchTagger.INSTANCE.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
             // In the current POS tag, most apostrophes are curly: to be fixed
             l.add(s);
           }

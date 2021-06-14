@@ -90,13 +90,11 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_3P = Pattern.compile("V .*(ind).* 3 p");
 
   private final String dictFilename;
-  private final FrenchTagger tagger;
 
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    tagger = new FrenchTagger();
     dictFilename = "/fr/french.dict";
   }
 
@@ -233,7 +231,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
-      AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
+      AnalyzedTokenReadings newatr = FrenchTagger.INSTANCE.tag(Arrays.asList(newSuggestion)).get(0);
       if (matchPostagRegexp(newatr, postagPattern)) {
         newSuggestions.add(matcher.group(1) + separator + matcher.group(2));
         return newSuggestions;

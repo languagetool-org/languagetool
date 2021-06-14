@@ -100,7 +100,7 @@ public class Catalan extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new CatalanTagger(this);
+    return CatalanTagger.INSTANCE_CAT;
   }
 
   @Nullable
