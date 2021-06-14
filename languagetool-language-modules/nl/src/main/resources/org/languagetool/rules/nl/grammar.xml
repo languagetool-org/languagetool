@@ -10167,7 +10167,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token>te</token>
-					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop</exception></token>
+					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk</exception></token>
 				</pattern>
 				<message>Voor een zelfstandig naamwoord hoort 'de'.</message>
 				<suggestion>de \2</suggestion>
@@ -17635,6 +17635,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>Eerst</token><token>maar</token><token>de</token></antipattern>
+				<antipattern><token>proberen</token><token>gewoon</token><token>maar</token><token>hun</token><token>hoofd</token><token>boven</token></antipattern>
 				<antipattern><token>dat</token><token regexp="yes">ik|jij|hij|zij|je</token><token regexp="yes">er|hier|daar</token><token>maar</token><token postag="VRZ"/><token regexp="yes">één|een</token></antipattern>
 				<antipattern><token regexp="yes">één|een</token><token regexp="yes">keer(tje)?</token><token>maar</token></antipattern>
 				<antipattern><token>omdat</token><token>ze</token><token>maar</token><token>last</token><token>bleef</token></antipattern>
