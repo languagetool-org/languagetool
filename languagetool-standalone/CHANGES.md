@@ -16,6 +16,11 @@
     and it underlines the whole sentence, not just the position where the threshold
     is reached.
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
+
 
 ## 5.3 (2021-03-29)
 
