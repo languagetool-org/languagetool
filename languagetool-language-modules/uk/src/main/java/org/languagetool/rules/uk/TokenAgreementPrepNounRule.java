@@ -182,7 +182,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       // згідно з документа
       if( Z_ZI_IZ.contains(prep.toLowerCase())
           && i >= 3 && tokens[i-2].getCleanToken().equalsIgnoreCase("згідно") ) {
-        expectedCases = new HashSet<>(Set.of("v_oru"));
+        expectedCases = new HashSet<>(Arrays.asList("v_oru"));
       }
 
       // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
