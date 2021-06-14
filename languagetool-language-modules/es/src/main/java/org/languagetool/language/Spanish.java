@@ -63,7 +63,7 @@ public class Spanish extends Language implements AutoCloseable{
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new SpanishTagger();
+    return SpanishTagger.INSTANCE;
   }
 
   @Override

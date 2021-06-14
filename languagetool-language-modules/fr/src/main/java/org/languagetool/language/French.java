@@ -67,7 +67,7 @@ public class French extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new FrenchTagger();
+    return FrenchTagger.INSTANCE;
   }
 
   @Nullable

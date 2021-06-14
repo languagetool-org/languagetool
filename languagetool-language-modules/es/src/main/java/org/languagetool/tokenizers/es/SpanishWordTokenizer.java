@@ -42,12 +42,6 @@ public class SpanishWordTokenizer extends WordTokenizer {
   private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // ordinals
   private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
-  private final SpanishTagger tagger; 
-
-  public SpanishWordTokenizer() {
-    tagger = new SpanishTagger();
-  }
 
   @Override
   public List<String> tokenize(final String text) {
@@ -94,7 +88,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (SpanishTagger.INSTANCE.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)

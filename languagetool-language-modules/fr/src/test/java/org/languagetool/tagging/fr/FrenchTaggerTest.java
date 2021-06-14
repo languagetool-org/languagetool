@@ -34,7 +34,7 @@ public class FrenchTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = new FrenchTagger();
+    tagger = FrenchTagger.INSTANCE;;
     tokenizer = new FrenchWordTokenizer();
   }
 
