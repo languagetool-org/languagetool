@@ -101,10 +101,10 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
-    if ( word.indexOf('-') > 0 ) {
+    if ( word.length() >= 3 && word.indexOf('-') > 0 ) {
 
       // екс-«депутат»
-      if( COMPOUND_WITH_QUOTES_REGEX.matcher(word).find() ) {
+      if( word.length() >= 6 && COMPOUND_WITH_QUOTES_REGEX.matcher(word).find() ) {
         String adjustedWord = word.replaceAll("[«»\"„“]", "");
         return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
       }
@@ -159,6 +159,8 @@ public class UkrainianTagger extends BaseTagger {
           }
         }
 
+//        String lowerWord = word.toLowerCase();
+        
         // try г instead of ґ
         else if( word.contains("ґ") || word.contains("Ґ") ) {
           tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
@@ -171,6 +173,15 @@ public class UkrainianTagger extends BaseTagger {
         }
         else if( word.contains("льо") ) {
           tokens = convertTokens(tokens, word, "льо", "ло", ":alt");
+        }
+        else if( word.startsWith("сьвя") ) {
+          tokens = convertTokens(tokens, word, "сьвя", "свя", ":arch");
+        }
+        else if( word.startsWith("сьві") ) {
+          tokens = convertTokens(tokens, word, "сьві", "сві", ":arch");
+        }
+        else if( word.contains("ьск") && ! word.endsWith("ская") && ! word.equals("Комсомольском")) {
+          tokens = convertTokens(tokens, word, "ьск", "ьськ", ":bad");
         }
       }
     }

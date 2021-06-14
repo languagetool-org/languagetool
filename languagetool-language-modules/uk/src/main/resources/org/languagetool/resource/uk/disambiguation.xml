@@ -1117,6 +1117,24 @@
   </rule>
 
 
+  <rule name="Бал + числівник" id="bal_with_numr">
+    <pattern>
+      <token postag_regexp="yes" postag="num.*"/>
+      <marker>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.*:xp1">бал</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.*:xp1"/>
+    <example type="ambiguous"
+        inputform="балів[бал/noun:inanim:p:v_rod:xp1,бал/noun:inanim:p:v_rod:xp2]"
+        outputform="балів[бал/noun:inanim:p:v_rod:xp1]">10-12 <marker>балів</marker>.</example>
+    <example type="ambiguous"
+        inputform="балів[бал/noun:inanim:p:v_rod:xp1,бал/noun:inanim:p:v_rod:xp2]"
+        outputform="балів[бал/noun:inanim:p:v_rod:xp1]">шість <marker>балів</marker>.</example>
+    <example type="untouched">розкішних балів</example>
+  </rule>
+
+
   <rule name="Грати - іменник" id="hraty-noun">
     <pattern>
       <token regexp="yes" inflected="yes">за|крізь|через|повз|об|фортечний|загороджувальний|.*?ламати|.*?пиляти|.*?пилювати|зривати|зірвати|встановл.*</token>
@@ -3827,6 +3845,56 @@
     <example type="untouched">вище російське начальство</example>
   </rule>
 
+  <rule name="Візит" id="vizyt">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <token postag_regexp="yes" postag="adj:(m:v_rod|m:v_dav|m:v_mis|p:v_naz|p:v_zna:rinanim).*">
+          <exception>її</exception>
+        <!-- 
+          <exception postag_regexp="yes" postag="adj:f:v_(zna|dav|mis|rod).*" />
+           -->
+        </token>
+        <marker>
+          <token postag_regexp="yes" postag="noun:inanim:[mp].*" regexp="yes">візит[уиі]</token>
+        </marker>
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:[mp].*" />
+    <example type="ambiguous"
+        inputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_mis,візит/noun:inanim:m:v_rod,візита/noun:inanim:f:v_zna:arch]"
+        outputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_mis,візит/noun:inanim:m:v_rod]">мого <marker>візиту</marker>.</example>
+    <example type="ambiguous"
+        inputform="візити[візит/noun:inanim:p:v_naz,візит/noun:inanim:p:v_zna,візита/noun:inanim:f:v_rod:arch]"
+        outputform="візити[візит/noun:inanim:p:v_naz,візит/noun:inanim:p:v_zna]">попередні <marker>візити</marker>.</example>
+    <example type="untouched">останню візиту</example>
+    <example type="untouched">останньої візити</example>
+    <example type="untouched">на останній візиті</example>
+    <example type="untouched">її візиту відклали</example>
+  </rule>
+
+  <rule name="Візит" id="vizyt2">
+    <pattern>
+      <token regexp="yes" inflected="yes">час|мета|день|рамках|результат|підсумок|наслідок|без|після|для|від|до|напередодні</token>
+      <token min="0">її</token>
+      <marker>
+        <token postag_regexp="yes" postag="noun:inanim:m.*">візиту</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m.*" />
+    <example type="ambiguous"
+        inputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_rod,візита/noun:inanim:f:v_zna:arch]"
+        outputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_rod]">під час <marker>візиту</marker>.</example>
+    <example type="ambiguous"
+        inputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_rod,візита/noun:inanim:f:v_zna:arch]"
+        outputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_rod]">після <marker>візиту</marker>.</example>
+    <example type="ambiguous"
+        inputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_rod,візита/noun:inanim:f:v_zna:arch]"
+        outputform="візиту[візит/noun:inanim:m:v_dav,візит/noun:inanim:m:v_rod]">після її <marker>візиту</marker>.</example>
+    <example type="untouched">останню візиту</example>
+  </rule>
+
   <rule name="Притік" id="prytik">
     <pattern>
       <token postag_regexp="yes" postag="adj:m:v_(rod|dav|mis|kly).*|prep.*">
@@ -3863,6 +3931,83 @@
     <example type="untouched">постійному притоку</example>
   </rule>
 
+  <rule name="Розділи" id="rozdily1">
+    <pattern>
+      <token postag_regexp="yes" postag="num.*"/>
+      <marker>
+        <token>розділи
+          <exception scope="next">на</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:p.*" />
+    <example type="ambiguous"
+      inputform="розділи[розділ/noun:inanim:p:v_naz,розділ/noun:inanim:p:v_zna,роздіти/verb:perf:past:p:bad]"
+      outputform="розділи[розділ/noun:inanim:p:v_naz,розділ/noun:inanim:p:v_zna]">2-3 <marker>розділи</marker>.
+    </example>
+    <example type="untouched">а хліб розділи</example>
+  </rule>
+
+  <rule name="Розділи" id="rozdily2">
+    <pattern>
+      <marker>
+        <token>розділи</token>
+      </marker>
+      <token postag_regexp="yes" postag="num.*">
+        <exception scope="next">на</exception>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:p.*" />
+    <example type="ambiguous"
+      inputform="розділи[розділ/noun:inanim:p:v_naz,розділ/noun:inanim:p:v_zna,розділити/verb:perf:impr:s:2,роздіти/verb:perf:past:p:bad]"
+      outputform="розділи[розділ/noun:inanim:p:v_naz,розділ/noun:inanim:p:v_zna]"><marker>розділи</marker> 2, 3, 4.
+    </example>
+    <example type="untouched">а хліб розділи</example>
+    <example type="untouched">розділи 4 на 2</example>
+  </rule>
+
+  <rule name="Качок" id="kachok">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <token postag_regexp="yes" postag="adj:m.*">
+          <exception postag_regexp="yes" postag="adj:[fp].*"/>
+        </token>
+        <marker>
+          <token inflected="yes">качок</token>
+        </marker>
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:m.*" />
+    <example type="ambiguous"
+      inputform="качок[качка/noun:anim:p:v_rod:xp1,качка/noun:anim:p:v_zna:xp1,качок/noun:anim:m:v_naz:slang]"
+      outputform="качок[качок/noun:anim:m:v_naz:slang]">здоровенний <marker>качок</marker>.
+    </example>
+    <example type="untouched">качка і холод</example>
+  </rule>
+<!-- 
+  <rule name="Качок" id="kachok">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <token postag_regexp="yes" postag="adj:m.*">
+          <exception postag_regexp="yes" postag="adj:[fp].*"/>
+        </token>
+        <marker>
+          <token inflected="yes">качок</token>
+        </marker>
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:m.*" />
+    <example type="ambiguous"
+      inputform="качок[качка/noun:anim:p:v_rod:xp1,качка/noun:anim:p:v_zna:xp1,качок/noun:anim:m:v_naz:slang]"
+      outputform="качок[качок/noun:anim:m:v_naz:slang]">здоровенний <marker>качок</marker>.
+    </example>
+    <example type="untouched">качка і холод</example>
+  </rule>
+ -->
 <!--
   <rule name="займ: прикметник+іменник" id="pronoun_adj_noun">
     <pattern>
