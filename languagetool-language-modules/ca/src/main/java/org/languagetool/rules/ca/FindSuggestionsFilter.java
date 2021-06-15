@@ -43,7 +43,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected Tagger getTagger() {
-    return CatalanTagger.INSTANCE_VAL;
+    return CatalanTagger.INSTANCE_CAT;
   }
 
   @Override
