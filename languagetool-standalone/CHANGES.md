@@ -35,6 +35,7 @@
 
 #### Dutch
   * added and improved rules
+  * extended spelling dictionary
 
 #### English
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
