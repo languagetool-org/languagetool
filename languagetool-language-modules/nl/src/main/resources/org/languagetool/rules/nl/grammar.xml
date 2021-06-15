@@ -16240,6 +16240,7 @@ steenwijk;Steenwijk
             <rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling">
                 <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
 			<rule>
+				<antipattern case_sensitive="yes"><token>Transport</token><token>,</token><token>Communicatie</token><token>en</token><token>Toerisme</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
@@ -17637,7 +17638,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
-				<antipattern><token>Hij|zij|ze|men</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>maar</token><token>door</token></antipattern>
+				<antipattern><token regexp="yes">Hij|zij|ze|men</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>maar</token><token>door</token></antipattern>
 				<antipattern><token>maar</token><token regexp="yes">[;:,.!?]</token></antipattern>
 				<antipattern><token>Eerst</token><token>maar</token><token>de</token></antipattern>
 				<antipattern><token>proberen</token><token>gewoon</token><token>maar</token><token>hun</token><token>hoofd</token><token>boven</token></antipattern>
@@ -41344,7 +41345,7 @@ steenwijk;Steenwijk
 		<rulegroup id="SPATIEFOUT_HET_DE" name="de-hetfout of spatiefout">
 			<rule>
 				<antipattern><token>de</token><token>nummer</token><token postag="GET:MRV"/></antipattern>
-				<antipattern><token regexp="yes">honderd|duizend</token></antipattern>
+				<antipattern><token regexp="yes">honderd|duizend|één</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Tennis</token><token>Masters</token><token>Cup</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Internet</token><token>Movie</token><token>Database</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Internet</token><token>Engineering</token><token>Task</token><token>Force</token></antipattern>
@@ -41509,5 +41510,27 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="ME_AUTO" name="Me/mijn" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>me</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"></token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>mijn</suggestion></message>
+				<example correction="mijn">Ik kan <marker>me</marker> auto niet vinden.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>ze</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"></token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>zijn</suggestion></message>
+				<example correction="zijn">Ik kan <marker>ze</marker> auto niet vinden.</example>
+			</rule>
+		</rulegroup>
 	</category>
 </rules>
