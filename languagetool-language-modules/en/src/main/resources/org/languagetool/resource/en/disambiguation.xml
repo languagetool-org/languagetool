@@ -5700,7 +5700,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
+        <disambig postag="VBG"/>
     </rule>
     <rule name="having (NN/VBG) + VBN -&gt;VBG" id="HAVING_VBN">
         <pattern>
@@ -5712,7 +5712,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="VBN"/>
         </pattern>
-        <disambig><match no="1" postag="VBG" postag_regexp="yes"/></disambig>
+        <disambig postag="VBG"/>
     </rule>
     <rulegroup name="off/in season(NN) -&gt; NN:UN" id="SEASON">
         <rule>
@@ -8366,7 +8366,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NNP?S" postag_regexp="yes"/></disambig>
+        <disambig action="remove" postag="VBZ"/>
+        <example type="untouched">I hope a fair wind <marker>companies</marker> the ship until it returns to these shores.</example>
+        <example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">There were better <marker>companies</marker> than these.</example>
     </rule>
 
     <rule id="VB_NNPRP_PRP" name="mine as PRP$">
@@ -8429,7 +8431,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token><exception postag_regexp="yes" postag="NNP|PRP"/></token>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN.*" postag_regexp="yes"/></disambig>
+        <disambig action="remove" postag="VB.*"/>
         <example type="untouched">It's still valid.</example>
         <example type="untouched">Incorrect grammar. People have make many types of mistakes with verb agreement.</example>
         <example type="untouched">Incorrect grammar. It is need for review.</example>
@@ -8459,7 +8461,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="NN.*" postag_regexp="yes"><exception>by</exception><exception postag="NNP"/></token>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN.*" postag_regexp="yes"/></disambig>
+        <disambig action="remove" postag="VB.*"/>
         <example type="untouched">The advert for bicycles is to <marker>be run</marker> in local newspapers from March to August.</example>
         <example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
         <example type="ambiguous" inputform="weeds[weed/NNS,weed/VBZ]" outputform="weeds[weed/NNS]">Although they are often considered to be <marker>weeds</marker> in gardens, this viewpoint is not always...</example>
