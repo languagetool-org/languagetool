@@ -234,12 +234,15 @@ public class RuleMatchDiffFinder {
                             RuleMatchDiff.Status status, int iframeCount) throws IOException {
     fw.write("  <td>");
     String message;
+    boolean canOverlap;
     if (newMatch == null) {
       fw.write(oldMatch.getMessage());
       message = oldMatch.getMessage();
+      canOverlap = canOverlap(oldMatch);
     } else if (oldMatch.getMessage().equals(newMatch.getMessage())) {
       fw.write(oldMatch.getMessage());
       message = oldMatch.getMessage();
+      canOverlap = canOverlap(oldMatch);
     } else {
       //System.out.println("old: " + oldMatch.getMessage());
       //System.out.println("new: " + newMatch.getMessage());
@@ -247,6 +250,7 @@ public class RuleMatchDiffFinder {
         "<tt>old:</tt> " + showTrimSpace(oldMatch.getMessage()) + "<br>\n" +
         "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
       message = newMatch.getMessage();
+      canOverlap = canOverlap(newMatch);
     }
     fw.write("  <br><span class='sentence'>" + escapeSentence(oldMatch.getContext()) + "</span>");
     boolean withIframe = false;
@@ -274,21 +278,33 @@ public class RuleMatchDiffFinder {
       }
     }
     if (replaces != null) {
-      fw.write("<br><br><i>Maybe replaces old match:</i><br>");
-      fw.write(replaces.getMessage());
-      fw.write("  <br><span class='sentence'>" + escapeSentence(replaces.getContext()) + "</span>");
-      fw.write("  <br><span class='suggestions'>Suggestions: " + replaces.getSuggestions() + "</span>");
-      fw.write("  <br><span class='id'>" + replaces.getFullRuleId() + "</span>");
+      if (canOverlap) {
+        fw.write("<br><br><i>Can be ignored, sentence length rule can overlap other matches</i>");
+      } else {
+        fw.write("<br><br><i>Maybe replaces old match:</i><br>");
+        fw.write(replaces.getMessage());
+        fw.write("  <br><span class='sentence'>" + escapeSentence(replaces.getContext()) + "</span>");
+        fw.write("  <br><span class='suggestions'>Suggestions: " + replaces.getSuggestions() + "</span>");
+        fw.write("  <br><span class='id'>" + replaces.getFullRuleId() + "</span>");
+      }
     }
     if (replacedBy != null) {
-      fw.write("<br><br><i>Maybe replaced by new match:</i><br>");
-      fw.write(replacedBy.getMessage());
-      fw.write("  <br><span class='sentence'>" + escapeSentence(replacedBy.getContext()) + "</span>");
-      fw.write("  <br><span class='suggestions'>Suggestions: " + replacedBy.getSuggestions() + "</span>");
-      fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>\n");
+      if (canOverlap(replacedBy)) {
+        fw.write("<br><br><i>Can be ignored, sentence length rule can overlap other matches</i>");
+      } else {
+        fw.write("<br><br><i>Maybe replaced by new match:</i><br>");
+        fw.write(replacedBy.getMessage());
+        fw.write("  <br><span class='sentence'>" + escapeSentence(replacedBy.getContext()) + "</span>");
+        fw.write("  <br><span class='suggestions'>Suggestions: " + replacedBy.getSuggestions() + "</span>");
+        fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>\n");
+      }
     }
     fw.write("  </td>\n");
     return withIframe ? 1 : 0;
+  }
+
+  private boolean canOverlap(LightRuleMatch match) {
+    return match.getRuleId().equals("TOO_LONG_SENTENCE") || match.getRuleId().equals("TOO_LONG_SENTENCE_DE");
   }
 
   private String escapeSentence(String s)  {
