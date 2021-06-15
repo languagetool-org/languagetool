@@ -207,6 +207,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Since 1986, the Hager portfolios have earned an annualized return of 30.8 M, while outperforming the Dow by <marker>1530%</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                    </marker>
+                    <token regexp="yes">(m|b|tr|quadr|quint|sext|sept|oct|non)illion|advance</token>
+                </pattern>
+                <example correction="">This deal was again extended in June 2013 in a deal worth <marker>£300</marker> million over another ten years.</example>
+                <example correction="">In 1876, Wallace needed a <marker>£500</marker> advance from the publisher of The Geographical Distribution of Animals to avoid having to sell some of his personal property.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                    </marker>
+                    <token regexp="yes">a|each|every</token>
+                    <token regexp="yes">century|decade|lust(er|re)|year|(se|quadri|tri)mester|month|fortnight|week|day|night|hour|minute|second</token>
+                </pattern>
+                <example correction="">He tendered his formal resignation and was granted a pension of <marker>£500</marker> a year.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
