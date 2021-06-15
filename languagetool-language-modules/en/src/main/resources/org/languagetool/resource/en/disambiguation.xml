@@ -1581,8 +1581,9 @@
                 </marker>
                 <token postag="VBN"/>
             </pattern>
-            <disambig><match no="1" postag_regexp="yes" postag="RB"/></disambig>
-            <example type="untouched">The well reached a total vertical depth of 14,080 feet and was drilled laterally for almost 5,000 feet.</example>
+            <disambig postag="RB"/>
+            <example type="untouched">The well reached a total vertical depth of 14,080 feet.</example>
+            <example type="ambiguous" inputform="well[well/JJ,well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">This is one of the most <marker>well</marker> loved books on my shelf.</example>
         </rule>
         <!--
         commented out because:
@@ -1661,7 +1662,9 @@
                 <token>are</token>
             </marker>
         </pattern>
-        <disambig><match no="3" postag="VBP" postag_regexp="yes"/></disambig>
+        <disambig postag="VBP"/>
+        <example type="untouched">An <marker>are</marker> is a unit of measurement.</example>
+        <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">These three <marker>are</marker> my favourite teddy bears.</example>
     </rule>
 <!--    <rulegroup name='these/those + adj/noun singular + are → adj' id="DT_ADJNN">
 MFU 2019-06-12. The rules seem to do more harm than good. Many incorrect sentences are touched, which means that some rules do not find errors. I cannot see how to improve the rules. Putting the rules into comments did not affect the regression tests.
@@ -1757,7 +1760,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP\$?" postag_regexp="yes"/>
         </pattern>
-        <disambig><match no="1" postag="VBP" postag_regexp="yes"/></disambig>
+        <disambig postag="VBP"/>
         <example type="untouched">Noun. The <marker>are</marker> used to be a common unit of measurement (www.lexico.com/en/definition/are).</example>
         <example type="untouched">Noun. An <marker>are</marker> is a historical unit.</example>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
