@@ -13273,6 +13273,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
+				<antipattern><token postag="ENM.*" postag_regexp="yes"/></antipattern>
 				<antipattern><token regexp="yes">^(&gespeld;)-</token></antipattern>
 				<antipattern><token regexp="yes">-(&gespeld;)$</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
@@ -16239,6 +16240,7 @@ steenwijk;Steenwijk
             <rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling">
                 <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
 			<rule>
+				<antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
@@ -16258,7 +16260,7 @@ steenwijk;Steenwijk
 				<pattern case_sensitive="yes">
 					<token regexp="yes">[,;]</token>
 					<marker>
-						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception regexp="yes">Kamer.*</exception></token>
 					</marker>
 				</pattern>
 				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
@@ -17635,6 +17637,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>Hij|zij|ze|men</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>maar</token><token>door</token></antipattern>
 				<antipattern><token>maar</token><token regexp="yes">[;:,.!?]</token></antipattern>
 				<antipattern><token>Eerst</token><token>maar</token><token>de</token></antipattern>
 				<antipattern><token>proberen</token><token>gewoon</token><token>maar</token><token>hun</token><token>hoofd</token><token>boven</token></antipattern>
@@ -19675,6 +19678,8 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token>code</token><token regexp="yes">rood|geel|oranje|zwart</token></antipattern>
+				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<antipattern><token>het</token><token>koning</token><token>Boudewijnstadion</token></antipattern>
 				<antipattern><token regexp="yes">&weekdays;</token><token>thuis</token></antipattern>
@@ -34746,6 +34751,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VERVANG_VOOR" name="Vervangen voor → vervangen door">
 			<rule>
+				<antipattern><token>vervangen</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token>vlak</token><token>voor</token></antipattern>
 				<pattern>
 					<token inflected="yes" skip="3">vervangen<exception regexp="yes">vervangende|vervangend</exception></token>
