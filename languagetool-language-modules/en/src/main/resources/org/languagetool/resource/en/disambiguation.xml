@@ -1790,7 +1790,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>are</token>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
+        <disambig postag="VBP"/>
+        <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What <marker>are</marker> Mike's options?</example>
     </rule>
 
     <rule name="NNS/VBZ + were/are" id="NNS_ARE_WERE">
@@ -1943,7 +1944,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="NN.*" postag_regexp="yes"/>
         </pattern>
-        <disambig><match no="1" postag="PRP\$" postag_regexp="yes"/></disambig>
+        <disambig postag="PRP$"/>
+        <example type="untouched">Say your his before your byes.</example>
     </rule>
     <rule name="no determiner + how (noun/adv) -&gt; how (adv)" id="HOW_WRB">
         <pattern>
@@ -2782,12 +2784,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>-->
     <rule name="are + VBG/NN -&gt; VBG" id="ARE_VBG_NN">
         <pattern>
-            <token>'re</token>
+            <token>'re
+                <exception scope="previous">there</exception>
+                </token>
             <marker>
                 <token postag="VBG"/>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
+        <disambig postag="VBG"/>
+        <example type="untouched">There're <marker>opening</marker> moves that give you a huge advantage over your opponent.</example>
+        <example type="ambiguous" inputform="opening[open/VBG,opening/JJ,opening/NN:UN]" outputform="opening[open/VBG]">Be careful when you're <marker>opening</marker> the container.</example>
     </rule>
     <!--<rule name="I'm -&gt; VBP" id="AM_VBP">
         <pattern>
