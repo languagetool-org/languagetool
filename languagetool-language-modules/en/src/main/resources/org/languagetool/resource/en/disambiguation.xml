@@ -1492,14 +1492,14 @@
              <token>have</token>
              <token postag="VBN" />
          </pattern>
-         <disambig><match no="1" postag_regexp="yes" postag="MD" /></disambig>
+         <disambig><match no="1" postag_regexp="yes" postag="MD" /></disambig> Do not use match: #5196
      </rule>
      <rule name="have as verb/noun + not -> have/modal" id="HAVE_NOT">
          <pattern mark="0">
              <token>have</token>
              <token>not</token>
          </pattern>
-         <disambig><match no="1" postag_regexp="yes" postag="MD" /></disambig>
+         <disambig><match no="1" postag_regexp="yes" postag="MD" /></disambig> Do not use match: #5196
      </rule>
       -->
     <rule name="no determiner + have as verb/noun -&gt;have/verb" id="NODT_HAVE">
@@ -4963,7 +4963,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">&apostrophe;.*</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
         </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="NN.*"/></disambig>
+        <disambig action="filter" postag="NN.*"/>
         <example type="untouched">His friend is now in England.</example>
         <example type="untouched">The first few are:</example>
         <example type="untouched">... and all being <marker>hit</marker>, along with the ...</example>
