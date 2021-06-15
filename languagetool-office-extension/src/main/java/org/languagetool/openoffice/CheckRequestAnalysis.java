@@ -498,6 +498,7 @@ class CheckRequestAnalysis {
                   oldDocCache.getTextParagraph(oldDocCache.textSize() - toText))) {
         toText++;
       }
+      toText = docCache.textSize() - toText;
       from = docCache.getFlatParagraphNumber(fromText);
       to = docCache.getFlatParagraphNumber(toText);
     } else {
