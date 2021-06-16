@@ -112,7 +112,7 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
     if (limit == 0) {
       return "Der Ausdruck gilt als Phrase. Es wird empfohlen ihn zu löschen, falls möglich.";
     }
-    return "Mehr als " + limit + "‱ potentielle Phrasen {" + ((int) (percent +0.5d)) + 
+    return "Mehr als " + limit + "‱ potenzielle Phrasen {" + ((int) (percent +0.5d)) +
         "‱} gefunden. Es wird empfohlen den Ausdruck zu löschen, falls möglich.";
   }
 
@@ -128,12 +128,12 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
 
   @Override
   public String getDescription() {
-    return "Statistische Stilanalyse: Potentielle Phrasen";
+    return "Statistische Stilanalyse: Potenzielle Phrasen";
   }
 
   @Override
   public String getConfigureText() {
-    return "Anzeigen wenn mehr als ...‱ eines Kapitels potentielle Phrasen sind:";
+    return "Anzeigen wenn mehr als ...‱ eines Kapitels potenzielle Phrasen sind:";
   }
 
 }
