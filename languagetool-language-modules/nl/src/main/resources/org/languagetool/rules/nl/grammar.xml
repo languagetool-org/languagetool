@@ -41516,19 +41516,19 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token>grand</token>
-					<token>prix...+</token>
+					<token regexp="yes">prix...+</token>
 				</pattern>
 				<message>In de officiële spelling hoort dit anders.</message>
-				<suggestion>\1-\2</suggestion>
-				<example correction="grand-prixdebuut">Het was zijn <marker>Grand Prix-debuut</marker>.</example>
+				<suggestion><match no="1" case_conversion="startlower"/>-<match no="2" case_conversion="startlower"/></suggestion>
+				<example correction="grand-prixdebuut">Het was zijn <marker>Grand Prixdebuut</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
 					<token>grand</token>
-					<token>slam...+</token>
+					<token regexp="yes">slam...+</token>
 				</pattern>
 				<message>In de officiële spelling hoort dit anders.</message>
-				<suggestion>\1\2</suggestion>
+				<suggestion><match no="1" case_conversion="startlower"/><match no="2" case_conversion="startlower"/></suggestion>
 				<example correction="grandslam-debuut">Het was zijn <marker>Grand Slam-debuut</marker>.</example>
 			</rule>
 		</rulegroup>
