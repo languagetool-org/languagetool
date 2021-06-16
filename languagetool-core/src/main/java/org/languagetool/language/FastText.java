@@ -86,8 +86,7 @@ public class FastText {
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
     }
     if (!buffer.startsWith("__label__")) {
-      logger.warn("FastText output is expected to start with '__label__', will continue anyway: '{}'", buffer);
-      // TODO: throw exception once we know this doesn't commonly happen
+      logger.error("FastText output is expected to start with '__label__', will continue anyway: '{}'", buffer);
     }
     Map<String, Double> probabilities = new HashMap<>();
     for (int i = 0; i < values.length; i += 2) {
