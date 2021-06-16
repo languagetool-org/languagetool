@@ -2099,6 +2099,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="KEIN_KANN" name="'das kein (kann) nicht sein'">
             <!-- FIXME: "Es gibt kein entkommen" (falsche Kleinschreibung des subst. Verbs) -->
+            <antipattern>
+                <token>kein</token>
+                <token regexp="yes">bi(ss|ß)chen|andere[rs]|weitere[rs]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -2117,6 +2121,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="kann">Das <marker>kein</marker> doch nicht wahr sein!</example>
                 <example>Es soll <marker>kein</marker> solches z existieren.</example>
                 <example>Der Weg zu diesem Berg wird kein leichter sein.</example>
+                <example>Es schien sie kein bisschen zu stören.</example>
+                <example>Es schien sie kein anderer zu interessieren.</example><!-- this rule has a genereal weak spot in inverted sentence structures -->
             </rule>
             <rule>
                 <pattern>
@@ -2134,6 +2140,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>kann</suggestion>?</message>
                 <example correction="kann">Das <marker>kein</marker> doch nicht wahr sein, dass du wieder zu spät bist!</example>
                 <example>Solltest du kein WhatsApp nutzen, verwende bitte unser Kontaktformular contact form für die Kontaktaufnahme.</example>
+                <example>Kein bisschen verlegen, gab sie zur Antwort, dass sie durchaus zum Tanz bereit sei.</example>
+                <example>Ich konnte kein bisschen von dem verstehen, was er sagte.</example>
             </rule>
             <rule>
                 <pattern>
