@@ -10127,6 +10127,7 @@ onwaarschijnlijk
 			</rule>			
 		</rulegroup>
 		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
+			<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*" skip="10"/><token>beiden</token></antipattern>
 			<antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*|GET:MRV"/></antipattern>
 			<antipattern>
 				<!-- ons beiden -->
@@ -19680,6 +19681,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token regexp="yes">het|dit|dat</token><token postag="WKW:TGW:INF"/><token postag="WKW:VLT:1EP"/></antipattern>
 				<antipattern><token>code</token><token regexp="yes">rood|geel|oranje|zwart</token></antipattern>
 				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
@@ -41510,6 +41512,26 @@ steenwijk;Steenwijk
 				<example correction="klein|kleine|kleinst|kleinste">De correcties <marker>blijven kleins</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="GRAND_PRIX" name="Grand Prix-iets / grand-prixiets" >
+			<rule>
+				<pattern>
+					<token>grand</token>
+					<token>prix...+</token>
+				</pattern>
+				<message>In de officiële spelling hoort dit anders.</message>
+				<suggestion>\1-\2</suggestion>
+				<example correction="grand-prixdebuut">Het was zijn <marker>Grand Prix-debuut</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>grand</token>
+					<token>slam...+</token>
+				</pattern>
+				<message>In de officiële spelling hoort dit anders.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="grandslam-debuut">Het was zijn <marker>Grand Slam-debuut</marker>.</example>
+			</rule>
+		</rulegroup>
 <!--
 		<rulegroup id="ME_AUTO" name="Me/mijn" default="temp_off">
 			<rule>
@@ -41517,7 +41539,7 @@ steenwijk;Steenwijk
 					<marker>
 						<token>me</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"></token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token>
 				</pattern>
 				<message>U bedoelt vast <suggestion>mijn</suggestion></message>
 				<example correction="mijn">Ik kan <marker>me</marker> auto niet vinden.</example>
@@ -41527,7 +41549,7 @@ steenwijk;Steenwijk
 					<marker>
 						<token>ze</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"></token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token>
 				</pattern>
 				<message>U bedoelt vast <suggestion>zijn</suggestion></message>
 				<example correction="zijn">Ik kan <marker>ze</marker> auto niet vinden.</example>
