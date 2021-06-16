@@ -419,6 +419,17 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
+   * Force computing replacements, e.g. for accurate metrics for computation time and to set timeouts for this process
+   * Used in server use case (i.e. {@link org.languagetool.server.TextChecker})
+   */
+  public void computeLazySuggestedReplacements() {
+    long start = System.nanoTime();
+    suggestedReplacements = Suppliers.ofInstance(suggestedReplacements.get());
+    long delta = System.nanoTime() - start;
+    System.out.printf("Computing replacements for %s took %fms.%n", rule.getId(), delta / 1_000_000f);
+  }
+
+  /**
    * A URL that points to a more detailed error description or {@code null}.
    * Note that the {@link Rule} itself might also have an URL, which is usually
    * a less specific one than this. This one will overwrite the rule's URL in
