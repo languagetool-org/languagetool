@@ -10028,20 +10028,24 @@ Por isso é denominada como sendo a resiliência.
     </rule>
 	
     <!-- 	DEPOIS DE após -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-16 (Enhanced) (17-MAR-2021+)     -->
     <rule id='DEPOIS_DE_APÓS' name="Depois de > após">
 		<pattern>
 			<marker>
 				<token>depois</token>
 				<token>de</token>				
 			</marker>
-			<token postag='V.+|NCMS000' postag_regexp='yes'>
+			<token postag='V.+|NC.+|AQ0.+' postag_regexp='yes'>
 				<exception postag_regexp="yes" postag='NP.+'></exception>
-				<exception>amanhã</exception>
+				<exception regexp="yes">amanhã|hoje</exception>
 			</token>
 		</pattern>		
 		<message>Substitua por <suggestion>após</suggestion>.</message>
 		<example correction="após">Isto tudo <marker>depois de</marker> saber os resultados.</example> 
+		<example>A maior parte deles tornou-se independente nos últimos vinte anos, após séculos de colonização europeia.</example>
+		<example>Após tantas brigas, a situação chegou a tal ponto que não podiam nem se ver.</example>
+		<example>Após dois anos de serviço militar, acabaria por ser dispensado.</example>
+		<example>As crianças pequenas costumam tirar uma soneca após comer.</example>		
 	</rule>
 	
     <!-- DIFERENTES diferem	-->
