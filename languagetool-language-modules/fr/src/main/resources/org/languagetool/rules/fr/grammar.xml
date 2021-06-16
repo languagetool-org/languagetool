@@ -6523,6 +6523,16 @@ though, and has since been slightly modified)-->
                 <suggestion>jusqu'à</suggestion>
                 <example correction="jusqu'à">A chaque fois et <marker>jusqu’à qu'a</marker> la prochaine intersection, tu regardes le paysage.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>a</token>
+                    <!-- TODO: more proper nouns...-->
+                    <token>limoges</token>
+                </pattern>
+                <message>La préposition 'à' comporte une accent grave.</message>
+                <suggestion>à <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="à Limoges">Reencontres <marker>a limoges</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
             <pattern>
@@ -26519,19 +26529,21 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START|C sub" postag_regexp="yes" regexp="yes">|que|qu'
                         <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
+                    <token min="0" postag="D . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
                         <exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}+
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message suppress_misspelled="yes">Le verbe devrait être à la 3ᵉ personne du singulier.</message>
-                <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
                 <example correction="dit">L’enfant lui <marker>dis</marker> merci.</example>
                 <example correction="dit">L’enfant <marker>dis</marker> merci.</example>
                 <example correction="dit">L’enfant qui <marker>dis</marker> merci est heureux.</example>
+                <example correction="rapproche">Je connais bien les signes qui m'indiquent que la fin se <marker>rapprochent</marker>.</example>
                 <example>L'enfant qui dit merci est heureux</example>
                 <example>Le père et l’enfant lui disent merci.</example>
                 <example>Le père et l’enfant qui disent merci sont heureux.</example>
@@ -26600,6 +26612,7 @@ though, and has since been slightly modified)-->
                 <example>Qu'une seule loi et qu'un seul droit valent pour toi et pour l'étranger qui réside avec toi.</example>
                 <example>Un exemple pertinent sont les nouveaux projets de loi.</example>
                 <example>Il y a vraiment des gens dans le monde qui croient que les langues autres que l'anglais sont des langues mortes.</example>
+                <example>Plusieurs milliers d'églises sur les 45 000 que compte la France encourent un risque important.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26612,7 +26625,7 @@ though, and has since been slightly modified)-->
                     <token>lui</token>
                     <token regexp="yes" min="0" max="4">,|[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}+
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -26654,7 +26667,7 @@ though, and has since been slightly modified)-->
                     <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"><exception inflected="yes">lequel</exception></token>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -26682,17 +26695,44 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                    <token min="1" max="4" postag="D . s|[JN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="D . s|[ZJN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <token postag="V.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="K"/>
+                    <token regexp="yes" inflected="yes">&unites_temps;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <!-- probably a FP even if it is plural -->
+                    <token postag="[NZ].*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">nos|ns</token>
+                    <token postag="V .* 1 p" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                    <token min="1" max="4" postag="D . p|[JN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="D . p|[ZJN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -26764,7 +26804,7 @@ though, and has since been slightly modified)-->
                 <example>Mes enfants qui ne m’en veulent pas.</example>
                 <example>Mon fils ne passera pas.</example>
                 <example>Mon fils n’arrive pas à faire les additions.</example>
-                <example type="triggers_error" reason="plural used as singular">Neuf heures lui conviendrait.</example>
+                <example>Neuf heures lui conviendrait.</example>
                 <example>Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
                 <example>Nos <marker>bagages étant</marker> enregistrés</example>
                 <example>Onze nouvelles compositions dont la moitié sont de brefs interludes vocaux.</example>
@@ -26780,6 +26820,27 @@ though, and has since been slightly modified)-->
                 <example>Un seul <marker>être</marker> vous manque.</example>
                 <example>Un souffle ardent</example>
                 <example>Un tiens vaut mieux que deux tu l'auras.</example>
+                <example>Les axes Est – Ouest.</example>
+                <example>Crédits Image : Wikipedia.</example>
+                <example>Mentions légales Politique de confidentialité 2020</example>
+                <example>Gilles a l'air mal en point !</example>
+                <example>Île-de-France Mobilités a proposé à l’État plusieurs sites.</example>
+                <example>Papis apporte le soutien financier d'Altea</example>
+                <!-- TODO: misspelled Jaques > Jacques -->
+                <example>Jaques s'arrêta soudain de parler quand Marie entra dans la chambre.</example>
+                <example>Optima emploie actuellement 28 personnes</example>
+                <example>Les roues arrière de ce tracteur ont des roulements à bille de la taille de mon poing.</example>
+                <example>Quatre est un nombre porte-malheur au Japon.</example>
+                <example>Deux est la racine quatrième de seize.</example>
+                <example>Huit est le double de quatre.</example>
+                <example>Cinq est plus petit que huit.</example>
+                <example>Deux cent cinquante kilos est un poids extraordinaire.</example>
+                <example>Quelles terminaisons prend le verbe au présent ?</example>
+                <example>Quelques restes construits vers la fin du XIIe siècle ou le début du XIIIe siècle sont encore visibles dans l'église.</example>
+                <example>Stationnements possibles route de Nielles et rue de la Basse-Leulingue.</example>
+                <example>Lares signifie habitation, maison, foyer.</example>
+                <example correction="étaient">Les rues <marker>était</marker> calmes.</example>
+                <example>Roses se trouve à 48 km.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -26793,6 +26854,10 @@ though, and has since been slightly modified)-->
                     <token skip="-1">qui</token>
                     <token>?</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">&unites_temps;</token>
+                    <token>après</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
@@ -26801,7 +26866,7 @@ though, and has since been slightly modified)-->
                     <token>qui</token>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -26824,27 +26889,55 @@ though, and has since been slightly modified)-->
                     <token postag="[NJZ] . (s|sp)" postag_regexp="yes"/>
                     <token>qui</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="K" skip="-1"/>
+                    <token postag="K"/>
+                    <token>fait</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
-                    <token postag="P.*" postag_regexp="yes"/>
-                    <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">.*lequel</exception></token>
+                    <token min="0" postag="D.*" postag_regexp="yes"><exception inflected="yes">lequel</exception></token>
+                    <token min="1" max="4" postag="[JNZ].*|V ppa.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes">
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
-                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
                 <example correction="jouent">Les enfants dans le jardin <marker>joue</marker> en bas.</example>
                 <example correction="étaient">Les rennes du Père Noël <marker>était</marker> à l'origine huit.</example>
                 <example correction="pourront">Nos partenaires plombiers dans l'Isère <marker>pourrons</marker> vous conseiller dans vos démarches.</example>
-                <example correction="furent">Leurs vies d'époux <marker>fut</marker> un bonheur absolu.</example>
+                <example correction="fonctionnent">Les touches du tactile ne <marker>fonctionne</marker> pas normalement.</example>
+                <example correction="possèdent">Les parents de Nora <marker>possède</marker> soixante dix pourcent de la banque.</example>
                 <example>Les enfants jouent en bas.</example>
                 <example>Les régions situées au sud sont chaudes.</example>
                 <example>Des bisous pour ce petit trésor qui vient de naître.</example>
+                <example>Les raisons pour lesquelles son portrait a été effacé.</example>
+                <example>Derniers jeux joués sur la Gaming Zone !</example>
+                <example>Des deux côtés du port un vaste roc s'avance</example>
+                <example>Trois à la puissance trois fait vingt-sept.</example>
+                <!-- ambiguous -->
+                <example>Les Petits Chanteurs de Vienne est un chœur d'enfants.</example>
+                <example>Cinq ans sans changement n'est pas une alternative.</example>
+                <example>Leurs vies d'époux fut un bonheur absolu.</example>
+                <!-- better suggestions: inscrits -->
+                <example correction="inscrivent">Les délais de livraisons <marker>inscrit</marker> sur le site ne sont qu'une estimation.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="temp_off">

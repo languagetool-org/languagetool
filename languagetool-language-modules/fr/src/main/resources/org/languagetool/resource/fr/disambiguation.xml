@@ -523,7 +523,7 @@ RB => Règles Brutes
         </rule>
         <rule>
             <antipattern>
-                <token>ces</token>
+                <token regexp="yes">ces|quelques</token>
                 <token>restes</token>
             </antipattern>
             <pattern>
@@ -728,7 +728,7 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <token>ouest</token>
-                <token regexp="yes">-|/|et|ou</token>
+                <token regexp="yes">[–/\-]|et|ou</token>
                 <marker>
                     <token postag="N m s">est</token>
                 </marker>
@@ -740,7 +740,7 @@ RB => Règles Brutes
                 <marker>
                     <token postag="N m s">est</token>
                 </marker>
-                <token regexp="yes">-|/|et|ou</token>
+                <token regexp="yes">[–/\-]|et|ou</token>
                 <token>ouest</token>
             </pattern>
             <disambig postag="N m s"/>
@@ -5367,6 +5367,16 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filterall"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">routes?</token>
+                </marker>
+                <token regexp="yes">de|du|d'
+                    <exception postag="A"/></token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
     </rulegroup>
     <rule id="PRONOM_VERB" name="se montre">
         <antipattern>
@@ -5885,7 +5895,7 @@ RB => Règles Brutes
     </rulegroup>
     <rulegroup id="PROBABLE_VERBE" name="verb probable">
         <antipattern>
-            <token>anagramme</token>
+            <token regexp="yes">anagramme|arrière|plastiques?</token>
         </antipattern>
         <!-- Alert: it could be too greedy, move down -->
         <rule>
@@ -6284,7 +6294,6 @@ RB => Règles Brutes
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
     <rule id="IGNORE_SUBDOMAIN_SPELLING" name="Ignore spelling of subdomains">
         <pattern>
             <token regexp="yes">[a-z0-9\-]+</token>
