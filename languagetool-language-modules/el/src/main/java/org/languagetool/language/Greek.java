@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
+import org.languagetool.rules.el.GreekRedundancyRule;
 import org.languagetool.rules.el.GreekWordRepeatBeginningRule;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
@@ -85,7 +86,8 @@ public class Greek extends Language {
             new GreekWordRepeatBeginningRule(messages, this),
             new WordRepeatRule(messages, this),
             new ReplaceHomonymsRule(messages, this),
-            new NumeralStressRule(messages)
+            new NumeralStressRule(messages),
+            new GreekRedundancyRule(messages, this)
     );
   }
 
