@@ -35,15 +35,18 @@ public class FastText {
 
   private static final Logger logger = LoggerFactory.getLogger(FastText.class);
   private static final int K_HIGHEST_SCORES = 5;
+  private static final int BUFFER_SIZE = 4096;
 
   private final Process fasttextProcess;
-  private final BufferedReader fasttextIn;
-  private final BufferedWriter fasttextOut;
+  private final Reader fasttextIn;
+  private final Writer fasttextOut;
 
   public FastText(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
-    fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream(), StandardCharsets.UTF_8));
-    fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8));
+    // avoid buffering, we want to flush/read all data immediately
+    // might cause mixup
+    fasttextIn = new InputStreamReader(fasttextProcess.getInputStream(), StandardCharsets.UTF_8);
+    fasttextOut = new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8);
   }
 
   // for tests only
@@ -55,24 +58,26 @@ public class FastText {
 
   public Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
     String joined = text.replace("\n", " ");
-    String buffer;
+    char[] cbuf = new char[BUFFER_SIZE];
     synchronized (this) {
-      fasttextOut.write(joined);
-      fasttextOut.newLine();
+      fasttextOut.write(joined + System.lineSeparator());
       fasttextOut.flush();
-      buffer = fasttextIn.readLine();
-      if (buffer == null) {
+      long read = fasttextIn.read(cbuf);
+      if (read <= 0) {
         // hack to see if this helps us debug the rare case of readLine() returning null:
         try {
-          logger.warn("fasttextIn.readLine() returned null, trying again after short delay");
+          logger.warn("fasttextIn.read() returned no data, trying again after short delay");
           Thread.sleep(10);
-          buffer = fasttextIn.readLine();
-          if (buffer == null) {
-            logger.warn("fasttextIn.readLine() returned null again");
+          read = fasttextIn.read(cbuf);
+          if (read == -1) {
+            logger.warn("fasttextIn.read() returned no data again");
           }
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
+      }
+      if (fasttextIn.ready()) {
+        logger.warn("More input to read from Fasttext, this should not happen; language detection results might be mixed up");
       }
     }
     return parseBuffer(buffer, additionalLanguageCodes);
