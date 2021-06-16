@@ -93,6 +93,11 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      token("ein"),  // "...um mal ein bisschen Einsichten zu bekommen" (ugs., aber okay)
+      token("bisschen"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(
       token("dem"),  // "dem Abhilfe zu schaffen"
       token("Abhilfe"),
       new PatternTokenBuilder().token("zu").min(0).build(),
