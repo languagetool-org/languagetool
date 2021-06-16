@@ -80,7 +80,7 @@ public class FastText {
         logger.warn("More input to read from Fasttext, this should not happen; language detection results might be mixed up");
       }
     }
-    return parseBuffer(buffer, additionalLanguageCodes);
+    return parseBuffer(new String(cbuf), additionalLanguageCodes);
   }
 
   @NotNull
