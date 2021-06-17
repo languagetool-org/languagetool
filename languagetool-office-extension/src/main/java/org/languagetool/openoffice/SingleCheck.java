@@ -746,7 +746,8 @@ class SingleCheck {
     if (nextSentencePositions == null) {
       nextSentencePositions = new ArrayList<Integer>();
     }
-    if (nextSentencePositions.size() == 0 && docCache != null && numberOfParagraph < docCache.size()) {
+    if (nextSentencePositions.size() == 0 && docCache != null 
+        && numberOfParagraph >= 0 && numberOfParagraph < docCache.size()) {
       nextSentencePositions =  getNextSentencePositions (docCache.getFlatParagraph(numberOfParagraph), lt);
     }
     int startPosition = 0;
