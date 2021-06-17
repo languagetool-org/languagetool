@@ -1527,7 +1527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify>
                     <feature id="number"/>
                     <feature id="gender"/>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="[NZ].*" postag_regexp="yes"/>
                     <token postag="J.*|V ppa.*" postag_regexp="yes"/>
                 </unify>
             </antipattern>
@@ -1674,8 +1674,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de 5 mètres de haut appelée îlot de la Tortue</example>
                 <example>pour découvrir les meilleures date et heure</example>
                 <example type="triggers_error" reason="error: heur/heure">pour découvrir les meilleures date et heur</example>
-                <!-- better suggestion needed-->
-                <example type="triggers_error">Tom surpris Marie</example>
+                <!-- Another rule is needed-->
+                <example>Tom surpris Marie</example>
                 <example>Je l'ai à peine vue sourire.</example>
                 <example>permettant aux entreprises GSM la gestion</example>
                 <example>le transparent laisse seulement passer</example>
@@ -1709,6 +1709,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Une des caractéristiques type du discours masculiniste</example>
                 <example>L'Académie autorise l'une et l'autre formes.</example>
                 <example>Elle faisait de nécessité vertu.</example>
+                <example>Fort de ces victoires, Napoléon 1er lance la France à la conquête de l'Europe.</example>
+                <example>Les commandes en France métropolitaine passées du vendredi au dimanche seront expédiées le mardi suivant.</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -6523,7 +6525,7 @@ though, and has since been slightly modified)-->
                 <suggestion>jusqu'à</suggestion>
                 <example correction="jusqu'à">A chaque fois et <marker>jusqu’à qu'a</marker> la prochaine intersection, tu regardes le paysage.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>a</token>
                     <!-- TODO: more proper nouns...-->
@@ -26748,6 +26750,8 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token postag="Z . (s|sp)" postag_regexp="yes"/>
+                    <!-- part of proper nouns: -->
+                    <token min="0" regexp="yes">associés|solutions</token>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                 </antipattern>
@@ -26867,6 +26871,8 @@ though, and has since been slightly modified)-->
                 <example correction="étaient">Les rues <marker>était</marker> calmes.</example>
                 <example>Roses se trouve à 48 km.</example>
                 <example>Tous les jours Tom se lève dès l’aube.</example>
+                <example>Julie Solutions ne pourra également être tenue responsable.</example>
+                <example>Vendôme Associés accompagne aussi bien des banques</example>
             </rule>
             <rule>
                 <antipattern>
