@@ -339,6 +339,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("dunkellilane[mnrs]?", "dunkellila");
     put("helllilane[mnrs]?", "helllila");
     put("Behauptungsthese", "Behauptung");
+    put("genzut", "genutzt");
+    put("[eEäÄ]klerung", "Erklärung");
+    put("[wW]eh?wechen", "Wehwehchen");
+    put("nocheinmals", "noch einmal");
+    put("unverantwortungs?los(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("unverantwortungs?", "verantwortungs"), w.replaceFirst("ungs?los", "lich")));
     putRepl("[eE]rhaltbar(e[mnrs]?)?", "haltbar", "hältlich");
     putRepl("[aA]ufkeinenfall?", "keinenfall?", " keinen Fall");
     putRepl("[Dd]rumrum", "rum$", "herum");
