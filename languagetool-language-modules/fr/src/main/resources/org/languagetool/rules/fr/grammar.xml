@@ -32172,7 +32172,7 @@ though, and has since been slightly modified)-->
                 <token>/</token>
                 <token>ou</token>
             </pattern>
-            <message>Cette expression signifiant "et ou ou" est redondante et peut être simplifiée pour apporter de la fluidité à votre texte.</message>
+            <message>Cette expression signifiant "et ou ou"  peut être considérée comme redondante. Elle pourrait être simplifiée pour apporter de la fluidité à votre texte.</message>
             <suggestion>ou</suggestion>
             <suggestion>et</suggestion>
             <suggestion>ou bien</suggestion>
@@ -32228,7 +32228,7 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                 </marker>
             </pattern>
-            <message>« Objecter à » peut être considéré  comme un anglicisme (to object).</message>
+            <message>« Objecter à » peut être considéré comme un anglicisme (to object).</message>
             <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">opposer</match> à</suggestion>
             <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">élever</match> contre</suggestion>
             <example correction="opposa à|éleva contre">Mon père s’<marker>objecta à</marker> à notre union.</example>
@@ -32266,7 +32266,7 @@ though, and has since been slightly modified)-->
             <message>« Identifier des correctifs » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">proposer</match></suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suggérer</match></suggestion>
-            <example correction="proposer|suggérer">Il a <marker>identifier</marker> des correctifs lors de la conférence de presse.</example>
+            <example correction="proposé|suggéré">Il a <marker>identifié</marker> des correctifs lors de la conférence de presse.</example>
             <example><marker>proposer des correctifs</marker></example>
         </rule>
         <rule id="IDENTIFIER_DES_DIFFERENCES" name="identifier des différences">
@@ -32592,24 +32592,25 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">être</token>
                 <marker>
                     <token>à</token>
-                    <token regexp="yes">dates?</token>
+                    <token regexp="yes">dates?<exception scope="next" postag="[JV].*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>« Être à date » peut être considéré comme un anglicisme.</message>
             <suggestion>à jour</suggestion>
-            <example correction="à jour">être <marker>à date</marker></example>
+            <example correction="à jour">Les épisodes de cette série sont <marker>à date</marker> et sont diffusé tous les lundi.</example>
+            <example>La fête nationale du Québec est à date fixe.</example>
         </rule>
         <rule id="METTRE_A_DATE" name="mettre à date">
             <pattern>
                 <token inflected="yes" skip="6">mettre</token>
                 <marker>
                     <token>à</token>
-                    <token regexp="yes">dates?</token>
+                    <token regexp="yes">dates?<exception scope="next" postag="J.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>« Mettre à date » peut être considéré comme un anglicisme.</message>
             <suggestion>à jour</suggestion>
-            <example correction="à jour">mettre <marker>à date</marker></example>
+            <example correction="à jour">Ils ont mis <marker>à date</marker> ce logiciel.</example>
         </rule>
         <rule id="CONTROLER_LA_SITUATION" name="contrôler la situation" default="off">
             <!-- picky -->
@@ -32644,7 +32645,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Contrôler un incendie » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">maîtriser</match></suggestion>
-            <example correction="maîtriser"><marker>contrôler</marker> un incendie</example>
+            <example correction="maîtriser">Les pompiers tentent de <marker>contrôler</marker> un incendie.</example>
         </rule>
         <rule id="COUPER_DES_POSTES" name="couper des postes">
             <pattern>
@@ -32657,7 +32658,8 @@ though, and has since been slightly modified)-->
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">supprimer</match></suggestion>
             <example correction="supprime">L'entreprise <marker>coupe</marker> des postes en raison de plusieurs coupes budgétaires.</example>
         </rule>
-        <rule id="COUPER_LA_LIGNE" name="couper la ligne">
+        <rule id="COUPER_LA_LIGNE" name="couper la ligne" default="off">
+        <!-- WIP too ambiguous -->
             <antipattern>
                 <token regexp="yes">lignes?</token>
                 <token regexp="yes">téléphoniques?</token>
@@ -32679,25 +32681,27 @@ though, and has since been slightly modified)-->
         <rule id="COUPER_DES_DEPENSES" name="couper des dépenses">
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="6">couper</token>
+                    <token inflected="yes" skip="4">couper</token>
+                    <token min="0" max="1">dans</token>
                 </marker>
                 <token regexp="yes">dépenses?</token>
             </pattern>
             <message>« Couper des dépenses » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réduire</match></suggestion>
-            <example correction="réduire"><marker>couper</marker> des dépenses</example>
+            <example correction="réduire">Il faut <marker>couper</marker> les dépenses publiques.</example>
         </rule>
         <rule id="COUPER_DES_PRIX" name="couper des prix">
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="2">couper</token>
+                    <token inflected="yes" skip="2">couper<exception regexp="yes">coupée?s?|(?-i)Coupes?</exception></token>
                 </marker>
                 <token>prix</token>
             </pattern>
             <message>« Couper des prix » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réduire</match></suggestion>
             <example correction="réduire"><marker>couper</marker> des prix</example>
-            <example>il a coupé l'herbe au prix de base</example>
+            <example>Coupe Franchomme, Prix de l'Automobile-Club du Nord.</example>
+            <example>Le coupé était au prix d'une berline.</example>
         </rule>
         <rule id="COMPLETER_DES_ETUDES" name="compléter des études">
             <pattern>
@@ -32709,19 +32713,25 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Compléter des études » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">faire</match></suggestion>
-            <example correction="faire"><marker>compléter</marker> des études</example>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">finir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réussir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réaliser</match></suggestion>
+            <example correction="faire|finir|réussir|réaliser">Il vient de <marker>compléter</marker> ses études de médecine.</example>
+            <example correction="fait|fini|réussi|réalisé">Ils ont <marker>complété</marker> une étude sur le terrain.</example>
         </rule>
         <rule id="COMPLETER_UN_ACCORD" name="compléter un accord">
             <pattern>
                 <marker>
                     <token inflected="yes" skip="2">compléter
-                        <exception scope="next">par</exception></token>
+                        <exception scope="next">par</exception>
+                        <exception>complète</exception></token>
                 </marker>
                 <token regexp="yes">accords?</token>
             </pattern>
             <message>« Compléter un accord » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">conclure</match></suggestion>
             <example correction="conclure"><marker>compléter</marker> un accord</example>
+            <example>La ratification complète de l'accord de retrait n'est pas encore rédigé.</example>
         </rule>
         <rule id="COMPLETER_UN_FORMULAIRE" name="compléter un formulaire">
             <pattern>
@@ -32733,7 +32743,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Compléter un formulaire » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">remplir</match></suggestion>
-            <example correction="remplir"><marker>compléter</marker> un formulaire</example>
+            <example correction="remplissent">Ils <marker>complètent</marker> un formulaire de demande d'asil.</example>
         </rule>
         <rule id="COMPLETER_UN_PROJET" name="compléter un projet">
             <pattern>
@@ -32745,28 +32755,35 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Compléter un projet » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">exécuter</match></suggestion>
-            <example correction="exécuter"><marker>compléter</marker> un projet</example>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réaliser</match></suggestion>
+            <example correction="exécuter|réaliser">Il faut <marker>compléter</marker> un projet sur l'environnement.</example>
         </rule>
         <rule id="COMPLETER_UN_TRAVAIL" name="compléter un travail">
+            <antipattern>
+            <token regexp="yes">complètes?</token>
+            <token inflected="yes" regexp="yes">des?</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes" skip="2">compléter
+                        <exception scope="next">complétant</exception>
                         <exception scope="next">par</exception></token>
                 </marker>
                 <token regexp="yes">travail|travaux</token>
             </pattern>
             <message>« Compléter un travail » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">effectuer</match></suggestion>
-            <example correction="effectuer"><marker>compléter</marker> un travail</example>
-            <example correction="effectuant"><marker>complétant</marker> un travail</example>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">achever</match></suggestion>
+            <example correction="effectuer|achever">Il doit <marker>compléter</marker> un travail pour demain.</example>
+            <example correction="effectuer|achever">Il doit <marker>compléter</marker> un travail portant sur l'ouvrage de son maître mort trois mois plus tôt.</example>
             <example>Paul est dans l'incapacité la plus complète de se rendre à son travail ce matin.</example>
-            <example>et les revenus sont complétés par du travail</example>
+            <example>Les revenus sont complétés par du travail.</example>
         </rule>
         <rule id="COMPLETER_UNE_DECLARATION_DE_REVENUS" name="compléter une déclaration de revenus">
             <pattern>
                 <marker>
                     <token inflected="yes" skip="2">compléter
-                        <exception scope="next">par</exception></token>
+                        <exception scope="next" regexp="yes">par|,</exception></token>
                 </marker>
                 <token>déclaration</token>
                 <token>de</token>
@@ -32774,7 +32791,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Compléter une déclaration de revenus » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">remplir</match></suggestion>
-            <example correction="remplir"><marker>compléter</marker> une déclaration de revenus</example>
+            <example correction="remplir">Il doit <marker>compléter</marker> sa déclaration de revenus avant lundi.</example>
         </rule>
         <rule id="CIRER_DES_SKIS" name="cirer des skis">
             <pattern>
@@ -32785,10 +32802,11 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Cirer des skis » peut être considéré comme un anglicisme.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">farter</match></suggestion>
-            <example correction="farter"><marker>cirer</marker> des skis</example>
+            <example correction="farté">Il a toujours <marker>ciré</marker> ses skis avant la reprise de la saison d'hiver.</example>
         </rule>
         <!-- checked up to here -->
-        <rule id="CONFERENCIER_INVITE" name="conférencier invité">
+        <rule id="CONFERENCIER_INVITE" name="conférencier invité" default="off">
+        <!-- it is correct to say it -->
             <pattern>
                 <token regexp="yes">conférenciers?|conférencières?</token>
                 <token regexp="yes">invitée?s?</token>
@@ -32817,10 +32835,8 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">conservateurs?</token>
             </pattern>
             <message>« Chiffre conservateur » peut être considéré comme un anglicisme (conservative figure).</message>
-            <suggestion>chiffre prudent</suggestion>
-            <suggestion>chiffre prudent</suggestion>
-            <example correction="chiffre prudent"><marker>chiffre conservateur</marker></example>
-            <example><marker>chiffre prudent</marker></example>
+            <suggestion>\1 <match no="2" regexp_match="conservateur(?iu)" regexp_replace="prudent"/></suggestion>
+            <example correction="chiffres prudents">Il ne faut annoncer que des <marker>chiffres conservateurs</marker>.</example>
         </rule>
         <rule id="A_VENIR_A_DATE" name="à venir à date">
             <pattern>
@@ -32855,16 +32871,17 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token>golf</token>
             </pattern>
-            <message>« Clinique de golf » peut être considéré comme un anglicisme (golf clinic).</message>
+            <message>« \1 de golf » peut être considéré comme un anglicisme (golf clinic).</message>
             <suggestion>cours de golf</suggestion>
             <example correction="cours de golf"><marker>clinique de golf</marker></example>
         </rule>
-        <rule id="AFFAIRES_CORPORATIVES" name="affaires corporative">
+        <rule id="AFFAIRES_CORPORATIVES" name="affaires corporative" default="temp_off">
+        <!--WIP It is in the French dictionary. -->
             <pattern>
                 <token regexp="yes">affaires?</token>
                 <token regexp="yes">corporatives?</token>
             </pattern>
-            <message>« Affaires corporatives » peut être considéré comme un anglicisme.</message>
+            <message>« \1 \2 » peut être considéré comme un anglicisme.</message>
             <suggestion>affaires de l’entreprise</suggestion>
             <example correction="affaires de l’entreprise"><marker>affaire corporative</marker></example>
         </rule>
@@ -32873,49 +32890,49 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">images?</token>
                 <token regexp="yes">corporatives?</token>
             </pattern>
-            <message>« Image corporative » peut être considéré comme un anglicisme.</message>
-            <suggestion>image de marque</suggestion>
-            <suggestion>image</suggestion>
-            <example correction="image de marque|image"><marker>image corporative</marker></example>
+            <message>« \1 \2 » peut être considéré comme un anglicisme.</message>
+            <suggestion>\1 de marque</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="image de marque|image">Il doit redorer son <marker>image corporative</marker>.</example>
             <example><marker>image de marque</marker></example>
         </rule>
         <rule id="CITOYEN_CORPORATIF" name="citoyen corporatif">
             <pattern>
                 <token regexp="yes">citoyens?</token>
-                <token regexp="yes">corporatives?|corporatifs?</token>
+                <token regexp="yes">corporati[fv]e?s?</token>
             </pattern>
-            <message>« Citoyen corporatif » peut être considéré comme un anglicisme.</message>
-            <suggestion>entreprise citoyenne</suggestion>
-            <suggestion>dirigeant citoyen</suggestion>
-            <example correction="entreprise citoyenne|dirigeant citoyen"><marker>citoyen corporatif</marker></example>
+            <message>« \1 \2 » peut être considéré comme un anglicisme.</message>
+            <suggestion><match no="1" regexp_match="citoyen(?iu)" regexp_replace="entreprise"/> <match no="2" regexp_match="corporati[fv](?iu)" regexp_replace="citoyenne"/></suggestion>
+            <suggestion><match no="1" regexp_match="citoyen(?iu)" regexp_replace="dirigeant"/> <match no="2" regexp_match="corporati[fv](?iu)" regexp_replace="citoyen"/></suggestion>
+            <example correction="entreprises citoyennes|dirigeants citoyens">Ce sont de vrais <marker>citoyens corporatifs</marker>.</example>
             <example><marker>entreprise citoyenne</marker></example>
         </rule>
         <rule id="NOM_CORPORATIF" name="nom corporatif">
             <pattern>
                 <token regexp="yes">noms?</token>
-                <token regexp="yes">corporatives?|corporatifs?</token>
+                <token regexp="yes">corporati[fv]e?s?</token>
             </pattern>
-            <message>« Citoyen corporatif » peut être considéré comme un anglicisme (corporate name).</message>
-            <suggestion>raison sociale</suggestion>
-            <example correction="raison sociale"><marker>nom corporatif</marker></example>
+            <message>« \1 \2 » peut être considéré comme un anglicisme (corporate name).</message>
+            <suggestion><match no="1" regexp_match="nom(?iu)" regexp_replace="raison"/> <match no="2" regexp_match="corporati[fv](?iu)" regexp_replace="sociale"/></suggestion>
+            <example correction="raisons sociales">Notre entreprise possède plusieurs <marker>noms corporatifs</marker>.</example>
         </rule>
         <rule id="CLIENT_CORPORATIF" name="client corporatif">
             <pattern>
-                <token regexp="yes">clients?</token>
-                <token regexp="yes">corporatives?|corporatifs?</token>
+                <token regexp="yes">cliente?s?</token>
+                <token regexp="yes">corporati[fv]e?s?</token>
             </pattern>
-            <message>« Client corporatif » peut être considéré comme un anglicisme.</message>
-            <suggestion>client commercial</suggestion>
-            <example correction="client commercial"><marker>client corporatif</marker></example>
+            <message>« \1 \2 » peut être considéré comme un anglicisme.</message>
+            <suggestion>\1 <match no="2" regexp_match="corporati[fv](?iu)" regexp_replace="commercial"/></suggestion>
+            <example correction="clientes commerciales">Ce sont des <marker>clientes corporatives</marker> depuis longtemps.</example>
         </rule>
         <rule id="DROIT_CORPORATIF" name="droit corporatif">
             <pattern>
                 <token regexp="yes">droits?</token>
-                <token regexp="yes">corporatives?|corporatifs?</token>
+                <token regexp="yes">corporati[fv]e?s?</token>
             </pattern>
             <message>« Droit corporatif » peut être considéré comme un anglicisme.</message>
-            <suggestion>droit commercial</suggestion>
-            <example correction="droit commercial"><marker>droit corporatif</marker></example>
+            <suggestion>\1 <match no="2" regexp_match="corporati[fv](?iu)" regexp_replace="commercial"/></suggestion>
+            <example correction="droit commercial">Il a étudié le <marker>droit corporatif</marker>.</example>
         </rule>
         <rule id="COMITE_MIXTE" name="comité mixte">
             <pattern>
