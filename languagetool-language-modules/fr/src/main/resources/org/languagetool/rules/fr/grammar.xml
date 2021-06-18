@@ -7289,41 +7289,94 @@ though, and has since been slightly modified)-->
             <example>C’est ma voiture.</example>
             <example>C’est ma préférée.</example>
         </rule>
-        <!-- mis en default="off" car cette règle génère des fausses alertes sur toutes les phrases avec un attribut du sujet, etc. -->
-        <rule default="temp_off" id="SONT_SON" name="SONT au lieu de SON">
+        <rulegroup default="temp_off" id="SONT_SON" name="SONT au lieu de SON">
             <antipattern>
-                <token regexp="yes">ils|elles|celles|celles-ci|ceux|ceux-ci|il|elle|[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                 <token>sont</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>et</token>
+                <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="_GN_.P|N . p" postag_regexp="yes"/>
                 <token>sont</token>
+                <token postag="J.*" postag_regexp="yes"/>
+                <token>et</token>
+                <token postag="J.*" postag_regexp="yes"/>
             </antipattern>
-            <antipattern>
-                <token>les</token>
-                <token/>
-                <token>sont</token>
-            </antipattern>
-            <antipattern>
-                <token postag="N . p|_GN_.P" postag_regexp="yes"/>
-                <token postag="P.*" postag_regexp="yes"/>
-                <token postag="[DJNZ].*" postag_regexp="yes" min="1" max="4"/>
-                <token>sont</token>
-            </antipattern>
-            <pattern>
-                <marker>
+            <rule>
+                <pattern>
                     <token>sont</token>
-                </marker>
-                <token postag="[NJ] . s" postag_regexp="yes"><exception postag="[NJ] . (p|sp)" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>son</suggestion> (possessif) ?</message>
-            <example correction="son">Le problème c’est qu’apparemment elle n’a pas <marker>sont</marker> mot de passe.</example>
-            <example correction="son">A midi, <marker>sont</marker> grand-père lui a dit qu'il lui donnerait un vélo.</example>
-            <example>Ils sont neuf.</example>
-            <example>Les élèves sont polyvalent.</example>
-            <example>Les murs de la station sont mauve pâle.</example>
-            <example>Les sous-caudales sont châtain foncé.</example>
-        </rule>
+                    <token postag="J . s|V ppa . s" postag_regexp="yes"/>
+                </pattern>
+                <message>Le mot singulier "\2" n’est pas accordé en nombre avec le verbe "sont".</message>
+                <suggestion>sont <match no="2" postag="(V ppa|J) ([mfe]) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
+                <suggestion>son \2</suggestion>
+                <example correction="sont gratuits|son gratuit">Il faut voir que si les services que nous utilisons majoritairement aujourd'hui <marker>sont gratuit</marker>.</example>
+                <example>Mika Häkkinen et Gerhard Berger sont quatrième et cinquième.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">ils|elles|celles|celles-ci|ceux|ceux-ci|il|elle|[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token>sont</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_.P|[NJZ] . p|V ppa . p" postag_regexp="yes"/>
+                    <token>sont</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">les|autres</token>
+                    <token min="1" max="5" postag="[NJZ].*|M nonfin" postag_regexp="yes"/>
+                    <token>sont</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N . p|_GN_.P" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token postag="[DJNZ].*" postag_regexp="yes" min="1" max="4"/>
+                    <token>sont</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[DJNZ].* p" postag_regexp="yes" skip="20"/>
+                    <token>sont</token>
+                    <token regexp="yes">monnaie|couleur|légion</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[DJNZ].* p" postag_regexp="yes" skip="20"/>
+                    <token>sont</token>
+                    <token regexp="yes">source|fonction</token>
+                    <token regexp="yes">de|du|d'</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>sont</token>
+                    </marker>
+                    <token postag="A" min="0"/>
+                    <token postag="[NJ] . s" postag_regexp="yes">
+                        <exception postag="[NJ] . (p|sp)" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>son</suggestion> (possessif) ?</message>
+                <example correction="son">Le problème c’est qu’apparemment elle n’a pas <marker>sont</marker> mot de passe.</example>
+                <example correction="son">A midi, <marker>sont</marker> grand-père lui a dit qu'il lui donnerait un vélo.</example>
+                <example correction="Son"><marker>Sont</marker> très bon DAC couplé à un ampli OPA 1612.</example>
+                <example correction="son">ses sièges, <marker>sont</marker> tableau de bord, son rétroviseur</example>
+                <example correction="son">L'anti-virus fait-il toujours <marker>sont</marker> travail de protection</example>
+                <example correction="son">Quand Trulli braque <marker>sont</marker> volant vers Sebastien</example>
+                <example correction="son">où elle vit avec sa famille et y installe <marker>sont</marker> atelier pendant trois ans</example>
+                <example correction="son">Le CPIE Pays Gersois vous présente <marker>sont</marker> nouveau programme d'animations.</example>
+                <example>Ils sont neuf.</example>
+                <example>Les élèves sont polyvalent.</example>
+                <example>Les murs de la station sont mauve pâle.</example>
+                <example>Les sous-caudales sont châtain foncé.</example>
+                <example>La querelle et le repentir sont frère et sœur.</example>
+                <example>Une myrtille est une variété d'airelle des montagnes d'Europe dont les baies, comestibles, sont bleu-noir.</example>
+                <example>Les paroles que je vous ai dites sont esprit et elles sont vie.</example>
+                <example>Nos meilleurs cafés sont brun et « city + » gros max.</example>
+                <example>Paysages brumeux et loch sont monnaie courante !</example>
+                <example>Les révolutions qui échouent sont vite oubliées.</example>
+                <example>Mika Häkkinen et Gerhard Berger sont quatrième et cinquième.</example>
+                <example>Les questions que vous devez vous poser sont légion.</example>
+                <example>Les temps de réponse pour accéder et consulter le Site sont fonction de la nature et de l'encombrement du réseau.</example>
+                <example>Les qualifications, étalées sur deux jours, sont source de débats parmi les acteurs.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SON_SONT" name="SON au lieu de SONT">
             <antipattern>
                 <token>son</token>

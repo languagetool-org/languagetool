@@ -263,6 +263,7 @@ public class French extends Language implements AutoCloseable {
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
+      case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
       case "IMP_PRON": return -10; // less than D_N
       case "PREP_VERBECONJUGUE": return -20;
