@@ -423,10 +423,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Used in server use case (i.e. {@link org.languagetool.server.TextChecker})
    */
   public void computeLazySuggestedReplacements() {
-    long start = System.nanoTime();
     suggestedReplacements = Suppliers.ofInstance(suggestedReplacements.get());
-    long delta = System.nanoTime() - start;
-    System.out.printf("Computing replacements for %s took %fms.%n", rule.getId(), delta / 1_000_000f);
   }
 
   /**
