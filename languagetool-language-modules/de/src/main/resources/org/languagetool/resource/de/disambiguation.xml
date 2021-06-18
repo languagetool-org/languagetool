@@ -49,6 +49,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
     </unification>
 
+    <rule name="ein bisschen → ADV" id="EIN_BISSCHEN_ADV">
+        <pattern>
+            <token regexp="yes">k?ein</token>
+            <token>bisschen</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="ADV:MOD"/>
+            <wd pos="ADV:MOD"/>
+        </disambig>
+    </rule>
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_1">
         <pattern>
             <token regexp="yes">&zal_adj;iges</token>

@@ -279,7 +279,7 @@ public class RuleMatchDiffFinder {
     }
     if (replaces != null) {
       if (canOverlap) {
-        fw.write("<br><br><i>Can be ignored, sentence length rule can overlap other matches</i>");
+        // can be ignored, sentence length rule can overlap other matches
       } else {
         fw.write("<br><br><i>Maybe replaces old match:</i><br>");
         fw.write(replaces.getMessage());
@@ -290,7 +290,7 @@ public class RuleMatchDiffFinder {
     }
     if (replacedBy != null) {
       if (canOverlap(replacedBy)) {
-        fw.write("<br><br><i>Can be ignored, sentence length rule can overlap other matches</i>");
+        // can be ignored, sentence length rule can overlap other matches
       } else {
         fw.write("<br><br><i>Maybe replaced by new match:</i><br>");
         fw.write(replacedBy.getMessage());

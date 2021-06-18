@@ -486,6 +486,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("E -Commerce", "E-Commerce", rule, lt);
     assertFirstSuggestion("Intranzparentheit", "Intransparenz", rule, lt);
     assertFirstSuggestion("aufkeinenfal", "auf keinen Fall", rule, lt);
+    assertFirstSuggestion("unverantwortunglosen", "verantwortungslosen", rule, lt);
+    assertFirstSuggestion("unverantwortungslose", "verantwortungslose", rule, lt);
     
   }
 

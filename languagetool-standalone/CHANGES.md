@@ -2,8 +2,15 @@
 
 ## 5.4-SNAPSHOT (release planned for 2021-06-25)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.14)
+
 #### English
   * additional tags for personal pronouns, e.g. `us[we/PRP,we/PRP_O1P]`; `mine[mine/PRP$,I/PRP$_P1S]`
+
+#### French
+  * added and improved rules
 
 #### Portuguese
   * the sentence length rule is now active in 'picky' mode
@@ -15,6 +22,10 @@
   * The sentence length rule is now a text-level rule
     and it underlines the whole sentence, not just the position where the threshold
     is reached.
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.2)
 
 #### Ukrainian
   * new words in the POS dictionary
@@ -35,6 +46,7 @@
 
 #### Dutch
   * added and improved rules
+  * extended spelling dictionary
 
 #### English
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
