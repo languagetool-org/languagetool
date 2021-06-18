@@ -16548,6 +16548,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="NO_VA" name="nova/no va" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>nova<exception postag="_GN_FS"/></token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>no va</suggestion>?</message>
+            <example correction="no va">El mosso <marker>nova</marker> intentar fer res.</example>
+        </rule>
         <rulegroup id="TREU_TEU" name="treu/teu">
             <rule>
                 <pattern>
@@ -18180,7 +18190,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">no</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>\1-ho</suggestion>?</message>
-            <example correction="poder-ho">No <marker>poder-no</marker> fer.</example>
+            <suggestion>\1-ne</suggestion>
+            <example correction="poder-ho|poder-ne">No <marker>poder-no</marker> fer.</example>
         </rule>
         <rule id="PEL_QUE_FA_EL" name="pel que fa *el/al">
             <antipattern>
@@ -63755,7 +63766,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="SPS00"><exception postag="SPS00" negate_pos="yes"/></token>
+                    <token>d'</token>
+                    <token postag="V.[MSI].3[SP].." postag_regexp="yes"><exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet|_possible_nompropi" postag_regexp="yes" negate_pos="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*"/>
+                <message>Combinació impossible: preposició seguida de verb conjugat.</message>
+                <suggestion>s'\2</suggestion>
+                <suggestion>d'{suggestion}</suggestion>
+                <example correction="s'estranyen|d'estranya|d'estranyes|d'estranyat|d'estranyar">Després <marker>d'estranyen</marker> que comparin la situació.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="SPS00|LOC_PREP" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token postag="V.[MSIG].*" postag_regexp="yes"><exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet|_possible_nompropi" postag_regexp="yes" negate_pos="yes"/></token>
                     </marker>
