@@ -100,7 +100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TAN "poc|poquet|poquíssim|sovint|feble|dèbil|deixat|llargs?|bo|prompte|savi|espectacular|alt|baix|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "si|sí|no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "conegut|reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
-    <!ENTITY sigles_apostrofen "SMS|MI5|MI6|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF|(?-i)IRA|FM|AM">
+    <!ENTITY sigles_apostrofen "SMS|MI5|MI6|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF|(?-i)IRA|FM|AM|(?i)iOS">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY apostrofen_ela "Slesvig|Slesvig-Holstein|striptease|Sporting|statu|scherzo|ftalat|snack|Stradivarius|zwitterió|Hble">
     <!ENTITY unitats "cc|aC|dC|AM|PM|MB|GB|TB|M|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|M?[£€$]|(mm|cm|dm|m|km)[23²³]">
@@ -58852,6 +58852,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Combinació col·loquial.</message>
                 <suggestion>\1s\2</suggestion>
                 <example correction="Digues-li"><marker>Digue-li</marker> això.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token regexp="yes" spacebefore="no">'m|'t|'n|'s</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/><match no="2" regexp_match="'(.)" regexp_replace="-$1e"/></suggestion>
+                <example correction="conèixer-te">Vull <marker>coneixe't</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token spacebefore="no">'ns</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>-nos</suggestion>
+                <example correction="conèixer-nos">Només per <marker>coneixe'ns</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token spacebefore="no">-us</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>-vos</suggestion>
+                <example correction="conèixer-vos">Només per <marker>coneixe-us</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token spacebefore="no">'l</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>-lo</suggestion>
+                <example correction="conèixer-lo">M'agradaria <marker>coneixe'l</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token regexp="yes" spacebefore="no">-.*</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>\2</suggestion>
+                <example correction="conèixer-la">Vull <marker>coneixe-la</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="XIVAR" name="xivar, xivatar">
