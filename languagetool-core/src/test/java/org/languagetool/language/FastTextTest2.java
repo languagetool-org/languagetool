@@ -38,16 +38,14 @@ import static org.junit.Assert.assertEquals;
  * This is a (failed) attempt at reproducing that.
  * Removing buffering from the communication with fasttext is an attempt at fixing it.
  */
-public class FastTextTest2
-{
+public class FastTextTest2 {
+  
   private static final List<String> languages = Arrays.asList("en", "es", "de", "fr");
-
   private static final List<Entry<String, String>> TESTED_ENTRIES =
     Arrays.asList(
                   new SimpleImmutableEntry<>("en", "This is an English text."),
                   new SimpleImmutableEntry<>("de", "Dies ist ein deutscher Text.")
                   );
-
   private static final int THREAD_COUNT = 11;
 
   private FastText instance;
@@ -70,11 +68,10 @@ public class FastTextTest2
         try {
           Map<String, Double> detected = instance.runFasttext(text, languages);
           System.out.printf("Detected '%s' as %s%n", text, detected);
-
           Entry<String, Double> highest = detected.entrySet().stream().max(Entry.comparingByValue()).get();
           assertEquals("Expected language correctly detected", expectedLang, highest.getKey());
           Thread.sleep(1);
-        } catch(IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
           throw new RuntimeException(e);
         }
       }
@@ -89,7 +86,7 @@ public class FastTextTest2
       Entry<String, String> entry = TESTED_ENTRIES.get(i % TESTED_ENTRIES.size());
       Thread t = new Thread(checkLanguage(entry.getValue(), entry.getKey()), "fasttext-test-" + i);
       threads.add(t);
-        System.out.printf("Started thread %d%n", i);
+      System.out.printf("Started thread %d%n", i);
       t.start();
     }
     for (Thread t : threads) {
