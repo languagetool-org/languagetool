@@ -22,9 +22,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.GermanSynthesizer;
 
 import java.io.IOException;
 import java.util.*;
@@ -35,8 +33,6 @@ import java.util.concurrent.TimeUnit;
  * @since 3.0
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
-
-  private static final Synthesizer synthesizer = Objects.requireNonNull(new GermanyGerman().getSynthesizer());
 
   private static final LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
     .expireAfterAccess(10, TimeUnit.MINUTES)
@@ -52,7 +48,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
           throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
         }
         try {
-          String[] forms = synthesizer.synthesize(new AnalyzedToken(parts[1], "FAKE", parts[1]), "VER:.*", true);
+          String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));
           if (forms.length == 0) {
             throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
           }
