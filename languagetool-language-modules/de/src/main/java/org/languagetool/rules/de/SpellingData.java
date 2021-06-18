@@ -19,13 +19,13 @@
 package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.GermanSynthesizer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Old to new spelling data and similar formats loaded from CSV.
@@ -36,7 +36,6 @@ class SpellingData {
   private final AhoCorasickDoubleArrayTrie<String> trie = new AhoCorasickDoubleArrayTrie<>();
 
   SpellingData(String filePath) {
-    Synthesizer synthesizer = Objects.requireNonNull(Languages.getLanguageForShortCode("de").getSynthesizer());
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
     Map<String,String> coherencyMap = new HashMap<>();
     for (String line : lines) {
@@ -60,7 +59,7 @@ class SpellingData {
 
       if (oldSpelling.contains("ß") && oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
         try {
-          String[] forms = synthesizer.synthesize(new AnalyzedToken(oldSpelling, "NONE", oldSpelling), ".*", true);
+          String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(oldSpelling, s -> true);
           for (String form : forms) {
             if (!form.contains("ss")) {  // avoid e.g. "Schlüsse" as form of "Schluß", as that's the new spelling
               coherencyMap.put(form, form.replaceAll("ß", "ss"));
