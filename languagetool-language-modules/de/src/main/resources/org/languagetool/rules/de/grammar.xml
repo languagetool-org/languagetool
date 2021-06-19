@@ -39272,6 +39272,17 @@ Andere Projekte</example>
             <message>Meinten Sie <suggestion>seien</suggestion>?</message>
             <example correction="Seien"><marker>Sind</marker> wir doch mal ehrlich: Das macht so keinen Sinn!</example>
         </rule>
+        <rule id="MIT_EIER" name="mit zwei Spiegeleier (Spiegeleiern)">
+            <pattern>
+                <token>mit</token>
+                <token postag="ZAL" min="0" />
+                <token postag="ADJ:.*:PLU:.*" postag_regexp="yes" min="0" />
+                <marker><token regexp="yes">(Spiegel)?eier</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\4n</suggestion>?</message>
+            <example correction="Spiegeleiern">Es gab Leberkäse mit leckeren <marker>Spiegeleier</marker>.</example>
+            <example correction="Spiegeleiern">Es gab Leberkäse mit zwei <marker>Spiegeleier</marker>.</example>
+        </rule>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst|bauen?|baus?t|gebaut)</token>
