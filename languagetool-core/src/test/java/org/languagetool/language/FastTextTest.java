@@ -18,10 +18,14 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -60,7 +64,54 @@ public class FastTextTest {
     Map<String, Double> res2 = ft.runFasttext(s.toUpperCase(Locale.ROOT), langCodes);
     assertEquals(res1, res2);
   }
-  
+
+  @Test
+  @Ignore("for interactive use")
+  public void testEverShorterTextWithFastText() throws IOException {
+    FastText ft = new FastText(new File("/prg/fastText-0.9.2/lid.176.bin"), new File("/prg/fastText-0.9.2/fasttext"));
+    //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText/fasttext"));
+    //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText-0.1.0/fasttext"));
+    List<String> langs = Arrays.asList("en", "de", "fr", "es", "nl");
+    //List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/lt/lang-detect-test-25K.txt"));
+    List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/lt/lang-detect-test-en-25K.txt"));
+    String expected = "en";
+    System.out.println("Loaded " + lines.size() + " lines");
+    long startTime = System.currentTimeMillis();
+    int lineCount = 0;
+    long thresholdLengthsSum = 0;
+    for (String line : lines) {
+      lineCount++;
+      for (int i = line.length(); i > 0; i--) {
+        String shortened = line.substring(0, i);
+        Map<String, Double> resMap = ft.runFasttext(shortened, langs);
+        String bestLang = getBestLang(resMap);
+        //System.out.println(shortened + " -> " + bestLang);
+        if (!expected.equals(bestLang)) {
+          System.out.println(lineCount + ". " + bestLang + " " + shortened + " @" + shortened.length());
+          thresholdLengthsSum += shortened.length();
+          break;
+        }
+      }
+    }
+    long endTime = System.currentTimeMillis();
+    System.out.println("runtime: "+ (endTime-startTime) + "ms");
+    float avg = (float)thresholdLengthsSum / lineCount;
+    System.out.printf(Locale.ENGLISH, "avg. first detection failure: %.2f%n", avg);
+  }
+
+  @Nullable
+  private String getBestLang(Map<String, Double> resMap) {
+    String bestLang = null;
+    double baseValSoFar = 0;
+    for (Map.Entry<String, Double> entry : resMap.entrySet()) {
+      if (entry.getValue() > baseValSoFar) {
+        bestLang = entry.getKey();
+        baseValSoFar = entry.getValue();
+      }
+    }
+    return bestLang;
+  }
+
   @Test
   public void testParsing() throws Exception {
     FastText ft = new FastText();
