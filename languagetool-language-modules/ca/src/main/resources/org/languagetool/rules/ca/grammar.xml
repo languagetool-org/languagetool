@@ -16548,8 +16548,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="NO_VA" name="nova/no va" default="temp_off">
+        <rule id="NO_VA" name="nova/no va">
             <pattern>
+                <token><exception postag="RG|LOC_ADV" postag_regexp="yes"></exception></token>
                 <marker>
                     <token>nova<exception postag="_GN_FS"/></token>
                 </marker>
@@ -16557,6 +16558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>¿Volíeu dir <suggestion>no va</suggestion>?</message>
             <example correction="no va">El mosso <marker>nova</marker> intentar fer res.</example>
+            <example>És una emoció tan nova rebre la visita!</example>
         </rule>
         <rulegroup id="TREU_TEU" name="treu/teu">
             <rule>
@@ -38802,6 +38804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="ESCOMBRARIA" name="escombraria">
             <antipattern>
+                <token><exception postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
                 <token>escombraria</token>
                 <token regexp="yes">tothom|el|la|les|l'</token>
             </antipattern>
@@ -38811,6 +38814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Com a substantiu, només existeix en plural. Correcte si és una forma del v. 'escombrar'.</message>
             <suggestion>escombraries</suggestion>
             <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
+            <example correction="escombraries">Com s'omple d'<marker>escombraria</marker> el ciberespai.</example>
             <example>Em va dir que escombraria ell.</example>
         </rule>
         <rulegroup name="plural de sigles" id="SIGLES">
@@ -63767,7 +63771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token postag="V.[MSI].3[SP].." postag_regexp="yes"><exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet|_possible_nompropi" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.[MSI].3[SP].." postag_regexp="yes" case_sensitive="yes" regexp="yes">h?[aeiou].*<exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet|_possible_nompropi" postag_regexp="yes" negate_pos="yes"/><exception>historia</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*"/>
                 <message>Combinació impossible: preposició seguida de verb conjugat.</message>
@@ -63776,6 +63780,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="s'estranyen|d'estranya|d'estranyes|d'estranyat|d'estranyar">Després <marker>d'estranyen</marker> que comparin la situació.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>no</token>
+                    <token>obstant</token>
+                </antipattern>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="SPS00|LOC_PREP" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
@@ -63801,6 +63809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A és igual a B</example>
                 <example>¿A és igual a B?</example>
                 <example>De fes religioses.</example>
+                <example>He trencat amb tot i admeto la responsabilitat.</example>
             </rule>
             <rule>
                 <pattern>
