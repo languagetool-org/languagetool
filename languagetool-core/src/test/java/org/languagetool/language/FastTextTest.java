@@ -49,6 +49,7 @@ public class FastTextTest {
   }
   
   @Test
+  @Ignore("requires local FastText")
   public void testCaseShouldNotMatter() throws Exception {
     // all-uppercase yields bad results (also see https://github.com/facebookresearch/fastText/issues/1181),
     // so make sure we lowercase input internally
