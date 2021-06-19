@@ -7289,7 +7289,7 @@ though, and has since been slightly modified)-->
             <example>C’est ma voiture.</example>
             <example>C’est ma préférée.</example>
         </rule>
-        <rulegroup default="temp_off" id="SONT_SON" name="SONT au lieu de SON">
+        <rulegroup id="SONT_SON" name="SONT au lieu de SON">
             <antipattern>
                 <token>sont</token>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -7302,7 +7302,7 @@ though, and has since been slightly modified)-->
                 <token>et</token>
                 <token postag="J.*" postag_regexp="yes"/>
             </antipattern>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token>sont</token>
                     <token postag="J . s|V ppa . s" postag_regexp="yes"/>
@@ -7348,14 +7348,14 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>sont</token>
                     </marker>
-                    <token postag="A" min="0"/>
+                    <!--<token postag="A" min="0"/>-->
                     <token postag="[NJ] . s" postag_regexp="yes">
                         <exception postag="[NJ] . (p|sp)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>son</suggestion> (possessif) ?</message>
                 <example correction="son">Le problème c’est qu’apparemment elle n’a pas <marker>sont</marker> mot de passe.</example>
                 <example correction="son">A midi, <marker>sont</marker> grand-père lui a dit qu'il lui donnerait un vélo.</example>
-                <example correction="Son"><marker>Sont</marker> très bon DAC couplé à un ampli OPA 1612.</example>
+                <!--<example correction="Son"><marker>Sont</marker> très bon DAC couplé à un ampli OPA 1612.</example>-->
                 <example correction="son">ses sièges, <marker>sont</marker> tableau de bord, son rétroviseur</example>
                 <example correction="son">L'anti-virus fait-il toujours <marker>sont</marker> travail de protection</example>
                 <example correction="son">Quand Trulli braque <marker>sont</marker> volant vers Sebastien</example>
