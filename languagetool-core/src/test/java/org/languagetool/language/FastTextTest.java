@@ -18,18 +18,48 @@
  */
 package org.languagetool.language;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class FastTextTest {
 
+  private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
+  private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
+
+  @Test
+  @Ignore("for interactive use")
+  public void testInteractively() throws Exception {
+    FastText ft = new FastText(MODEL_PATH, BINARY_PATH);
+    List<String> langCodes = Arrays.asList("en", "de", "fr", "es");
+    String s = "PROJECT TAGGING CRITERIA";  // {en=0.0688019}
+    //String s = "project tagging criteria";  // {en=0.417927, es=0.0365024}
+    Map<String, Double> res1 = ft.runFasttext(s, langCodes);
+    System.out.println(res1);
+  }
+  
+  @Test
+  public void testCaseShouldNotMatter() throws Exception {
+    // all-uppercase yields bad results (also see https://github.com/facebookresearch/fastText/issues/1181),
+    // so make sure we lowercase input internally
+    FastText ft = new FastText(MODEL_PATH, BINARY_PATH);
+    List<String> langCodes = Arrays.asList("en", "de", "fr", "es", "ko");
+    String s = "project tagging criteria";
+    Map<String, Double> res1 = ft.runFasttext(s, langCodes);
+    Map<String, Double> res2 = ft.runFasttext(s.toUpperCase(Locale.ROOT), langCodes);
+    assertEquals(res1, res2);
+  }
+  
   @Test
   public void testParsing() throws Exception {
     FastText ft = new FastText();

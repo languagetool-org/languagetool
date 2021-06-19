@@ -57,7 +57,7 @@ public class FastText {
   }
 
   public Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
-    String joined = text.replace("\n", " ");
+    String joined = text.replace("\n", " ").toLowerCase(Locale.ROOT);
     char[] cbuf = new char[BUFFER_SIZE];
     synchronized (this) {
       fasttextOut.write(joined + System.lineSeparator());
