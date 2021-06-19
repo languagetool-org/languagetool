@@ -39252,6 +39252,26 @@ Andere Projekte</example>
             <message>Meinten Sie <suggestion>ihresgleichen</suggestion>?</message>
             <example correction="ihresgleichen">Er besitzt eine Formulierkunst, die <marker>seinesgleichen</marker> sucht.</example>
         </rule>
+        <rule id="SACK_KARTOFFEL" name="ein Sack Kartoffel (Kartoffeln)">
+            <pattern>
+                <token>ein</token>
+                <token>Sack</token>
+                <marker><token>Kartoffel</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Kartoffeln</suggestion>?</message>
+            <example correction="Kartoffeln">Er sitzt da wie ein Sack <marker>Kartoffel</marker>.</example>
+        </rule>
+        <rule id="SIND_VS_SEIEN" name="sein/sind (seien) wir doch mal ehrlich">
+            <pattern>
+                <marker><token regexp="yes">sein|sind</token></marker>
+                <token>wir</token>
+                <token min="0">doch</token>
+                <token regexp="yes">(ein)?mal</token>
+                <token>ehrlich</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>seien</suggestion>?</message>
+            <example correction="Seien"><marker>Sind</marker> wir doch mal ehrlich: Das macht so keinen Sinn!</example>
+        </rule>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst|bauen?|baus?t|gebaut)</token>
@@ -47484,6 +47504,7 @@ Andere Projekte</example>
                         <exception>Mary</exception>
                         <exception>Paul</exception>
                         <exception>Edward</exception>
+                        <exception>Brinkhoff</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
