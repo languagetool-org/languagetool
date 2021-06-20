@@ -86,12 +86,11 @@ public class FastText {
   @NotNull
   Map<String, Double> parseBuffer(String buffer, List<String> additionalLanguageCodes) {
     String[] values = buffer.split(" ");
-    if (values.length % 2 != 0) {
-      logger.error("Error while parsing fasttext output '{}'", buffer);
-      throw new RuntimeException("Error while parsing fasttext output: " + buffer);
-    }
     if (!buffer.startsWith("__label__")) {
-      logger.error("FastText output is expected to start with '__label__', will continue anyway: '{}'", buffer);
+      throw new RuntimeException("FastText output is expected to start with '__label__': ''" + buffer + "'");
+    }
+    if (values.length % 2 != 0) {
+      throw new RuntimeException("Error while parsing fasttext output, expected pairs of '__label_xx' and float: '" + buffer + "'");
     }
     Map<String, Double> probabilities = new HashMap<>();
     for (int i = 0; i < values.length; i += 2) {

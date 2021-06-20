@@ -131,15 +131,19 @@ public class FastTextTest {
     assertThat(res4.size(), is(1));
     assertThat(res4.get("de"), is(1.00003));
     try {
-      System.out.println("Testing invalid input, ignore the following 'Error while parsing':");
       ft.parseBuffer("xxx", l);
       fail();
     } catch (RuntimeException expected) {}
     try {
-      System.out.println("Testing invalid input, ignore the following warning:");
       ft.parseBuffer("xxx foo", l);
       fail();
-    } catch (NumberFormatException expected) {}
+    } catch (RuntimeException expected) {}
+    try {
+      // this had happened in the past when somehow Fasttext received two texts and thus
+      // responds with two lines of output:
+      ft.parseBuffer("__label__de 0.9\n__label__fr 0.1", l);
+      fail();
+    } catch (RuntimeException expected) {}
   }
 
 }
