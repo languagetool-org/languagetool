@@ -27,6 +27,7 @@ import org.languagetool.rules.el.GreekWordRepeatBeginningRule;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
 import org.languagetool.rules.el.ReplaceHomonymsRule;
+import org.languagetool.rules.el.SpecificCaseRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -86,6 +87,7 @@ public class Greek extends Language {
             new GreekWordRepeatBeginningRule(messages, this),
             new WordRepeatRule(messages, this),
             new ReplaceHomonymsRule(messages, this),
+            new SpecificCaseRule(messages),
             new NumeralStressRule(messages),
             new GreekRedundancyRule(messages, this)
     );
