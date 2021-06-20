@@ -49077,6 +49077,33 @@ Andere Projekte</example>
             <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
             <example>Eine Liste: (a) Argument, (b) 2 Argumente, (c) 2014 Argumente.</example>
         </rule>
+        <rulegroup id="H2O" name="H2O (H₂O) etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">O[2²]</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>O₂</suggestion>,  die zweiatomige Form von <suggestion>Sauerstoff</suggestion>?</message>
+                <short>Typographie</short>
+                <example correction="O₂|Sauerstoff">Hierbei entsteht <marker>O²</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">CO[2²]</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>CO₂</suggestion>,  das als <suggestion>Treibhausgas</suggestion> bekannte <suggestion>Kohlendioxid</suggestion>?</message>
+                <short>Typographie</short>
+                <example correction="CO₂|Treibhausgas|Kohlendioxid">Hierbei entsteht <marker>CO²</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">H[2²]O</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>H₂O</suggestion> (= <suggestion>Wasser</suggestion>)?</message>
+                <short>Typographie</short>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H2O</marker>.</example>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H²O</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
             <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
