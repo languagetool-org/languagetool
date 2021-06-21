@@ -153,8 +153,8 @@ class SingleCheck {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-//        if (useQueue && (!isDialogRequest && textLevelCacheNotEmpty(paraNum)) || (isDialogRequest && textIsChanged)) {
-        if (isDialogRequest && textIsChanged) {
+        if (useQueue || isDialogRequest) {
+//        if (isDialogRequest && textIsChanged) {
           List<Integer> changedParas = new ArrayList<Integer>();
           changedParas.add(paraNum);
           remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
@@ -361,7 +361,7 @@ class SingleCheck {
    * Return true if one of the text level caches is not null
    */
   private boolean textLevelCacheNotEmpty(int paraNum) {
-    for (int i = 1; i < minToCheckPara.size(); i++) {
+    for (int i = 0; i < minToCheckPara.size(); i++) {
       if(paragraphsCache.get(i).getCacheEntry(paraNum) != null) {
         return true;
       }
@@ -678,7 +678,7 @@ class SingleCheck {
    */
   private List<Integer> getNextSentencePositions (String paraText, SwJLanguageTool lt) {
     List<Integer> nextSentencePositions = new ArrayList<Integer>();
-    if (lt.isRemote()) {
+    if (numParasToCheck != 0 || lt.isRemote()) {
       nextSentencePositions.add(paraText.length());
     } else {
       List<String> tokenizedSentences = lt.sentenceTokenize(cleanFootnotes(paraText));
@@ -751,6 +751,14 @@ class SingleCheck {
       nextSentencePositions =  getNextSentencePositions (docCache.getFlatParagraph(numberOfParagraph), lt);
     }
     int startPosition = 0;
+    if (nextSentencePositions.size() == 1) {
+      List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+      for (ResultCache cache : paragraphsCache) {
+        CacheEntry cacheEntry = cache.getCacheEntry(numberOfParagraph);
+        errorList.add(cacheEntry == null ? null : cacheEntry.getErrorArray());
+      }
+      sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), mergeErrors(errorList, numberOfParagraph)));
+    }
     for (int nextPosition : nextSentencePositions) {
       List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
       for (ResultCache cache : paragraphsCache) {
