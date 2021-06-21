@@ -101,15 +101,15 @@ public class FastText {
 
   @NotNull
   Map<String, Double> parseBuffer(String buffer, List<String> additionalLanguageCodes) {
-    String[] values = buffer.split("\\s+");
+    String[] values = buffer.trim().split("\\s+");
     if (!buffer.startsWith("__label__")) {
       throw new FastTextException("FastText output is expected to start with '__label__': ''" + buffer + "'", true);
     }
     if (values.length % 2 != 0) {
       throw new FastTextException("Error while parsing fasttext output, expected pairs of '__label_xx' and float: '" + buffer + "'", true);
     }
-    if (buffer.lastIndexOf("\n", buffer.length() - 2) != -1) {
-        logger.warn("Got multiple lines to read from Fasttext, this should not happen: '" + buffer + "'" );
+    if (buffer.trim().contains("\n")) {
+      logger.warn("Got multiple lines to read from Fasttext, this should not happen: '" + buffer + "'" );
     }
     Map<String, Double> probabilities = new HashMap<>();
     for (int i = 0; i < values.length; i += 2) {
