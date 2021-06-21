@@ -767,7 +767,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|="),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏"),
       regex(".*")
     ),
     Arrays.asList(
@@ -823,7 +823,7 @@ public class CaseRule extends Rule {
       // "(2c) Der Betrieb ist untersagt"
       SENT_START,
       regex("[\\[\\(\\{]"),
-      token("[a-z0-9]{1,5}"),
+      regex("[a-z0-9]{1,5}"),
       regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
@@ -873,6 +873,16 @@ public class CaseRule extends Rule {
     Arrays.asList( // Wir wagen Neues.
       new PatternTokenBuilder().token("wagen").matchInflectedForms().build(),
       token("Neues")
+    ),
+    Arrays.asList( // Das birgt zugleich Gefahren
+      new PatternTokenBuilder().csToken("birgen").matchInflectedForms().setSkip(5).build(),
+      token("Gefahren")
+    ),
+    Arrays.asList(
+      // Du Ärmster!
+      token("du"),
+      csRegex("Ärmster?"),
+      csRegex("[^A-ZÖÄÜ].*")
     )
   );
 

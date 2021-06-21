@@ -313,6 +313,7 @@ public class German extends Language implements AutoCloseable {
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
+      case "VERB_FEM_SUBST": return -1; // prefer Comma rules
       case "GEFEATURED": return -1; // prefer over spell checker
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)

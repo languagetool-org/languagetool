@@ -394,6 +394,7 @@ public class CaseRuleTest {
     assertBad("Das ist Ein Mann.");
 
     assertGood("Er wohnt Am Hohen Hain 6a");
+    assertGood("Du Ärmste!");
     assertGood("Das Bauvorhaben Am Wiesenhang 9");
   }
 
