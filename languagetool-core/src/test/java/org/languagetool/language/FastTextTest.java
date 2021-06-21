@@ -138,12 +138,11 @@ public class FastTextTest {
       ft.parseBuffer("xxx foo", l);
       fail();
     } catch (RuntimeException expected) {}
-    try {
-      // this had happened in the past when somehow Fasttext received two texts and thus
-      // responds with two lines of output:
-      ft.parseBuffer("__label__de 0.9\n__label__fr 0.1", l);
-      fail();
-    } catch (RuntimeException expected) {}
+    // this had happened in the past when somehow Fasttext received two texts and thus
+    // responds with two lines of output:
+    Map<String, Double> res5 = ft.parseBuffer("__label__de 0.9\n__label__fr 0.1", l);
+    assertThat(res5.size(), is(1));
+    assertThat(res5.get("de"), is(0.9));
   }
 
 }
