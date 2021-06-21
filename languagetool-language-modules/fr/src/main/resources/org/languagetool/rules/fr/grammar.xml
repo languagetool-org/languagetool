@@ -26818,6 +26818,47 @@ though, and has since been slightly modified)-->
                 <example>Une infinité d'étoiles scintillaient dans le ciel nocturne.</example>
                 <example>Un tiers des Chinois ne parlent pas le mandarin standard.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token>comme</token>
+                    <token min="0" postag="D.*" postag_regexp="yes">
+                        <exception inflected="yes">lequel</exception></token>
+                    <token min="1" max="4" postag="[JNZR].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="annonce">Un jour comme les autres s'<marker>annoncent</marker> pour la famille Leblanc.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" postag="D . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="[PJNZR].*" postag_regexp="yes"><exception regexp="yes">que|qui|qu'</exception></token>
+                    <token skip="4" regexp="yes">que|qui|qu'</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"/>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="arrive">L'enfant que j'accompagne souvent à la bibliothèque <marker>arrivent</marker> de l'école.</example>
+                <example correction="est">La principale chaine de télévision qui transmet depuis Buenos Aires <marker>sont</marker> Canal 13.</example>
+                <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
+                <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
+                <example>Les autres ben faut voir.</example>
+            </rule>
             <!-- Pluriel -->
             <rule>
                 <antipattern>
@@ -27078,6 +27119,47 @@ though, and has since been slightly modified)-->
                 <example>Leurs vies d'époux fut un bonheur absolu.</example>
                 <!-- better suggestions: inscrits -->
                 <example correction="inscrivent">Les délais de livraisons <marker>inscrit</marker> sur le site ne sont qu'une estimation.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token>comme</token>
+                    <token min="0" postag="D.*" postag_regexp="yes">
+                        <exception inflected="yes">lequel</exception></token>
+                    <token min="1" max="4" postag="[JNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                            <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="mentent">Les gens comme Tom <marker>mente</marker> tout le temps.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" postag="D . p" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="[PJNZ].*" postag_regexp="yes"/>
+                    <token skip="4" regexp="yes">que|qui|qu'</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"/>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                            <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="arrivent">Les enfants que j'accompagne souvent à la bibliothèque <marker>arrive</marker> de l'école.</example>
+                <example correction="sont">Les principales chaines de télévision qui transmettent depuis Buenos Aires <marker>est</marker> Canal 13, Telefe, et Canal 9.</example>
+                <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
+                <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
+                <example>Les autres ben faut voir.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="temp_off">
