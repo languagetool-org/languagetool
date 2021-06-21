@@ -238,6 +238,7 @@ public class LanguageIdentifier {
       additionalLangs.addAll(domLangCodes);
     }
     Map.Entry<String,Double> result = null;
+    boolean fasttextFailed = false;
     if (fastText != null || ngram != null) {
       try {
         Map<String, Double> scores;
@@ -283,13 +284,21 @@ public class LanguageIdentifier {
         //System.out.println("fasttext  : " + result);
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
+      } catch(FastText.FastTextException e) {
+        if (e.isDisabled()) {
+          fastText = null;
+          logger.error("Fasttext disabled", e);
+        } else {
+          logger.error("Fasttext failed, fallback used", e);
+          fasttextFailed = true;
+        }
       } catch (Exception e) {
         //fastText.destroy();
         fastText = null;
         logger.error("Fasttext disabled", e);
       }
     }
-    if (fastText == null && ngram == null) { // no else, value can change in if clause
+    if (fastText == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
       cleanText = textObjectFactory.forText(cleanText).toString();
       result = detectLanguageCode(cleanText);
       if (additionalLangs.size() > 0) {
