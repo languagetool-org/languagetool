@@ -7399,6 +7399,14 @@ though, and has since been slightly modified)-->
                 <token>et</token>
                 <token postag="J.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>sont</token>
+                <token postag="J.*" postag_regexp="yes"/>
+                <token>,</token>
+                <token postag="J.*" postag_regexp="yes"/>
+                <token>et</token>
+                <token postag="J.*" postag_regexp="yes"/>
+            </antipattern>
             <rule default="temp_off">
                 <pattern>
                     <token>sont</token>
@@ -7409,6 +7417,7 @@ though, and has since been slightly modified)-->
                 <suggestion>son \2</suggestion>
                 <example correction="sont gratuits|son gratuit">Il faut voir que si les services que nous utilisons majoritairement aujourd'hui <marker>sont gratuit</marker>.</example>
                 <example>Mika Häkkinen et Gerhard Berger sont quatrième et cinquième.</example>
+                <example>Les couleurs du drapeau américain sont rouge, blanc et bleu.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -7481,6 +7490,7 @@ though, and has since been slightly modified)-->
                 <example>Les qualifications, étalées sur deux jours, sont source de débats parmi les acteurs.</example>
                 <example>Les principales chaines de télévision qui transmettent depuis Buenos Aires sont Canal 13, Telefe, et Canal 9.</example>
                 <example>Les événements Krug, sous le mot clé #krugencounters, sont prétexte à des accords tridimensionnels.</example>
+                <example>Les couleurs du drapeau américain sont rouge, blanc et bleu.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SON_SONT" name="SON au lieu de SONT">
@@ -26924,7 +26934,7 @@ though, and has since been slightly modified)-->
                     <token>comme</token>
                     <token min="0" postag="D.*" postag_regexp="yes">
                         <exception inflected="yes">lequel</exception></token>
-                    <token min="1" max="4" postag="[JNZR].*|V ppa.*" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ].*|V ppa.*|R . p" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
@@ -26934,19 +26944,29 @@ though, and has since been slightly modified)-->
                 <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
                 <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
                 <example correction="annonce">Un jour comme les autres s'<marker>annoncent</marker> pour la famille Leblanc.</example>
+                <example>Ce matin comme je n'avais pas d'argent sur moi je n'ai pas pu acheter mon pain aux raisins</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <!--<token regexp="yes">chaque|une</token>-->
+                    <token>fois</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>après</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" postag="D . s" postag_regexp="yes"/>
-                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"><exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
                     <token min="0" max="4" postag="[PJNZR].*" postag_regexp="yes">
                         <exception regexp="yes">que|qui|qu'</exception></token>
                     <token skip="4" regexp="yes">que|qui|qu'</token>
-                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"/>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*"></exception></token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                        <token postag="V.*3 p" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -26957,6 +26977,16 @@ though, and has since been slightly modified)-->
                 <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
                 <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
                 <example>Les autres ben faut voir.</example>
+                <example>La dernière personne à qui j'ai raconté mon idée a pensé que j'étais cinglé.</example>
+                <example>Chaque fois que je trouve quelque chose que j'aime, c'est trop cher.</example>
+                <example>La théorie scientifique que j'aime le plus est que les anneaux de Saturne sont entièrement composés de bagages perdus.</example>
+                <example>Chaque fois que le prix des cigarettes augmente, beaucoup de gens essayent d'arrêter de fumer.</example>
+                <example>La plupart des gens qui sont morts du tabac n'étaient pas de gros fumeurs.</example>
+                <example>La dernière fois que je suis allé en Chine, j'ai visité Shanghai.</example>
+                <example>La seule chose que nous apprend l'Histoire, c'est que nous n'apprenons rien de l'Histoire.</example>
+                <example>Tout occupé que tu sois, tu dois faire tes devoirs.</example>
+                <example>Une étude récente montre que la moitié des Français sont sceptiques devant les publicités "vertes" et réclament des preuves, en tête desquelles la présence d'un éco-label.</example>
+                <example>Cette propension qu'ont certaines personnes à être pédantes lorsqu'elles écrivent des phrases d'exemple m'irrite.</example>
             </rule>
             <!-- Pluriel -->
             <rule>
@@ -27248,9 +27278,9 @@ though, and has since been slightly modified)-->
                     <token min="1" max="4" postag="[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token min="0" max="4" postag="[PJNZ].*" postag_regexp="yes"/>
                     <token skip="4" regexp="yes">que|qui|qu'|dont</token>
-                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"/>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag="V .* 3 p|C .*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                        <token postag="V.*3 s" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -27262,6 +27292,8 @@ though, and has since been slightly modified)-->
                 <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
                 <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
                 <example>Les autres ben faut voir.</example>
+                <example>Les choses anciennes que mon père a laissées quand il est mort se révélèrent n'être qu'un bric-à-brac sans valeur.</example>
+                <example>Les gens qui n'eurent point de faiblesses sont terribles; on n'a point de prise sur eux.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
