@@ -1917,6 +1917,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="JJ.*|NN.*" postag_regexp="yes" />
         <token regexp="yes">jury|committee|class</token>
       </antipattern>
+      <antipattern>
+        <token regexp="yes">and|&amp;</token>
+        <token chunk_re=".-NP.*" min="1" max="2" />
+        <token regexp="yes">jury|committee|class</token>
+      </antipattern>
       <pattern>
         <marker>
             <token regexp="yes">jury|committee|class<exception scope="previous" regexp="yes">a|one|1</exception></token>
@@ -1924,7 +1929,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="VBP">
             <exception postag="VBZ"/>
             <!-- incompleted list of uncommon verbs that are more often used as nouns -->
-            <exception regexp="yes">people|margin|rabbit|article|cheese|while|yes|queen|gas|oil|officer|term|evidence|max|captain|case|step|minister|fun|water|excel|church|husband|dinner|police|curl|weed|platform|best|better|worst|twitter|prod|summit|calendar|cc|chair|belt|mesh|curry|spam|sauce</exception>
+            <exception regexp="yes">people|margin|rabbit|article|cheese|while|yes|queen|gas|oil|officer|term|evidence|max|company|captain|case|step|minister|fun|water|excel|church|husband|dinner|police|curl|weed|platform|best|better|worst|twitter|prod|summit|calendar|cc|chair|belt|mesh|curry|spam|sauce</exception>
         </token>
       </pattern>
       <disambig postag="NNS"/>
@@ -1935,6 +1940,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Class will finish by 10:00.</example>
       <example type="untouched">They class people.</example>
       <example type="untouched">A grand jury found him guilty.</example>
+      <example type="untouched">An inner class and its containing class are compiled.</example>
       <example type="ambiguous" inputform="committee[committee/NN]" outputform="committee[committee/NNS]">The <marker>committee</marker> are all present.</example>
     </rule>
     <rule name="his (noun/prep) + noun -&gt; his (prep)" id="HIS_NN_PRP">
@@ -3333,8 +3339,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- some have come-->
             <token regexp="yes">all|many|some</token>
-            <token chunk="B-VP">have</token>
-            <token chunk="I-VP" postag="VBN"/>
+            <token chunk_re=".-VP" regexp="yes">have|came</token>
         </antipattern>
         <antipattern>
             <token>several</token>
