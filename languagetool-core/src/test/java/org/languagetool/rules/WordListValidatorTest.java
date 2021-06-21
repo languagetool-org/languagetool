@@ -46,6 +46,8 @@ public class WordListValidatorTest {
           "Aydın",
           "Čeferin",
           "Čeferin/S",
+          "Miłosz",
+          "Arnautović/S",
           "Bhagavad-gītā",
           "Sønderjylland/S",
           "Božena/S",
