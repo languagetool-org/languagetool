@@ -538,7 +538,7 @@
   <rule name="Тим - іменник с.р. 1" id="tym_noun_n_1">
     <pattern>
       <token>разом</token>
-      <token regexp="yes">і?з</token>
+      <token regexp="yes">з|із|зі</token>
       <marker>
         <token>тим</token>
       </marker>
@@ -626,6 +626,34 @@
         outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">рахувався з <marker>тим</marker>, що його не візьмуть.</example>
     <example type="untouched">тим більше</example>
     <example type="untouched">тим часом</example>
+  </rule>
+
+  <rule name="Часом - іменник" id="chasom_noun">
+    <pattern>
+      <token regexp="yes">з|із|перед|над|між|за|поміж|під|межи|понад</token>
+      <marker>
+        <token>часом</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_oru.*"/>
+    <example type="ambiguous"
+        inputform="часом[час/noun:inanim:m:v_oru,часом/adv]"
+        outputform="часом[час/noun:inanim:m:v_oru]">а з <marker>часом</marker> не візьмуть.</example>
+    <example type="untouched">люди часом заходили</example>
+  </rule>
+
+  <rule name="Часом - іменник" id="chasom_noun2">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:m:v_oru.*"/>
+      <marker>
+        <token>часом</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_oru.*"/>
+    <example type="ambiguous"
+        inputform="часом[час/noun:inanim:m:v_oru,часом/adv]"
+        outputform="часом[час/noun:inanim:m:v_oru]">а тим <marker>часом</marker> візьмуть.</example>
+    <example type="untouched">люди часом заходили</example>
   </rule>
 
 
@@ -2310,7 +2338,7 @@
       <marker>
         <token>разом</token>
       </marker>
-      <token regexp="yes">і?з</token>
+      <token regexp="yes">з|із|зі</token>
     </pattern>
     <disambig action="filter" postag="adv.*"/>
     <example type="ambiguous" 
@@ -3986,6 +4014,72 @@
     </example>
     <example type="untouched">качка і холод</example>
   </rule>
+
+  <rule name="Власне - вставне слово" id="vlasne_insert">
+    <pattern>
+      <token regexp="yes">[\p{Punct}–—«“„…]</token>
+      <token min="0" regexp="yes">і|та|а|от</token>
+      <token min="0">й</token>
+      <marker>
+        <token>власне</token>
+      </marker>
+      <token>,</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+      inputform="власне[власне/adv:&amp;insert,власний/adj:n:v_kly,власний/adj:n:v_naz,власний/adj:n:v_zna]"
+      outputform="власне[власне/adv:&amp;insert]">, і <marker>власне</marker>, на них.
+    </example>
+    <example type="untouched">, власне життя</example>
+  </rule>
+
+  <rule name="Власне - вставне слово" id="vlasne_insert2">
+    <pattern>
+      <token postag="SENT_START"/>
+      <token min="0" regexp="yes">і|та|а|от|як</token>
+      <marker>
+        <token>власне</token>
+      </marker>
+      <token>,</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+      inputform="власне[власне/adv:&amp;insert,власний/adj:n:v_kly,власний/adj:n:v_naz,власний/adj:n:v_zna]"
+      outputform="власне[власне/adv:&amp;insert]">Як <marker>власне</marker>, й трапляється.
+    </example>
+    <example type="untouched">власне життя</example>
+  </rule>
+
+  <rule name="Оглядів - іменник" id="ogliadiv_noun">
+    <pattern>
+      <token postag_regexp="yes" postag="num.*|adj:p:v_rod.*"/>
+      <marker>
+        <token>оглядів</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:p.*" />
+    <example type="ambiguous"
+      inputform="оглядів[огляд/noun:inanim:p:v_rod,оглядіти/verb:perf:past:m:arch]"
+      outputform="оглядів[огляд/noun:inanim:p:v_rod]">військових <marker>оглядів</marker>.
+    </example>
+    <example type="untouched">суворо оглядів</example>
+  </rule>
+
+  <rule name="Отто - ім'я" id="otto_name">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Отто</token>
+      </marker>
+      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*|фон</token>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:.*:fname.*" />
+    <example type="ambiguous"
+      inputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname,отто/part:arch]"
+      outputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname]"><marker>Отто</marker> Мюллер.
+    </example>
+    <example type="untouched">Оттож вже насміявсь</example>
+  </rule>
+
 <!-- 
   <rule name="Качок" id="kachok">
     <pattern>
