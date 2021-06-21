@@ -26948,7 +26948,6 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <!--<token regexp="yes">chaque|une</token>-->
                     <token>fois</token>
                     <token regexp="yes">que|qu'</token>
                 </antipattern>
@@ -26961,19 +26960,21 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" postag="D . s" postag_regexp="yes"/>
                     <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"><exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
-                    <token min="0" max="4" postag="[PJNZR].*" postag_regexp="yes">
+                    <token min="0" postag="P.*" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="[DJNZR].*" postag_regexp="yes">
                         <exception regexp="yes">que|qui|qu'</exception></token>
                     <token skip="4" regexp="yes">que|qui|qu'</token>
-                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*"></exception></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"></exception></token>
                     <marker>
                         <token postag="V.*3 p" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
-                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
                 <example correction="arrive">L'enfant que j'accompagne souvent à la bibliothèque <marker>arrivent</marker> de l'école.</example>
                 <example correction="est">La principale chaine de télévision qui transmet depuis Buenos Aires <marker>sont</marker> Canal 13.</example>
+                <example correction="est" type="triggers_error">La première chose que l'on apprend dans une langue <marker>sont</marker> des jurons.</example>
                 <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
                 <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
                 <example>Les autres ben faut voir.</example>
@@ -26987,6 +26988,9 @@ though, and has since been slightly modified)-->
                 <example>Tout occupé que tu sois, tu dois faire tes devoirs.</example>
                 <example>Une étude récente montre que la moitié des Français sont sceptiques devant les publicités "vertes" et réclament des preuves, en tête desquelles la présence d'un éco-label.</example>
                 <example>Cette propension qu'ont certaines personnes à être pédantes lorsqu'elles écrivent des phrases d'exemple m'irrite.</example>
+                <example>La grande majorité des élèves lycéens que je connais ne savent pas lire un mot qu'ils ignorent.</example>
+                <example>Le plancher qui craque, les souris qui s'activent dans le faux-plafond.</example>
+                <example>Le mot que Tom et Mary cherchaient, ils ne le trouvèrent qu'à la fin de la phrase.</example>
             </rule>
             <!-- Pluriel -->
             <rule>
@@ -27271,6 +27275,21 @@ though, and has since been slightly modified)-->
                 <example>Les Parthes donnent également ce nom à tous leurs rois comme Rome donne à ses empereurs les noms de César et d'Auguste.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>fois</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>après</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4" regexp="yes">que|qui|qu'|dont</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"/>
+                    <token regexp="yes">il|elle|on|ce|c'</token>
+                    <token regexp="yes" min="0" max="2">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.* 3 s" postag_regexp="yes" skip="8"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
@@ -27278,7 +27297,7 @@ though, and has since been slightly modified)-->
                     <token min="1" max="4" postag="[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token min="0" max="4" postag="[PJNZ].*" postag_regexp="yes"/>
                     <token skip="4" regexp="yes">que|qui|qu'|dont</token>
-                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag="V .* 3 p|C .*" postag_regexp="yes"/></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag="V .* 3 p|C .*|R rel .*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.*3 s" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
@@ -27289,11 +27308,17 @@ though, and has since been slightly modified)-->
                 <example correction="arrivent">Les enfants que j'accompagne souvent à la bibliothèque <marker>arrive</marker> de l'école.</example>
                 <example correction="sont">Les principales chaines de télévision qui transmettent depuis Buenos Aires <marker>est</marker> Canal 13, Telefe, et Canal 9.</example>
                 <example correction="arrivent">Les enfants dont j'ai la garde <marker>arrive</marker> de l'école.</example>
+                <example correction="sont">Des belles maisons qu’on habite aux dépens des humbles gens <marker>est</marker> une injustice monstre.</example>
                 <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
                 <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
                 <example>Les autres ben faut voir.</example>
                 <example>Les choses anciennes que mon père a laissées quand il est mort se révélèrent n'être qu'un bric-à-brac sans valeur.</example>
                 <example>Les gens qui n'eurent point de faiblesses sont terribles; on n'a point de prise sur eux.</example>
+                <example>Dix minutes après qu'ils aient passé Nara, l'auto s'est retrouvée sans essence.</example>
+                <example>Les vœux que l’on fait, les fleurs que l’on sème.</example>
+                <example type="triggers_error" reason="disambiguation of 'sombre'">Trois jeunes filles dont le voile sombre dissimule mal les écouteurs se précipitent hors du compartiment.</example>
+                <example>Les gens qu'on aime, il ne faut pas les laisser passer.</example>
+                <example>Les informations qui sont parvenues jusqu'à nous, c'était juste pour nous encourager.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
