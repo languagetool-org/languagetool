@@ -48,6 +48,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private final boolean allowFirstCapitalized;
   private final boolean allowAllUppercase;
 
+  private volatile boolean initialized;
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, AnalyzedToken> mFull;
@@ -76,17 +77,32 @@ public class MultiWordChunker extends AbstractDisambiguator {
    * Lazy init, thanks to Artur Trzewik
    */
   private void lazyInit() {
-
-    if (mStartSpace != null) {
+    if (initialized) {
       return;
     }
 
+    synchronized (this) {
+      if (initialized) return;
+
+      THashMap<String, Integer> mStartSpace = new THashMap<>();
+      THashMap<String, Integer> mStartNoSpace = new THashMap<>();
+      THashMap<String, AnalyzedToken> mFull = new THashMap<>();
+
+      fillMaps(mStartSpace, mStartNoSpace, mFull);
+
+      mStartSpace.trimToSize();
+      mStartNoSpace.trimToSize();
+      mFull.trimToSize();
+
+      this.mStartSpace = mStartSpace;
+      this.mStartNoSpace = mStartNoSpace;
+      this.mFull = mFull;
+      initialized = true;
+    }
+  }
+
+  private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String, AnalyzedToken> mFull) {
     Map<String, String> interner = new HashMap<>();
-
-    THashMap<String, Integer> mStartSpace = new THashMap<>();
-    THashMap<String, Integer> mStartNoSpace = new THashMap<>();
-    THashMap<String, AnalyzedToken> mFull = new THashMap<>();
-
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
@@ -146,14 +162,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-
-    mStartSpace.trimToSize();
-    mStartNoSpace.trimToSize();
-    mFull.trimToSize();
-
-    this.mStartSpace = mStartSpace;
-    this.mStartNoSpace = mStartNoSpace;
-    this.mFull = mFull;
   }
 
   /**

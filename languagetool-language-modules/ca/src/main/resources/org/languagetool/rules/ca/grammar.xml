@@ -100,7 +100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TAN "poc|poquet|poquíssim|sovint|feble|dèbil|deixat|llargs?|bo|prompte|savi|espectacular|alt|baix|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "si|sí|no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "conegut|reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
-    <!ENTITY sigles_apostrofen "SMS|MI5|MI6|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF|(?-i)IRA|FM|AM">
+    <!ENTITY sigles_apostrofen "SMS|MI5|MI6|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF|(?-i)IRA|FM|AM|(?i)iOS">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY apostrofen_ela "Slesvig|Slesvig-Holstein|striptease|Sporting|statu|scherzo|ftalat|snack|Stradivarius|zwitterió|Hble">
     <!ENTITY unitats "cc|aC|dC|AM|PM|MB|GB|TB|M|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|M?[£€$]|(mm|cm|dm|m|km)[23²³]">
@@ -16548,6 +16548,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="NO_VA" name="nova/no va">
+            <pattern>
+                <token><exception postag="RG|LOC_ADV" postag_regexp="yes"></exception></token>
+                <marker>
+                    <token>nova<exception postag="_GN_FS"/></token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>no va</suggestion>?</message>
+            <example correction="no va">El mosso <marker>nova</marker> intentar fer res.</example>
+            <example>És una emoció tan nova rebre la visita!</example>
+        </rule>
         <rulegroup id="TREU_TEU" name="treu/teu">
             <rule>
                 <pattern>
@@ -18180,7 +18192,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">no</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>\1-ho</suggestion>?</message>
-            <example correction="poder-ho">No <marker>poder-no</marker> fer.</example>
+            <suggestion>\1-ne</suggestion>
+            <example correction="poder-ho|poder-ne">No <marker>poder-no</marker> fer.</example>
         </rule>
         <rule id="PEL_QUE_FA_EL" name="pel que fa *el/al">
             <antipattern>
@@ -38791,6 +38804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="ESCOMBRARIA" name="escombraria">
             <antipattern>
+                <token><exception postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
                 <token>escombraria</token>
                 <token regexp="yes">tothom|el|la|les|l'</token>
             </antipattern>
@@ -38800,6 +38814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Com a substantiu, només existeix en plural. Correcte si és una forma del v. 'escombrar'.</message>
             <suggestion>escombraries</suggestion>
             <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
+            <example correction="escombraries">Com s'omple d'<marker>escombraria</marker> el ciberespai.</example>
             <example>Em va dir que escombraria ell.</example>
         </rule>
         <rulegroup name="plural de sigles" id="SIGLES">
@@ -58853,6 +58868,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1s\2</suggestion>
                 <example correction="Digues-li"><marker>Digue-li</marker> això.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token regexp="yes" spacebefore="no">'m|'t|'n|'s</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/><match no="2" regexp_match="'(.)" regexp_replace="-$1e"/></suggestion>
+                <example correction="conèixer-te">Vull <marker>coneixe't</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token spacebefore="no">'ns</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>-nos</suggestion>
+                <example correction="conèixer-nos">Només per <marker>coneixe'ns</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token spacebefore="no">-us</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>-vos</suggestion>
+                <example correction="conèixer-vos">Només per <marker>coneixe-us</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token spacebefore="no">'l</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>-lo</suggestion>
+                <example correction="conèixer-lo">M'agradaria <marker>coneixe'l</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(des)?coneixe</token>
+                    <token regexp="yes" spacebefore="no">-.*</token>
+                </pattern>
+                <message>Combinació col·loquial.</message>
+                <suggestion><match no="1" regexp_match="eixe$" regexp_replace="èixer"/>\2</suggestion>
+                <example correction="conèixer-la">Vull <marker>coneixe-la</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="XIVAR" name="xivar, xivatar">
             <pattern>
@@ -63710,7 +63770,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="SPS00"><exception postag="SPS00" negate_pos="yes"/></token>
+                    <token>d'</token>
+                    <token postag="V.[MSI].3[SP].." postag_regexp="yes" case_sensitive="yes" regexp="yes">h?[aeiou].*<exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet|_possible_nompropi" postag_regexp="yes" negate_pos="yes"/><exception>historia</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*"/>
+                <message>Combinació impossible: preposició seguida de verb conjugat.</message>
+                <suggestion>s'\2</suggestion>
+                <suggestion>d'{suggestion}</suggestion>
+                <example correction="s'estranyen|d'estranya|d'estranyes|d'estranyat|d'estranyar">Després <marker>d'estranyen</marker> que comparin la situació.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>no</token>
+                    <token>obstant</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="SPS00|LOC_PREP" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token postag="V.[MSIG].*" postag_regexp="yes"><exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet|_possible_nompropi" postag_regexp="yes" negate_pos="yes"/></token>
                     </marker>
@@ -63734,6 +63809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A és igual a B</example>
                 <example>¿A és igual a B?</example>
                 <example>De fes religioses.</example>
+                <example>He trencat amb tot i admeto la responsabilitat.</example>
             </rule>
             <rule>
                 <pattern>

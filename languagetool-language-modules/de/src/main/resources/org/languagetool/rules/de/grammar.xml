@@ -11801,9 +11801,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">die|der|das|den|des|dem</token>
                     <token regexp="yes">jenigen?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>die<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <short>Zusammenschreibung</short>
                 <example correction="diejenigen">Das waren <marker>die Jenigen</marker>, die das Feuer auch wieder gelöscht haben.</example>
+                <example correction="demjenigen">Wir sollten <marker>dem jenigen</marker> helfen, der darum bittet.</example>
+                <example correction="dasjenige">Wir sollten <marker>das jenige</marker> tun, was der Anstand gebietet.</example>
+                <example correction="desjenigen">Das ist die Schuld <marker>des jenigen</marker>, der hier geschlampt hat.</example>
             </rule>
         </rulegroup>
         <rule id="DIES_BEZUEGLICH" name="dies bezüglich (diesbezüglich)">
@@ -39252,6 +39255,46 @@ Andere Projekte</example>
             <message>Meinten Sie <suggestion>ihresgleichen</suggestion>?</message>
             <example correction="ihresgleichen">Er besitzt eine Formulierkunst, die <marker>seinesgleichen</marker> sucht.</example>
         </rule>
+        <rule id="SACK_KARTOFFEL" name="ein Sack Kartoffel (Kartoffeln)">
+            <pattern>
+                <token>ein</token>
+                <token>Sack</token>
+                <marker><token>Kartoffel</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Kartoffeln</suggestion>?</message>
+            <example correction="Kartoffeln">Er sitzt da wie ein Sack <marker>Kartoffel</marker>.</example>
+        </rule>
+        <rule id="SIND_VS_SEIEN" name="sein/sind (seien) wir doch mal ehrlich">
+            <pattern>
+                <marker><token regexp="yes">sein|sind</token></marker>
+                <token>wir</token>
+                <token min="0">doch</token>
+                <token regexp="yes">(ein)?mal</token>
+                <token>ehrlich</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>seien</suggestion>?</message>
+            <example correction="Seien"><marker>Sind</marker> wir doch mal ehrlich: Das macht so keinen Sinn!</example>
+        </rule>
+        <rule id="MIT_EIER" name="mit zwei Spiegeleier (Spiegeleiern)">
+            <pattern>
+                <token>mit</token>
+                <token postag="ZAL" min="0" />
+                <token postag="ADJ:.*:PLU:.*" postag_regexp="yes" min="0" />
+                <marker><token regexp="yes">(Spiegel)?eier</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\4n</suggestion>?</message>
+            <example correction="Spiegeleiern">Es gab Leberkäse mit leckeren <marker>Spiegeleier</marker>.</example>
+            <example correction="Spiegeleiern">Es gab Leberkäse mit zwei <marker>Spiegeleier</marker>.</example>
+        </rule>
+        <rule id="MIT_GEHACKTES" name="mit Gehacktes (Gehacktem)">
+            <pattern>
+                <token>mit</token>
+                <marker><token>Gehacktes</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Gehacktem</suggestion> (=<suggestion>Hackfleisch</suggestion>)? Das Wort wird wie ein Adjektiv dekliniert.</message>
+            <url>https://de.wiktionary.org/wiki/Gehacktes</url>
+            <example correction="Gehacktem|Hackfleisch">Es gab Nudelsauce mit <marker>Gehacktes</marker>.</example>
+        </rule>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet|laden?|geladen|lädst|bauen?|baus?t|gebaut)</token>
@@ -47484,6 +47527,7 @@ Andere Projekte</example>
                         <exception>Mary</exception>
                         <exception>Paul</exception>
                         <exception>Edward</exception>
+                        <exception>Brinkhoff</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
@@ -49033,6 +49077,33 @@ Andere Projekte</example>
             <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
             <example>Eine Liste: (a) Argument, (b) 2 Argumente, (c) 2014 Argumente.</example>
         </rule>
+        <rulegroup id="H2O" name="H2O (H₂O) etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">O[2²]</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>O₂</suggestion>, die zweiatomige Form von <suggestion>Sauerstoff</suggestion>?</message>
+                <short>Typographie</short>
+                <example correction="O₂|Sauerstoff">Hierbei entsteht <marker>O²</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">CO[2²]</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>CO₂</suggestion>, das als <suggestion>Treibhausgas</suggestion> bekannte <suggestion>Kohlendioxid</suggestion>?</message>
+                <short>Typographie</short>
+                <example correction="CO₂|Treibhausgas|Kohlendioxid">Hierbei entsteht <marker>CO²</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">H[2²]O</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>H₂O</suggestion> (= <suggestion>Wasser</suggestion>)?</message>
+                <short>Typographie</short>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H2O</marker>.</example>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H²O</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
             <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
