@@ -3468,7 +3468,7 @@ As simulações são as mais realistas que há.
 	 <example>As simulações são o mais realistas que há.</example>
 	 <example>As simulações são as mais realistas que há.</example>
     </rule>
-    <rule>
+    <rule>	
       <antipattern>
           <token regexp='yes'>tod[oa]</token>
           <token>ouvidos</token>
@@ -3484,6 +3484,20 @@ As simulações são as mais realistas que há.
           <token postag_regexp='yes' regexp='yes' postag='R.+'>&contracoes_MS;
             <exception postag_regexp='yes' negate_pos='yes' postag='R.+'/></token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-06-21 (17-MAR-2021+) *START* -->
+<!--
+Verificámos que ao termos forças uniformes conseguimos.
+-->
+      <antipattern>
+		<token postag='SPS.+' postag_regexp='yes'>
+			<exception regexp='yes'>deste|do|no|pelo</exception>
+		</token>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+' postag_regexp='yes'/>
+		<token/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-21 (17-MAR-2021+) *END* -->	  
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3504,6 +3518,8 @@ As simulações são as mais realistas que há.
       <example correction='do pai|dos pais'>É o orgulho <marker>do pais</marker>.</example>
       <example correction='pelo meio|pelos meios'>Conseguiram combater o fogo <marker>pelo meios</marker> de todos os revezes.</example>
       <example>Pelo menos nós terminamos o trabalho pesado.</example>
+
+	  <example>Verificámos que ao termos forças uniformes conseguimos.</example>
     </rule>
     <rule>
       <antipattern>
