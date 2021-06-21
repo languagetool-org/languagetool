@@ -41,6 +41,22 @@ public class FastText {
   private final Reader fasttextIn;
   private final Writer fasttextOut;
 
+  public static class FastTextException extends RuntimeException {
+    private final boolean disabled;
+
+    public FastTextException(String message, boolean disabled) {
+      super(message);
+      this.disabled = disabled;
+    }
+
+    /**
+     * Should {@link FastText} be disable after this exception
+    */
+    public boolean isDisabled() {
+      return disabled;
+    }
+  }
+
   public FastText(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
     // avoid buffering, we want to flush/read all data immediately
@@ -85,12 +101,15 @@ public class FastText {
 
   @NotNull
   Map<String, Double> parseBuffer(String buffer, List<String> additionalLanguageCodes) {
-    String[] values = buffer.split(" ");
+    String[] values = buffer.split("\\s+");
     if (!buffer.startsWith("__label__")) {
-      throw new RuntimeException("FastText output is expected to start with '__label__': ''" + buffer + "'");
+      throw new FastTextException("FastText output is expected to start with '__label__': ''" + buffer + "'", true);
     }
     if (values.length % 2 != 0) {
-      throw new RuntimeException("Error while parsing fasttext output, expected pairs of '__label_xx' and float: '" + buffer + "'");
+      throw new FastTextException("Error while parsing fasttext output, expected pairs of '__label_xx' and float: '" + buffer + "'", true);
+    }
+    if (buffer.lastIndexOf("\n", buffer.length() - 2) != -1) {
+        logger.warn("Got multiple lines to read from Fasttext, this should not happen: '" + buffer + "'" );
     }
     Map<String, Double> probabilities = new HashMap<>();
     for (int i = 0; i < values.length; i += 2) {
