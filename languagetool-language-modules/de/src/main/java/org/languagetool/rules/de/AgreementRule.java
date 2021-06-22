@@ -1101,6 +1101,12 @@ public class AgreementRule extends Rule {
       csToken("das"),
       csToken("Sinn")
     ),
+    Arrays.asList( // War das Eifersucht oder nur ein Versehen?
+      pos("SENT_START"),
+      posRegex("VER.*:3:.*"),
+      csToken("das"),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList( // Das sind beides Lichtschalter
       token("das"),
       csRegex("sind|waren"),
