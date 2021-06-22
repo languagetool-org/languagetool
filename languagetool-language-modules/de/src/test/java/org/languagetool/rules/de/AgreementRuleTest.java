@@ -495,6 +495,9 @@ public class AgreementRuleTest {
     assertGood("Das Mac OS is besser als Windows.");
     assertGood("Damit steht das Porsche Museum wie kaum ein anderes Museum für Lebendigkeit und Abwechslung.");
     assertGood("Weitere Krankenhäuser sind dass Eastern Shore Memorial Hospital, IWK Health Centre, Nova Scotia Hospital und das Queen Elizabeth II Health Sciences Centre.");
+    assertGood("Ich bin von Natur aus ein sehr neugieriger Mensch.");
+    assertGood("Ich bin auf der Suche nach einer Junior Developerin.");
+    assertGood("War das Eifersucht?");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

@@ -5406,7 +5406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="HER_HERR" name="Her Müller (Herr Müller)" default="temp_off">
+        <rulegroup id="HER_HERR" name="Her Müller (Herr Müller)">
             <rule>
                 <pattern>
                     <token regexp="yes">hallo|hi|moin|servus|geehrter|lieber|verehrter</token>
@@ -8621,7 +8621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
-        <rule id="ALOE_VERA" name="Aloe vera" default="temp_off">
+        <rule id="ALOE_VERA" name="Aloe vera">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Aa]loe</token>
                 <token>Vera</token>
@@ -10421,6 +10421,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="SUPER_GAU" name="Super-GAU" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Auslegungsst%C3%B6rfall#Super-GAU</url>
+            <rule>
+                <pattern>
+                    <token>super</token>
+                    <token>Gau</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Super-GAU</suggestion> (= schwere Katastrophe)?</message>
+                <example correction="Super-GAU">Was für ein <marker>super Gau</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>super</token>
+                    <token>Gaus</token>
+                </pattern>
+                <message>Meinten Sie "Super-GAU" (= schwere Katastrophe)?</message>
+                <suggestion>Super-GAUs</suggestion>
+                <example correction="Super-GAUs">Das sind die Ausmaße des <marker>super Gaus</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        super-?gau
+                        <exception>Super-GAU</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Super-GAU</suggestion> (= schwere Katastrophe)?</message>
+                <example correction="Super-GAU">Was für ein <marker>Supergau</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        super-?gaus
+                        <exception>Super-GAUs</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie "Super-GAU" (= schwere Katastrophe)?</message>
+                <suggestion>Super-GAUs</suggestion>
+                <example correction="Super-GAUs">Das sind die Ausmaße des <marker>Supergaus</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BURN_DOWN_CHART" name="Burn-Down-Chart">
             <url>https://de.wikipedia.org/wiki/Burn-Down-Chart</url>
             <rule>
@@ -21449,6 +21490,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="HERR_MEINER_SELBST" name="Herr seiner Selbst (selbst)" default="temp_off">
+            <pattern>
+                <token>Herr</token>
+                <token regexp="yes">[mds]einer|ihrer</token>
+                <marker>
+                    <token case_sensitive="yes">Selbst</token>
+                </marker>
+            </pattern>
+            <message>In der Redenwendung "Herr seiner selbst" wird <suggestion><match no="3" case_conversion="alllower" /></suggestion> kleingeschrieben.</message>
+            <example correction="selbst">Er ist nicht mehr Herr seiner <marker>Selbst</marker>.</example>
+        </rule>
         <rulegroup id="ANSTAND_SUBST" name="keinen anstand (Anstand)">
             <rule>
                 <pattern>
@@ -21573,6 +21625,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Neues">Wir wagen <marker>neues</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="SCHMERZEN_SUBST" name="die schmerzen (Schmerzen)" default="temp_off">
+            <pattern>
+                <token postag="(PRO|ART):.+" postag_regexp="yes">
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                </token>
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">schmerzen</token>
+                </marker>
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?</exception>
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Schmerzen">Die <marker>schmerzen</marker> lassen langsam nach.</example>
+        </rule>
         <rule id="LINK_SUBST" name="der link (Link)">
             <antipattern>
                 <token>links</token>
@@ -49200,10 +49272,6 @@ Andere Projekte</example>
                 <token>=</token>
                 <token>"</token>
             </antipattern>
-            <antipattern>
-                <token>=</token>
-                <token>'</token>
-            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
@@ -49217,7 +49285,7 @@ Andere Projekte</example>
                 <suggestion>“</suggestion>
                 <example correction="″|„|“">Der Bildschirm ist 7<marker>"</marker> groß.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -49230,7 +49298,7 @@ Andere Projekte</example>
                 <example correction="„Hallo“">Dann sagte er nur <marker>"Hallo"</marker>.</example>
                 <example>Plugins[] = "CorePluginsAdmin"</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token postag="SENT_START" />
@@ -49243,7 +49311,7 @@ Andere Projekte</example>
                 <suggestion>„\3“</suggestion>
                 <example correction="„Ja“"><marker>"Ja"</marker> war seine Antwort.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -49256,7 +49324,7 @@ Andere Projekte</example>
                 <example correction="„Hallo“">Dann sagte er nur <marker>"Hallo"</marker>.</example>
                 <example>Plugins[] = "CorePluginsAdmin"</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token postag="SENT_START" />
@@ -49270,7 +49338,7 @@ Andere Projekte</example>
                 <suggestion>„\3 \4“</suggestion>
                 <example correction="„Hallo du“"><marker>"Hallo du"</marker> sagte er.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -49357,7 +49425,12 @@ Andere Projekte</example>
                 <example correction="„|“|″">f<marker>''</marker> ist einfach zu berechnen.</example>
                 <example correction="„|“|″">f<marker>´´</marker> ist einfach zu berechnen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">.*[a-zäöüß].*</token>
+                    <token spacebefore="no">'</token>
+                    <token spacebefore="no" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="SENT_START" />
@@ -49371,7 +49444,15 @@ Andere Projekte</example>
                 <suggestion>„\3“</suggestion>
                 <example correction="‚Ja‘|„Ja“"><marker>'Ja'</marker> war seine Antwort.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>=</token>
+                    <token>'</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="no">'</token>
+                    <token spacebefore="no" regexp="yes">.*[a-z].*</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">'</token>
@@ -49384,7 +49465,12 @@ Andere Projekte</example>
                 <suggestion>„\2“</suggestion>
                 <example correction="‚Hallo‘|„Hallo“">Dann sagte er nur <marker>'Hallo'</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">.*[a-zäöüß].*</token>
+                    <token spacebefore="no">'</token>
+                    <token spacebefore="no" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="SENT_START" />
@@ -49399,7 +49485,15 @@ Andere Projekte</example>
                 <suggestion>„\3 \4“</suggestion>
                 <example correction="‚Hallo du‘|„Hallo du“"><marker>'Hallo du'</marker> sagte er.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token spacebefore="no">'</token>
+                    <token spacebefore="no" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>=</token>
+                    <token>'</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">'</token>
@@ -49412,6 +49506,7 @@ Andere Projekte</example>
                 <suggestion>‚\2 \3‘</suggestion>
                 <suggestion>„\2 \3“</suggestion>
                 <example correction="‚Hallo du‘|„Hallo du“">Dann sagte er nur <marker>'Hallo du'</marker>.</example>
+                <example>Er sagte 'Hi I'm Tom Brady'.</example>
             </rule>
             <rule>
                 <pattern>

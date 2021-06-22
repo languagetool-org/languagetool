@@ -517,7 +517,7 @@ public class AgreementRule extends Rule {
       csRegex("Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember|[12][0-9]{3}")
     ),
     Arrays.asList(
-      csRegex("Ist|Sind|Macht|Wird"),
+      csRegex("Ist|Sind|War|Waren|Macht|Wird"),
       csToken("das"),
       new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
       posRegex("SUB:NOM.*"),
@@ -1005,7 +1005,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // "Ich mache eine Ausbildung zur Junior Digital Marketing Managerin"
       new PatternTokenBuilder().tokenRegex("Junior|Senior").setSkip(3).build(),
-      tokenRegex("Manager[ns]?|Managerin(nen)?")
+      tokenRegex("Manager[ns]?|Managerin(nen)?|Developer(in)?")
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
