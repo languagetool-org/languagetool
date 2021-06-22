@@ -26747,6 +26747,11 @@ though, and has since been slightly modified)-->
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                     <token regexp="yes">que|qu'</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">plus|moins</token>
+                    <token min="0" postag="[JA].*|V ppa,*" postag_regexp="yes"/>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|C sub" postag_regexp="yes" regexp="yes">|que|qu'
                         <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
@@ -26837,6 +26842,7 @@ though, and has since been slightly modified)-->
                 <example>Plusieurs milliers d'églises sur les 45 000 que compte la France encourent un risque important.</example>
                 <example>Ceux qui ne connaissent que la campagne ne savent pas ce qu’est la campagne.</example>
                 <example>Toute la journée des trains passent devant ma fenêtre.</example>
+                <example>Tous les neutrinos qui voyageraient plus vite que la lumière émettraient de l'énergie.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26926,7 +26932,9 @@ though, and has since been slightly modified)-->
                 <example>Une infinité d'étoiles scintillaient dans le ciel nocturne.</example>
                 <example>Un tiers des Chinois ne parlent pas le mandarin standard.</example>
             </rule>
-            <rule default="temp_off">
+            <!--
+                Generally ambiguous and not necessary!
+                <rule default="temp_off">
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
@@ -26945,7 +26953,12 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
                 <example correction="annonce">Un jour comme les autres s'<marker>annoncent</marker> pour la famille Leblanc.</example>
                 <example>Ce matin comme je n'avais pas d'argent sur moi je n'ai pas pu acheter mon pain aux raisins</example>
-            </rule>
+                <example>Bon comme je n'ai pas la cuillère à glace 4.7cm mes demi boules sont un peu dodues.</example>
+                <example>Tournée comme j'aime à « l'ancienne » comme dans les années 70/80.</example>
+                <example>Une histoire comme vous n'en avez jamais lu.</example>
+                <example>Un lame comme tu le dis est très certainement la meilleure arme.</example>
+                <example type="triggers_error">Le sac comme les raviolis me donnent l'eau à la bouche !</example>
+            </rule>-->
             <rule default="temp_off">
                 <antipattern>
                     <token>fois</token>
@@ -26959,12 +26972,15 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" postag="D . s" postag_regexp="yes"/>
-                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"><exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
+                        <exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
                     <token min="0" postag="P.*" postag_regexp="yes"/>
                     <token min="0" max="4" postag="[DJNZR].*" postag_regexp="yes">
                         <exception regexp="yes">que|qui|qu'</exception></token>
-                    <token skip="4" regexp="yes">que|qui|qu'</token>
-                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"></exception></token>
+                    <token skip="4" regexp="yes">que|qui|qu'
+                        <exception scope="next" postag_regexp="yes" postag="C.*|R rel.*"/></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8">
+                        <exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"/></token>
                     <marker>
                         <token postag="V.*3 p" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
@@ -26991,6 +27007,8 @@ though, and has since been slightly modified)-->
                 <example>La grande majorité des élèves lycéens que je connais ne savent pas lire un mot qu'ils ignorent.</example>
                 <example>Le plancher qui craque, les souris qui s'activent dans le faux-plafond.</example>
                 <example>Le mot que Tom et Mary cherchaient, ils ne le trouvèrent qu'à la fin de la phrase.</example>
+                <example>La théorie des jeux montre que ce que nous nommons « principes moraux » ne sont jamais que les éléments de la stratégie permettant au groupe d'optimiser sa survie.</example>
+                <example>Le jeune homme en colère croit que les personnes qui lui disent de se calmer sont des hommes de paille des Illuminati.</example>
             </rule>
             <!-- Pluriel -->
             <rule>
@@ -27105,6 +27123,7 @@ though, and has since been slightly modified)-->
                 <example>Les régions <marker>situées</marker> au sud sont chaudes.</example>
                 <example>Les régions situées au sud sont chaudes.</example>
                 <example type="triggers_error" reason="proper noun/common noun ambiguity">Les Visiteurs ne remporte finalement qu'une seule récompense.</example>
+                <example correction="font" type="triggers_error" reason="ambiguous">Quatre-vingt-dix-neuf me <marker>fait</marker> toujours rire.</example>
                 <example>Les États-Unis se composent de 50 états.</example>
                 <example>L’eau des lacs et des rivières est douce.</example>
                 <example>Ma mère étant malade n’est pas venue.</example>
@@ -27297,7 +27316,8 @@ though, and has since been slightly modified)-->
                     <token min="1" max="4" postag="[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token min="0" max="4" postag="[PJNZ].*" postag_regexp="yes"/>
                     <token skip="4" regexp="yes">que|qui|qu'|dont</token>
-                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"><exception scope="next" postag="V .* 3 p|C .*|R rel .*" postag_regexp="yes"/></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8">
+                        <exception scope="next" postag="V .* 3 p|C .*|R rel .*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.*3 s" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
