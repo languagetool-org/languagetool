@@ -26968,6 +26968,11 @@ though, and has since been slightly modified)-->
                     <token>après</token>
                     <token regexp="yes">que|qu'</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 p" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
@@ -26990,7 +26995,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
                 <example correction="arrive">L'enfant que j'accompagne souvent à la bibliothèque <marker>arrivent</marker> de l'école.</example>
                 <example correction="est">La principale chaine de télévision qui transmet depuis Buenos Aires <marker>sont</marker> Canal 13.</example>
-                <example correction="est" type="triggers_error">La première chose que l'on apprend dans une langue <marker>sont</marker> des jurons.</example>
+                <example>La première chose que l'on apprend dans une langue <marker>sont</marker> des jurons.</example>
                 <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
                 <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
                 <example>Les autres ben faut voir.</example>
