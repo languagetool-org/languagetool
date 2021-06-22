@@ -26753,8 +26753,11 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">que|qu'</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START|C sub" postag_regexp="yes" regexp="yes">|que|qu'
-                        <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
+                    <or>
+                        <token postag="SENT_START"/>
+                        <token postag="C sub" regexp="yes">que|qu'
+                            <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
+                    </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="0" postag="D . s" postag_regexp="yes"/>
                     <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
@@ -26818,7 +26821,7 @@ though, and has since been slightly modified)-->
                 <example correction="a">Comment se fait-il que le réveil qui n’<marker>ai</marker> pas sonné.</example>
                 <example>Et parmi les rares livres qui parlaient des calls, il n'y en avait qu'une poignée qui expliquaient comment effectuer les appels.</example>
                 <!-- TODO -->
-                <example type="triggers_error">La prestation qui t'ai proposée.</example>
+                <example correction="a">La prestation qui t'<marker>ai</marker> proposée.</example>
                 <example>Quel âge avaient ces enfants ?</example>
                 <example>Quel âge ont tes sœurs ?</example>
                 <example>Quel rôle ont pu jouer les traductions ?</example>
@@ -26846,8 +26849,11 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|C sub" postag_regexp="yes" regexp="yes">|que|qu'
-                        <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
+                    <or>
+                        <token postag="SENT_START"/>
+                        <token postag="C sub" regexp="yes">que|qu'
+                            <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
+                    </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
                         <exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
