@@ -47484,21 +47484,30 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="SEMI" name="semi + trait d'union">
             <antipattern>
+                <token>deus</token>
+                <token>ex</token>
+                <token>machina</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[nv]|[mts]on|[mts]a|[mts]es|leurs?</token>
+                <token>ex</token>
+                <token postag="[JN].*|V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>mi</token>
-                <token>bémol</token>
+                <token regexp="yes">bémol|majeur|mineur|aigu|grave</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">semi|mi|ex</token>
-                <!--|sous-->
                 <token postag="[JN].*|V ppa.*" postag_regexp="yes"/>
             </pattern>
             <message>« \1 \2 » est une erreur de typographie.</message>
             <suggestion>\1-\2</suggestion>
             <example correction="semi-automatique">La procédure est <marker>semi automatique</marker>.</example>
             <example>La procédure est semi-automatique.</example>
-            <example>Dans la tonalité de mi bémol</example>
-            <example>sauf sous forme de pain</example>
-            <example>Et dans de nombreux pays où les animaux sont sous pression</example>
+            <example>Dans la tonalité de mi bémol.</example>
+            <example>Et dans de nombreux pays où les animaux sont sous pression.</example>
+            <example>Tes ex comptés par milliers sont impressionnants.</example>
             <example>Sommes-nous tous sous surveillance ?</example>
         </rule>
         <rule id="SOUS_ENTENDRE" name="sous-entendre">

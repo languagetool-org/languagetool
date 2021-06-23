@@ -3716,6 +3716,19 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="R pers obj.*"/>
         </rule>
+        <rule name="si nous">
+            <pattern>
+                <token regexp="yes">si|quand|pourquoi|comment|où</token>
+                <marker>
+                    <token regexp="yes">[nv]ous</token>
+                </marker>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.*" postag_regexp="yes">
+                    <exception scope="next" regexp="yes">(-t)?-elles?|-je|-tu|(-t)?-ils?|(-t)?-on|-[vn]ous</exception></token>
+            </pattern>
+            <disambig action="remove" postag="R pers obj.*"/>
+        </rule>
         <rule name="Nous">
             <antipattern>
                 <!-- It is "obj" -->
