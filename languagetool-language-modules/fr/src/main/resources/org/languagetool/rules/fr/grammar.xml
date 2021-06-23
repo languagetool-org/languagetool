@@ -26691,7 +26691,7 @@ though, and has since been slightly modified)-->
                 <token postag="V.* 1 s" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="SENT_START"/>
+                <token postag="SENT_START.*" postag_regexp="yes"/>
                 <token postag="V imp .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -26754,7 +26754,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <or>
-                        <token postag="SENT_START"/>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
                         <token postag="C sub" regexp="yes">que|qu'
                             <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
                     </or>
@@ -26850,7 +26850,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <or>
-                        <token postag="SENT_START"/>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
                         <token postag="C sub" regexp="yes">que|qu'
                             <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
                     </or>
@@ -26901,7 +26901,7 @@ though, and has since been slightly modified)-->
                     <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
                         <exception regexp="yes">&exceptions_sujet_singulier;|&exceptions_sujet_singulier2;</exception></token>
@@ -26942,7 +26942,7 @@ though, and has since been slightly modified)-->
                 Generally ambiguous and not necessary!
                 <rule default="temp_off">
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
                     <token>comme</token>
@@ -26980,7 +26980,7 @@ though, and has since been slightly modified)-->
                     <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" postag="D . s" postag_regexp="yes"/>
                     <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
@@ -27024,19 +27024,19 @@ though, and has since been slightly modified)-->
             <!-- Pluriel -->
             <rule>
                 <antipattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[ZJN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <token postag="V.*3 s" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token postag="K"/>
                     <token regexp="yes" inflected="yes">&unites_temps;</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <!-- probably a FP even if it is plural -->
                     <token postag="[NZ].*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
@@ -27065,7 +27065,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.*[123].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . p|[ZJN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
@@ -27091,6 +27091,7 @@ though, and has since been slightly modified)-->
                 <example correction="veulent">Mes enfants qui ne s’en <marker>veux</marker> pas.</example>
                 <example correction="veulent">Mes enfants qui ne t’en <marker>veux</marker> pas.</example>
                 <example correction="étaient">Les gens <marker>était</marker> partis.</example>
+                <example correction="créent">En outre, les flux financiers actuels <marker>crée</marker> et exacerbent les inefficacités et les inégalités.</example>
                 <example>Au diable toutes ces histoires</example>
                 <example>Aucune forme de non-respect envers les joueurs, les arbitres, les juges ou les spectateurs n'est tolérée.</example>
                 <example>Ce sont les quelque plantes, fleurs et arbustes qui chaque année embellissent Montbrison.</example>
@@ -27186,7 +27187,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
@@ -27201,7 +27202,7 @@ though, and has since been slightly modified)-->
                     <token>après</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . p|[JN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token>,</token>
@@ -27219,7 +27220,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
                     <token postag="P.*" postag_regexp="yes"/>
@@ -27248,14 +27249,14 @@ though, and has since been slightly modified)-->
                     <token>?</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . p|R dem . p" postag_regexp="yes"/>
                     <token postag="P.*" postag_regexp="yes">
                         <exception inflected="yes" regexp="yes">.*lequel</exception></token>
                     <token min="0" postag="D.*" postag_regexp="yes">
                         <exception inflected="yes">lequel</exception></token>
-                    <token min="1" max="4" postag="[JNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token min="1" max="6" postag="[JNZP].*|V ppa.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
                     <marker>
                         <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
@@ -27270,6 +27271,7 @@ though, and has since been slightly modified)-->
                 <example correction="fonctionnent">Les touches du tactile ne <marker>fonctionne</marker> pas normalement.</example>
                 <example correction="possèdent">Les parents de Nora <marker>possède</marker> soixante dix pourcent de la banque.</example>
                 <example correction="arrivent">Ceux des autres n'<marker>arrive</marker> pas.</example>
+                <example correction="créent">En outre, les flux financiers actuels au sein des systèmes de santé <marker>crée</marker> et exacerbent les inefficacités et les inégalités.</example>
                 <example>Les enfants jouent en bas.</example>
                 <example>Les régions situées au sud sont chaudes.</example>
                 <example>Des bisous pour ce petit trésor qui vient de naître.</example>
@@ -27286,7 +27288,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
                     <token>comme</token>
@@ -27321,7 +27323,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.* 3 s" postag_regexp="yes" skip="8"/>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="1" postag="D . p" postag_regexp="yes"/>
                     <token min="1" max="4" postag="[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>

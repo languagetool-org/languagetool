@@ -1924,6 +1924,19 @@ RB => Règles Brutes
     </rule>
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: adverbs -->
+    <rule id="EN_OUTRE" name="en outre">
+        <pattern>
+            <marker>
+                <token>en</token>
+                <token>outre</token>
+            </marker>
+            <token><exception regexp="yes">de|d'|du</exception></token>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="en outre" pos="A"/>
+            <wd lemma="en outre" pos="A"/>
+        </disambig>
+    </rule>
     <rule id="PAREIL" name="pareil (not adverb)">
         <!-- TODO: exceptions -->
         <pattern>
@@ -6015,6 +6028,20 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="filter" postag="V.*"/>
+    </rule>
+    <!-- CATEGORY: complementary rules -->
+    <rule id="SENT_START2" name="possible sentence start">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+            <token postag="A" min="1" max="4"/>
+            <marker>
+                <token>,</token>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd pos="SENT_START2"/>
+        </disambig>
     </rule>
     <rulegroup name="Ignore spelling of numbers" id="IGNORE_SPELLING_OF_NUMBERS">
         <!--
