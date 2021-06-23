@@ -27006,33 +27006,6 @@ though, and has since been slightly modified)-->
                 <example>Une infinité d'étoiles scintillaient dans le ciel nocturne.</example>
                 <example>Un tiers des Chinois ne parlent pas le mandarin standard.</example>
             </rule>
-            <!--
-                Generally ambiguous and not necessary!
-                <rule default="temp_off">
-                <pattern>
-                    <token postag="SENT_START.*" postag_regexp="yes"/>
-                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
-                    <token>comme</token>
-                    <token min="0" postag="D.*" postag_regexp="yes">
-                        <exception inflected="yes">lequel</exception></token>
-                    <token min="1" max="4" postag="[JNZ].*|V ppa.*|R . p" postag_regexp="yes"/>
-                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
-                    <marker>
-                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
-                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
-                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-                <example correction="annonce">Un jour comme les autres s'<marker>annoncent</marker> pour la famille Leblanc.</example>
-                <example>Ce matin comme je n'avais pas d'argent sur moi je n'ai pas pu acheter mon pain aux raisins</example>
-                <example>Bon comme je n'ai pas la cuillère à glace 4.7cm mes demi boules sont un peu dodues.</example>
-                <example>Tournée comme j'aime à « l'ancienne » comme dans les années 70/80.</example>
-                <example>Une histoire comme vous n'en avez jamais lu.</example>
-                <example>Un lame comme tu le dis est très certainement la meilleure arme.</example>
-                <example type="triggers_error">Le sac comme les raviolis me donnent l'eau à la bouche !</example>
-            </rule>-->
             <rule default="temp_off">
                 <antipattern>
                     <token>fois</token>
@@ -27057,7 +27030,8 @@ though, and has since been slightly modified)-->
                     <token min="0" max="4" postag="[DJNZR].*" postag_regexp="yes">
                         <exception regexp="yes">que|qui|qu'</exception></token>
                     <token skip="4" regexp="yes">que|qui|qu'
-                        <exception scope="next" postag_regexp="yes" postag="C.*|R rel.*"/></token>
+                        <exception scope="next" postag_regexp="yes" postag="C.*|R rel.*|M.*"/>
+                        <exception scope="next" regexp="yes">[\(\)]</exception></token>
                     <token postag="V.*[123].*" postag_regexp="yes" skip="8">
                         <exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"/></token>
                     <marker>
@@ -27399,7 +27373,8 @@ though, and has since been slightly modified)-->
                     <token min="0" max="4" postag="[PJNZ].*" postag_regexp="yes"/>
                     <token skip="4" regexp="yes">que|qui|qu'|dont</token>
                     <token postag="V.*[123].*" postag_regexp="yes" skip="8">
-                        <exception scope="next" postag="V .* 3 p|C .*|R rel .*" postag_regexp="yes"/></token>
+                        <exception scope="next" postag="V .* 3 p|C .*|R rel .*|M.*" postag_regexp="yes"/>
+                        <exception scope="next" regexp="yes">[\(\)]</exception></token>
                     <marker>
                         <token postag="V.*3 s" postag_regexp="yes" regexp="yes">\p{Ll}.*
                             <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
@@ -31951,7 +31926,7 @@ though, and has since been slightly modified)-->
                 <token>/</token>
                 <token>ou</token>
             </pattern>
-            <message>Cette expression signifiant "et ou ou"  peut être considérée comme redondante. Elle pourrait être simplifiée pour apporter de la fluidité à votre texte.</message>
+            <message>Cette expression signifiant "et ou ou" peut être considérée comme redondante. Elle pourrait être simplifiée pour apporter de la fluidité à votre texte.</message>
             <suggestion>ou</suggestion>
             <suggestion>et</suggestion>
             <suggestion>ou bien</suggestion>
