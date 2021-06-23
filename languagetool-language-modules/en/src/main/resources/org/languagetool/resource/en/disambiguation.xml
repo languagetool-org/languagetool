@@ -14988,4 +14988,84 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rulegroup id="NO_LONGER" name="'RB' for 'no longer'">
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <marker>
+                    <token>no</token>
+                    <token>longer</token>
+                </marker>
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">have</token>
+                <marker>
+                    <token>no</token>
+                    <token>longer</token>
+                </marker>
+                <token postag="VBN" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">be</token>
+                <marker>
+                    <token>no</token>
+                    <token>longer</token>
+                </marker>
+                <token postag="VB[GN]" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PRP_S.*" postag_regexp="yes" />
+                <marker>
+                    <token>no</token>
+                    <token>longer</token>
+                </marker>
+                <token postag="VB[ZDP]|MD" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NNP" chunk_re="E-NP.*" />
+                <marker>
+                    <token>no</token>
+                    <token>longer</token>
+                </marker>
+                <token postag="VB[ZD]|MD" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NNPS" chunk_re="E-NP.*" />
+                <marker>
+                    <token>no</token>
+                    <token>longer</token>
+                </marker>
+                <token postag="VB[PD]|MD" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">be</token>
+                <marker>
+                    <token chunk_re=".-ADVP">no</token>
+                    <token chunk_re=".-ADVP">longer</token>
+                </marker>
+                <token postag="JJR?" postag_regexp="yes" chunk_re=".-ADJP" />
+            </pattern>
+            <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
+        </rule>
+    </rulegroup>
+
 </rules>
