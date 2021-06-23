@@ -498,6 +498,12 @@ public class AgreementRuleTest {
     assertGood("Ich bin von Natur aus ein sehr neugieriger Mensch.");
     assertGood("Ich bin auf der Suche nach einer Junior Developerin.");
     assertGood("War das Eifersucht?");
+    assertGood("Waren das schwierige Entscheidungen?");
+    assertGood("Soll das Demokratie sein?");
+    assertGood("Hat das Spaß gemacht?");
+    assertBad("Funktioniert das Software auch mit Windows?");
+    assertGood("Soll das Sinn stiften?");
+    assertGood("Soll das Freude machen?");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

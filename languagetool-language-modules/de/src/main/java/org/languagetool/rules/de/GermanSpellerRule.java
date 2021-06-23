@@ -612,6 +612,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[kK]autsch", "Couch");
     put("guterletzt", "guter Letzt");
     put("Seminares", "Seminars");
+    put("Mousepad", "Mauspad");
+    put("Mousepads", "Mauspads");
     put("Wi[Ff]i-Router", "Wi-Fi-Router");
     putRepl("[Ll]ilane[srm]?", "ilane[srm]?", "ila");
     putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
