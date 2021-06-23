@@ -170,6 +170,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "deja", "déjà", "d'EA");
     assertSuggestion(rule, lt, "depeche-toi", "dépêchè", "dépêché", "dépêche", "d'empêché", "d'évêché", "repêché");
     assertSuggestion(rule, lt, "sattendre", "s'attendre", "attendre");
+    assertSuggestion(rule, lt, "Situé àseulement 9 km", "seulement", "à seulement");
     // to improve
     assertSuggestion(rule, lt, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
     
