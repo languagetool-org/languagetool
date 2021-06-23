@@ -1937,6 +1937,19 @@ RB => Règles Brutes
             <wd lemma="en outre" pos="A"/>
         </disambig>
     </rule>
+    <rule id="DE_PLUS" name="de plus">
+        <pattern>
+            <marker>
+                <token>de</token>
+                <token>plus</token>
+            </marker>
+            <token>,</token>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="de plus" pos="A"/>
+            <wd lemma="de plus" pos="A"/>
+        </disambig>
+    </rule>
     <rule id="PAREIL" name="pareil (not adverb)">
         <!-- TODO: exceptions -->
         <pattern>
@@ -6030,19 +6043,35 @@ RB => Règles Brutes
         <disambig action="filter" postag="V.*"/>
     </rule>
     <!-- CATEGORY: complementary rules -->
-    <rule id="SENT_START2" name="possible sentence start">
-        <pattern>
-            <token postag="SENT_START"/>
-            <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-            <token postag="A" min="1" max="4"/>
-            <marker>
-                <token>,</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="SENT_START2"/>
-        </disambig>
-    </rule>
+    <rulegroup id="SENT_START2" name="possible sentence start">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                <token postag="A" min="1" max="4"/>
+                <marker>
+                    <token>,</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SENT_START2"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                <token postag="P.*" postag_regexp="yes"><exception>des</exception></token>
+                <token postag="[DAZNJPKY].*|V ppa.*" postag_regexp="yes" min="1" max="8"/>
+                <marker>
+                    <token>,</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SENT_START2"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup name="Ignore spelling of numbers" id="IGNORE_SPELLING_OF_NUMBERS">
         <!--
         In English, Spanish, German and many other languages, we simply allow numbers and letters next to each other
