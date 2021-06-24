@@ -4148,6 +4148,35 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rulegroup id="SIL_VOUS_PLAIT" name="s'il vous plait" default="temp_off">
+            <antipattern>
+                <token>s'</token>
+                <token>il</token>
+                <token>vous</token>
+                <token regexp="yes">plait|plaît</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <token>vous</token>
+                    <token regexp="yes">plait|plaît|plaise|plais|plaises</token>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>s'il vous plait</suggestion> ?</message>
+                <suggestion>s'il vous plaît</suggestion>
+                <example correction="S'il vous plait|S'il vous plaît"><marker>Si vous plaise</marker>, aidez-moi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>s'</token>
+                    <token>il</token>
+                    <token>vous</token>
+                    <token regexp="yes">plait|plaît|plaise|plais|plaises</token>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>s'il vous plait</suggestion> ?</message>
+                <suggestion>s'il vous plaît</suggestion>
+                <example correction="S'il vous plait|S'il vous plaît"><marker>S'il vous plais</marker>, aidez-moi.</example>
+            </rule>
+        </rulegroup>
         <rule id="LAISSEZ_PASSER" name="laissez-passer">
             <pattern>
                 <token regexp="yes">un|le|ce</token>
@@ -7160,40 +7189,40 @@ though, and has since been slightly modified)-->
         <rulegroup id="SE_CE" name="SE au lieu de CE">
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
             <rule>
-            <antipattern>
-                <token>ce</token>
-                <token regexp="yes">bigre|pionnier|met</token>
-            </antipattern>
-            <antipattern>
-                <token>ce</token>
-                <token postag="V.*[123].*" postag_regexp="yes"/>
-                <token regexp="yes">-je|-tu|(-t)?-ils?|(-t)?elles?|-[nv]ous|(-t)?-on(t)?</token>
-            </antipattern>
-            <antipattern>
-                <token>ce</token>
-                <token regexp="yes">remue|couvre|rendez</token>
-                <token min="0" max="1">-</token>
-                <token  regexp="yes">capote|ménage|vous</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>se</token>
-                </marker>
-                <or>
-                    <token regexp="yes">qu[ei]?|avec|dont|pour|pourquoi|malgré</token>
-                    <token postag="N m s|J.*" postag_regexp="yes">
-                        <exception postag="V.*" postag_regexp="yes"/></token>
-                </or>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
-            <example correction="Ce"><marker>Se</marker> test montre que ça fonctionne.</example>
-            <example correction="ce">Tout <marker>se</marker> que je sais.</example>
-            <example>Ce programme se base sur la participation des femmes.</example>
-            <example>Procurez-vous ce abonnez-vous dès une grande surface.</example>
-            <example>Votre compte ne permet pas de réserver ce rendez vous.</example>
-            <example>Bon, voilà ma journée, et tout ce remue ménage, m'a aussi fatiguée.</example>
-            <example>Pour rouler, comme dans la vie, ce pionner de la "French Touch" affectionne particulièrement le Hip-Hop.</example>
-        </rule>
+                <antipattern>
+                    <token>ce</token>
+                    <token regexp="yes">bigre|pionnier|met</token>
+                </antipattern>
+                <antipattern>
+                    <token>ce</token>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                    <token regexp="yes">-je|-tu|(-t)?-ils?|(-t)?elles?|-[nv]ous|(-t)?-on(t)?</token>
+                </antipattern>
+                <antipattern>
+                    <token>ce</token>
+                    <token regexp="yes">remue|couvre|rendez</token>
+                    <token min="0" max="1">-</token>
+                    <token regexp="yes">capote|ménage|vous</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                    <or>
+                        <token regexp="yes">qu[ei]?|avec|dont|pour|pourquoi|malgré</token>
+                        <token postag="N m s|J.*" postag_regexp="yes">
+                            <exception postag="V.*" postag_regexp="yes"/></token>
+                    </or>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
+                <example correction="Ce"><marker>Se</marker> test montre que ça fonctionne.</example>
+                <example correction="ce">Tout <marker>se</marker> que je sais.</example>
+                <example>Ce programme se base sur la participation des femmes.</example>
+                <example>Procurez-vous ce abonnez-vous dès une grande surface.</example>
+                <example>Votre compte ne permet pas de réserver ce rendez vous.</example>
+                <example>Bon, voilà ma journée, et tout ce remue ménage, m'a aussi fatiguée.</example>
+                <example>Pour rouler, comme dans la vie, ce pionner de la "French Touch" affectionne particulièrement le Hip-Hop.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -7222,7 +7251,7 @@ though, and has since been slightly modified)-->
                 <example correction="Ce"><marker>Se</marker> sera une fille.</example>
                 <example>Il se sera d’abord lavé.</example>
             </rule>
-                 <rule default="temp_off">
+            <rule default="temp_off">
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes">est|était</token>
@@ -32050,7 +32079,7 @@ though, and has since been slightly modified)-->
             <example correction="déterminer">Il a réussi à <marker>identifier</marker> des objectifs précis.</example>
             <example correction="Déterminer"><marker>Identifier</marker> des priorités dans la vie est très important.</example>
         </rule>
-           <rule id="IDENTIFIER_DES_OBJECTIFS1" name="identifier des objectifs">
+        <rule id="IDENTIFIER_DES_OBJECTIFS1" name="identifier des objectifs">
             <pattern>
                 <marker>
                     <token inflected="yes">de</token>
@@ -32062,7 +32091,7 @@ though, and has since been slightly modified)-->
             <suggestion>de <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">déterminer</match></suggestion>
             <example correction="de déterminer">Son approche permet <marker>d'identifier</marker> des objectifs précis.</example>
         </rule>
-           <rule id="IDENTIFIER_DES_OBJECTIFS2" name="identifier des objectifs">
+        <rule id="IDENTIFIER_DES_OBJECTIFS2" name="identifier des objectifs">
             <pattern>
                 <marker>
                     <token inflected="yes">que</token>
@@ -32087,7 +32116,7 @@ though, and has since been slightly modified)-->
             <example correction="ouvrent la voie|ouvrent la porte|préparent le terrain">Ces lois <marker>pavent la voie</marker> de la liberté.</example>
             <example><marker>ouvrir la voie</marker></example>
         </rule>
-         <!-- Too much FPs -->
+        <!-- Too much FPs -->
         <rule id="FAMILIER_AVEC" name="familier avec" default="temp_off">
             <pattern>
                 <token regexp="yes">familiers?|familières?</token>
@@ -32104,7 +32133,8 @@ though, and has since been slightly modified)-->
         <rule id="EMISSION_DUN_DIPLOME" name="émission d’un diplôme">
             <pattern>
                 <marker>
-                    <token regexp="yes" skip="3">émissions?<exception scope="previous" regexp="yes" inflected="yes">[ld]e</exception></token>
+                    <token regexp="yes" skip="3">émissions?
+                        <exception scope="previous" regexp="yes" inflected="yes">[ld]e</exception></token>
                 </marker>
                 <token regexp="yes">diplômes?</token>
             </pattern>
@@ -32115,7 +32145,7 @@ though, and has since been slightly modified)-->
         <rule id="EMISSION_DUN_DIPLOME1" name="émission d’un diplôme">
             <pattern>
                 <marker>
-                <token inflected="yes">le</token>
+                    <token inflected="yes">le</token>
                     <token regexp="yes" skip="3">émissions?</token>
                 </marker>
                 <token regexp="yes">diplômes?</token>
@@ -32124,10 +32154,10 @@ though, and has since been slightly modified)-->
             <suggestion>la <match no="2" regexp_match="émission(s)?" regexp_replace="délivrance$1"/></suggestion>
             <example correction="La délivrance"><marker>L'émission</marker> de diplôme est un acte solemnel.</example>
         </rule>
-           <rule id="EMISSION_DUN_DIPLOME2" name="émission d’un diplôme">
+        <rule id="EMISSION_DUN_DIPLOME2" name="émission d’un diplôme">
             <pattern>
                 <marker>
-                <token inflected="yes">de</token>
+                    <token inflected="yes">de</token>
                     <token regexp="yes" skip="3">émissions?</token>
                 </marker>
                 <token regexp="yes">diplômes?</token>
@@ -32145,7 +32175,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>« Opérer un commerce » peut être considéré comme un anglicisme (to operate).</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tenir</match></suggestion>
-                        <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">posséder</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">posséder</match></suggestion>
             <example correction="tenir|posséder">Ils ont tenu à <marker>opérer</marker> un commerce de vente directe.</example>
         </rule>
         <rule id="OPERER_UNE_ENTREPRISE" name="opérer une entreprise">
@@ -32167,7 +32197,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">opérer</token>
                 <token skip="1">par</token>
                 <token regexp="yes">(?-i)machines?</token>
-                </antipattern>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes" skip="3">opérer</token>
@@ -32210,7 +32240,8 @@ though, and has since been slightly modified)-->
         <rule id="EMETTRE_UN_PASSEPORT" name="émettre un passeport">
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="4">émettre<exception regexp="yes">émise?s?</exception></token>
+                    <token inflected="yes" skip="4">émettre
+                        <exception regexp="yes">émise?s?</exception></token>
                 </marker>
                 <token regexp="yes">passeports?|certificats?|brevets?</token>
             </pattern>
@@ -32220,7 +32251,7 @@ though, and has since been slightly modified)-->
             <example correction="délivrera">Il <marker>émettra</marker> un brevet d'aptitude à tous ceux qui se présenteront à l'examen final.</example>
         </rule>
         <rule id="EMETTRE_UN_RECU" name="émettre un reçu" default="off">
-        <!-- It depends on which end you are. Either the receiver or the giver.-->
+            <!-- It depends on which end you are. Either the receiver or the giver.-->
             <pattern>
                 <marker>
                     <token inflected="yes" skip="1">émettre</token>
@@ -32232,7 +32263,7 @@ though, and has since been slightly modified)-->
             <example correction="donner"><marker>émettre</marker> un reçu</example>
             <example><marker>délivrer un reçu</marker></example>
         </rule>
-            <rule id="EMETTRE_UN_RAPPORT" name="émettre un rapport">
+        <rule id="EMETTRE_UN_RAPPORT" name="émettre un rapport">
             <antipattern>
                 <token inflected="yes" skip="4">émettre</token>
                 <token postag="P.*" postag_regexp="yes"/>
@@ -32240,8 +32271,8 @@ though, and has since been slightly modified)-->
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="4">émettre<exception scope="next" postag="M nonfin" postag_regexp="yes"/>
-                    </token>
+                    <token inflected="yes" skip="4">émettre
+                        <exception scope="next" postag="M nonfin" postag_regexp="yes"/> </token>
                 </marker>
                 <token regexp="yes">rapports?</token>
             </pattern>
@@ -32257,7 +32288,8 @@ though, and has since been slightly modified)-->
             <pattern>
                 <marker>
                     <token inflected="yes">de</token>
-                    <token inflected="yes" skip="4">émettre<exception regexp="yes">émise?s?</exception></token>
+                    <token inflected="yes" skip="4">émettre
+                        <exception regexp="yes">émise?s?</exception></token>
                 </marker>
                 <token regexp="yes">verdicts?</token>
             </pattern>
@@ -32350,7 +32382,8 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">être</token>
                 <marker>
                     <token>à</token>
-                    <token regexp="yes">dates?<exception scope="next" postag="[JV].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">dates?
+                        <exception scope="next" postag="[JV].*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>« Être à date » peut être considéré comme un anglicisme.</message>
@@ -32363,7 +32396,8 @@ though, and has since been slightly modified)-->
                 <token inflected="yes" skip="6">mettre</token>
                 <marker>
                     <token>à</token>
-                    <token regexp="yes">dates?<exception scope="next" postag="J.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">dates?
+                        <exception scope="next" postag="J.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>« Mettre à date » peut être considéré comme un anglicisme.</message>
@@ -32417,7 +32451,7 @@ though, and has since been slightly modified)-->
             <example correction="supprime">L'entreprise <marker>coupe</marker> des postes en raison de plusieurs coupes budgétaires.</example>
         </rule>
         <rule id="COUPER_LA_LIGNE" name="couper la ligne" default="off">
-        <!-- WIP too ambiguous -->
+            <!-- WIP too ambiguous -->
             <antipattern>
                 <token regexp="yes">lignes?</token>
                 <token regexp="yes">téléphoniques?</token>
@@ -32451,7 +32485,8 @@ though, and has since been slightly modified)-->
         <rule id="COUPER_DES_PRIX" name="couper des prix">
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="2">couper<exception regexp="yes">coupée?s?|(?-i)Coupes?</exception></token>
+                    <token inflected="yes" skip="2">couper
+                        <exception regexp="yes">coupée?s?|(?-i)Coupes?</exception></token>
                 </marker>
                 <token>prix</token>
             </pattern>
@@ -32518,8 +32553,8 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="COMPLETER_UN_TRAVAIL" name="compléter un travail">
             <antipattern>
-            <token regexp="yes">complètes?</token>
-            <token inflected="yes" regexp="yes">des?</token>
+                <token regexp="yes">complètes?</token>
+                <token inflected="yes" regexp="yes">des?</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -32564,7 +32599,7 @@ though, and has since been slightly modified)-->
         </rule>
         <!-- checked up to here -->
         <rule id="CONFERENCIER_INVITE" name="conférencier invité" default="off">
-        <!-- it is correct to say it -->
+            <!-- it is correct to say it -->
             <pattern>
                 <token regexp="yes">conférenciers?|conférencières?</token>
                 <token regexp="yes">invitée?s?</token>
@@ -32634,7 +32669,7 @@ though, and has since been slightly modified)-->
             <example correction="cours de golf"><marker>clinique de golf</marker></example>
         </rule>
         <rule id="AFFAIRES_CORPORATIVES" name="affaires corporative" default="temp_off">
-        <!--WIP It is in the French dictionary. -->
+            <!--WIP It is in the French dictionary. -->
             <pattern>
                 <token regexp="yes">affaires?</token>
                 <token regexp="yes">corporatives?</token>
@@ -32731,7 +32766,7 @@ though, and has since been slightly modified)-->
             <example correction="services de consultation externes"><marker>cliniques externes</marker></example>
             <example><marker>consultations externes</marker></example>
         </rule>
-         <rule id="CLINIQUE_EXTERNE1" name="clinique externe">
+        <rule id="CLINIQUE_EXTERNE1" name="clinique externe">
             <pattern>
                 <token postag="D f s"/>
                 <token>clinique</token>
@@ -32785,7 +32820,7 @@ though, and has since been slightly modified)-->
                 <token min="0">-</token>
                 <token regexp="yes">contours?</token>
             </antipattern>
-             <antipattern>
+            <antipattern>
                 <token skip="-1">Bédard</token>
                 <token>draps</token>
                 <token>contours</token>
@@ -32853,7 +32888,8 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="CHOC_ELECTRIQUE2" name="choc électrique">
             <pattern>
-                <token regexp="yes">chocs?<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                <token regexp="yes">chocs?
+                    <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
                 <token regexp="yes">électriques?</token>
             </pattern>
             <message>« Choc électrique » peut être considéré comme un anglicisme (electric shock).</message>
@@ -32863,7 +32899,8 @@ though, and has since been slightly modified)-->
         <rule id="CLAUSE_GRAND-PERE" name="clause grand-père">
             <pattern>
                 <token regexp="yes">clauses?</token>
-                <token regexp="yes">grands?-pères?<exception scope="next">»</exception></token>
+                <token regexp="yes">grands?-pères?
+                    <exception scope="next">»</exception></token>
             </pattern>
             <message>« Clause grand-père » peut être considéré comme un anglicisme (grandfather’s clause).</message>
             <suggestion>\1 de droits acquis</suggestion>
@@ -32938,19 +32975,19 @@ though, and has since been slightly modified)-->
             <example correction="comptes clients"><marker>comptes recevables</marker></example>
         </rule>
         <rule id="CLINIQUE_DE_SANG" name="clinique de (dons/donneurs de) sang">
-                <pattern>
-                    <token regexp="yes">cliniques?</token>
-                     <token min="0" max="1">de</token>
-                    <token regexp="yes" min="0" max="1">don(neur)?s?</token>
-                    <token>de</token>
-                    <token>sang</token>
-                </pattern>
-                <message>Cette expression peut être considérée comme un anglicisme (blood donor clinic).</message>
-                <suggestion><match no="1" regexp_match="clinique(?iu)" regexp_replace="collecte"/> \4 \5</suggestion>
-                <suggestion><match no="1" regexp_match="clinique(?iu)" regexp_replace="don"/> \4 \5</suggestion>
-                <example correction="collecte de sang|don de sang"><marker>clinique de sang</marker></example>
-                <example><marker>collecte de sang</marker></example>
-            </rule>
+            <pattern>
+                <token regexp="yes">cliniques?</token>
+                <token min="0" max="1">de</token>
+                <token regexp="yes" min="0" max="1">don(neur)?s?</token>
+                <token>de</token>
+                <token>sang</token>
+            </pattern>
+            <message>Cette expression peut être considérée comme un anglicisme (blood donor clinic).</message>
+            <suggestion><match no="1" regexp_match="clinique(?iu)" regexp_replace="collecte"/> \4 \5</suggestion>
+            <suggestion><match no="1" regexp_match="clinique(?iu)" regexp_replace="don"/> \4 \5</suggestion>
+            <example correction="collecte de sang|don de sang"><marker>clinique de sang</marker></example>
+            <example><marker>collecte de sang</marker></example>
+        </rule>
         <rule id="COUPURE_EN_SANTE" name="coupures en santé">
             <pattern>
                 <marker>
@@ -53649,7 +53686,8 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <!-- ?? -->
-                <token postag="[NZ].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">lien|page|site|web|recherche|clé|mot|compte|entreprise|solution|e-mail|email|adresse|courrier|poste|messagerie</exception></token>
+                <token postag="[NZ].*" postag_regexp="yes">
+                    <exception regexp="yes" inflected="yes">lien|page|site|web|recherche|clé|mot|compte|entreprise|solution|e-mail|email|adresse|courrier|poste|messagerie</exception></token>
                 <token>google</token>
             </antipattern>
             <antipattern>
