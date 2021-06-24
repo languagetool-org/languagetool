@@ -5533,6 +5533,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gute">Alles <marker>Gote</marker> zum Geburtstag.</example>
             </rule>
         </rulegroup>
+        <rule id="VERBRACHT_VOLLBRACHT" name="verbracht vs. vollbracht">
+            <antipattern>
+                <token>es</token>
+                <token>ist</token>
+                <token>verbracht</token>
+                <token>worden</token>
+            </antipattern>
+            <pattern>
+                <token>es</token>
+                <token>ist</token>
+                <marker><token>verbracht</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>vollbracht</suggestion>?</message>
+            <example correction="vollbracht">So, es ist <marker>verbracht</marker>!</example>
+        </rule>
+        <rule id="AUSKLINKEN_AUSKLINGEN" name="ausklinken vs. ausklingen">
+            <pattern>
+                <token>den</token>
+                <token regexp="yes">Abend|Tag</token>
+                <marker><token>ausklinken</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>ausklingen</suggestion>?</message>
+            <example correction="ausklingen">Nach dem Kochen den Abend <marker>ausklinken</marker> lassen.</example>
+        </rule>
         <rule id="RESOURCE_RESSOURCE" name="Ressource vs. Resource">
             <pattern>
                 <token>Human</token>
