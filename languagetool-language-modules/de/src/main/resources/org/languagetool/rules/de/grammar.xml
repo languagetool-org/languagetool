@@ -5543,22 +5543,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>es</token>
                 <token>ist</token>
+                <token min="0">endlich</token>
                 <marker><token>verbracht</token></marker>
             </pattern>
-            <message>Meinten Sie <suggestion>vollbracht</suggestion>?</message>
-            <example correction="vollbracht">So, es ist <marker>verbracht</marker>!</example>
+            <message>Meinten Sie <suggestion>vollbracht</suggestion> oder <suggestion>verbraucht</suggestion>?</message>
+            <example correction="vollbracht|verbraucht">So, es ist <marker>verbracht</marker>!</example>
         </rule>
-        <rule id="AUSKLINKEN_AUSKLINGEN" name="ausklinken vs. ausklingen">
-            <pattern>
-                <token>den</token>
-                <token regexp="yes">Abend|Tag</token>
-                <token regexp="yes" min="0">entspannt|gebührend|gemütlich|gemeinsam|genüsslich|gesellig|ruhig</token>
-                <marker><token>ausklinken</token></marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>ausklingen</suggestion>?</message>
-            <example correction="ausklingen">Nach dem Kochen den Abend gemütlich <marker>ausklinken</marker> lassen.</example>
-            <example correction="ausklingen">Nach dem Kochen den Abend <marker>ausklinken</marker> lassen.</example>
-        </rule>
+        <rulegroup id="AUSKLINKEN_AUSKLINGEN" name="ausklinken vs. ausklingen">
+            <rule>
+                <pattern>
+                    <token>den</token>
+                    <token regexp="yes">Abend|Tag|(Fest|Sonn|Feier)tag|Urlaub|Sommer|Frühling</token>
+                    <token regexp="yes" min="0">allmählich|entspannt|feierlich|friedlich|gebührend|gemütlich|gemeinsam|genüsslich|gesellig|harmonisch|langsam|ruhig|sanft|still</token>
+                    <marker><token>ausklinken</token></marker>
+                </pattern>
+                <message>Mögliche Wortverwechslung: Meinten Sie <suggestion>ausklingen</suggestion> (zu Ende gehen)?</message>
+                <example correction="ausklingen">Nach dem Kochen den Abend gemütlich <marker>ausklinken</marker> lassen.</example>
+                <example correction="ausklingen">Nach dem Kochen den Abend <marker>ausklinken</marker> lassen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ausklingst</token>
+                </pattern>
+                 <message>Mögliche Wortverwechslung: Meinten Sie <suggestion>ausklinkst</suggestion> oder <suggestion>ausklingt</suggestion>?</message>
+                <example correction="ausklinkst|ausklingt">Nicht das du <marker>ausklingst</marker>.</example>
+           </rule>
+        </rulegroup>
         <rule id="RESOURCE_RESSOURCE" name="Ressource vs. Resource">
             <pattern>
                 <token>Human</token>
