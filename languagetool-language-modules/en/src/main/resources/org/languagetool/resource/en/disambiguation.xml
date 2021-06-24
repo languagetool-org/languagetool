@@ -1926,7 +1926,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <marker>
             <token regexp="yes">jury|committee|class<exception scope="previous" regexp="yes">a|one|1</exception></token>
         </marker>
-        <token postag="VBP">
+        <token postag="VBP" chunk_re=".-VP">
             <exception postag="VBZ"/>
             <!-- incompleted list of uncommon verbs that are more often used as nouns -->
             <exception regexp="yes">people|margin|rabbit|article|cheese|while|yes|queen|gas|oil|officer|term|evidence|max|company|captain|case|step|minister|fun|water|excel|church|husband|dinner|police|curl|weed|platform|best|better|worst|twitter|prod|summit|calendar|cc|chair|belt|mesh|curry|spam|sauce</exception>
@@ -4414,11 +4414,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <!-- known written works -->
     <rule name="VBN + VBN + NN -&gt; JJ" id="VBN_VBN_NN_JJ">
-       <antipattern>
-           <token postag="PRP"/>
-           <token postag="RB" min="0" />
-           <token postag="VBD"/>
-       </antipattern>
        <antipattern><!-- a that succeeded armored cruisers were now classified -->
            <token regexp="yes">that|which</token>
            <token postag="VBD"/>
@@ -4444,6 +4439,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
            <token postag="VBD"/>
            <token chunk="B-NP-singular"/>
        </antipattern>
+       <antipattern><!-- Obama ordered targeted airstrikes. -->
+            <token postag="PRP_S.*|NN.*|W.*|EX|UNKNOWN" postag_regexp="yes" chunk_re="E-NP.*" regexp="yes">.*[a-z].*</token>
+            <token postag="RB" min="0" />
+            <token postag="VBN" chunk_re=".-VP" />
+            <token postag="VBN" />
+            <token postag_regexp="yes" postag="NN:.*|NNS?" />
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="VBN">
@@ -4462,6 +4464,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Verb. ... of the World War I era that <marker>succeeded</marker> armored cruisers were now classified...</example>
         <example type="untouched">Passive voice verb. Whatever was <marker>said</marker> showed great insight.</example>
         <example type="untouched">I think I'll rent Hidden Figures.</example>
+        <example type="untouched">Jaczko said spent fuel pools don't endanger the public.</example>
+        <example type="untouched">Obama ordered targeted airstrikes.</example>
         <example type="untouched">I can't read handwritten script, so could you please write it in printed script?</example>
         <example type="untouched">In addition, she will assume the business lead role supporting new endeavors that our will group will become involved in, including the cost of funds and prepays activity.</example>
         <example type="untouched">Objects must orbit the Earth within this radius, or they can become unbound by the gravitational perturbation of the Sun.</example>
