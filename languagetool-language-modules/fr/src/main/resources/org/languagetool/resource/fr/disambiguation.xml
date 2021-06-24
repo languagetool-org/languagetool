@@ -3743,6 +3743,19 @@ RB => Règles Brutes
             <disambig action="filter" postag="R pers obj.*"/>
         </rule>
         <rule name="si nous">
+            <antipattern>
+                <token postag="V.* 2 p" postag_regexp="yes"/>
+                <token>vous</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 1 p" postag_regexp="yes"/>
+                <token>nous</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 3 [sp]" postag_regexp="yes"/>
+                <token min="0" postag="V ppa.*" postag_regexp="yes"/>
+                <token postag="[DZ].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token regexp="yes">si|quand|pourquoi|comment|où</token>
                 <marker>
