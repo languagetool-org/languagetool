@@ -20752,6 +20752,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>was</token>
                     <token postag="ADJ:.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token>was</token>
+                    <token postag="UNKNOWN" regexp="yes">.+(en|es|em)</token>
+                </antipattern>
                <pattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
                     <token case_sensitive="yes">was</token>
@@ -20770,6 +20774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Warum schaut niemand nach was in der Kennedy-Akte steht?</example>
                 <example>Ich bin auf der Suche nach was Neuem.</example>
                 <example>Ich frag mal nach was da schiefgegangen ist.</example>
+                <example>Ich bin mit was Wichtigerem beschäftigt.</example>
             </rule>
             <rule>
                 <pattern>
@@ -43359,7 +43364,7 @@ Andere Projekte</example>
                 <example correction="dem">Wir haben ab <marker>den</marker> 15. Februar geöffnet.</example>
                 <example >Wir haben uns für <marker>den</marker> 15. Februar verabredet.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
                     <marker>
