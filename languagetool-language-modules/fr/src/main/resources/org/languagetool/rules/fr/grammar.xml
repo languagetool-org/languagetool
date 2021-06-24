@@ -4148,6 +4148,18 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="NOUS_SOMMES" name="nous somme->sommes" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                <marker>
+                    <token>nous</token>
+                    <token>somme</token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire « sommes » (du verbe 'être')?</message>
+            <suggestion>nous sommes</suggestion>
+            <example correction="Nous sommes"><marker>Nous somme</marker> ensemble.</example>
+        </rule>
         <rulegroup id="SIL_VOUS_PLAIT" name="s'il vous plait" default="temp_off">
             <antipattern>
                 <token>s'</token>
@@ -28398,7 +28410,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token postag="V .* 3 s" postag_regexp="yes">
                             <exception regexp="yes">.*[a-ce-sw-zéè]</exception>
-                            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/></token>
+                            <exception postag="R pers suj 3 s" postag_regexp="yes" scope="previous"/></token>
                         <token postag="R pers suj 3 [mfe] s" postag_regexp="yes" regexp="yes">il|elle|on
                             <exception regexp="yes">-.*</exception></token>
                     </marker>
@@ -28413,6 +28425,7 @@ though, and has since been slightly modified)-->
                 <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
                 <example>La mère de Bertrand Delanoë <marker>est elle</marker> d'origine périgourdine.</example>
                 <example correction="peut-elle">La pâte <marker>peut elle</marker> être réalisée sans oeufs ?</example>
+                <example correction="est-il">Vous <marker>est il</marker> possible de venir ?</example>
                 <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le traité de Maastricht prévoyant l’euro.</example>
                 <example>On dit qu'en fait il n'avait rien à voir avec ça.</example>
                 <example>Soit il viendra, soit il m'appellera.</example>

@@ -1930,7 +1930,8 @@ RB => Règles Brutes
                 <token>en</token>
                 <token>outre</token>
             </marker>
-            <token><exception regexp="yes">de|d'|du</exception></token>
+            <token>
+                <exception regexp="yes">de|d'|du</exception></token>
         </pattern>
         <disambig action="add">
             <wd lemma="en outre" pos="A"/>
@@ -3774,6 +3775,11 @@ RB => Règles Brutes
                 <token regexp="yes" skip="1">nous|vous</token>
                 <token postag="V.* 3 s" postag_regexp="yes"/>
                 <token regexp="yes">-t-il|-t-elle|-t-on</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">nous|vous</token>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">il|elle</token>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
@@ -5982,7 +5988,7 @@ RB => Règles Brutes
             <antipattern>
                 <token postag="N . s" postag_regexp="yes"/>
                 <token postag="V .* 3 p" postag_regexp="yes"/>
-            </antipattern>            
+            </antipattern>
             <pattern>
                 <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
                     <exception postag="[NJZ].*|V ppa.*|_GN_.*" postag_regexp="yes" negate_pos="yes"/></token>
@@ -6074,7 +6080,8 @@ RB => Règles Brutes
             <pattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                <token postag="P.*" postag_regexp="yes"><exception>des</exception></token>
+                <token postag="P.*" postag_regexp="yes">
+                    <exception>des</exception></token>
                 <token postag="[DAZNJPKY].*|V ppa.*" postag_regexp="yes" min="1" max="8"/>
                 <marker>
                     <token>,</token>
