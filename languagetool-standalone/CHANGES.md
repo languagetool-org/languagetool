@@ -41,9 +41,6 @@
   * added and improved rules
   * updated dictionary (spanish-pos-dict-1.2)
 
-#### Russian
-  * small rules improvement
-
 #### Ukrainian
   * new words in the POS dictionary
   * added and improved rules
