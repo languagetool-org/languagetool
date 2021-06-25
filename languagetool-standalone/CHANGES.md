@@ -16,6 +16,7 @@
   * extended spelling dictionary
 
 #### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.06.01)
   * additional tags for personal pronouns, e.g. `us[we/PRP,we/PRP_O1P]`; `mine[mine/PRP$,I/PRP$_P1S]`
 
 #### French
@@ -39,6 +40,9 @@
 #### Spanish
   * added and improved rules
   * updated dictionary (spanish-pos-dict-1.2)
+
+#### Russian
+  * small rules improvement
 
 #### Ukrainian
   * new words in the POS dictionary

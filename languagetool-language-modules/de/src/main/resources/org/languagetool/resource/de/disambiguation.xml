@@ -1308,14 +1308,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rulegroup>
     <rulegroup id="KEIN_IMPERATIV" name="Entferne Imperativ am Satzende langer Sätze">
         <rule>
+            <antipattern><!-- schreit = schrei(e)t!, schreit(e)!, (er) schreit -->
+                <token postag="VER:IMP:SIN.*" postag_regexp="yes"><exception postag="VER:[123].*" postag_regexp="yes"/></token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern case_sensitive="yes">
-                <token></token>
-                <token></token>
-                <token skip="-1"></token>
+                <token/>
+                <token/>
+                <token skip="-1"/>
                 <marker><token postag_regexp="yes" postag="VER:IMP.+"><exception scope="previous" postag="KON:NEB"/></token></marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <disambig action="remove" postag="VER:IMP:.+"/>
+            <disambig action="remove" postag="VER:IMP.+"/>
+            <example type="untouched">Schade, dass er immer so leise sprich.</example><!-- literal tagging here is useful for finding this error -->
         </rule>
     </rulegroup>
     <rulegroup id="RETTUNGSWAGEN" name="Rettungswagen keine Verbform">
