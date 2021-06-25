@@ -420,7 +420,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Force computing replacements, e.g. for accurate metrics for computation time and to set timeouts for this process
-   * Used in server use case (i.e. {@link org.languagetool.server.TextChecker})
+   * Used in server use case (i.e. {@code org.languagetool.server.TextChecker})
    */
   public void computeLazySuggestedReplacements() {
     suggestedReplacements = Suppliers.ofInstance(suggestedReplacements.get());
