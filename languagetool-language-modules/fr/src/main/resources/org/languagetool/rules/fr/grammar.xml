@@ -4149,6 +4149,17 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="MEDIA" name="media/média" default="temp_off">
+            <antipattern>
+                <token>mass</token>
+                <token>media</token>
+            </antipattern>
+            <pattern>
+                <token>media</token>
+            </pattern>
+            <message>Il est généralment écrit <suggestion>média</suggestion>.</message>
+            <example correction="média">Le blog est un <marker>media</marker> personnel.</example>
+        </rule>
         <rule id="QU_EN_QUAND" name="confusion of qu'en et quand" default="temp_off">
             <antipattern>
                 <token inflected="yes">que</token>
@@ -4158,15 +4169,15 @@ though, and has since been slightly modified)-->
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected="yes">que<exception scope="previous" regexp="yes">et|ce|ou|mais</exception></token>
+                    <token inflected="yes">que
+                        <exception scope="previous" regexp="yes">et|ce|ou|mais</exception></token>
                     <token>en</token>
                 </marker>
                 <token postag="R pers suj.*" postag_regexp="yes">
                     <exception scope="next">,</exception>
                     <exception regexp="yes">(lui|elles?|eux|nous|vous)-mêmes?</exception></token>
             </pattern>
-            <message></message>
-            <suggestion>quand</suggestion>
+            <message>Cette expression se construit avec <suggestion>quand</suggestion>.</message>
             <example correction="quand">Il le fait <marker>qu'en</marker> il veut.</example>
             <example>Richelieu tel qu'en lui-même, 1997.</example>
             <example>Au vaste monde, ailleurs qu’en elle, Pas de place pour toi.</example>
@@ -5009,172 +5020,177 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="QUANT_QUAND_QU_EN" name="Quant, quand ou qu'en" default="temp_off">
-           <rule>
-            <antipattern>
-                <token>Mary</token>
-                <token regexp="yes">(?-i)Quant</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">(?-i)Quant</token>
-                <token>on</token>
-                <token regexp="yes">(?-i)Quant</token>
-            </antipattern>
-            <pattern>
-                <marker>
+            <rule>
+                <antipattern>
+                    <token>Mary</token>
+                    <token regexp="yes">(?-i)Quant</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(?-i)Quant</token>
+                    <token>on</token>
+                    <token regexp="yes">(?-i)Quant</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>quant</token>
+                    </marker>
+                    <token postag="R pers suj.*" postag_regexp="yes">
+                        <exception regexp="yes">elles?|eux|[nv]ous</exception></token>
+                </pattern>
+                <message>Une conjonction est attendue dans cette phrase.</message>
+                <suggestion>quand</suggestion>
+                <example correction="Quand"><marker>Quant</marker> il arrive, je suis heureuse.</example>
+                <example>J'ai encore des question quant a vos prix.</example>
+                <example>Mary Quant, Quant on Quant, éditions C.</example>
+                <example>Ces pages, quant elles ne renvoient pas vers un projet, sont peu consultées.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quant</token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Un pronom interrogatif est attendu dans cette phrase.</message>
+                <suggestion>quand</suggestion>
+                <example correction="quand">Il le fera <marker>quant</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">que</token>
+                        <token>en</token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Un pronom interrogatif est attendu dans cette phrase.</message>
+                <suggestion>quand</suggestion>
+                <example correction="quand">Il le fera <marker>qu'en</marker> ?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="Z.*" postag_regexp="yes"/>
+                    <token regexp="yes">(?-i)Quant</token>
+                </antipattern>
+                <antipattern>
                     <token>quant</token>
-                </marker>
-                <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">elles?|eux|[nv]ous</exception></token>
-            </pattern>
-            <message>Une conjonction est attendue dans cette phrase.</message>
-            <suggestion>quand</suggestion>
-            <example correction="Quand"><marker>Quant</marker> il arrive, je suis heureuse.</example>
-            <example>J'ai encore des question quant a vos prix.</example>
-            <example>Mary Quant, Quant on Quant, éditions C.</example>
-            <example>Ces pages, quant elles ne renvoient pas vers un projet, sont peu consultées.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
+                    <token>a</token>
+                    <token regexp="yes">lui|elles?|eux|[nv]ous|[tm]oi|l&apostrophe;</token>
+                </antipattern>
+                <antipattern>
                     <token>quant</token>
-                </marker>
-                <token postag="M fin inte"/>
-            </pattern>
-            <message>Un pronom interrogatif est attendu dans cette phrase.</message>
-            <suggestion>quand</suggestion>
-            <example correction="quand">Il le fera <marker>quant</marker> ?</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token inflected="yes">que</token>
-                    <token>en</token>
-                </marker>
-                <token postag="M fin inte"/>
-            </pattern>
-            <message>Un pronom interrogatif est attendu dans cette phrase.</message>
-            <suggestion>quand</suggestion>
-            <example correction="quand">Il le fera <marker>qu'en</marker> ?</example>
-        </rule>
-        <rule>
-            <antipattern>
-                <token postag="Z.*" postag_regexp="yes"/>
-                <token regexp="yes">(?-i)Quant</token>
-            </antipattern>
-            <antipattern>
-                <token>quant</token>
-                <token>a</token>
-                <token regexp="yes">lui|elles?|eux|[nv]ous|[tm]oi|l&apostrophe;</token>
-            </antipattern>
-            <antipattern>
-                <token>quant</token>
-                <token>a</token>
-                <token postag="V.* inf" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">(?-i)QUANT</token>
-                <token postag="V.*" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>quant</token>
-                </marker>
-                <token postag="V.*" postag_regexp="yes"><exception postag="V ppr"/></token>
-            </pattern>
-            <message>Un pronom interrogatif est attendu dans cette phrase.</message>
-            <suggestion>quand</suggestion>
-            <example correction="quand">Ainsi, <marker>quant</marker> viendras-tu ?</example>
-            <example>Il a été dit qu'il n'y a pas encore de preuve solide que le QUANT fonctionne et se comporte comme annoncé".</example>
-            <example>Il a découvert quant enfermant l'anthracite dans un fourneau et en introduisant l'air pas le bas la combustion était possible.</example>
-            <example>Le monument mentionne quant a lui 18 militaires morts.</example>
-            <example>Mary Quant décide de créer sa propre ligne de vêtements.</example>
-            <example>Quant a savoir, si c'est vrai...</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
+                    <token>a</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(?-i)QUANT</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>quant</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V ppr"/></token>
+                </pattern>
+                <message>Un pronom interrogatif est attendu dans cette phrase.</message>
+                <suggestion>quand</suggestion>
+                <example correction="quand">Ainsi, <marker>quant</marker> viendras-tu ?</example>
+                <example>Il a été dit qu'il n'y a pas encore de preuve solide que le QUANT fonctionne et se comporte comme annoncé".</example>
+                <example>Il a découvert quant enfermant l'anthracite dans un fourneau et en introduisant l'air pas le bas la combustion était possible.</example>
+                <example>Le monument mentionne quant a lui 18 militaires morts.</example>
+                <example>Mary Quant décide de créer sa propre ligne de vêtements.</example>
+                <example>Quant a savoir, si c'est vrai...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">quan[td]</token>
+                    </marker>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="V ppr"/>
+                </pattern>
+                <message>Le marqueur de temps doit être mis en évidence. Sinon, cette phrase est construite avec une conjonction.</message>
+                <suggestion>qu'en</suggestion>
+                <suggestion>quand,</suggestion>
+                <example correction="qu'en|quand,">Il ne le fait <marker>quant</marker> me faisant parler.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quand</token>
+                    </marker>
+                    <token regexp="yes">[aà]</token>
+                    <token regexp="yes">elles?|[nv]ous|eux|lui</token>
+                </pattern>
+                <message>L'adverbe <suggestion>quant</suggestion> est attendu dans cette phrase.</message>
+                <example correction="quant">Sophie, <marker>quand</marker> à elle, est partie.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">qui</token>
                     <token regexp="yes">quan[td]</token>
-                </marker>
-                <token inflected="yes" min="0" max="1">ne</token>
-                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                <token inflected="yes" min="0" max="1">ne</token>
-                <token postag="V ppr"/>
-            </pattern>
-            <message>Le marqueur de temps doit être mis en évidence. Sinon, cette phrase est construite avec une conjonction.</message>
-            <suggestion>qu'en</suggestion>
-            <suggestion>quand,</suggestion>
-        <example correction="qu'en|quand,">Il ne le fait <marker>quant</marker> me faisant parler.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <marker>
-                <token>quand</token>
-            </marker>
-            <token regexp="yes">[aà]</token>
-            <token regexp="yes">elles?|[nv]ous|eux|lui</token>
-        </pattern>
-        <message>L'adverbe <suggestion>quant</suggestion> est attendu dans cette phrase.</message>
-        <example correction="quant">Sophie, <marker>quand</marker> à elle, est partie.</example>
-    </rule>
-    <rule>
-        <antipattern>
-            <token skip="-1">qui</token>
-            <token regexp="yes">quan[td]</token>
-            <token regexp="yes">elles?|[nv]ous|eux|lui</token>
-            <token min="0" max="1">,</token>
-            <token postag="R pers suj.*" postag_regexp="yes"/>
-        </antipattern>
-        <pattern>
-            <marker>
-                <token regexp="yes">quan[td]<exception scope="previous" postag="A inte"/></token>
-            </marker>
-            <token regexp="yes">elles?|[nv]ous|eux|lui</token>
-            <token min="0" max="1">,</token>
-            <token postag="R pers suj.*" postag_regexp="yes"/>
-        </pattern>
-        <message>L'adverbe 'quant' est toujours suivi de la préposition 'à'.</message>
-        <suggestion>quant à</suggestion>
-        <example correction="Quant à"><marker>Quand</marker> elle, elle est partie.</example>
-        <example>Pourquoi quand lui il déclenche, ça fonctionne ?</example>
-        <example>C'est le regard des gens qui montent quand nous on resdecend.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token inflected="yes">que</token>
-                    <token>en</token>
-                </marker>
-                <token min="0" max="1">bien</token>
-                <token>même<exception scope="next">temps</exception></token>
-            </pattern>
-            <message>Cette expression se construit avec la conjonction 'quand'.</message>
-            <suggestion>quand</suggestion>
-            <example correction="quand">Et <marker>qu'en</marker> bien même ?</example>
-            <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>quant</token>
-                </marker>
-                <token min="0" max="1">bien</token>
-                <token>même<exception scope="next">temps</exception></token>
-            </pattern>
-            <message>Cette expression se construit avec la conjonction 'quand'.</message>
-            <suggestion>quand</suggestion>
-            <example correction="quand">Et <marker>quant</marker> bien même ?</example>
-            <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">quan[dt]</token>
-                </marker>
-                <token>même</token>
-                <token>temps</token>
-            </pattern>
-            <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
-            <example correction="qu'en">Il en faut pour qu'il me dise de le faire et <marker>quant</marker> même temps, tu le fasses aussi !</example>
-        </rule>
+                    <token regexp="yes">elles?|[nv]ous|eux|lui</token>
+                    <token min="0" max="1">,</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">quan[td]
+                            <exception scope="previous" postag="A inte"/></token>
+                    </marker>
+                    <token regexp="yes">elles?|[nv]ous|eux|lui</token>
+                    <token min="0" max="1">,</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                </pattern>
+                <message>L'adverbe 'quant' est toujours suivi de la préposition 'à'.</message>
+                <suggestion>quant à</suggestion>
+                <example correction="Quant à"><marker>Quand</marker> elle, elle est partie.</example>
+                <example>Pourquoi quand lui il déclenche, ça fonctionne ?</example>
+                <example>C'est le regard des gens qui montent quand nous on resdecend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">que</token>
+                        <token>en</token>
+                    </marker>
+                    <token min="0" max="1">bien</token>
+                    <token>même
+                        <exception scope="next">temps</exception></token>
+                </pattern>
+                <message>Cette expression se construit avec la conjonction 'quand'.</message>
+                <suggestion>quand</suggestion>
+                <example correction="quand">Et <marker>qu'en</marker> bien même ?</example>
+                <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quant</token>
+                    </marker>
+                    <token min="0" max="1">bien</token>
+                    <token>même
+                        <exception scope="next">temps</exception></token>
+                </pattern>
+                <message>Cette expression se construit avec la conjonction 'quand'.</message>
+                <suggestion>quand</suggestion>
+                <example correction="quand">Et <marker>quant</marker> bien même ?</example>
+                <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">quan[dt]</token>
+                    </marker>
+                    <token>même</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
+                <example correction="qu'en">Il en faut pour qu'il me dise de le faire et <marker>quant</marker> même temps, tu le fasses aussi !</example>
+            </rule>
         </rulegroup>
         <rule id="QUAND_QUANT" name="Quand au lieu de quant">
             <antipattern>
