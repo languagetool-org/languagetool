@@ -67,7 +67,7 @@ public class French extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new FrenchTagger();
+    return FrenchTagger.INSTANCE;
   }
 
   @Nullable
@@ -230,6 +230,7 @@ public class French extends Language implements AutoCloseable {
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
       case "SA_CA_SE": return 100; // greater than D_N
+      case "SIL_VOUS_PLAIT": return 100; // greater than ACCORD_R_PERS_VERBE
       case "QUASI_NOM": return 100; // greater than D_N
       case "MA": return 100; // greater than D_J
       case "SON_SONT": return 100; // greater than D_J
@@ -263,6 +264,7 @@ public class French extends Language implements AutoCloseable {
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
+      case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
       case "IMP_PRON": return -10; // less than D_N
       case "PREP_VERBECONJUGUE": return -20;

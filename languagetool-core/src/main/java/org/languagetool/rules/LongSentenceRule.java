@@ -22,7 +22,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -42,19 +41,19 @@ public class LongSentenceRule extends TextLevelRule {
   private final ResourceBundle messages;
   private final int maxWords;
 
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int maxWords) {
     this.messages = messages;
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setTags(Collections.singletonList(Tag.picky));
-    int maxWords = defaultWords;
+    int tmpMaxWords = maxWords;
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
       if (confWords > 0) {
-        maxWords = confWords;
+        tmpMaxWords = confWords;
       }
     }
-    this.maxWords = maxWords;
+    this.maxWords = tmpMaxWords;
   }
 
   @Override

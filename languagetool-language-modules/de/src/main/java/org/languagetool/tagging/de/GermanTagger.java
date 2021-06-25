@@ -102,7 +102,7 @@ public class GermanTagger extends BaseTagger {
       String prefix = parts[0];
       String verbBaseform = parts[1];
       try {
-        String[] forms = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(verbBaseform, "FAKE", verbBaseform), "VER:.*", true);
+        String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(verbBaseform, s -> s.startsWith("VER:"));
         for (String form : forms) {
           if (!form.contains("ß")) {  // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
             verbInfos.put(prefix + form, new PrefixInfixVerb(prefix, "", verbBaseform));

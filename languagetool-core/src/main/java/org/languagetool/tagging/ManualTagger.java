@@ -79,7 +79,8 @@ public class ManualTagger implements WordTagger {
         lemma = interned.computeIfAbsent(lemma, Function.identity());
 
         String tag = parts[2].trim();
-        map.computeIfAbsent(form, __ -> new ArrayList<>()).add(new TaggedWord(lemma, internTags ? tag.intern() : tag));
+        String internedTag = internTags ? tag.intern() : interned.computeIfAbsent(tag, Function.identity());
+        map.computeIfAbsent(form, __ -> new ArrayList<>()).add(new TaggedWord(lemma, internedTag));
       }
     }
     return map;

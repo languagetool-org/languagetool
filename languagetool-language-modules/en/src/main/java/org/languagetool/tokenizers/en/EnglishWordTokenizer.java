@@ -18,7 +18,9 @@
  */
 package org.languagetool.tokenizers.en;
 
-import java.io.IOException;
+import org.languagetool.tagging.en.EnglishTagger;
+import org.languagetool.tokenizers.WordTokenizer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,17 +28,12 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.tagging.en.EnglishTagger;
-import org.languagetool.tokenizers.WordTokenizer;
-
 /**
  * @author Marcin Milkowski
  * @since 2.5
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private final EnglishTagger tagger = new EnglishTagger();
-  
   private final List<Pattern> patternList = Arrays.asList(
       Pattern.compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile(
@@ -126,7 +123,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
           if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
             l.add(s);
           } else {
-            if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
               l.add(s);
             }
             // some camel-case words containing hyphen (is there any better fix?)

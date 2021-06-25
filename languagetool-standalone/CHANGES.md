@@ -1,9 +1,26 @@
 # LanguageTool Change Log
 
-## 5.4-SNAPSHOT (release planned for 2021-06-25)
+## 5.4 (2021-06-25)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.14)
+
+#### Dutch
+  * added and improved rules
+  * extended spelling dictionary
 
 #### English
   * additional tags for personal pronouns, e.g. `us[we/PRP,we/PRP_O1P]`; `mine[mine/PRP$,I/PRP$_P1S]`
+
+#### French
+  * added and improved rules
+
+#### Galician
+  * small rule improvements
+
+#### German
+  * added and improved rules
 
 #### Portuguese
   * the sentence length rule is now active in 'picky' mode
@@ -11,10 +28,23 @@
   * added words and POS data
   * fixed tons of false positives
 
+#### Russian
+  * small rule improvements
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.2)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
+
 #### General
   * The sentence length rule is now a text-level rule
     and it underlines the whole sentence, not just the position where the threshold
     is reached.
+
 
 
 ## 5.3 (2021-03-29)

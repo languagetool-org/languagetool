@@ -43,7 +43,7 @@ import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
-public class UkrainianDisambiguationRuleTest {
+public class UkrainianHybridDisambiguationTest {
   
   private UkrainianTagger tagger;
   private UkrainianWordTokenizer tokenizer;
@@ -79,6 +79,14 @@ public class UkrainianDisambiguationRuleTest {
        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
+  @Test
+  public void testDisambiguatorDups() throws IOException {
+
+    TestTools.myAssert("підходу", 
+      "/[null]SENT_START підходу/[підхід]noun:inanim:m:v_dav|підходу/[підхід]noun:inanim:m:v_mis|підходу/[підхід]noun:inanim:m:v_rod",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+  
   @Test
   public void testDisambiguatorRetagFemNames() throws IOException {
 //    німкеня Бахман була 

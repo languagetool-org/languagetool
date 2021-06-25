@@ -45,7 +45,6 @@ public class InterrogativeVerbFilter extends RuleFilter {
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
   //private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
-  private static final FrenchTagger tagger = new FrenchTagger();
 
   private MorfologikFrenchSpellerRule morfologikRule;
 
@@ -121,7 +120,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
         RuleMatch[] matches = morfologikRule.match(sentence);
         if (matches.length > 0) {
           List<String> suggestions = matches[0].getSuggestedReplacements();
-          List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
+          List<AnalyzedTokenReadings> analyzedSuggestions = FrenchTagger.INSTANCE.tag(suggestions);
           for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
             if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
               String completeSuggestion = analyzedSuggestion.getToken() + atrPronoun.getToken();

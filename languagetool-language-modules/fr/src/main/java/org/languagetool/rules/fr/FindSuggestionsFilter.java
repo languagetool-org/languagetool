@@ -30,7 +30,6 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   private static final String DICT_FILENAME = "/fr/french.dict";
   private static MorfologikSpeller speller;
-  private static final FrenchTagger tagger = new FrenchTagger();
 
   public FindSuggestionsFilter() throws IOException {
     // lazy init
@@ -43,7 +42,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected Tagger getTagger() {
-    return tagger;
+    return FrenchTagger.INSTANCE;
   }
 
   @Override

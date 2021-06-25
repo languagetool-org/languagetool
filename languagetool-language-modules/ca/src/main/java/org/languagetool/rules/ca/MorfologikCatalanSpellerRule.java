@@ -72,7 +72,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    tagger = new CatalanTagger(language);
+    if (language.getVariant() != null) {
+      tagger = CatalanTagger.INSTANCE_VAL;
+    } else {
+      tagger = CatalanTagger.INSTANCE_CAT;
+    }
     dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 

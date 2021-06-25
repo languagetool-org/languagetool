@@ -37,8 +37,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Spanish extends Language implements AutoCloseable{
+public class Spanish extends Language implements AutoCloseable {
 
+  private static final Language DEFAULT_VARIANT = new Spanish();
+  
   private LanguageModel languageModel;
 
   @Override
@@ -59,11 +61,15 @@ public class Spanish extends Language implements AutoCloseable{
             "BO", "SV", "HN", "NI", "PR", "US", "CU"
     };
   }
+  
+  public Language getDefaultLanguageVariant() {
+    return DEFAULT_VARIANT;
+  }
 
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new SpanishTagger();
+    return SpanishTagger.INSTANCE;
   }
 
   @Override

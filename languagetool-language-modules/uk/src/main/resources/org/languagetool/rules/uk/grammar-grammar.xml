@@ -95,13 +95,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">варто|годі|можна|треба|повинно
             <exception scope="previous" regexp="yes">кого</exception>
           </token>
-          <token regexp="yes" min="0">було|буде</token>
+          <token regexp="yes" min="0">було(-би?)?|буде</token>
           <token regexp="yes" min="0">би?</token>
           <token min="0">не</token>
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception regexp="yes">було|буде</exception>
+              <exception regexp="yes">було(-би?)?|буде</exception>
               <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
             </token>
           </marker>
@@ -148,7 +148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <token inflected="yes" regexp="yes" postag_regexp="yes" postag="verb.*">мати|мусити|могти|змогти
-            <exception regexp="yes">може|мати|мало</exception>
+            <exception regexp="yes">(може|мати|мало)(-би?)?</exception>
           </token>
           <token regexp="yes" min="0">би?</token>
           <token min="0">не</token>
@@ -189,7 +189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- |братися|старатися -->
           <token regexp="yes" inflected="yes">бажати|благати
             <exception postag_regexp="yes" postag="(advp|insert).*"/>
-            <exception scope="previous" regexp="yes">кого</exception>
+            <exception scope="previous" regexp="yes">кого(-би?)?</exception>
           </token>
           <token regexp="yes" min="0">би?</token>
           <token min="0">не</token>
@@ -2535,6 +2535,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
       <!--  both ok: кількість, перевага, більшість, меншість -->
+    </rulegroup>
+
+    <rulegroup id="vika_viku" name="віка і віку">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="num.*"/>
+          <marker>
+            <token>віка</token>
+          </marker>
+        </pattern>
+        <message>Родовий відмінок від «вік» є <suggestion>віку</suggestion></message>
+        <example correction="віку">події ХХ <marker>віка</marker>.</example>
+        <example>розглядала його віка, губи</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]сі|на|кінця|од|до|чверть|середин.*|дожив.*|[ву]корот.*</token>
+          <marker>
+            <token>віка</token>
+          </marker>
+        </pattern>
+        <message>Родовий відмінок від «вік» є <suggestion>віку</suggestion></message>
+        <example correction="віку">на всі <marker>віка</marker>.</example>
+        <example>розглядала його віка, губи</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>віка</token>
+          </marker>
+          <token min="0">не</token>
+          <token regexp="yes">збав.*|дожив.*</token>
+        </pattern>
+        <message>Родовий відмінок від «вік» є <suggestion>віку</suggestion></message>
+        <example correction="віку">хочеш <marker>віка</marker> збавити.</example>
+        <example>розглядала його віка, губи</example>
+      </rule>
     </rulegroup>
 
   </category>

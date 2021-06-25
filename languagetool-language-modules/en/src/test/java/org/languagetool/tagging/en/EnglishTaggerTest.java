@@ -69,11 +69,10 @@ public class EnglishTaggerTest {
 
   @Test
   public void testLemma() throws IOException {
-    EnglishTagger tagger = new EnglishTagger();
     List<String> words = new ArrayList<>();
     words.add("Trump");
     words.add("works");
-    List<AnalyzedTokenReadings> aToken = tagger.tag(words);
+    List<AnalyzedTokenReadings> aToken = EnglishTagger.INSTANCE.tag(words);
     
     assertEquals(2, aToken.size());
     assertEquals(4, aToken.get(0).getReadings().size());

@@ -18,19 +18,18 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.en.EnglishTagger;
 
+import java.io.IOException;
+
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   private static final String DICT_FILENAME = "/en/english.dict";
   private static MorfologikSpeller speller;
-  private static final EnglishTagger tagger = new EnglishTagger();
 
   public FindSuggestionsFilter() throws IOException {
     // lazy init
@@ -43,7 +42,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected Tagger getTagger() {
-    return tagger;
+    return EnglishTagger.INSTANCE;
   }
 
   @Override

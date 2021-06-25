@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,6 +51,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class TokenAgreementPrepNounRule extends Rule {
   
+  private static final List<String> Z_ZI_IZ = Arrays.asList("з", "зі", "із");
   private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim:.:v_naz.*");
   private static final String VIDMINOK_SUBSTR = ":v_";
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
@@ -109,7 +111,8 @@ public class TokenAgreementPrepNounRule extends Rule {
       AnalyzedToken multiwordReqToken = getMultiwordToken(tokenReadings);
       if( multiwordReqToken != null ) {
 
-        if (tokenReadings.getToken().equals("з") && multiwordReqToken.getLemma().equals("згідно з") ) { // напр. "згідно з"
+        if (Z_ZI_IZ.contains(tokenReadings.getCleanToken().toLowerCase()) 
+            && multiwordReqToken.getLemma().startsWith("згідно ") ) { // напр. "згідно з"
           posTag = multiwordReqToken.getPOSTag(); // "rv_oru";
           prepTokenReadings = tokenReadings;
           continue;
@@ -130,7 +133,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       }
 
 
-      String token = tokenReadings.getAnalyzedToken(0).getToken();
+      String token = tokenReadings.getCleanToken();
       if( posTag.startsWith(IPOSTag.prep.name()) ) {
         String prep = token.toLowerCase();
 
@@ -143,13 +146,13 @@ public class TokenAgreementPrepNounRule extends Rule {
         if( prep.equals("понад") )
           continue;
 
-        if( Arrays.asList("шляхом", "од", "відповідно").contains(prep) ) {
+        if( prep.equals("шляхом") || prep.equals("од") ) {
           prepTokenReadings = null;
           continue;
         }
 
-        if( (prep.equals("окрім") || prep.equals("крім"))
-            && tokens.length > i+1 
+        if( tokens.length > i+1
+            && (prep.equals("окрім") || prep.equals("крім"))
             && tokens[i+1].getToken().equalsIgnoreCase("як") ) {
           prepTokenReadings = null;
           continue;
@@ -175,7 +178,13 @@ public class TokenAgreementPrepNounRule extends Rule {
       }
 
       Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(prepTokenReadings, IPOSTag.prep.name());
-      
+
+      // згідно з документа
+      if( Z_ZI_IZ.contains(prep.toLowerCase())
+          && i >= 3 && tokens[i-2].getCleanToken().equalsIgnoreCase("згідно") ) {
+        expectedCases = new HashSet<>(Arrays.asList("v_oru"));
+      }
+
       // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
 //      if( expectedCases.isEmpty() ) {
 //        prepTokenReadings = null;

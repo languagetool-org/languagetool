@@ -332,6 +332,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]nn?[ou]ll?ie?rung", "Annullierung");
     put("[sS]charm", "Charme");
     put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
+    put("[eE]rledung", "Erledigung");
+    put("erledigigung", "Erledigung");
+    put("woltest", "wolltest");
+    put("[iI]ntranzparentheit", "Intransparenz");
+    put("dunkellilane[mnrs]?", "dunkellila");
+    put("helllilane[mnrs]?", "helllila");
+    put("Behauptungsthese", "Behauptung");
+    put("genzut", "genutzt");
+    put("[eEäÄ]klerung", "Erklärung");
+    put("[wW]eh?wechen", "Wehwehchen");
+    put("nocheinmals", "noch einmal");
+    put("unverantwortungs?los(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("unverantwortungs?", "verantwortungs"), w.replaceFirst("ungs?los", "lich")));
+    putRepl("[eE]rhaltbar(e[mnrs]?)?", "haltbar", "hältlich");
+    putRepl("[aA]ufkeinenfall?", "keinenfall?", " keinen Fall");
     putRepl("[Dd]rumrum", "rum$", "herum");
     putRepl("([uU]n)?proff?esionn?ell?(e[mnrs]?)?", "proff?esionn?ell?", "professionell");
     putRepl("[kK]inderlich(e[mnrs]?)?", "inder", "ind");
@@ -543,6 +557,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("übertr[äa]gte", "übertrug");
     put("übertr[äa]gten", "übertrugen");
     put("NodeJS", "Node.js");
+    put("Express", "Express.js");
     put("erlas", "Erlass");
     put("schlagte", "schlug");
     put("schlagten", "schlugen");
@@ -596,6 +611,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[vV]orgensweise", "Vorgehensweise");
     put("[kK]autsch", "Couch");
     put("guterletzt", "guter Letzt");
+    put("Seminares", "Seminars");
+    put("Mousepad", "Mauspad");
+    put("Mousepads", "Mauspads");
     put("Wi[Ff]i-Router", "Wi-Fi-Router");
     putRepl("[Ll]ilane[srm]?", "ilane[srm]?", "ila");
     putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");

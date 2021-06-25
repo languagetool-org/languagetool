@@ -393,8 +393,12 @@ public class CaseRuleTest {
     assertGood("Das ist ein Mann.");
     assertBad("Das ist Ein Mann.");
 
+    assertGood("Du Ärmste!");
+    assertGood("Du Ärmster, leg dich besser ins Bett.");
     assertGood("Er wohnt Am Hohen Hain 6a");
     assertGood("Das Bauvorhaben Am Wiesenhang 9");
+    assertGood("... und das Zwischenmenschliche Hand in Hand.");
+    assertGood("Der Platz auf dem die Ahnungslosen Kopf an Kopf stehen.");
   }
 
   private void assertGood(String input) throws IOException {

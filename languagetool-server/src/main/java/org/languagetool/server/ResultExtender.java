@@ -110,8 +110,7 @@ class ResultExtender {
             urlParameters += "&" + encode(entry.getKey()) + "=" + encode(entry.getValue());
           }
         }
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-        wr.write(postData);
+        wr.write(urlParameters.getBytes(StandardCharsets.UTF_8));
       }
       InputStream input = huc.getInputStream();
       return parseJson(input);

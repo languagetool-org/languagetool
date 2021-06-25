@@ -95,6 +95,7 @@ public class CacheIO implements Serializable {
         }
         return null;
       }
+      MessageHandler.printToLogFile("file URL: " + url);
       URI uri = new URI(url);
       return uri.getPath();
     } catch (Throwable t) {
@@ -373,21 +374,22 @@ public class CacheIO implements Serializable {
       cacheMapFile = new File(cacheDir, CACHEFILE_MAP);
       if (cacheMapFile != null) {
         if (cacheMapFile.exists() && !cacheMapFile.isDirectory()) {
-          read();
-        } else {
-          cacheMap = new CacheMap();
-          if (DEBUG_MODE) {
-            MessageHandler.printToLogFile("create cacheMap file");
+          if (read()) {
+            return;
           }
-          write(cacheMap);
         }
+        cacheMap = new CacheMap();
+        if (DEBUG_MODE) {
+          MessageHandler.printToLogFile("create cacheMap file");
+        }
+        write(cacheMap);
       }
     }
 
     /**
      * read the cache map from file
      */
-    public void read() {
+    public boolean read() {
       try {
         FileInputStream fileIn = new FileInputStream(cacheMapFile);
         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -397,8 +399,10 @@ public class CacheIO implements Serializable {
         }
         in.close();
         fileIn.close();
+        return true;
       } catch (Throwable t) {
         MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+        return false;
       }
     }
 

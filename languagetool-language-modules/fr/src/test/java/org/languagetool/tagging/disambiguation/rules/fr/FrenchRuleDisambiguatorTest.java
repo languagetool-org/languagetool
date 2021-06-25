@@ -44,7 +44,7 @@ public class FrenchRuleDisambiguatorTest {
 
   @Before
   public void setUp() throws IOException {
-    tagger = new FrenchTagger();
+    tagger = FrenchTagger.INSTANCE;
     tokenizer = new FrenchWordTokenizer();
     French language = new French();
     sentenceTokenizer = new SRXSentenceTokenizer(language);

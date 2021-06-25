@@ -60,6 +60,7 @@ public class AgreementRuleTest {
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
+    assertGood("War das Eifersucht?");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
@@ -494,6 +495,15 @@ public class AgreementRuleTest {
     assertGood("Das Mac OS is besser als Windows.");
     assertGood("Damit steht das Porsche Museum wie kaum ein anderes Museum für Lebendigkeit und Abwechslung.");
     assertGood("Weitere Krankenhäuser sind dass Eastern Shore Memorial Hospital, IWK Health Centre, Nova Scotia Hospital und das Queen Elizabeth II Health Sciences Centre.");
+    assertGood("Ich bin von Natur aus ein sehr neugieriger Mensch.");
+    assertGood("Ich bin auf der Suche nach einer Junior Developerin.");
+    assertGood("War das Eifersucht?");
+    assertGood("Waren das schwierige Entscheidungen?");
+    assertGood("Soll das Demokratie sein?");
+    assertGood("Hat das Spaß gemacht?");
+    assertBad("Funktioniert das Software auch mit Windows?");
+    assertGood("Soll das Sinn stiften?");
+    assertGood("Soll das Freude machen?");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

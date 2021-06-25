@@ -193,8 +193,7 @@ public abstract class AbstractPatternRulePerformer {
       }
 
       //short-circuit when the search cannot possibly match
-      if (!thisMatched && (prevElement == null ||
-          prevElement.getPatternToken().getExceptionList() == null)) {
+      if (!thisMatched && (prevElement == null || !prevElement.getPatternToken().hasCurrentOrNextExceptions())) {
         if (matcher.getPatternToken().getPOStag() == null) {
           if (matcher.getPatternToken().isInflected()) {
             if (tokens[tokenNo].hasSameLemmas()) {

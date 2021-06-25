@@ -1537,14 +1537,14 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	 
     <rule name="_2-0-ZEGE" id="_2-0-ZEGE">
         <pattern>
-           <token regexp="yes">[0-9]+[-][0-9]+[-](uit|thuis)?(zege|winst|verlies|score|voorsprong|gelijkspel|remise|(rust|eind)?stand|(achter|tussen)?stand|overwinning|nederlaag)</token>
+           <token regexp="yes">[0-9]+[-][0-9]+[-](uit|thuis)?(zege|winst|verlies|score|voorsprong|gelijkspel|remise|(rust|eind)?stand|(achter|tussen)?stand|overwinning|nederlaag|cijfers)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
     <rule name="FORMULE_1-DING" id="FORMULE_1-DING">
         <pattern>
            <token>formule</token>
-           <token regexp="yes">[12E3][-](seizoen|coureur|race|coureurs|team|teams|kalender|baas|carrière|auto|piloot|loopbaan|auto's|kampioen|weekend|testdag|record|races|legendes?|directeur|circus|wereld|organisatie|kampioenschap|wereldkampioen|verslaggever|testdagen|stoeltje|renstal|regels|geschiedenis|circuit|ongeval)</token>
+           <token regexp="yes">[12E3][-](seizoen|coureur|race|coureurs|team|teams|kalender|baas|carrière|auto|piloot|loopbaan|auto's|kampioen|weekend|testdag|record|races|legendes?|directeur|circus|wereld|organisatie|kampioenschap|wereldkampioen|verslaggever|testdagen|stoeltje|renstal|regels|geschiedenis|circuit|ongeval|reglement|reglementen|veld|verslaggevers?)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1578,6 +1578,13 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 			<!-- 150m² -->
         <pattern>
 				<token regexp="yes" case_sensitive="yes">[0-9]*(m|km|cm|mm|dm)[²³]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="EENHEDEN" id="EENHEDEN">
+			<!-- 150Hz -->
+        <pattern>
+				<token regexp="yes" case_sensitive="yes">[0-9]*(M)(Hz)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1691,7 +1698,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <rule name="ATP_NUM" id="ATP_NUM">
 		<!-- ATP-178 -->
         <pattern case_sensitive="yes">
-			<token regexp="yes">(ATP|WTA)[-][0-9]+</token>
+			<token regexp="yes">(ATP|WTA|WS|PDC)[-][0-9]+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

@@ -49,6 +49,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
     </unification>
 
+    <rule name="ein bisschen → ADV" id="EIN_BISSCHEN_ADV">
+        <pattern>
+            <token regexp="yes">k?ein</token>
+            <token>bisschen</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="ADV:MOD"/>
+            <wd pos="ADV:MOD"/>
+        </disambig>
+    </rule>
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_1">
         <pattern>
             <token regexp="yes">&zal_adj;iges</token>
@@ -658,7 +668,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <!-- "Am Strand stehen schöne Häuser"-->
-                <token postag="ADJ:.*" postag_regexp="yes"><exception regexp="yes">liebe|scheuen</exception></token>
+                <token postag="ADJ:.*" postag_regexp="yes"><exception regexp="yes">lieben?|scheuen?</exception></token>
                 <token postag="SUB:.*" postag_regexp="yes">
                     <exception postag="ADJ:.+:SOL" postag_regexp="yes" regexp="yes">[A-Z].+</exception>
                     <exception postag="EIG:.+" postag_regexp="yes" />
@@ -668,6 +678,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="unify"/>
         <example type="untouched">Gegen eine schwache Wiener Austria holte das Schlusslicht einen 1:0-Heimerfolg.</example>
         <example type="untouched">Ich liebe Lachs.</example>
+        <example type="untouched">Wir lieben Hunde.</example>
     </rule>
 
     <rule name="NP unify 4" id="UNIFY_4">
@@ -1316,6 +1327,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
     <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
+
         <rule>
             <pattern case_sensitive="yes">
                 <token postag_regexp="yes" postag="PRP:LOK(\+TMP)?:DAT"></token>
@@ -1329,6 +1341,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag=".+:(NOM|AKK):.+"/>
         </rule>
         <rule>
+            <antipattern>
+                <token>von</token>
+                <token>Natur</token>
+                <token>aus</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token postag_regexp="yes" postag="PRP.+"></token>
                 <marker>
@@ -1510,6 +1527,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="untouched">Das dachte ich mir schon.</example>
         </rule>
     </rulegroup>
+
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
@@ -1579,14 +1597,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="en vogue" id="EN_VOGUE">
-        <pattern>
-            <token>en</token>
-            <token regexp="yes">bloc|vogue|gros|masse|miniature|passant|détail|suite|fa(mill|c)e|garde|route|suite</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
     <rule name="Ayers Rock" id="AYERS_ROCK">
         <pattern case_sensitive="yes">
             <token>Ayers</token>
@@ -1599,6 +1609,60 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>Alice</token>
             <token>Springs</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <!-- FRENCH -->
+
+    <rule name="comme il faut" id="COMME_IL_FAUT">
+        <pattern>
+            <token>comme</token>
+            <token>il</token>
+            <token>faut</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule name="peu à peu" id="PEU_A_PEU">
+        <pattern>
+            <token>peu</token>
+            <token>à</token>
+            <token>peu</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="avant la lettre" id="AVANT_LA_LETTRE">
+        <pattern>
+            <token regexp="yes">avant|avec|après</token>
+            <token>la</token>
+            <token>lettre</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="en vogue" id="EN_VOGUE">
+        <pattern>
+            <token>en</token>
+            <token regexp="yes">bloc|vogue|gros|masse|miniature|passant|détail|suite|fa(mill|c)e|garde|route|suite</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Île de Ré" id="ILE_DE_FRANCE">
+        <pattern>
+            <token>Île</token>
+            <token>de</token>
+            <token regexp="yes">Ré|France|Porquerolles</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Bœuf bourguignon" id="BOEUF_BOURGUIGNON">
+        <pattern>
+            <token>Bœuf</token>
+            <token regexp="yes">bourguignon|Stroganoff</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1785,6 +1849,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
     <rule name="Casus" id="CASUS">
         <pattern>
             <token>Casus</token>
@@ -2491,7 +2556,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>et</token>
             <token>studio</token>
         </pattern>
-        <disambig action="ignore_spelling"/>
+        <disambig action="immunize"/>
     </rule>
 
     <rule name="non sequitur" id="NON_SEQUITUR">
@@ -2577,35 +2642,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token regexp="yes">in|ex</token>
             <token>situ</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <!-- FRENCH -->
-
-    <rule name="peu à peu" id="PEU_A_PEU">
-        <pattern>
-            <token>peu</token>
-            <token>à</token>
-            <token>peu</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="avant la lettre" id="AVANT_LA_LETTRE">
-        <pattern>
-            <token regexp="yes">avant|avec|après</token>
-            <token>la</token>
-            <token>lettre</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="Île de Ré" id="ILE_DE_FRANCE">
-        <pattern>
-            <token>Île</token>
-            <token>de</token>
-            <token regexp="yes">Ré|France|Porquerolles</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -4308,7 +4344,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Advanced|United|Active|Electronic|Scientific|Electric|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom</token>
+                <token regexp="yes">Advanced|United|Active|Electronic|Scientific|Electric|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -4322,7 +4358,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation</token>
+                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Advisor|Campaigns?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -4401,6 +4437,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes" spacebefore="no">[a-z0-9\-]+</token>
             <token spacebefore="no">.</token>
             <token regexp="yes" spacebefore="no">org|com|net|de|co|es|fr|nl|be|eu|biz|ru|ai|au|uk|in|ca|gov|edu|info|cn|us|name|ly|ch|at|mx|no|lu|br|jp|se</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="ALOE_VERA" name="Ignore spelling of 'Aloe vera'">
+        <pattern case_sensitive="yes">
+            <token>Aloe</token>
+            <token>vera</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

@@ -973,6 +973,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final static int dialogWidth = 640;
     private final static int dialogHeight = 525;
 
+    private final Color defaultForeground;
+
     private final JDialog dialog;
     private final JLabel languageLabel;
     private final JComboBox<String> language;
@@ -1048,6 +1050,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setSize(dialogWidth, dialogHeight);
       dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
+      defaultForeground = dialog.getForeground();
 
       languageLabel = new JLabel(labelLanguage);
       Font dialogFont = languageLabel.getFont().deriveFont((float) 12);
@@ -1532,7 +1535,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       endOfDokumentMessage = null;
       sentenceIncludeError.setEnabled(false);
       suggestions.setEnabled(false);
-      errorDescription.setForeground(Color.BLACK);
+      errorDescription.setForeground(defaultForeground);
     }
     
     /**
@@ -1599,7 +1602,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       } else if (error != null) {
         
         checkStatus.setText(checkStatusResult);
-        checkStatus.setForeground(Color.BLACK);
+        checkStatus.setForeground(defaultForeground);
         ignoreOnce.setEnabled(true);
         ignoreAll.setEnabled(true);
 
@@ -1684,7 +1687,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
         language.setSelectedItem(lang.getTranslatedName(messages));
         checkStatus.setText(checkStatusResult);
-        checkStatus.setForeground(Color.BLACK);
+        checkStatus.setForeground(defaultForeground);
         checkProgress.setValue(docCache != null && docCache.size() > 0 ? docCache.size() : 100);
       }
     }
@@ -1735,7 +1738,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       //  Set back to default values
       StyleConstants.setBold(attrs, false);
       StyleConstants.setUnderline(attrs, false);
-      StyleConstants.setForeground(attrs, Color.BLACK);
+      StyleConstants.setForeground(attrs, defaultForeground);
       doc.setCharacterAttributes(0, doc.getLength() + 1, attrs, true);
       //  Set values for error
       StyleConstants.setBold(attrs, true);

@@ -49,6 +49,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("werbereich", null, "erbereich", null),
           new Pair("lage", "Position", "alge", "im Wasser lebende Organismen"),
           new Pair("sphäre", "Kugel", "spähreh", null),
           new Pair("schenke", "Gastwirtschaft (auch: Schänke)", "schenkel", "Ober- und Unterschenkel"),

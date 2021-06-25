@@ -301,7 +301,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", "Dorian Klug" ...
       new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build(),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug|Greiser")
     ),
     Arrays.asList(
       token(","),
@@ -767,7 +767,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|="),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖"),
       regex(".*")
     ),
     Arrays.asList(
@@ -823,7 +823,7 @@ public class CaseRule extends Rule {
       // "(2c) Der Betrieb ist untersagt"
       SENT_START,
       regex("[\\[\\(\\{]"),
-      token("[a-z0-9]{1,5}"),
+      regex("[a-z0-9]{1,5}"),
       regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
@@ -873,6 +873,45 @@ public class CaseRule extends Rule {
     Arrays.asList( // Wir wagen Neues.
       new PatternTokenBuilder().token("wagen").matchInflectedForms().build(),
       token("Neues")
+    ),
+    Arrays.asList( // Das birgt zugleich Gefahren
+      new PatternTokenBuilder().csToken("birgen").matchInflectedForms().setSkip(5).build(),
+      token("Gefahren")
+    ),
+    Arrays.asList(
+      // Du Ärmster!
+      token("du"),
+      csRegex("Ärmster?"),
+      csRegex("[^A-ZÖÄÜ].*")
+    ),
+    Arrays.asList(
+        // "... und das Zwischenmenschliche Hand in Hand."
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Hand"),
+        csToken("in"),
+        csToken("Hand")
+    ),
+    Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Kopf and Kopf stehen.""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Kopf"),
+        csToken("an"),
+        csToken("Kopf")
+    ),
+    Arrays.asList(
+      // "Sie/Er/Es hat recht."
+      SENT_START,
+      token("`"),
+      token("`"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "4b Ein Listenpunkt"
+      SENT_START,
+      regex("\\d{1,2}[a-z]"),
+      csRegex("[A-ZÄÜÖ].*")
     )
   );
 

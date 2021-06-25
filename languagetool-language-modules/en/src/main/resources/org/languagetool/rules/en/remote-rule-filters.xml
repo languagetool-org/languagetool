@@ -189,6 +189,55 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">He hasn't done <marker>that</marker> yet.</example>
             </rule>
+            <rule>
+                <!-- no comma in numbers with decimal point (caused by stray &amp;) -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.\d+</token>
+                    </marker>
+                    <token>.</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">We made <marker>&amp;127508</marker>.45 moving power incrementally.</example>
+            </rule>
+            <rule>
+                <!-- no comma before % -->
+                <pattern>
+                        <token regexp="yes">\d+%</token>
+                </pattern>
+                <example correction="">Since 1986, the Hager portfolios have earned an annualized return of 30.8 M, while outperforming the Dow by <marker>1530%</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                    </marker>
+                    <token regexp="yes">(m|b|tr|quadr|quint|sext|sept|oct|non)illion|advance|fine</token>
+                </pattern>
+                <example correction="">This deal was again extended in June 2013 in a deal worth <marker>£300</marker> million over another ten years.</example>
+                <example correction="">In 1876, Wallace needed a <marker>£500</marker> advance from the publisher of The Geographical Distribution of Animals to avoid having to sell some of his personal property.</example>
+                <example correction="">BrAC 250–400 = <marker>€200</marker> fine.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                    </marker>
+                    <token regexp="yes">a|each|every</token>
+                    <token regexp="yes">century|decade|lust(er|re)|year|(se|quadri|tri)mester|month|fortnight|week|day|night|hour|minute|second</token>
+                </pattern>
+                <example correction="">He tendered his formal resignation and was granted a pension of <marker>£500</marker> a year.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                    </marker>
+                    <token>of</token>
+                    <token regexp="yes">debi?ts?|arrears|credit|dues</token>
+                </pattern>
+                <example correction="">To apply for your own bankruptcy in Scotland you must have more than <marker>£1500</marker> of debt.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>

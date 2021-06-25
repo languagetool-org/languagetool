@@ -39,8 +39,8 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(agro|anti|archi|auto|aéro|cardio|co|cyber|demi|ex|extra|géo|hospitalo|hydro|hyper|hypo|infra|inter|macro|mega|meta|mi|micro|mini|mono|multi|musculo|méga|méta|néo|omni|pan|para|pluri|poly|post|prim|pro|proto|pré|pseudo|psycho|péri|re|retro|ré|semi|simili|socio|super|supra|sus|trans|tri|télé|ultra|uni|vice|éco|l|d) (..+)$",
-      //grand, haut, nord, sud, sous, sur
+      "^(agro|anti|archi|auto|aéro|cardio|co|cyber|demi|ex|extra|géo|hospitalo|hydro|hyper|hypo|infra|inter|macro|mega|meta|mi|micro|mini|mono|multi|musculo|méga|méta|néo|omni|pan|para|pluri|poly|post|prim|pro|proto|pré|pseudo|psycho|péri|re|retro|ré|semi|simili|socio|super|supra|sus|trans|tri|télé|ultra|uni|vice|éco|[^ayà]) (..+)$",
+      //grand, haut, nord, sud, sous, sur l|d|s|t
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$",
@@ -53,7 +53,8 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
+  private static final Pattern APOSTROF_INICI_VERBS_INF = Pattern.compile("^([lntsmd]|nous|vous)(h?[aeiouàéèíòóú].*[^è])$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   //je, tu, il, elle, ce, on, nous, vous, ils
   private static final Pattern HYPHEN_ON = Pattern.compile("^([\\p{L}]+[^aeiou])[’']?(il|elle|ce|on)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -75,6 +76,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   //private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V .*(ind|sub).*");
   private static final Pattern VERB_IMP = Pattern.compile("V.* imp .*");
+  private static final Pattern VERB_INF = Pattern.compile("V.* inf");
   private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V .* [123] s|V .* [23] p");
   private static final Pattern VERB_INDSUBJ_C = Pattern.compile("V .* 3 s");
   private static final Pattern NOM_SING = Pattern.compile("[NJZ] .* (s|sp)|V .inf|V .*ppa.* s");
@@ -90,13 +92,11 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_3P = Pattern.compile("V .*(ind).* 3 p");
 
   private final String dictFilename;
-  private final FrenchTagger tagger;
 
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    tagger = new FrenchTagger();
     dictFilename = "/fr/french.dict";
   }
 
@@ -207,6 +207,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, "'", true));
+    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_INF, VERB_INF, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true));
     //newSuggestions.addAll(findSuggestion(word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
@@ -233,7 +234,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
-      AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
+      AnalyzedTokenReadings newatr = FrenchTagger.INSTANCE.tag(Arrays.asList(newSuggestion)).get(0);
       if (matchPostagRegexp(newatr, postagPattern)) {
         newSuggestions.add(matcher.group(1) + separator + matcher.group(2));
         return newSuggestions;

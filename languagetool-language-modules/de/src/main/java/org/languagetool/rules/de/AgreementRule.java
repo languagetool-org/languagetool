@@ -87,6 +87,17 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("ein"),  // "Das wolkige und ein bisschen kühle Wetter..."
+      token("bisschen"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
+      token("ein"),  // "...um mal ein bisschen Einsichten zu bekommen" (ugs., aber okay)
+      token("bisschen"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(
       token("dem"),  // "dem Abhilfe zu schaffen"
       token("Abhilfe"),
       new PatternTokenBuilder().token("zu").min(0).build(),
@@ -427,13 +438,13 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       token("das"),
-      csRegex("Zufall|Sinn|Spaß|Freude"),
+      csRegex("Zufall|Sinn|Spa(ß|ss)|Freude"),
       token("?")
     ),
     Arrays.asList(
        // "War das Zufall, dass es ging?"
       token("das"),
-      csRegex("Zufall|Sinn|Spaß"),
+      csRegex("Zufall|Sinn|Spa(ß|ss)"),
       csToken(",")
     ),
     Arrays.asList(
@@ -505,12 +516,36 @@ public class AgreementRule extends Rule {
       csRegex("Anfang|Mitte|Ende"),
       csRegex("Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember|[12][0-9]{3}")
     ),
-    Arrays.asList(
-      csRegex("Ist|Sind|Macht|Wird"),
+    Arrays.asList( // Waren das schwierige Entscheidungen?
+      csRegex("Ist|Sind|War|Waren|Macht|Wird|Werden"),
       csToken("das"),
       new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
       posRegex("SUB:NOM.*"),
       posRegex("PKT|KON:NEB|PRP.+")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
+    ),
+    Arrays.asList( // Soll das Demokratie sein?
+      posRegex("SENT_START|PKT|KON:NEB"),
+      regex("soll|sollen|sollte|wird|werden|würde|kann|können|könnte|muss|müssen|müsste"),
+      csToken("das"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
+      posRegex("SUB:NOM.*"),
+      csRegex("sein|werden")
+    ),
+    Arrays.asList( // Hat das Spaß gemacht?
+      posRegex("SENT_START|PKT|KON:NEB"),
+      regex("hat|hatte"),
+      csToken("das"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
+      csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
+      csRegex("gemacht|ergeben|gestiftet")
+    ),
+    Arrays.asList( // Soll das Spaß machen?
+      posRegex("SENT_START|PKT|KON:NEB"),
+      regex("soll|sollte|wird|würde|kann|lönnte"),
+      csToken("das"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
+      csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
+      csRegex("machen|stiften|ergeben")
     ),
     Arrays.asList( // Die Präsent AG ("Theater AG" is found via DE_COMPOUNDS)
       csRegex("[A-ZÄÖÜ].+"),
@@ -953,9 +988,17 @@ public class AgreementRule extends Rule {
       csToken("Mario")
     ),
     Arrays.asList(
-      csToken("Toyota"), // Die FC Bayern München Hymne (Vorschlag macht keinen Sinn "FC-Bayern")
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      csToken("Toyota"),
       csToken("Motor"),
       tokenRegex("Corp(oration)?|Company")
+    ),
+    Arrays.asList(
+      tokenRegex(".+"),
+      tokenRegex(".+"),
+      csToken("Metropolitan"),
+      tokenRegex("Police|Community|City|Books")
     ),
     Arrays.asList(
       tokenRegex("Office|Microsoft"),
@@ -986,7 +1029,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // "Ich mache eine Ausbildung zur Junior Digital Marketing Managerin"
       new PatternTokenBuilder().tokenRegex("Junior|Senior").setSkip(3).build(),
-      tokenRegex("Manager[ns]?|Managerin(nen)?")
+      tokenRegex("Manager[ns]?|Managerin(nen)?|Developer(in)?")
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),

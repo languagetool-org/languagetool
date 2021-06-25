@@ -18,7 +18,9 @@
  */
 package org.languagetool.language;
 
-import com.google.common.cache.*;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -36,12 +38,18 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.en.EnglishHybridDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -66,7 +74,6 @@ public class English extends Language implements AutoCloseable {
           return rules;
         }
       });
-  private static volatile WeakReference<EnglishTagger> cachedTagger;
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
 
   private LanguageModel languageModel;
@@ -107,13 +114,7 @@ public class English extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    WeakReference<EnglishTagger> ref = cachedTagger;
-    EnglishTagger tagger = ref == null ? null : ref.get();
-    if (tagger == null) {
-      tagger = new EnglishTagger();
-      cachedTagger = new WeakReference<>(tagger);
-    }
-    return tagger;
+    return EnglishTagger.INSTANCE;
   }
 
   @Nullable
@@ -482,6 +483,7 @@ public class English extends Language implements AutoCloseable {
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
+      case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
