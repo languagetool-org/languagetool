@@ -27061,7 +27061,7 @@ though, and has since been slightly modified)-->
                 <example>Une infinité d'étoiles scintillaient dans le ciel nocturne.</example>
                 <example>Un tiers des Chinois ne parlent pas le mandarin standard.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>fois</token>
                     <token regexp="yes">que|qu'</token>
@@ -27081,7 +27081,61 @@ though, and has since been slightly modified)-->
                     <token min="1" postag="D . s" postag_regexp="yes"/>
                     <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
                         <exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
-                    <token min="0" postag="P.*" postag_regexp="yes"/>
+                    <token skip="4" regexp="yes">que|qui|qu'
+                        <exception scope="next" postag_regexp="yes" postag="C.*|R rel.*|M.*"/>
+                        <exception scope="next" regexp="yes">[\(\)]</exception></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8">
+                        <exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"/></token>
+                    <marker>
+                        <token postag="V.*3 p" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                            <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction="arrive">L'enfant que j'accompagne souvent à la bibliothèque <marker>arrivent</marker> de l'école.</example>
+                <example>La première chose que l'on apprend dans une langue <marker>sont</marker> des jurons.</example>
+                <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
+                <example>Un jour comme les autres s'annonce pour la famille Leblanc.</example>
+                <example>Les autres ben faut voir.</example>
+                <example>La dernière personne à qui j'ai raconté mon idée a pensé que j'étais cinglé.</example>
+                <example>Chaque fois que je trouve quelque chose que j'aime, c'est trop cher.</example>
+                <example>La théorie scientifique que j'aime le plus est que les anneaux de Saturne sont entièrement composés de bagages perdus.</example>
+                <example>Chaque fois que le prix des cigarettes augmente, beaucoup de gens essayent d'arrêter de fumer.</example>
+                <example>La plupart des gens qui sont morts du tabac n'étaient pas de gros fumeurs.</example>
+                <example>La dernière fois que je suis allé en Chine, j'ai visité Shanghai.</example>
+                <example>La seule chose que nous apprend l'Histoire, c'est que nous n'apprenons rien de l'Histoire.</example>
+                <example>Tout occupé que tu sois, tu dois faire tes devoirs.</example>
+                <example>Une étude récente montre que la moitié des Français sont sceptiques devant les publicités "vertes" et réclament des preuves, en tête desquelles la présence d'un éco-label.</example>
+                <example>Cette propension qu'ont certaines personnes à être pédantes lorsqu'elles écrivent des phrases d'exemple m'irrite.</example>
+                <example>La grande majorité des élèves lycéens que je connais ne savent pas lire un mot qu'ils ignorent.</example>
+                <example>Le plancher qui craque, les souris qui s'activent dans le faux-plafond.</example>
+                <example>Le mot que Tom et Mary cherchaient, ils ne le trouvèrent qu'à la fin de la phrase.</example>
+                <example>La théorie des jeux montre que ce que nous nommons « principes moraux » ne sont jamais que les éléments de la stratégie permettant au groupe d'optimiser sa survie.</example>
+                <example>Le jeune homme en colère croit que les personnes qui lui disent de se calmer sont des hommes de paille des Illuminati.</example>
+                <example>Un grand nombre des problèmes centraux qu'elle aborde désormais sont présentés ici dans une perspective résolument pluraliste.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>fois</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>après</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 p" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" postag="D . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes">
+                        <exception regexp="yes">&exceptions_sujet_singulier;</exception></token>
+                    <token min="1" postag="P.*" postag_regexp="yes"/>
                     <token min="0" max="4" postag="[DJNZR].*" postag_regexp="yes">
                         <exception regexp="yes">que|qui|qu'</exception></token>
                     <token skip="4" regexp="yes">que|qui|qu'
@@ -27096,7 +27150,6 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
                 <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-                <example correction="arrive">L'enfant que j'accompagne souvent à la bibliothèque <marker>arrivent</marker> de l'école.</example>
                 <example correction="est">La principale chaine de télévision qui transmet depuis Buenos Aires <marker>sont</marker> Canal 13.</example>
                 <example>La première chose que l'on apprend dans une langue <marker>sont</marker> des jurons.</example>
                 <example>La création des trois autres s’échelonne jusqu’en 1840.</example>
@@ -27117,6 +27170,7 @@ though, and has since been slightly modified)-->
                 <example>Le mot que Tom et Mary cherchaient, ils ne le trouvèrent qu'à la fin de la phrase.</example>
                 <example>La théorie des jeux montre que ce que nous nommons « principes moraux » ne sont jamais que les éléments de la stratégie permettant au groupe d'optimiser sa survie.</example>
                 <example>Le jeune homme en colère croit que les personnes qui lui disent de se calmer sont des hommes de paille des Illuminati.</example>
+                <example>Un grand nombre des problèmes centraux qu'elle aborde désormais sont présentés ici dans une perspective résolument pluraliste.</example>
             </rule>
             <!-- Pluriel -->
             <rule>
@@ -27393,7 +27447,7 @@ though, and has since been slightly modified)-->
                 <!-- better suggestions: inscrits -->
                 <example correction="inscrivent">Les délais de livraisons <marker>inscrit</marker> sur le site ne sont qu'une estimation.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
@@ -27413,7 +27467,7 @@ though, and has since been slightly modified)-->
                 <example correction="mentent">Les gens comme Tom <marker>mente</marker> tout le temps.</example>
                 <example>Les Parthes donnent également ce nom à tous leurs rois comme Rome donne à ses empereurs les noms de César et d'Auguste.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>fois</token>
                     <token regexp="yes">que|qu'</token>
