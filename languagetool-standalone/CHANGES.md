@@ -2,7 +2,8 @@
 
 ## 5.5-SNAPSHOT (release planned for 2021-09-21)
 
-...
+#### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.06.01)
 
 
 ## 5.4 (2021-06-25)
@@ -16,7 +17,6 @@
   * extended spelling dictionary
 
 #### English
-  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.06.01)
   * additional tags for personal pronouns, e.g. `us[we/PRP,we/PRP_O1P]`; `mine[mine/PRP$,I/PRP$_P1S]`
 
 #### French
