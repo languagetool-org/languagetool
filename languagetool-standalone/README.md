@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 5.4, 2021-06-25  
+Version 5.5-SNAPSHOT, release planned for 2021-09-21  
 Copyright (C) 2005-2021 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
