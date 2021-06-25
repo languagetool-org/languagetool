@@ -16,6 +16,9 @@
 #### French
   * added and improved rules
 
+#### Galician
+  * small rule improvements
+
 #### German
   * added and improved rules
 
