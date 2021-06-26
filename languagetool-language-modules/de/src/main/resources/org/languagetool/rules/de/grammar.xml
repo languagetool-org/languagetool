@@ -5569,6 +5569,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ausklinkst|ausklingt">Nicht das du <marker>ausklingst</marker>.</example>
            </rule>
         </rulegroup>
+        <rule id="VERKOESTIGUNG" name="verköstigen vs. verkosten">
+            <antipattern>
+                <token>mit</token>
+                <token />
+                <token inflected="yes">verköstigen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Weine?|Tees?|Kaffee|Schokoladen?</token>
+                <token min="0" postag="ADV:.+" postag_regexp="yes" />
+                <marker><token inflected="yes">verköstigen</token></marker>
+            </pattern>
+            <message>&verw; Meinten Sie <suggestion><match no="3" postag="(.+)" postag_regexp="yes" postag_replace="$1">verkosten</match></suggestion> (= <suggestion><match no="3" postag="(.+)" postag_regexp="yes" postag_replace="$1">probieren</match></suggestion>)?</message>
+            <url>https://vinolog.de/vinoblog/vinoblog2010/verkostenstattverkoestigen</url>
+            <example correction="verkostet|probiert">Wir haben den Wein bereits <marker>verköstigt</marker>.</example>
+            <example correction="verkostet|probiert">Wir haben dort Schokolade <marker>verköstigt</marker>.</example>
+        </rule>
         <rule id="RESOURCE_RESSOURCE" name="Ressource vs. Resource">
             <pattern>
                 <token>Human</token>
