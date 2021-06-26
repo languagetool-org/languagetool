@@ -33886,6 +33886,25 @@ steenwijk;Steenwijk
 	</category>
 	<category id="CONFUSED_WORDS" name="Woordverwarring">
 
+		<rulegroup id="RECHTERLIJK" name="Rechte(r)lijk">
+			<rule>
+				<pattern>
+					<token regexp="yes">.*rechterlijke?</token>
+				</pattern>
+				<message>Let op: gebruik rechterlijk als het op de rechter slaat, rechtelijk als het op de wet slaat.</message>
+				<suggestion><match no="1" regexp_match="rechterlijk" regexp_replace="rechtelijk"/></suggestion>
+				<example correction="strafrechtelijke">Het is een <marker>strafrechterlijke</marker> kwestie.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">.*rechtelijke?</token>
+				</pattern>
+				<message>Let op: gebruik rechterlijk als het op de rechter slaat, rechtelijk als het op de wet slaat.</message>
+				<suggestion><match no="1" regexp_match="rechtelijk" regexp_replace="rechterlijk"/></suggestion>
+				<example correction="strafrechterlijke">Het is een <marker>strafrechtelijke</marker> kwestie.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="NAUW_EN_OF" name="Nauw/nou en of">
 			<rule>
 				<pattern>
