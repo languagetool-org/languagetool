@@ -1577,14 +1577,14 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <rule name="VIERKANTE_METER" id="VIERKANTE_METER">
 			<!-- 150m² -->
         <pattern>
-				<token regexp="yes" case_sensitive="yes">[0-9]*(m|km|cm|mm|dm)[²³]</token>
+				<token regexp="yes" case_sensitive="yes">[0-9]+(m|km|cm|mm|dm)([²³])?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
     <rule name="EENHEDEN" id="EENHEDEN">
 			<!-- 150Hz -->
         <pattern>
-				<token regexp="yes" case_sensitive="yes">[0-9]*(M)(Hz)</token>
+				<token regexp="yes" case_sensitive="yes">[0-9]*([MkG])(Hz)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1647,7 +1647,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <rule name="XX_IG" id="XX_IG">
 			<!-- meneer Teach -->
         <pattern case_sensitive="yes" >
-			<token regexp="yes">[0-9]+[-](voud|blad|jar|kopp|vorm|ur|cijferig|talig|del)ige?</token>
+			<token regexp="yes">[0-9]+[-](voud|blad|jar|kopp|vorm|ur|cijfer|talig|del)ige?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1675,7 +1675,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         <pattern case_sensitive="yes">
 			<token/>
 			<token regexp="yes">[1-9]|[1-2][0-9]|3[01]</token>
-			<token regexp="yes">(&months;)[-][1-9]|[1-2][0-9]|3[01]</token>
+			<token regexp="yes">(&months;)[-]([1-9]|[1-2][0-9]|3[01])</token>
 			<token regexp="yes">&months;</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -1699,6 +1699,27 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<!-- ATP-178 -->
         <pattern case_sensitive="yes">
 			<token regexp="yes">(ATP|WTA|WS|PDC)[-][0-9]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="PUNT_NL" id="PUNT_NL">
+		<!-- .nl-domeinnamen -->
+        <pattern>
+			<token/>
+			<token spacebefore="yes">.</token>
+			<token spacebefore="no" regexp="yes">(nl|be|com|org)-(domein|extensie).*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule name="A1" id="A1">
+        <pattern>
+			<token case_sensitive="yes" regexp="yes">[A-Z][0-9]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="_9x9" id="_9x9">
+        <pattern>
+			<token case_sensitive="yes" regexp="yes">.*[0-9]+x[0-9]+.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
