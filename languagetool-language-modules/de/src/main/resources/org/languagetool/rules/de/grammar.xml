@@ -5553,19 +5553,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>den</token>
-                    <token regexp="yes">Abend|Tag|(Fest|Sonn|Feier)tag|Urlaub|Sommer|Frühling</token>
+                    <token regexp="yes">Abend|Tag|(Fest|Sonn|Feier|Nachmit)tag|Urlaub|Sommer|Frühling|(&wochentage;)abend</token>
                     <token regexp="yes" min="0">allmählich|entspannt|feierlich|friedlich|gebührend|gemütlich|gemeinsam|genüsslich|gesellig|harmonisch|langsam|ruhig|sanft|still</token>
                     <marker><token>ausklinken</token></marker>
                 </pattern>
-                <message>Mögliche Wortverwechslung: Meinten Sie <suggestion>ausklingen</suggestion> (zu Ende gehen)?</message>
+                <message>&verw; Meinten Sie <suggestion>ausklingen</suggestion> (zu Ende gehen)?</message>
                 <example correction="ausklingen">Nach dem Kochen den Abend gemütlich <marker>ausklinken</marker> lassen.</example>
                 <example correction="ausklingen">Nach dem Kochen den Abend <marker>ausklinken</marker> lassen.</example>
+                <example correction="ausklingen">Nach dem Kochen den Sonntagabend entspannt <marker>ausklinken</marker> lassen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>ausklingst</token>
                 </pattern>
-                 <message>Mögliche Wortverwechslung: Meinten Sie <suggestion>ausklinkst</suggestion> oder <suggestion>ausklingt</suggestion>?</message>
+                 <message>&verw; Meinten Sie <suggestion>ausklinkst</suggestion> oder <suggestion>ausklingt</suggestion>?</message>
                 <example correction="ausklinkst|ausklingt">Nicht das du <marker>ausklingst</marker>.</example>
            </rule>
         </rulegroup>
