@@ -5586,6 +5586,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="verkostet|probiert">Wir haben den Wein bereits <marker>verköstigt</marker>.</example>
             <example correction="verkostet|probiert">Wir haben dort Schokolade <marker>verköstigt</marker>.</example>
         </rule>
+        <rule id="VOLLZUG_VERZUG" name="Vollzug vs. Verzug">
+            <pattern>
+                <token>Gefahr</token>
+                <token>im</token>
+                <marker><token>Vollzug</token></marker>
+            </pattern>
+            <message>&verw; Meinten Sie die Redewendung 'Gefahr im <suggestion>Verzug</suggestion>' ('es droht Gefahr')?</message>
+            <example correction="Verzug">Da ist Gefahr im  <marker>Vollzug</marker>!</example>
+        </rule>
+        <rule id="VERSENGEN_VERSENKEN" name="versengen vs. versenken">
+            <pattern>
+                <token regexp="yes">.*(schiffe?|boote?|bohrinseln?|see)|Zerstörer|Kreuzer|Dampfer|Ölplattform(en)?|Meer|Ozean|Fluss</token>
+                <token min="0" />
+                <marker><token regexp="yes">versengs?t</token></marker>
+            </pattern>
+            <message>&verw; Meinten Sie <suggestion><match no="3" regexp_match="g" regexp_replace="k" /></suggestion>?</message>
+            <example correction="versenkt">Die Ölplattform wurde <marker>versengt</marker>.</example>
+            <example correction="versenkt">Die Ölplattform wurde in der Ostsee <marker>versengt</marker>.</example>
+            <example correction="versenkt">Das U-Boot wurde <marker>versengt</marker>.</example>
+            <example correction="versenkt">Die Ölplattform wurde im Atlantischen Ozean <marker>versengt</marker>.</example>
+        </rule>
         <rule id="RESOURCE_RESSOURCE" name="Ressource vs. Resource">
             <pattern>
                 <token>Human</token>
