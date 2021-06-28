@@ -60,7 +60,7 @@ import java.util.stream.Collectors;
  * Base class fur rules running on external servers;
  * see gRPC service definition in languagetool-core/src/main/proto/ml_server.proto
  *
- * @see #create(Language, ResourceBundle, RemoteRuleConfig, boolean, String, String, Map)  for an easy to add rules; return rule in Language::getRelevantRemoteRules
+ * See #create(Language, ResourceBundle, RemoteRuleConfig, boolean, String, String, Map)  for an easy way to add rules; return rule in Language::getRelevantRemoteRules
  * add it like this:
   <pre>
    public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
@@ -74,7 +74,6 @@ import java.util.stream.Collectors;
      return rules;
    }
   </pre>
-
  */
 public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
@@ -119,13 +118,11 @@ public abstract class GRPCRule extends RemoteRule {
 
   }
 
-  static class Connection {
+  public static class Connection {
     final ManagedChannel channel;
     final MLServerFutureStub stub;
 
-    private ManagedChannel getChannel(String host, int port, boolean useSSL,
-                                      @Nullable String clientPrivateKey, @Nullable  String clientCertificate,
-                                      @Nullable String rootCertificate) throws SSLException {
+    public static ManagedChannel getManagedChannel(String host, int port, boolean useSSL, @Nullable String clientPrivateKey, @Nullable String clientCertificate, @Nullable String rootCertificate) throws SSLException {
       NettyChannelBuilder channelBuilder = NettyChannelBuilder.forAddress(host, port);
       if (useSSL) {
         SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();
@@ -149,10 +146,8 @@ public abstract class GRPCRule extends RemoteRule {
       String key = serviceConfiguration.getOptions().get("clientKey");
       String cert = serviceConfiguration.getOptions().get("clientCertificate");
       String ca = serviceConfiguration.getOptions().get("rootCertificate");
-      this.channel = getChannel(host, port, ssl, key, cert, ca);
+      this.channel = getManagedChannel(host, port, ssl, key, cert, ca);
       this.stub = MLServerGrpc.newFutureStub(channel);
-
-
     }
 
     private void shutdown() {
@@ -262,7 +257,7 @@ public abstract class GRPCRule extends RemoteRule {
           throw e;
         }
       } catch (InterruptedException | ExecutionException e) {
-          throw new TimeoutException(e + Objects.toString(e.getMessage()));
+        throw new TimeoutException(e + Objects.toString(e.getMessage()));
       }
       
       List<RuleMatch> matches = Streams.zip(responses.stream().flatMap(res -> res.getSentenceMatchesList().stream()),
@@ -349,13 +344,10 @@ public abstract class GRPCRule extends RemoteRule {
   public static GRPCRule create(Language language, RemoteRuleConfig config, boolean inputLogging,
                                 String id, String description, Map<String, String> messagesByID) {
     return new GRPCRule(language, JLanguageTool.getMessageBundle(), config, inputLogging) {
-
-
       @Override
       protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
         return messagesByID.get(match.getSubId());
       }
-
       @Override
       public String getDescription() {
         return description;
