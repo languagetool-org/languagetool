@@ -901,7 +901,7 @@ public class CaseRule extends Rule {
         csToken("Kopf")
     ),
     Arrays.asList(
-      // "Sie/Er/Es hat recht."
+      // ``Ich bin ein Anführungszeich
       SENT_START,
       token("`"),
       token("`"),
@@ -911,6 +911,14 @@ public class CaseRule extends Rule {
       // "4b Ein Listenpunkt"
       SENT_START,
       regex("\\d{1,2}[a-z]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "3.) Ein Listenpunkt"
+      SENT_START,
+      regex("\\d{1,3}[a-z]?"),
+      token("."),
+      regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
     )
   );
