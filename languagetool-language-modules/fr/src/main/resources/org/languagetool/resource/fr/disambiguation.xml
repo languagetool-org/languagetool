@@ -2374,6 +2374,19 @@ RB => Règles Brutes
             </pattern>
             <disambig action="remove" postag="P.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="P"/>
+                <token postag="D.*" postag_regexp="yes">des</token>
+                <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <marker>
+                    <token postag="D.*" postag_regexp="yes">des</token>
+                </marker>
+                <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="P.*"/>
+        </rule>
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->

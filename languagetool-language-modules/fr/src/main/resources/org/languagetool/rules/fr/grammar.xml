@@ -4151,11 +4151,19 @@ though, and has since been slightly modified)-->
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
         <rule id="MEDIA" name="media/média" default="temp_off">
             <antipattern>
-                <token>mass</token>
+                <token regexp="yes">mass|social</token>
                 <token>media</token>
             </antipattern>
-            <pattern>
+            <antipattern>
                 <token>media</token>
+                <token regexp="yes">centers?|centres?|box</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">\p{Lu}.*</token>
+                <token regexp="yes">Media|MEDIA</token>
+            </antipattern>
+            <pattern>
+                <token>media<exception postag="Z.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Il est généralment écrit <suggestion>média</suggestion>.</message>
             <example correction="média">Le blog est un <marker>media</marker> personnel.</example>
