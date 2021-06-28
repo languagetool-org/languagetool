@@ -4958,6 +4958,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>have</token>
             <token chunk="B-VP" postag="VBN" />
         </antipattern>
+        <antipattern><!-- His unit saw 187 days of active battle. -->
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
+            <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token postag="VBP" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4982,6 +4987,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. The air get's colder.</example><!-- https://github.com/languagetool-org/languagetool/issues/1395 -->
         <example type="untouched">Incorrect grammar. The air filter's on the machine are dirty.</example>
         <example type="untouched">Incorrect grammar. The air filter's operate correctly.</example>
+        <example type="untouched">His unit saw 187 days of active battle.</example>
         <example type="untouched">Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
         <example type="untouched">Verb. ... and although a few <marker>separate</marker>, many do not.</example>
         <example type="untouched">Verb. Most strands remain together, but a few <marker>separate</marker>.</example>
@@ -8248,6 +8254,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>please</token>
             <token postag="VB" />
         </antipattern>
+        <antipattern><!-- the man believed to be Hood got out and began shooting -->
+            <token regexp="yes">be|been</token>
+            <token postag="NN.*" postag_regexp="yes" chunk_re=".-NP.*" />
+            <token postag="VBD" />
+        </antipattern>
         <pattern>
             <token inflected="yes" regexp="yes">be|have</token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes" />
@@ -8264,6 +8275,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He has a car.</example>
         <example type="untouched">He is quite <marker>confused</marker> to be in this situation.</example>
         <example type="untouched">If it is next please let me know.</example>
+        <example type="untouched">the man believed to be Hood got out and began shooting</example>
         <example type="untouched">She was not very <marker>pleased</marker> about the result.</example>
         <example type="untouched">Incorrect grammar. The primary problem was <marker>it's cost</marker>.</example>
         <example type="untouched">Incorrect grammar. ... and have <marker>it's cost calculations</marker> been...?</example>
@@ -8784,11 +8796,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <token postag="VBG"/>
                     </and>
                 </marker>
-                <token postag_regexp="yes" postag="VBZ|MD"/>
+                <token postag_regexp="yes" postag="VBZ|MD" />
             </pattern>
             <disambig action="filter" postag="NN.*"/>
             <example type="untouched">I do what I want to.</example>
-            <example type="untouched">Make sure that your <marker>watering can</marker> does not have a hole.</example>
+            <!-- <example type="untouched">Make sure that your <marker>watering can</marker> does not have a hole.</example> -->
             <example type="untouched">Incorrect grammar: They need some unbiased proof that what your <marker>selling</marker> is worth buying.</example>
             <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Your <marker>singing</marker> puts professional singers to shame.</example>
             <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Her <marker>singing</marker> can shatter glasses!</example>
@@ -9261,6 +9273,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">ok(ay)?</token>
             <token>thanks</token>
         </antipattern>
+        <antipattern>
+            <token postag="NN.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token regexp="yes">reports|mentions|states</token>
+            <token>,</token>
+            <token regexp="yes">"|”|“|'|‘|’</token>
+        </antipattern>
+        <antipattern><!-- Bashir's future remains uncertain as ever -->
+            <token chunk_re="E-NP.*" postag="JJ" />
+            <token chunk_re=".-VP" postag="VBZ" />
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -9269,7 +9291,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </token>
             <marker>
                 <and>
-                    <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">is|does|says</exception></token>
                     <token postag="NNS">
                         <exception postag_regexp="yes" postag="NNPS?"/><!-- #2393 -->
                     </token>
@@ -9277,11 +9299,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token>
                 <exception postag="RB"/>
-                </token>
+            </token>
         </pattern>
         <disambig postag="NNS"/>
         <example type="untouched">I enjoy running.</example>
         <example type="untouched">Okay thanks.</example>
+        <example type="untouched">Bashir's future remains uncertain as ever.</example>
+        <example type="untouched">"leave our people alone," the militant says.</example>
+        <example type="untouched">RCR Wireless reports, "All three devices require a data package"</example>
         <example type="untouched">Hard work causes fitness and vice versa.</example>
         <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
         <example type="untouched">Tom wishes that were true.</example>
@@ -10120,6 +10145,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VBP">have</token>
             <token chunk="I-VP" postag="VBN"/>
         </antipattern>
+        <antipattern><!-- Bashir's future remains uncertain as ever. / His unit saw 187 days of active battle. -->
+            <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP-.*" />
+            <token postag="VB[DZ]" postag_regexp="yes" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -10144,6 +10173,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="professional[professional/JJ,professional/NN]" outputform="professional[professional/JJ]">If a <marker>professional</marker> want to know the truth is not controlled, we can lose our moral compass.</example><!-- Premium #1564 -->
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">A few catch all.</example>
+        <example type="untouched">His unit saw 187 days of active battle.</example>
+        <example type="untouched">Bashir's future remains uncertain as ever.</example>
         <!-- <example type="untouched">Here the road curves to the right.</example> -->
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
         <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
