@@ -50,7 +50,7 @@ public class SpecificCaseRuleTest {
 		assertThat(matches1[0].getFromPos(), is(13));
 		assertThat(matches1[0].getToPos(), is(31));
 		assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Ηνωμένες Πολιτείες]"));
-		assertThat(matches1[0].getMessage(), is("If the term is a proper noun, use initial capitals."));
+		assertThat(matches1[0].getMessage(), is("Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα."));
 
 		RuleMatch[] matches3 = assertBad("Κατοικώ στις Ηνωμένες  πολιτείες."); // note the two spaces
 		assertThat(matches3[0].getFromPos(), is(13));
