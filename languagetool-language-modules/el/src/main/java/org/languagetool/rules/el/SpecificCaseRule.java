@@ -30,6 +30,7 @@ import java.util.*;
 /**
  * A rule that matches words which need a specific upper/lowercase spelling.
  * @since 4.8
+ * @author Nikos-Antonopoulos, giorgossideris
  */
 public class SpecificCaseRule extends Rule {
   
@@ -93,13 +94,8 @@ public class SpecificCaseRule extends Rule {
             // avoid suggesting e.g. "vitamin C" at sentence start:
             continue;
           }
-          String msg;
-          if (allWordsUppercase(properSpelling)) {
-            msg = "If the term is a proper noun, use initial capitals.";
-          } else {
-            msg = "If the term is a proper noun, use the suggested capitalization.";
-          }
-          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i+j-1].getEndPos(), msg, "Proper noun");
+          String msg = "Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα.";
+          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i+j-1].getEndPos(), msg, "Ειδική έκφραση");
           match.setSuggestedReplacement(properSpelling);
           matches.add(match);
         }
