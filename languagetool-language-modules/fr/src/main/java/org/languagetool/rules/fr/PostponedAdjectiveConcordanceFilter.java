@@ -112,7 +112,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern KEEP_COUNT = Pattern.compile("Y|J .*|N .*|D .*|P.*|V ppa .*|M nonfin|UNKNOWN|Z.*|V.* inf|V ppr");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|et|ou|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile("[;:\\(\\)\\[\\]–—―‒]");
-  private static final Pattern PREPOSICIONS = Pattern.compile("P");
+  private static final Pattern PREPOSICIONS = Pattern.compile("P.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("d'|de|des|du|à|au|aux|en|dans|sur|entre|par|pour|avec|sans|contre|comme"); //???
   private static final Pattern VERB = Pattern.compile("V.* (inf|ind|sub|con|ppr|imp).*"); // Any verb that is not V ppa
   private static final Pattern INFINITIVE = Pattern.compile("V.* inf"); 
@@ -266,6 +266,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       if (i - j - 1 > 0) {
         if (matchRegexp(tokens[i - j].getToken(), PREPOSICIO_CANVI_NIVELL)
+            && matchPostagRegexp(tokens[i - j], PREPOSICIONS) // exclude "des" when it is only determiner
             && !matchPostagRegexp(tokens[i - j], CONJUNCIO) // "com" com a conjunció
             && !matchRegexp(tokens[i - j - 1].getToken(), COORDINACIO_IONI)
             && !matchPostagRegexp(tokens[i - j + 1], ADVERBI)) {
