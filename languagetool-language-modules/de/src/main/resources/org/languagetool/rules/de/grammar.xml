@@ -256,6 +256,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="TYPOS" name="Mögliche Tippfehler">
         
         
+        <rule id="POTENTIAL_COMPUND_TEST" name="potential compound test" default="temp_off">
+            <pattern>
+                <token regexp="yes">teures|neue|manchen</token>
+                <marker>
+                    <token regexp="yes">Hunde|Vereinsmitglieder|Event</token>
+                    <token regexp="yes">Futter|Zertifikate|Zertifikaten|Firmen</token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.de.PotentialCompoundFilter" args="determiner:\1 part1:\2 part2:\3"/>
+            <message>Wenn es sich um ein zusammengesetztes Nomen handelt, wird es mit Bindestrich oder zusammengeschrieben.</message>
+            <example correction="Hundefutter">Ich fordere teures <marker>Hunde Futter</marker>.</example>
+            <example correction="Vereinsmitglieder-Zertifikate|Vereinsmitgliederzertifikate">Ich fordere neue <marker>Vereinsmitglieder Zertifikate</marker>.</example>
+            <!--Done by DE_AGREEMENT <example correction="Vereinsmitglieder-Zertifikate|Vereinsmitgliederzertifikate">Bei manchen <marker>Vereinsmitglieder Zertifikaten</marker> haben sich Fehler eingeschlichen.</example>-->
+            <example correction="Event-Firmen">Ich fordere neue <marker>Event Firmen</marker>.</example>
+        </rule>
         <rule id="KOMPOSITA_BIVALENTE_VERBEN" name="Ich kenne mehrere Blumen Läden (Blumenläden)">
             <antipattern><!-- des Pudels Kern -->
                 <token postag="ART.*GEN.*" postag_regexp="yes"/>
