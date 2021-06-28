@@ -4160,7 +4160,7 @@ though, and has since been slightly modified)-->
             <message>Il est généralment écrit <suggestion>média</suggestion>.</message>
             <example correction="média">Le blog est un <marker>media</marker> personnel.</example>
         </rule>
-        <rule id="QU_EN_QUAND" name="confusion of qu'en et quand" default="temp_off">
+        <rule id="QU_EN_QUAND" name="confusion of qu'en et quand">
             <antipattern>
                 <token inflected="yes">que</token>
                 <token>en</token>
@@ -5019,7 +5019,7 @@ though, and has since been slightly modified)-->
                 <example>Il trouva de la nourriture çà et là.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUANT_QUAND_QU_EN" name="Quant, quand ou qu'en" default="temp_off">
+        <rulegroup id="QUANT_QUAND_QU_EN" name="Quant, quand ou qu'en">
             <rule>
                 <antipattern>
                     <token>Mary</token>
@@ -5166,19 +5166,16 @@ though, and has since been slightly modified)-->
                 <example correction="quand">Et <marker>qu'en</marker> bien même ?</example>
                 <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <marker>
                         <token>quant</token>
                     </marker>
-                    <token min="0" max="1">bien</token>
-                    <token>même
-                        <exception scope="next">temps</exception></token>
+                    <token postag="A"/>
                 </pattern>
                 <message>Cette expression se construit avec la conjonction 'quand'.</message>
                 <suggestion>quand</suggestion>
                 <example correction="quand">Et <marker>quant</marker> bien même ?</example>
-                <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5191,8 +5188,82 @@ though, and has since been slightly modified)-->
                 <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
                 <example correction="qu'en">Il en faut pour qu'il me dise de le faire et <marker>quant</marker> même temps, tu le fasses aussi !</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token regexp="yes">quan[dt]</token>
+                <token>plus</token>
+                <token postag="[DNJPA].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">quan[dt]</token>
+                <token>plus</token>
+                <token regexp="yes">fait|rien|réalité</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">quan[dt]</token>
+                </marker>
+                <token regexp="yes">partie|effet|général|plus|fait|apparence|haut|bas|réalité</token>
+            </pattern>
+            <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
+            <example correction="qu'en">Il le dit <marker>quand</marker>  partie, tu le fasses aussi !</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">quan[dt]</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">être|penser|dire|croire|faire</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes" skip="-1">de|des<exception scope="next">retour</exception></token>
+                <token postag="M fin inte"/>
+            </pattern>
+            <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
+            <example correction="qu'en">Et <marker>quand</marker> sera-t-il de lui ?</example>
+            <example>Quand sera-t-il de retour chez lui ?</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">quan[dt]</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">penser|dire|croire|faire</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="M fin inte"/>
+            </pattern>
+            <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
+            <example correction="qu'en">Et <marker>quand</marker> penses-tu ?</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">quan[dt]</token>
+                </marker>
+                <token regexp="yes">[12]\d\d\d|&mois_annee;<exception scope="next" postag="N.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
+            <example correction="qu'en">La nouvelle version ne sera disponible <marker>quand</marker> 2020.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">quan[dt]</token>
+                </marker>
+                <token postag="V.* inf" postag_regexp="yes" inflected="yes" regexp="yes">penser|dire|croire|faire</token>
+                <token postag="SENT_END|C.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
+            <example correction="qu'en">Je ne sais <marker>quand</marker> penser.</example>
+        </rule>
         </rulegroup>
         <rule id="QUAND_QUANT" name="Quand au lieu de quant">
+            <antipattern>
+                <token>quand</token>
+                <token>à</token>
+                <token>peu</token>
+                <token>près</token>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">[«‹»›„“‟”’"❝❞❮❯⹂〝〞〟＂‚‘‛❛❜❟]</token>
                 <token>quand</token>
@@ -5206,14 +5277,15 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token regexp="yes">à|aux?</token>
             </pattern>
-            <message>Voulez-vous écrire <suggestion>quant</suggestion> ?</message>
+            <message>Dans le sens de 'concernant', l'adverbe 'quant' se termine par un 't'.</message>
+            <suggestion>quant</suggestion>
             <example correction="Quant"><marker>Quand</marker> à ma commande, elle n’est pas arrivée.</example>
             <example>De quand à quand tu travailles ?</example>
             <example>Tu reviens quand à Paris ?</example>
             <example>Tu restes jusqu’à quand à la maison ?</example>
-            <example>Voulez-vous écrire « quand » ?</example>
+            <example>Cela serait pour quand à peu près ?</example>
         </rule>
-        <rule id="QUANT_QUAND" name="Quant au lieu de quand">
+        <rule id="QUANT_QUAND" name="Quant au lieu de quand" default="off">
             <pattern>
                 <marker>
                     <token>quant</token>
@@ -6686,7 +6758,7 @@ though, and has since been slightly modified)-->
                 <example>Cet individu qui souffre de troubles mentaux a développé une fascination pour cet acteur.</example>
                 <example>Une importante couche de matériel pyroclastique a recouvert la glace.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes" skip="-1" inflected="yes">dont|qu[ei]|où|laquelle|lequel|lesquel(le)?s</token>
                     <token postag="V.*" postag_regexp="yes"/>
@@ -7434,7 +7506,8 @@ though, and has since been slightly modified)-->
                             <exception postag="V.*" postag_regexp="yes"/></token>
                     </or>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
+                <message>Le pronom démonstratif 'ce' est plus probable que le pronom réfléchi '\1'.</message>
+                <suggestion>ce</suggestion>
                 <example correction="Ce"><marker>Se</marker> test montre que ça fonctionne.</example>
                 <example correction="ce">Tout <marker>se</marker> que je sais.</example>
                 <example>Ce programme se base sur la participation des femmes.</example>
@@ -7452,7 +7525,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">sont|seraient|seront|furent</token>
                     <token regexp="yes">eux|(ceux|celles)[-‑‐](là|ci)|de|d'|[cdl]es|certaines|quelques|plusieurs</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
+                <message>Le pronom démonstratif 'ce' doit être placé devant le verbe 'être'.</message>
+                <suggestion>ce</suggestion>
                 <example correction="Ce"><marker>Se</marker> sont des histoires.</example>
                 <example correction="Ce"><marker>Se</marker> sont de grands enfants.</example>
                 <example>Ils se sont tous inscrits.</example>
@@ -7467,11 +7541,12 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">sera|serait|soit|fut</token>
                     <token regexp="yes">une?|du|des|chaque|l[ae]?|ce|cette</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
+                <message>Le pronom démonstratif 'ce' doit être placé devant le verbe 'être'.</message>
+                 <suggestion>ce</suggestion>
                 <example correction="Ce"><marker>Se</marker> sera une fille.</example>
                 <example>Il se sera d’abord lavé.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes">est|était</token>
@@ -7505,7 +7580,7 @@ though, and has since been slightly modified)-->
                 <example>S'est-il passé quoi que ce soit d'étrange ?</example>
                 <example>S'était une première fois illustré en déplaçant la page.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>pour</token>
@@ -7595,7 +7670,7 @@ though, and has since been slightly modified)-->
                 <suggestion>se</suggestion>
                 <example correction="se">Il devrait <marker>ce</marker> faire livrer.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes">est|était</token>
@@ -7622,7 +7697,7 @@ though, and has since been slightly modified)-->
                 <example>Se est le pronom singulier féminin de la troisième personne.</example>
                 <example>S'était une première fois illustré en déplaçant la page.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>pour</token>
@@ -7637,7 +7712,7 @@ though, and has since been slightly modified)-->
                 <suggestion>ce</suggestion>
                 <example correction="ce">Pour <marker>se</marker> faire, il faudra que tu penses à aller chercher le pain.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>pour</token>
@@ -7651,7 +7726,7 @@ though, and has since been slightly modified)-->
                 <suggestion>se</suggestion>
                 <example correction="se">Pour <marker>ce</marker> faire belle, elle s'est maquillée ce matin.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes"/>
                     <token postag="R pers suj 3 . s|_GN.*" postag_regexp="yes" min="1" max="3"/>
@@ -15265,6 +15340,11 @@ though, and has since been slightly modified)-->
                 <token>la</token>
                 <token>une</token>
             </antipattern>
+             <antipattern>
+                <token>parce</token>
+                <token>que</token>
+                <token><exception regexp="yes">ils?|elles?|on|une?|à</exception></token>
+            </antipattern>
             <antipattern>
                 <token>à</token>
                 <token>la</token>
@@ -15303,8 +15383,10 @@ though, and has since been slightly modified)-->
                 <example correction="d'un">Jamais plus <marker>de un</marker> homme en danger.</example>
                 <example correction="d'Alice">Je suis le petit ami <marker>de Alice</marker>.</example>
                 <example correction="L'Église"><marker>La Église</marker> catholique.</example>
+                <example correction="qu'une">Il le sait parce <marker>que une</marker> personne de confiance le lui a dit.</example>
                 <example>Acteur principal de Autant En Emporte Le Vent.</example>
                 <example>Je suis le petit ami d'Alice.</example>
+                <example>Il le fait parce qu'écrire de la poésie le détend.</example>
                 <example>Il se heurte contre le bas-côté</example>
                 <example>Il connait l’histoire de A à Z.</example>
                 <example>Il a appris ça en un jour.</example>
@@ -32454,19 +32536,18 @@ though, and has since been slightly modified)-->
             <example correction="ouvrent la voie|ouvrent la porte|préparent le terrain">Ces lois <marker>pavent la voie</marker> de la liberté.</example>
             <example><marker>ouvrir la voie</marker></example>
         </rule>
-        <!-- Too much FPs -->
         <rule id="FAMILIER_AVEC" name="familier avec" default="temp_off">
             <pattern>
-                <token regexp="yes">familiers?|familières?</token>
+                <token regexp="yes">famili[èe]re?s?<exception scope="previous" postag="N.*" postag_regexp="yes"/></token>
                 <token>avec</token>
             </pattern>
             <message>L'expression « \1 \2 » peut être considérée comme un anglicisme (familiar with).</message>
             <suggestion>\1 à</suggestion>
-            <suggestion>habitué à</suggestion>
+            <suggestion><match no="1" regexp_match="famili[èe]r(?iu)" regexp_replace="habitué"/> à</suggestion>
             <suggestion>au courant de</suggestion>
-            <suggestion>connaître</suggestion>
-            <example correction="familier à|habitué à|au courant de|connaître">Il est <marker>familier avec</marker> ce sujet fort intéressant.</example>
+            <example correction="familier à|habitué à|au courant de">Il est <marker>familier avec</marker> ce sujet fort intéressant.</example>
             <example><marker>familier à</marker></example>
+            <example>Il notait le ton familier avec lequel cet homme s'adressait aux grands personnages.</example>
         </rule>
         <rule id="EMISSION_DUN_DIPLOME" name="émission d’un diplôme">
             <pattern>
@@ -32988,7 +33069,7 @@ though, and has since been slightly modified)-->
                 <token>à</token>
                 <token>date</token>
             </pattern>
-            <message>L'expression « Jusqu’à date » peut être considérée comme un anglicisme (up to date).</message>
+            <message>L'expression « jusqu’à date » peut être considérée comme un anglicisme (up to date).</message>
             <suggestion>jusqu'à présent</suggestion>
             <suggestion>jusqu'à maintenant</suggestion>
             <suggestion>jusqu'à ce jour</suggestion>
@@ -47152,7 +47233,7 @@ though, and has since been slightly modified)-->
                 <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
                 <example correction="derrière lui">Lequel d'<marker>derrière-lui</marker> était-ce ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">petite?s?</token>
                     <token>-</token>
