@@ -49349,7 +49349,32 @@ Andere Projekte</example>
         <rulegroup id="H2O" name="H2O (H₂O) etc.">
             <rule>
                 <pattern>
-                    <token regexp="yes">O[2²]</token>
+                    <token>O2</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>O₂</suggestion>, die zweiatomige Form von <suggestion>Sauerstoff</suggestion>?</message>
+                <short>Typografie</short>
+                <example correction="O₂|Sauerstoff">Hierbei entsteht <marker>O2</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>CO2</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>CO₂</suggestion>, das als Treibhausgas bekannte <suggestion>Kohlendioxid</suggestion>?</message>
+                <short>Typografie</short>
+                <example correction="CO₂|Kohlendioxid">Hierbei entsteht <marker>CO2</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>H2O</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>H₂O</suggestion> (= <suggestion>Wasser</suggestion>)?</message>
+                <short>Typografie</short>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H2O</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>O</token>
+                    <token spacebefore="no">²</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>O₂</suggestion>, die zweiatomige Form von <suggestion>Sauerstoff</suggestion>?</message>
                 <short>Typografie</short>
@@ -49357,7 +49382,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">CO[2²]</token>
+                    <token>CO</token>
+                    <token spacebefore="no">²</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>CO₂</suggestion>, das als Treibhausgas bekannte <suggestion>Kohlendioxid</suggestion>?</message>
                 <short>Typografie</short>
@@ -49365,11 +49391,12 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">H[2²]O</token>
+                    <token>H</token>
+                    <token spacebefore="no">²</token>
+                    <token spacebefore="no">O</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>H₂O</suggestion> (= <suggestion>Wasser</suggestion>)?</message>
                 <short>Typografie</short>
-                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H2O</marker>.</example>
                 <example correction="H₂O|Wasser">Hierbei entsteht <marker>H²O</marker>.</example>
             </rule>
         </rulegroup>
