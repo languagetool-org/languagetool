@@ -129,7 +129,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().toString().contains("Le système judiciaire")) {
+//    if (match.getSentence().getText().toString().contains("d'environ")) {
 //      int i = 0;
 //      i++;
 //    }
@@ -270,6 +270,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
             && !matchPostagRegexp(tokens[i - j], CONJUNCIO) // "com" com a conjunció
             && !matchRegexp(tokens[i - j - 1].getToken(), COORDINACIO_IONI)
             && !matchPostagRegexp(tokens[i - j + 1], ADVERBI)) {
+          level++;
+          //exception: d'environ
+        } else if (tokens[i - j].getToken().equalsIgnoreCase("d'")
+            && tokens[i - j + 1].getToken().equalsIgnoreCase("environ")) {
           level++;
         }
       }
