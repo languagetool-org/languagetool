@@ -266,6 +266,7 @@ public class French extends Language implements AutoCloseable {
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
+      case "TE_NV": return -10; // less than SE_CE, SE_SA and SE_SES
       case "IMP_PRON": return -10; // less than D_N
       case "PREP_VERBECONJUGUE": return -20;
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
