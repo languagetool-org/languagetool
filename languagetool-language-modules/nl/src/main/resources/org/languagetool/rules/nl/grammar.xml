@@ -6585,7 +6585,7 @@ regexp case-insensitive maken : (?i)
 		
 		<rulegroup id="KICKEN_KIKKEN" name="waarschuwing bij gebruik kikken i.p.v. kicken">
 			<rule>
-				<antipattern><token>maar</token><token>te</token><token>kikken</token></antipattern>
+				<antipattern><token skip="2">maar</token><token>te</token><token>kikken</token></antipattern>
 				<pattern><token>kikken</token></pattern>
 				<message>Bedoelt u misschien <suggestion>kicken</suggestion> (trappen, gaaf zijn, een kick krijgen)? Kikken is geluid maken.</message>
 				<example correction="kicken">Het woord <marker>kikken</marker> kan een vergissing zijn.</example>
@@ -6847,6 +6847,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic ">
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token inflected="yes" skip="-1">incasseren</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token>Tik</token><token min="0" max="1">,</token><token>tik</token></antipattern>
 				<antipattern><token>tik</token><token>op</token></antipattern>
 				<antipattern><token regexp="yes">een|flinke</token><token>tik</token><token regexp="yes">op|tegen</token></antipattern>
@@ -33888,6 +33889,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="RECHTERLIJK" name="Rechte(r)lijk">
 			<rule>
+				<antipattern><token>rechterlijke</token><token regexp="yes">macht|orde</token></antipattern>
 				<pattern>
 					<token regexp="yes">.*rechterlijke?</token>
 				</pattern>
