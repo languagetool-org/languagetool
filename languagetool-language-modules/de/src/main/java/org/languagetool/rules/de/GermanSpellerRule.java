@@ -837,6 +837,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Jockei", "Jockey");
     put("Roulett", "Roulette");
     put("Bestellungsdaten", "Bestelldaten");
+    put("Package", "Paket");
     put("Mo-Di", "Mo.–Di.");
     put("Mo-Mi", "Mo.–Mi.");
     put("Mo-Do", "Mo.–Do.");
