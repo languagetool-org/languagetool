@@ -706,7 +706,8 @@ RB => Règles Brutes
             </antipattern>
             <pattern>
                 <token postag="P">
-                    <exception postag="V ppr|A" postag_regexp="yes"/></token>
+                    <exception postag="V ppr|A" postag_regexp="yes"/>
+                    <exception>passé</exception></token>
                 <token min="0">l'</token>
                 <marker>
                     <token postag="N m s">est</token>
@@ -2390,6 +2391,15 @@ RB => Règles Brutes
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rule id="APPROCHE" name="approche">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">approche|passe</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="FAIT" name="fait (v ind)">
         <rule id="FAIRE_JEUNE_POUR_SON_AGE" name="faire jeune pour son âge">
             <pattern>
@@ -4183,7 +4193,7 @@ RB => Règles Brutes
                 <feature id="gender"/>
                 <token postag="D.*" postag_regexp="yes">
                     <exception regexp="yes">de|du|d'|des</exception></token>
-                <token postag="J.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes"><exception>pie</exception></token>
                 <token postag="N.*" postag_regexp="yes">
                     <exception regexp="yes">dans|envers|mais|plus|non|contre|arrières?</exception>
                     <exception inflected="yes" regexp="yes">avoir|être</exception></token>
