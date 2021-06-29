@@ -38135,6 +38135,32 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
      </rule> 
 	</rulegroup>
 
+	<!-- LEVADA A CABO efetuada/realizada/conduzida/concretizada/elaborada -->
+    <rule id='LEVADA_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 (25-JUN-2021+)      -->
+	<!--
+Esta foi a pesquisa levada a cabo pela Ana. → Esta foi a pesquisa realizada pela Ana.
+Levarei a cabo este trabalho. → Realizarei este trabalho.
+Estou determinado a levar a cabo este plano. → Estou determinado a realizar este plano.
+	-->
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>levar</token>	
+			<token>a</token>
+			<token>cabo</token>
+		</marker>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
+      <example correction="efetuada|realizada|conduzida|concretizada|elaborada">Esta foi a pesquisa <marker>levada a cabo</marker> pela Ana.</example>
+	  <example>Realizarei este trabalho.</example>
+	  <example>Estou determinado a realizar este plano.</example>
+    </rule>
+
     <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível" default='off'>
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
       <pattern>
