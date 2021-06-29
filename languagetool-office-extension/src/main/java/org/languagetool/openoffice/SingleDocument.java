@@ -581,9 +581,9 @@ class SingleDocument {
       changedParas.add(y);
       remarkChangedParagraphs(changedParas);
     }
-//    if (debugMode > 0) {
+    if (debugMode > 0) {
       MessageHandler.printToLogFile("Ignore Match added at: paragraph: " + y + "; character: " + x + "; ruleId: " + ruleId);
-//    }
+    }
   }
   
   /**
@@ -659,11 +659,11 @@ class SingleDocument {
         errors[i] = tmpErrors.get(i);
       }
       Arrays.sort(errors, new ErrorPositionComparator());
-//      if (debugMode > 0) {
+      if (debugMode > 0) {
         for (int i = 0; i < errors.length; i++) {
           MessageHandler.printToLogFile("Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
         }
-//      }
+      }
       return errors[0].aRuleIdentifier;
     } else {
       return null;
