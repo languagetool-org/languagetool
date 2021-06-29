@@ -400,6 +400,7 @@ public class CaseRuleTest {
     assertGood("... und das Zwischenmenschliche Hand in Hand.");
     assertGood("Der Platz auf dem die Ahnungslosen Kopf an Kopf stehen.");
     assertGood("4.)   Bei Beschäftigung von Hilfskräften: Schadenfälle durch Hilfskräfte");
+    assertGood("Die Bestimmung des § 667 BGB findet auf das Verhältnis zwischen Betreuer und Betreutem entsprechend Anwendung.");
   }
 
   private void assertGood(String input) throws IOException {

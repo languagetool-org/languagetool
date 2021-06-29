@@ -920,6 +920,13 @@ public class CaseRule extends Rule {
       token("."),
       regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "das Verhältnis zwischen Betreuer und Betreutem entsprechend Anwendung."
+      posRegex("SUB:.+"),
+      regex("und|oder|&"),
+      csRegex("[A-ZÄÜÖ].*e[mn]"),
+      regex("[a-zäöü].*|,|\\.|\\!|\\?")
     )
   );
 
