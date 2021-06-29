@@ -188,7 +188,7 @@ public abstract class RemoteRule extends Rule {
           }
 
           return result;
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        } catch (Exception e) {
           RemoteRuleMetrics.RequestResult status;
           if (e instanceof TimeoutException || e instanceof InterruptedException ||
             (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
