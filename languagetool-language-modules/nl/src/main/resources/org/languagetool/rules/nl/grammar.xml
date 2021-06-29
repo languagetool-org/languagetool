@@ -7287,7 +7287,7 @@ onwaarschijnlijk
 			<!-- TODO uitzonderingen voor websites en urls -->
 			<rule>
 				<pattern>
-					<token regexp="yes">^\p{L}{30,}$</token>
+					<token regexp="yes">^\p{L}{30,50}$</token>
 				</pattern>
 				<message>Lange woorden kunnen een tekst lastig maken. Kan het niet eenvoudiger?</message>
 				<example type="incorrect">Dit conform de <marker>producentenaansprakelijkheidsverplichtingen</marker>.</example>
@@ -12733,24 +12733,24 @@ onwaarschijnlijk
 			<rule>
 				<antipattern><token>gulden</token><token>middenweg</token></antipattern>
 				<antipattern> <!-- met huisnummer mag het strenger.. -->
-					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
 					<token postag="GET:(EKV|MRV)" postag_regexp="yes"/>
 				</antipattern>
 				<antipattern>
 					<token regexp="yes">per|als|soort</token>
-					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
 				</antipattern>
 				<antipattern>
 					<token>een</token>
 					<token postag_regexp="yes" postag="BNW.*" />
-					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
 				</antipattern>
 				<antipattern>
 					<token>een</token>
-					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
 				</antipattern>
 				<pattern>
-					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)<exception postag_regexp="yes" postag="BYW|UNKOWN"/><exception regexp="yes">.*(school|winkel|spoor|terug|verbindings|speel|vlucht|uitvals|ontmoetings|inrij|oprij|toegangs|levens|autosnel|lijdens|milieu|asfalt|baans|tram|slinger|modder|wandel|cultuur|water|richtings|verkeers|kleuter|geloofs|magi|test)(straat|plein|laan|beek|weg)</exception></token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)<exception postag_regexp="yes" postag="BYW|UNKOWN"/><exception regexp="yes">.*(school|winkel|spoor|terug|verbindings|speel|vlucht|uitvals|ontmoetings|inrij|oprij|toegangs|levens|autosnel|lijdens|milieu|asfalt|baans|tram|slinger|modder|wandel|cultuur|water|richtings|verkeers|kleuter|geloofs|magi|test)(straat|plein|laan|beek|weg)</exception></token>
 				</pattern>
 				<message>Als dit de naam van een specifieke locatie is, dan heeft het een hoofdletter nodig: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
 				<short>Hoofdletter</short>
@@ -12768,7 +12768,7 @@ onwaarschijnlijk
 				</antipattern>
 				<pattern> <!-- met huisnummer mag het strenger.. -->
 					<marker>
-						<token case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+						<token case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
 					</marker>
 					<token postag="GET:(EKV|MRV)" postag_regexp="yes" regexp="yes">[0-9]*</token>
 				</pattern>
@@ -13254,14 +13254,14 @@ onwaarschijnlijk
 		<rulegroup id="NADRUKTEKENS" name= "optionele accenten" tags="picky">
 			<rule>
 				<pattern>
-					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
+					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
 				</pattern>
 				<message>Gebruik geen nadruktekens als het niet nodig is. Het staat lelijk.</message>
 				<example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">^één.{3,}</token>
+					<token regexp="yes">^één.{3,50}</token>
 				</pattern>
 				<message>Hier zijn de tekens absoluut onnodig voor de uitspraak.</message>
 				<example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
@@ -13270,7 +13270,7 @@ onwaarschijnlijk
 		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
 			<rule>
 				<pattern>
-					<token regexp="yes">^één.{3,}</token>
+					<token regexp="yes">^één.{3,50}</token>
 				</pattern>
 				<message>Hier zijn de tekens absoluut onnodig voor de uitspraak.</message>
 				<example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
@@ -17599,7 +17599,7 @@ steenwijk;Steenwijk
 				<antipattern> <!-- e.g. 15:00 -->
 					<token regexp="yes">[0-9]{1,2}</token>
 					<token spacebefore="no">:</token>
-					<token spacebefore="no" regexp="yes">[0-9]{1,}</token>
+					<token spacebefore="no" regexp="yes">[0-9]{1,50}</token>
 				</antipattern>
 				<antipattern>  <!-- e.g. &nbsp; -->
 					<token regexp="yes">&amp;[a-zA-Z#0-9]+</token>
@@ -19225,7 +19225,7 @@ steenwijk;Steenwijk
 			<rule>
 				<!-- 2014-08-19 TaalTik -->
 				<pattern>
-					<token regexp="yes">multiplechoice.{1,}</token>
+					<token regexp="yes">multiplechoice.{1,50}</token>
 				</pattern>
 				<message>&leenwoord_mess;</message>
 				<suggestion><match no="1" regexp_match="multiplechoice(.*)" regexp_replace="meerkeuze$1"/></suggestion>
@@ -32845,7 +32845,7 @@ steenwijk;Steenwijk
 				<pattern case_sensitive="yes">
 					<token regexp="yes">de|het</token>
 					<marker>
-						<token regexp="yes">(aan|op|in|voor|na)?(ver|ge|be).{1,}(tt|dd)e$<exception postag="WKW:VTD:.*" postag_regexp="yes"/></token>
+						<token regexp="yes">(aan|op|in|voor|na)?(ver|ge|be).{1,50}(tt|dd)e$<exception postag="WKW:VTD:.*" postag_regexp="yes"/></token>
 					</marker>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">ons|niet|voor|wel</exception></token>
 				</pattern>
@@ -34535,7 +34535,7 @@ steenwijk;Steenwijk
 		<rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij" tags="picky">
 			<rule>
 				<pattern>
-					<token regexp="yes">.{4,}vrije?<exception regexp="yes">(gast)vrije?</exception></token>
+					<token regexp="yes">.{4,50}vrije?<exception regexp="yes">(gast)vrije?</exception></token>
 				</pattern>
 				<message>Het is soms beter om te omschrijven met 'zonder'.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/862/vrij/</url>
@@ -34859,7 +34859,7 @@ steenwijk;Steenwijk
 				TODO: uitzonderingen toevoegen
 				-->
 				<pattern>
-					<token regexp="yes">.{3,}werkzaamheid<exception>zelfwerkzaamheid</exception></token>
+					<token regexp="yes">.{3,50}werkzaamheid<exception>zelfwerkzaamheid</exception></token>
 				</pattern>
 				<message>Dit is een ongebruikelijk enkelvoud. Probeer een ander woord, zoals <suggestion>bezigheid</suggestion>.</message>
 				<short>werkzaamheid</short>
@@ -34877,9 +34877,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token><exception regexp="yes">[./]</exception></token>
 					<marker>
-						<token regexp="yes">.{3,}<exception regexp="yes">[0-9]+</exception></token>
+						<token regexp="yes">.{3,50}<exception regexp="yes">[0-9]+</exception></token>
 						<token spacebefore="no">/</token>
-						<token regexp="yes">.{3,}<exception regexp="yes">[0-9]+</exception></token>
+						<token regexp="yes">.{3,50}<exception regexp="yes">[0-9]+</exception></token>
 					</marker>
 				</pattern>
 				<message>Vermijd als het even kan de / buiten berekeningen of eenheden.</message>
