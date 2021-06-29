@@ -38135,8 +38135,125 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
      </rule> 
 	</rulegroup>
 
+	<!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
+    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 (25-JUN-2021+)      -->
+<!--
+Ele a fez sua esposa.
+Ele me fez seu assistente.
+Ele não pôde cumprir a promessa que fez ao pai dele.
+Ele não fez nada errado.
+Ele me fez esperar mais de uma hora.
+O que eu faço é problema meu.
+O que você faz é mais importante do que o que você diz.
+-->
+      <antipattern>
+		<token postag='PD.+|PP.+|RN' postag_regexp='yes'/>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token postag='DP.*|V.+' postag_regexp='yes'/>
+	  </antipattern>
+<!--
+O que você fez neste verão?
+-->
+      <antipattern>
+		<token postag='PD.+|PP.+|RN' postag_regexp='yes'/>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='DP.*|V.+' postag_regexp='yes'/>
+	  </antipattern>  
+<!--
+Vamos fazer um teste de gravidez.
+Kato fez muitas perguntas sobre os Estados Unidos para ele.
+Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.
+O presidente fez uma declaração sobre o assunto.
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token/>
+		<token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+	  </antipattern>	  
+	<rule>
+	<!--	
+Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
+	-->
+      <pattern>
+	    <token/>
+		<marker>
+			<token regexp='no' inflected='yes'>fazer</token>	
+		</marker>
+		<token negate="yes" regexp='yes'>aos?</token>
+		<token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+	  <suggestion><match no='2' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+	  <suggestion><match no='2' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+	  <suggestion><match no='2' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
+	  <suggestion><match no='2' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
+	  <suggestion><match no='2' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
+      <example correction="efetuada|realizada|conduzida|concretizada|elaborada">Esta foi a pesquisa <marker>feita</marker> pela Ana.</example>
+	  <example>A pergunta diplomática feita aos Estados Unidos.</example>
+	  
+	  <example>Fiz ao médico algumas perguntas.</example>
+	  <example>Novas descobertas foram feitas ao longo do tempo.</example>
+	  <example>Ele a fez sua esposa.</example>
+	  <example>Ele me fez seu assistente.</example>
+	  <example>Ele não pôde cumprir a promessa que fez ao pai dele.</example>
+	  
+	  <example>O que você fez neste verão?</example>
+	  
+	  <example>Ele não fez nada errado.</example>
+	  <example>Ele me fez esperar mais de uma hora.</example>
+	  <example>O que eu faço é problema meu.</example>
+	  <example>O que você faz é mais importante do que o que você diz.</example>
+	  
+	  <example>Vamos fazer um teste de gravidez.</example>
+	  <example>Kato fez muitas perguntas sobre os Estados Unidos para ele.</example>
+	  <example>Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.</example>
+	  <example>O presidente fez uma declaração sobre o assunto.</example>	  
+	</rule>
+	<rule>
+	<!--	
+Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
+	-->
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>fazer</token>	
+		</marker>
+		<token negate="yes" regexp='yes'>aos?</token>
+		<token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
+      <example correction="efetuar|realizar|conduzir|concretizar|elaborar">Vou <marker>fazer</marker> uma pesquisa.</example>
+	  <example>A pergunta diplomática feita aos Estados Unidos.</example>
+	  
+	  <example>Fiz ao médico algumas perguntas.</example>
+	  <example>Novas descobertas foram feitas ao longo do tempo.</example>
+	  <example>Ele a fez sua esposa.</example>
+	  <example>Ele me fez seu assistente.</example>
+	  <example>Ele não pôde cumprir a promessa que fez ao pai dele.</example>
+	  
+	  <example>O que você fez neste verão?</example>
+	  
+	  <example>Ele não fez nada errado.</example>
+	  <example>Ele me fez esperar mais de uma hora.</example>
+	  <example>O que eu faço é problema meu.</example>
+	  <example>O que você faz é mais importante do que o que você diz.</example>
+	  
+	  <example>Vamos fazer um teste de gravidez.</example>
+	  <example>Kato fez muitas perguntas sobre os Estados Unidos para ele.</example>
+	  <example>Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.</example>
+	  <example>O presidente fez uma declaração sobre o assunto.</example>	  
+	</rule>
+    </rulegroup>
+
 	<!-- LEVADA A CABO efetuada/realizada/conduzida/concretizada/elaborada -->
-    <rule id='LEVADA_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar" default="temp_off">
+    <rule id='LEVAR_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar" default="temp_off">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 (25-JUN-2021+)      -->
 	<!--
 Esta foi a pesquisa levada a cabo pela Ana. → Esta foi a pesquisa realizada pela Ana.
