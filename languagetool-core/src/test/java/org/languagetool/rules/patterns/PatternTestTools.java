@@ -49,6 +49,7 @@ public final class PatternTestTools {
 
   private static final Pattern CHAR_SET_PATTERN = Pattern.compile("\\[^?([^\\]]+)\\]");
   private static final Pattern STRICT_CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
+  private static final Pattern UNBOUND_REPEAT = Pattern.compile(".*\\{\\d+,\\}.*");
 
   /*
    * These strings are not be recognized as a regular expression
@@ -389,6 +390,9 @@ public final class PatternTestTools {
     }
 
     if (isRegularExpression) {
+      if (UNBOUND_REPEAT.matcher(stringValue).matches()) {
+        warn(lang + ": Please limit repetition in regex, e.g. use '{2,30}' instead of '{2,}': " + stringValue +  " (" + ruleId + ")");
+      }
       Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
       if (matcher.find()) {
         Matcher strictMatcher = STRICT_CHAR_SET_PATTERN.matcher(stringValue);  // for performance reasons, only now use the strict pattern
