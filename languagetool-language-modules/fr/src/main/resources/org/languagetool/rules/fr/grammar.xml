@@ -16280,6 +16280,179 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+
+    <!-- ALL THIS RULEGROUP IS FOR PREMIUM PURPOSE. LOCATED HERE WAITING FOR MY PREMIUM.XML FILE-->
+        <rulegroup name="verbes familiers" id="VERBES_FAMILIERS_">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">baragouiner</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">bafouiller</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">balbutier</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">bredouiller</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">marmonner</match></suggestion>
+                <example correction="bafouillé|balbutié|bredouillé|marmonné">Il a <marker>baragouiné</marker> quelque chose d'inaudible.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">bidouiller</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">réparer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">bricoler</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">trafiquer</match></suggestion>
+                <example correction="réparait|bricolait|trafiquait">Il <marker>bidouillait</marker> son automobile.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">blagues?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">grosses?|petites?|riches?|pauvres?|simples?</token>
+                    <token regexp="yes">blagues?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">
+                            <exception scope="previous" postag="J|D"/>
+                            blaguer
+                            <exception scope="next" postag="P"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">ironiser</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">faire</match> de l'humour</suggestion>
+                <example correction="ironiser|faire de l'humour">Il voulait <marker>blaguer</marker>.</example>
+                <example>Tout était juste une blague pour lui.</example>
+                <example>C'est une sacrée blague, pas vrai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">taffer</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">travailler</match></suggestion>
+                <example correction="travaillerez">Vous <marker>tafferez</marker> 8 heures par jour.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">bouder</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">grimacer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">rechigner</match></suggestion>
+                <example correction="grimacent|rechignent">Les enfants <marker>boudent</marker> facilement à la moindre contrariété.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">bouffes?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">bouffer</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">manger</match></suggestion>
+                <example correction="mangerais">J'ai tellement faim que je <marker>boufferais</marker> n'importe quoi.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes"><exception postag="SENT_START"/>Je</token>
+                    <token>bouquine</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Bouquine</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">bouquiner</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">lire</match></suggestion>
+                <example correction="liras">Tu <marker>bouquineras</marker> après le dîner.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Bousille</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">bousiller|déglinguer|maraver</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">taper</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">abîmer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">casser</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">démolir</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">détériorer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">saccager</match></suggestion>
+                <example correction="tapé|abîmé|cassé|démoli|détérioré|saccagé">Ils ont <marker>bousillé</marker> la porte d'entrée.</example>
+                <example correction="tapées|abîmées|cassées|démolies|détériorées|saccagées">J'ai retrouvé mes affaires <marker>déglinguées</marker>.</example>
+                <example correction="tapera|abîmera|cassera|démolira|détériorera|saccagera">On le <marker>maravera</marker> dès qu'on le croisera.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N m s" postag_regexp="yes" regexp="yes">braille</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Braille</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ligues?|Louis|imprimantes?|alphabets?|montres?|codes?|systèmes?|caractères?|plages?|lecteurs?|écritures?|versions?</token>
+                    <token>braille</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">gueules?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">brailler|gueuler</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">appeler</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">crier</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">vociférer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">protester</match></suggestion>
+                <example correction="appeler|crier|vociférer|protester">Arrête de <marker>brailler</marker> comme ça.</example>
+                <example correction="appeler|crier|vociférer|protester">Lorsque les syndicats vont l'apprendre, ça va <marker>gueuler</marker>.</example>
+                <example>Aveugle depuis peu, il ne savait pas encore lire le braille.</example>
+                <example>Il avait une sale gueule.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Capote</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">grosses?|petites?|riches?|pauvres?|simples?</token>
+                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">capotes?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">capoter</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">échouer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">halluciner</match></suggestion>
+                <example correction="échoué|halluciné">A cause d'une mauvaise préparation, le plan a <marker>capoté</marker> dès le départ.</example>
+                <example correction="échouer|halluciner">En voyant ma voiture, vous allez <marker>capoter</marker>.</example>
+                <example>Cette option permet de baisser la capote en cas de beau temps.</example>
+            </rule>
+        </rulegroup>
         <!--<rulegroup id="ACCORDS_PARTICULIERS_PLURIEL" name="accords particuliers au pluriel">
             <rule>
                 <antipattern>
