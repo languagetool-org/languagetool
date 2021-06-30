@@ -16316,6 +16316,30 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		-->
+		<rulegroup id="SPELDE_MOUW" name="spelde/speldde op mouw" type="misspelling" default="temp_off">
+			<rule>
+				<pattern case_sensitive="yes">
+					<marker>
+						<token inflected="yes" skip="-1">spellen</token>
+					</marker>
+					<token>mouw</token>
+				</pattern>
+				<message>Op de mouw spelden, niet spellen!</message>
+				<short>spelden</short>
+				<example type="incorrect">Hij <marker>spelde</marker> het haar op de mouw.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="yes">
+					<token skip="-1">mouw</token>
+					<marker>
+						<token inflected="yes">spellen</token>
+					</marker>
+				</pattern>
+				<message>Op de mouw spelden, niet spellen!</message>
+				<short>spelden</short>
+				<example type="incorrect">Wanneer hij het je op de mouw <marker>spelt</marker>, is het fout.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="PAMPUS" name="Pampus of pampus" type="misspelling">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
@@ -41434,7 +41458,7 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
-			<antipattern><token>de</token><token regexp="yes">einde?|begin</token><token postag_regexp="yes">[0-9]{4}</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">einde?|begin</token><token regexp="yes">[0-9]{4}</token></antipattern>
 			<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
 			<antipattern><token>de</token><token>facto</token></antipattern>
 			<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
@@ -41577,29 +41601,5 @@ steenwijk;Steenwijk
 				<example correction="24 uursrace">Het was een <marker>24-uursrace</marker>.</example>
 			</rule>
 		</rulegroup>
-<!--
-		<rulegroup id="ME_AUTO" name="Me/mijn" default="temp_off">
-			<rule>
-				<pattern>
-					<marker>
-						<token>me</token>
-					</marker>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token>
-				</pattern>
-				<message>U bedoelt vast <suggestion>mijn</suggestion></message>
-				<example correction="mijn">Ik kan <marker>me</marker> auto niet vinden.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token>ze</token>
-					</marker>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token>
-				</pattern>
-				<message>U bedoelt vast <suggestion>zijn</suggestion></message>
-				<example correction="zijn">Ik kan <marker>ze</marker> auto niet vinden.</example>
-			</rule>
-		</rulegroup>
-		-->
 	</category>
 </rules>
