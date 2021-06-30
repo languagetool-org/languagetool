@@ -4389,7 +4389,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="OPENINGSSET_OPENINGSZET" name="waarschuwing bij gebruik openingsset i.p.v. openingszet">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(wedstrijd|game|tiebreak).*</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(wedstrijd|game|tiebreak|tennis).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>openingsset</token></pattern>
 				<message>Bedoelt u misschien <suggestion>openingszet</suggestion> (1e verplaatsing van pion)? Of toch de eerste set van een tenniswedstrijd?</message>
 				<example correction="openingszet">Het woord <marker>openingsset</marker> kan een vergissing zijn.</example>
@@ -41434,6 +41434,7 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
+			<antipattern><token>de</token><token regexp="yes">einde?|begin</token><token postag_regexp="yes">[0-9]{4}</token></antipattern>
 			<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
 			<antipattern><token>de</token><token>facto</token></antipattern>
 			<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
