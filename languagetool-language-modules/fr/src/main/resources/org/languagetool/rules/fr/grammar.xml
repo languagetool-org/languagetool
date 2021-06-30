@@ -4154,24 +4154,27 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rule id="MEDIA" name="media/média" default="temp_off">
+        <rule id="MEDIA" name="media/média">
             <antipattern>
                 <token regexp="yes">mass|social</token>
                 <token>media</token>
             </antipattern>
             <antipattern>
                 <token>media</token>
-                <token regexp="yes">centers?|centres?|box</token>
+                <token regexp="yes">centers?|centres?|box|players?|files?</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">\p{Lu}.*</token>
                 <token regexp="yes">Media|MEDIA</token>
             </antipattern>
+            <antipattern>
+                <token spacebefore="no">media</token>
+            </antipattern>
             <pattern>
                 <token>media
                     <exception postag="Z.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>Il est généralment écrit <suggestion>média</suggestion>.</message>
+            <message>S'il ne s'agit pas d'une expression latine ou anglaise, il est généralment écrit <suggestion>média</suggestion>.</message>
             <example correction="média">Le blog est un <marker>media</marker> personnel.</example>
         </rule>
         <rule id="QU_EN_QUAND" name="confusion of qu'en et quand" default="temp_off">
@@ -28111,7 +28114,7 @@ though, and has since been slightly modified)-->
                 <example>Les gens qu'on aime, il ne faut pas les laisser passer.</example>
                 <example>Les informations qui sont parvenues jusqu'à nous, c'était juste pour nous encourager.</example>
             </rule>
-            <rule
+            <rule>
                 <antipattern>
                     <token skip="3">aussi</token>
                     <token regexp="yes">que|qu'</token>
