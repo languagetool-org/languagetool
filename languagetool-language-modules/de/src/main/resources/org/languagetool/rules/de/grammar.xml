@@ -631,6 +631,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>per</token>
                 <token>dm</token>
             </antipattern>
+            <antipattern>
+                <token skip="5">cm</token>
+                <token>dm</token>
+            </antipattern>
+            <antipattern>
+                <token skip="5">dm</token>
+                <token>cm</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">Drogerie.*|Rossmann|Budni.*</token>
+                <token>dm</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">dm</token>
+                <token regexp="yes">Drogerie.*|Rossmann|Budni.*</token>
+            </antipattern>
+            <antipattern>
+                <token>dm</token>
+                <token regexp="yes">²|³</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>dm</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes">dm</token> <!-- sonst akzeptiert ("dm Drogeriemarkt") -->
             </pattern>
@@ -5421,6 +5445,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="SCHACH_SCHACHT" name="In Schacht (Schach) halten" default="temp_off">
+            <rule>
+                <pattern>
+                    <token skip="1">in</token>
+                    <marker>
+                        <token case_sensitive="yes" skip="1">Schacht</token>
+                    </marker>
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung "in Schach halten"?</message>
+                <suggestion>Schach</suggestion>
+                <example correction="Schach">Ich werde versuchen ihn in <marker>Schacht</marker> zu halten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">halten</token>
+                    <token>in</token>
+                    <marker>
+                        <token case_sensitive="yes">Schacht</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Redewendung "in Schach halten"?</message>
+                <suggestion>Schach</suggestion>
+                <example correction="Schach">Wir halten sie solange in <marker>Schacht</marker> zu halten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HER_HERR" name="Her Müller (Herr Müller)">
             <rule>
                 <pattern>
@@ -8717,6 +8767,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="PLANTEN_UN_BLOMEN" name="Planten un Blomen">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Planten|PLANTEN</token>
+                <token regexp="yes">un|UN</token>
+                <token regexp="yes">Blomen|BLOMEN</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Plant?en|Planeten</token>
+                <token regexp="yes">und?|and</token>
+                <token regexp="yes">Bloo?men</token>
+            </pattern>
+            <message>Meinten Sie den Park <suggestion>Planten un Blomen</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Planten_un_Blomen</url>
+            <example correction="Planten un Blomen"><marker>Planten und Blomen</marker> ist ein beliebter Park in Hamburg.</example>
+        </rule>
         <rule id="ALOE_VERA" name="Aloe vera">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Aa]loe</token>
@@ -33727,13 +33792,25 @@ Andere Projekte</example>
                     <marker>
                         <token case_sensitive="yes">ende</token>
                     </marker>
-                    <token regexp="yes" case_sensitive="yes">der|des|nächster|letzter|nächsten|letzten|vorheriger|vorherigen</token>
+                    <token regexp="yes" case_sensitive="yes">de[rs]|diese[nrs]|nächste[nrs]|letzte[nr]|vorherige[rs]</token>
                     <token />
                 </pattern>
                 <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Ende">Google wurde <marker>ende</marker> der 90er-Jahre gegründet.</example>
                 <example correction="Ende">Wir werden <marker>ende</marker> nächster Woche eine neue Version veröffentlichen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">de[rs]|diese[nrs]|nächste[nrs]|letzte[nr]|vorherige[rs]</token>
+                    <token regexp="yes">Jahr(es)?|Monat(e?s)?|Woche|Tag(es)?|&wochentage;|&monate;</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ende">Das Produkt wird <marker>ende</marker> des Jahres eingestellt.</example>
             </rule>
             <rule>
                 <pattern>

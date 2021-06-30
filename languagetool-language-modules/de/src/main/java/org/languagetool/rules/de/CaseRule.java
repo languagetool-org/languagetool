@@ -301,7 +301,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", "Dorian Klug" ...
       new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+").build(),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Schön|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Kluge|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug|Greiser")
+      csRegex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Schön|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Kluge|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug|Greiser")
     ),
     Arrays.asList(
       token(","),
@@ -937,11 +937,12 @@ public class CaseRule extends Rule {
       csRegex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
-      // "das Verhältnis zwischen Betreuer und Betreutem entsprechend Anwendung."
+      // "Es besteht aus Schülern, Arbeitstätigen und Studenten."
       posRegex("SUB:.+"),
-      regex("und|oder|&"),
-      csRegex("[A-ZÄÜÖ].*e[mn]"),
-      regex("[a-zäöü].*|,|\\.|\\!|\\?")
+      token(","),
+      posRegex("SUB:.+"),
+      csRegex("und|oder|&"),
+      posRegex("SUB:.+:(MAS|FEM|NEU)")
     )
   );
 
