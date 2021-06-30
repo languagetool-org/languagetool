@@ -19,10 +19,14 @@
 package org.languagetool.rules;
 
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.RuleSet;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /* 
  * Adjust rule matches for some languages  
@@ -35,9 +39,14 @@ public class LanguageDependentFilter implements RuleMatchFilter {
   protected Set<String> enabledRules;
   protected Set<CategoryId> disabledCategories;
   
-  public LanguageDependentFilter(Language lang, Set<String> enabledRules, Set<CategoryId> disabledRuleCategories) {
+  private static final Pattern CAT_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+  public LanguageDependentFilter(Language lang, RuleSet rules, Set<CategoryId> disabledRuleCategories) {
     this.language = lang;
-    this.enabledRules = enabledRules;
+    enabledRules = new HashSet<String>();
+    for (Rule r : rules.allRules()) {
+      enabledRules.add(r.getId());
+    }
     this.disabledCategories = disabledRuleCategories;
   }
 
@@ -46,17 +55,17 @@ public class LanguageDependentFilter implements RuleMatchFilter {
     if (language.getShortCode().equals("ca")) {
       // Use typographic apostrophe in suggestions
       CategoryId catID = new CategoryId("DIACRITICS_TRADITIONAL");
-      if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") 
-          || this.disabledCategories.contains(catID)) {
+      if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") || this.disabledCategories.contains(catID)) {
         List<RuleMatch> newRuleMatches = new ArrayList<>();
         for (RuleMatch rm : ruleMatches) {
           List<String> replacements = rm.getSuggestedReplacements();
           List<String> newReplacements = new ArrayList<>();
-          for (String s: replacements) {
+          for (String s : replacements) {
             if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
               s = s.replace("'", "’");
             }
-            if (this.disabledCategories.contains(catID) && s.matches(".*\\b([Dd]óna|[Vv]énen|[Vv]éns|[Ff]óra)\\b.*")) {
+            Matcher m = CAT_OLD_DIACRITICS.matcher(s);
+            if (this.disabledCategories.contains(catID) && m.matches()) {
               // skip this suggestion with traditional diacritics
             } else {
               newReplacements.add(s);
@@ -67,8 +76,27 @@ public class LanguageDependentFilter implements RuleMatchFilter {
         }
         return newRuleMatches;
       }
+    } else if (language.getShortCode().equals("fr")) {
+      if (this.enabledRules.contains("APOS_TYP")) {
+        List<RuleMatch> newRuleMatches = new ArrayList<>();
+        for (RuleMatch rm : ruleMatches) {
+          List<String> replacements = rm.getSuggestedReplacements();
+          List<String> newReplacements = new ArrayList<>();
+          for (String s : replacements) {
+            if (s.length() > 1) {
+              s = s.replace("'", "’");
+            } else {
+              newReplacements.add(s);
+            }
+          }
+          RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+          newRuleMatches.add(newMatch);
+        }
+        return newRuleMatches;
+      }
     }
+
     return ruleMatches;
-  }  
-  
+  }
+
 }
