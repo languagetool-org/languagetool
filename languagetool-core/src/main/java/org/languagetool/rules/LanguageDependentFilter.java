@@ -41,31 +41,29 @@ public class LanguageDependentFilter implements RuleMatchFilter {
   
   private static final Pattern CAT_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
-  public LanguageDependentFilter(Language lang, RuleSet rules, Set<CategoryId> disabledRuleCategories) {
-    this.language = lang;
+  public LanguageDependentFilter(Language lang, RuleSet rules) {
+    language = lang;
     enabledRules = new HashSet<String>();
     for (Rule r : rules.allRules()) {
       enabledRules.add(r.getId());
     }
-    this.disabledCategories = disabledRuleCategories;
   }
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     if (language.getShortCode().equals("ca")) {
       // Use typographic apostrophe in suggestions
-      CategoryId catID = new CategoryId("DIACRITICS_TRADITIONAL");
-      if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") || this.disabledCategories.contains(catID)) {
+      if (enabledRules.contains("APOSTROF_TIPOGRAFIC") || !enabledRules.contains("DIACRITICS_TRADITIONAL_RULES")) {
         List<RuleMatch> newRuleMatches = new ArrayList<>();
         for (RuleMatch rm : ruleMatches) {
           List<String> replacements = rm.getSuggestedReplacements();
           List<String> newReplacements = new ArrayList<>();
           for (String s : replacements) {
-            if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
+            if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
               s = s.replace("'", "’");
             }
             Matcher m = CAT_OLD_DIACRITICS.matcher(s);
-            if (this.disabledCategories.contains(catID) && m.matches()) {
+            if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m.matches()) {
               // skip this suggestion with traditional diacritics
             } else {
               newReplacements.add(s);
