@@ -143,6 +143,9 @@ public class PronomFebleDuplicateRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Li va començar a dur-li problemes."));
     assertEquals(1, matches.length);
     
+    matches = rule.match(lt.getAnalyzedSentence("S'acabarà carregant-se."));
+    assertEquals(1, matches.length);
+    
   }
     
     private void assertCorrect(String sentence) throws IOException {

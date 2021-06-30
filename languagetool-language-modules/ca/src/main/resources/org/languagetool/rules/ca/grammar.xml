@@ -16550,7 +16550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
         <rule id="NO_VA" name="nova/no va">
             <pattern>
-                <token><exception postag="RG|LOC_ADV" postag_regexp="yes"></exception></token>
+                <token><exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
                 <marker>
                     <token>nova<exception postag="_GN_FS"/></token>
                 </marker>
@@ -47375,6 +47375,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="DEPRENDRE" name="deprendre">
+            <pattern>
+                <marker>
+                    <token inflected="yes">deprendre</token>
+                </marker>
+            </pattern>
+            <message>Possible confusió. És correcte com a forma secundària del v. 'aprendre'.</message>
+            <suggestion><match no="1" regexp_match="(?iu)^de" regexp_replace="a" case_conversion="preserve"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)^de" regexp_replace="des" case_conversion="preserve"/></suggestion>
+            <example correction="aprendre|desprendre">Llavors vaig <marker>deprendre</marker> el que podia passar.</example>
+            <example correction="Aprèn|Desprèn"><marker>Deprèn</marker> una olor molt bona.</example>
+        </rule>
         <rule id="POSAR_ENCENDRE" name="posar/encendre/engegar">
             <pattern>
                 <marker>
@@ -52189,7 +52201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
                     </marker>
-                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">conspiració|final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri|propòsit|intenció|projecte</token>
+                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">conspiració|final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri|propòsit|intenció|projecte|identitat</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (perdre la son, suscitar)?</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
@@ -55324,8 +55336,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">realitzar</token>
                     </marker>
-                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
-                    <token regexp="yes" inflected="yes">robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">massacre|robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
+                    <token regexp="yes" inflected="yes">massacre|robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
                 </pattern>
                 <message>Ús abusiu del v. 'realitzar'. Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cometre</match></suggestion>
