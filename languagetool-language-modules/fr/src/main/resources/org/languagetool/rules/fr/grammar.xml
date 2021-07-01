@@ -16502,42 +16502,6 @@ though, and has since been slightly modified)-->
             <rule>
                 <antipattern>
                     <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?</token>
-                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">crises?</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">criser</token>
-                    </marker>
-                </pattern>
-                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
-                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">enrager</match></suggestion>
-                <example correction="enrages">Tu <marker>crises</marker> au moindre problème.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes">débouler</token>
-                    </marker>
-                </pattern>
-                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
-                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">arriver</match> soudainement</suggestion>
-                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">surgir</match></suggestion>
-                <example correction="arriva soudainement|surgit">Il <marker>déboula</marker> dans la pièce sans crier gare.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes">déglinguer|péter</token>
-                    </marker>
-                </pattern>
-                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
-                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">casser</match></suggestion>
-                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">abîmer</match></suggestion>
-                <example correction="casser|abîmer">Il <marker>déboula</marker> dans la pièce sans crier gare.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?</token>
                     <token regexp="yes">dégueulasses?</token>
                 </antipattern>
                 <pattern>
@@ -16549,20 +16513,6 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">vomir</match></suggestion>
                 <example correction="vomi">Il a <marker>dégueulé</marker> tout son repas.</example>
             </rule>
-            <rule>
-                <antipattern>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">dégueulasses?</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes">dégueuler|débagouler|dégobiller</token>
-                    </marker>
-                </pattern>
-                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
-                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">vomir</match></suggestion>
-                <example correction="a vomi">Il <marker>a dégueulé</marker> tout son repas.</example>
-            </rule>
-
         </rulegroup>
         <!--<rulegroup id="ACCORDS_PARTICULIERS_PLURIEL" name="accords particuliers au pluriel">
             <rule>
