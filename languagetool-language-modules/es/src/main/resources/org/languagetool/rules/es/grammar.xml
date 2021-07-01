@@ -15223,6 +15223,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <!-- Singular -->
             <rule>
+                <antipattern>
+                    <token postag="SPS00"/>
+                    <token skip="1">que</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MS"/>
+                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token>lo</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MP"/>
+                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token>los</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FS"/>
+                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token>la</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FP"/>
+                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token>las</token>
+                </antipattern>
                 <pattern>
                     <or>
                         <token postag="SENT_START.*" postag_regexp="yes"/>
@@ -15230,10 +15255,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="0" postag="D...S." postag_regexp="yes"/>
-                    <token min="1" max="4" postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception></token>
+                    <token min="1" max="4" postag="(N.|A..).[SC].*|V.P.*" postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;</exception></token>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
                     <marker>
-                        <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/></token>
+                        <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
                     </marker>
                 </pattern>
                 <message suppress_misspelled="yes">El verbo debería estar en la 3.ª persona del singular.</message>
@@ -15241,6 +15266,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="va">El niño se <marker>van</marker> a casa.</example>
                 <example correction="toma">El niño no se <marker>toman</marker> la sopa.</example>
                 <example correction="tomaba">Dijo que el niño no se <marker>tomaban</marker> la sopa.</example>
+                <example>La próxima semana abren la nueva tienda</example>
+                <example>La filosofía de Hegel es tan extraña que nadie habría esperado que él pudiera hacer que personas cuerdas la aceptaran.</example>
+                <example>Sé que este curso se agotaron y bastante rápido.</example>
+                <example>Son procesos industriales que cada vez se alejan más de la alimentación saludable y tradicional.</example>
+                <example>Ese producto lo anunciaban en televisión.</example>
+                <example>Esos productos los anunciaban en televisión.</example>
+                <example>Estas revistas las anunciaban en televisión.</example>
+                <example>Esta revista la anunciaban en televisión.</example>
             </rule>
             <!--<rule>
                 <pattern>
