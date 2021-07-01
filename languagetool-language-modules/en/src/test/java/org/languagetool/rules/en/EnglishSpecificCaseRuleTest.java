@@ -29,10 +29,10 @@ import java.io.IOException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class SpecificCaseRuleTest {
+public class EnglishSpecificCaseRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
-  private final SpecificCaseRule rule = new SpecificCaseRule(TestTools.getEnglishMessages());
+  private final EnglishSpecificCaseRule rule = new EnglishSpecificCaseRule(TestTools.getEnglishMessages());
 
   @Test
   public void testRule() throws IOException {

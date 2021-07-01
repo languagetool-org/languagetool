@@ -32,10 +32,10 @@ import static org.junit.Assert.*;
 /**
  * SpecificCaseRule TestCase
  */
-public class SpecificCaseRuleTest {
+public class GreekSpecificCaseRuleTest {
 
 	private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("el"));
-	private final SpecificCaseRule rule = new SpecificCaseRule(TestTools.getEnglishMessages());
+	private final GreekSpecificCaseRule rule = new GreekSpecificCaseRule(TestTools.getEnglishMessages());
 
 	@Test
 	public void testRule() throws IOException {
