@@ -4167,6 +4167,10 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">\p{Lu}.*</token>
                 <token regexp="yes">Media|MEDIA</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Media|MEDIA</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
             <antipattern>
                 <token spacebefore="no">media</token>
             </antipattern>
@@ -28145,6 +28149,12 @@ though, and has since been slightly modified)-->
                     <token>et</token>
                     <token inflected="yes" skip="5">le</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token min="0" postag="A"/>
+                    <token postag="J.*" postag_regexp="yes"><exception postag="[NZ].*" postag_regexp="yes"/></token>
+                    <token>et</token>
+                </antipattern>
                 <pattern>
                     <or>
                         <token postag="SENT_START.*" postag_regexp="yes"/>
@@ -28183,6 +28193,7 @@ though, and has since been slightly modified)-->
                 <example>L'amour passe et le mari reste.</example>
                 <example>La pie jacasse et le merle siffle.</example>
                 <example>Le temps passe et tout le monde vieillit.</example>
+                <example>La plus ancienne et la plus grande université albertaine est l'Université de l'Alberta.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
