@@ -13278,9 +13278,12 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
-				<antipattern><token postag="ENM.*" postag_regexp="yes"/></antipattern>
+				<antipattern><token postag="ENM.*|UNKNOWN" postag_regexp="yes"/></antipattern>
+				<antipattern><token regexp="yes">^.-</token></antipattern>
+				<antipattern><token regexp="yes">-.$</token></antipattern>
 				<antipattern><token regexp="yes">^(&gespeld;)-</token></antipattern>
 				<antipattern><token regexp="yes">-(&gespeld;)$</token></antipattern>
+				<antipattern><token regexp="yes">-(&gespeld;)-</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
 				<pattern raw_pos="yes"> 
 					<marker>
