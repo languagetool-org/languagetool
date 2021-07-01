@@ -480,6 +480,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Rethorikkurses", "Rhetorikkurses", rule, lt);
     assertFirstSuggestion("Deprisonen", "Depressionen", rule, lt);
     
+    assertFirstSuggestion("battalione", "Bataillone", rule, lt);
+    assertFirstSuggestion("Besuchungsverbot", "Besuchsverbot", rule, lt);
+    assertFirstSuggestion("widersprüchiges", "widersprüchliches", rule, lt);
+    assertFirstSuggestion("camelionhafte", "chamäleonhafte", rule, lt);
+    assertFirstSuggestion("angehangenen", "angehängten", rule, lt);
+    assertFirstSuggestion("spätrige", "spätere", rule, lt);
     assertFirstSuggestion("-Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Kaffeex", "Kaffee", rule, lt);

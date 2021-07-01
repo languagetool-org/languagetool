@@ -1024,6 +1024,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
     putRepl("abtrakt(e[mnrs]?)?", "ab", "abs");
     putRepl("unerfolgreich(e[mnrs]?)?", "unerfolgreich", "erfolglos");
+    putRepl("[bB]attalion(en?|s)?", "[bB]attalion", "Bataillon");
+    putRepl("[bB]esuchungsverbot(e[ns]?)?", "ung", "");
+    putRepl("spätrig(e[mnrs]?)?", "rig", "er");
+    putRepl("angehangene[mnrs]?", "hangen", "hängt");
+    putRepl("[ck]amel[ie]onhaft(e[mnrs]?)?", "[ck]am[ie]lion", "chamäleon");
+    putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
+    put("Simlock", "SIM-Lock");
+    put("fäschungen", "Fälschungen");
+    put("Weinverköstigung", "Weinverkostung");
+    put("vertag", "Vertrag");
     put("geauessert", "geäußert");
     put("gestriffen", "gestreift");
     put("gefäh?ten", "Gefährten");
