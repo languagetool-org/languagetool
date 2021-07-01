@@ -16513,6 +16513,158 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">vomir</match></suggestion>
                 <example correction="vomi">Il a <marker>dégueulé</marker> tout son repas.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?</token>
+                    <token regexp="yes">dégueulasses?|salopes?|crades?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">dégueulasser|saloper|crader</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">salir</match></suggestion>
+                <example correction="sali">Il a <marker>salopé</marker> son pantalon dans la boue.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">démerder|démmerder|demmerder</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">débrouiller</match></suggestion>
+                <example correction="débrouiller">Si il n'est pas content, il n'a qu'à se <marker>démerder</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N" inflected="yes" regexp="yes">crânes?</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Cr[âa]nes?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">frimer|cr[âa]ner</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V etre $2">être</match> arrogant</suggestion>
+                <example correction="était arrogant">Il <marker>frimait</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N.*" regexp="yes">fringues?|fripp?es?</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">[Ff]rip(e|ons?)|Fringue</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">fringuer|fripp?er</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">habiller</match></suggestion>
+                <example correction="habille">Il se <marker>fringue</marker> avec beaucoup de goût.</example>
+                <example>Fripe et Pouille, deux amis inséparables se sont enfuis d'une bande dessinée.</example>
+                <example>Le Secret du professeur Fringue par H.-J.Magog</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N" regexp="yes">glaviots?|moll?ards?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">glavioter|mollarder</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">cracher</match></suggestion>
+                <example correction="crache">Il <marker>mollarde</marker> partout comme un lama.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N" regexp="yes">kiffs?</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Kiffa?e?s?r?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">kiffer</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">aimer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">apprécier</match></suggestion>
+                <example correction="aime|apprécie">Il <marker>kiffe</marker> le métal.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N" regexp="yes">léchouilles?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">léchouiller</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">lécher</match></suggestion>
+                <example correction="léché">Il a <marker>léchouillé</marker> sa glace avant qu'elle ne fonde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">lever</token>
+                        <token>le</token>
+                        <token>pied</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">ralentir</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">diminuer</match></suggestion>
+                <example correction="ralentir|diminuer">Il devrait <marker>lever le pied</marker> pour prendre soin de sa santé.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">lourder</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">congédier</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">renvoyer</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">remercier</match></suggestion>
+                <suggestion>se <match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">séparer</match></suggestion>
+                <example correction="congédier|renvoyer|remercier|se séparer">Il s'est fait <marker>lourder</marker> par sa boite.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="N.*" regexp="yes">mouchardes?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">moucharder|cafarder</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">dénoncer</match></suggestion>
+                <example correction="dénoncera">Si les enquêteurs lui mettent suffisamment la pression, il <marker>mouchardera</marker> ses complices.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">moufter|moufeter</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">réagir</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">protester</match></suggestion>
+                <example correction="réagira|protestera">Il ne <marker>mouftera</marker> pas devant plus grand que lui.</example>
+            </rule>
+
         </rulegroup>
         <!--<rulegroup id="ACCORDS_PARTICULIERS_PLURIEL" name="accords particuliers au pluriel">
             <rule>
