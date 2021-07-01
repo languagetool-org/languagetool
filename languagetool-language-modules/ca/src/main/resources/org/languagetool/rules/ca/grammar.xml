@@ -16548,6 +16548,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="REVOL" name="revol/renou">
+            <pattern>
+                <token>revol</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>renou</suggestion>? "Revol" és una forma, rarament usada, del v. 'revolar'. </message>
+            <suggestion>enrenou</suggestion>
+            <suggestion>rebombori</suggestion>
+            <example correction="renou|enrenou|rebombori">Va haver-hi un gran <marker>revol</marker> mediaic.</example>
+        </rule>
         <rule id="NO_VA" name="nova/no va">
             <pattern>
                 <token><exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
@@ -28970,7 +28979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify>
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">[\d.,]{2,}</exception></token>
+                        <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">\d[\d.,]+</exception></token>
                         <marker>
                             <token inflected="yes">net</token>
                         </marker>
