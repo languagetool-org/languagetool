@@ -15230,23 +15230,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="_GN_MS"/>
-                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
                     <token>lo</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="_GN_MP"/>
-                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
                     <token>los</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="_GN_FS"/>
-                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
                     <token>la</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="_GN_FP"/>
-                    <token min="0" max="2" regexp="yes">no|se</token>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
                     <token>las</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <or>
@@ -15255,17 +15259,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token min="0" postag="D...S." postag_regexp="yes"/>
-                    <token min="1" max="4" postag="(N.|A..).[SC].*|V.P.*" postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;</exception></token>
+                    <token min="1" max="4" postag="(N.|A..).[SC].*|V.P..S." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
                     <marker>
                         <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
                     </marker>
                 </pattern>
-                <message suppress_misspelled="yes">El verbo debería estar en la 3.ª persona del singular.</message>
+                <message suppress_misspelled="yes">Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
                 <suggestion><match no="6" postag="(V...)3P(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
                 <example correction="va">El niño se <marker>van</marker> a casa.</example>
                 <example correction="toma">El niño no se <marker>toman</marker> la sopa.</example>
                 <example correction="tomaba">Dijo que el niño no se <marker>tomaban</marker> la sopa.</example>
+                <example correction="ayude">No confíes en que otro te <marker>ayuden</marker>.</example>
                 <example>La próxima semana abren la nueva tienda</example>
                 <example>La filosofía de Hegel es tan extraña que nadie habría esperado que él pudiera hacer que personas cuerdas la aceptaran.</example>
                 <example>Sé que este curso se agotaron y bastante rápido.</example>
@@ -15274,6 +15279,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esos productos los anunciaban en televisión.</example>
                 <example>Estas revistas las anunciaban en televisión.</example>
                 <example>Esta revista la anunciaban en televisión.</example>
+                <example>Una vez citaron a Cristóbal Colón al decir que los piratas eran demasiado "ingenuos".</example>
+                <example>Dos combaten, un tercero lucra.</example>
+                <example>Mi hobby son las lenguas.</example>
+            </rule>
+            <!-- Plural -->
+            <rule>
+                <antipattern>
+                    <token postag="SPS00"/>
+                    <token skip="1">que</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MS"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>lo</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MP"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>los</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FS"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>la</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FP"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>las</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <or>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
+                        <token postag="CS">que</token>
+                    </or>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="0" postag="D...P." postag_regexp="yes"/>
+                    <token min="1" max="4" postag="(N.|A..).[PC].*|V.P..." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>
+                    <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
+                    <marker>
+                        <token postag="V...3S." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3P." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
+                    </marker>
+                </pattern>
+                <message suppress_misspelled="yes">Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
+                <suggestion><match no="6" postag="(V...)3S(.)" postag_regexp="yes" postag_replace="$13P$2"/></suggestion>
+                <example correction="van">Los niños se <marker>va</marker> a casa.</example>
+                <example correction="toman">Los niños no se <marker>toma</marker> la sopa.</example>
+                <example correction="tomaban">Dijo que las niñas no se <marker>tomaba</marker> la sopa.</example>
+                <example correction="ayuden">No confíes en que otros te <marker>ayude</marker>.</example>
+                <example>Las próximas semanas abre la nueva tienda</example>
+                <example>Ese producto lo anunciaba en televisión.</example>
+                <example>Esos productos los anunciaba en televisión.</example>
+                <example>Estas revistas las anunciaba en televisión.</example>
+                <example>Esta revista la anunciaba en televisión.</example>
             </rule>
             <!--<rule>
                 <pattern>
