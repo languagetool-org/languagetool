@@ -83,9 +83,8 @@ public class LanguageDependentFilter implements RuleMatchFilter {
           for (String s : replacements) {
             if (s.length() > 1) {
               s = s.replace("'", "’");
-            } else {
-              newReplacements.add(s);
             }
+            newReplacements.add(s);
           }
           RuleMatch newMatch = new RuleMatch(rm, newReplacements);
           newRuleMatches.add(newMatch);
