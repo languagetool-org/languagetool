@@ -5598,6 +5598,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gute">Alles <marker>Gote</marker> zum Geburtstag.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="VERSORGT_VORSORGT" name="vorsorgen vs. versorgen">
+            <rule>
+                <pattern>
+                    <token regexp="yes">war(s?t|en)?|sind|b?ist|bin|seid|w[uü]rde(n|s?t)?|werde(n|t)?|wird|wirst</token>
+                    <token min="0" postag="ADV:.+" postag_regexp="yes" />
+                    <marker><token>vorsorgt</token></marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>versorgt</suggestion>?</message>
+                <example correction="versorgt">Danke, ich bin bereits <marker>vorsorgt</marker>!</example>
+                <example correction="versorgt">Danke, ich bin <marker>vorsorgt</marker>!</example>
+                <example correction="versorgt">Hauptsache, ihr seid endlich <marker>vorsorgt</marker>!</example>
+                <example correction="versorgt">Hauptsache, du bist <marker>vorsorgt</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>vorsorgt</token></marker>
+                    <token regexp="yes">war(s?t|en)?|sind|b?ist|bin|seid|w[uü]rde(n|s?t)?|werde(n|t)?|wird|wirst</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>versorgt</suggestion>?</message>
+                <example correction="versorgt">Als Berlin über die Luftbrücke <marker>vorsorgt</marker> wurde, war man froh über die amerikanische Unterstützung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes">vorsorgen</token></marker>
+                    <token postag="ART:.+" postag_regexp="yes" />
+                    <token postag="SUB:AKK:.+" postag_regexp="yes" />
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="vor" regexp_replace="ver" /></suggestion>?</message>
+                <example correction="versorgt">Eine Maschine <marker>vorsorgt</marker> das Zentrum mit Frischluft.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes">vorsorgen</token></marker>
+                    <token regexp="yes">uns|euch|[mds]ich</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="vor" regexp_replace="ver" /></suggestion>?</message>
+                <example correction="versorgt">Er <marker>vorsorgt</marker> sich selbst.</example>
+            </rule>
+        </rulegroup>
         <rule id="VERBRACHT_VOLLBRACHT" name="verbracht vs. vollbracht">
             <antipattern>
                 <token>es</token>
