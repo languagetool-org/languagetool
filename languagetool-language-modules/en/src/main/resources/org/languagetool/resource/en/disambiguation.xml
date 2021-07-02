@@ -2192,6 +2192,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="RB" min="0" />
         <token>can</token>
       </antipattern>
+      <antipattern>
+        <token chunk_re="[EI]-NP.*" postag="NN.*" postag_regexp="yes" />
+        <token postag="RB" min="0" />
+        <token>can</token>
+        <token postag="MD" />
+      </antipattern>
       <pattern>
         <marker>
           <token>can</token>
@@ -2201,6 +2207,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig postag="NN"/>
       <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
       <example type="untouched">You can will go crazy.</example><!-- error will be caught by TWO_CONNECTED_MODAL_VERBS -->
+      <example type="untouched">My friend Tom can will go crazy.</example><!-- error will be caught by TWO_CONNECTED_MODAL_VERBS -->
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> might be dirty.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> must not be dirty.</example>
     </rule>
