@@ -1,3 +1,21 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package org.languagetool.rules;
 
 import java.util.ArrayList;
@@ -19,14 +37,13 @@ import gnu.trove.THashSet;
  * A rule that matches words which need a specific upper/lowercase spelling.
  * @author Nikos-Antonopoulos, giorgossideris
  */
-public abstract class AbstractSpecificCaseRule extends Rule{
-  // the phrases that will be detected by the rule
-  private static Set<String> phrases;
+public abstract class AbstractSpecificCaseRule extends Rule {
   // a map that has as keys the special case phrases into lowercase
-  // and as values the special case phrases properly spelled
-  private static Map<String,String> lcToProperSpelling = new THashMap<>();
+  // and as values the special case phrases properly spelled:
+  private static final Map<String,String> lcToProperSpelling = new THashMap<>();
+  // the phrases that will be detected by the rule:
+  private static Set<String> phrases;
   private static int maxLen;
-
   
   /**
    * The constructor of the abstract class AbstractSpecificCaseRule
@@ -49,22 +66,25 @@ public abstract class AbstractSpecificCaseRule extends Rule{
    *         wrongly capitalized phrase must begin with capital
    */
   public String getInitialCapitalMessage() {
-	  return "The initials of the particular phrase must be capitals.";
+    return "The initials of the particular phrase must be capitals.";
   }
+  
   /**
    * @return the message that will be shown if the wrongly capitalized phrase
    *         must not be written with capital initials 
    *         (another special kind of capitalization)
    */
-  public String getOtherCapitalizationMessage() {
-	  return "The particular expression should follow the suggested capitalization.";
+  public String getOtherCapitalizationMessage() { 
+    return "The particular expression should follow the suggested capitalization.";
   }
+  
   /**
    * @return the short message of the rule
    */
   public String getShortMessage() {
-	  return "Special capitalization";
+    return "Special capitalization";
   }
+  
   /**
    * Initializes the phrases that will be detected from the rule by the given path
    */
@@ -87,9 +107,9 @@ public abstract class AbstractSpecificCaseRule extends Rule{
    * Initializes the <code>lcToProperSpelling</code> Map
    */
   private void initializeLcToProperSpellingMap() {
-	  for (String phrase : phrases) {
-	      lcToProperSpelling.put(phrase.toLowerCase(), phrase);
-	  }
+    for (String phrase : phrases) {
+        lcToProperSpelling.put(phrase.toLowerCase(), phrase);
+    }
   }
 
   @Override
@@ -127,7 +147,7 @@ public abstract class AbstractSpecificCaseRule extends Rule{
             msg = getOtherCapitalizationMessage();
           }
           RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), 
-        		                          tokens[i+j-1].getEndPos(), msg, getShortMessage());
+                                  tokens[i+j-1].getEndPos(), msg, getShortMessage());
           match.setSuggestedReplacement(properSpelling);
           matches.add(match);
         }

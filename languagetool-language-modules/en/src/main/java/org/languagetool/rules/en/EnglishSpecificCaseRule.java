@@ -30,22 +30,22 @@ public class EnglishSpecificCaseRule extends AbstractSpecificCaseRule {
   
   @Override
   public String getPhrasesPath() {
-	  return "/en/specific_case.txt";
+    return "/en/specific_case.txt";
   }
   
   @Override
   public String getInitialCapitalMessage() {
-	  return "If the term is a proper noun, use initial capitals.";
+    return "If the term is a proper noun, use initial capitals.";
   }
 
   @Override
-  public String getOtherCapitalizationMessage() {
-	  return "If the term is a proper noun, use the suggested capitalization.";
+  public String getOtherCapitalizationMessage() { 
+    return "If the term is a proper noun, use the suggested capitalization.";
   }
   
   @Override
   public String getShortMessage() {
-	  return "Proper noun";
+    return "Proper noun";
   }
 
   public EnglishSpecificCaseRule(ResourceBundle messages) {

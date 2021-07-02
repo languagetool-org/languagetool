@@ -1,5 +1,3 @@
-package org.languagetool.rules.el;
-
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
  * 
@@ -18,6 +16,7 @@ package org.languagetool.rules.el;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+package org.languagetool.rules.el;
 
 import org.languagetool.rules.*;
 
@@ -31,22 +30,22 @@ public class GreekSpecificCaseRule extends AbstractSpecificCaseRule {
 
   @Override
   public String getPhrasesPath() {
-	  return "/el/specific_case.txt";
+    return "/el/specific_case.txt";
   }
   
   @Override
   public String getInitialCapitalMessage() {
-	  return "Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα.";
+    return "Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα.";
   }
 
   @Override
   public String getOtherCapitalizationMessage() {
-	  return "Η συγκεκριμένη έκφραση γράφεται σύμφωνα με την προτεινόμενη κεφαλαιοποίηση.";
+    return "Η συγκεκριμένη έκφραση γράφεται σύμφωνα με την προτεινόμενη κεφαλαιοποίηση.";
   }
   
   @Override
   public String getShortMessage() {
-	  return "Ειδική κεφαλαιοποίηση";
+    return "Ειδική κεφαλαιοποίηση";
   }
 
   public GreekSpecificCaseRule(ResourceBundle messages) {
