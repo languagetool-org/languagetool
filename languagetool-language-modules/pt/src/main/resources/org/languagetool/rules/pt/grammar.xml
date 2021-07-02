@@ -38136,8 +38136,8 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 	</rulegroup>
 
 	<!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky" default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 + 2021-06-30 (25-JUN-2021+)      -->
+    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 + 2021-06-30 + 2021-07-02 (25-JUN-2021+)      -->
 <!--
 Ele a fez sua esposa.
 Ele me fez seu assistente.
@@ -38177,12 +38177,18 @@ O presidente fez uma declaração sobre o assunto.
 	  </antipattern>
 <!--
 Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.
+Isto é fulcral para fazer face à escalada de violência.
+A lei serve para fazer imperar os direitos sobre todas as pessoas.
+Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.
+Uma fagulha é suficiente para fazer explodir a pólvora.
 -->
       <antipattern>
 	    <token postag='CC|SPS.+' postag_regexp='yes'/>
 		<token regexp='no' inflected='yes'>fazer</token>
-		<token postag='SPS.+' postag_regexp='yes'/>
-		<token postag='NP.+' postag_regexp='yes'/>
+		<token postag='SP.+|V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
+		</token>
+		<token postag='NP.+|SPS.+|DA.+|DI.+' postag_regexp='yes'/>
 	  </antipattern>
 	<rule>
 	<!--	
@@ -38229,6 +38235,10 @@ Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
 	  <example>O presidente fez uma declaração sobre o assunto.</example>
 
 	  <example>Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.</example>	  
+	  <example>Isto é fulcral para fazer face à escalada de violência.</example>
+	  <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>
+	  <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
+	  <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
 	</rule>
 	<rule>
 	<!--	
@@ -38270,6 +38280,10 @@ Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
 	  <example>O presidente fez uma declaração sobre o assunto.</example>	  
 
 	  <example>Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.</example>
+	  <example>Isto é fulcral para fazer face à escalada de violência.</example>
+	  <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>	  
+	  <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
+	  <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
 	</rule>
     </rulegroup>
 
