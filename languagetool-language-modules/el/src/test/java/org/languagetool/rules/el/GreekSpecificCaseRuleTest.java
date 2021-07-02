@@ -29,41 +29,39 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-/**
- * SpecificCaseRule TestCase
- */
+
 public class GreekSpecificCaseRuleTest {
 
-	private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("el"));
-	private final GreekSpecificCaseRule rule = new GreekSpecificCaseRule(TestTools.getEnglishMessages());
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("el"));
+  private final GreekSpecificCaseRule rule = new GreekSpecificCaseRule(TestTools.getEnglishMessages());
 
-	@Test
-	public void testRule() throws IOException {
-		assertGood("Ηνωμένες Πολιτείες");
-		assertGood("Κατοικώ στις Ηνωμένες Πολιτείες.");
-		assertGood("Κατοικώ στις ΗΝΩΜΕΝΕΣ ΠΟΛΙΤΕΙΕΣ.");
-		assertBad("ηνωμένες πολιτείες");
-		assertBad("ηνωμένες Πολιτείες");	
-		assertBad("Ηνωμένες πολιτείες");
+  @Test
+  public void testRule() throws IOException {
+    assertGood("Ηνωμένες Πολιτείες");
+    assertGood("Κατοικώ στις Ηνωμένες Πολιτείες.");
+    assertGood("Κατοικώ στις ΗΝΩΜΕΝΕΣ ΠΟΛΙΤΕΙΕΣ.");
+    assertBad("ηνωμένες πολιτείες");
+    assertBad("ηνωμένες Πολιτείες");  
+    assertBad("Ηνωμένες πολιτείες");
 
-		RuleMatch[] matches1 = assertBad("Κατοικώ στις Ηνωμένες πολιτείες.");
-		assertThat(matches1[0].getFromPos(), is(13));
-		assertThat(matches1[0].getToPos(), is(31));
-		assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Ηνωμένες Πολιτείες]"));
-		assertThat(matches1[0].getMessage(), is("Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα."));
+    RuleMatch[] matches1 = assertBad("Κατοικώ στις Ηνωμένες πολιτείες.");
+    assertThat(matches1[0].getFromPos(), is(13));
+    assertThat(matches1[0].getToPos(), is(31));
+    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Ηνωμένες Πολιτείες]"));
+    assertThat(matches1[0].getMessage(), is("Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα."));
 
-		RuleMatch[] matches3 = assertBad("Κατοικώ στις Ηνωμένες  πολιτείες."); // note the two spaces
-		assertThat(matches3[0].getFromPos(), is(13));
-		assertThat(matches3[0].getToPos(), is(32));
-	}
+    RuleMatch[] matches3 = assertBad("Κατοικώ στις Ηνωμένες  πολιτείες."); // note the two spaces
+    assertThat(matches3[0].getFromPos(), is(13));
+    assertThat(matches3[0].getToPos(), is(32));
+  }
 
-	private void assertGood(String input) throws IOException {
-		assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
-	}
+  private void assertGood(String input) throws IOException {
+    assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
+  }
 
-	private RuleMatch[] assertBad(String input) throws IOException {
-		RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-		assertThat(matches.length, is(1));
-		return matches;
-	}
+  private RuleMatch[] assertBad(String input) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat(matches.length, is(1));
+    return matches;
+  }
 }

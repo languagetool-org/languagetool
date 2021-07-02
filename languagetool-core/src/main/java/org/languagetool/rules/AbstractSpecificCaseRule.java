@@ -99,7 +99,7 @@ public abstract class AbstractSpecificCaseRule extends Rule {
       maxLen = Math.max(parts, maxLen);
       l.add(line.trim());
     }
-    phrases =  new THashSet<>(l);
+    phrases = new THashSet<>(l);
     initializeLcToProperSpellingMap();
   }
 
@@ -108,7 +108,7 @@ public abstract class AbstractSpecificCaseRule extends Rule {
    */
   private void initializeLcToProperSpellingMap() {
     for (String phrase : phrases) {
-        lcToProperSpelling.put(phrase.toLowerCase(), phrase);
+      lcToProperSpelling.put(phrase.toLowerCase(), phrase);
     }
   }
 
