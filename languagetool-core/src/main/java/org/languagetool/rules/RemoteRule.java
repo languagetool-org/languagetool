@@ -190,14 +190,14 @@ public abstract class RemoteRule extends Rule {
           return result;
         } catch (Exception e) {
           RemoteRuleMetrics.RequestResult status;
-          if (e instanceof TimeoutException || e instanceof InterruptedException ||
+          if (e instanceof TimeoutException || e instanceof InterruptedException || e instanceof CancellationException ||
             (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
             status = RemoteRuleMetrics.RequestResult.TIMEOUT;
             logger.warn("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
             timeoutTotal.get(ruleId).addAndGet(timeout);
           } else {
             status = RemoteRuleMetrics.RequestResult.ERROR;
-            logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
+            logger.error("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           }
 
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
