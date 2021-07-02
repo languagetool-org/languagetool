@@ -20724,6 +20724,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen" default="temp_off">
+            <pattern>
+                <token postag="VER:MOD:.*" postag_regexp="yes" />
+                <token postag="PRO:PER.*|EIG:.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>suchen</token>
+                </marker>
+                <token>helfen</token>
+            </pattern>
+            <message>Standardsprachlich wird hier <suggestion>beim Suchen</suggestion> empfohlen.</message>
+            <example correction="beim Suchen">Wir müssen Peter <marker>suchen</marker> helfen.</example>
+        </rule>
         <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(Sieben|7)-Tages-(Inzidenz(en)?|Trends?|Wochen?)</token>
