@@ -17165,11 +17165,12 @@ though, and has since been slightly modified)-->
                 <example>Si vous voulez, vous <marker>pouvez</marker> me poser des questions.</example>
             </rule>
         </rulegroup>
-        <rule id="ADJ_AVANT_OU_ARRIERE" name="adj avant ou arrière">
+        <rulegroup id="ADJ_INVARIABLE" name="adj invariable">
+        <rule>
             <pattern>
                 <token postag="N.*" postag_regexp="yes"/>
                 <marker>
-                    <token regexp="yes">avants|arrières</token>
+                    <token regexp="yes">avants|arrières|debouts|biens</token>
                 </marker>
             </pattern>
             <message>Quand l'adverbe '<match no="2" regexp_match="(avant|arrière)s" regexp_replace="$1"/>' est employé en tant qu'adjectif, il reste invariable.</message>
@@ -17178,6 +17179,36 @@ though, and has since been slightly modified)-->
             <example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
             <example correction="arrière">Il n'y a que les optiques <marker>arrières</marker> en relief.</example>
         </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>biens</token>
+                <token postag="J.*|C coor" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">échanger</token>
+                <token>biens</token>
+            </antipattern>
+            <antipattern>
+                <token>biens</token>
+                <token inflected="yes">de</token>
+            </antipattern>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"><exception postag="V ppa.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">avants|arrières|biens|debouts</token>
+                </marker>
+            </pattern>
+            <message>Quand l'adverbe '<match no="2" regexp_match="(avant|arrière)s" regexp_replace="$1"/>' est employé en tant qu'adjectif, il reste invariable.</message>
+            <suggestion suppress_misspelled="yes"><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
+            <url>https://www.projet-voltaire.fr/regles-orthographe/les-roues-arriere-ou-les-roues-arrieres/</url>
+            <example correction="avant">Il sont <marker>avants</marker> de la voiture.</example>
+            <example correction="arrière">Ils sont <marker>arrières</marker> en relief.</example>
+            <example>Ses biens furent saisis, devenant biens nationaux.</example>
+            <example>Un système d'échange local (SEL) est parfois mis en place, afin d'échanger biens (sable, terre, repas, etc.) ou services.</example>
+            <example>Il acquit biens et domaines dans les villages des alentours.</example>
+            <example>Les biens de Mayeul deviennent biens de l'église lors de son entrée à Cluny.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA">
             <rule>
                 <antipattern>
