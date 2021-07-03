@@ -27,7 +27,7 @@ import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.tools.StringTools;
 
 import gnu.trove.THashMap;
@@ -44,6 +44,8 @@ public abstract class AbstractSpecificCaseRule extends Rule {
   // the phrases that will be detected by the rule:
   private static Set<String> phrases;
   private static int maxLen;
+  // used to speed up the server as the phrases are loaded in every initialization
+  protected final CachingWordListLoader phrasesListLoader = new CachingWordListLoader();
   
   /**
    * The constructor of the abstract class AbstractSpecificCaseRule
@@ -90,11 +92,8 @@ public abstract class AbstractSpecificCaseRule extends Rule {
    */
   private void loadPhrases() {
     List<String> l = new ArrayList<>();
-    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(getPhrasesPath());
+    List<String> lines = phrasesListLoader.loadWords(getPhrasesPath());
     for (String line : lines) {
-      if (line.isEmpty() || line.startsWith("#")) {
-        continue;
-      }
       int parts = line.split(" ").length;
       maxLen = Math.max(parts, maxLen);
       l.add(line.trim());
