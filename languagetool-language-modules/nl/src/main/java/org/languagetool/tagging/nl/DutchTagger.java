@@ -109,11 +109,13 @@ public class DutchTagger extends BaseTagger {
 
         // best would be to check the parts as well (uncompound)
         if (word2.contains("-")) {
-          String part1=word2.replaceAll("(^.*)-(.*$)", "$1");
-          List<AnalyzedToken> p1 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part1));
+          //String part1=word2.replaceAll("(^.*)-(.*$)", "$1");
+          //List<AnalyzedToken> p1 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part1));
           String part2=word2.replaceAll("(^.*)-(.*$)", "$2");
           List<AnalyzedToken> p2 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part2));
-          if (!(p1.isEmpty()||p2.isEmpty())) {
+          //if (!(p1.isEmpty()||p2.isEmpty())) {
+          if (!p2.isEmpty()) {
+            // word is split on a likely location
             word2 = word2.replaceAll("([a-z])-([a-z])", "$1$2");
           }
         }
