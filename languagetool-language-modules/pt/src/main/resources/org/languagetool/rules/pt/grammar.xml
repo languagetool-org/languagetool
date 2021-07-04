@@ -2514,6 +2514,27 @@ Em alusão ao dinheiro frequentemente é dado o exemplo do Tio Patinhas. → Em 
 		<example>As vésperas de Natal e ano novo são geralmente marcadas pela união de parentes distantes.</example>		
     </rule>
 
+	<!-- VISTO por -->
+    <rule id='VISTO_POR' name="Visto → Por" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-04 (25-JUN-2021+)      -->
+	<!--
+Ele tomou essa decisão visto só ser possível assim. → Ele tomou essa decisão por só ser possível assim.
+	-->
+      <pattern>
+		<token negate_pos="yes" postag='V.+|SPS.+' postag_regexp='yes'/>
+		<marker>
+			<token>visto</token>
+		</marker>
+		<token min="0" max="1" postag='DD.+|PD.+|RN|RG' postag_regexp='yes'/>
+		<token inflected='yes'>ser
+			<exception inflected='yes'>ir</exception>
+		</token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>por</suggestion>
+      <example correction="por">Ele tomou essa decisão <marker>visto</marker> só ser possível assim.</example>
+    </rule>
+
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
     <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
