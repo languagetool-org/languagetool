@@ -7596,6 +7596,24 @@ A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento
         <suggestion>\1 chegado</suggestion>
       <example correction="tinha chegado">Ele aindo não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
     </rule>
+	
+	<!-- VOZ vós -->
+    <rule id='VOZ_VÓS' name="Confusão: Voz/Vós" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-04 (25-JUN-2021+)      -->
+	<!--
+Posso pedir a uma de voz que o faça? → Posso pedir a uma de vós que o faça?
+	-->
+      <pattern>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<marker>
+			<token>voz</token>
+		</marker>
+		<token postag='CS|PE.+|PR.+|PT.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Confusão de palavras.</message>
+	  <suggestion>vós</suggestion>
+      <example correction="vós">Posso pedir a uma de <marker>voz</marker> que o faça?</example>
+    </rule>
 
     <rule id='A_FORA' name="Confusão: A + fora">
     <!--    Created by Tiago F. Santos, 2017-04-19     -->
