@@ -160,48 +160,48 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="PIJLEN" name="-&gt; (→)">
 			<rule>
-					<pattern>
-						<token negate="yes">&lt;</token>
-						<marker>
-							<token regexp="yes">(\-|=){1,4}</token>
-							<token>&gt;</token>
-						</marker>
-					</pattern>
-					<message>Wilt u een pijl plaatsen?</message>
-					<suggestion>→</suggestion>
-					<suggestion>⇾</suggestion>
-					<suggestion>⇉</suggestion>
-					<suggestion>⇒</suggestion>
-					<suggestion>⇨</suggestion>
-					<suggestion>⇛</suggestion>
-					<example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Eerste punt</example>
+				<pattern>
+					<token negate="yes">&lt;</token>
+					<marker>
+						<token regexp="yes">(\-|=){1,4}</token>
+						<token>&gt;</token>
+					</marker>
+				</pattern>
+				<message>Wilt u een pijl plaatsen?</message>
+				<suggestion>→</suggestion>
+				<suggestion>⇾</suggestion>
+				<suggestion>⇉</suggestion>
+				<suggestion>⇒</suggestion>
+				<suggestion>⇨</suggestion>
+				<suggestion>⇛</suggestion>
+				<example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Eerste punt</example>
 			</rule>
 			<rule>
-					<antipattern>
+				<antipattern>
+					<token>&lt;</token>
+					<token regexp="yes">(-|=){1,4}</token>
+					<token>&gt;</token>
+				</antipattern>
+				<pattern>
+					<marker>
 						<token>&lt;</token>
 						<token regexp="yes">(-|=){1,4}</token>
-						<token>&gt;</token>
-					</antipattern>
-					<pattern>
-						<marker>
-							<token>&lt;</token>
-							<token regexp="yes">(-|=){1,4}</token>
-						</marker>
-						<token/>
-					</pattern>
-					<message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
-					<example>A ← B</example>
-					<example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+					</marker>
+					<token/>
+				</pattern>
+				<message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+				<example>A ← B</example>
+				<example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
 			</rule>
 			<rule>
-					<pattern>
-						<token>&lt;</token>
-						<token regexp="yes">\-|=</token>
-						<token>&gt;</token>
-					</pattern>
-					<message>Wilt u een pijl plaatsen? Suggesties: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
-					<example>A ⇔ B</example>
-					<example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+				<pattern>
+					<token>&lt;</token>
+					<token regexp="yes">\-|=</token>
+					<token>&gt;</token>
+				</pattern>
+				<message>Wilt u een pijl plaatsen? Suggesties: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
+				<example>A ⇔ B</example>
+				<example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
 			</rule>
 		</rulegroup>		
 		
