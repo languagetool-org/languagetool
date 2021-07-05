@@ -6938,6 +6938,26 @@ though, and has since been slightly modified)-->
                 <suggestion>à <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="à Limoges">Reencontres <marker>a limoges</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="V ppr"/>
+                    <token regexp="yes">(?-i)a</token>
+                    <token>beau</token>
+                    <token>être</token>
+                </antipattern>
+                <pattern>
+                <token postag="V ppr"><exception>définissant</exception></token>
+                <marker>
+                    <token regexp="yes">(?-i)a</token>
+                </marker>
+                <token postag="J.*" postag_regexp="yes"><exception regexp="yes">négatif|positif</exception></token>
+            </pattern>
+            <message>La préposition 'à' comporte une accent grave.</message>
+            <suggestion>à</suggestion>
+            <example correction="à">Manipulant <marker>a</marker> chaud le verre, celui-ci se transforme lentement en un objet d'art.</example>
+            <example>En choisissant a négatif, il est évident que la transformée de Weierstrass d'une gaussienne est une autre gaussienne.</example>
+            <example>En définissant a tel que :</example>
+            </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
             <pattern>
