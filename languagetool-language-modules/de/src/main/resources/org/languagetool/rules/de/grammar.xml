@@ -8806,6 +8806,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="BELA_RETHY" name="Béla Réthy">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Béla|BÉLA</token>
+                <token regexp="yes">Réthys?|RÉTHYS?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">B[éèe]l[àáa]</token>
+                <token regexp="yes">R[éeè]th[iy]s?</token>
+            </pattern>
+            <message>Meinten Sie den deutschen Sport-Reporter "Béla Réthy"?</message>
+            <suggestion>Béla <match no="2" regexp_match="(?i)R[éeè]th[iy]" regexp_replace="Réthy" case_conversion="startupper" /></suggestion>
+            <url>https://de.wikipedia.org/wiki/B%C3%A9la_R%C3%A9thy</url>
+            <example correction="Béla Réthy"><marker>Béla Rethy</marker> ist ein deutscher Sport-Journalist.</example>
+        </rule>
         <rule id="PLANTEN_UN_BLOMEN" name="Planten un Blomen">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Planten|PLANTEN</token>
@@ -20787,7 +20801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen" default="temp_off">
+        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen">
             <pattern>
                 <token postag="VER:MOD:.*" postag_regexp="yes" />
                 <token postag="PRO:PER.*|EIG:.*" postag_regexp="yes" min="0" />
