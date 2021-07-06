@@ -138,9 +138,9 @@ public class DutchTagger extends BaseTagger {
         // - add more safe word types
         // wordExceptions TODO: implement this as textfile
         if (l.isEmpty()) {
-          String wordExceptions="voorzittersschap|weerszijden|bijenkomst|.*[a-z]{3}[aeiouy]s|stats.*|bronzen.*|(paars|rood)(groene?|rood|rode)";
+          String wordExceptions="translating|voorzittersschap|weerszijden|bijenkomst";
           // TODO make riskyParts a list or even a file
-          String riskyParts="vergoding|bijbel|tegens";
+          String riskyParts="vergoding|bijbel|tegens|rood|geel|groen|blauw|paars|oranje|bronzen|stat";
           if (!word.matches(wordExceptions)) {
             int size =word.length();
             String trueCollisions=".*(a~[aeéiu]|[eé]~[eéiu]|i~[e]|o~[eiou]|i~j|[A-Z]~[a-z]|[a-z]~[A-Z]|[0-9]~[a-zA-Z]|[a-z][A-Z]~[0-9]).*";
