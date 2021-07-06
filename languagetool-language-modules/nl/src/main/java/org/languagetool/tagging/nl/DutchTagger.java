@@ -137,6 +137,7 @@ public class DutchTagger extends BaseTagger {
         // - move code to separate file/function/class
         // - add more safe word types
         // wordExceptions TODO: implement this as textfile
+        /*
         if (l.isEmpty()) {
           String wordExceptions = "translating|voorzittersschap|weerszijden|bijenkomst";
           // TODO make riskyParts a list or even a file
@@ -294,6 +295,7 @@ public class DutchTagger extends BaseTagger {
             }
           }
         }
+         */
         // ********* END OF UNCOMPOUNDER CODE *************** //
       }
 
