@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY exceptions_unidadestiempo_adj "siguiente|próximo|futuro|venidero|anterior|pasado|precedente|subsiguiente|previo|último|primero">
 <!ENTITY apostrophe "['’´]">
 <!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
 <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
@@ -73,8 +74,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
     <!ENTITY unusually_noun "piden|aman">
     <!ENTITY pronombre_personal_sujeto "yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|vos">
-    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición |corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor">
-    
+    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición |corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor"> 
     <!ENTITY exceptions_sujeto_singular "mayoría|número|puñado|porcentaje|cien|mil|millón|millones|billones|enjambre|grupo|parte|docena|mitad|cincuenta|cuarenta|multitud|treinta|veinte|sesenta|resto|diez">
     <!ENTITY exceptions_sujeto_singular2 "grupo|género|totalidad|serie|concentración|infinito|montón|cantidad|tercero|familia|equipo">
 ]>
@@ -13289,7 +13289,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D[NIDA].*|AO.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;|tiempo|&partes_dia;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token>veces</token>
@@ -13304,19 +13304,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
                 <token min="0" postag="RG"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="3" regexp="yes">pasar|llevar|durante</token>
                 <token inflected="yes" regexp="yes">&unidades_tiempo;&partes_dia;|tiempo</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token inflected="yes">medio</token>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&dias_semana;</token>
@@ -13396,7 +13396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<token postag="D.*" postag_regexp="yes" min="0" max="3"/>-->
                 <token regexp="yes" inflected="yes">vacación|&dias_semana;|&meses_ano;|&partes_dia;|&unidades_tiempo;|&estaciones_ano;</token>
                 <!--<token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>-->
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token>mes</token>
@@ -13860,6 +13860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si un árbol muere, planta otro en su lugar.</example>
             <example>La madera que pedí vino torcida.</example>
             <example>Si sales vivo y lo puedes contar en el foro.</example>
+            <example correction="próximos">Durante los tres trimestres <marker>próximo</marker>.</example>
             <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.

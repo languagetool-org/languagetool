@@ -17,6 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY exceptions_unitatstemps_adj "futur|pròxim|proper|següent|vinent|venidor|anterior|precedent|subsegüent|propvinent|proppassat|passat|previ|últim|darrer|primer"> 
     <!ENTITY carrecs "governador|delegat|president|ministre|fiscal|jutge|director|secretari|vicepresident|viceministre|vicesecretari|conseller|síndic|portaveu|alcalde|alcaldessa|batl?le|batl?lessa|regidor|rector|vicerector|diputat|senador|eurodiputat|bisbe|arquebisbe|lletrat|magistrat|comte|mossèn|sor|fra|professor|registrador|notari|tresorer|tinent"> <!-- senyor, rei -->
     <!ENTITY expressio_DOS_NOMS "aliatge|antagonisme|associació|binomi|cicle|concordança|connexió|contraposició|corpus|correcció|corrector|debat|diccionari|dualitat|eix|figura|interpretació|paral·lel|parell|parella|raó|relació|ràtio|taula|traducció|traductor">
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
@@ -1318,13 +1319,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" inflected="yes">de</token>
                 <token regexp="yes" inflected="yes">&unitats_temps;|temps</token>
                 <token min="0" max="3" postag="RG|LOC_ADV|AO.*" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token><exception>cada</exception></token>
                 <token regexp="yes" inflected="yes">vegada|volta|col?p|pic|&unitats_temps;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV|AO.*" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia|&parts_dia;</token>
@@ -1424,7 +1425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes" inflected="yes" skip="4">passar|romandre|estar|ser</token>
                 <token regexp="yes" inflected="yes">vacança|vacació|&dies_setmana;|&mesos_any;|&parts_dia;|&unitats_temps;|&estacions;</token>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token>mes</token>
@@ -1444,7 +1445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes" skip="2" regexp="yes">passar|portar|dur|fer|durant</token>
                 <token inflected="yes" regexp="yes">&unitats_temps;&parts_dia;|temps</token>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">la|seua|seva|gran</token>
@@ -2003,7 +2004,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Hi ha funcions fins fa no gaire temps plenament urbanes.</example>
             <example>És un sistema legal, financer i de credencials establert per un govern.</example>
             <example correction="fixa">Monyó: peça cilíndrica <marker>fix</marker>.</example>
-            <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
+            <example correction="següents">Durant els tres mesos <marker>següent</marker>.</example>
+            <example>Són els elements distintius: tradició i història comunes.</example>
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
