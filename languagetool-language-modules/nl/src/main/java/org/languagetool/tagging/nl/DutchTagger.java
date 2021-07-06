@@ -138,14 +138,14 @@ public class DutchTagger extends BaseTagger {
         // - add more safe word types
         // wordExceptions TODO: implement this as textfile
         if (l.isEmpty()) {
-          String wordExceptions="weerszijden|bijenkomst|.*[a-z]{3}[aeiouy]s|stats.*|bronzen.*|(paars|rood)(groene?|rood|rode)";
+          String wordExceptions="voorzittersschap|weerszijden|bijenkomst|.*[a-z]{3}[aeiouy]s|stats.*|bronzen.*|(paars|rood)(groene?|rood|rode)";
           // TODO make riskyParts a list or even a file
           String riskyParts="vergoding|bijbel|tegens";
           if (!word.matches(wordExceptions)) {
             int size =word.length();
             String trueCollisions=".*(a~[aeéiu]|[eé]~[eéiu]|i~[e]|o~[eiou]|i~j|[A-Z]~[a-z]|[a-z]~[A-Z]|[0-9]~[a-zA-Z]|[a-z][A-Z]~[0-9]).*";
             // other false patterns
-            trueCollisions+="|(tegen|voor|achter|midden|open)~(s|s-)~.*";
+            trueCollisions+="|(tegen|voor|achter|midden|open)~(s|s-)~.*|(af|aan|uit|op)?(rijd|snijd|glijd)~.*";
             for (int i = 5; i <= size-5; i++) {
               // end is most significant, so check that
               String end=word.substring(i);
