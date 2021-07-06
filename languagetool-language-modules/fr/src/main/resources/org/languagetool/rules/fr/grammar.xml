@@ -30900,11 +30900,16 @@ though, and has since been slightly modified)-->
             <example correction="personne">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
             <example>Il n’y a personne pour m’aider.</example>
         </rule>
-        <rule id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
+        <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
+        <rule>
             <antipattern>
                 <!-- rule IMP_PRON-->
                 <token postag="V.* imp .*" postag_regexp="yes"/>
                 <token regexp="yes">la|le|les|nous|vous</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
+                <token regexp="yes">(?-i)SA|(?-i)CET</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
@@ -30913,7 +30918,173 @@ though, and has since been slightly modified)-->
             <message>Les deux mots « \1 \2 » ne peuvent pas se suivre. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
             <example correction="">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
             <example>Plusieurs de ces langues vont disparaitre.</example>
+            <example>Confirmation avec les SA concernant les mesures à prendre.</example>
+            <example>Les vols se suivent de 10 h à 23 h CET.</example>
+            </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token postag="V.* imp .*" postag_regexp="yes"/>
+                <token regexp="yes">la|le|les|nous|vous</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
+                <token regexp="yes">(?-i)SA|(?-i)CET</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
+                <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">aux|des</token>
+                <token regexp="yes" case_sensitive="yes">[clmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|[vn]ous|on</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
+                <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
+            </pattern>
+            <message>Les mots « \1 \2 » ne peuvent pas se suivre. L'un des deux peut donc être supprimé.</message>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="nos|cette">Pour tout dire, <marker>nos cette</marker> langue va disparaitre.</example>
+            <example>Plusieurs de ces langues vont disparaitre.</example>
+            <example>Confirmation avec les SA concernant les mesures à prendre.</example>
+            <example>Les vols se suivent de 10 h à 23 h CET.</example>
+            </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>des</token>
+                <token regexp="yes" case_sensitive="yes">[clmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|[vn]ous|on</token>
+            </pattern>
+            <message>Ce déterminant est généralement précédé d'une préposition.</message>
+            <suggestion>de \2</suggestion>
+            <suggestion>dès \2</suggestion>
+            <example correction="de sa|dès sa">Il le fait pour le reste <marker>des sa</marker> vie.</example>
+            <example correction="De mon|Dès mon"><marker>Des mon</marker> plus jeune âge, j'ai appris à jouer au cartes.</example>
+            <example>Liste des guerres de la clique des Ma.</example>
         </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>aux</token>
+                <token>je</token>
+                <token>des</token>
+                <token>personnages</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>aux</token>
+                    <token regexp="yes" case_sensitive="yes">les|je|tu|on</token>
+                </marker>
+            </pattern>
+            <message>'Aux' est la contraction de 'à + les', l'un des deux termes peut donc être supprimé.</message>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="aux|les">Il le fait car <marker>aux les</marker> plus tendre enfance, il avait cette passion.</example>
+            <example>Liste des guerres de la clique des Ma.</example>
+            <example>Il prend le lecteur aux je des personnages.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token>aux</token>
+                    <token regexp="yes" case_sensitive="yes">[cdmst]es|[nv]os|cette|ce[st]|[mts]a|mon|ils?|elle?|[vn]ous</token>
+                </marker>
+            </pattern>
+            <message>'Aux' est la contraction de 'à + les', l'un des deux termes peut donc être supprimé.</message>
+            <suggestion>à \2</suggestion>
+            <suggestion>\2</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="à ces|ces|aux">Il le dit <marker>aux ces</marker> enfants tous les jours.</example>
+            <example>Liste des guerres de la clique des Ma.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
+                    <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
+                </marker>
+            </pattern>
+            <message>Ces deux déterminants sont synonymes. L'un des deux peut donc être supprimé.</message>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="des|les">Il a créé une association avec <marker>des les</marker> personnes bienveillantes.</example>
+            <example>Liste des guerres de la clique des Ma.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="1" regexp="yes">attendre|parler|cesser</token>
+                <token>de</token>
+                <token>vous</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="1">avoir</token>
+                <token>marre</token>
+                <token>de</token>
+                <token>vous</token>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token skip="2">vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">des?<exception scope="previous" regexp="yes">une?</exception></token>
+                <marker>
+                    <token case_sensitive="yes">vous</token>
+                </marker>
+                <token postag="[NJ].*" postag_regexp="yes">
+                    <exception regexp="yes">ch[èe]re?s?|autres?|sires?|madame|mesdames|monsieur|messieurs|ré</exception>
+                    <exception postag="V.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Un déterminant doit être placé devant '\3'.</message>
+            <suggestion>vos</suggestion>
+            <example correction="vos">Je vous remercie de <marker>vous</marker> impressions.</example>
+            <example>Liste des guerres de la clique des Ma.</example>
+            <example>J'attends de vous célérité et sagacité.</example>
+            <example>Parlez-moi de vous Réalisateur : Joachim Lafosse.</example>
+            <example>Je pense que si l'un de vous travail sur toulouse.</example>
+            <example>Par contre, si n´êtes pas fan de films d´horreur, pas la peine de vous l´infliger.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="1" regexp="yes">attendre|parler|cesser</token>
+                <token>de</token>
+                <token>nous</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="1">avoir</token>
+                <token>marre</token>
+                <token>de</token>
+                <token>nous</token>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token skip="2">nous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="R m s|P" postag_regexp="yes"/>
+                <token>de</token>
+                <token skip="2">nous</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">des?<exception scope="previous" regexp="yes">une?</exception></token>
+                <marker>
+                    <token case_sensitive="yes">nous</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes">
+                    <exception regexp="yes">ch[èe]re?s?|challenger|autres?|sires?|madame|mesdames|monsieur|messieurs|ré</exception>
+                    <exception postag="[VJ].*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Un déterminant doit être placé devant '\3'.</message>
+            <suggestion>nos</suggestion>
+            <example correction="nos">Nous vous avons fait part de <marker>nous</marker> impressions.</example>
+            <example>Liste des guerres de la clique des Ma.</example>
+            <example>J'attends de vous célérité et sagacité.</example>
+            <example>Parlez-moi de vous Réalisateur : Joachim Lafosse.</example>
+            <example>Je pense que si l'un de vous travail sur toulouse.</example>
+            <example>Par contre, si n´êtes pas fan de films d´horreur, pas la peine de vous l´infliger.</example>
+        </rule>
+        </rulegroup>
         <rule id="QUELQUE" name="quelque invariable devant nombre">
             <pattern>
                 <marker>
