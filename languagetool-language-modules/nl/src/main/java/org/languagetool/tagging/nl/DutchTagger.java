@@ -45,8 +45,8 @@ public class DutchTagger extends BaseTagger {
       boolean ignoreSpelling = false;
 
       // make treatment of weird apostrophes same as in tokenizer (R. Baars, 2020-11-06)
-      String originalWord=word;
-      word=word.replace("`","'").replace("’","'").replace("‘","'").replace("´","'");
+      String originalWord = word;
+      word = word.replace("`","'").replace("’","'").replace("‘","'").replace("´","'");
       
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(locale);
@@ -109,9 +109,9 @@ public class DutchTagger extends BaseTagger {
 
         // best would be to check the parts as well (uncompound)
         if (word2.contains("-")) {
-          //String part1=word2.replaceAll("(^.*)-(.*$)", "$1");
+          //String part1 = word2.replaceAll("(^.*)-(.*$)", "$1");
           //List<AnalyzedToken> p1 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part1));
-          String part2=word2.replaceAll("(^.*)-(.*$)", "$2");
+          String part2 = word2.replaceAll("(^.*)-(.*$)", "$2");
           List<AnalyzedToken> p2 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part2));
           //if (!(p1.isEmpty()||p2.isEmpty())) {
           if (!p2.isEmpty()) {
@@ -125,7 +125,7 @@ public class DutchTagger extends BaseTagger {
           if (!l2.isEmpty()) {
             // woord bestaat
             addTokens(l2, l);
-            ignoreSpelling=true;
+            ignoreSpelling = true;
           }
         }
         //*************** START OF ADDED UNCOMPOUNDER CODE ****************** //
@@ -138,21 +138,21 @@ public class DutchTagger extends BaseTagger {
         // - add more safe word types
         // wordExceptions TODO: implement this as textfile
         if (l.isEmpty()) {
-          String wordExceptions="translating|voorzittersschap|weerszijden|bijenkomst";
+          String wordExceptions = "translating|voorzittersschap|weerszijden|bijenkomst";
           // TODO make riskyParts a list or even a file
-          String riskyParts="vergoding|bijbel|tegens|rood|geel|groen|blauw|paars|oranje|bronzen|stat";
+          String riskyParts = "vergoding|bijbel|tegens|rood|geel|groen|blauw|paars|oranje|bronzen|stat";
           if (!word.matches(wordExceptions)) {
-            int size =word.length();
-            String trueCollisions=".*(a~[aeéiu]|[eé]~[eéiu]|i~[e]|o~[eiou]|i~j|[A-Z]~[a-z]|[a-z]~[A-Z]|[0-9]~[a-zA-Z]|[a-z][A-Z]~[0-9]).*";
+            int size = word.length();
+            String trueCollisions = ".*(a~[aeéiu]|[eé]~[eéiu]|i~[e]|o~[eiou]|i~j|[A-Z]~[a-z]|[a-z]~[A-Z]|[0-9]~[a-zA-Z]|[a-z][A-Z]~[0-9]).*";
             // other false patterns
-            trueCollisions+="|(tegen|voor|achter|midden|open)~(s|s-)~.*|(af|aan|uit|op)?(rijd|snijd|glijd)~.*";
+            trueCollisions += "|(tegen|voor|achter|midden|open)~(s|s-)~.*|(af|aan|uit|op)?(rijd|snijd|glijd)~.*";
             for (int i = 5; i <= size-5; i++) {
               // end is most significant, so check that
-              String end=word.substring(i);
+              String end = word.substring(i);
               // betther make riskyparts a list
               if (!end.matches(riskyParts)) {
                 List<AnalyzedToken> e = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(end));
-                String front=word.substring(0,i);
+                String front = word.substring(0, i);
                 if (!front.matches(riskyParts)) {
                   if (!e.isEmpty()) {
                     // is a word
@@ -161,37 +161,35 @@ public class DutchTagger extends BaseTagger {
                     List<AnalyzedToken> f = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(front));
                     if (!f.isEmpty()) {
                       // front is a valid word
-                      String option=front+"~"+end;
+                      String option = front+"~"+end;
                       if (!option.matches(trueCollisions)) {
                         // there is no character collision
                         // get the tags now, and check the combinations
-                        for(int j=0;j<e.size();j++){
-                          String eTag=e.get(j).getPOSTag();
-                          String eWord=e.get(j).getLemma();
-                          for(int k=0;k<f.size();k++){
-                            String fTag=f.get(k).getPOSTag();
-                            String fWord=f.get(k).getLemma();
-
-                            String tagCombi=(fTag+"~"+eTag);
+                        for (AnalyzedToken token : e) {
+                          String eTag = token.getPOSTag();
+                          String eWord = token.getLemma();
+                          for (AnalyzedToken analyzedToken : f) {
+                            String fTag = analyzedToken.getPOSTag();
+                            String fWord = analyzedToken.getLemma();
+                            String tagCombi = (fTag + "~" + eTag);
                             //System.out.println(option+":"+tagCombi);
-
                             if (tagCombi.matches("^(ZNW:EKV|ZNW:EKV:DE_|ZNW:EKV:HET|ZNW:MRV:VRK:HET|WKW:TGW:1EP)~ZNW:.*$")) {
                               // the end tag determines the total tag
-                              l.add(new AnalyzedToken(word, eTag, front+eWord));
-                              ignoreSpelling=true;
-                              l.add (new AnalyzedToken(word, "LIKELY_SPELLING", word));
-                            } else if (tagCombi.matches("^ZNW:MRV:DE_~ZNW:.*$")&&(front.matches(".*en$"))) {
+                              l.add(new AnalyzedToken(word, eTag, front + eWord));
+                              ignoreSpelling = true;
+                              l.add(new AnalyzedToken(word, "LIKELY_SPELLING", word));
+                            } else if (tagCombi.matches("^ZNW:MRV:DE_~ZNW:.*$") && (front.matches(".*en$"))) {
                               // the end tag determines the total tag
                               // compounding with -n when there is also a plural with -s is forbidden\
-                              String otherPlural=front.replaceAll("n$","s");
-                              System.out.println(otherPlural);
+                              String otherPlural = front.replaceAll("n$", "s");
+                              //System.out.println(otherPlural);
                               List<AnalyzedToken> o = asAnalyzedTokenListForTaggedWords(otherPlural, getWordTagger().tag(otherPlural));
                               if (o.isEmpty()) {
                                 // in fact, all tags should be checked to be ZNW:MRV:DE_, if so, then reject
-                                AnalyzedToken temp = new AnalyzedToken(word, eTag, front+eWord);
-                                l.add( new AnalyzedToken(word, eTag, front+eWord) );
-                                l.add (new AnalyzedToken(word, "LIKELY_SPELLING", word));
-                                ignoreSpelling=true;
+                                //AnalyzedToken temp = new AnalyzedToken(word, eTag, front+eWord);
+                                l.add(new AnalyzedToken(word, eTag, front + eWord));
+                                l.add(new AnalyzedToken(word, "LIKELY_SPELLING", word));
+                                ignoreSpelling = true;
                               }
                             }
                           }
@@ -200,93 +198,91 @@ public class DutchTagger extends BaseTagger {
                     }
                   }
                 }
-                if (word.substring(i-2,i).equals("s-")) {
+                if (word.startsWith("s-", i-2)) {
                   //System.out.println("s-"+front);
                   // front could have an compounding s and dash
-                  front=word.substring(0,i-2);
+                  front = word.substring(0, i-2);
                   if (!front.matches(riskyParts)) {
                     List<AnalyzedToken> f = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(front));
                     if (!f.isEmpty()) {
-                      String option=front+"~s-~"+end;
-                      for(int j=0;j<e.size();j++){
-                        String eTag=e.get(j).getPOSTag();
-                        String eWord=e.get(j).getLemma();
-                        for(int k=0;k<f.size();k++){
-                          String fTag=f.get(k).getPOSTag();
-                          String fWord=f.get(k).getLemma();
-
-                          String tagCombi=(fTag+"~s-~"+eTag);
+                      String option = front+"~s-~"+end;
+                      for (AnalyzedToken analyzedToken : e) {
+                        String eTag = analyzedToken.getPOSTag();
+                        String eWord = analyzedToken.getLemma();
+                        for (AnalyzedToken token : f) {
+                          String fTag = token.getPOSTag();
+                          //String fWord = token.getLemma();
+                          String tagCombi = (fTag + "~s-~" + eTag);
                           //System.out.println(option+":"+tagCombi);
-                          if (tagCombi.matches("^(ZNW:EKV|ZNW:EKV:DE_|ZNW:EKV:HET|ZNW:MRV:VRK:HET)~s-~ZNW:.*$")&&(!option.matches(".*e~s-~.*"))) {
+                          if (tagCombi.matches("^(ZNW:EKV|ZNW:EKV:DE_|ZNW:EKV:HET|ZNW:MRV:VRK:HET)~s-~ZNW:.*$") && (!option.matches(".*e~s-~.*"))) {
                             // the end tag determines the total tag
-                            l.add( new AnalyzedToken(word, eTag, front+"s-"+eWord) );
-                            l.add (new AnalyzedToken(word, "LIKELY_SPELLING", word));
-                            ignoreSpelling=true;
+                            l.add(new AnalyzedToken(word, eTag, front + "s-" + eWord));
+                            l.add(new AnalyzedToken(word, "LIKELY_SPELLING", word));
+                            ignoreSpelling = true;
                           }
                         }
                       }
                     }
                   }
                 }
-                if (word.substring(i-1,i).equals("s")) {
+                if (word.charAt(i - 1) == 's') {
                   //System.out.println("s$");
                   // front could have an compounding s and dash
-                  front=word.substring(0,i-1);
+                  front = word.substring(0,i-1);
                   if (!front.matches(riskyParts)) {
                     List<AnalyzedToken> f = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(front));
                     if (!f.isEmpty()) {
-                      String option=front+"~s~"+end;
-                      for(int j=0;j<e.size();j++){
-                        String eTag=e.get(j).getPOSTag();
-                        String eWord=e.get(j).getLemma();
-                        for(int k=0;k<f.size();k++){
-                          String fTag=f.get(k).getPOSTag();
-                          String fWord=f.get(k).getLemma();
-                          String tagCombi=(fTag+"~s~"+eTag);
+                      String option = front+"~s~"+end;
+                      for (AnalyzedToken analyzedToken : e) {
+                        String eTag = analyzedToken.getPOSTag();
+                        String eWord = analyzedToken.getLemma();
+                        for (AnalyzedToken token : f) {
+                          String fTag = token.getPOSTag();
+                          String tagCombi = (fTag + "~s~" + eTag);
                           //System.out.println(option+":"+tagCombi);
-                          if (tagCombi.matches("^(ZNW:EKV|ZNW:EKV:DE_|ZNW:EKV:HET|ZNW:MRV:VRK:HET)~s~ZNW:.*$")&&(!option.matches(".*e~s~.*"))) {
-                            l.add( new AnalyzedToken(word, eTag, front+"s"+eWord) );
-                            l.add (new AnalyzedToken(word, "LIKELY_SPELLING", word));
-                            ignoreSpelling=true;
+                          if (tagCombi.matches("^(ZNW:EKV|ZNW:EKV:DE_|ZNW:EKV:HET|ZNW:MRV:VRK:HET)~s~ZNW:.*$") && (!option.matches(".*e~s~.*"))) {
+                            l.add(new AnalyzedToken(word, eTag, front + "s" + eWord));
+                            l.add(new AnalyzedToken(word, "LIKELY_SPELLING", word));
+                            ignoreSpelling = true;
                           }
                         }
                       }
                     }
                   }
                 }
-                if (word.substring(i-1,i).equals("-")) {
+                if (word.charAt(i - 1) == '-') {
                   // front could have an compounding s and dash
-                  front=word.substring(0,i-1);
+                  front = word.substring(0,i-1);
                   if (!front.matches(riskyParts)) {
                     List<AnalyzedToken> f = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(front));
                     if (!f.isEmpty()) {
-                      String option=front+"~-~"+end;
-                      for(int j=0;j<e.size();j++){
-                        String eTag=e.get(j).getPOSTag();
-                        String eWord=e.get(j).getLemma();
-                        for(int k=0;k<f.size();k++){
-                          String fTag=f.get(k).getPOSTag();
-                          String fWord=f.get(k).getLemma();
-                          String tagCombi=(fTag+"~-~"+eTag);
+                      //String option = front+"~-~"+end;
+                      for (AnalyzedToken token : e) {
+                        String eTag = token.getPOSTag();
+                        String eWord = token.getLemma();
+                        for (AnalyzedToken analyzedToken : f) {
+                          String fTag = analyzedToken.getPOSTag();
+                          //String fWord = f.get(k).getLemma();
+                          String tagCombi = (fTag + "~-~" + eTag);
                           //System.out.println(option+":"+tagCombi);
                           if (tagCombi.matches("^(ZNW:EKV|ZNW:EKV:DE_|ZNW:EKV:HET|ZNW:MRV:VRK:HET|WKW:TGW:1EP)~-~ZNW:.*$")) {
                             // the end tag determines the total tag
                             // this could be added
-                            l.add( new AnalyzedToken(word, eTag, front+"-"+eWord) );
-                            l.add (new AnalyzedToken(word, "LIKELY_SPELLING", word));
-                            ignoreSpelling=true;
-                          } else if (tagCombi.matches("^ZNW:MRV:DE_~ZNW:.*$")&&(front.matches(".*en$"))) {
-                            String otherPlural=front.replaceAll("n$","s");
+                            l.add(new AnalyzedToken(word, eTag, front + "-" + eWord));
+                            l.add(new AnalyzedToken(word, "LIKELY_SPELLING", word));
+                            ignoreSpelling = true;
+                          } else if (tagCombi.matches("^ZNW:MRV:DE_~ZNW:.*$") && (front.matches(".*en$"))) {
+                            String otherPlural = front.replaceAll("n$", "s");
                             //System.out.println(otherPlural);
                             //compounding with -n when there is also a plural with -s is forbidden
                             List<AnalyzedToken> o = asAnalyzedTokenListForTaggedWords(otherPlural, getWordTagger().tag(otherPlural));
                             if (o.isEmpty()) {
                               // in fact, all tags should be checked to be ZNW:MRV:DE_, if so, then reject
-                              System.out.println(o.toString());
-                              AnalyzedToken temp = new AnalyzedToken(word, eTag, front+eWord);
-                              l.add( new AnalyzedToken(word, eTag, front+"-"+eWord) );
-                              l.add (new AnalyzedToken(word, "LIKELY_SPELLING", word));
-                              ignoreSpelling=true;
+                              //System.out.println(o.toString());
+                              //AnalyzedToken temp = new AnalyzedToken(word, eTag, front+eWord);
+                              l.add(new AnalyzedToken(word, eTag, front + "-" + eWord));
+                              l.add(new AnalyzedToken(word, "LIKELY_SPELLING", word));
+                              ignoreSpelling = true;
                             }
                           }
                         }
