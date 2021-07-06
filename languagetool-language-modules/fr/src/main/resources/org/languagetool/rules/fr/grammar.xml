@@ -17100,9 +17100,24 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">trafiquer</match></suggestion>
                 <example correction="trafiquaient">Ils <marker>traficotaient</marker> des choses louches.</example>
             </rule>
-            <rule>
+             <rule>
                 <antipattern>
-                        <token postag="N" regexp="yes">turbines?</token>
+                        <token postag="K.*" postag_regexp="yes"/>
+                        <token regexp="yes">turbines?</token>
+                </antipattern>
+                <antipattern>
+                        <token regexp="yes">turbines?</token>
+                        <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                        <token regexp="yes">arbres?|températures?||moteurs?|entrées?|sorties?|mono|doubles?|groupes?</token>
+                        <token min="0">de</token>
+                        <token regexp="yes">turbines?</token>
+                </antipattern>
+                <antipattern>
+                        <token regexp="yes">turbines?</token>
+                        <token min="0">à</token>
+                        <token regexp="yes">principales?|aéronautiques?|terrestres?|maritimes?|Francis|axiales?|multicellulaires?|basses?|hautes?|Kaplan|fuel|kérosène|hydrauliques?|Pelton|Schichau|conduites?|embrayages?|neiges?|vapeurs?|gaz|soufflantes?|pression|combustion</token>
                 </antipattern>
                 <antipattern>
                         <token case_sensitive="yes" regexp="yes">Turbin(es?)?a?|Trim(er?)?a?</token>
@@ -17115,6 +17130,10 @@ though, and has since been slightly modified)-->
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">travailler</match></suggestion>
                 <example correction="travailler">Il devait <marker>trimer</marker> des années avant de réaliser son rêve.</example>
+                <example>La turbine est en train de tourner.</example>
+                <example>Leur métier es de contôler la température sortie turbine.</example>
+                <example>C'est une turbine à vapeur.</example>
+                <example>Elles ont affronté le FFC Turbine Potsdam.</example>
             </rule>
             <rule>
                 <pattern>
