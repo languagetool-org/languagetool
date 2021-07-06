@@ -2468,6 +2468,34 @@ Assim aparece no ecrã um número muito grande. → Assim aparece um número mui
 	  
 	</rulegroup>
 
+	<!-- PORQUE É por ser -->
+    <rule id='PORQUE_É_POR_SER' name="Porque é → Por ser" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-06 (25-JUN-2021+)      -->
+	<!--
+Difere da guerra porque o conflito é uma luta entre radicais. → Difere da guerra por o conflito ser uma luta entre radicais.
+Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da guerra por os conflitos serem uma luta entre radicais.
+	-->
+      <pattern>
+		<marker>
+			<token>porque
+				<exception scope='previous' postag_regexp='yes' postag='SPS.+'/>
+			</token>
+			<token/>
+			<token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
+			<and>
+				<token inflected='yes'>ser
+					<exception inflected='yes'>ir</exception>
+				</token>
+				<token postag='VMIP3.+' postag_regexp='yes'/>
+			</and>
+		</marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>por \2 \3 <match no='4' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <example correction="por o conflito ser">Difere da guerra <marker>porque o conflito é</marker> uma luta entre radicais.</example>
+	  <example correction="por os conflitos serem">Difere da guerra <marker>porque os conflitos são</marker> uma luta entre radicais.</example>
+    </rule>
+
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
     <rule id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 (17-MAR-2021+)      -->
