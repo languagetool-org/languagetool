@@ -12917,7 +12917,7 @@ O pai de Pedro queria que ele estudasse teologia e que se tornasse um membro do 
     </rule>
 
     <!-- 	VERB + QUE + É/SÃO verb + ser(em) -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 (Enhanced) (1-JAN-2021+)      -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 + 2021-07-06 (Enhanced) (1-JAN-2021+)      -->
 <!--
 Eu acho que é perigoso subir aquela montanha sozinho. → Eu acho ser perigoso subir aquela montanha sozinho.
 -->			
@@ -12972,6 +12972,27 @@ Para que o cérebro humano não detete que são simples imagens isoladas. → Pa
 			<suggestion>serem</suggestion>
 			<example correction="serem">Mas depende sempre daquilo que consideras <marker>que são</marker> os problemas.</example>  
 		</rule>		
+		
+<!--
+O edifício tem um grau de altura 5, que é também o mais alto da lista. → O edifício tem um grau de altura 5, sendo também o mais alto da lista.
+-->					
+		<rule>
+			<pattern>
+				<token postag='_PUNCT' postag_regexp='no'/>
+				<marker>
+					<token>que</token>
+					<token regexp="yes">é|são</token>
+				</marker>
+				<token negate="yes" regexp='yes'>horas?|[.,!?]
+					<exception postag_regexp="no" postag='CS'/>
+				</token>
+			</pattern>		
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>sendo</suggestion>
+			<example correction="sendo">O edifício tem um grau de altura 5, <marker>que é</marker> também o mais alto da lista.</example>  
+		</rule>
+		
+		
 	</rulegroup>
 	
     <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->	
