@@ -599,9 +599,6 @@ public class MultiDocumentsHandler {
    * Return -1 if failed
    */
   private int getNumDoc(String docID, PropertyValue[] propertyValues) {
-    if (goneContext != null ) {
-      removeDoc(docID);
-    }
     for (int i = 0; i < documents.size(); i++) {
       if (documents.get(i).getDocID().equals(docID)) {  //  document exist
         if (!testMode && documents.get(i).getXComponent() == null) {
@@ -620,6 +617,9 @@ public class MultiDocumentsHandler {
               MessageHandler.printToLogFile("Fixed: XComponent set for Document (ID: " + docID + ")");
             }
           }
+        }
+        if (goneContext != null ) {
+          removeDoc(docID);
         }
         return i;
       }
@@ -661,6 +661,9 @@ public class MultiDocumentsHandler {
       newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
     }
     MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
+    if (goneContext != null ) {
+      removeDoc(docID);
+    }
     return documents.size() - 1;
   }
 
