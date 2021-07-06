@@ -7645,13 +7645,15 @@ A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento
     </rule>
 	
 	<!-- VOZ vós -->
-    <rule id='VOZ_VÓS' name="Confusão: Voz/Vós" default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-04 (25-JUN-2021+)      -->
+    <rule id='VOZ_VÓS' name="Confusão: Voz/Vós">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-04 + 2021-07-06 (25-JUN-2021+)      -->
 	<!--
 Posso pedir a uma de voz que o faça? → Posso pedir a uma de vós que o faça?
 	-->
       <pattern>
-		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='SPS00.DI.+'/>
+		</token>
 		<marker>
 			<token>voz</token>
 		</marker>
