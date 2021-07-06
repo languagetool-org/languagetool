@@ -1030,6 +1030,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("angehangene[mnrs]?", "hangen", "hängt");
     putRepl("[ck]amel[ie]onhaft(e[mnrs]?)?", "[ck]am[ie]lion", "chamäleon");
     putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
+    putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
+    put("Schutzfließ", "Schutzvlies");
     put("Simlock", "SIM-Lock");
     put("fäschungen", "Fälschungen");
     put("Weinverköstigung", "Weinverkostung");
