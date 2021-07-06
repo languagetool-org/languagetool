@@ -18196,7 +18196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">hl</token>
+                        <token>hl</token>
                         <token>.</token>
                         <token>Sankt</token>
                     </marker>
@@ -37487,18 +37487,16 @@ Andere Projekte</example>
         <rulegroup id="ETWAS_GUTES" name="'etwas/nichts gutes (Gutes)' etc.">
             <url>https://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung#D72</url>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[a-zäöü].+es</token>
+                    <token postag="UNKNOWN|SUB:NOM:SIN:NEU|SUB:NOM:SIN:NEU:INF|ADJ:.*|EIG:AKK:SIN:NEU:ART:.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
-                    <token>
-                        <exception postag="UNKNOWN"/>
-                        <exception postag="SUB:NOM:SIN:NEU"/>
-                        <exception postag="SUB:NOM:SIN:NEU:INF"/>
-                        <exception postag="ADJ:.*|EIG:AKK:SIN:NEU:ART:.*" postag_regexp="yes"/>
-                    </token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
@@ -37514,11 +37512,16 @@ Andere Projekte</example>
                 <example correction="Kluges">Bei dem Meeting wurde viel <marker>kluges</marker> gesagt.</example>
                 <example correction="Kluges">Bei dem Meeting wurde nur wenig <marker>kluges</marker> gesagt.</example>
                 <example correction="Bestimmtes">Suchst du etwas <marker>bestimmtes</marker>?</example>
+                <example correction="Gutes">Ja (dahinter verbirgt sich nichts <marker>gutes</marker>).</example>
                 <example>Die Kirche weist eine Sakristei aus der Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
                 <example>Es hat für viel positives öffentliches Aufsehen gesorgt.</example>
                 <example>Zu viel deutsches Europa, zu wenig europäisches Deutschland.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es</token>
+                    <token postag="SUB:NOM:SIN:NEU|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
@@ -37526,7 +37529,6 @@ Andere Projekte</example>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
-                    <token><exception postag="SUB:NOM:SIN:NEU"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
@@ -45396,34 +45398,6 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
-        <rulegroup id="IN_ANGRIFF" name="in den Angriff (in Angriff) nehmen" default="temp_off">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>in</token>
-                        <token>den</token>
-                        <token>Angriff</token>
-                    </marker>
-                    <token inflected="yes">nehmen</token>
-                </pattern>
-                <message>In der Redewendung 'etwas <suggestion>in Angriff</suggestion> nehmen' (im Sinne von 'eine Sache angehen') wird der Artikel 'den' gewöhnlich nicht verwendet.</message>
-                <url>https://de.wiktionary.org/wiki/etwas_in_Angriff_nehmen</url>
-                <example correction="in Angriff">Wir haben die Sache endlich <marker>in den Angriff</marker> genommen!</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="-1">nehmen</token>
-                    <marker>
-                        <token>in</token>
-                        <token>den</token>
-                        <token>Angriff</token>
-                    </marker>
-                </pattern>
-                <message>In der Redewendung 'etwas <suggestion>in Angriff</suggestion> nehmen' (im Sinne von 'eine Sache angehen') wird der Artikel 'den' gewöhnlich nicht verwendet.</message>
-                <url>https://de.wiktionary.org/wiki/etwas_in_Angriff_nehmen</url>
-                <example correction="in Angriff">Nehmen wir die Sache endlich <marker>in den Angriff</marker>!</example>
-            </rule>
-        </rulegroup>
         <rule id="IN_SAUS_UND_BRAUS" name="in saus (Saus) und braus (Braus)">
             <antipattern case_sensitive="yes">
                 <token>Saus</token>
