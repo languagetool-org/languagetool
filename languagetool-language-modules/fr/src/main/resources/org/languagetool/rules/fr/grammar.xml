@@ -33025,61 +33025,63 @@ though, and has since been slightly modified)-->
             <example correction="je t'assure que|crois-moi, tu|il faut dire que tu"><marker>laisse-moi te dire que</marker></example>
             <example><marker>il faut dire que</marker></example>
         </rule>
-
     </category>
     <category id="CAT_ANGLICISMES" name="Anglicismes (calques, emprunts directs, etc.)" type="style">
-    <rulegroup id="TITRES_EN_ANGLAIS" name="titres en anglais" default="temp_off">
-        <rule>
-        <pattern>
-        <token regexp="yes" skip="-1">[12]\d\d\d</token>
-            <marker>
-                <token>the<exception scope="previous" postag="UNKNOWN" regexp="yes">[a-z].*</exception></token>
-                <token regexp="yes">(?-i)[a-z].*</token>
-            </marker>
-        </pattern>
-        <message>Les mots principaux des titres en anglais commencent par une majuscule.</message>
-        <suggestion>The <match no="3" case_conversion="startupper"/></suggestion>
-        <example correction="The Book">2017 : <marker>the book</marker> of Henry est le film de cette année, à voir absolument.</example>
-        </rule>
-        <rule>
-            <antipattern>
-                <token>of</token>
-                <token>the</token>
-                <token>x</token>
-                <token>-</token>
-                <token>files</token>
-            </antipattern>
-            <antipattern>
-                <token>of</token>
-                <token>the</token>
-                <token regexp="yes">blues|rolling</token>
-                <token regexp="yes">brothers|stones</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes" skip="-1">[12]\d\d\d</token>
-                <marker>
-                    <token>of</token>
-                    <token regexp="yes">(?-i)A|(?-i)The<exception scope="next">doors</exception></token>
-                </marker>
-            </pattern>
-            <message>Seuls les mots principaux des titres en anglais commencent par une majuscule.</message>
-            <suggestion>of <match no="3" case_conversion="startlower"/></suggestion>
-            <example correction="of the">1981 : The Book <marker>of The</marker> Dead est un document historique.</example>
-            <example>1981 : Best of The Blues Brothers (Atlantic Records).</example>
+        <rulegroup id="TITRES_EN_ANGLAIS" name="titres en anglais" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="-1">[12]\d\d\d</token>
+                    <marker>
+                        <token>the
+                            <exception scope="previous" postag="UNKNOWN" regexp="yes">[a-z].*</exception></token>
+                        <token regexp="yes">(?-i)[a-z].*</token>
+                    </marker>
+                </pattern>
+                <message>Les mots principaux des titres en anglais commencent par une majuscule.</message>
+                <suggestion>The <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="The Book">2017 : <marker>the book</marker> of Henry est le film de cette année, à voir absolument.</example>
             </rule>
             <rule>
-            <pattern>
-                <token regexp="yes" skip="-1">[12]\d\d\d</token>
-                <marker>
-                    <token regexp="yes">(?-i)Of<exception scope="previous" regexp="yes">-|best|making</exception></token>
-                </marker>
-            </pattern>
-            <message>Seuls les mots principaux des titres en anglais commencent par une majuscule.</message>
-            <suggestion><match no="2" case_conversion="startlower"/></suggestion>
-            <example correction="of">1981 : The Book <marker>Of</marker> the World à avoir.</example>
-            <example>1981 : Best of The Blues Brothers (Atlantic Records).</example>
-            <example>C'est le making-of du film.</example>
-        </rule>
+                <antipattern>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>x</token>
+                    <token>-</token>
+                    <token>files</token>
+                </antipattern>
+                <antipattern>
+                    <token>of</token>
+                    <token>the</token>
+                    <token regexp="yes">blues|rolling</token>
+                    <token regexp="yes">brothers|stones</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" skip="-1">[12]\d\d\d</token>
+                    <marker>
+                        <token>of</token>
+                        <token regexp="yes">(?-i)A|(?-i)The
+                            <exception scope="next">doors</exception></token>
+                    </marker>
+                </pattern>
+                <message>Seuls les mots principaux des titres en anglais commencent par une majuscule.</message>
+                <suggestion>of <match no="3" case_conversion="startlower"/></suggestion>
+                <example correction="of the">1981 : The Book <marker>of The</marker> Dead est un document historique.</example>
+                <example>1981 : Best of The Blues Brothers (Atlantic Records).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="-1">[12]\d\d\d</token>
+                    <marker>
+                        <token regexp="yes">(?-i)Of
+                            <exception scope="previous" regexp="yes">-|best|making</exception></token>
+                    </marker>
+                </pattern>
+                <message>Seuls les mots principaux des titres en anglais commencent par une majuscule.</message>
+                <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+                <example correction="of">1981 : The Book <marker>Of</marker> the World à avoir.</example>
+                <example>1981 : Best of The Blues Brothers (Atlantic Records).</example>
+                <example>C'est le making-of du film.</example>
+            </rule>
         </rulegroup>
         <rule id="ET-OU" name="et/ou">
             <!-- This is not exactly an "anglicism". But it is usually just wordy and unnecessary -->
@@ -47071,10 +47073,10 @@ though, and has since been slightly modified)-->
                     <token spacebefore="no"/>
                 </marker>
             </antipattern>
-             <antipattern>
-                    <token regexp="yes">[a-z]$</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no">url</token>
+            <antipattern>
+                <token regexp="yes">[a-z]$</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">url</token>
             </antipattern>
             <antipattern>
                 <marker>
