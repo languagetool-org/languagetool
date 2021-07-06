@@ -21,7 +21,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY exceptions_unitestemps_adj "suivant|futur|précédent|passé|dernier|premier"> 
+    <!ENTITY exceptions_unitestemps_adj "suivant|futur|précédent|passé|dernier|premier|prochain"> 
     <!ENTITY prefixes "semi|cyber|hypo|omni|pan|para|péri|pluri|poly|télé|trans|tri|uni|post|sus|mono|prim|co|cardio|éco|hydro|agro|infra|hospitalo|musculo|socio|psycho|aéro|supra|simili|archi|géo|méta|mini|anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi">
     <!ENTITY domain_names "la|li|ai|al|vi|ve|va|vg|us|si|se|bo|be|ca|com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw">
     <!ENTITY elision_regexp "h?[àâaêèéeiîoôòóöŌuœä]\D.*|à|hy\D.*|y[ptslv].*|Yonne|Xbox">
@@ -2547,7 +2547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="D.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;</token>
-                <token regexp="yes">plus|mois</token>
+                <token regexp="yes">plus|moins</token>
                 <token regexp="yes" min="0">loin|tôt|tard</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes">
                     <exception inflected="yes" regexp="yes">&exceptions_unitestemps_adj;</exception></token>
@@ -2556,7 +2556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: other unities -->
                 <token regexp="yes" inflected="yes">.*mètre</token>
                 <token min="0" regexp="yes">carrés?</token>
-                <token regexp="yes">plus|mois</token>
+                <token regexp="yes">plus|moins</token>
                 <token postag="J .*|V ppa .*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -2776,7 +2776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>les</token>
                 <token inflected="yes">avoir</token>
                 <token>le</token>
-                <token regexp="yes">plus|mois</token>
+                <token regexp="yes">plus|moins</token>
                 <token postag="V ppa . p" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -3366,6 +3366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="variés|variées">avec des titres et des catégories bien <marker>varié</marker></example>
             <example>La ville s'est dotée d'un lac artificiel urbain de 40 hectares situé au sud-ouest de la commune.</example>
             <example>La ville s'est dotée d'un lac artificiel urbain d'environ 40 hectares situé au sud-ouest de la commune.</example>
+            <example correction="prochains">Les trois mois <marker>prochain</marker>.</example>
             <example correction="prochains">Au cours des trois mois <marker>prochain</marker>.</example>
         </rule>
     </category>
@@ -4221,7 +4222,7 @@ though, and has since been slightly modified)-->
             <example>Au vaste monde, ailleurs qu’en elle, Pas de place pour toi.</example>
             <example>Je voulais lire un peu ce qu'en on pensait les précédents camptocampistes.</example>
         </rule>
-        <rule id="NOUS_SOMMES" name="nous somme->sommes" default="temp_off">
+        <rule id="NOUS_SOMMES" name="nous somme->sommes">
             <pattern>
                 <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
                 <marker>
@@ -6175,6 +6176,11 @@ though, and has since been slightly modified)-->
                 <example>Des 2000 invités, seuls 1000 sont venus.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>au</token>
+                    <token>cours</token>
+                    <token>des</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">d[eé]s
@@ -6196,6 +6202,7 @@ though, and has since been slightly modified)-->
                 <example>Le congrès des 20 ans de l’association.</example>
                 <example>L’album des 15 ans du groupe.</example>
                 <example>Combien d'années a duré la Guerre des Cent Ans ?</example>
+                <example>Au cours des trois ans précédents.</example>
             </rule>
         </rulegroup>
         <rulegroup id="A_A_ACCENT" name="'A' au lieu de 'À'">
