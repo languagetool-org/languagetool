@@ -45398,6 +45398,34 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
+        <rulegroup id="IN_ANGRIFF" name="in den Angriff (in Angriff) nehmen" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                        <token>den</token>
+                        <token>Angriff</token>
+                    </marker>
+                    <token inflected="yes">nehmen</token>
+                </pattern>
+                <message>In der Redewendung 'etwas <suggestion>in Angriff</suggestion> nehmen' (im Sinne von 'eine Sache angehen') wird der Artikel 'den' gewöhnlich nicht verwendet.</message>
+                <url>https://de.wiktionary.org/wiki/etwas_in_Angriff_nehmen</url>
+                <example correction="in Angriff">Wir haben die Sache endlich <marker>in den Angriff</marker> genommen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1">nehmen</token>
+                    <marker>
+                        <token>in</token>
+                        <token>den</token>
+                        <token>Angriff</token>
+                    </marker>
+                </pattern>
+                <message>In der Redewendung 'etwas <suggestion>in Angriff</suggestion> nehmen' (im Sinne von 'eine Sache angehen') wird der Artikel 'den' gewöhnlich nicht verwendet.</message>
+                <url>https://de.wiktionary.org/wiki/etwas_in_Angriff_nehmen</url>
+                <example correction="in Angriff">Nehmen wir die Sache endlich <marker>in den Angriff</marker>!</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_SAUS_UND_BRAUS" name="in saus (Saus) und braus (Braus)">
             <antipattern case_sensitive="yes">
                 <token>Saus</token>
