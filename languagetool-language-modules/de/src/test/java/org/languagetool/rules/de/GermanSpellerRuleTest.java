@@ -486,7 +486,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("camelionhafte", "chamäleonhafte", rule, lt);
     assertFirstSuggestion("angehangenen", "angehängten", rule, lt);
     assertFirstSuggestion("spätrige", "spätere", rule, lt);
-    assertFirstSuggestion("faustigen", "faustdicke", rule, lt);
+    assertFirstSuggestion("faustigen", "faustdicken", rule, lt);
     assertFirstSuggestion("-Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Kaffeex", "Kaffee", rule, lt);
