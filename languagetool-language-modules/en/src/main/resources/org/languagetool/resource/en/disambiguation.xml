@@ -6413,14 +6413,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*">
-                    <exception regexp="yes" case_sensitive="yes">Here|WHO</exception>
+                    <exception regexp="yes" case_sensitive="yes">Here|WHO|why</exception>
                 </token>
                 <marker>
                     <token spacebefore="no">'s<exception inflected="yes">have</exception></token>
                 </marker>
                 <token>
                     <exception postag="IN"/><!-- Not: Bill's unusually large and expensive house. -->
-                    </token>
+                </token>
             </pattern>
             <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">This is Bill<marker>'s</marker> house.</example>
@@ -15134,5 +15134,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd lemma="no" pos="RB"/><wd lemma="longer" pos="RB"/></disambig>
         </rule>
     </rulegroup>
-
+    <rulegroup id="WHY_S" name="Add VBZ to 'why's'">
+        <rule><!-- Why's he happy? -->
+            <pattern>
+                <token>why</token>
+                <marker>
+                    <token spacebefore="no">'s</token>
+                </marker>
+                <token regexp="yes">s?he|it|they|you|I|we</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ"/></disambig>
+        </rule>
+        <rule><!-- Why's the car driving so fast? -->
+            <pattern>
+                <token>why</token>
+                <marker>
+                    <token spacebefore="no">'s</token>
+                </marker>
+                <token postag="PRP\$|DT" postag_regexp="yes" chunk_re="B-NP.*" />
+                <token postag_regexp="yes" chunk_re="[EI]-NP.*" />
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ"/></disambig>
+        </rule>
+        <rule><!-- Why's Peter so happy? -->
+            <pattern>
+                <token>why</token>
+                <marker>
+                    <token spacebefore="no">'s</token>
+                </marker>
+                <token postag="NNP" chunk_re="[BE]-NP.*" />
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ"/></disambig>
+        </rule>
+    </rulegroup>
 </rules>
