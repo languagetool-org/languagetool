@@ -34,10 +34,10 @@ public class RemoteRuleOffsetsFixTest {
 
   private List<Integer> printShifts(String text) {
     int[] shifts = RemoteRule.computeOffsetShifts(text);
-    for(int i = 0; i < text.length(); i++)  {
-      System.out.printf("%c -> %d | ", text.charAt(i), shifts[i]);
+    for (int i = 0; i < text.length(); i++) {
+      //System.out.printf("%c -> %d | ", text.charAt(i), shifts[i]);
     }
-    System.out.println();
+    //System.out.println();
     return Arrays.stream(shifts).boxed().collect(Collectors.toList());
   }
 
@@ -57,9 +57,9 @@ public class RemoteRuleOffsetsFixTest {
       new RuleMatch(r, s, 0, 1, "Emoji"),
       new RuleMatch(r, s, 1, 4, "foo")
       );
-    matches.forEach(System.out::println);
+    //matches.forEach(System.out::println);
     RemoteRule.fixMatchOffsets(s, matches);
-    matches.forEach(System.out::println);
+    //matches.forEach(System.out::println);
     assertEquals(matches.get(0).getFromPos(), 0);
     assertEquals(matches.get(0).getToPos(), 2);
     assertEquals(matches.get(1).getFromPos(), 2);
