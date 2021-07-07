@@ -59,6 +59,7 @@ public abstract class RemoteRule extends Rule {
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
   protected final boolean filterMatches;
+  protected final boolean fixOffsets;
   protected final Language ruleLanguage;
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
@@ -70,6 +71,7 @@ public abstract class RemoteRule extends Rule {
       ruleId = getId();
     }
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
+    fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
     lastFailure.putIfAbsent(ruleId, 0L);
     timeoutIntervalStart.putIfAbsent(ruleId, 0L);
     timeoutTotal.putIfAbsent(ruleId, new AtomicLong());
@@ -176,13 +178,24 @@ public abstract class RemoteRule extends Rule {
             RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
 
+          if (fixOffsets) {
+            for (AnalyzedSentence sentence : sentences) {
+              List<RuleMatch> toFix = result.matchesForSentence(sentence);
+              if (toFix != null) {
+                fixMatchOffsets(sentence, toFix);
+              }
+            }
+          }
+
           if (filterMatches) {
             List<RuleMatch> filteredMatches = new ArrayList<>();
             for (AnalyzedSentence sentence : sentences) {
               List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
-              List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
-                ruleLanguage, sentence, sentenceMatches);
-              filteredMatches.addAll(filteredSentenceMatches);
+              if (sentenceMatches != null) {
+                List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
+                  ruleLanguage, sentence, sentenceMatches);
+                filteredMatches.addAll(filteredSentenceMatches);
+              }
             }
             result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
           }
@@ -247,4 +260,45 @@ public abstract class RemoteRule extends Rule {
   }
 
 
+  /**
+   *  Helper for {@link fixMatchOffsets}
+   *  calculate accumulated needed shifts at each position in the String
+   *  */
+  static int[] computeOffsetShifts(String s) {
+    int len = s.length();
+    int[] offsets = new int[len];
+    int offset = 0, index = 0, size = 1;
+
+    while(index < len) {
+      size = 0;
+      do {
+        size++;
+      } while (index + size + 1 < len && s.codePointCount(index, index + size + 1) == 1);
+      //System.out.printf("Detected block from %d to %d: '%s'%n", index, index + size, s.substring(index, index + size));
+      offsets[index] = offset;
+      offset += size - 1;
+      for (int i = index + 1; i < index + size; i++) {
+        offsets[i] = offset;
+      }
+      index += size;
+    }
+    return offsets;
+  }
+
+  /**
+   * Adapt offsets so that unicode characters like emojis that span multiple code points are treated
+   * as having the length as given by codePointCount() instead of length();
+   * e.g. Java substring methods use this length (which can be >1 for a single character)
+   * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
+   * so "😁foo".length() == 5, but len("😁foo") == 4;
+   * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'
+   * JavaScript also behaves like Java, so most clients will expect this behavior;
+   * but servers used for RemoteRules will often be written in Python (to access ML frameworks)
+   *  */
+  public static void fixMatchOffsets(AnalyzedSentence sentence, List<RuleMatch> matches) {
+    int[] shifts = computeOffsetShifts(sentence.getText());
+    matches.forEach(m -> {
+      m.setOffsetPosition(m.getFromPos() + shifts[m.getFromPos()], m.getToPos() + shifts[m.getToPos()]);
+    });
+  }
 }
