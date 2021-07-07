@@ -2592,9 +2592,10 @@ RB => Règles Brutes
         </antipattern>
         <pattern>
             <marker>
-                <token postag="V (ind|sub|imp).*" postag_regexp="yes">présente</token>
+                <token postag="V (ind|sub|imp).*" postag_regexp="yes" regexp="yes">présente|rejoint</token>
             </marker>
-            <token postag="D.*" postag_regexp="yes"/>
+            <token min="0" postag="A"/>
+            <token postag="D.*|R dem .*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
@@ -3674,15 +3675,15 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filterall"/>
         </rule>
-        <rule>
+       <!-- <rule>
             <pattern>
                 <token postag="[NZR].*" postag_regexp="yes"/>
                 <marker>
-                    <token>leur</token>
+                    <token postag="R pers obj 3 p">leur</token>
                 </marker>
             </pattern>
-            <disambig postag="R pers obj 3 p="/>
-        </rule>
+            <disambig postag="R pers obj 3 p"/>
+        </rule>-->
         <rule>
             <pattern>
                 <token>ne</token>
