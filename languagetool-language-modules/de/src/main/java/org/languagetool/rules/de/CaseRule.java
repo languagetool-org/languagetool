@@ -943,6 +943,14 @@ public class CaseRule extends Rule {
       posRegex("SUB:.+"),
       csRegex("und|oder|&"),
       posRegex("SUB:.+:(MAS|FEM|NEU)")
+    ),
+    Arrays.asList(
+      // Das denken zwar viele, ist aber total falsch.
+      SENT_START,
+      csToken("Das"),
+      csToken("denken"),
+      new PatternTokenBuilder().posRegex("ADV:.+").min(0).build(),
+      csRegex("viele|manche|die|[dms]eine|ihre|eure|diese|jene|wenige")
     )
   );
 

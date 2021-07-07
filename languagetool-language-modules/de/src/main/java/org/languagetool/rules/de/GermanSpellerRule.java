@@ -912,6 +912,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Böhen?$", "h", "");
     putRepl("Aufständige[mnr]?$", "ig", "isch");
     putRepl("aufständig(e[mnrs]?)?$", "ig", "isch");
+    putRepl("duzend(e[mnrs]?)?$", "uzend", "utzend");
+    putRepl("unrelevant(e[mnrs]?)?$", "un", "ir");
+    putRepl("Unrelevant(e[mnrs]?)?$", "Un", "Ir");
     put("aufgrundedessen", "aufgrund dessen");
     put("Amalgane", "Amalgame");
     put("Kafe", w -> Arrays.asList("Kaffee", "Café"));
