@@ -49486,12 +49486,11 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token spacebefore="no"/>
                 </pattern>
-                <message>Caractère d’apostrophe incorrect.</message>
-                <suggestion>\1’</suggestion>
+                <message>Caractère d'apostrophe incorrect.</message>
                 <suggestion>\1'</suggestion>
-                <example correction="D’|D'"><marker>D´</marker>enfants.</example>
-                <example correction="D’|D'"><marker>D‘</marker>enfants.</example>
-                <example correction="D’|D'"><marker>D′</marker>enfants.</example>
+                <example correction="D'"><marker>D´</marker>enfants.</example>
+                <example correction="D'"><marker>D‘</marker>enfants.</example>
+                <example correction="D'"><marker>D′</marker>enfants.</example>
                 <example>Les Humains (court métrage, 9′), 2003</example>
             </rule>
             <rule>
@@ -49500,10 +49499,22 @@ though, and has since been slightly modified)-->
                     <token spacebefore="no" regexp="yes">[´‘′`’']</token>
                     <token spacebefore="no" regexp="yes">[´‘′`’']</token>
                 </pattern>
-                <message>Caractère d’apostrophe répété.</message>
-                <suggestion>\1’</suggestion>
+                <message>Caractère d'apostrophe répété.</message>
                 <suggestion>\1'</suggestion>
-                <example correction="l’|l'"><marker>l''</marker>homme</example>
+                <example correction="l'"><marker>l''</marker>homme</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[dljmnst]|jusqu|qu</token>
+                        <token spacebefore="no" regexp="yes">[«»“”"\?¡!¿‹›,;:]</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">&elision_regexp;</token>
+                </pattern>
+                <message>Caractère d'apostrophe incorrect.</message>
+                <suggestion>\1'</suggestion>
+                <example correction="l'"><marker>l»</marker>homme</example>
+                <example correction="L'"><marker>L"</marker>homme</example>
             </rule>
         </rulegroup>
         <rule id="VIRGULE_ETC" name="Usage de la virgule: , etc.">
