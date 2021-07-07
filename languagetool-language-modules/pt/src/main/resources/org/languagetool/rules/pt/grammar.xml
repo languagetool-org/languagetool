@@ -2319,7 +2319,43 @@ Os que já vieram estão no salão.
       <short>Construção dúbia</short>
       <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
     </rule>
-
+	
+	<!-- CHAMAR/DENOMINAR DE chamar/denominar -->
+    <rulegroup id='CHAMAR_DENOMINAR_DE' name="Chamar/Denominar de → Chamar/Denominar" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-07 (25-JUN-2021+)      -->
+	<!--
+Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
+A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
+	-->
+	<url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
+	  <rule>
+      <pattern>
+		<marker>
+			<token regexp='yes' inflected='yes'>chamar|denominar</token>
+			<token>de</token>
+		</marker>
+		<token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Os verbos 'chamar' e 'denominar' são pronominais, a redação correta é sem preposição.</message>
+	  <suggestion>\1</suggestion>
+      <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
+	  </rule>
+	  <rule>
+      <pattern>
+		<marker>
+			<token regexp='yes' inflected='yes'>chamar|denominar</token>
+			<token regexp='yes' spacebefore='no'>&hifen;</token>
+			<token regexp='yes' spacebefore='no'>as?|os?|las?|los?|lhas?|lhes?|nos?|me|se|te|vos</token>
+			<token>de</token>
+		</marker>
+		<token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Os verbos 'chamar' e 'denominar' são pronominais, a redação correta é sem preposição.</message>
+	  <suggestion>\1\2\3</suggestion>
+      <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
+	  </rule>	  
+    </rulegroup>
+	
 	<!-- QUE CADA VEZ SERÃO que serão cada vez -->
     <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 + 2021-04-27 + 2021-04-28 (17-MAR-2021+)      -->
