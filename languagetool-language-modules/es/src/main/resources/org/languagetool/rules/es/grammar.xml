@@ -107,12 +107,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </equivalence>
     </unification>
     <phrases>
-        <phrase id="_GN_SINGULAR">
+        <phrase id="_GN_SINGULAR01">
             <token min="1" max="5" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto|adjunto</exception><exception regexp="yes">.*%</exception></token>
         </phrase>
-        <phrase id="_GN_PLURAL">
+        <phrase id="_GN_SINGULAR02">
+            <token postag="DI0.S0" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="_GN_PLURAL01">
             <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">qué|cu[aá]l|cu[aá]nto</exception></token>
             <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|mismo|resto|qué|cu[aá]l|cu[aá]nto</exception></token>
+        </phrase>
+        <phrase id="_GN_PLURAL02">
+            <token postag="DI0.P0" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="_GN_PLURAL">
+            <includephrases>
+                <phraseref idref="_GN_PLURAL01"/>
+                <phraseref idref="_GN_PLURAL02"/>
+            </includephrases>
+        </phrase>
+        <phrase id="_GN_SINGULAR">
+            <includephrases>
+                <phraseref idref="_GN_SINGULAR01"/>
+                <phraseref idref="_GN_SINGULAR02"/>
+            </includephrases>
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
@@ -15270,15 +15288,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="CS">que</token>
                     </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                    <token min="0" postag="D...S." postag_regexp="yes"/>
-                    <token min="1" max="4" postag="(N.|A..).[SC].*|V.P..S." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>
+                   <!-- <token min="0" postag="D...S." postag_regexp="yes"/>
+                    <token min="1" max="4" postag="(N.|A..).[SC].*|V.P..S." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>-->
+                    <phraseref idref="_GN_SINGULAR"/>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
                     <marker>
                         <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
                     </marker>
                 </pattern>
-                <message suppress_misspelled="yes">Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
-                <suggestion><match no="6" postag="(V...)3P(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.* postagFrom:marker postagSelect:V(...)3P(.) postagReplace:V\b13S\b2"/>
+                <message>Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
+                <!--<suggestion><match no="6" postag="(V...)3P(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>-->
                 <example correction="va">El niño se <marker>van</marker> a casa.</example>
                 <example correction="toma">El niño no se <marker>toman</marker> la sopa.</example>
                 <example correction="tomaba">Dijo que el niño no se <marker>tomaban</marker> la sopa.</example>
@@ -15332,15 +15352,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="CS">que</token>
                     </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                    <token min="0" postag="D...P." postag_regexp="yes"/>
-                    <token min="1" max="4" postag="(N.|A..).[PC].*|V.P..." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>
+                    <!--<token min="0" postag="D...P." postag_regexp="yes"/>
+                    <token min="1" max="4" postag="(N.|A..).[PC].*|V.P..." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>-->
+                    <phraseref idref="_GN_PLURAL"/>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
                     <marker>
                         <token postag="V...3S." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3P." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
                     </marker>
                 </pattern>
-                <message suppress_misspelled="yes">Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
-                <suggestion><match no="6" postag="(V...)3S(.)" postag_regexp="yes" postag_replace="$13P$2"/></suggestion>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.* postagFrom:marker postagSelect:V(...)3S(.) postagReplace:V\b13P\b2"/>
+                <message>Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
+                <!--<suggestion><match no="6" postag="(V...)3S(.)" postag_regexp="yes" postag_replace="$13P$2"/></suggestion>-->
                 <example correction="van">Los niños se <marker>va</marker> a casa.</example>
                 <example correction="toman">Los niños no se <marker>toma</marker> la sopa.</example>
                 <example correction="tomaban">Dijo que las niñas no se <marker>tomaba</marker> la sopa.</example>
