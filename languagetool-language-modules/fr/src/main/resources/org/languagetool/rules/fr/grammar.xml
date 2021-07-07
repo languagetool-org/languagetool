@@ -4270,6 +4270,16 @@ though, and has since been slightly modified)-->
                 <suggestion>s'il vous plaît</suggestion>
                 <example correction="S'il vous plait|S'il vous plaît"><marker>S'il vous plais</marker>, aidez-moi.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>s'</token>
+                    <token>il</token>
+                    <token regexp="yes">v[ou]+s?(plait|plaît|plaise|plais|plaises)</token>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>s'il vous plait</suggestion> ?</message>
+                <suggestion>s'il vous plaît</suggestion>
+                <example correction="S'il vous plait|S'il vous plaît"><marker>S'il vouplais</marker>, aidez-moi.</example>
+            </rule>
         </rulegroup>
         <rule id="LAISSEZ_PASSER" name="laissez-passer">
             <pattern>
@@ -23052,17 +23062,22 @@ though, and has since been slightly modified)-->
                 <example>Je ne me « bourre pas de compléments alimentaires ».</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IL_VERBE" name="il/elle + verbe" default="temp_off">
+        <rulegroup id="IL_VERBE" name="il/elle + verbe">
             <antipattern>
                 <token postag="P"/>
                 <token>elle</token>
+            </antipattern>
+            <antipattern>
+                <token>t</token>
+                <token min="0">-</token>
+                <token>il</token>
             </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">il|elle</token>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+
-                            <exception>ya</exception></token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">ya|.*les?|[nv]ous.*</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.s"/>
@@ -23074,7 +23089,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">il|elle</token>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.s"/>
@@ -23087,7 +23102,7 @@ though, and has since been slightly modified)-->
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.s"/>
@@ -23095,12 +23110,17 @@ though, and has since been slightly modified)-->
                 <example correction="élève|relève|enlève|lève|éleva">Elle ne m'<marker>eleve</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ILS_VERBE" name="ils/elles + verbe" default="temp_off">
+        <rulegroup id="ILS_VERBE" name="ils/elles + verbe">
+            <antipattern>
+                <token>t</token>
+                <token min="0">-</token>
+                <token>ils</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">ils|elles</token>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.p"/>
@@ -23112,7 +23132,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">ils|elles</token>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.p"/>
@@ -23125,7 +23145,7 @@ though, and has since been slightly modified)-->
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.p"/>

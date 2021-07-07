@@ -272,6 +272,8 @@ public class French extends Language implements AutoCloseable {
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
+      case "IL_VERBE": return -50; // greater than FR_SPELLING_RULE
+      case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
