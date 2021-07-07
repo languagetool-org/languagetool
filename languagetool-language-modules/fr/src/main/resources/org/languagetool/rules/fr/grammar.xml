@@ -4201,7 +4201,7 @@ though, and has since been slightly modified)-->
             <message>S'il ne s'agit pas d'une expression latine ou anglaise, il est généralement écrit <suggestion>média</suggestion>.</message>
             <example correction="média">Le blog est un <marker>media</marker> personnel.</example>
         </rule>
-        <rule id="QU_EN_QUAND" name="confusion of qu'en et quand" default="temp_off">
+        <rule id="QU_EN_QUAND" name="confusion of qu'en et quand">
             <antipattern>
                 <token inflected="yes">que</token>
                 <token>en</token>
@@ -5212,7 +5212,7 @@ though, and has since been slightly modified)-->
                 <example correction="quand">Et <marker>qu'en</marker> bien même ?</example>
                 <example>Elle est créée le en tant que en même temps que les 43, 46 et 47 divisions.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>quant</token>
                     <token>à</token>
@@ -5247,7 +5247,7 @@ though, and has since been slightly modified)-->
                 <message>Cette expression se construit avec <suggestion>qu'en</suggestion>.</message>
                 <example correction="qu'en">Il en faut pour qu'il me dise de le faire et <marker>quant</marker> même temps, tu le fasses aussi !</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">quan[dt]</token>
                     <token>plus</token>
@@ -6964,7 +6964,7 @@ though, and has since been slightly modified)-->
                 <suggestion>à <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="à Limoges">Reencontres <marker>a limoges</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="V ppr"/>
                     <token regexp="yes">(?-i)a</token>
@@ -7607,7 +7607,7 @@ though, and has since been slightly modified)-->
                 <example>Comfortablement assis, il se sentait bien sur cette chaise.</example>
             </rule>
         </rulegroup>
-        <rule id="SE_SA" name="confusion se/sa" default="temp_off">
+        <rule id="SE_SA" name="confusion se/sa">
             <antipattern>
                 <token regexp="yes">(?-i)SE</token>
             </antipattern>
@@ -7674,7 +7674,7 @@ though, and has since been slightly modified)-->
             <example>Elle tourne se suite vers e nord-est pour suivre la baie de Fundy.</example>
             <example>C'est tout se suite mieux.</example>
         </rule>
-        <rule id="SE_SES" name="confusion of se/ses" default="temp_off">
+        <rule id="SE_SES" name="confusion of se/ses">
             <antipattern>
                 <token regexp="yes">(?-i)SE</token>
             </antipattern>
@@ -7719,7 +7719,7 @@ though, and has since been slightly modified)-->
                     <exception postag="SENT_START"/></token>
                 <token regexp="yes">(?-i)Se</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token postag="J e ." postag_regexp="yes" min="0" max="1"/>
@@ -7807,7 +7807,7 @@ though, and has since been slightly modified)-->
                 <example>Il faut quand même se dé-guinder un petit peu et ne pas se prendre trop au sérieux.</example>
                 <example>Et si le rateau entraine se grande ruine ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token postag="[NJ] f s" postag_regexp="yes"/>
@@ -7872,7 +7872,7 @@ though, and has since been slightly modified)-->
                 <example>Bon, voilà ma journée, et tout ce remue ménage, m'a aussi fatiguée.</example>
                 <example>Pour rouler, comme dans la vie, ce pionner de la "French Touch" affectionne particulièrement le Hip-Hop.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes" skip="4">sont|seraient|seront|furent</token>
@@ -17228,7 +17228,7 @@ though, and has since been slightly modified)-->
                 <example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
                 <example correction="arrière">Il n'y a que les optiques <marker>arrières</marker> en relief.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>biens</token>
                     <token postag="J.*|C coor" postag_regexp="yes"/>
@@ -30272,7 +30272,7 @@ though, and has since been slightly modified)-->
                             <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>« \2 » doit être suivi d’un verbe au présent ou à l'imparfait.</message>
+                <message>« Si » doit être suivi d’un verbe au présent ou à l'imparfait.</message>
                 <suggestion><match no="6" postag="V (etre )?(avoir )?(con|ind) (futu|pres) (.*)" postag_regexp="yes" postag_replace="V $1$2ind pres $5"/></suggestion>
                 <suggestion><match no="6" postag="V (etre )?(avoir )?(con|ind) (futu|pres) (.*)" postag_regexp="yes" postag_replace="V $1$2ind impa $5"/></suggestion>
                 <example correction="meurs|mourais">Si tu ne <marker>mourrais</marker> pas à la fin, on aurait pu faire une suite.</example>
@@ -30300,7 +30300,7 @@ though, and has since been slightly modified)-->
                             <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>« \2 » doit être suivi d’un verbe au présent ou à l'imparfait.</message>
+                <message>« Si » doit être suivi d’un verbe au présent ou à l'imparfait.</message>
                 <suggestion><match no="6" postag="V (etre )?(avoir )?(con|ind) (futu|pres) (.*)" postag_regexp="yes" postag_replace="V $1$2ind pres 2 s"/></suggestion>
                 <suggestion><match no="6" postag="V (etre )?(avoir )?(con|ind) (futu|pres) (.*)" postag_regexp="yes" postag_replace="V $1$2ind impa 2 s"/></suggestion>
                 <example correction="as|avais">Si t’<marker>aurai</marker> gagné, tu aurais été promu capitaine de notre équipe de football.</example>
@@ -30925,26 +30925,6 @@ though, and has since been slightly modified)-->
         <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
             <rule>
                 <antipattern>
-                    <!-- rule IMP_PRON-->
-                    <token postag="V.* imp .*" postag_regexp="yes"/>
-                    <token regexp="yes">la|le|les|nous|vous</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
-                    <token regexp="yes">(?-i)SA|(?-i)CET</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
-                    <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
-                </pattern>
-                <message>Les deux mots « \1 \2 » ne peuvent pas se suivre. Vérifiez une éventuelle confusion ou faute d’orthographe.</message>
-                <example correction="">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
-                <example>Plusieurs de ces langues vont disparaitre.</example>
-                <example>Confirmation avec les SA concernant les mesures à prendre.</example>
-                <example>Les vols se suivent de 10 h à 23 h CET.</example>
-            </rule>
-            <rule default="temp_off">
-                <antipattern>
                     <token postag="V.* imp .*" postag_regexp="yes"/>
                     <token regexp="yes">la|le|les|nous|vous</token>
                 </antipattern>
@@ -30972,7 +30952,7 @@ though, and has since been slightly modified)-->
                 <example>Confirmation avec les SA concernant les mesures à prendre.</example>
                 <example>Les vols se suivent de 10 h à 23 h CET.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>des</token>
                     <token regexp="yes" case_sensitive="yes">[clmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|[vn]ous|on</token>
@@ -30984,7 +30964,7 @@ though, and has since been slightly modified)-->
                 <example correction="De mon|Dès mon"><marker>Des mon</marker> plus jeune âge, j'ai appris à jouer au cartes.</example>
                 <example>Liste des guerres de la clique des Ma.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>aux</token>
                     <token>je</token>
@@ -31004,7 +30984,7 @@ though, and has since been slightly modified)-->
                 <example>Liste des guerres de la clique des Ma.</example>
                 <example>Il prend le lecteur aux je des personnages.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>aux</token>
@@ -31018,7 +30998,7 @@ though, and has since been slightly modified)-->
                 <example correction="à ces|ces|aux">Il le dit <marker>aux ces</marker> enfants tous les jours.</example>
                 <example>Liste des guerres de la clique des Ma.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
@@ -31031,7 +31011,7 @@ though, and has since been slightly modified)-->
                 <example correction="des|les">Il a créé une association avec <marker>des les</marker> personnes bienveillantes.</example>
                 <example>Liste des guerres de la clique des Ma.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes" skip="1" regexp="yes">attendre|parler|cesser</token>
                     <token>de</token>
@@ -31067,7 +31047,7 @@ though, and has since been slightly modified)-->
                 <example>Je pense que si l'un de vous travail sur toulouse.</example>
                 <example>Par contre, si n´êtes pas fan de films d´horreur, pas la peine de vous l´infliger.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes" skip="1" regexp="yes">attendre|parler|cesser</token>
                     <token>de</token>
@@ -31096,7 +31076,7 @@ though, and has since been slightly modified)-->
                         <token case_sensitive="yes">nous</token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes">
-                        <exception regexp="yes">ch[èe]re?s?|challenger|autres?|sires?|madame|mesdames|monsieur|messieurs|ré</exception>
+                        <exception regexp="yes">ch[èe]re?s?|challenger|autres?|sires?|madame|mesdames|monsieur|messieurs|ré|spoiler</exception>
                         <exception postag="[VJ].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Un déterminant doit être placé devant '\3'.</message>
@@ -33228,8 +33208,10 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" skip="-1">[12]\d\d\d</token>
                     <marker>
                         <token>the
-                            <exception scope="previous" postag="UNKNOWN" regexp="yes">[a-z].*</exception></token>
-                        <token regexp="yes">(?-i)[a-z].*</token>
+                            <exception scope="previous" postag="UNKNOWN|F" regexp="yes">[a-z].*</exception>
+                            <exception scope="previous" regexp="yes">after|in</exception> </token>
+                        <token regexp="yes">(?-i)[a-z].*
+                            <exception scope="next" postag="UNKNOWN|F" regexp="yes">[a-z].*</exception> </token>
                     </marker>
                 </pattern>
                 <message>Les mots principaux des titres en anglais commencent par une majuscule.</message>
@@ -34765,7 +34747,7 @@ though, and has since been slightly modified)-->
             <suggestion>amie</suggestion>
             <example correction="amie"><marker>ami de fille</marker></example>
         </rule>
-        <rulegroup id="ACCROCHER_SUR_LE_MUR" name="accrocher sur le mur" default="temp_off">
+        <rulegroup id="ACCROCHER_SUR_LE_MUR" name="accrocher sur le mur">
             <rule>
                 <pattern>
                     <token inflected="yes">accrocher</token>
@@ -42561,36 +42543,36 @@ though, and has since been slightly modified)-->
                 <example correction="dépendance"><marker>addiction</marker></example>
                 <example><marker>dépendance</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="D . s" postag_regexp="yes"/>
                     <token regexp="yes">add?ictions?
                         <exception scope="next" regexp="yes">à|aux</exception></token>
                 </pattern>
-                <message>« Addiction » peut être considéré comme un anglicisme.</message>
+                <message>Le mot « Addiction » peut être considéré comme un anglicisme.</message>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> dépendance</suggestion>
                 <example correction="sa dépendance"><marker>son addiction</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="D . s" postag_regexp="yes"/>
                     <token regexp="yes">add?ictions?</token>
                     <token regexp="yes">à</token>
                 </pattern>
-                <message>« Addiction » peut être considéré comme un anglicisme.</message>
+                <message>Le mot « Addiction » peut être considéré comme un anglicisme.</message>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> dépendance \3</suggestion>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 m $3"/> penchant pour</suggestion>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> passion pour</suggestion>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> faiblesse pour</suggestion>
                 <example correction="La dépendance à|Le penchant pour|La passion pour|La faiblesse pour"><marker>L'addiction à</marker> la télévision est un nouveau phénomène de notre siècle.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="D . s" postag_regexp="yes"/>
                     <token regexp="yes">add?ictions?</token>
                     <token>aux</token>
                 </pattern>
-                <message>« Addiction » peut être considéré comme un anglicisme.</message>
+                <message>Le mot « Addiction » peut être considéré comme un anglicisme.</message>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> dépendance \3</suggestion>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 m $3"/> penchant pour les</suggestion>
                 <suggestion><match no="1" postag="(D) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> passion pour les</suggestion>
@@ -48899,7 +48881,7 @@ though, and has since been slightly modified)-->
                 <message>Un trait d'union lie ces deux termes afin de former l'adjectif <suggestion>\1-\2</suggestion>.</message>
                 <example correction="franco-allemandes">Les relations <marker>franco allemandes</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>afro
                         <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
@@ -54390,7 +54372,7 @@ though, and has since been slightly modified)-->
                 <example>J'ai fondé un groupe d'anglais sur Facebook.</example>
                 <example>Nos rencontres d'anglais peuvent être intéressantes aussi pour les Anglais et les Américains.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes">
                         <exception regexp="yes">des?</exception></token>
@@ -54406,7 +54388,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" case_conversion="startupper"/>-<match no="3" case_conversion="startupper"/></suggestion>
                 <example correction="Afro-Américains">Ils sont des <marker>afro américains</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes">
                         <exception regexp="yes">des?</exception></token>
@@ -54422,7 +54404,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" case_conversion="startupper"/>-<match no="3" case_conversion="startupper"/></suggestion>
                 <example correction="Bissau-Guinéens">Ils sont des <marker>bissau guinéens</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes">
                         <exception regexp="yes">des?</exception></token>
@@ -54438,7 +54420,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" case_conversion="startupper"/>-<match no="3" case_conversion="startupper"/></suggestion>
                 <example correction="Nord-Coréen">Un <marker>nord coréen</marker> habite en Asie.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes">
                         <exception regexp="yes">des?</exception></token>
