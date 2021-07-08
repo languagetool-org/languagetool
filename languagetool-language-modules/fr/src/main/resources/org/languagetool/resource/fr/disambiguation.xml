@@ -3686,12 +3686,22 @@ RB => Règles Brutes
         </rule>-->
         <rule>
             <pattern>
+                <token regexp="yes">je|tu|il|elle|nous|vous|ils|elles</token>    
+                <marker>
+                    <token postag="R pers obj 3 e p">leur</token>
+                </marker>
+                <token postag="V.*[123].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="R pers obj 3 e p"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token>ne</token>
                 <marker>
-                    <token>leur</token>
+                    <token postag="R pers obj 3 e p">leur</token>
                 </marker>
             </pattern>
-            <disambig postag="R pers obj 3 p"/>
+            <disambig action="filter" postag="R pers obj 3 e p"/>
         </rule>
         <rule>
             <pattern>
