@@ -28523,6 +28523,14 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
                     <token postag="P.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token postag="Y" postag_regexp="yes"/>
+                    <token min="0" regexp="yes">\p{L}{1,3}</token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START.*" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
@@ -28555,6 +28563,11 @@ though, and has since been slightly modified)-->
                 <example correction="créent">Dans les années 90, les flux financiers <marker>crée</marker> et exacerbent les inégalités.</example>
                 <example correction="sont">Les 10 maisons <marker>est</marker> jolies.</example>
                 <example correction="sont">Les maisons <marker>est</marker> jolie.</example>
+                <example correction="possèdent">45 personnes <marker>possède</marker> des diplômes de niveau universitaire.</example>
+                <example>2013 a été une vraie garce.</example>
+                <example>Windows 10 permet cela durant 30 jours avec une procédure très simple.</example>
+                <example>2016 valait 375,25 €/t (- 0,75 €/t).</example>
+                <example>1 pg représente environ 1 000 Mpb.</example>
                 <example>10 est mon nombre préféré.</example>
                 <example>Dix est mon nombre préféré.</example>
                 <example>Au diable toutes ces histoires</example>
@@ -28703,7 +28716,12 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token postag="K" skip="-1"/>
                     <token postag="K"/>
-                    <token>fait</token>
+                    <token regexp="yes">fait|vaut</token>
+                </antipattern>
+                <antipattern>
+                    <token>au</token>
+                    <token regexp="yes">carré|cube</token>
+                    <token regexp="yes">fait|vaut</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.* 3 s" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
