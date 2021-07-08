@@ -18705,7 +18705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Meine <marker>kleine Maus</marker> ist so süß.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SELTENE_RARITÄT" name="seltene Rarität" type="style" default="temp_off">
+        <rulegroup id="SELTENE_RARITAET" name="seltene Rarität" type="style" default="temp_off">
             <rule>
                 <pattern>
                     <token regexp="yes">seltene[rn]?</token>
@@ -18716,6 +18716,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Raritäten">Der Laden hatte viele <marker>seltene Raritäten</marker>.</example>
                 <example correction="Rarität">Eine <marker>seltene Rarität</marker>!</example>
                 <example>Eine <marker>seltene Tugend</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZEITLICHE_VERZOEGERUNG" name="zeitliche Verzögerung" type="style" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">zeitliche[rn]?</token>
+                    <token regexp="yes">Verzögerung(en)?</token>
+                </pattern>
+                <message>Redundanz: Das Substantiv <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'zeitlich'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen oder durch ein geeigneteres (z.B. 'erheblich', 'häufig') ersetzen möchten.</message>
+                <short>&redundanz;</short>
+                <example correction="Verzögerungen">Es gab immer öfter <marker>zeitliche Verzögerungen</marker>.</example>
+                <example correction="Verzögerung">Es kam zu einer <marker>zeitlichen Verzögerung</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">zeitliche[rn]?</token>
+                    <token regexp="yes">Dauer</token>
+                </pattern>
+                <message>Redundanz: Das Substantiv <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'zeitlich'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen möchten.</message>
+                <short>&redundanz;</short>
+                <example correction="Dauer">Wir sollten die <marker>zeitliche Dauer</marker> beschleunigen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WEIBLICHE_-INNEN" name="'weibliche Benutzerin' etc.">
