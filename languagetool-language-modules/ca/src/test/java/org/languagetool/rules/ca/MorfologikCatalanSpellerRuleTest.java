@@ -380,7 +380,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("Lilla", matches[0].getSuggestedReplacements().get(0));
         assertEquals("l'illa", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(lt.getAnalyzedSentence("portas"));
-        assertEquals("portes", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("portàs", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("portes", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(lt.getAnalyzedSentence("mantenir'me"));
         assertEquals("mantenir-me", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("elcap"));
@@ -400,7 +401,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(lt.getAnalyzedSentence("lah"));
         assertEquals("la", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("dela"));
-        assertEquals("de la", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Dela", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("de la", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(lt.getAnalyzedSentence("sha"));
         assertEquals("s'ha", matches[0].getSuggestedReplacements().get(0));
         assertEquals("xe", matches[0].getSuggestedReplacements().get(1));
