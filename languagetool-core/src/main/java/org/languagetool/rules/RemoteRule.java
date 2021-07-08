@@ -262,43 +262,51 @@ public abstract class RemoteRule extends Rule {
 
   /**
    *  Helper for {@link fixMatchOffsets}
-   *  calculate accumulated needed shifts at each position in the String
+   *  lookup table, find shifted index for i at shifts[i];
    *  */
   static int[] computeOffsetShifts(String s) {
     int len = s.length();
     int[] offsets = new int[len];
-    int offset = 0, index = 0, size = 1;
+    int shifted = 0, original = 0;
 
-    while(index < len) {
-      size = 0;
-      do {
-        size++;
-      } while (index + size + 1 < len && s.codePointCount(index, index + size + 1) == 1);
-      //System.out.printf("Detected block from %d to %d: '%s'%n", index, index + size, s.substring(index, index + size));
-      offsets[index] = offset;
-      offset += size - 1;
-      for (int i = index + 1; i < index + size; i++) {
-        offsets[i] = offset;
-      }
-      index += size;
+    // go from codepoint to codepoint using shifted
+    // offset saved in original will correspond to Java string index shifted
+    while(shifted < len) {
+      offsets[original] = shifted;
+      shifted = s.offsetByCodePoints(shifted, 1);
+      original++;
+    }
+    // save last shifted value if there is one remaining
+    if (original < len) {
+      offsets[original] = shifted;
+    }
+    // fill the rest of the array for exclusive toPos indices
+    for (int i = original + 1; i < len; i++) {
+      offsets[i] = offsets[i - 1] + 1;
     }
     return offsets;
   }
 
   /**
-   * Adapt offsets so that unicode characters like emojis that span multiple code points are treated
-   * as having the length as given by codePointCount() instead of length();
-   * e.g. Java substring methods use this length (which can be >1 for a single character)
+   * Adapt match positions so that results from languages that thread emojis, etc. as length 1
+   * work for Java and match the normal offsets we use
+   * JavaScript also behaves like Java, so most clients will expect this behavior;
+   * but servers used for RemoteRules will often be written in Python (e.g. to access ML frameworks)
+   *
+   * based on offsetByCodePoints since codePointCount can be confusing,
+   * e.g. "👪".codePointCount(0,2) == 1, but length is 2
+   *
+   * Java substring methods use this length (which can be >1 for a single character)
    * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
    * so "😁foo".length() == 5, but len("😁foo") == 4;
    * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'
-   * JavaScript also behaves like Java, so most clients will expect this behavior;
-   * but servers used for RemoteRules will often be written in Python (to access ML frameworks)
    *  */
   public static void fixMatchOffsets(AnalyzedSentence sentence, List<RuleMatch> matches) {
     int[] shifts = computeOffsetShifts(sentence.getText());
     matches.forEach(m -> {
-      m.setOffsetPosition(m.getFromPos() + shifts[m.getFromPos()], m.getToPos() + shifts[m.getToPos()]);
+      int from = shifts[m.getFromPos()];
+      int to = shifts[m.getToPos()];
+      m.setOffsetPosition(from, to);
     });
   }
 }
