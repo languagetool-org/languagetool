@@ -1495,13 +1495,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
-                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>    
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
                 <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="D [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="D [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
+            </antipattern>       
+            <antipattern>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="D [fe] (s|sp)" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="D [fe] (s|sp)" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="[NZ] [fe] (p|sp)" postag_regexp="yes"/>
             </antipattern>
@@ -1602,6 +1618,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V ppa .*" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="J m s"/>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+                </and>
+            </antipattern>
+            <antipattern>
+                <token postag="J f s"/>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)" postag_regexp="yes"/>
+                </and>
             </antipattern>
             <rule>
                 <pattern>
@@ -1727,6 +1757,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Elle faisait de nécessité vertu.</example>
                 <example>Fort de ces victoires, Napoléon 1er lance la France à la conquête de l'Europe.</example>
                 <example>Les commandes en France métropolitaine passées du vendredi au dimanche seront expédiées le mardi suivant.</example>
+                <example>Ce dernier annonce alors à Maggie qu'ils vont rester encore un peu à l'hôtel.</example>
+                <example>Le premier et le deuxième tomes sont disponibles sur Internet.</example>
+                <example>L'autorité de l'enseignant nuit souvent à ceux qui veulent apprendre.</example>
+                <example>Chaque seconde compte, Paul.</example>
+                <example>Dans trois secondes minuit sonnera.</example>
+                <example>en comparaison de la dernière hebdomadaire</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->

@@ -1080,6 +1080,14 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="DONNER_A_INF" name="donner a + inf">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">donner</token>
+            <token postag="P">à</token>
+            <token postag="V inf"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="EXPRESSIONS_BON" name="expressions bon">
         <rule>
             <pattern>
@@ -1827,6 +1835,19 @@ RB => Règles Brutes
             <token>beau</token>
             <token postag="V.* inf" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+            <token inflected="yes">ce</token>
+            <token inflected="yes">dernier</token>
+            <token postag="V.*3.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>chaque</token>
+            <token>seconde</token>
+        </antipattern>
+        <antipattern>
+            <token postag="Y|K" postag_regexp="yes"/>
+            <token>secondes</token>
+        </antipattern>
         <rule>
             <pattern>
                 <!-- <unify>
@@ -1837,7 +1858,7 @@ RB => Règles Brutes
                     <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau|premier|second|.+ème|dernier</token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes">
-                    <exception inflected="yes">vrai</exception></token>
+                    <exception inflected="yes" regexp="yes">vrai|gagne|gouverne|donne</exception></token>
                 <!--</unify>-->
             </pattern>
             <disambig action="filterall"/>
