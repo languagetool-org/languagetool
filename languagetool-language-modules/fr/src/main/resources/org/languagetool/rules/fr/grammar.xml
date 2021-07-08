@@ -4270,7 +4270,7 @@ though, and has since been slightly modified)-->
                 <suggestion>s'il vous plaît</suggestion>
                 <example correction="S'il vous plait|S'il vous plaît"><marker>S'il vous plais</marker>, aidez-moi.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>s'</token>
                     <token>il</token>
@@ -49498,12 +49498,17 @@ though, and has since been slightly modified)-->
             <example>Pressez la touche 'c' pour continuer.</example>
         </rule>
         <rulegroup id="APOS_INCORRECT" name="apostrophe incorrecte">
+            <!-- TODO: duplicate characters: ‘‘  ‘’ `` -->
             <antipattern>
                 <token regexp="yes">\d[\d ,\.]*</token>
                 <token>′</token>
                 <!-- prime, minutes -->
             </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[\(«“]</token>
+                    <token>‘</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token/>
@@ -49528,7 +49533,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\1'</suggestion>
                 <example correction="l'"><marker>l''</marker>homme</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">[dljmnst]|jusqu|qu</token>
