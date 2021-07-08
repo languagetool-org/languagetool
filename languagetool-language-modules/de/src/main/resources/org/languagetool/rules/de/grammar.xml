@@ -21077,6 +21077,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>was</token>
                     <token postag="UNKNOWN" regexp="yes">.+(en|es|em)</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">nach|von|zu|zwischen|bei|hinter|vor</token>
+                    <token>was</token>
+                    <token regexp="yes">ver.+(en|em)</token>
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token>was</token>
+                    <token regexp="yes">ver.+es</token>
+                </antipattern>
                <pattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
                     <token case_sensitive="yes">was</token>
@@ -21096,6 +21106,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich bin auf der Suche nach was Neuem.</example>
                 <example>Ich frag mal nach was da schiefgegangen ist.</example>
                 <example>Ich bin mit was Wichtigerem beschäftigt.</example>
+                <example>Ich rieche den Duft von was verbrannten.</example>
+                <example>Wieso riecht es nach was verbrannten?</example>
             </rule>
             <rule>
                 <pattern>
@@ -49566,17 +49578,6 @@ Andere Projekte</example>
                 <suggestion>„\2“</suggestion>
                 <example correction="„AGB“"><marker>“AGB”</marker> ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
             </rule>
-            <rule>
-                <!-- wird auch von UNPAIRED_BRACKETS gefunden, aber hier mit besserer suggestion -->
-                <pattern>
-                    <token>"</token>
-                    <token spacebefore="no" />
-                    <token spacebefore="no">"</token>
-                </pattern>
-                <message>Möchten Sie die typografisch korrekten deutschen Anführungszeichen benutzen?</message>
-                <suggestion>„\2“</suggestion>
-                <example correction="„AGB“"><marker>"AGB"</marker> ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
-            </rule>
         </rulegroup>
         <rule id="TRADEMARK" name="(TM) statt ™">
             <pattern case_sensitive='yes'>
@@ -49601,7 +49602,7 @@ Andere Projekte</example>
             <antipattern case_sensitive="yes">
                 <token>(</token>        
                 <token regexp="yes">[\p{Lu}^R]</token>
-                <token skip="-1">)</token>        
+                <token skip="-1">)</token>
                 <token>R<exception scope="previous" negate="yes">(</exception></token>
                 <token skip="-1">)</token>
             </antipattern>
@@ -49722,11 +49723,11 @@ Andere Projekte</example>
             <!-- TODO: mit  spacebefore="no/yes" öffnende und schließende Anführungszeichen unterscheiden und entsprechend vorschlagen? -->
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
             <antipattern>
-                <token>=</token>
+                <token skip="-1">=</token>
                 <token>"</token>
             </antipattern>
             <antipattern>
-                <token>=</token>
+                <token skip="-1">=</token>
                 <token>'</token>
                 <token min="0">'</token>
                 <token>'</token>
@@ -49748,7 +49749,10 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
-                        <token regexp="yes" spacebefore="no">.*[a-zäöß0-9].*</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -49762,7 +49766,10 @@ Andere Projekte</example>
                     <token postag="SENT_START" />
                     <marker>
                         <token>"</token>
-                        <token regexp="yes" spacebefore="no">.*[a-zäöß0-9].*</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -49774,7 +49781,10 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
-                        <token regexp="yes" spacebefore="no">.*[a-zäöß0-9].*</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -49788,8 +49798,14 @@ Andere Projekte</example>
                     <token postag="SENT_START" />
                     <marker>
                         <token>"</token>
-                        <token regexp="yes" spacebefore="no">.*[a-zäöß0-9].*</token>
-                        <token regexp="yes">.*[a-zäöß0-9].*</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
+                        <token regexp="yes">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -49801,8 +49817,14 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
-                        <token regexp="yes" spacebefore="no">.*[a-zäöß0-9].*</token>
-                        <token regexp="yes">.*[a-zäöß0-9].*</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
+                        <token regexp="yes">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" />
+                        </token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -49905,7 +49927,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token>=</token>
+                    <token skip="-1">=</token>
                     <token>'</token>
                 </antipattern>
                 <antipattern>
@@ -49952,7 +49974,7 @@ Andere Projekte</example>
                     <token spacebefore="no" regexp="yes">.*[a-z].*</token>
                 </antipattern>
                 <antipattern>
-                    <token>=</token>
+                    <token skip="-1">=</token>
                     <token>'</token>
                 </antipattern>
                 <pattern>
@@ -49971,7 +49993,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token>=</token>
+                    <token skip="-1">=</token>
                     <token>'</token>
                 </antipattern>
                 <pattern>
