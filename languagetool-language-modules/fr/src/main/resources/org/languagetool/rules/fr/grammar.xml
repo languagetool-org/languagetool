@@ -16359,7 +16359,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <antipattern>
                     <token case_sensitive="yes"><exception postag="SENT_START"/>Je</token>
-                    <token>bouquine</token>
+                    <token case_sensitive="yes">Bouquine</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Bouquine</token>
@@ -16484,6 +16484,22 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <antipattern>
+                    <token regexp="yes">Cafouille</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">cafouiller</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">bafouiller</match></suggestion>
+                <suggestion>se <match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">tromper</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">agir</match> de manière désordonnée</suggestion>
+                <example correction="bafouiller|se tromper|agir de manière désordonnée">Il doit éviter de <marker>cafouiller</marker> pour un rien.</example>
+                <example correction="bafouillait|se trompait|agissait de manière désordonnée">Il <marker>cafouillait</marker> pour un rien.</example>
+            </rule>
+            <rule>
+                <antipattern>
                     <token case_sensitive="yes">Capote</token>
                 </antipattern>
                 <antipattern>
@@ -16534,6 +16550,19 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">discuter</match></suggestion>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">marchander</match></suggestion>
                 <example correction="hésitera|discutera|marchandera">Il <marker>chipotera</marker> pour la moindre dépense.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Chouf?f[ea]</token>
+                </antipattern>
+                 <pattern>
+                    <marker>
+                        <token regexp="yes">chouf?f(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" regexp_match="(chouf?f)(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)" regexp_replace="regard$2"/></suggestion>
+                <example correction="regarder">Il a l'habitude de <marker>chouffer</marker> souvent sur sa vie.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -16796,6 +16825,16 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">réagir</match></suggestion>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">protester</match></suggestion>
                 <example correction="réagira|protestera">Il ne <marker>mouftera</marker> pas devant plus grand que lui.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">mython?n(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" regexp_match="(mython?n)(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)" regexp_replace="affabul$2"/></suggestion>
+                <example correction="affabuler">Il a l'habitude de <marker>mythonner</marker> souvent sur sa vie.</example>
             </rule>
             <rule>
                 <pattern>
