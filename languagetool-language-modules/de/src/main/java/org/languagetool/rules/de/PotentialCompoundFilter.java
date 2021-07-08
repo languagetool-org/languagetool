@@ -43,29 +43,17 @@ public class PotentialCompoundFilter extends RuleFilter {
     initLt();
     String part1 = arguments.get("part1");
     String part2 = arguments.get("part2");
-    String determiner = arguments.get("determiner");
 
     String joinedWord = StringTools.uppercaseFirstChar(part1.toLowerCase()) + part2.toLowerCase();
     List<String> replacements = new ArrayList<>();
-    List<RuleMatch> matches = lt.check(joinedWord + "; " + determiner + " " + part1 + " " + part2);
+    List<RuleMatch> matches = lt.check(joinedWord);
     if (matches.isEmpty()) {
       if (joinedWord.length() > 20) {
         replacements.add(part1 + "-" + part2);
       }
       replacements.add(joinedWord);
     } else {
-      boolean isDE_AGREEMENT = false;
-      boolean isGERMAN_SPELLER_RULE = false;
-      for (RuleMatch m : matches) {
-        if (m.getRule().getId().equals("GERMAN_SPELLER_RULE")) {
-          isGERMAN_SPELLER_RULE = true;
-        } else if (m.getRule().getId().equals("DE_AGREEMENT")) {
-          isDE_AGREEMENT = true;
-        }
-      }
-      if (isGERMAN_SPELLER_RULE && !isDE_AGREEMENT) {
-        replacements.add(part1 + "-" + part2);
-      }
+      replacements.add(part1 + "-" + part2);
     }
 
     if (!replacements.isEmpty()) {
@@ -83,10 +71,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     if (lt == null) {
       lt = new JLanguageTool(language);
       for (Rule rule : lt.getAllActiveRules()) {
-        // TODO: If DE_AGREEMENT gives the same suggestions,
-        // perhaps there is no need to check it here (?).
-        // Just give higher priority to DE_AGREEMENT
-        if (!rule.getId().equals("DE_AGREEMENT") && !rule.getId().equals("GERMAN_SPELLER_RULE")) {
+        if (!rule.getId().equals("GERMAN_SPELLER_RULE")) {
           lt.disableRule(rule.getId());
         }
       }
