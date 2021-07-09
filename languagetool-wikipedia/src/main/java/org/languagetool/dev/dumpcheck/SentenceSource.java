@@ -32,12 +32,14 @@ import java.util.regex.Pattern;
  */
 public abstract class SentenceSource implements Iterator<Sentence> {
 
-  private static final int MIN_SENTENCE_SIZE = 10;
-  private static final int MIN_SENTENCE_TOKEN_COUNT = 4;
-  private static final int MAX_SENTENCE_LENGTH = 300;
+  static final int MIN_SENTENCE_LENGTH = 10;
+  static final int MIN_SENTENCE_TOKEN_COUNT = 4;
+  static final int MAX_SENTENCE_LENGTH = 300;
 
   private final Tokenizer wordTokenizer;
   private final Pattern acceptPattern;
+  
+  private int ignoreCount = 0;
 
   SentenceSource(Language language) {
     this(language, null);
@@ -75,14 +77,25 @@ public abstract class SentenceSource implements Iterator<Sentence> {
     if (acceptPattern != null) {
       if (!acceptPattern.matcher(sentence).find()) {
         // useful speedup: we don't consider sentences that cannot match anyway
+        ignoreCount++;
         return false;
       }
     }
     String trimSentence = sentence.trim();
-    return trimSentence.length() >= MIN_SENTENCE_SIZE && trimSentence.length() <= MAX_SENTENCE_LENGTH
-            && countTokens(trimSentence) >= MIN_SENTENCE_TOKEN_COUNT;
+    boolean accept = trimSentence.length() >= MIN_SENTENCE_LENGTH && trimSentence.length() <= MAX_SENTENCE_LENGTH
+      && countTokens(trimSentence) >= MIN_SENTENCE_TOKEN_COUNT;
+    if (accept) {
+      return true;
+    } else {
+      ignoreCount++;
+      return false;
+    }
   }
-
+  
+  int getIgnoredCount() {
+    return ignoreCount;
+  }
+  
   private int countTokens(String sentence) {
     int realTokens = 0;
     List<String> allTokens = wordTokenizer.tokenize(sentence);
