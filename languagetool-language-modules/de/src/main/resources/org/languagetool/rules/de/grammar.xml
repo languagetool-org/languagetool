@@ -11601,7 +11601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>vor</token>
                     <token>ort</token>
-                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
+                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze|gespräch(es|s)?</token>
                 </pattern>
                 <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
                 <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
@@ -11611,7 +11611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>vor-ort</token>
-                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
+                    <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze|gespräch(es|s)?</token>
                 </pattern>
                 <message>Das Nomen <suggestion>Vor-Ort-<match no="2" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
                 <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
@@ -21876,6 +21876,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="MESSERS_SCHNEIDE" name="auf Messers Schneide" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Messers|MESSERS</token>
+                <token regexp="yes">Schneide|SCHNEIDE</token>
+            </antipattern>
+            <pattern>
+                <token>auf</token>
+                <token regexp="yes">Messers?</token>
+                <token regexp="yes">Schn?eide</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>auf Messers Schneide</suggestion>?</message>
+            <example correction="auf Messers Schneide">Das Spiel steht <marker>auf Messers schneide</marker>.</example>
+        </rule>
         <rule id="HERR_MEINER_SELBST" name="Herr seiner Selbst (selbst)">
             <pattern>
                 <token>Herr</token>
