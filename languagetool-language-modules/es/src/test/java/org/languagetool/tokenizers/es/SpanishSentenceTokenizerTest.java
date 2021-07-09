@@ -71,7 +71,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Hasta las pp. XI-XII.");
     testSplit("y es del vol. 3 de la colección");
     testSplit("En EE.UU.");
-    testSplit("En EE. UU.");
+    testSplit("En EE. UU. por los DD. HH. después de los JJ. OO.");
     testSplit("En U.S.A. años 30.");
     testSplit("En U. S. A. años 30.");
     testSplit("P. ej. esto.");
