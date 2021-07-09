@@ -48,6 +48,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY comp_mots "[a-zàâéèêîôûïëüçœ'-]"> 
     <!ENTITY exceptions_sujet_singulier "plupart|nombre|poignée|pourcentage|cent|mille|demi-million|million|milliard|majorité|essaim|group|partie|douzaine|demi-douzaine|moitié|cinquantaine|quarantaine|foule|trentaine|vingtaine|soixantaine|reste|dizaine|centaine|millier|multitude">
     <!ENTITY exceptions_sujet_singulier2 "groupe|genre|ensemble|intégralité|série|concentration|infinité|tas|quantité|tiers|famille|équipe">
+    <!ENTITY exceptions_IL_VERBE "ya|.*les?|[nv]ous.*|.*donc">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
@@ -942,6 +943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Elle les martèle puis les patine de différentes manières.</example>
                 <example>Et plus le rate CPRI sera élevé.</example>
                 <example>Est-ce que nous voyons la cent millième partie de ce qui existe ?</example>
+                <example>si tu leur verses du sel dessus</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -1051,6 +1053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Je n'arrive pas à me débarrasser de cette bon Dieu de phrase !</example>
                 <example>On peut y ajouter le Jazz, la Soul, et désormais le Funk.</example>
                 <example>dans les 2e, 3e et 4e versions</example>
+                <example>si vous leur dites de venir</example>
                 <example type="triggers_error">Je vous souhaite à tous bonne chance.</example>
                 <example type="triggers_error">Coaprovel s'est révélé le droit de vente pour tous fictif</example>
             </rule>
@@ -1492,13 +1495,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
-                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>    
                 <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
                 <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token postag="D [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="D [me] (s|sp)" postag_regexp="yes"/>
+                <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                <token postag="[NZ] [me] (p|sp)" postag_regexp="yes"/>
+            </antipattern>       
+            <antipattern>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="[NZ] [fe] (p|sp)" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="D [fe] (s|sp)" postag_regexp="yes"/>
+                <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="D [fe] (s|sp)" postag_regexp="yes"/>
                 <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
                 <token postag="[NZ] [fe] (p|sp)" postag_regexp="yes"/>
             </antipattern>
@@ -1599,6 +1618,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V ppa .*" postag_regexp="yes"/>
                 <token postag="C coor|M nonfin" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V ppa .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="J m s"/>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)" postag_regexp="yes"/>
+                </and>
+            </antipattern>
+            <antipattern>
+                <token postag="J f s"/>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)" postag_regexp="yes"/>
+                </and>
             </antipattern>
             <rule>
                 <pattern>
@@ -1724,6 +1757,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Elle faisait de nécessité vertu.</example>
                 <example>Fort de ces victoires, Napoléon 1er lance la France à la conquête de l'Europe.</example>
                 <example>Les commandes en France métropolitaine passées du vendredi au dimanche seront expédiées le mardi suivant.</example>
+                <example>Ce dernier annonce alors à Maggie qu'ils vont rester encore un peu à l'hôtel.</example>
+                <example>Le premier et le deuxième tomes sont disponibles sur Internet.</example>
+                <example>L'autorité de l'enseignant nuit souvent à ceux qui veulent apprendre.</example>
+                <example>Chaque seconde compte, Paul.</example>
+                <example>Dans trois secondes minuit sonnera.</example>
+                <example>en comparaison de la dernière hebdomadaire</example>
+                <example>quand ces derniers violent Djamila</example>
+                <example>Quand es-tu devenu enseignante ?</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -4270,7 +4311,7 @@ though, and has since been slightly modified)-->
                 <suggestion>s'il vous plaît</suggestion>
                 <example correction="S'il vous plait|S'il vous plaît"><marker>S'il vous plais</marker>, aidez-moi.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>s'</token>
                     <token>il</token>
@@ -18861,12 +18902,15 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token>il</token>
+                    <token min="0">n'</token>
                     <marker>
                         <token>ya</token>
                     </marker>
                 </pattern>
-                <message>Ces deux mots doivent être séparés : <suggestion>y a</suggestion>.</message>
+                <message>Ces deux mots doivent être séparés.</message>
+                <suggestion>y a</suggestion>
                 <example correction="y a">Il <marker>ya</marker> douze personnes.</example>
+                <example correction="y a">Il n'<marker>ya</marker> qu'une heure environ.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -18888,6 +18932,18 @@ though, and has since been slightly modified)-->
                 <example>Il n'ya qu'une heure environ.</example>
             </rule>
         </rulegroup>
+        <rule id="NY" name="ny/n'y" default="temp_off">
+            <antipattern>
+                <token>ny</token>
+                <token regexp="yes">c|city|county|counties|state</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token>ny</token>
+            </pattern>
+            <message>Ces deux mots doivent être séparés.</message>
+            <suggestion>n'y</suggestion>
+            <example correction="n'y">Il <marker>ny</marker> comprend pas.</example>
+        </rule>
         <rule id="COMME_ME_LE_DIRE" name="comme me le dire accord">
             <pattern>
                 <token>comme</token>
@@ -22728,12 +22784,11 @@ though, and has since been slightly modified)-->
         <rulegroup id="VOUS_NOUS_NON_VERBE" name="vous/nous + non verbe" default="temp_off">
             <rule>
                 <pattern>
-                    <token>de</token>
+                    <token regexp="yes">que|de</token>
                     <marker>
                         <token regexp="yes">[nv]ous</token>
-                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes">
-                            <exception postag="V.*[123].*" postag_regexp="yes"/>
-                            <exception postag="R pers obj.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes">
+                            <exception postag="V.* inf" postag_regexp="yes"/>
                             <exception regexp="yes">a|as|.*s</exception></token>
                     </marker>
                 </pattern>
@@ -22748,7 +22803,7 @@ though, and has since been slightly modified)-->
                     <token>de</token>
                     <token regexp="yes">[nv]ous</token>
                     <marker>
-                        <token postag="(?!PARA_END)[ACKNJZPV].*" postag_regexp="yes" regexp="yes">.*s
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">.*s
                             <exception postag="V.*[123].*" postag_regexp="yes"/>
                             <exception postag="R pers obj.*" postag_regexp="yes"/>
                             <exception regexp="yes">[aà]</exception></token>
@@ -22763,17 +22818,266 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token>que</token>
                     <token>vous</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
                             <exception postag="V.*[123].*" postag_regexp="yes"/>
                             <exception postag="R pers obj.*" postag_regexp="yes"/>
-                            <exception regexp="yes">a|as</exception></token>
+                            <exception regexp="yes">a|as|faîtes</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet '\2'.</message>
                 <example correction="fermiez">C'est dommage que vous <marker>fermier</marker> maintenant.</example>
             </rule>
+			<rule>
+            <antipattern>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf|V.* 3 [sp]?" postag_regexp="yes" skip="-1"/>
+                <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">(?-i)Que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* sub .* 3 [sp]" postag_regexp="yes" skip="-1"/>
+                <token>à</token>
+                <token>ce</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>vous</token>
+                <token postag="V.* 2 p" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="V (avoir|etre).*" postag_regexp="yes" min="0" max="1"/>
+                <token inflected="yes" regexp="yes" skip="3">savoir|pouvoir|faire|aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V (avoir|etre).*" postag_regexp="yes" min="0" max="1"/>
+                <token inflected="yes" regexp="yes" skip="5">savoir|pouvoir|faire|aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf|V.* 3 [sp]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">de|à</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token skip="-1">à</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">que|qu'</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf|V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token postag="V etre.* 3 s" postag_regexp="yes" skip="1"/>
+                <token>de</token>
+                <token regexp="yes">l[aà]</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ce</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tou[st]</token>
+                <token>ce</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_.*|R dem.*|A inte|R [mf] ." postag_regexp="yes"/>
+                <token postag="V etre.* 3 [sp]" postag_regexp="yes"/>
+                <token postag="_GN_.*" postag_regexp="yes" min="1" max="5"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>vous</token>
+                <token>coté</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">avec</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="1">qui</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>vous</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token postag="[AP]" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">falloir|valoir|devoir</token>
+                <token postag="R pers.*|A" postag_regexp="yes" min="0" max="3"/>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes" skip="3"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">voil[aà]</token>
+                <token postag="_GN_.*" postag_regexp="yes"  skip="2"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers.*" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"  skip="-1"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* imp pres 2 p" postag_regexp="yes"  skip="-1"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>vous</token>
+                <token postag="V.* 2 p" postag_regexp="yes"/>
+                <token>le</token>
+                <token>choix</token>
+                <token skip="-1">entre</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 [sp]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"><exception postag="V.* pp.*|V.* inf" postag_regexp="yes"/></token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>que
+                    <exception scope="previous" regexp="yes">tel(le)?s?|plutôt|parce</exception>
+                </token>
+                <token>vous</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V.* 2 p|N.*" postag_regexp="yes"/>
+                        <exception regexp="yes">a|as|puis|importe</exception></token>
+                </marker>
+            </pattern>
+            <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet '\2'.</message>
+            <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V sub pres 2 p"/></suggestion>
+            <example correction="arriviez">C'est dommage que vous <marker>arriver</marker> tard.</example>
+            <example>Rome plutôt que vous est son premier long métrage.</example>
+            <example>Nous ne voulons que vous vendre des denrées.</example>
+            <example>Qui mieux que vous sait vos besoins ?</example>
+            <example>Je ne vous demande qu'une seule chose, la seule chose que vous implore votre oncle Sabicas.</example>
+            <example>En plus vous vous permettez de m'envoyer des avertissements sous prétexte que vous vues en accord avec les vôtres ?</example>
+            <example>Que vous apporte l’alpinisme qu'aucune autre activité ne vous procure ?</example>
+            <example>Vous pourrez retrouver les messages que vous laissent les autres utilisateurs.</example>
+            <example>Vous ne faites plus que vous plaindre.</example>
+            <example>Ceci est l'unique conseil que vous donne l'oncle Sabicas.</example>
+            <example>Il n'y a pas de raison qu'ils en sachent plus que vous coté technique.</example>
+            <example>Vous ne ferez que faire perdre du temps à des bénévoles qui ont autre chose à faire que vous donner bonne conscience.</example>
+            <example>J'attends de vous ainsi que de Wikipédia - qui n' a fait que vous recopier.</example>
+            <example>Si oui que vous ont-ils fait?</example>
+            <example>Je ne peux pour l instant que vous apporter ma bonne humeur.</example>
+            <example>On a été un peu plus rapide que vous puis qu'on s'est posés 500m.</example>
+            <example>Je me suis dit que vous consulter avant serait mieux vu.</example>
+            <example>Ils peuvent tout autant vous aider que vous mettre des bâtons dans les roues.</example>
+            <example>A un tarif qui ne soit pas supérieur à ce que vous coûte l’acte physique de réaliser une distribution source.</example>
+            <example>Plusieurs français avec le même bagage que vous sont passer dans mes cours.</example>
+            <example>Nous pouvons que vous conseille de regarder les différents tarifs.</example>
+            <example>Il n'a pour seul but que vous faire admirer la photo de ma maman.</example>
+            <example>Je ne veux rien d'autre que vous comprendre.</example>
+            <example>Telles sont les paroles que vous adressa Yahvé quand vous étiez tous assemblés sur la montagne.</example>
+            <example>Vous avez le choix entre le guide usuel dont on connaît la recette et cette anthologie que vous présentent deux romanciers de la région.</example>
+            <example>Dites-nous si vous n'y retrouvez pas la surprise, l'impression d'étrangeté et de dépaysement que vous donnèrent jadis le Puits et le pendule ou le Scarabée d'or.</example>
+            <example>Voilà le cocktail que vous propose le canal de Nantes à Brest.</example>
+            <example>Je pense que vous remarques sont les bienvenues.</example>
+            <example>Notez le rendez-vous que vous propose Mountain Wilderness demain à Grenoble.</example>
+            <example>Nous apporter des idées au sujet de ces 5 points ou d'autres que vous viennent à la tête.</example>
+            <example>Peut etre vaut il mieux aussi vous donner du boulot que vous subventionner.</example>
+            <example>Puis-je ajouter que vous présenter d’une manière plus souple.</example>
+            <example>C'est donc de la que vous vient cette haine des helicopteres.</example>
+            <example>Que vous voulaient ces deux hommes ?</example>
+        </rule>
         </rulegroup>
         <rulegroup id="NON_V" name="pronom sujet + nom/adj" default="off">
             <!--<antipattern>
@@ -23068,7 +23372,7 @@ though, and has since been slightly modified)-->
                 <token>elle</token>
             </antipattern>
             <antipattern>
-                <token>t</token>
+                <token regexp="yes">t|t'</token>
                 <token min="0">-</token>
                 <token>il</token>
             </antipattern>
@@ -23077,7 +23381,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">il|elle</token>
                     <marker>
                         <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
-                            <exception regexp="yes">ya|.*les?|[nv]ous.*</exception></token>
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.s"/>
@@ -23089,7 +23393,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">il|elle</token>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.s"/>
@@ -23102,7 +23407,8 @@ though, and has since been slightly modified)-->
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.s"/>
@@ -23112,7 +23418,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="ILS_VERBE" name="ils/elles + verbe">
             <antipattern>
-                <token>t</token>
+                <token regexp="yes">t|t'</token>
                 <token min="0">-</token>
                 <token>ils</token>
             </antipattern>
@@ -23120,7 +23426,8 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">ils|elles</token>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.p"/>
@@ -23132,7 +23439,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">ils|elles</token>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.p"/>
@@ -23145,7 +23453,8 @@ though, and has since been slightly modified)-->
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <token postag="[AR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+</token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.p"/>
@@ -25579,6 +25888,11 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">vous|te</token>
                     <token regexp="yes">remerciant|souhaitant</token>
                 </antipattern>
+                <antipattern>
+                    <token>vous</token>
+                    <token>puis</token>
+                    <token inflected="yes">que</token>
+                </antipattern>
                 <pattern>
                     <token postag="R pers suj 2 p">
                         <exception postag="R pers obj 2 p"/>
@@ -25597,6 +25911,7 @@ though, and has since been slightly modified)-->
                 <example correction="travaillez|travailliez">Vous ne <marker>travaille</marker> pas.</example>
                 <example>Vous ne travaillez pas.</example>
                 <example>Écoutez ce que vous disent ces femmes.</example>
+                <example>On a été un peu plus rapide que vous puis qu'on s'est posés 500m.</example>
                 <example>Écoutez ce que vous dit cette femme.</example>
                 <example>Vous ai-je fait attendre longtemps ?</example>
                 <example>Que vous arrive-t-il donc ?</example>
@@ -49498,12 +49813,17 @@ though, and has since been slightly modified)-->
             <example>Pressez la touche 'c' pour continuer.</example>
         </rule>
         <rulegroup id="APOS_INCORRECT" name="apostrophe incorrecte">
+            <!-- TODO: duplicate characters: ‘‘  ‘’ `` -->
             <antipattern>
                 <token regexp="yes">\d[\d ,\.]*</token>
                 <token>′</token>
                 <!-- prime, minutes -->
             </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[\(«“]</token>
+                    <token>‘</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token/>
@@ -49528,7 +49848,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\1'</suggestion>
                 <example correction="l'"><marker>l''</marker>homme</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">[dljmnst]|jusqu|qu</token>
@@ -51195,6 +51515,13 @@ though, and has since been slightly modified)-->
                 <token>est</token>
                 <token skip="-1">Gertrude</token>
             </antipattern>
+            <antipattern>
+                <token postag="Z.*" postag_regexp="yes"/>
+                <token>est</token>
+                <token postag="P" min="0" max="1"/>
+                <token postag="Z.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
             <pattern>
                 <token postag="Z.*" postag_regexp="yes"/>
                 <marker>
@@ -51209,6 +51536,7 @@ though, and has since been slightly modified)-->
             <example correction="et">Marie <marker>est</marker> Pierre arrivent demain.</example>
             <example>Effectivement, c'est une agence népalaise dont la correspondante en France est Stéphanie Conte.</example>
             <example>Jonah Winter, Gertrude est Gertrude est Gertrude, Paris, éditions RMN, 2011.</example>
+            <example>L'actrice préférée de Tom est Ellen Page.</example>
         </rule>
         <rule default="temp_off">
             <antipattern>

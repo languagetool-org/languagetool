@@ -4000,12 +4000,25 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="SENT_START"/>
             <token postag="VB">
                 <exception postag="JJS"/><!-- Regression error for #2748: Best Art Direction -->
-                </token>
+            </token>
             <token postag="NNP"/>
         </antipattern>
         <antipattern>
             <token>to</token>
             <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey|Kill|Punch|Reform|Bang</token>
+        </antipattern>
+        <antipattern>
+            <token>let</token>
+            <token>'s</token>
+            <token postag="VB" regexp="yes" case_sensitive="yes">\p{Lu}\p{Ll}+</token>
+        </antipattern>
+        <antipattern>
+            <token>please</token>
+            <token postag="VB" regexp="yes" case_sensitive="yes">\p{Lu}\p{Ll}+</token>
+        </antipattern>
+        <antipattern>
+            <token postag="MD" />
+            <token postag="VB" regexp="yes" case_sensitive="yes">\p{Lu}\p{Ll}+</token>
         </antipattern>
         <pattern case_sensitive="yes">
             <marker>
@@ -4016,7 +4029,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="NNP" regexp="yes">
                 \p{Lu}\p{Ll}+
-                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be</exception><!-- uncommon NNPs -->
+                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be|Radical</exception><!-- uncommon NNPs -->
             </token>
         </pattern>
         <disambig postag="NNP"/>
@@ -4024,6 +4037,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Be Guest Wordsmith for a week at A.Word.</example><!-- #2748 -->
         <example type="untouched">If You Just Had One Wish.</example><!-- #2748 -->
         <example type="untouched">So You Want To Be Taoiseach.</example><!-- #2748 -->
+        <example type="untouched">Let's Be Radical.</example>
+        <example type="untouched">Please Be Radical.</example>
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
         <example type="untouched">The Government Wants To Ban Violet Video.</example>
         <example type="ambiguous" inputform="Best[Best/NNP,best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="Best[Best/NNP]"><marker>Best</marker> Art Direction – Set Decoration</example>
@@ -4096,6 +4111,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token case_sensitive="yes">Please</token>
             <token postag="VB" />
         </antipattern>
+        <antipattern>
+            <token>let</token>
+            <token>'s</token>
+            <token postag="VB" />
+            <token>Radical</token>
+        </antipattern>
+        <antipattern>
+            <token>please</token>
+            <token postag="VB" />
+            <token>Radical</token>
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <token regexp="yes">\p{Lu}\p{Ll}+
@@ -4123,6 +4149,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">...and I say Call it enough for the day.</example><!-- #2437 -->
         <example type="untouched">Because I wanted to Call it enough for the day...</example><!-- #2437 -->
         <example type="untouched">This new Example'S not correct.</example>
+        <example type="untouched">Let's Be Radical</example>
+        <example type="untouched">Please Be Radical</example>
         <example type="untouched">The Canadian Badlands is important.</example><!-- Canadian/JJ -->
         <example type="untouched">“Call it the bedroom light.”</example><!-- #2518 -->
         <example type="untouched">But as he said, if you “Call it the bedroom light,” you might be wrong.</example><!-- #2518 -->

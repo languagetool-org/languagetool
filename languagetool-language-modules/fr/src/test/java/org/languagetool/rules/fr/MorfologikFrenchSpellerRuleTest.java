@@ -149,8 +149,8 @@ public class MorfologikFrenchSpellerRuleTest {
     //assertSuggestion(rule, lt, "skype", "Skype");
     assertSuggestion(rule, lt, "Wordpress", "WordPress");
     assertSuggestion(rule, lt, "wordpress", "WordPress");
-    assertSuggestion(rule, lt, "Etais-tu", "Étés", "Étais"); //TODO: suggest only verbs
-    assertSuggestion(rule, lt, "etais-tu", "étés", "étais"); //TODO: suggest only verbs 
+    assertSuggestion(rule, lt, "Etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
+    assertSuggestion(rule, lt, "etais-tu", "étais", "étés"); //TODO: suggest only verbs 
     assertSuggestion(rule, lt, "depechetoi", "dépêche-toi", "dépêcherai");
     assertSuggestion(rule, lt, "etiez-vous", "étiez");
     assertSuggestion(rule, lt, "preferes-tu", "préférés", "préfères"); //TODO
@@ -168,10 +168,11 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "avaisje", "avais-je");
     assertSuggestion(rule, lt, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
     assertSuggestion(rule, lt, "deja", "déjà", "d'EA");
-    assertSuggestion(rule, lt, "depeche-toi", "dépêchè", "dépêché", "dépêche", "d'empêché", "d'évêché", "repêché");
+    assertSuggestion(rule, lt, "depeche-toi", "dépêche", "dépêché", "dépêchè", "d'empêché", "d'évêché", "repêché");
     assertSuggestion(rule, lt, "sattendre", "s'attendre", "attendre");
     assertSuggestion(rule, lt, "darriver", "d'arriver", "arriver");
     assertSuggestion(rule, lt, "Situé àseulement 9 km", "seulement", "à seulement");
+    assertSuggestion(rule, lt, "decodés", "décodés", "décodes", "de codés");
     // to improve
     assertSuggestion(rule, lt, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
     

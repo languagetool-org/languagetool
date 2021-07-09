@@ -31824,7 +31824,7 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
       <antipattern>
 		  <token postag='V.+' postag_regexp='yes'/>
 		  <token min="0" max="1" regexp='yes'>as?|os?|das?|dos?|nas?|nos?</token>
-		  <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|tabelas?</token>
+		  <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
 		  <token postag='Z0CN0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *END* -->
@@ -31832,10 +31832,22 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
 <!-- "Na tabela do subcapítulo 5.6, constata-se os resultados previstos." -->
       <antipattern>
 		  <token regexp='yes'>as?|os?|das?|dos?|nas?|nos?</token>
-		  <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|tabelas?</token>
+		  <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
 		  <token postag='Z0CN0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-11-08 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *START* -->
+<!--
+2.5.1.1. Equações
+A implementação 1.8.7 padrão é escrita em C, como uma linguagem de programação de único passe.
+A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.
+-->
+      <antipattern>
+		<token postag='Z0CN0' postag_regexp='no'/>
+		<token spacebefore="no" regexp='yes'>[.]</token>
+		<token spacebefore="no" postag='Z0CN0' postag_regexp='no'/>
+  	  </antipattern>
+<!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *END* -->
       <pattern>
           <token regexp="yes">\d+\.\d+
             <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
@@ -31867,6 +31879,10 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
       <example>GNOME 3.16 – 3.20 Committer</example>
       <example><marker>111.231</marker></example><!-- XXX Corrigido pela segunda regra -->
 	  <example type='correct'>Ver subcapítulo <marker>3.6</marker>.</example>
+	  
+	  <example>2.5.1.1. Equações</example>
+	  <example>A implementação 1.8.7 padrão é escrita em C, como uma linguagem de programação de único passe.</example>
+	  <example>A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.</example>
     </rule>
     <!--<rule>
       <pattern>

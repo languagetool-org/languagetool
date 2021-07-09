@@ -126,6 +126,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     // move some run-on-words suggestions to the top
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     // for (SuggestedReplacement suggestion : suggestions) {
+    String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
 
       // remove wrong split prefixes
@@ -133,37 +134,36 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
         continue;
       }
 
+      // Don't change first suggestions if they match word without diacritics
+      int posNewSugg = 0;
+      while (newSuggestions.size() > posNewSugg
+          && StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())
+              .equalsIgnoreCase(wordWithouDiacriticsString)) {
+        posNewSugg++;
+      }
       // move some split words to first place
       Matcher matcher = PARTICULA_INICIAL.matcher(suggestions.get(i).getReplacement());
       if (matcher.matches()) {
-        newSuggestions.add(0, suggestions.get(i));
+        newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
-      
+
       String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
-      if (word.equalsIgnoreCase(suggWithoutDiacritics) && suggestions.get(0).getReplacement().contains("'")) {
-        newSuggestions.add(0, suggestions.get(i));
+      if (wordWithouDiacriticsString.equalsIgnoreCase(suggWithoutDiacritics)) {
+        newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
 
       // move words with apostrophe or hyphen to second position
       String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
-        newSuggestions.add(1, suggestions.get(i));
+        if (posNewSugg == 0) {
+          posNewSugg = 1;
+        }
+        newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
-
-      // move "queda'n" to second position
-      /*if (i == 1) {
-        Matcher m = MOVE_TO_SECOND_POS.matcher(suggestions.get(0).getReplacement());
-        if (m.matches()) {
-          newSuggestions.add(0, suggestions.get(i));
-          continue;
-        }
-      }*/
-
       newSuggestions.add(suggestions.get(i));
-
     }
     return newSuggestions;
   }
