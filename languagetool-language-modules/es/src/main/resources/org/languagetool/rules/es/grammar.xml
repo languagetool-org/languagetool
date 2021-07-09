@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY exceptions_unidadestiempo_adj "siguiente|próximo|futuro|venidero|anterior|pasado|precedente|subsiguiente|previo|último|primero">
 <!ENTITY apostrophe "['’´]">
 <!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
 <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
@@ -73,7 +74,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
     <!ENTITY unusually_noun "piden|aman">
     <!ENTITY pronombre_personal_sujeto "yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|vos">
-    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición |corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor">
+    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición |corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor"> 
+    <!ENTITY exceptions_sujeto_singular "mayoría|número|puñado|porcentaje|cien|mil|millón|millones|billones|enjambre|grupo|parte|docena|mitad|cincuenta|cuarenta|multitud|treinta|veinte|sesenta|resto|diez">
+    <!ENTITY exceptions_sujeto_singular2 "grupo|género|totalidad|serie|concentración|infinito|montón|cantidad|tercero|familia|equipo">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -104,8 +107,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </equivalence>
     </unification>
     <phrases>
-        <phrase id="_GN_SINGULAR">
+        <phrase id="_GN_SINGULAR01">
             <token min="1" max="5" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto|adjunto</exception><exception regexp="yes">.*%</exception></token>
+        </phrase>
+        <phrase id="_GN_SINGULAR02">
+            <token postag="DI0.S0" postag_regexp="yes"><exception postag="RG"/></token>
+        </phrase>
+        <phrase id="_GN_PLURAL01">
+            <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">qué|cu[aá]l|cu[aá]nto</exception></token>
+            <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|mismo|resto|qué|cu[aá]l|cu[aá]nto</exception></token>
+        </phrase>
+        <phrase id="_GN_PLURAL02">
+            <token postag="DI0.P0" postag_regexp="yes"/>
+        </phrase>
+        <phrase id="_GN_PLURAL">
+            <includephrases>
+                <phraseref idref="_GN_PLURAL01"/>
+                <phraseref idref="_GN_PLURAL02"/>
+            </includephrases>
+        </phrase>
+        <phrase id="_GN_SINGULAR">
+            <includephrases>
+                <phraseref idref="_GN_SINGULAR01"/>
+                <phraseref idref="_GN_SINGULAR02"/>
+            </includephrases>
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
@@ -2882,6 +2907,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Te parece bien que tal persona se comporte así?</example>
                 <example correction="qué">Hola <marker>que</marker> tal?</example>
                 <example>¿Crees que tal vez es más económico?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INTERROGATIVAS_INDIRECTAS" name="interrogativas indirecas: el cómo, el quién" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>quien</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué persona), se escribe con tilde.</message>
+                <suggestion>quién</suggestion>
+                <example correction="quién">No importa el qué sino el <marker>quien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>cuanto</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cantidad), se escribe con tilde.</message>
+                <suggestion>cuánto</suggestion>
+                <example correction="cuánto">No importa el qué sino el <marker>cuanto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>cuando</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=en qué momento), se escribe con tilde.</message>
+                <suggestion>cuándo</suggestion>
+                <example correction="cuándo">No importa el qué sino el <marker>cuando</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>como</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=de qué manera), se escribe con tilde.</message>
+                <suggestion>cómo</suggestion>
+                <example correction="cómo">No importa el qué sino el <marker>como</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>donde</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=en qué lugar), se escribe con tilde.</message>
+                <suggestion>dónde</suggestion>
+                <example correction="dónde">No importa el qué sino el <marker>donde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>adonde</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=a qué lugar), se escribe con tilde.</message>
+                <suggestion>adónde</suggestion>
+                <example correction="adónde">No importa el qué sino el <marker>adonde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token min="0">,</token>
+                    <token regexp="yes">y|o|sino|ni</token>
+                    <token regexp="yes">el|del|al</token>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No importa el <marker>que</marker> sino el cuándo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <token regexp="yes">quien|quién|cuanto|cuánto|como|cómo|cuando|cuándo|donde|dónde|adonde|adónde</token>
+                    <token regexp="yes">y|o|sino|ni</token>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No importa el cuándo sino el <marker>que</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE_CREO" name="confusión: se creo/creó">
@@ -7756,6 +7877,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>EE</token>
+                    <token>UU</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>EE UU.</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>E</token>
+                    <token>.</token>
+                    <token>E</token>
+                    <token>.</token>
+                    <token>U</token>
+                    <token>.</token>
+                    <token>U</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>E.E.U.U.</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>EE</token>
+                    <token>UU</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>EE UU</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>JJ</token>
                     <token>.</token>
                     <token spacebefore="no">OO</token>
@@ -7776,6 +7940,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Abreviatura de "Juegos Olímpicos".</message>
                 <suggestion>JJ.&#160;OO.</suggestion>
                 <example correction="JJ.&#160;OO.">En los <marker>JJ.OO</marker></example>
+                <example>En JJ. OO.</example>
+                <example>En JJ.&#160;OO.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>JJ</token>
+                    <token>OO</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>JJ OO.</marker> de Pequín.</example>
+                <example>En JJ. OO.</example>
+                <example>En JJ.&#160;OO.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>JJ</token>
+                    <token>OO</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>JJ OO</marker></example>
+                <example>En JJ. OO.</example>
+                <example>En JJ.&#160;OO.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>J</token>
+                    <token>.</token>
+                    <token>J</token>
+                    <token>.</token>
+                    <token>O</token>
+                    <token>.</token>
+                    <token>O</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>J.J. O.O.</marker></example>
                 <example>En JJ. OO.</example>
                 <example>En JJ.&#160;OO.</example>
             </rule>
@@ -7809,6 +8013,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Abreviatura de "derechos humanos".</message>
                 <suggestion>DD.&#160;HH.</suggestion>
                 <example correction="DD.&#160;HH.">En los <marker>DD.HH</marker></example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>DD</token>
+                    <token>HH</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DD HH.</marker> de Pequín.</example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>DD</token>
+                    <token>HH</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DD HH</marker></example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>D</token>
+                    <token>.</token>
+                    <token>D</token>
+                    <token>.</token>
+                    <token>H</token>
+                    <token>.</token>
+                    <token>H</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>D.D. H.H.</marker></example>
                 <example>En DD. HH.</example>
                 <example>En DD.&#160;HH.</example>
             </rule>
@@ -8779,10 +9023,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="co$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="cor$1"/></suggestion>
                 <example correction="coexpositores">Son <marker>co expositores</marker> en Fitur.</example>
                 <example correction="coexpositores">Son <marker>co-expositores</marker> en Fitur.</example>
                 <example correction="con">Lo hace <marker>co n</marker> interés.</example>
                 <example correction="Cofundador">«<marker>Co-fundador</marker> de Kraftwerk».</example>
+                <example correction="corresponsable">Él es <marker>co responsable</marker> de los gastos.</example>
+                <example correction="corresponsabilidad">Se actúa con <marker>co-responsabilidad</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
@@ -13283,6 +13530,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D[NIDA].*|AO.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;|tiempo|&partes_dia;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
+            </antipattern>
+            <antipattern>
+                <token>una</token>
+                <token>vez</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -13298,19 +13551,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
                 <token min="0" postag="RG"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="3" regexp="yes">pasar|llevar|durante</token>
                 <token inflected="yes" regexp="yes">&unidades_tiempo;&partes_dia;|tiempo</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token inflected="yes">medio</token>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&dias_semana;</token>
@@ -13390,7 +13643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<token postag="D.*" postag_regexp="yes" min="0" max="3"/>-->
                 <token regexp="yes" inflected="yes">vacación|&dias_semana;|&meses_ano;|&partes_dia;|&unidades_tiempo;|&estaciones_ano;</token>
                 <!--<token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>-->
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&exceptions_unidadestiempo_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token>mes</token>
@@ -13854,6 +14107,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si un árbol muere, planta otro en su lugar.</example>
             <example>La madera que pedí vino torcida.</example>
             <example>Si sales vivo y lo puedes contar en el foro.</example>
+            <example correction="próximos">Durante los tres trimestres <marker>próximo</marker>.</example>
+            <example>Yo, una vez pasados los nervios iniciales, también estuve muy a gusto.</example>
             <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -15209,6 +15464,493 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me han gustado mucho los batidos.</example>
                 <example>Me han gustado mucho más los batidos.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="AGREEMENT_SUBJECT_VERB" name="accord sujet/verbe" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START.*" postag_regexp="yes"/>
+                <token postag="V.M." postag_regexp="yes"/>
+            </antipattern>
+            <!-- Singular -->
+            <rule>
+                <antipattern>
+                    <token postag="SPS00"/>
+                    <token skip="1">que</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MS"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>lo</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MP"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>los</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FS"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>la</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FP"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>las</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <or>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
+                        <token postag="CS">que</token>
+                    </or>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <!-- <token min="0" postag="D...S." postag_regexp="yes"/>
+                    <token min="1" max="4" postag="(N.|A..).[SC].*|V.P..S." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>-->
+                    <phraseref idref="_GN_SINGULAR"/>
+                    <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
+                    <marker>
+                        <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.* postagFrom:marker postagSelect:V(...)3P(.) postagReplace:V\b13S\b2"/>
+                <message>Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
+                <!--<suggestion><match no="6" postag="(V...)3P(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>-->
+                <example correction="va">El niño se <marker>van</marker> a casa.</example>
+                <example correction="toma">El niño no se <marker>toman</marker> la sopa.</example>
+                <example correction="tomaba">Dijo que el niño no se <marker>tomaban</marker> la sopa.</example>
+                <example correction="ayude">No confíes en que otro te <marker>ayuden</marker>.</example>
+                <example>La próxima semana abren la nueva tienda</example>
+                <example>La filosofía de Hegel es tan extraña que nadie habría esperado que él pudiera hacer que personas cuerdas la aceptaran.</example>
+                <example>Sé que este curso se agotaron y bastante rápido.</example>
+                <example>Son procesos industriales que cada vez se alejan más de la alimentación saludable y tradicional.</example>
+                <example>Ese producto lo anunciaban en televisión.</example>
+                <example>Esos productos los anunciaban en televisión.</example>
+                <example>Estas revistas las anunciaban en televisión.</example>
+                <example>Esta revista la anunciaban en televisión.</example>
+                <example>Una vez citaron a Cristóbal Colón al decir que los piratas eran demasiado "ingenuos".</example>
+                <example>Dos combaten, un tercero lucra.</example>
+                <example>Mi hobby son las lenguas.</example>
+                <example>Se lo dedico a todas las madres, a sus cajas de botones que tanto tienen que enseñarnos.</example>
+                <example>Como dice Panchosilio, que poco se valoran estos militantes.</example>
+                <example>Muy frecuentemente se pierde la voz de las personas que mucho hablan.</example>
+                <example>Muy frecuentemente se pierde la voz de las personas que poco hablan.</example>
+            </rule>
+            <!-- Plural -->
+            <rule>
+                <antipattern>
+                    <token postag="SPS00"/>
+                    <token skip="1">que</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MS"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>lo</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_MP"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>los</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FS"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>la</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FP"/>
+                    <token regexp="yes" min="0" max="2">&pronombre_personal_atono;|no</token>
+                    <token>las</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <or>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
+                        <token postag="CS">que</token>
+                    </or>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <!--<token min="0" postag="D...P." postag_regexp="yes"/>
+                    <token min="1" max="4" postag="(N.|A..).[PC].*|V.P..." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>-->
+                    <phraseref idref="_GN_PLURAL"/>
+                    <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
+                    <marker>
+                        <token postag="V...3S." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3P." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener</exception><exception>hay</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.* postagFrom:marker postagSelect:V(...)3S(.) postagReplace:V\b13P\b2"/>
+                <message>Parece que el verbo en plural no concuerda con un sujeto en singular.</message>
+                <!--<suggestion><match no="6" postag="(V...)3S(.)" postag_regexp="yes" postag_replace="$13P$2"/></suggestion>-->
+                <example correction="van">Los niños se <marker>va</marker> a casa.</example>
+                <example correction="toman">Los niños no se <marker>toma</marker> la sopa.</example>
+                <example correction="tomaban">Dijo que las niñas no se <marker>tomaba</marker> la sopa.</example>
+                <example correction="ayuden">No confíes en que otros te <marker>ayude</marker>.</example>
+                <example>Las próximas semanas abre la nueva tienda</example>
+                <example>Ese producto lo anunciaba en televisión.</example>
+                <example>Esos productos los anunciaba en televisión.</example>
+                <example>Estas revistas las anunciaba en televisión.</example>
+                <example>Esta revista la anunciaba en televisión.</example>
+                <example>Algunos libros hay que degustarlos.</example>
+                <example>Familias disfuncionales hay a montones.</example>
+            </rule>
+            <!--<rule>
+                <pattern>
+                    <or>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
+                        <token postag="C sub" regexp="yes">que|qu' <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
+                    </or>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"> <exception regexp="yes">&exceptions_sujeto_singular;</exception></token>
+                    <token regexp="yes">,|qui</token>
+                    <token>lui</token>
+                    <token regexp="yes" min="0" max="4">,|[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du singulier.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction=""></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="[NJZ] . (p|sp)" postag_regexp="yes"/>
+                    <token>qui</token>
+                </antipattern>
+                <antipattern>
+                    <token>chaque</token>
+                    <token regexp="yes">&unidades_tiempo;</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">tout</token>
+                    <token inflected="yes">le</token>
+                    <token regexp="yes">&unidades_tiempo;</token>
+                    <token>des</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 p" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"> <exception regexp="yes">&exceptions_sujeto_singular;|&exceptions_sujeto_singular2;</exception></token>
+                    <token postag="P.*" postag_regexp="yes"> <exception inflected="yes" regexp="yes">.*lequel</exception></token>
+                    <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"> <exception inflected="yes">lequel</exception></token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message suppress_misspelled="yes">Le verbe devrait être à la 3ᵉ personne du singulier.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction=""></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>fois</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>après</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 p" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" postag="D . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"> <exception regexp="yes">&exceptions_sujeto_singular;</exception></token>
+                    <token skip="4" regexp="yes">que|qui|qu' <exception scope="next" postag_regexp="yes" postag="C.*|R rel.*|M.*"/> <exception scope="next" regexp="yes">[\(\)]</exception></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"> <exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"/></token>
+                    <marker>
+                        <token postag="V.*3 p" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction=""></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>fois</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>après</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 p" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (p|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" postag="D . s" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"> <exception regexp="yes">&exceptions_sujeto_singular;</exception></token>
+                    <token min="1" postag="P.*" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="[DJNZR].*" postag_regexp="yes"> <exception regexp="yes">que|qui|qu'</exception></token>
+                    <token skip="4" regexp="yes">que|qui|qu' <exception scope="next" postag_regexp="yes" postag="C.*|R rel.*|M.*"/> <exception scope="next" regexp="yes">[\(\)]</exception></token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"> <exception scope="next" postag_regexp="yes" postag="V.*3 s|C.*|R rel.*|R pers suj.*"/></token>
+                    <marker>
+                        <token postag="V.*3 p" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 s|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+                <example correction=""></example>
+            </rule>
+            <!-\- Pluriel -\->
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[ZJN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token postag="K"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <!-\- probably a FP even if it is plural -\->
+                    <token postag="[NZ].*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">nos|ns</token>
+                    <token postag="V .* 1 p" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Z . (s|sp)" postag_regexp="yes"/>
+                    <!-\- part of proper nouns: -\->
+                    <token min="0" regexp="yes">associés|solutions</token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[ZJN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction=""></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JN] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">qui</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                    <token>après</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JN] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token>qui</token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="ont">Les enfants, qui lui <marker>a</marker> dit.</example>
+                <example>Pommes cuites, qui en veut encore?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . s|[JNZ] . (s|sp)|V ppa . s" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[DJNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NJZ] . (s|sp)" postag_regexp="yes"/>
+                    <token>qui</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="K" skip="-1"/>
+                    <token postag="K"/>
+                    <token>fait</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler</token>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                    <token min="0" postag="A"/>
+                    <token postag="[DNJZ].* (s|sp)" postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . p|R dem . p" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"> <exception inflected="yes" regexp="yes">.*lequel</exception></token>
+                    <token min="0" postag="D.*" postag_regexp="yes"> <exception inflected="yes">lequel</exception></token>
+                    <token min="1" max="6" postag="[JNZP].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="jouent">Les enfants dans le jardin <marker>joue</marker> en bas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D . p|[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token>comme</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"> <exception inflected="yes">lequel</exception></token>
+                    <token min="1" max="4" postag="[JNZ].*|V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="mentent">Les gens comme Tom <marker>mente</marker> tout le temps.</example>
+                <example>Les Parthes donnent également ce nom à tous leurs rois comme Rome donne à ses empereurs les noms de César et d'Auguste.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>fois</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>après</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4" regexp="yes">que|qui|qu'|dont</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"/>
+                    <token regexp="yes">il|elle|on|ce|c'</token>
+                    <token regexp="yes" min="0" max="2">[lmnts][e']|la|les|leur|[ql]ui|en|y</token>
+                    <token postag="V.* 3 s" postag_regexp="yes" skip="8"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" postag="D . p" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="[JNZ] . (p|sp)|V ppa . p" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="[PJNZ].*" postag_regexp="yes"/>
+                    <token skip="4" regexp="yes">que|qui|qu'|dont</token>
+                    <token postag="V.*[123].*" postag_regexp="yes" skip="8"> <exception scope="next" postag="V .* 3 p|C .*|R rel .*|M.*" postag_regexp="yes"/> <exception scope="next" regexp="yes">[\(\)]</exception></token>
+                    <marker>
+                        <token postag="V.*3 s" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="arrivent">Les enfants que j'accompagne souvent à la bibliothèque <marker>arrive</marker> de l'école.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="3">aussi</token>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token>ne</token>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">plus|moins</token>
+                    <token min="0" postag="[JA].*|V ppa,*" postag_regexp="yes"/>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ne|n'</token>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>
+                    <token min="0" postag="V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes">que|qu'</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="5">un</token>
+                    <token>et</token>
+                    <token inflected="yes" skip="5">le</token>
+                </antipattern>
+                <pattern>
+                    <or>
+                        <token postag="SENT_START.*" postag_regexp="yes"/>
+                        <token postag="C sub" regexp="yes">que|qu' <exception scope="previous" regexp="yes" inflected="yes">tel|ainsi|tant|autres</exception></token>
+                    </or>
+                    <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
+                    <token min="1" max="4" postag="D.*|[ZJNA].*|V ppa.*" postag_regexp="yes"> <exception postag="V.*3 s" postag_regexp="yes"/></token>
+                    <token>et</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token min="1" max="4" postag="D.*|[ZJNA].*|V ppa.*" postag_regexp="yes"> <exception postag="C.*" postag_regexp="yes"/> <exception regexp="yes">n'|pas</exception></token>
+                    <token regexp="yes" min="0" max="4">[lmnts][e']|la|les|leur|lui|en|y</token>
+                    <marker>
+                        <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.* <exception postag="V .* 3 p|V ppa .*|V.* ppr|[ZNJ].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe devrait être à la 3ᵉ personne du pluriel.</message>
+                <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="sont">Le vélo et la voiture <marker>est</marker> des bons moyens de transport.</example>
+            </rule>-->
         </rulegroup>
     </category>
     <category id="ESTILO" name="Estilo" type="style">

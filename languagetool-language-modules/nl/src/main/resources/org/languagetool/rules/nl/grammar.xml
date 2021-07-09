@@ -1,4 +1,4 @@
-﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
+﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -60,7 +60,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
 
 <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
-
+<!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
 <!-- definieer macro voor gespelde afkortingen als cd -->
 <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km">
 <!ENTITY apostrof "[`'‘’]">
@@ -133,6 +133,14 @@ regexp case-insensitive maken : (?i)
         <token>/</token>
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
+<!ENTITY demoantipatterns "
+<antipattern><token>Schrijf</token><token>of</token><token>plak</token><token>hier</token><token>je</token><token>tekst</token><token>om</token><token>deze</token><token>al</token><token>typende</token><token>te</token><token>check</token><token>.</token></antipattern>
+<antipattern><token>Vergissingen</token><token>worden</token><token>gemarkeerd</token><token>met</token><token>verschillende</token><token>kleuren</token><token>:</token><token>spelvouten</token><token>laten</token><token>we</token><token>rood</token><token>ondersteept</token><token>zien</token><token>.</token></antipattern>
+<antipattern><token>Grammaticafouten</token><token>daarentegen</token><token>markeren</token><token>we</token><token>met</token><token>geel</token><token>.</token></antipattern>
+<antipattern><token>LanguageTool</token><token>laat</token><token>stijlwesties</token><token>zo</token><token>optimaal</token><token>mogelijk</token><token>zien</token><token>in</token><token>het</token><token>blauw</token><token>.</token></antipattern>
+<antipattern><token>wist</token><token>u</token><token>al</token><token>dat</token><token>u</token><token>synoniemen</token><token>kunt</token><token>oproepen</token><token>met</token><token>een</token><token>dubbelklik</token><token>op</token><token>een</token><token>woord</token><token>?</token></antipattern>
+<antipattern><token>LanguageTool</token><token>is</token><token>een</token><token>absolute</token><token>musthave</token><token>voor</token><token>het</token><token>schrijven</token><token>van</token><token>perfecte</token><token>tekst</token><token>.</token></antipattern>
+<antipattern><token>Bij</token><token>voorbeeld</token><token>om</token><token>een</token><token>collega</token><token>te</token><token>vertellen</token><token>wat</token><token>er</token><token>vrijdag</token><token>3</token><token>Maart</token><token>2007</token><token>gebeurd</token><token>is</token><token>.</token></antipattern>">
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
@@ -160,48 +168,48 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="PIJLEN" name="-&gt; (→)">
 			<rule>
-					<pattern>
-						<token negate="yes">&lt;</token>
-						<marker>
-							<token regexp="yes">(\-|=){1,4}</token>
-							<token>&gt;</token>
-						</marker>
-					</pattern>
-					<message>Wilt u een pijl plaatsen?</message>
-					<suggestion>→</suggestion>
-					<suggestion>⇾</suggestion>
-					<suggestion>⇉</suggestion>
-					<suggestion>⇒</suggestion>
-					<suggestion>⇨</suggestion>
-					<suggestion>⇛</suggestion>
-					<example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Eerste punt</example>
+				<pattern>
+					<token negate="yes">&lt;</token>
+					<marker>
+						<token regexp="yes">(\-|=){1,4}</token>
+						<token>&gt;</token>
+					</marker>
+				</pattern>
+				<message>Wilt u een pijl plaatsen?</message>
+				<suggestion>→</suggestion>
+				<suggestion>⇾</suggestion>
+				<suggestion>⇉</suggestion>
+				<suggestion>⇒</suggestion>
+				<suggestion>⇨</suggestion>
+				<suggestion>⇛</suggestion>
+				<example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Eerste punt</example>
 			</rule>
 			<rule>
-					<antipattern>
+				<antipattern>
+					<token>&lt;</token>
+					<token regexp="yes">(-|=){1,4}</token>
+					<token>&gt;</token>
+				</antipattern>
+				<pattern>
+					<marker>
 						<token>&lt;</token>
 						<token regexp="yes">(-|=){1,4}</token>
-						<token>&gt;</token>
-					</antipattern>
-					<pattern>
-						<marker>
-							<token>&lt;</token>
-							<token regexp="yes">(-|=){1,4}</token>
-						</marker>
-						<token/>
-					</pattern>
-					<message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
-					<example>A ← B</example>
-					<example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+					</marker>
+					<token/>
+				</pattern>
+				<message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+				<example>A ← B</example>
+				<example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
 			</rule>
 			<rule>
-					<pattern>
-						<token>&lt;</token>
-						<token regexp="yes">\-|=</token>
-						<token>&gt;</token>
-					</pattern>
-					<message>Wilt u een pijl plaatsen? Suggesties: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
-					<example>A ⇔ B</example>
-					<example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+				<pattern>
+					<token>&lt;</token>
+					<token regexp="yes">\-|=</token>
+					<token>&gt;</token>
+				</pattern>
+				<message>Wilt u een pijl plaatsen? Suggesties: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
+				<example>A ⇔ B</example>
+				<example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
 			</rule>
 		</rulegroup>		
 		
@@ -13278,9 +13286,12 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
-				<antipattern><token postag="ENM.*" postag_regexp="yes"/></antipattern>
+				<antipattern><token postag="ENM.*|UNKNOWN" postag_regexp="yes"/></antipattern>
+				<antipattern><token regexp="yes">^.-</token></antipattern>
+				<antipattern><token regexp="yes">-.$</token></antipattern>
 				<antipattern><token regexp="yes">^(&gespeld;)-</token></antipattern>
 				<antipattern><token regexp="yes">-(&gespeld;)$</token></antipattern>
+				<antipattern><token regexp="yes">-(&gespeld;)-</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
 				<pattern raw_pos="yes"> 
 					<marker>
@@ -16316,6 +16327,30 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		-->
+		<rulegroup id="SPELDE_MOUW" name="spelde/speldde op mouw" type="misspelling" default="temp_off">
+			<rule>
+				<pattern case_sensitive="yes">
+					<marker>
+						<token inflected="yes" skip="-1">spellen</token>
+					</marker>
+					<token>mouw</token>
+				</pattern>
+				<message>Op de mouw spelden, niet spellen!</message>
+				<short>spelden</short>
+				<example type="incorrect">Hij <marker>spelde</marker> het haar op de mouw.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="yes">
+					<token skip="-1">mouw</token>
+					<marker>
+						<token inflected="yes">spellen</token>
+					</marker>
+				</pattern>
+				<message>Op de mouw spelden, niet spellen!</message>
+				<short>spelden</short>
+				<example type="incorrect">Wanneer hij het je op de mouw <marker>spelt</marker>, is het fout.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="PAMPUS" name="Pampus of pampus" type="misspelling">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
@@ -33925,7 +33960,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<marker>
-						<token regexp="yes">.*button</token>
+						<token regexp="yes">.*button<exception case_sensitive="yes">Button</exception></token>
 					</marker>
 				</pattern>
 				<message>Een button (voor op je trui) is in het Nederlands iets anders dan een drukknop. Staat het hier correct?</message>
@@ -34348,7 +34383,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="CADET" name="Cadet of kadet">
 			<rule>
-				<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1">opleiding</token><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">.*(opleiding|bemanning|officier|student).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token regexp="yes">cadet|cadetten</token>
 				</pattern>
@@ -41434,7 +41469,7 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
-			<antipattern><token>de</token><token regexp="yes">einde?|begin</token><token postag_regexp="yes">[0-9]{4}</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">einde?|begin</token><token regexp="yes">[0-9]{4}</token></antipattern>
 			<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
 			<antipattern><token>de</token><token>facto</token></antipattern>
 			<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
@@ -41578,28 +41613,17 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 <!--
-		<rulegroup id="ME_AUTO" name="Me/mijn" default="temp_off">
+		<rulegroup id="_LIKELY_SPELLING" name="Woord dat door algoritme wordt geaccepteerd, maar niet expliciet is gecheckt door mensen.">
 			<rule>
 				<pattern>
-					<marker>
-						<token>me</token>
-					</marker>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token>
+					<token postag="LIKELY_SPELLING"/>
 				</pattern>
-				<message>U bedoelt vast <suggestion>mijn</suggestion></message>
-				<example correction="mijn">Ik kan <marker>me</marker> auto niet vinden.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token>ze</token>
-					</marker>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token>
-				</pattern>
-				<message>U bedoelt vast <suggestion>zijn</suggestion></message>
-				<example correction="zijn">Ik kan <marker>ze</marker> auto niet vinden.</example>
+				<message>Dit woord lijkt een acceptabele spelling te hebben, maar is niet door mensen nagekeken, wel door algoritmes. Is het toch verkeerd, meld dat dan s.v.p. op het forum: https://forum.languagetool.org/c/dutch.</message>
+				<url>https://forum.languagetool.org/c/dutch</url>
+				<example type="incorrect">Het was een <marker>schoenlappersinstelling</marker>.</example>
 			</rule>
 		</rulegroup>
 		-->
 	</category>
+
 </rules>

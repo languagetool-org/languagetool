@@ -184,7 +184,7 @@ public class Catalan extends Language {
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
-      case "INCORRECT_WORDS_IN_CONTEXT": return 30; // similar to CONFUSIONS
+      case "INCORRECT_WORDS_IN_CONTEXT": return 25; // similar to but lower than CONFUSIONS
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "MOTS_SENSE_GUIONETS": return 20; // greater than CONCORDANCES_NUMERALS
@@ -205,6 +205,7 @@ public class Catalan extends Language {
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
+      case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
       case "MORFOLOGIK_RULE_CA_ES": return -100;

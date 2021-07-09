@@ -404,7 +404,12 @@ public class GrammalecteRule extends Rule {
     "g3__infi_à_verbe__b3_a1_1",
     "gv1__ppas_avoir__b2_a1_1",
     "gv1__ppas_avoir__b3_a1_1",
-    "gv1__ppas_avoir__b4_a1_1"
+    "gv1__ppas_avoir__b4_a1_1",
+    "g2__eleu_élisions_manquantes__b1_a1_1",
+    "g2__eleu_élisions_manquantes__b2_a1_1",
+    "g2__eleu_élisions_manquantes__b4_a1_1",
+    "g2__eleu_élisions_manquantes__b5_a1_1",
+    "g2__eleu_élisions_manquantes__b6_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {

@@ -17,6 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY exceptions_unitatstemps_adj "futur|pròxim|proper|següent|vinent|venidor|anterior|precedent|subsegüent|propvinent|proppassat|passat|previ|últim|darrer|primer"> 
     <!ENTITY carrecs "governador|delegat|president|ministre|fiscal|jutge|director|secretari|vicepresident|viceministre|vicesecretari|conseller|síndic|portaveu|alcalde|alcaldessa|batl?le|batl?lessa|regidor|rector|vicerector|diputat|senador|eurodiputat|bisbe|arquebisbe|lletrat|magistrat|comte|mossèn|sor|fra|professor|registrador|notari|tresorer|tinent"> <!-- senyor, rei -->
     <!ENTITY expressio_DOS_NOMS "aliatge|antagonisme|associació|binomi|cicle|concordança|connexió|contraposició|corpus|correcció|corrector|debat|diccionari|dualitat|eix|figura|interpretació|paral·lel|parell|parella|raó|relació|ràtio|taula|traducció|traductor">
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
@@ -1287,6 +1288,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CONCORDANCES_NOUNS" name="Z) Concordances en grups nominals" type="grammar">
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordança d'adjectiu posposat a substantius">
             <antipattern>
+                <token>iva</token>
+                <token>inclòs</token>
+            </antipattern>
+            <antipattern>
                 <token>categoria</token>
                 <token regexp="yes">prebenjamí|benjamí|aleví|cadet</token>
             </antipattern>
@@ -1314,13 +1319,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" inflected="yes">de</token>
                 <token regexp="yes" inflected="yes">&unitats_temps;|temps</token>
                 <token min="0" max="3" postag="RG|LOC_ADV|AO.*" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token><exception>cada</exception></token>
                 <token regexp="yes" inflected="yes">vegada|volta|col?p|pic|&unitats_temps;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV|AO.*" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia|&parts_dia;</token>
@@ -1420,7 +1425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes" inflected="yes" skip="4">passar|romandre|estar|ser</token>
                 <token regexp="yes" inflected="yes">vacança|vacació|&dies_setmana;|&mesos_any;|&parts_dia;|&unitats_temps;|&estacions;</token>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token>mes</token>
@@ -1440,7 +1445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes" skip="2" regexp="yes">passar|portar|dur|fer|durant</token>
                 <token inflected="yes" regexp="yes">&unitats_temps;&parts_dia;|temps</token>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">la|seua|seva|gran</token>
@@ -1999,7 +2004,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Hi ha funcions fins fa no gaire temps plenament urbanes.</example>
             <example>És un sistema legal, financer i de credencials establert per un govern.</example>
             <example correction="fixa">Monyó: peça cilíndrica <marker>fix</marker>.</example>
-            <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
+            <example correction="següents">Durant els tres mesos <marker>següent</marker>.</example>
+            <example>Són els elements distintius: tradició i història comunes.</example>
+            <example>La dosi adequada de biaix ideològic.</example>
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
@@ -16548,9 +16555,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="REVOL" name="revol/renou">
+            <pattern>
+                <token>revol</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>renou</suggestion> o <suggestion>revolt</suggestion>? "Revol" és una forma, rarament usada, del v. 'revolar'. </message>
+            <suggestion>enrenou</suggestion>
+            <suggestion>rebombori</suggestion>
+            <example correction="renou|revolt|enrenou|rebombori">Va haver-hi un gran <marker>revol</marker> mediàtic.</example>
+        </rule>
         <rule id="NO_VA" name="nova/no va">
             <pattern>
-                <token><exception postag="RG|LOC_ADV" postag_regexp="yes"></exception></token>
+                <token><exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
                 <marker>
                     <token>nova<exception postag="_GN_FS"/></token>
                 </marker>
@@ -28970,7 +28986,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify>
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">[\d.,]{2,}</exception></token>
+                        <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">\d[\d.,]+</exception></token>
                         <marker>
                             <token inflected="yes">net</token>
                         </marker>
@@ -43149,16 +43165,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<url>http://esadir.cat/entrades/fitxa/id/1913</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=fer-se+amb&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=7666&amp;idHit=7666&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcta+l%27expressi%F3+fer-se+amb%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
-                <marker>
-                    <token>acord</token>
-                    <token>amb</token>
-                </marker>
+                <token>acord</token>
+                <token>amb</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>amb</token>
-                    <token regexp="yes">càrrec|ajuda|ajut|control</token>
-                </marker>
+                <token>amb</token>
+                <token regexp="yes">càrrec|ajuda|ajut|control</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -43215,6 +43227,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="(aconseguir)|(apoderar-se de)|(fer seu)|(prendre)|(prendre possessió de)|(emparar-se de)|(controlar)|(arreplegar)|(adquirir)|(comprar)|(guanyar)|(atrapar)">Va <marker>fer-se amb</marker> el govern.</example>
                 <example>mai no podria fer-se amb aquella gent, mai no podria mirar-los</example>
                 <example>acabà, amb ell, la dinastia hethúmida</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">fer</token>
+                        <token postag="P0.0.*" postag_regexp="yes"/>
+                        <token min="1" max="2" regexp="yes">un|una|altre|altra</token>
+                        <token regexp="yes">vegada|volta|pic|cop|colp</token>
+                        <token skip="7">amb<exception scope="next" regexp="yes">,|cap|col·laboració</exception><exception scope="next" postag="C.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>(aconseguir)</suggestion>
+                <suggestion>(apoderar-se de)</suggestion>
+                <suggestion>(fer seu)</suggestion>
+                <suggestion>(prendre)</suggestion>
+                <suggestion>(prendre possessió de)</suggestion>
+                <suggestion>(emparar-se de)</suggestion>
+                <suggestion>(controlar)</suggestion>
+                <suggestion>(arreplegar)</suggestion>
+                <suggestion>(adquirir)</suggestion>
+                <suggestion>(comprar)</suggestion>
+                <suggestion>(guanyar)</suggestion>
+                <suggestion>(atrapar)</suggestion>
+                <example correction="(aconseguir)|(apoderar-se de)|(fer seu)|(prendre)|(prendre possessió de)|(emparar-se de)|(controlar)|(arreplegar)|(adquirir)|(comprar)|(guanyar)|(atrapar)">Va <marker>fer-se altra volta amb</marker> el govern.</example>
+                <example>mai no podria fer-se amb aquella gent, mai no podria mirar-los</example>
+                <example>acabà, amb ell, la dinastia hethúmida</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
+                        <token inflected="yes">fer</token>
+                        <token min="1" max="2" regexp="yes">un|una|altre|altra</token>
+                        <token regexp="yes">vegada|volta|pic|cop|colp</token>
+                        <token skip="7">amb<exception scope="next" regexp="yes">,|cap|col·laboració</exception><exception scope="next" postag="C.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>(aconseguir)</suggestion>
+                <suggestion>(apoderar-se de)</suggestion>
+                <suggestion>(fer seu)</suggestion>
+                <suggestion>(prendre)</suggestion>
+                <suggestion>(prendre possessió de)</suggestion>
+                <suggestion>(emparar-se de)</suggestion>
+                <suggestion>(controlar)</suggestion>
+                <suggestion>(arreplegar)</suggestion>
+                <suggestion>(adquirir)</suggestion>
+                <suggestion>(comprar)</suggestion>
+                <suggestion>(guanyar)</suggestion>
+                <suggestion>(atrapar)</suggestion>
+                <example correction="(Aconseguir)|(Apoderar-se de)|(Fer seu)|(Prendre)|(Prendre possessió de)|(Emparar-se de)|(Controlar)|(Arreplegar)|(Adquirir)|(Comprar)|(Guanyar)|(Atrapar)"><marker>Es va fer una altra vegada amb</marker> la Copa del Rei.</example>
+                <example correction="(Aconseguir)|(Apoderar-se de)|(Fer seu)|(Prendre)|(Prendre possessió de)|(Emparar-se de)|(Controlar)|(Arreplegar)|(Adquirir)|(Comprar)|(Guanyar)|(Atrapar)"><marker>Ens vam fer altre cop amb</marker> el poder.</example>
+                <example>Es va fer extensiva amb plans d'acció territorial.</example>
+                <example>Es fa d'acord amb el pes polític de cada partit.</example>
+                <example>M'he fet un embolic amb el títol del llibre.</example>
+                <example>Es va fer en col·laboració amb el govern.</example>
+                <example>Es fa amb càrrec al compte de guanys.</example>
             </rule>
         </rulegroup>
         <rule id="FER_UN_LLEIG" name="fer un lleig">
@@ -47375,6 +47447,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="DEPRENDRE" name="deprendre">
+            <pattern>
+                <marker>
+                    <token inflected="yes">deprendre</token>
+                </marker>
+            </pattern>
+            <message>Possible confusió. És correcte com a forma secundària del v. 'aprendre'.</message>
+            <suggestion><match no="1" regexp_match="(?iu)^de" regexp_replace="a" case_conversion="preserve"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)^de" regexp_replace="des" case_conversion="preserve"/></suggestion>
+            <example correction="aprendre|desprendre">Llavors vaig <marker>deprendre</marker> el que podia passar.</example>
+            <example correction="Aprèn|Desprèn"><marker>Deprèn</marker> una olor molt bona.</example>
+        </rule>
         <rule id="POSAR_ENCENDRE" name="posar/encendre/engegar">
             <pattern>
                 <marker>
@@ -52189,7 +52273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
                     </marker>
-                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">conspiració|final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri|propòsit|intenció|projecte</token>
+                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">conspiració|final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri|propòsit|intenció|projecte|identitat</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (perdre la son, suscitar)?</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
@@ -55324,8 +55408,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">realitzar</token>
                     </marker>
-                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
-                    <token regexp="yes" inflected="yes">robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">massacre|robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
+                    <token regexp="yes" inflected="yes">massacre|robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
                 </pattern>
                 <message>Ús abusiu del v. 'realitzar'. Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cometre</match></suggestion>

@@ -709,6 +709,10 @@ public class ProhibitedCompoundRule extends Rule {
           "Meisterchor",
           "Bienenfarm",
           "Windknoten",
+          "Videoarten", // vs Videokarten
+          "Textartikel", // vs Textpartikel
+          "Textartikels", // vs Textpartikels
+          "Textartikeln", // vs Textpartikeln
           "Feuchtmann" //name
   ));
 

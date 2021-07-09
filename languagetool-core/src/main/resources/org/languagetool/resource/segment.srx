@@ -1729,6 +1729,37 @@
 <beforebreak>[?!.]\s</beforebreak>
 <afterbreak>['"\u00BB\u2019\u201D\u203A\u00AB\p{Pe}\u0002][A-Z][a-z]</afterbreak>
 </rule>
+<rule break="no">
+<!-- "E. coli etc. -->
+<beforebreak>"[A-Z][.]\s</beforebreak>
+<afterbreak>[a-z]</afterbreak>
+</rule>
+<rule break="no">
+<!-- Cornelisz. -->
+<beforebreak>[A-Z][a-z].*sz[.]\s</beforebreak>
+<afterbreak>[a-z]</afterbreak>
+</rule>
+<rule break="no">
+<!-- De n. XIV/vagus (nervus) -->
+<beforebreak>De n[.]\s</beforebreak>
+<afterbreak>[a-z]|[XIV]</afterbreak>
+</rule>
+<rule break="no">
+<!-- MOL.E -->
+<beforebreak>[A-Z]{2,5}[.]</beforebreak>
+<afterbreak>[A-Z]</afterbreak>
+</rule>
+<rule break="no">
+<!-- .net -->
+<beforebreak> \.</beforebreak>
+<afterbreak>[Nn][Ee][Tt]( |-)</afterbreak>
+</rule>
+<rule break="no">
+<!-- ..." betekent  -->
+<beforebreak>\.\.</beforebreak>
+<afterbreak>" [a-z]</afterbreak>
+</rule>
+
 <!-- ##### end of Dutch #### -->
 </languagerule>
 <languagerule languagerulename="Slovak">
@@ -4556,146 +4587,146 @@
 </languagerule>
 <languagerule languagerulename="Catalan">
 <rule break="no">
-<beforebreak>Yahoo!\s</beforebreak>
+<beforebreak>Yahoo![\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\w['’][nNtT]\.\s</beforebreak>
+<beforebreak>\w['’][nNtT]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\.\[\d+\]\s</beforebreak>
+<beforebreak>\.\[\d+\][\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- initials: A. C. Jones. Problem: [...] d'Alfons I. Ell era [...] -->
 <rule break="no">
-<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
+<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
-<beforebreak>\b(dc|(?iu)(n|Mr|C|Dr|Dra|Dra\. Ma|Sta\. Ma|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.\s</beforebreak>
+<beforebreak>\b(dc|(?iu)(n|Mr|C|Dr|Dra|Dra\. Ma|Sta\. Ma|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Abbreviations that can finish sentences -->
 <rule break="no">
-<beforebreak>\b(s|ca)\.\s</beforebreak>
+<beforebreak>\b(s|ca)\.[\s\u00A0]</beforebreak>
 <afterbreak>[XIV]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(min|m|ca)\.\s</beforebreak>
+<beforebreak>\b(min|m|ca)\.[\s\u00A0]</beforebreak>
 <afterbreak>[0-9]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Cc]ap|[Aa]rts?|pp|[Vv]ol)\.\s</beforebreak>
+<beforebreak>\b([Cc]ap|[Aa]rts?|pp|[Vv]ol)\.[\s\u00A0]</beforebreak>
 <afterbreak>[XIV\d]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Ee]ds?|[Cc]oords?|\d+(r|n|t|è|é|ns|es)|masc|fem|sing|pl|adj|adv|g|kg|m|km|cm|ha|u|h|hrs|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([Ee]ds?|[Cc]oords?|\d+(r|n|t|è|é|ns|es)|masc|fem|sing|pl|adj|adv|g|kg|m|km|cm|ha|u|h|hrs|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->
 <rule break="no">
-<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like EE.UU. or BB. DD. -->
 <rule break="no">
-<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bEE\.\s?</beforebreak>
-<afterbreak>UU</afterbreak>
+<beforebreak>\b\p{Lu}{2}\.[\s\u00A0]?</beforebreak>
+<afterbreak>\p{Lu}{2}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>EE\.\s?UU\.\s?</beforebreak>
+<beforebreak>EE\.[\s\u00A0]?UU\.[\s\u00A0]?</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- max min etc -->
 <rule break="no">
-<beforebreak>\b([Ee]tc|m[aáà]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([Ee]tc|m[aáà]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Composed abbrev. -->
 <rule break="no">
-<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Units -->
 <rule break="no">
-<beforebreak>\b([Pp]ta[s]?|K[gm][s]|[mc]?[gmls]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([Pp]ta[s]?|K[gm][s]|[mc]?[gmls]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Ellipsis: ... lowercase -->
 <rule break="no">
-<beforebreak>[^\s](\Q...\E|…)\s</beforebreak>
+<beforebreak>[^\s\u00A0](\Q...\E|…)[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- (enum...) -->
 <rule break="no">
-<beforebreak>\b(\Q...\E|…)[\p{Pe}»"’”]\s</beforebreak>
+<beforebreak>\b(\Q...\E|…)[\p{Pe}»"’”][\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- pero ¡ah! no estaba
 <rule break="no">
-<beforebreak>\b¡\p{L}+!\s</beforebreak>
+<beforebreak>\b¡\p{L}+![\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
  -->
 <rule break="yes">
-<beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*\s</beforebreak>
+<beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\b[\p{L}'’·\-]+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+\s</beforebreak>
+<beforebreak>\b[\p{L}'’·\-]+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+[\s\u00A0]</beforebreak>
 <afterbreak>[¡¿«»"'\u2018\u201C"\p{Ps}]*\p{Lu}\p{L}*</afterbreak>
 </rule>
 <!-- paragraphs with opening "»" in dialogs-->
 <rule break="yes">
-<beforebreak>[\.:!?…»]+\s</beforebreak>
-<afterbreak>»[^\s\.:!?…]</afterbreak>
+<beforebreak>[\.:!?…»]+[\s\u00A0]</beforebreak>
+<afterbreak>»[^\u00A0\s\.:!?…]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Spanish">
 <rule break="no">
-<beforebreak>Yahoo!\s</beforebreak>
+<beforebreak>Yahoo![\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\.\[\d+\]\s</beforebreak>
+<beforebreak>\.\[\d+\][\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- initials: A. C. Jones. Problem: [...] de Alfons I. Él era [...] -->
 <rule break="no">
-<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
+<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <!-- Ellipsis: ... lowercase -->
 <rule break="no">
-<beforebreak>[^\s](\Q...\E|…)\s</beforebreak>
+<beforebreak>[^\s\u00A0](\Q...\E|…)[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- (enum...) -->
 <rule break="no">
-<beforebreak>\b(\Q...\E|…)[\p{Pe}»"’”]\s</beforebreak>
+<beforebreak>\b(\Q...\E|…)[\p{Pe}»"’”][\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Abbreviations that can finish sentences -->
 <rule break="no">
-<beforebreak>\b(s|ca)\.\s</beforebreak>
+<beforebreak>\b(s|ca)\.[\s\u00A0]</beforebreak>
 <afterbreak>[XIV]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(min|m|ca)\.\s</beforebreak>
+<beforebreak>\b(min|m|ca)\.[\s\u00A0]</beforebreak>
 <afterbreak>[0-9]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Cc]ap|[Aa]rts?|pp|[Vv]ol|p|[Pp][aá]gs?|ps)\.\s</beforebreak>
+<beforebreak>\b([Cc]ap|[Aa]rts?|pp|[Vv]ol|p|[Pp][aá]gs?|ps)\.[\s\u00A0]</beforebreak>
 <afterbreak>[XIV\d]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(\d+(r|er|n|ero|era|mo|ma|vo|va|no|na|to|ta|do|da|h|hr|gr|grs|o|a)s?|g|kg|m|km|cm|ha|u|h|hrs|H|HR|HRS|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b(\d+(r|er|n|ero|era|mo|ma|vo|va|no|na|to|ta|do|da|h|hr|gr|grs|o|a)s?|g|kg|m|km|cm|ha|u|h|hrs|H|HR|HRS|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
@@ -4710,75 +4741,75 @@
 </rule>
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
-<beforebreak>\b(dc|(?iu)(n|[Aa]yto|Mr|C|Dr|Dra|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Sras|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.\s</beforebreak>
+<beforebreak>\b(dc|(?iu)(n|[Aa]yto|Mr|C|Dr|Dra|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Sras|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <rule break="no">
-<beforebreak>\b([Aa]vda|[Pp][ol]|Pl?za|[Aa]dm|[Dd]pto|Sr|Mr|Srta|ej)\.\s</beforebreak>
+<beforebreak>\b([Aa]vda|[Pp][ol]|Pl?za|[Aa]dm|[Dd]pto|Sr|Mr|Srta|ej)\.[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <rule break="no">
-<beforebreak>\b(Dña|Dr[a]?|Sra|Sto|S(ri)?ta|Ldo|Ing|Prof|Excmo|Ilmo|Mgfco|admdor|admdora)\.\s</beforebreak>
+<beforebreak>\b(Dña|Dr[a]?|Sra|Sto|S(ri)?ta|Ldo|Ing|Prof|Excmo|Ilmo|Mgfco|admdor|admdora)\.[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <rule break="no">
-<beforebreak>\b([Aa]rt|[Cc]ód|[Ss]ecc|[Tt]ít)\.\s</beforebreak>
+<beforebreak>\b([Aa]rt|[Cc]ód|[Ss]ecc|[Tt]ít)\.[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <rule break="no">
-<beforebreak>\b([Ee]d(it)?|[Nn]o|n|[Nn]úm|[Pp]ág|p|c|\d+er)|[V\.]gr\.\s</beforebreak>
+<beforebreak>\b([Ee]d(it)?|[Nn]o|n|[Nn]úm|[Pp]ág|p|c|\d+er)|[V\.]gr\.[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <!-- Abbreviations that can finish sentences -->
 <rule break="no">
-<beforebreak>\b([Ee]ds?|[Cc]oords?|grs?|Sr|Jr|Admón|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([Ee]ds?|[Cc]oords?|grs?|Sr|Jr|Admón|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->
 <rule break="no">
-<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like EE.UU. or BB. DD. -->
 <rule break="no">
-<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bEE\.\s?</beforebreak>
-<afterbreak>UU</afterbreak>
+<beforebreak>\b\p{Lu}{2}\.[\s\u00A0]?</beforebreak>
+<afterbreak>\p{Lu}{2}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>EE\.\s?UU\.\s?</beforebreak>
+<beforebreak>EE\.[\s\u00A0]?UU\.[\s\u00A0]?</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- max min etc -->
 <rule break="no">
-<beforebreak>\b([Ee]tc|m[aá]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([Ee]tc|m[aá]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Composed abbrev. -->
 <rule break="no">
-<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\bet al\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak/>
 </rule>
 <!-- Units -->
 <rule break="no">
-<beforebreak>\b([Pp]ta[s]?|K[gm][s]|[mc]?[gmls]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b([Pp]ta[s]?|K[gm][s]|[mc]?[gmls]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*\s</beforebreak>
+<beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\b[\p{L}'’·\-]+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+\s</beforebreak>
+<beforebreak>\b[\p{L}'’·\-]+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+[\s\u00A0]</beforebreak>
 <afterbreak>[¡¿«»"'\u2018\u201C"\p{Ps}]*\p{Lu}\p{L}*</afterbreak>
 </rule>
 <!-- paragraphs with opening "»" in dialogs-->
 <rule break="yes">
-<beforebreak>[\.:!?…»]+\s</beforebreak>
-<afterbreak>»[^\s\.:!?…]</afterbreak>
+<beforebreak>[\.:!?…»]+[\s\u00A0]</beforebreak>
+<afterbreak>»[^\u00A0\s\.:!?…]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="German">
@@ -5184,11 +5215,19 @@
 </languagerule>
 <languagerule languagerulename="French">
 <rule break="no">
-<beforebreak>Yahoo!\s</beforebreak>
+<beforebreak>[\s\u00A0]</beforebreak>
+<afterbreak>[»”’"'›]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?][\s\u00A0][»”’"'›][\s\u00A0]</beforebreak>
+<afterbreak>[«“‘‹"'\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Yahoo![\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\.\[\d+\]\s</beforebreak>
+<beforebreak>\.\[\d+\][\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- URLs without "www."-->
@@ -5206,15 +5245,15 @@
 </rule>
 <!-- French abbreviations -->
 <rule break="no">
-<beforebreak>\b((?iu)J\.\-C|art|app|cf|chap|e(nv|tc)|fém|fig|masc|p|sing|suiv|suppl|tél|op)\.\s</beforebreak>
+<beforebreak>\b((?iu)J\.\-C|art|app|cf|chap|e(nv|tc)|fém|fig|masc|p|sing|suiv|suppl|tél|op)\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(etc)\.\)\s</beforebreak>
+<beforebreak>\b(etc)\.\)[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(apr|ave?|boul|Mr?|Mrs|MM?|Mlle)\.\s</beforebreak>
+<beforebreak>\b(apr|ave?|boul|Mr?|Mrs|MM?|Mlle)\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5230,39 +5269,39 @@
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>["”'’]\s*</beforebreak>
-<afterbreak>\s*\p{Ll}</afterbreak>
+<beforebreak>["”'’][\s\u00A0]*</beforebreak>
+<afterbreak>[\s\u00A0]*\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+<beforebreak>['"„][\.!?…]['"”][\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b\p{L}\.\s</beforebreak>
-<afterbreak>\p{L}\.\s</afterbreak>
+<beforebreak>\b\p{L}\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{L}\.[\s\u00A0]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b\p{L}\.</beforebreak>
 <afterbreak>\p{L}\.</afterbreak>
 </rule>
 <rule break="no"><!-- Je suis (...) Chris. -->
-<beforebreak>(…|\.\.\.)\s?\)\s</beforebreak>
+<beforebreak>(…|\.\.\.)[\s\u00A0]?\)[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{P}]</afterbreak>
 </rule>
 <rule break="no"><!-- Je suis (...?) Chris. -->
-<beforebreak>(…|\.\.\.)\s?\?\)\s</beforebreak>
+<beforebreak>(…|\.\.\.)[\s\u00A0]?\?\)[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{P}]</afterbreak>
 </rule>
 <rule break="no"><!-- Jones v. Smith -->
-<beforebreak>\p{Lu}\p{L}+\sv\.\s</beforebreak>
+<beforebreak>\p{Lu}\p{L}+[\s\u00A0]v\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{Lu}\p{L}+</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[^,][\s]\p{L}{2}\.\s</beforebreak>
-<afterbreak>\p{N}+\)\s</afterbreak>
+<beforebreak>[^,][\s\u00A0]\p{L}{2}\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{N}+\)[\s\u00A0]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+<beforebreak>[\.\s\u00A0]\p{L}{1,2}\.[\s\u00A0]</beforebreak>
 <afterbreak>[\p{N}\p{Ll}]</afterbreak>
 </rule>
 <rule break="no">
@@ -5270,31 +5309,31 @@
 <afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
+<beforebreak>\b\p{Lu}\.[\s\u00A0]\p{Lu}\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
+<beforebreak>\b\p{Lu}\.\p{Lu}\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>[^\.]\s[A-Z]\.\s</beforebreak>
+<beforebreak>[^\.][\s\u00A0][A-Z]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(:?Blvd|Ave|Mts?)\.\s</beforebreak>
+<beforebreak>\b(:?Blvd|Ave|Mts?)\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(?:Kan|Ill|M[ai]ss)\.\s</beforebreak>
+<beforebreak>\b(?:Kan|Ill|M[ai]ss)\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+<beforebreak>\(\p{Ll}+\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- i.e. -->
-<beforebreak>i\.e\.\s</beforebreak><!-- "i.e." is never at end of sentence -->
+<beforebreak>i\.e\.[\s\u00A0]</beforebreak><!-- "i.e." is never at end of sentence -->
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- U.S.A (no dot at end) -->
@@ -5310,28 +5349,28 @@
 <afterbreak>[SK]\b</afterbreak>
 </rule>
 <rule break="no"><!-- No. 5 -->
-<beforebreak>\b[nN]o\.\s</beforebreak>
+<beforebreak>\b[nN]o\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{N}</afterbreak>
 </rule>
 <rule break="no"><!-- Ph.D. -->
-<beforebreak>\bP[Hh]\.\s?</beforebreak>
+<beforebreak>\bP[Hh]\.[\s\u00A0]?</beforebreak>
 <afterbreak>D\.?</afterbreak>
 </rule>
 <rule break="no"><!-- e.g. -->
-<beforebreak>\be\.g\.\s</beforebreak>
+<beforebreak>\be\.g\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- vs. -->
-<beforebreak>\bvs\.\s</beforebreak>
+<beforebreak>\bvs\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!--"Etc." can end the sentence, so we check for the uppercase letter after it.-->
 <rule break="no"><!-- Etc. -->
-<beforebreak>\b[Ee]tc\.\s</beforebreak>
+<beforebreak>\b[Ee]tc\.[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no"><!-- BTW (by the way) -->
-<beforebreak>\b([Bb]tw|BTW)\.\s</beforebreak>
+<beforebreak>\b([Bb]tw|BTW)\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5343,64 +5382,64 @@
 <afterbreak>3|Buzz|Crozz</afterbreak>
 </rule>
 <rule break="no"><!-- Ph.D. (see rule PH_D) -->
-<beforebreak>\bP[Hh]\.?\s?[Dd]\.\s</beforebreak>
+<beforebreak>\bP[Hh]\.?[\s\u00A0]?[Dd]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- "I have a B. Eng. degree" (see rule BACHELOR_ABBR) -->
-<beforebreak>\b(P[hH][dD]|BSc|BEng|BComp|BArch|MSc|MEng|MComp)\.\s</beforebreak>
+<beforebreak>\b(P[hH][dD]|BSc|BEng|BComp|BArch|MSc|MEng|MComp)\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- "I have a LL.B degree." (see rule PH_D) -->
-<beforebreak>\bLL\.\s?[BM]\.\s</beforebreak>
+<beforebreak>\bLL\.[\s\u00A0]?[BM]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- B.Eng. (Bachelor of Engineering) -->
-<beforebreak>\b[BM]\.\s?</beforebreak>
+<beforebreak>\b[BM]\.[\s\u00A0]?</beforebreak>
 <afterbreak>Eng\.?</afterbreak>
 </rule>
 <rule break="no"><!-- LL.B. (Bachelor of Laws) -->
-<beforebreak>\bLL\.\s?</beforebreak>
+<beforebreak>\bLL\.[\s\u00A0]?</beforebreak>
 <afterbreak>[BM]\.?</afterbreak>
 </rule>
 <rule break="no"><!-- B.Sc. (Bachelor of Science) -->
-<beforebreak>\b[BM]\.\s?</beforebreak>
+<beforebreak>\b[BM]\.[\s\u00A0]?</beforebreak>
 <afterbreak>Sc\.?</afterbreak>
 </rule>
 <rule break="no"><!-- B.Comp. (Bachelor of Computing) -->
-<beforebreak>\b[BM]\.\s?</beforebreak>
+<beforebreak>\b[BM]\.[\s\u00A0]?</beforebreak>
 <afterbreak>Comp?\.?</afterbreak>
 </rule>
 <rule break="no"><!-- B.Arch. (Bachelor of Architecture) -->
-<beforebreak>\b[BM]\.\s?</beforebreak>
+<beforebreak>\b[BM]\.[\s\u00A0]?</beforebreak>
 <afterbreak>Arch\.?</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b[BM]\.?\s?(Sc|Eng|Comp|Arch)\.\s</beforebreak>
+<beforebreak>\b[BM]\.?[\s\u00A0]?(Sc|Eng|Comp|Arch)\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bI(nc|NC)\.\s</beforebreak>
+<beforebreak>\bI(nc|NC)\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bCorp\.\s</beforebreak>
+<beforebreak>\bCorp\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bBros\.\s</beforebreak>
+<beforebreak>\bBros\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bLtd\.\s</beforebreak>
+<beforebreak>\bLtd\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bCo\.\s</beforebreak>
+<beforebreak>\bCo\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Break rules -->
 <rule break="yes">
-<beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?\s+</beforebreak>
+<beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?[\s\u00A0]+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
@@ -5408,7 +5447,7 @@
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<beforebreak>[\s\u00A0]\p{L}[\.!?…][\s\u00A0]</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>

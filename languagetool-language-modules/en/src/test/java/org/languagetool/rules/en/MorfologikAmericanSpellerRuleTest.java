@@ -23,12 +23,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.language.CanadianEnglish;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -51,6 +55,21 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     CanadianEnglish canadianEnglish = new CanadianEnglish();
     caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null, emptyList());
     caLangTool = new JLanguageTool(canadianEnglish);
+  }
+
+  @Test
+  public void testNamedEntityIgnore() throws IOException {
+    Language language = Languages.getLanguageForShortCode("en-US");
+    Map<String, Integer> map = new HashMap<>();
+    map.put("Peter", 100);
+    map.put("Petr", 10);
+    LanguageModel lm = new FakeLanguageModel(map);
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language, null, null, null, lm, null);
+    //String s = "He was the son of Mehmed II (1432–81) and Valide Sultan Gülbahar Hatun, who died in 1492.";
+    //String s = "This is a test with Elmar Reimann.";
+    String s = "This is a test with Petr Smith.";
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    //System.out.println(Arrays.toString(matches));
   }
 
   @Test

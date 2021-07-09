@@ -504,6 +504,8 @@ public class AgreementRuleTest {
     assertBad("Funktioniert das Software auch mit Windows?");
     assertGood("Soll das Sinn stiften?");
     assertGood("Soll das Freude machen?");
+    assertGood("Die Trial ist ausgelaufen.");
+    assertGood("Ein geworbener Neukunde interagiert zusätzlich mit dem Unternehmen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

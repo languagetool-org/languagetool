@@ -912,6 +912,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Böhen?$", "h", "");
     putRepl("Aufständige[mnr]?$", "ig", "isch");
     putRepl("aufständig(e[mnrs]?)?$", "ig", "isch");
+    putRepl("duzend(e[mnrs]?)?$", "uzend", "utzend");
+    putRepl("unrelevant(e[mnrs]?)?$", "un", "ir");
+    putRepl("Unrelevant(e[mnrs]?)?$", "Un", "Ir");
     put("aufgrundedessen", "aufgrund dessen");
     put("Amalgane", "Amalgame");
     put("Kafe", w -> Arrays.asList("Kaffee", "Café"));
@@ -1024,6 +1027,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
     putRepl("abtrakt(e[mnrs]?)?", "ab", "abs");
     putRepl("unerfolgreich(e[mnrs]?)?", "unerfolgreich", "erfolglos");
+    putRepl("[bB]attalion(en?|s)?", "[bB]attalion", "Bataillon");
+    putRepl("[bB]esuchungsverbot(e[ns]?)?", "ung", "");
+    putRepl("spätrig(e[mnrs]?)?", "rig", "er");
+    putRepl("angehangene[mnrs]?", "hangen", "hängt");
+    putRepl("[ck]amel[ie]onhaft(e[mnrs]?)?", "[ck]am[ie]lion", "chamäleon");
+    putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
+    putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
+    put("Schutzfließ", "Schutzvlies");
+    put("Simlock", "SIM-Lock");
+    put("fäschungen", "Fälschungen");
+    put("Weinverköstigung", "Weinverkostung");
+    put("vertag", "Vertrag");
     put("geauessert", "geäußert");
     put("gestriffen", "gestreift");
     put("gefäh?ten", "Gefährten");
