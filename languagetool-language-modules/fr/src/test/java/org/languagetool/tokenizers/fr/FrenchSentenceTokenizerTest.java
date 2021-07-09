@@ -74,6 +74,13 @@ public class FrenchSentenceTokenizerTest {
     // TODO:
     //testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
 
+    // without nbsp
+    testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
+    testSplit("Si « cf. » désigne l’abréviation de « confer »");
+    // with nbsp
+    testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
+    testSplit("Si « cf. » désigne l’abréviation de « confer »,"); 
+    
     assertThat(stokenizer.tokenize("Je suis Chris. Comment allez vous ?").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris?   Comment allez vous ???").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris ! Comment allez vous ???").size(), is(2));
@@ -83,6 +90,7 @@ public class FrenchSentenceTokenizerTest {
     assertThat(stokenizer.tokenize("Je suis Chris (la la la …). comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris (CHRISTOPHER!). Comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris... Comment allez vous.").size(), is(2));
+    
   }
 
   private void testSplit(final String... sentences) {
