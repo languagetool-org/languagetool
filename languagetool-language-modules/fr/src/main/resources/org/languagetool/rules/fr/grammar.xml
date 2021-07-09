@@ -4038,7 +4038,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">dépenses?</token>
                 <token regexp="yes">somptuaires?</token>
             </pattern>
-            <message>« Dépenses somptuaires » est un pléonasme. Employez <suggestion>\1 d'apparat</suggestion>, <suggestion>\1 excessives</suggestion>. « Somptuaire » signifie « relatif à la dépense ».</message>
+            <message>'Dépenses somptuaires' est un pléonasme. Employez <suggestion>\1 d'apparat</suggestion>, <suggestion>\1 excessives</suggestion>. « Somptuaire » signifie « relatif à la dépense ».</message>
             <example correction="dépenses d'apparat|dépenses excessives"><marker>dépenses somptuaires</marker></example>
             <example><marker>dépenses excessives</marker></example>
         </rule>
@@ -23028,9 +23028,21 @@ though, and has since been slightly modified)-->
                 <token>vous</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+				<token postag="V.* ppr" postag_regexp="yes" skip="-1"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.*" postag_regexp="yes" skip="1"/>
+                <token>que</token>
+            </antipattern>
             <pattern>
                 <token>que
-                    <exception scope="previous" regexp="yes">tel(le)?s?|plutôt|parce</exception>
+                    <exception scope="previous" regexp="yes">tel(le)?s?|plutôt|parce|ainsi</exception>
                 </token>
                 <token>vous</token>
                 <marker>
@@ -23039,10 +23051,13 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">a|as|puis|importe</exception></token>
                 </marker>
             </pattern>
-            <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet '\2'.</message>
+            <message>Un verbe conjugué à la deuxième personne du pluriel est généralement attendu après le pronom personnel sujet '\2'.</message>
             <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V sub pres 2 p"/></suggestion>
-            <example correction="arriviez">C'est dommage que vous <marker>arriver</marker> tard.</example>
+            <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ind pres 2 p"/></suggestion>
+            <example correction="arriviez|arrivez">C'est dommage que vous <marker>arriver</marker> tard.</example>
             <example>Rome plutôt que vous est son premier long métrage.</example>
+            <example>Que vous dérange pas que les sentiments.</example>
+            <example>En utilisant les moyens que vous apporte la connaissance des lois psychophysiologiques.</example>
             <example>Nous ne voulons que vous vendre des denrées.</example>
             <example>Qui mieux que vous sait vos besoins ?</example>
             <example>Je ne vous demande qu'une seule chose, la seule chose que vous implore votre oncle Sabicas.</example>
@@ -37617,7 +37632,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes" skip="5">arriver</token>
                 <token>avec</token>
             </pattern>
-            <message>« Qu’est-ce qui arrive avec [quelqu’un] » peut être considéré comme un anglicisme. Employez <suggestion>\1\2\3 \4 \5 à</suggestion> ou <suggestion>comment va</suggestion> [nom de personne].</message>
+            <message>'Qu’est-ce qui arrive avec [quelqu’un]' peut être considéré comme un anglicisme. Employez <suggestion>\1\2\3 \4 \5 à</suggestion> ou <suggestion>comment va</suggestion> [nom de personne].</message>
             <example correction="qu'est-ce qui arrive à|comment va"><marker>qu’est-ce qui arrive avec</marker> Michelle ?</example>
         </rule>
         <rule id="RESURFACEUSE" name="resurfaceuse">
@@ -40231,7 +40246,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes"> patch|patches|patchs
                     <exception case_sensitive="yes">PATCH</exception><!-- HTTP Method --></token>
             </pattern>
-            <message>« Patch » peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="pièce"/></suggestion> (chambre à air, ballon, morceau de tissu), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="timbre"/> <match no="1" regexp_match="(?i)patche?" regexp_replace="cutané"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="correctif"/></suggestion> (informatique), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="retouche"/></suggestion> (informatique), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="solution"/> temporaire</suggestion>.</message>
+            <message>'Patch' peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="pièce"/></suggestion> (chambre à air, ballon, morceau de tissu), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="timbre"/> <match no="1" regexp_match="(?i)patche?" regexp_replace="cutané"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="correctif"/></suggestion> (informatique), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="retouche"/></suggestion> (informatique), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="solution"/> temporaire</suggestion>.</message>
             <example correction="pièce|timbre cutané|correctif|retouche|solution temporaire"><marker>patch</marker></example>
             <example correction="pièces|timbres cutanés|correctifs|retouches|solutions temporaire"><marker>patches</marker></example>
             <example><marker>rustine</marker></example>
@@ -42356,7 +42371,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes">trails?</token>
             </pattern>
-            <message>« Trail » peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="chemin"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="sentier"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="piste"/></suggestion>.</message>
+            <message>'Trail' peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="chemin"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="sentier"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="piste"/></suggestion>.</message>
             <example correction="chemin|sentier|piste"><marker>trail</marker></example>
             <example><marker>piste</marker></example>
         </rule>
@@ -42364,7 +42379,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes">trailers?</token>
             </pattern>
-            <message>« Trailer » peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="bande-annonce"/></suggestion> (cinéma), <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="remorque"/></suggestion> (derrière une voiture) ou <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="van"/></suggestion> (pour les chevaux).</message>
+            <message>'Trailer' peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="bande-annonce"/></suggestion> (cinéma), <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="remorque"/></suggestion> (derrière une voiture) ou <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="van"/></suggestion> (pour les chevaux).</message>
             <example correction="bande-annonce|remorque|van"><marker>trailer</marker></example>
             <example><marker>remorque</marker></example>
         </rule>
@@ -45177,7 +45192,7 @@ though, and has since been slightly modified)-->
                     <token>e</token>
                     <token>.</token>
                 </pattern>
-                <message>« i.e. » » peut être considéré comme un anglicisme.</message>
+                <message>L'abréviation 'i.e.' peut être considéré comme un anglicisme.</message>
                 <suggestion>c'est-à-dire</suggestion>
                 <suggestion>c.-à-d.</suggestion>
                 <example correction="c'est-à-dire|c.-à-d."><marker>i.e.</marker></example>
@@ -45188,7 +45203,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token>ie</token>
                 </pattern>
-                <message>« i.e. » peut être considéré comme un anglicisme.</message>
+                <message>L'abréviation 'i.e.' peut être considéré comme un anglicisme.</message>
                 <suggestion>c'est-à-dire</suggestion>
                 <suggestion>c.-à-d.</suggestion>
                 <example correction="c'est-à-dire|c.-à-d."><marker>ie</marker></example>
@@ -45684,7 +45699,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes">forms?</token>
             </pattern>
-            <message>« \1 » peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
+            <message>'\1' peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
             <example correction="questionnaire|formulaire|forme|mouler">Je lui ai donné cette <marker>form</marker> a remplir</example>
         </rule>
         <rule id="TEAM" name="team" tags="picky">
@@ -47814,7 +47829,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[345]g</token>
             </pattern>
-            <message>Vouliez-vous dire <suggestion><match no="1" regexp_match="(.)g" regexp_replace="$1 g"/></suggestion> (grammes) o <suggestion><match no="1" regexp_match="(.)g" regexp_replace="$1G"/></suggestion> (standard pour la téléphonie mobile) ?</message>
+            <message>Vouliez-vous dire <suggestion><match no="1" regexp_match="(.)g" regexp_replace="$1 g"/></suggestion> (grammes) ou <suggestion><match no="1" regexp_match="(.)g" regexp_replace="$1G"/></suggestion> (standard pour la téléphonie mobile) ?</message>
             <example correction="4 g|4G">Les technologies <marker>4g</marker>.</example>
             <example correction="3 g|3G"><marker>3g</marker> de sel.</example>
         </rule>
