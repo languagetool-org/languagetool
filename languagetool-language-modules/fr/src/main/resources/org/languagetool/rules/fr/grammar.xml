@@ -18932,13 +18932,16 @@ though, and has since been slightly modified)-->
                 <example>Il n'ya qu'une heure environ.</example>
             </rule>
         </rulegroup>
-        <rule id="NY" name="ny/n'y" default="temp_off">
+        <rule id="NY" name="ny/n'y">
             <antipattern>
                 <token>ny</token>
                 <token regexp="yes">c|city|county|counties|state</token>
             </antipattern>
             <pattern case_sensitive="yes">
-                <token>ny</token>
+                <marker>
+                    <token>ny</token>    
+                </marker>
+                <token postag="V.*" postag_regexp="yes"/>
             </pattern>
             <message>Ces deux mots doivent être séparés.</message>
             <suggestion>n'y</suggestion>
