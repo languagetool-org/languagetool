@@ -80,6 +80,10 @@ public class FrenchSentenceTokenizerTest {
     // with nbsp
     testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
     testSplit("Si « cf. » désigne l’abréviation de « confer »,"); 
+    testSplit("Ça ne sert à rien de me dire « Salut, comment ça va ? » si tu n'as rien d'autre à dire.");
+    testSplit("« Madame est dans sa chambre. » dit le serviteur.");
+    testSplit("« L'État, c'est moi ! » dit le roi.");
+   
     
     assertThat(stokenizer.tokenize("Je suis Chris. Comment allez vous ?").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris?   Comment allez vous ???").size(), is(2));
