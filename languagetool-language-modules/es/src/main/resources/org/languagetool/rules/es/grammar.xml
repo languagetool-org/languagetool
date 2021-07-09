@@ -2909,6 +2909,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Crees que tal vez es más económico?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="INTERROGATIVAS_INDIRECTAS" name="interrogativas indirecas: el cómo, el quién" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>quien</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué persona), se escribe con tilde.</message>
+                <suggestion>quién</suggestion>
+                <example correction="quién">No importa el qué sino el <marker>quien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>cuanto</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cantidad), se escribe con tilde.</message>
+                <suggestion>cuánto</suggestion>
+                <example correction="cuánto">No importa el qué sino el <marker>cuanto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>cuando</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=en qué momento), se escribe con tilde.</message>
+                <suggestion>cuándo</suggestion>
+                <example correction="cuándo">No importa el qué sino el <marker>cuando</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>como</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=de qué manera), se escribe con tilde.</message>
+                <suggestion>cómo</suggestion>
+                <example correction="cómo">No importa el qué sino el <marker>como</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>donde</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=en qué lugar), se escribe con tilde.</message>
+                <suggestion>dónde</suggestion>
+                <example correction="dónde">No importa el qué sino el <marker>donde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>adonde</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=a qué lugar), se escribe con tilde.</message>
+                <suggestion>adónde</suggestion>
+                <example correction="adónde">No importa el qué sino el <marker>adonde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token min="0">,</token>
+                    <token regexp="yes">y|o|sino|ni</token>
+                    <token regexp="yes">el|del|al</token>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No importa el <marker>que</marker> sino el cuándo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <token regexp="yes">quien|quién|cuanto|cuánto|como|cómo|cuando|cuándo|donde|dónde|adonde|adónde</token>
+                    <token regexp="yes">y|o|sino|ni</token>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No importa el cuándo sino el <marker>que</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SE_CREO" name="confusión: se creo/creó">
             <antipattern>
                 <token>objeto</token>
@@ -15411,7 +15507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="CS">que</token>
                     </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                   <!-- <token min="0" postag="D...S." postag_regexp="yes"/>
+                    <!-- <token min="0" postag="D...S." postag_regexp="yes"/>
                     <token min="1" max="4" postag="(N.|A..).[SC].*|V.P..S." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>-->
                     <phraseref idref="_GN_SINGULAR"/>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
