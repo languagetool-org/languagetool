@@ -16054,6 +16054,55 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <antipattern>
+                    <token case_sensitive="yes">Carapate</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[mts]e</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">carapater</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="2" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">fuir</match></suggestion>
+                <suggestion><match no="1" regexp_match="([mts])(e)" regexp_replace="$1'"/><match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">échapper</match></suggestion>
+                <example correction="fuyais|m'échappais">Dès le début de l'orage, je <marker>me carapatais</marker> sous la tonnelle.</example>
+                <example>Le film La Carapate de Gérard Oury.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Carapate</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[nv]ous</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">carapater</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="2" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">fuir</match></suggestion>
+                <suggestion>\1 <match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">échapper</match></suggestion>
+                <example correction="fuîtes|vous échappâtes">Dès le début de l'orage, vous <marker>vous carapatâtes</marker> sous la tonnelle.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Carapate</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">[mts]e|[mts]'|[nv]ous</token>
+                        <token postag="V etre.*" postag_regexp="yes" inflected="yes">être</token>
+                        <token postag="V ppa.*" postag_regexp="yes" inflected="yes">carapater</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="2" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="(V avoir) $2">avoir</match> <match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V ppa m s">fuir</match></suggestion>
+                <suggestion>\1 <match no="2" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="(V etre) $2">être</match> <match no="3" postag="(V) (.* [mfe]) ([sp])" postag_regexp="yes" postag_replace="V $2 $3">échapper</match></suggestion>
+                <example correction="ont fui|se sont échappés">Avant la fin de l'orage, tous les invités <marker>se sont carapatés</marker>.</example>
+                <example correction="ai fui|me suis échappé">Avant la fin de l'orage, je <marker>me suis carapaté</marker>.</example>
+                <example correction="avaient fui|s' étaient échappées">Avant la fin de l'orage, elles <marker>s'étaient carapatées</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
                     <token case_sensitive="yes">Chouine</token>
                 </antipattern>
                 <pattern>
