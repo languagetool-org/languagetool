@@ -20,9 +20,12 @@ package org.languagetool.rules.en;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import opennlp.tools.util.Span;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.ner.EnglishNamedEntityDetector;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
@@ -40,6 +43,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   //private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
+
+  private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // words with 'NOSUGGEST' in en_US.dic:
@@ -90,6 +95,68 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
+  }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    RuleMatch[] matches = super.match(sentence);
+    if (languageModel != null && languageModel instanceof BaseLanguageModel) {
+      String sentenceText = sentence.getText();
+      try {
+        List<Span> namedEntities = ner.findNamedEntities(sentenceText);
+        //System.out.println("namedEntities: " + namedEntities);
+        List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
+        matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
+      } catch (Exception e) {
+        System.err.println("Could not run NER test on '" + sentenceText + "'");
+        e.printStackTrace();
+      }
+    }
+    return matches;
+  }
+
+  private List<RuleMatch> filter(RuleMatch[] matches, String sentenceText, List<Span> namedEntities, LanguageModel languageModel) {
+    BaseLanguageModel lm = (BaseLanguageModel) languageModel;
+    Set<RuleMatch> toFilter = new HashSet<>();
+    for (Span neSpan : namedEntities) {
+      for (RuleMatch match : matches) {
+        //System.out.println(neSpan.getStart() + " <= " + match.getFromPos() + " && " + neSpan.getEnd() + " >= " +  match.getToPos());
+        if (neSpan.getStart() <= match.getFromPos() && neSpan.getEnd() >= match.getToPos()) {
+          String covered = sentenceText.substring(match.getFromPos(), match.getToPos());
+          List<String> infos = new ArrayList<>();
+          long textCount = lm.getCount(covered);
+          infos.add(covered + "/" + textCount);
+          String mostCommonRepl = null;
+          long mostCommonReplCount = textCount;
+          int i = 0;
+          for (String repl : match.getSuggestedReplacements()) {
+            long replCount = lm.getCount(repl);
+            if (replCount > mostCommonReplCount) {
+              mostCommonRepl = repl;
+              mostCommonReplCount = replCount;
+            }
+            infos.add(repl + "/" + replCount);
+            if (i++ >= 4) {
+              break;
+            }
+          }
+          //String msg = "Could skip: " + covered + " FOR " + sentenceText.substring(neSpan.getStart(), neSpan.getEnd());
+          if (mostCommonRepl != null) {
+            //System.out.println(msg + "\n -> Would not skip, common repl: " + mostCommonRepl + ": " + infos);
+          } else {
+            //System.out.println(msg + "\n -> Would skip, " + infos);
+            toFilter.add(match);
+          }
+        }
+      }
+    }
+    List<RuleMatch> filteredMatches = new ArrayList<>();
+    for (RuleMatch match : matches) {
+      if (!toFilter.contains(match)) {
+        filteredMatches.add(match);
+      }
+    }
+    return filteredMatches;
   }
 
   /**
