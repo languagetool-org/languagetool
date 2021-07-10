@@ -5718,6 +5718,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="versenkte">Die britische Marine <marker>versengte</marker> das U-Boot im April 1942.</example>
             <example correction="versenkten">Die britischen Kreuzer <marker>versengten</marker> das Schiff im April 1942.</example>
         </rule>
+        <rulegroup id="VERSINKEN_VERSENKEN" name="'versinken' vs. 'versenken'" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/versenken</url>
+            <short>Mögliche Wortverwechslung</short>
+            <rule>
+                <pattern>
+                    <token regexp="yes">wurden?</token>
+                    <token min="0" max="2" />
+                    <marker>
+                        <token regexp="yes">versunken|versinkt</token>
+                    </marker>
+                    <token negate="yes" regexp="yes" min="0">(auf)?gefunden|entdeckt</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>versenkt</suggestion>?</message>
+                <example correction="versenkt">Die Schiffe wurden im Meer <marker>versinkt</marker>.</example>
+                <example correction="versenkt">Die Schiffe wurden <marker>versunken</marker>.</example>
+                <example>Die Schiffe wurden im Schlamm <marker>versunken</marker> aufgefunden.</example>
+            </rule>
+        </rulegroup>
         <rule id="RESOURCE_RESSOURCE" name="Ressource vs. Resource">
             <pattern>
                 <token>Human</token>
