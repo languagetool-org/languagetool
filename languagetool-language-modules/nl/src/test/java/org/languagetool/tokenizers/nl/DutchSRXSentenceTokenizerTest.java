@@ -116,6 +116,9 @@ public class DutchSRXSentenceTokenizerTest {
     testSplit("'Is Jan thuis?', vroeg Piet. ", "'Ik wil hem wat vragen.'");
     testSplit("'Ik denk er niet over!', riep ze. ", "'Dat gaat echt te ver, hoor!'");
     testSplit("'Ik vermoed', zei Piet, 'dat Jan al wel thuis is.'");
+    
+    testSplit("Het is een .Net programma. ", "Of een .NEt programma.");
+    testSplit("Het is een .Net-programma. ", "Of een .NEt-programma.");
   }
 
   private void testSplit(String... sentences) {
