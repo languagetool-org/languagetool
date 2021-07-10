@@ -223,6 +223,7 @@ public class SentenceSourceChecker {
     int ruleMatchCount = 0;
     int sentenceCount = 0;
     int skipCount = 0;
+    int ignoredCount = 0;
     boolean skipMessageShown = false;
     try {
       if (propFile != null) {
@@ -257,6 +258,7 @@ public class SentenceSourceChecker {
           throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
         }
       }
+      ignoredCount = mixingSource.getIgnoredCount();
     } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
       System.out.println(getClass().getSimpleName() + ": " + e);
     } finally {
@@ -265,6 +267,8 @@ public class SentenceSourceChecker {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
+        System.out.printf(Locale.ENGLISH, lang + ": %d input lines ignored (e.g. not between %d and %d chars or at least %d tokens)\n", ignoredCount, 
+          SentenceSource.MIN_SENTENCE_LENGTH, SentenceSource.MAX_SENTENCE_LENGTH, SentenceSource.MIN_SENTENCE_TOKEN_COUNT);
         if (options.hasOption("print-duration")) {
           System.out.println("The analysis took " + (System.currentTimeMillis() - startTime) + "ms");
         }
