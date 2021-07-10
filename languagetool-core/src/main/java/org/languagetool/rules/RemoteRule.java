@@ -261,9 +261,9 @@ public abstract class RemoteRule extends Rule {
 
 
   /**
-   *  Helper for {@link fixMatchOffsets}
+   *  Helper for {@link #fixMatchOffsets}
    *  lookup table, find shifted index for i at shifts[i];
-   *  */
+   */
   static int[] computeOffsetShifts(String s) {
     int len = s.length();
     int[] offsets = new int[len];
@@ -300,7 +300,7 @@ public abstract class RemoteRule extends Rule {
    * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
    * so "😁foo".length() == 5, but len("😁foo") == 4;
    * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'
-   *  */
+   */
   public static void fixMatchOffsets(AnalyzedSentence sentence, List<RuleMatch> matches) {
     int[] shifts = computeOffsetShifts(sentence.getText());
     matches.forEach(m -> {
