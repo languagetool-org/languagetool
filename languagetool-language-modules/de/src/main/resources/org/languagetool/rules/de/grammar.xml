@@ -45512,6 +45512,32 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
+        <rulegroup id="AUF_DEM_GEIST" name="auf dem (den) Geist gehen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token>dem</token></marker>
+                    <token>Geist</token>
+                    <token inflected="yes">gehen</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Geist gehen'?</message>
+                <example correction="den">Das ist mir auf <marker>dem</marker> Geist gegangen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">gehen</token>
+                    <token postag="PRO:PER:DAT.+" postag_regexp="yes" min="0" />
+                    <token min="0" max="2" />
+                    <token min="0">nicht</token>
+                    <token>auf</token>
+                    <marker><token>dem</token></marker>
+                    <token>Geist</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Geist gehen'?</message>
+                <example correction="den">Geh mir jetzt nicht auf <marker>dem</marker> Geist!</example>
+                <example correction="den">Geh mir nicht auf <marker>dem</marker> Geist!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_ANGRIFF" name="in den Angriff (in Angriff) nehmen">
             <rule>
                 <pattern>
