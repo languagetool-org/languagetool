@@ -12803,6 +12803,27 @@ Eu comprei-a quando fui à loja.
       <example correction="mostra">Quero ver a <marker>amostra</marker> de arte.</example>
     </rule>
 
+	<!-- E É/SÃO/FOI/FORAM sendo/sido verbo -->
+    <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="E é/são/foi/foram + Verbo → Sendo/Sido + Verbo" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 (25-JUN-2021+)      -->
+	<!--
+Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
+	-->
+      <pattern>
+		<marker>
+			<token>e</token>
+			<token regexp='yes'>é|são|foi|foram</token>
+		</marker>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='NP.+'/>
+		</token>		
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>sendo</suggestion>
+	  <suggestion>sido</suggestion>
+      <example correction="sendo|sido">Ele escondeu-se <marker>e foi</marker> capturado em maio.</example>
+    </rule>
+
     <rule id='SUBSTANTIVO_PLURAL_E_CHAVE' name="Substantivo-chave">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-08-23      -->
       <pattern>
