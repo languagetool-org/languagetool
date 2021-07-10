@@ -12824,6 +12824,56 @@ Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em 
       <example correction="sendo|sido">Ele escondeu-se <marker>e foi</marker> capturado em maio.</example>
     </rule>
 
+	<!-- QUE [NÃO] HÁ [não] haver -->
+    <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 (25-JUN-2021+)      -->
+	<!--
+É assumido que há substituição de jogadores durante a partida. → É assumido haver substituição de jogadores durante a partida.
+É assumido que não há substituição de jogadores durante a partida. → É assumido não haver substituição de jogadores durante a partida.
+	-->
+	<rule>
+      <pattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<marker>
+			<token>que</token>
+			<token>há</token>
+		</marker>
+		<or>
+			<token negate_pos="yes" postag='Z0.+|DI.+' postag_regexp='yes'/>
+			<token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
+		</or>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>haver</suggestion>
+      <example correction="haver">É assumido <marker>que há</marker> substituição de jogadores durante a partida.</example>
+	  
+	  <example>Pode-se afirmar que há poucas décadas a antropologia conquistou seu lugar entre as ciências.</example>
+	  <example>Penso haver um homem lá.</example>
+	  <example>Lajos disse que há três anos queria morar em Szeged.</example>
+	</rule>  
+	<rule>
+      <pattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<marker>
+			<token>que</token>
+			<token postag='RN' postag_regexp='no'/>			
+			<token>há</token>
+		</marker>
+		<or>
+			<token negate_pos="yes" postag='Z0.+|DI.+' postag_regexp='yes'/>
+			<token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
+		</or>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\3 haver</suggestion>
+      <example correction="não haver">É assumido <marker>que não há</marker> substituição de jogadores durante a partida.</example>
+	  
+	  <example>Pode-se afirmar que há poucas décadas a antropologia conquistou seu lugar entre as ciências.</example>
+	  <example>Penso haver um homem lá.</example>
+	  <example>Lajos disse que há três anos queria morar em Szeged.</example>
+	</rule>	  	  
+    </rulegroup>
+
     <rule id='SUBSTANTIVO_PLURAL_E_CHAVE' name="Substantivo-chave">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-08-23      -->
       <pattern>
