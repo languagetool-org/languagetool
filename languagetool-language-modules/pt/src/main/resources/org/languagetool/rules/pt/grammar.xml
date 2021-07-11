@@ -12826,14 +12826,16 @@ Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em 
 
 	<!-- QUE [NÃO] HÁ [não] haver -->
     <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 + 2021-07-11 (25-JUN-2021+)      -->
 	<!--
 É assumido que há substituição de jogadores durante a partida. → É assumido haver substituição de jogadores durante a partida.
 É assumido que não há substituição de jogadores durante a partida. → É assumido não haver substituição de jogadores durante a partida.
 	-->
 	<rule>
       <pattern>
-		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+            <exception regexp='no'>sendo</exception>
+		</token>
 		<marker>
 			<token>que</token>
 			<token>há</token>
@@ -12853,7 +12855,9 @@ Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em 
 	</rule>  
 	<rule>
       <pattern>
-		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+            <exception regexp='no'>sendo</exception>
+		</token>
 		<marker>
 			<token>que</token>
 			<token postag='RN' postag_regexp='no'/>			
