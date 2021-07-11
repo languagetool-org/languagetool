@@ -12878,6 +12878,25 @@ Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em 
 	</rule>	  	  
     </rulegroup>
 
+	<!-- SER CAPAZ DE conseguir -->
+    <rule id='SER_CAPAZ_DE_CONSEGUIR' name="Ser capaz de → Conseguir" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-11 (25-JUN-2021+)      -->
+	<!--
+Apesar de não serem capazes de arrasar a cidade. → Apesar de não conseguirem arrasar a cidade.
+	-->
+      <pattern>
+		<marker>
+			<token inflected='yes'>ser</token>
+			<token regexp='yes'>capaz|capazes</token>
+			<token>de</token>
+		</marker>
+		<token postag='V.+|DI.+|PI.+|RG' postag_regexp='yes'/>		
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conseguir</match></suggestion>
+      <example correction="conseguirem">Apesar de não <marker>serem capazes de</marker> arrasar a cidade.</example>
+    </rule>
+
     <rule id='SUBSTANTIVO_PLURAL_E_CHAVE' name="Substantivo-chave">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-08-23      -->
       <pattern>
