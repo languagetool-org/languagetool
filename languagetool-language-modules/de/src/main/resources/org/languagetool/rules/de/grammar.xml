@@ -382,6 +382,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Zu viele"><marker>Zuviele</marker> Eier sind gar nicht gesund.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="UNTERSCHIED_ZWISCHEN" name="der Unterschied (zwischen) A und B">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[dD]er|ein</token>
+                    <token inflected="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
+                    <marker>
+                        <token>Unterschied</token>
+                    </marker>
+                    <token postag="SUB:.*" postag_regexp="yes" />
+                    <token>und</token>
+                    <token postag="SUB:.*" postag_regexp="yes" />
+                </pattern>
+                <message>Fehlt hier ein Wort? Vorschlag: <suggestion>Unterschied zwischen</suggestion></message>
+                <short>Fehlendes Wort?</short>
+                <example correction="Unterschied zwischen">Ein <marker>Unterschied</marker> Himmel und Erde.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>Unterschied</token>
+                    <token>zwischen</token>
+                    <token postag="SUB:.*" postag_regexp="yes" />
+                    <token postag="SUB:.*" postag_regexp="yes" />
+                    <token>und</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[dD]er|ein</token>
+                    <token inflected="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
+                    <token>Unterschied</token>
+                    <token>zwischen</token>
+                    <marker>
+                        <token postag="SUB:.*" postag_regexp="yes" />
+                        <token postag="SUB:.*" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <message>Fehlt hier ein Wort? Vorschlag: <suggestion>\5 und \6</suggestion></message>
+                <short>Fehlendes Wort?</short>
+                <example correction="Feuer und Wasser">Ein Unterschied zwischen <marker>Feuer Wasser</marker>.</example>
+                <example correction="Mitteln und Wegen">Ein Unterschied zwischen <marker>Mitteln Wegen</marker>.</example>
+                <example>Der Unterschied zwischen Revival Bands und Tribute Bands</example>
+            </rule>
+        </rulegroup>
         <rule id="ALARM_AUSLOSEN" name="Alarm auslosen (auslösen)">
             <pattern>
                 <token regexp="yes">.*alarm</token>
