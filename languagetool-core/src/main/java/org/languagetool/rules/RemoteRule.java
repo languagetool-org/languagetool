@@ -265,13 +265,13 @@ public abstract class RemoteRule extends Rule {
    *  lookup table, find shifted index for i at shifts[i];
    */
   static int[] computeOffsetShifts(String s) {
-    int len = s.length();
+    int len = s.length() + 1;
     int[] offsets = new int[len];
     int shifted = 0, original = 0;
 
     // go from codepoint to codepoint using shifted
     // offset saved in original will correspond to Java string index shifted
-    while(shifted < len) {
+    while(shifted < s.length()) {
       offsets[original] = shifted;
       shifted = s.offsetByCodePoints(shifted, 1);
       original++;
