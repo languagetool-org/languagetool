@@ -25,6 +25,7 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.en.EnglishTagger;
 
 import java.io.IOException;
+import java.util.List;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
@@ -46,8 +47,8 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   }
 
   @Override
-  protected MorfologikSpeller getSpeller() {
-    return speller;
+  protected List<String> getSpellingSuggestions(String w) {
+    return speller.findReplacements(w);
   }
 
 }

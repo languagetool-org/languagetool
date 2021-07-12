@@ -175,6 +175,8 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "decodés", "décodés", "décodes", "de codés");
     // to improve
     assertSuggestion(rule, lt, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
+    assertSuggestion(rule, lt, "saperçoit", "sa perçoit", "s'aperçoit");
+    assertSuggestion(rule, lt, "saperçu", "sa perçu", "aperçu");
     
     
     // don't split prefixes 
