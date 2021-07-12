@@ -38,12 +38,14 @@ import org.languagetool.tagging.fr.FrenchTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  private MorfologikFrenchSpellerRule morfologikRule;
+  private static MorfologikFrenchSpellerRule morfologikRule;
 
   public FindSuggestionsFilter() throws IOException {
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("fr"));
-    morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+    if (morfologikRule == null) {
+      ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
+          new Locale("fr"));
+      morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+    }
   }
 
   @Override
