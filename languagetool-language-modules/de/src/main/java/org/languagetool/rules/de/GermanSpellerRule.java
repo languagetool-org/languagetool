@@ -939,6 +939,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("pitza", "Pizza");
     put("Tütü", "Tutu");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
+    putRepl("[Gg]ilst", "ilst", "iltst");
     putRepl("[vV]ollrichtung(en)?", "oll", "er");
     putRepl("[vV]ollrichtest", "oll", "er");
     putRepl("[vV]ollrichten?", "oll", "er");
