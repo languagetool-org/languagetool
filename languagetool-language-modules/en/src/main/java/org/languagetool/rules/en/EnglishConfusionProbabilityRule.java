@@ -491,6 +491,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("NN.*")
     ),
     Arrays.asList(
+      // sense vs since: Neubauer has been a youth ambassador of the non-governmental organization ONE since 2016.
+      token("since"),
+      tokenRegex("\\d{1,2}|\\d{4}")
+    ),
+    Arrays.asList(
       // way vs was
       token("in"),
       token("a"),
