@@ -536,10 +536,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Pro-bono", Arrays.asList("Pro bono"));
     s.put("probono", Arrays.asList("pro bono"));
     s.put("Probono", Arrays.asList("Pro bono"));
-    s.put("pro-rata", Arrays.asList("pro rata"));
-    s.put("Pro-rata", Arrays.asList("Pro rata"));
-    s.put("prorata", Arrays.asList("pro rata"));
-    s.put("Prorata", Arrays.asList("Pro rata"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
     s.put("unpolite", Arrays.asList("impolite"));
@@ -864,7 +860,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("IO", Arrays.asList("I/O"));
     s.put("wierd", Arrays.asList("weird"));
     s.put("Wierd", Arrays.asList("Weird"));
-    s.put("hiphop", Arrays.asList("hip-hop"));
     s.put("HipHop", Arrays.asList("Hip-Hop"));
     s.put("gove", Arrays.asList("love", "give", "gave", "move"));
     s.put("birdseye", Arrays.asList("bird's-eye"));
