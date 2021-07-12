@@ -16555,11 +16555,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="PREGUEM_DISCULPIN" name="preguem disculpin/disculpeu">
+            <pattern>
+                <token>preguem</token>
+                <token regexp="yes">disculpin|disculpen|disculpeu</token>
+            </pattern>
+            <message>Hi falta un "que", però és preferible dir <suggestion>disculpeu</suggestion>.</message>
+            <example correction="Disculpeu"><marker>Preguem disculpin</marker> les molèsties.</example>
+        </rule>
         <rule id="REVOL" name="revol/renou">
             <pattern>
                 <token>revol</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>renou</suggestion> o <suggestion>revolt</suggestion>? "Revol" és una forma, rarament usada, del v. 'revolar'. </message>
+            <message>¿Volíeu dir <suggestion>renou</suggestion> o <suggestion>revolt</suggestion>? "Revol" és una forma, rarament usada, del v. 'revolar', o un sinònim de 'revolada'.</message>
             <suggestion>enrenou</suggestion>
             <suggestion>rebombori</suggestion>
             <example correction="renou|revolt|enrenou|rebombori">Va haver-hi un gran <marker>revol</marker> mediàtic.</example>
@@ -20338,6 +20346,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)co.*tat(s?)" regexp_replace="comtat$1"/></suggestion>?</message>
                 <example correction="comtats">Els <marker>comptats</marker> medievals catalans.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">el</token>
+                    <marker>
+                        <token case_sensitive="yes">Comptat</token>
+                    </marker>
+                </pattern>
+                <message>Si és el nom d'una comarca valenciana o una divisió administrativa, cal escriure <suggestion>Comtat</suggestion>.</message>
+                <example correction="Comtat">Vivia al <marker>Comptat</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">en|de</token>
+                    <token inflected="yes">el</token>
+                    <marker>
+                        <token>comptat</token>
+                    </marker>
+                </pattern>
+                <message>Si és una divisió administrativa, cal escriure <suggestion>comtat</suggestion>.</message>
+                <example correction="comtat">Vivia en el <marker>comptat</marker>.</example>
+                <example>Calia pagar-ho al comptat.</example>
             </rule>
         </rulegroup>
         <rule id="QUEST" name="quest/aquest">
