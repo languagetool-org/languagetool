@@ -45,10 +45,10 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-    if (match.getSentence().getText().contains("saperçoit")) {
-      int ii=0;
-      ii++;
-    }
+//    if (match.getSentence().getText().contains("saperçoit")) {
+//      int ii=0;
+//      ii++;
+//    }
 
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
