@@ -2544,23 +2544,50 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
     </rule>
 
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
-    <rule id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 (17-MAR-2021+)      -->
+    <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 (17-MAR-2021+)      -->
 	<!--
 Esta que foi a maior crítica ao trabalho de Ana. → Esta sendo a maior crítica ao trabalho de Ana.
+Não sou antirreligioso, só quero respeito com aqueles que são ateus.
+Ela não é a mesma que foi dez anos atrás.
 	-->
+	<rule>
 		<pattern>
-			<token postag='_PUNCT|DD.+' postag_regexp='yes'/>
+			<token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
+			<token postag='DD.+' postag_regexp='yes'/>
 			<marker>
 				<token>que</token>
 				<token regexp='yes'>foram|foi|são|é</token>
 			</marker>
-			<token postag='DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+			<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
 		</pattern>		
-		<message>Esta perífrase poderá ser simplificada.</message>
+		<message>Esta perífrase pode ser simplificada.</message>
 		<suggestion>sendo</suggestion>
 		<example correction="sendo">Esta <marker>que foi</marker> a maior crítica ao trabalho de Ana.</example>
+		<example>Não sou antirreligioso, só quero respeito com aqueles que são ateus.</example>
+		<example>Ela não é a mesma que foi dez anos atrás.</example>		
     </rule>
+	<!--
+Temos um número constante maior que zero e diferente de um, que é elevado a três. → Temos um número constante maior que zero e diferente de um, elevado a três.
+Há também o Instituto Federal do Amapá, que foi fundado em 29 de dezembro de 2008. → Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.
+Suas obras contêm o primeiro estudo formal conhecido da lógica, que foi incorporado posteriormente à lógica formal. → Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.
+	-->
+	<rule>
+		<pattern>
+			<token regexp='yes'>[,]</token>
+			<marker>
+				<token>que</token>
+				<token regexp='yes'>foram|foi|são|é</token>
+				<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+			</marker>			
+		</pattern>		
+		<message>Esta perífrase pode ser simplificada.</message>
+		<suggestion>\4</suggestion>
+		<example correction="elevado">Temos um número constante maior que zero e diferente de um,<marker>que é elevado</marker> a três.</example>
+		<example>Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.</example>
+		<example>Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.</example>
+    </rule>	
+	</rulegroup>
 
 	<!-- FREQUENTEMENTE É DADO é frequentemente dado -->
     <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio">
