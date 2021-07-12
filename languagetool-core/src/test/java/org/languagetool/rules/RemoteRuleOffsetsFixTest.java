@@ -44,13 +44,13 @@ public class RemoteRuleOffsetsFixTest {
 
   @Test
   public void testShiftCalculation() {
-    assertEquals(Arrays.asList(0, 2, 3, 4, 5), printShifts("😁foo"));
-    assertEquals(Arrays.asList(0, 1, 2, 3, 4, 6, 7, 8, 9, 10), printShifts("foo 😁 bar"));
-    assertEquals(Arrays.asList(0, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14), printShifts("😁 foo 😁 bar"));
+    assertEquals(Arrays.asList(0, 2, 3, 4, 5, 6), printShifts("😁foo"));
+    assertEquals(Arrays.asList(0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11), printShifts("foo 😁 bar"));
+    assertEquals(Arrays.asList(0, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15), printShifts("😁 foo 😁 bar"));
 
-    assertEquals("1 code point, length 2 / 1", Arrays.asList(0, 2), printShifts("👪"));
-    assertEquals("1 code point for each part, length 4 / 2, displayed as 1", Arrays.asList(0, 2, 4, 5), printShifts("👍🏼"));
-    assertEquals("normal text", Arrays.asList(0), printShifts("a"));
+    assertEquals("1 code point, length 2 / 1", Arrays.asList(0, 2, 3), printShifts("👪"));
+    assertEquals("1 code point for each part, length 4 / 2, displayed as 1", Arrays.asList(0, 2, 4, 5, 6), printShifts("👍🏼"));
+    assertEquals("normal text", Arrays.asList(0, 1), printShifts("a"));
   }
 
   private void testMatch(String text, int from, int to, int fixedFrom, int fixedTo) throws IOException {
@@ -83,6 +83,20 @@ public class RemoteRuleOffsetsFixTest {
     testMatch("😁foo bar", 1, 4, 2, 5);
     testMatch("👪", 0, 1, 0, 2);
     testMatch("👍🏼", 0, 2, 0, 4);
+  }
+
+  @Test
+  public void testException() throws Exception {
+    JLanguageTool lt = new JLanguageTool(new Demo());
+    AnalyzedSentence s = lt.getAnalyzedSentence("abondoned");
+    Rule r = new FakeRule();
+    // multiple matches
+    List<RuleMatch> matches = Arrays.asList(
+      new RuleMatch(r, s, 0, 9, "Match")
+    );
+
+    printShifts("abondoned");
+    RemoteRule.fixMatchOffsets(s, matches);
   }
 
 }
