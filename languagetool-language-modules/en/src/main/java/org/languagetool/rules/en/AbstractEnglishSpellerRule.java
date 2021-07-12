@@ -33,6 +33,8 @@ import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -41,7 +43,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  //private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
   private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
@@ -108,8 +110,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
         matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
       } catch (Exception e) {
-        System.err.println("Could not run NER test on '" + sentenceText + "'");
-        e.printStackTrace();
+        logger.warn("Could not run NER test on '" + sentenceText + "'", e);
       }
     }
     return matches;
