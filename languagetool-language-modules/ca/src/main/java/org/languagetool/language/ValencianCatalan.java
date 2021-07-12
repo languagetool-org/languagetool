@@ -37,6 +37,7 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
+import org.languagetool.rules.ca.CatalanWordRepeatBeginningRule;
 import org.languagetool.rules.ca.CatalanWordRepeatRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.CheckCaseRule;
@@ -109,7 +110,8 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages),
             new PronomFebleDuplicateRule(messages),
-            new SimpleReplaceAdverbsMent(messages)
+            new SimpleReplaceAdverbsMent(messages),
+            new CatalanWordRepeatBeginningRule(messages, this)
     );
   }
 

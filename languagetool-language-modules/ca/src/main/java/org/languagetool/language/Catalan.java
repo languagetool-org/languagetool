@@ -92,7 +92,8 @@ public class Catalan extends Language {
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages),
             new CheckCaseRule(messages, this),
-            new SimpleReplaceAdverbsMent(messages)
+            new SimpleReplaceAdverbsMent(messages),
+            new CatalanWordRepeatBeginningRule(messages, this)
             //REMEMBER TO ADD RULES TO ValencianCatalan!!
     );
   }
