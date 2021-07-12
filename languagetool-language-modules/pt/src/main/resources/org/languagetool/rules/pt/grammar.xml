@@ -2587,6 +2587,28 @@ Suas obras contêm o primeiro estudo formal conhecido da lógica, que foi incorp
 		<example>Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.</example>
 		<example>Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.</example>
     </rule>	
+	<!--
+Temos um número constante maior que zero e diferente de um, que é elevado a três. → Temos um número constante maior que zero e diferente de um, elevado a três.
+Há também o Instituto Federal do Amapá, sendo fundado em 29 de dezembro de 2008. → Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.
+Suas obras contêm o primeiro estudo formal conhecido da lógica, sendo incorporado posteriormente à lógica formal. → Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.
+	-->
+	<rule>
+		<pattern>
+			<token regexp='yes'>[,]</token>
+			<marker>
+				<token>sendo</token>
+				<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='NP.+'/>
+				</token>				
+			</marker>	
+			<token negate="yes" regexp='no'>que</token>
+		</pattern>		
+		<message>Esta perífrase pode ser simplificada.</message>
+		<suggestion>\3</suggestion>
+		<example correction="elevado">Temos um número constante maior que zero e diferente de um,<marker>sendo elevado</marker> a três.</example>
+		<example>Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.</example>
+		<example>Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.</example>
+    </rule>
 	</rulegroup>
 
 	<!-- FREQUENTEMENTE É DADO é frequentemente dado -->
