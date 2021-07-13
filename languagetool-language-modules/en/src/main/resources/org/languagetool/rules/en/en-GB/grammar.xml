@@ -94,6 +94,28 @@ USA
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
+        <rulegroup id="LUNCH_ROOM" name="lunchroom">
+            <rule>
+                <pattern>
+                    <token>lunchroom</token>
+                </pattern>
+                <message>This term is chiefly North American English. Consider a replacement.</message>
+                <suggestion>canteen</suggestion>
+                <suggestion>cafeteria</suggestion>
+                <suggestion>break room</suggestion>
+                <example correction="canteen|cafeteria|break room">Tom is having a break in the <marker>lunchroom</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>lunchrooms</token>
+                </pattern>
+                <message>This term is chiefly North American English. Consider a replacement.</message>
+                <suggestion>canteens</suggestion>
+                <suggestion>cafeterias</suggestion>
+                <suggestion>break rooms</suggestion>
+                <example correction="canteens|cafeterias|break rooms">Tom is having a break in the <marker>lunchrooms</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="DRIVERS_LICENSE" name="driver's licence/driving licence">
             <pattern>
                 <token>driver</token>

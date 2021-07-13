@@ -19,9 +19,9 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
@@ -47,8 +47,8 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   }
 
   @Override
-  protected MorfologikSpeller getSpeller() {
-    return speller;
+  protected List<String> getSpellingSuggestions(String w) throws IOException {
+    return speller.findReplacements(w);
   }
 
 }

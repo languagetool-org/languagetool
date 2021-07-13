@@ -33,6 +33,8 @@ import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -41,7 +43,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  //private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
   private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
@@ -108,8 +110,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
         matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
       } catch (Exception e) {
-        System.err.println("Could not run NER test on '" + sentenceText + "'");
-        e.printStackTrace();
+        logger.warn("Could not run NER test on '" + sentenceText + "'", e);
       }
     }
     return matches;
@@ -477,6 +478,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("util", Arrays.asList("utility"));
+    s.put("Util", Arrays.asList("Utility"));
     s.put("prorata", Arrays.asList("pro rata"));
     s.put("pro-rata", Arrays.asList("pro rata"));
     s.put("Prorata", Arrays.asList("Pro rata"));
@@ -535,10 +538,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Pro-bono", Arrays.asList("Pro bono"));
     s.put("probono", Arrays.asList("pro bono"));
     s.put("Probono", Arrays.asList("Pro bono"));
-    s.put("pro-rata", Arrays.asList("pro rata"));
-    s.put("Pro-rata", Arrays.asList("Pro rata"));
-    s.put("prorata", Arrays.asList("pro rata"));
-    s.put("Prorata", Arrays.asList("Pro rata"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
     s.put("unpolite", Arrays.asList("impolite"));
@@ -863,7 +862,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("IO", Arrays.asList("I/O"));
     s.put("wierd", Arrays.asList("weird"));
     s.put("Wierd", Arrays.asList("Weird"));
-    s.put("hiphop", Arrays.asList("hip-hop"));
     s.put("HipHop", Arrays.asList("Hip-Hop"));
     s.put("gove", Arrays.asList("love", "give", "gave", "move"));
     s.put("birdseye", Arrays.asList("bird's-eye"));

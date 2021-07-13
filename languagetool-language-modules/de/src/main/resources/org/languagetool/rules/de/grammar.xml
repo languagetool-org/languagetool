@@ -386,7 +386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[dD]er|ein</token>
-                    <token inflected="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
+                    <token inflected="yes" regexp="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
                     <marker>
                         <token>Unterschied</token>
                     </marker>
@@ -396,6 +396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Fehlt hier ein Wort? Vorschlag: <suggestion>Unterschied zwischen</suggestion></message>
                 <short>Fehlendes Wort?</short>
+                <example correction="Unterschied zwischen">Ein großer <marker>Unterschied</marker> Himmel und Erde.</example>
                 <example correction="Unterschied zwischen">Ein <marker>Unterschied</marker> Himmel und Erde.</example>
             </rule>
             <rule>
@@ -408,7 +409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">[dD]er|ein</token>
-                    <token inflected="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
+                    <token inflected="yes" regexp="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
                     <token>Unterschied</token>
                     <token>zwischen</token>
                     <marker>
@@ -5759,7 +5760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="versenkte">Die britische Marine <marker>versengte</marker> das U-Boot im April 1942.</example>
             <example correction="versenkten">Die britischen Kreuzer <marker>versengten</marker> das Schiff im April 1942.</example>
         </rule>
-        <rulegroup id="VERSINKEN_VERSENKEN" name="'versinken' vs. 'versenken'" default="temp_off">
+        <rulegroup id="VERSINKEN_VERSENKEN" name="'versinken' vs. 'versenken'">
             <url>https://www.duden.de/rechtschreibung/versenken</url>
             <short>Mögliche Wortverwechslung</short>
             <rule>
@@ -18804,7 +18805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">zeitliche[rn]?</token>
-                    <token regexp="yes">Dauer</token>
+                    <token>Dauer</token>
                 </pattern>
                 <message>Redundanz: Das Nomen <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'zeitlich'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen möchten.</message>
                 <short>&redundanz;</short>
@@ -39473,9 +39474,9 @@ Andere Projekte</example>
         <rule id="GUT_BESSERUNG" name="gut (gute) Besserung">
             <pattern>
                 <token>gut</token>
-                <token>Besserung</token>
+                <token regexp="yes">Besserung|Reise</token>
             </pattern>
-            <message>Meinten Sie <suggestion>gute Besserung</suggestion>?</message>
+            <message>Meinten Sie <suggestion>gute <match no="2" case_conversion="startupper" /></suggestion>?</message>
             <example correction="gute Besserung">Ich wünsche dir eine <marker>gut Besserung</marker>.</example>
         </rule>
         <rule id="ESS" name="ess (iss)">
@@ -41698,19 +41699,6 @@ Andere Projekte</example>
                 <example correction="als solchen">Den Menschen <marker>als solches</marker> finde ich immer wieder staunenswert.</example>
             </rule>
         </rulegroup>
-        <rule id="AUF_DEM_LEIM" name="auf dem (den) Leim gehen">
-            <pattern>
-                <marker>
-                    <token>auf</token>
-                    <token>dem</token>
-                </marker>
-                <token>Leim</token>
-                <token inflected="yes">gehen</token>
-            </pattern>
-            <message>Meinten Sie eine der Redewendungen '<suggestion>auf den</suggestion> oder <suggestion>aus dem</suggestion> Leim gehen'?</message>
-            <example correction="auf den|aus dem">Ich bin ihr <marker>auf dem</marker> Leim gegangen.</example>
-            <example correction="auf den|aus dem">Ich bin etwas <marker>auf dem</marker> Leim gegangen in letzter Zeit.</example>
-        </rule>
         <rule id="DIESEM_EINEM" name="diesem einem (einen)">
             <pattern>
                 <token>diesem</token>
@@ -45396,7 +45384,7 @@ Andere Projekte</example>
                         <token regexp='yes'>(der|die)</token>
                     </marker>
                     <token skip='-1'>
-                        <exception scope="next" regexp="yes">,|;|:</exception>
+                        <exception scope="next" regexp="yes">,|;|:|–|-</exception>
                     </token>
                     <token postag='VER:(MOD:2:SIN:.+|3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
@@ -45417,6 +45405,12 @@ Andere Projekte</example>
                     <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes' min="0"/>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
                 </antipattern>
+                <antipattern>
+                    <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
+                    <token>,</token>
+                    <token>der</token>
+                    <token>zufolge</token>
+                </antipattern>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'/>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
@@ -45424,7 +45418,9 @@ Andere Projekte</example>
                     <marker>
                       <token regexp='yes'>(der|das)</token>
                     </marker>
-                    <token skip='-1'/>
+                    <token skip='-1'>
+                        <exception scope="next" regexp="yes">,|;|:|–|-</exception>
+                    </token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Nomen und Relativpronomen. Meinten Sie <suggestion>die</suggestion>?</message>
@@ -45525,7 +45521,9 @@ Andere Projekte</example>
                             <exception scope="next" regexp="yes">[a-z].+car</exception>
                         </token>
                     </marker>
-                    <token skip='-1'/>
+                    <token skip='-1'>
+                        <exception scope="next" regexp="yes">,|;|:|–|-</exception>
+                    </token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Nomen und Relativpronomen. Meinten Sie <suggestion>der</suggestion>?</message>
@@ -45589,6 +45587,33 @@ Andere Projekte</example>
                 <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Geist gehen'?</message>
                 <example correction="den">Geh mir jetzt nicht auf <marker>dem</marker> Geist!</example>
                 <example correction="den">Geh mir nicht auf <marker>dem</marker> Geist!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_DEM_LEIM" name="auf dem (den) Leim gehen" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>auf</token>
+                        <token>dem</token>
+                    </marker>
+                    <token>Leim</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">gehen</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung '<suggestion>auf den</suggestion> Leim gehen' (auf etwas/jmd. hereinfallen) oder '<suggestion>aus dem</suggestion> Leim gehen' (kaputtgehen, zunehmen)?</message>
+                <example correction="auf den|aus dem">Der Stuhl ist <marker>auf dem</marker> Leim gegangen.</example>
+                <example correction="auf den|aus dem">Der Trottel ist mir <marker>auf dem</marker> Leim gegangen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">gehen</token>
+                    <token min="0" max="5" />
+                    <token>auf</token>
+                    <marker><token>dem</token></marker>
+                    <token>Leim</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Leim gehen' (auf etwas /jmd. hereinfallen)?</message>
+                <example correction="den">Geh diesen Quacksalbern doch nicht immer auf <marker>dem</marker> Leim!</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_ANGRIFF" name="in den Angriff (in Angriff) nehmen">

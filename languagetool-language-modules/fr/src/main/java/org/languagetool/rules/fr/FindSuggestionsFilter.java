@@ -19,24 +19,32 @@
 package org.languagetool.rules.fr;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.French;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.fr.MorfologikFrenchSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.fr.FrenchTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  private static final String DICT_FILENAME = "/fr/french.dict";
-  private static MorfologikSpeller speller;
+  private static MorfologikFrenchSpellerRule morfologikRule;
 
   public FindSuggestionsFilter() throws IOException {
-    // lazy init
-    if (speller == null) {
-      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
-        speller = new MorfologikSpeller(DICT_FILENAME);
-      }
+    if (morfologikRule == null) {
+      ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
+          new Locale("fr"));
+      morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
     }
   }
 
@@ -46,8 +54,23 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   }
 
   @Override
-  protected MorfologikSpeller getSpeller() {
-    return speller;
+  protected List<String> getSpellingSuggestions(String w) throws IOException {
+    List<String> suggestions = new ArrayList<>();
+    AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];
+    AnalyzedToken token = new AnalyzedToken(w, null, null);
+    atk[0] = new AnalyzedTokenReadings(token);
+    AnalyzedSentence sentence = new AnalyzedSentence(atk);
+    RuleMatch[] matches = morfologikRule.match(sentence);
+    if (matches.length > 0) {
+      suggestions.addAll(matches[0].getSuggestedReplacements());
+    }
+    return suggestions;
+  }
+  
+  @Override
+  protected String cleanSuggestion(String s) {
+    //remove pronouns before verbs
+    return s.replaceAll("^[smntl]'|^(nous|vous|le|la|les|me|te|se|leur|en|y) ", "");
   }
 
 }
