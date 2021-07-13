@@ -45384,7 +45384,7 @@ Andere Projekte</example>
                         <token regexp='yes'>(der|die)</token>
                     </marker>
                     <token skip='-1'>
-                        <exception scope="next" regexp="yes">,|;|:</exception>
+                        <exception scope="next" regexp="yes">,|;|:|–|-</exception>
                     </token>
                     <token postag='VER:(MOD:2:SIN:.+|3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
@@ -45405,6 +45405,12 @@ Andere Projekte</example>
                     <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes' min="0"/>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
                 </antipattern>
+                <antipattern>
+                    <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
+                    <token>,</token>
+                    <token>der</token>
+                    <token>zufolge</token>
+                </antipattern>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'/>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
@@ -45412,7 +45418,9 @@ Andere Projekte</example>
                     <marker>
                       <token regexp='yes'>(der|das)</token>
                     </marker>
-                    <token skip='-1'/>
+                    <token skip='-1'>
+                        <exception scope="next" regexp="yes">,|;|:|–|-</exception>
+                    </token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Nomen und Relativpronomen. Meinten Sie <suggestion>die</suggestion>?</message>
@@ -45513,7 +45521,9 @@ Andere Projekte</example>
                             <exception scope="next" regexp="yes">[a-z].+car</exception>
                         </token>
                     </marker>
-                    <token skip='-1'/>
+                    <token skip='-1'>
+                        <exception scope="next" regexp="yes">,|;|:|–|-</exception>
+                    </token>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Nomen und Relativpronomen. Meinten Sie <suggestion>der</suggestion>?</message>
