@@ -18297,6 +18297,22 @@ though, and has since been slightly modified)-->
                 <token>a</token>
             </antipattern>
             <antipattern>
+                <token skip="-1">que</token>
+                <token postag="[DNJAP].*|R pers suj.*" postag_regexp="yes" min="1" max="10"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="[DNJAP].*" postag_regexp="yes" min="0" max="10"/>
+                <token>a</token>
+                <token postag="K"/>
+                <token postag="[NJA].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>est</token>
+                <token>a</token>
+                <token postag="K"/>
+                <token postag="[NJA].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token postag="SENT_START" skip="1"/>
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="[AJ].*" postag_regexp="yes" min="0" max="4"/>
@@ -18329,6 +18345,22 @@ though, and has since been slightly modified)-->
                 <token>a</token>
             </antipattern>
             <antipattern>
+                <token postag="[NJ].*" postag_regexp="yes"/>
+                <token min="0" max="1">,</token>
+                <token>a</token>
+                <token postag="K" skip="1"/>
+                <token min="0" max="1">,</token>
+                <token postag="P|UNKNOWN" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ].*" postag_regexp="yes"/>
+                <token min="0" max="1">,</token>
+                <token>a</token>
+                <token postag="K" skip="1"/>
+                <token min="0" max="1">,</token>
+                <token>sr</token>
+            </antipattern>
+            <antipattern>
                 <token postag="SENT_START"/>
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="Y"/>
@@ -18355,6 +18387,10 @@ though, and has since been slightly modified)-->
                 <token postag="Y"/>
                 <token>a</token>
             </antipattern>
+            <antipattern>
+                <token><exception postag="STENT_START"/></token>
+                <token regexp="yes">(?-i)A</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>a
@@ -18365,6 +18401,9 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
             <example correction="à">Non, <marker>a</marker> huit heures.</example>
+            <example>La méthode que nous proposons a deux avantages importants.</example>
+            <example>Il est marié est a trois enfants.</example>
+            <example>Relatives, mais la rivière, a trois mois, sr cet accord.</example>
             <example>C'est une tragédie de Sophocle où personne ne meurt, et qui, de plus, a trois personnages principaux.</example>
             <example>L'évêché de Nebbio, avec des revenus dépassant quatre cents ducats, a cinq pièves.</example>
             <example>Dans le marché résidentiel, Campeau Corporation, a deux grand rivaux.</example>
@@ -18374,6 +18413,7 @@ though, and has since been slightly modified)-->
             <example>L'église de 1714 a deux cents pieds de longueur sur quatre-vingts de largeur.</example>
             <example>Le chœur, lui, a sept mètres quatre vingt dix de large.</example>
             <example>Félix est né le 10 décembre 1808, a trois filles.</example>
+            <example>La méthode que nous proposons a deux avantages importants.</example>
             <example>La Braye a vingt-huit (28) tronçons affluents référencés.</example>
             <example>Louis XV a quinze ans et Marie vingt-deux.</example>
             <example>Hors l'église catholique, l'Église d'Angleterre, depuis 2014, a trois cocathédrales.</example>
