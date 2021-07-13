@@ -452,6 +452,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         tokenCounter = 0;
         inAntiPattern = false;
+        endPos = -1;
+        startPos = -1;
         break;
       case EXAMPLE:
         if (inCorrectExample) {
