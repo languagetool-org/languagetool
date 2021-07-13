@@ -31989,11 +31989,25 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
 A implementação 1.8.7 padrão é escrita em C, como uma linguagem de programação de único passe.
 A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.
 -->
+      <!--BUGGY on server mode
       <antipattern>
-		<token postag='Z0CN0' postag_regexp='no'/>
-		<token spacebefore="no" regexp='yes'>[.]</token>
-		<token spacebefore="no" postag='Z0CN0' postag_regexp='no'/>
+        <token postag='Z0CN0' postag_regexp='no'/>
+        <token spacebefore="no" regexp='yes'>[.]</token>
+        <token spacebefore="no" postag='Z0CN0' postag_regexp='no'/>
+      </antipattern>
+      --> 
+      <antipattern>
+        <token><exception postag="SENT_START"/></token>
+        <token postag='Z0CN0'/>
+        <token spacebefore="no" postag="_PUNCT">.</token>
+        <token spacebefore="no" postag='Z0CN0'/>
   	  </antipattern>
+      <antipattern>
+        <token postag="SENT_START"/>
+        <token postag='Z0CN0'/>
+        <token spacebefore="no" postag="_PUNCT">.</token>
+        <token spacebefore="no" postag='Z0CN0'/>
+      </antipattern>
 <!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *END* -->
       <pattern>
           <token regexp="yes">\d+\.\d+
