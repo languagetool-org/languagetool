@@ -31045,13 +31045,31 @@ though, and has since been slightly modified)-->
                         <exception postag="V .*sub .*" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
+                    <token postag="V ind pres.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|vouloir</token>
+                    <token inflected="yes">que</token>
+                    <token postag="[DNJ] . p" postag_regexp="yes" min="1" max="4"/>
+                    <token min="0" max="1" inflected="yes">ne</token>
+                    <token regexp="yes">est?|ai|aies|aie</token>
+                </antipattern>
+                <antipattern>
                     <token postag="[ZR].*" postag_regexp="yes"/>
                     <and>
                         <token postag="V.*ind.*" postag_regexp="yes"/>
                         <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
                     </and>
-                    <token skip="-1">que</token>
+                    <token skip="-1" inflected="yes">que</token>
                     <token postag="V .*sub .*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="[ZR].*" postag_regexp="yes"/>
+                    <and>
+                        <token postag="V.*ind.*" postag_regexp="yes"/>
+                        <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                    </and>
+                    <token skip="-1" inflected="yes">que</token>
+                    <token postag="[DNJPA].*" postag_regexp="yes" min="1" max="10"/>
+                    <token skip="-1">qui</token>
+                    <token postag="V .*ind .*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="[ZR].*" postag_regexp="yes"/>
@@ -31059,10 +31077,10 @@ though, and has since been slightly modified)-->
                         <token postag="V.*ind.*" postag_regexp="yes"/>
                         <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
                     </and>
-                    <token skip="-1">que</token>
+                    <token skip="-1" inflected="yes">que</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="V .*sub .*" postag_regexp="yes"/></token>
+                            <exception postag="V .*sub .*|V.* inf" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Le verbe « \4 » doit être au subjonctif.</message>
@@ -31072,13 +31090,15 @@ though, and has since been slightly modified)-->
                 <example correction="fusses">Je souhaitais que tu <marker>étais</marker> présent.</example>
                 <example>Je souhaitais que tu <marker>fusses</marker> présent.</example>
                 <example correction="soit">Il faut que la France <marker>est</marker> prête.</example>
+                <example correction="apprenne">Je souhaite qu'avant de venir les enfants de ma tante <marker>apprend</marker> le français.</example>
                 <example>Ce coup-ci, on ne se presse pas, on attend que la fumée se dissipe.</example>
+                <example>Il faut que les enfants de sa tante qui est grande et jolie avec de nombreux atouts est des enfants.</example>
                 <example>Je souhaite que ces quelques mots vous incitent à m’écrire.</example>
                 <example>Il fallait que les étudiants apprennent la Constitution par cœur.</example>
                 <example>Il faut que les gens nettoient l'environnement de manière urgente.</example>
                 <example>Je veux que vous alliez voir si c'est toujours là.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <pattern>
                     <token postag="[ZR].*" postag_regexp="yes"/>
                     <and>
@@ -31097,7 +31117,7 @@ though, and has since been slightly modified)-->
                 <example correction="apprenne">Je souhaite qu’il <marker>apprend</marker> le français.</example>
                 <example>Je souhaite qu’il <marker>apprenne</marker> le français.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="[ZR].*" postag_regexp="yes"/>
                     <token inflected="yes">ne</token>
@@ -31105,20 +31125,26 @@ though, and has since been slightly modified)-->
                         <token postag="V.*ind.*" postag_regexp="yes"/>
                         <token inflected="yes" regexp="yes">permettre|falloir|vouloir|ordonner|exiger|désirer|suffire|espérer</token>
                     </and>
-                    <token regexp="yes">pas|guère|plus</token>
+                    <token regexp="yes">pas|guère|plus|jamais</token>
                     <token>que</token>
+                    <or>
                     <token postag="[ZR].*" postag_regexp="yes"/>
+                    <token postag="[DNJPA].*" postag_regexp="yes" min="1" max="10"/>
+					</or>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
-                            <exception postag="V .*sub .*" postag_regexp="yes"/></token>
+                            <exception postag="V .*sub .*|V.* pp.*|V.* inf" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Le verbe « \7 » doit être au subjonctif.</message>
                 <suggestion><match no="7" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
                 <example correction="sois">Je ne permets pas que tu <marker>es</marker> imprudent.</example>
+                <example correction="soient">Je ne permets pas que les enfants <marker>sont</marker> imprudent.</example>
                 <example>Je ne permets pas que tu <marker>sois</marker> imprudent.</example>
                 <example correction="soyez">Je n’exige pas que vous <marker>êtes</marker> ponctuels.</example>
                 <example>Je n’exige pas que vous <marker>soyez</marker> ponctuels.</example>
+                <example>Il ne faut pas que la nécessité de citer des références freine les contributeurs.</example>
+                <example>Il ne voulait pas que les élèves ayant parcouru les premiers échelons avec un autre que lui ne soient pas capables de suivre son enseignement.</example>
             </rule>
             <rule>
                 <pattern>
@@ -31129,7 +31155,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">qu[ie']</token>
                     <token postag="[ZR].*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V.*ind.*" postag_regexp="yes">
+                        <token postag="V.*ind pres.*" postag_regexp="yes">
                             <exception postag="V .*sub .*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -31156,6 +31182,152 @@ though, and has since been slightly modified)-->
                 <example correction="ait|soit">Il faut qu'il <marker>est</marker> la bonne solution.</example>
                 <example correction="ait|soit">Il faut qu'il <marker>est</marker> un homme.</example>
             </rule>
+           <rule default="temp_off">
+                <pattern>
+                    <token postag="V ind pres.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|vouloir</token>
+                    <token min="0" max="1" regexp="yes">pas|plus|jamais</token>
+                    <token inflected="yes">que</token>
+                    <token postag="[DNJPA] . p|R pers suj 3 p" postag_regexp="yes" min="1" max="10"/>
+                    <token min="0" max="1" inflected="yes">ne</token>
+                    <marker>
+                        <token regexp="yes">est?|ai|aies|aie|haie|eh|hé</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe 'être' doit être au subjonctif. Une confusion avec le verbe 'avoir' est aussi possible.</message>
+                <suggestion>aient</suggestion>
+                <example correction="aient">Il faut que les enfants <marker>est</marker> mangé avant midi.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V ind pres.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|souhaiter|suffire|vouloir</token>
+                    <token min="0" max="1" regexp="yes">pas|plus|jamais</token>
+                    <token inflected="yes">que</token>
+                    <token postag="[DNJPA] . s|R pers suj 3 s" postag_regexp="yes" min="1" max="10"/>
+                    <token min="0" max="1" inflected="yes">ne</token>
+                    <marker>
+                        <token regexp="yes">est?|ai|aies|aie|haie|eh|hé</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe doit être au subjonctif.</message>
+                <suggestion>ait</suggestion>
+                <suggestion>soit</suggestion>
+                <example correction="ait|soit">Il faut que cet enfant <marker>est</marker> mangé avant midi.</example>
+                <example correction="ait|soit">La tradition veut que le régent <marker>est</marker> tombé malade lors d'une expédition.</example>
+            </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token postag="[ZR].*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <and>
+                    <token postag="V.*ind.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                </and>
+                <token regexp="yes" min="0" max="1">pas|guère|plus</token>
+                <token  inflected="yes">que</token>
+                <token postag="A" min="0" max="5"/>
+                <token postag="[DNJ] . s|_GN_FS|_GN_MS|R [mef] s" postag_regexp="yes" skip="-1"/>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[ZR].*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <and>
+                    <token postag="V.*ind.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                </and>
+                <token regexp="yes" min="0" max="1">pas|guère|plus</token>
+                <token  inflected="yes" skip="1">que</token>
+                <token skip="-1" regexp="yes">quiquonque|importe</token>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[ZR].*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <and>
+                    <token postag="V.*ind.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                </and>
+                <token regexp="yes" min="0" max="1">pas|guère|plus</token>
+                <token  inflected="yes" skip="1">que</token>
+                <token skip="-1" regexp="yes">(?-i)[A-Z].*</token>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[ZR].*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <and>
+                    <token postag="V.*ind.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                </and>
+                <token regexp="yes" min="0" max="1">pas|guère|plus</token>
+                <token  inflected="yes" skip="-1">que</token>
+                <token skip="-1">soit</token>
+                <token>soit</token>
+            </antipattern>
+            <pattern>
+                <token postag="[ZR].*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <and>
+                    <token postag="V.*ind.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                </and>
+                <token regexp="yes" min="0" max="1">pas|guère|plus</token>
+                <token skip="-1" inflected="yes">que</token>
+                <token postag="[DNJPA] . p|_GN_FP|_GN_MP" postag_regexp="yes" min="1" max="10">
+                    <exception postag="[DNJPA] . s|_GN_FS|_GN_MS" postag_regexp="yes"/></token>
+                <marker>
+                    <token>soit
+                    <exception scope="next">disant</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Le verbe « \7 » doit être au pluriel.</message>
+            <suggestion>soient</suggestion>
+            <example correction="soient">Il faut que ces personnes <marker>soit</marker> là.</example>
+            <example>Je demande que Ass kill Prod Records soit reconnu.</example>
+            <example>Il ne faut pas que Philomax prennent mal le fait qu'un de ces articles soit mis sur cette liste.</example>
+            <example>Nous ordonnons qu'on ne peigne plus soit sur tableaux soit autrement les peintures.</example>
+            <example>Il faut qu'au moins l'un des adversaires soit impliqué dans deux théâtres différents.</example>
+            <example>Il suffit que n'importe lequel parmi les trois anneaux soit rompu pour que tous les anneaux soient indépendants.</example>
+            <example>Il faut que non seulement la proportion entre les composantes soit correcte, mais encore que la luminosité soit suffisante.</example>
+        </rule>
+         <rule default="temp_off">
+            <antipattern>
+                <token  inflected="yes" skip="1">que</token>
+                <token skip="-1" regexp="yes">quiquonque|importe</token>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
+                <token  inflected="yes" skip="1">que</token>
+                <token skip="-1" regexp="yes">(?-i)[A-Z].*</token>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
+                <token  inflected="yes" skip="-1">que</token>
+                <token skip="-1">soit</token>
+                <token>soit</token>
+            </antipattern>
+            <pattern>
+                <token skip="-1" inflected="yes">que</token>
+                <token postag="D . p" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N . p" postag_regexp="yes"/>
+                <token postag="J . p" postag_regexp="yes" min="0" max="1"/>
+                <marker>
+                    <token>soit
+                    <exception scope="next">disant</exception>
+                    <exception scope="next" postag="Y"/></token>
+                </marker>
+            </pattern>
+            <message>Le verbe « \5 » doit être au pluriel.</message>
+            <suggestion>soient</suggestion>
+            <example correction="soient">Il faut que ces personnes <marker>soit</marker> là.</example>
+            <example>Je demande que Ass kill Prod Records soit reconnu.</example>
+            <example>Il ne faut pas que Philomax prennent mal le fait qu'un de ces articles soit mis sur cette liste.</example>
+            <example>Nous ordonnons qu'on ne peigne plus soit sur tableaux soit autrement les peintures.</example>
+            <example>Il faut qu'au moins l'un des adversaires soit impliqué dans deux théâtres différents.</example>
+            <example>Il suffit que n'importe lequel parmi les trois anneaux soit rompu pour que tous les anneaux soient indépendants.</example>
+            <example>Il faut que non seulement la proportion entre les composantes soit correcte, mais encore que la luminosité soit suffisante.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="SUBJ_LOCU" name="subjonctif après location">
             <rule>
