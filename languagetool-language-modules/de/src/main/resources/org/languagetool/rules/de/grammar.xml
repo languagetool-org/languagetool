@@ -45411,6 +45411,24 @@ Andere Projekte</example>
                     <token>der</token>
                     <token>zufolge</token>
                 </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">sein</token>
+                    <token>die</token>
+                    <token>Rede</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">spielen</token>
+                    <token>eine</token>
+                    <token>Rolle</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:.*|UNKNOWN|EIG:.*" postag_regexp="yes" />
+                    <token regexp="yes">für|von|auf|zu|neben|unter|über|nach|vor|um</token>
+                    <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'/>
+                    <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'/>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
@@ -45432,6 +45450,10 @@ Andere Projekte</example>
                 <example>Das ist eine Episode, der spätere Bearbeiter des Stoffs eine ursprünglich völlig fehlende erotische Komponente verleihen.</example>
                 <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
                 <example>Der Schriftsteller verfasste ein bedeutendes Werk über die Landwirtschaft, das nicht erhalten ist.</example>
+                <example>1451 ist in einer Urkunde von einem Ulrich Kärling zu „Kräwinkl“ die Rede, der der Pfarrei Jahrsdorf Äcker und Wiesen verkaufte.</example>
+                <example type="triggers_error">1842 baute man eine Schule, der 1930 eine weitere folgte</example>
+                <example>Außerdem spielte auch der konkrete Interessengegensatz eine Rolle, der wegen Heinrichs Bemühen um Wahrung von Reichsrechten im Grenzraum zu Frankreich bestand.</example>
+                <example>1927 kam sein Sohn Otto auf die Welt, der später auch erfolgreich als Architekt sowie als Denkmalpfleger und als Präsident der Technischen Universität München wirkte.</example>
             </rule>
             <rule>
                 <antipattern>
