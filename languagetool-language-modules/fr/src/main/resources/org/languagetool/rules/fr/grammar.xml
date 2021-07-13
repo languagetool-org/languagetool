@@ -18455,13 +18455,14 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
                 <example correction="à">Le repas cuit <marker>a</marker> couvert.</example>
             </rule>
-            <rule default="temp_off">
+			<rule default="temp_off">
             <antipattern>
                 <token>le</token>
                 <token>fait</token>
                 <token skip="-1">de</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
@@ -18473,7 +18474,8 @@ though, and has since been slightly modified)-->
                 <token postag="N.*" postag_regexp="yes" skip="-1"/>
                 <token>pour</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
@@ -18486,7 +18488,8 @@ though, and has since been slightly modified)-->
                 <token postag="V.* ppa" postag_regexp="yes" skip="-1" min="0" max="1"/>
                 <token>de</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
@@ -18497,7 +18500,8 @@ though, and has since been slightly modified)-->
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
                 <token>à</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
@@ -18507,7 +18511,8 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token postag="SENT_START" skip="1"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
@@ -18519,7 +18524,33 @@ though, and has since been slightly modified)-->
                 <token postag="V.* inf" postag_regexp="yes"/>
                 <token inflected="yes" skip="-1">que</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
+                <token case_sensitive="yes">a</token>
                 <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="[DNJP].*|R pers suj.*" postag_regexp="yes" min="1" max="5"/>
+                <token postag="V.* (imp|ind|con).*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="[DNJP].*|R pers suj.*" postag_regexp="yes" min="1" max="5"/>
+                <token postag="V (avoir|etre) (imp|ind|con).*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
@@ -18531,21 +18562,45 @@ though, and has since been slightly modified)-->
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="3"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
                 <token case_sensitive="yes">a</token>
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>à</token>
+                <token>partir</token>
+                <token regexp="yes">des?|du</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
+                <token case_sensitive="yes">a</token>
+                <token>l'</token>
+                <token>air</token>
+                <token inflected="yes">de</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token postag="V.*" postag_regexp="yes">
+                <token postag="V.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
                     <exception postag="[ZNRJ].*|V ppr" postag_regexp="yes"/>
                     <exception regexp="yes">puis|née?s?</exception>
                     <exception scope="previous" regexp="yes" inflected="yes">qu[ei]</exception></token>
-                <token postag="D.*" postag_regexp="yes"><exception regexp="yes">quel(le)?s?</exception></token>
-                <token postag="N.*" postag_regexp="yes"/>
-                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
+                <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="D.*" postag_regexp="yes" min="0" max="2" regexp="yes">(?-i)[a-z].*<exception regexp="yes">quel(le)?s?</exception></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"  regexp="yes">(?-i)[a-z].*</token>
                 <marker>
                     <token case_sensitive="yes">a
                         <exception scope="previous" postag="C coor"/></token>
@@ -18555,6 +18610,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>Ce groupe nominal est formé avec la préposition <suggestion>à</suggestion>.</message>
             <example correction="à">Je tente de régler la contribution <marker>a</marker> la formation.</example>
+            <example correction="à">Je souhaiterais que l'article soit restauré dans sa version correspondante <marker>a</marker> la pose du bandeau.</example>
             <example correction="à">Les impôts effectuent une retenue stricte et coûteuse <marker>a</marker> la source sur le salaire.</example>
             <example>Le bâtiment hébergeant l'établissement scolaire a un intérêt historique ou architectural.</example>
             <example>Tout club qui remporte trois tournois consécutifs a le droit de conserver le trophée.</example>
@@ -18566,6 +18622,14 @@ though, and has since been slightly modified)-->
             <example>Ce stade qui peut également accueillir des compétitions d'athlétisme a une capacité de places.</example>
             <example>Savoir que l'on s'est fait couper les vivres a un effet démoralisant.</example>
             <example>La construction même des bâtiments destinés à recevoir les patients a une influence sur la qualité des soins qui leur sont apportés.</example>
+            <example>Même la dague qu'ils portent sur leur poitrine a une valeur symbolique.</example>
+            <example>Un sirop fait à partir du fruit a des propriétés laxatives.</example>
+            <example>Cette baisse de revenus a obligé Guillaume Barbe a demandé des crédits auprès de la fabrique et l'atelier qu'il a transmis à son fils a des dettes.</example>
+            <example>L'acteur américain Michael Berryman, qui a notamment joué dans La colline a des yeux.</example>
+            <example>Une grue à cadre A à l'arrière a une capacité de levage de 30 tonnes.</example>
+            <example>Il n'y a pas vraiment de source, si ce n'est que la personne qui l'a posté sur ce forum a l'air d'être de confiance.</example>
+            <example>Désopilant, il a été du Cœur a ses raisons et des Hauts et les bas de Sophie Paquin.</example>
+            <example>La confiance qu'il a en sa monnaie a des influences extrêmement importantes sur l'activité économique.</example>
         </rule>
         <rule default="temp_off">
             <antipattern>
