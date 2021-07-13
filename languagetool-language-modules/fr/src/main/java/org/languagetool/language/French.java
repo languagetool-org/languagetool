@@ -261,6 +261,7 @@ public class French extends Language implements AutoCloseable {
       //case "D_N": return 10; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher: CAT_REGIONALISMES, CAT_TYPOGRAPHIE, CAT_GRAMMAIRE...
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
+      case "AN_EN": return 10; // needs higher priority than AN_ANNEE
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
