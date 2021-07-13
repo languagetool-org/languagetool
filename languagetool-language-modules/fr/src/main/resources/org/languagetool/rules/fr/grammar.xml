@@ -46979,6 +46979,66 @@ though, and has since been slightly modified)-->
                 <example>Bon dimanche et bienvenue.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="VIRGULE_DEBUT_DE_PHRASE_4" name="virgule debut de phrase" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>à</token>
+                    <token>ce</token>
+                    <token inflected="yes">que</token>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token postag="R pers.*" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception scope="next" postag="V ppa.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\7,</suggestion>
+                <example correction="parait,">À ce qu'il <marker>parait</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>à</token>
+                    <token>ce</token>
+                    <token inflected="yes">que</token>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token postag="R pers.*" postag_regexp="yes" min="0"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V ppa.*" postag_regexp="yes">
+                            <exception scope="next" postag="V inf.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\8,</suggestion>
+                <example correction="dit,">À ce qu'on m'a <marker>dit</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>à</token>
+                    <token>ce</token>
+                    <token inflected="yes">que</token>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token postag="R pers.*" postag_regexp="yes" min="0"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V inf.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                </pattern>
+                <message>Une virgule semble être requise dans ce contexte.</message>
+                <suggestion>\9,</suggestion>
+                <example correction="dire,">À ce qu'on j'ai entendu <marker>dire</marker> cet évènement n'était pas le fruit du hasard.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
             <rule>
                 <antipattern>
