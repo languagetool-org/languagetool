@@ -17598,6 +17598,282 @@ though, and has since been slightly modified)-->
                 <message>Cette expression familière peut être considérée comme incorrecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion> ?</message>
                 <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token>il</token>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>qui</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>faut</token>
+                <token postag="A" min="0" max="1"/>
+                <token regexp="yes">pas|plus|jamais</token>
+            </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">loin|tant|peu</token>
+                <token>s'</token>
+                <token>en</token>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y" skip="1"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>faut</token>
+                <token min="0" max="1" regexp="yes">t|t'|'</token>
+                <token regexp="yes">-?il</token>
+            </antipattern>
+            <antipattern>
+                <token>quand</token>
+                <token>faut</token>
+                <token>y</token>
+                <token>aller</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">faut
+                    <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/>
+                    <exception scope="next">il</exception></token>
+            </pattern>
+            <message>Cette expression peut sembler familière.</message>
+            <suggestion>il faut</suggestion>
+            <example correction="il faut">Après tout, <marker>faut</marker> avoir de solides bases dans ce domaine pour réussir.</example>
+            <example>Loin s'en faut.</example>
+            <example>Que faut t-il faire ?</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>il</token>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>qui</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Y" skip="1"/>
+                <token>faut</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">faut
+                        <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="A" min="0" max="1"/>
+                <token regexp="yes">pas|plus|guère|jamais</token>
+            </pattern>
+            <message>Cette expression peut sembler familière.</message>
+            <suggestion>il ne faut</suggestion>
+            <example correction="il ne faut">Après tout, <marker>faut</marker> pas avoir le vertige pour sauter d'un avion.</example>
+            <example>Loin s'en faut.</example>
+            <example>Que faut t-il faire ?</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>y</token>
+                <token regexp="yes">compris|joue|figure|correspond|crosse|repose|coule</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">y</token>
+                <token regexp="yes">codimension|version|vecteur|fonction|génération</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>y</token>
+                </marker>
+                <token postag="V.* 3 s" postag_regexp="yes">
+                    <exception postag="V avoir.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Cette expression est familière et peut être remplacée par le pronom personnel 'il'.</message>
+            <suggestion>Il</suggestion>
+            <example correction="Il"><marker>Y</marker> faut pas avoir de peur de faire des erreurs.</example>
+            <example>Y est aussi représenté de grands hommes.</example>
+            <example>Y est de codimension finie dans X.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>y</token>
+                <token min="0" max="1">'</token>
+                <token postag="R pers obj.*" postag_regexp="yes"  min="1" max="3"/>
+                <token postag="V.* 3 s" postag_regexp="yes" skip="-1"/>
+                <token postag="Y"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>y</token>
+                    </marker>
+                <token postag="R pers obj.*" postag_regexp="yes"  min="1" max="3"/>
+                <token postag="V.* 3 s" postag_regexp="yes">
+                    <exception postag="V avoir.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Cette expression est familière et peut être remplacée par le pronom personnel 'il'.</message>
+            <suggestion>Il</suggestion>
+            <example correction="Il"><marker>Y</marker> lui en faut un peu plus.</example>
+            <example>Y la Rama llena de Frutos (1986).</example>
+        </rule>
+         <rule default="temp_off">
+            <antipattern>
+                <token>y</token>
+                <token min="0" max="1">'</token>
+                <token>en</token>
+                <token postag="V.* 3 s" postag_regexp="yes" skip="-1"/>
+                <token postag="Y"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>y'en</token>
+                </marker>
+                <token postag="V.* 3 s" postag_regexp="yes">
+                    <exception postag="V avoir.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Cette expression est familière et peut être remplacée par le pronom personnel 'il'.</message>
+            <suggestion>Il en</suggestion>
+            <example correction="Il en"><marker>Y'en</marker> faut un peu plus.</example>
+            <example>Y la Rama llena de Frutos (1986).</example>
+        </rule>
+        </rulegroup>
+        <rulegroup id="CONFUSION_FAUT_FAUX"  name="confusion faut faux" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>peut</token>
+                    <token>être</token>
+                    <token>faut</token>
+                </antipattern>
+                <antipattern>
+                    <token>soit</token>
+                    <token>faut</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">être|para[iî]tre|sembler|avérer|révéler|devenir|finir</token>
+                    <marker>
+                        <token case_sensitive="yes">faut<exception scope="next" postag="V.* inf.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Cet adjectif se termine par un 'x'.</message>
+                <suggestion>faux</suggestion>
+                <example correction="faux">Si tu disais qu'elle avait ton âge, ce serait <marker>faut</marker>.</example>
+                <example>Soit faut trouver une autre référence.</example>
+                <example>Peut être faut il regarder du côté de la semelle.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>un</token>
+                        <token>faut</token>
+                    </marker>
+                    <token>de</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Ce nom signifiant 'une erreur' est féminin.</message>
+                <suggestion>une faute</suggestion>
+                <example correction="une faute">C'est <marker>un faut</marker> de goût.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token postag="D.*|R m s" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                    <token>faut</token>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token>faut</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token postag="V.* inf|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token>faut</token>
+                    <token postag="[RD].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>faut</token>
+                    <token min="0" max="1" regexp="yes">t|t'|'</token>
+                    <token regexp="yes">-?il</token>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token>faut</token>
+                    <token>de</token>
+                    <token regexp="yes">go[uû]t</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R m s"/>
+                    <token>faut</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="D.*|R m s" postag_regexp="yes"/>
+                    <token>faut</token>
+                    <token spacebefore="no">(</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="D.*|R m s" postag_regexp="yes"/>
+                    <token>faut</token>
+                    <token postag="A" min="0" max="2" skip="1"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="D.*|R m s" postag_regexp="yes">
+                        <exception regexp="yes">chacun|[nv]os|rien|nul|pareils|certaines|[mts]a</exception>
+                        <exception postag="K"/></token>
+                    <marker>
+                        <token case_sensitive="yes">faut
+                            <exception scope="next" postag="V.* inf" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Un adjectif doit être placé dans ce groupe nominal.</message>
+                <suggestion>faux</suggestion>
+                <example correction="faux">Tu as fait un <marker>faut</marker> mouvement.</example>
+                <example>Chacun faut comme il veut.</example>
+                <example>Ne sachant pas faire un noeud de huit faut quand meme commencer par un club.</example>
+                <example>Un jeu de cablés est peu cher mais un faut savoir les placer.</example>
+                <example>Le quel des deux faut il prendre dans sa meileur main.</example>
+                <example>Je ne comprends pas ma faut.</example>
+                <example>Un faut une personne ressource à Azariel qui puisse recadrer le projet.</example>
+                <example>Ce détail est un faut de goût.</example>
+                <example>Un faut vraiment etre con pour encore l'encourager.</example>
+                <example>Maintenant c'est pas tout faut que tes pieds est la forme et le gabarit pour elles.</example>
+                <example>Si tu veut te passer de certaines faut que tu vois le terrain.</example>
+                <example>Je les ai cité, mais le brouillon m'indique que il y a un/des faut(es).</example>
+            </rule>
         </rulegroup>
         <rule id="PLU_OU_PLUS" name="plu ou plus">
             <pattern>
