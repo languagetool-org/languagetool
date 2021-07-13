@@ -35084,6 +35084,19 @@ ISBN 978-3-8321-7760-7.
 		<token regexp='yes'>[.]</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-07-12 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-07-13 (25-JUN-2021+) *START* -->
+<!--
+10 A.D.
+-->
+      <antipattern>
+		<token postag="SENT_START"/>
+		<token postag='Z0.+' postag_regexp='yes'/>
+		<token case_sensitive='yes'>A</token>
+		<token regexp='yes'>[.]</token>
+		<token case_sensitive='yes'>D</token>
+		<token regexp='yes'>[.]</token>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-07-13 (25-JUN-2021+) *END* -->
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
         <marker>
@@ -35107,9 +35120,13 @@ ISBN 978-3-8321-7760-7.
       <example>50-30</example>
       <example>25/12/2017</example>
       <example>25.12.2017 às 12h00</example>
+	  
 	  <example>27 de janeiro de 1974.</example>
+	  
 	  <example>4 a.C.</example>
 	  <example>4 d.C.</example>
+	  
+	  <example>10 A.D.</example>	  
     </rule>
 
   <rulegroup id='CERCA_DE_NR' name="Aproximação excessivamente precisa">
