@@ -65,6 +65,9 @@ public class SpanishWordRepeatBeginningRuleTest {
     // TODO add suggestions
     assertThat(matches3.get(0).getSuggestedReplacements().toString(), is("[]"));
 
+    List<RuleMatch> matches4 = lt.check("Pero me gusta. Pero otros me gustan más.");
+    assertEquals(1, matches4.size());
+    assertThat(matches4.get(0).getSuggestedReplacements().toString(), is("[Aun así, Por otra parte, Sin embargo]"));
   }
 
 }
