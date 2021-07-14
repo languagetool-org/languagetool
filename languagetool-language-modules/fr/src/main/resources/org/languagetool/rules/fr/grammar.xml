@@ -8525,6 +8525,40 @@ though, and has since been slightly modified)-->
             <example>C’est face à la montée en puissance.</example>
             <example>C'est ballot !</example>
         </rule>
+        <rule id="CES_CEST" name="CES|SES au lieu de C'EST" default="temp_off">
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token regexp="yes">[cs]es</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[cs]es</token>
+                <token regexp="yes" inflected="yes">pseudo|quasi|presque|quelque|même|proto|méga|micro|super</token>
+                <token postag="N.*|Y|K" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[cs]es</token>
+                <token postag="A" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes"/>
+                <token min="0">et</token>
+                <token postag="A" postag_regexp="yes" min="0"/>
+                <token postag="J.*" postag_regexp="yes" min="0"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[cs]es</token>
+                </marker>
+                <token postag="A" postag_regexp="yes">
+                    <exception regexp="yes">alentours?|environs?</exception>
+                </token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>c'est</suggestion> au lieu de « \1 » ?</message>
+            <example correction="C'est"><marker>Ces</marker> vraiment dommage !</example>
+            <example>Durant ces presque cinq années, il rumina sa défaite.</example>
+            <example>Ces très nombreuses variétés sont classées en groupes.</example>
+            <example>Ces très petits et coléoptères sont présents en Europe.</example>
+            <example>Ces bruits seraient produits  par les esprits qui habitaient dans ce village et ces alentour.</example>
+        </rule>
         <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
             <pattern>
                 <marker>
