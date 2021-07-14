@@ -2545,7 +2545,7 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
 
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
     <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 (17-MAR-2021+)      -->
 	<!--
 Esta que foi a maior crítica ao trabalho de Ana. → Esta sendo a maior crítica ao trabalho de Ana.
 Não sou antirreligioso, só quero respeito com aqueles que são ateus.
@@ -2600,8 +2600,15 @@ Suas obras contêm o primeiro estudo formal conhecido da lógica, sendo incorpor
 				<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
 					<exception postag_regexp='yes' postag='NP.+'/>
 				</token>				
-			</marker>	
-			<token negate="yes" regexp='yes'>que|[,]</token>
+			</marker>
+			<and>
+				<token negate="yes" regexp='yes'>que|[,]</token>
+				<token negate_pos="yes" postag='DI.+|Z0.+' postag_regexp='yes'/>
+			</and>
+			<and>			
+				<token negate="yes" regexp='yes'>[:]|até|um|uns|umas?</token>
+				<token negate_pos="yes" postag='DI.+' postag_regexp='yes'/>
+			</and>
 		</pattern>		
 		<message>Esta perífrase pode ser simplificada.</message>
 		<suggestion>\3</suggestion>
