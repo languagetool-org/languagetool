@@ -112,6 +112,9 @@ public class ServerMetricsCollector {
   private final Counter hiddenMatchesServerRequests = Counter
     .build("languagetool_hidden_matches_server_requests_total", "Number of hidden server requests by status")
     .labelNames("status").register();
+  private final Counter hiddenMatchesServerMatches = Counter
+    .build("languagetool_hidden_matches_server_matches_total", "Number of matches returned by hidden matches server")
+    .labelNames("language").register();
 
   private final Info buildInfo = Info
     .build("languagetool_build", "Build information").register();
@@ -149,11 +152,13 @@ public class ServerMetricsCollector {
     hiddenMatchesServerStatus.set(up ? 1.0 : 0.0);
   }
 
-  public void logHiddenServerRequest(boolean success) {
+  public void logHiddenServerRequest(boolean success, Language language, int matches) {
     if (hiddenMatchesServerStatus.get() == 0.0) {
       hiddenMatchesServerRequests.labels("down").inc();
     } else if (success) {
       hiddenMatchesServerRequests.labels("success").inc();
+      String langLabel = language != null ? language.getShortCode() : UNKNOWN;
+      hiddenMatchesServerMatches.labels(langLabel).inc(matches);
     } else {
       hiddenMatchesServerRequests.labels("failure").inc();
     }
