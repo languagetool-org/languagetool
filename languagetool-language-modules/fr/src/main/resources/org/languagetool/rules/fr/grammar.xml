@@ -4220,6 +4220,19 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="ANOMAL_ANORMAL" name="pôle" default="temp_off">
+            <antipattern>
+              <token regexp="yes">magnétiques?|Zeeman|monismes?|diffusions?|dispersions?|diffractions?|commutations?|produits?|biens?|biréfringences?</token>
+              <token regexp="yes">anoma(l(es?)?|aux)</token>
+            </antipattern>
+            <pattern>
+                <marker>
+              <token regexp="yes">anoma(l(es?)?|aux)</token>
+                </marker>
+            </pattern>
+            <message>Souhaitez-vous utiliser <suggestion><match no="1" regexp_match="(anoma(l(es?)?|aux))" regexp_replace="$1"/></suggestion> "[Sciences/Grammaire] Qui présente un caractère d'irrégularité par rapport à un type, une norme. (Technique)" ou <suggestion><match no="1" regexp_match="(ano)(ma(l(es?)?|aux))" regexp_replace="$1r$2"/></suggestion> "Contraire à la norme. Insolite. Inhabituel (Courant)"</message>
+            <example correction="anomal|anormal">Cet évènement peut paraitre comme <marker>anomal</marker> au vue des statistiques habituelles.</example>
+        </rule>
         <rule id="MEDIA" name="media/média">
             <antipattern>
                 <token regexp="yes">mass|social</token>
