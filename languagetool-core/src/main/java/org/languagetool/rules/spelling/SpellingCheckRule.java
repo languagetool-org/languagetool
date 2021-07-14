@@ -46,6 +46,12 @@ import java.util.stream.Collectors;
 public abstract class SpellingCheckRule extends Rule {
 
   /**
+   * The confidence value for a suggestion with high confidence. Not 1.0, as even with a high confidence,
+   * we might still be wrong.
+   */
+  public static final float HIGH_CONFIDENCE = 0.99f;
+
+  /**
    * The string {@code LanguageTool}.
    * @since 2.3
    */

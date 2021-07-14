@@ -234,7 +234,11 @@ public class HunspellRule extends SpellingCheckRule {
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             ruleMatch.setLazySuggestedReplacements(() -> {
               try {
-                return calcSuggestions(word, cleanWord2);
+                List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
+                if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
+                  sugg.get(0).setConfidence(HIGH_CONFIDENCE);
+                }
+                return sugg;
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }
@@ -286,6 +290,22 @@ public class HunspellRule extends SpellingCheckRule {
       }
     }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  boolean isFirstItemHighConfidenceSuggestion(String word, List<SuggestedReplacement> sugg) {
+    // finds cases like "HAus", where "Haus" is surely the proper suggestion:
+    if (sugg.size() > 0 &&
+        word.equalsIgnoreCase(sugg.get(0).getReplacement()) &&
+        word.matches("[A-Z][A-Z]\\p{javaLowerCase}+") &&
+        language.getShortCode().equals("de")) {
+      System.out.println("speller high conf case: " + word + "; " + sugg.get(0).getReplacement() + "; " + language.getShortCodeWithCountryAndVariant());
+      if (word.endsWith("s") && StringUtils.isAllUpperCase(sugg.get(0).getReplacement())) {
+        // e.g. "DMs" could mean plural of "DM"
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 
   private boolean isEnglish(String word) throws IOException {
