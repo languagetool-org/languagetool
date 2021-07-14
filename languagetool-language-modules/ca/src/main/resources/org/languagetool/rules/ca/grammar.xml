@@ -42765,20 +42765,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" skip="2">anar</token>
                     <token>amb</token>
                     <token>molt</token>
-                    <token>de</token>
+                    <token min="0" regexp="yes" max="2">de|poc</token>
                     <marker>
                         <token regexp="yes">co[mn]te|conta|compta</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>compte</suggestion> (atenció, cura, esment)?</message>
                 <example correction="compte">Cal anar sempre amb molt de <marker>comte</marker></example>
+                <example correction="compte">Vas amb molt poc <marker>conta</marker>.</example>
                 <example>Cal anar amb compte</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="2">anar</token>
                     <token regexp="yes">una|un</token>
-                    <token regexp="yes">mica|miqueta|poc</token>
+                    <token regexp="yes" min="1" max="2">mica|miqueta|poc|massa</token>
                     <token>amb</token>
                     <marker>
                         <token regexp="yes">co[mn]te|conta|compta</token>
@@ -42786,13 +42787,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion>compte</suggestion> (atenció, cura, esment)?</message>
                 <example correction="compte">Cal anar sempre una mica amb <marker>comte</marker></example>
+                <example correction="compte">Vas una mica massa amb <marker>comte</marker></example>
                 <example>Cal anar amb compte</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="1">anar</token>
                     <token>amb</token>
-                    <token regexp="yes" min="1" max="4">una|un|mica|miqueta|poc|massa|de</token>
+                    <token regexp="yes" min="1" max="4">una|un|mica|miqueta|poc|massa|de|poc</token>
                     <marker>
                         <token regexp="yes">co[mn]te|conta|compta</token>
                     </marker>
@@ -42818,17 +42820,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="PASSAR_CONTES" name="passar *contes/comptes">
             <pattern>
-                <token inflected="yes">passar</token>
+                <token inflected="yes" regexp="yes">passar|portar|quadrar|fer</token>
                 <token min="0">els</token>
                 <marker>
-                    <token>contes</token>
+                    <token regexp="yes">contes|comtes</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>comptes</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>comptes</suggestion> (=càlculs)?</message>
             <short>Possible confusió.</short>
             <example correction="comptes">Passen <marker>contes</marker>.</example>
             <example correction="comptes">Passen els <marker>contes</marker>.</example>
+            <example correction="comptes">Passarem <marker>comtes</marker>?</example>
             <example>Passem comptes.</example>
+        </rule>
+        <rule id="CONTES_QUADREN" name="els *contes/comptes quadren" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">contes|comtes</token>
+                </marker>
+                <token postag="RN|&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
+                <token min="0" inflected="yes" regexp="yes">anar|haver</token>
+                <token inflected="yes" regexp="yes">sortir|eixir|quadrar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>comptes</suggestion> (=càlculs)?</message>
+            <short>Possible confusió.</short>
+            <example correction="comptes">Els <marker>contes</marker> no quadren.</example>
+            <example correction="comptes">Els <marker>contes</marker> no els han eixit bé.</example>
+            <example correction="comptes">Els <marker>comtes</marker> no els van quadrar.</example>
         </rule>
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
