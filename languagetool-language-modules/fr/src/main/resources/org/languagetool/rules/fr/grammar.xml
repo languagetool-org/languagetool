@@ -16723,7 +16723,7 @@ though, and has since been slightly modified)-->
                 <example>Il est devant le 127 bis.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres">
+        <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" type="style" tags="picky">
             <antipattern>
                 <token postag="Y"/>
                 <token regexp="yes">[a-z]</token>
@@ -16774,10 +16774,11 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" skip="-1">[a-z].*</token>
                     <token regexp="yes">[\.\!\?]</token>
                 </pattern>
-                <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
-                <suggestion><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
+                <message>Il est déconseillé de placer des chiffres en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="_spell_number_" case_conversion="startupper"/></suggestion>
                 <example correction="Neuf"><marker>9</marker> manifestants ont été battus.</example>
                 <example correction="Trente-quatre"><marker>34</marker> manifestants ont été battus.</example>
+                <example correction=""><marker>34 000</marker> manifestants ont été là.</example>
                 <example><marker>55785</marker> plaintes concernant les relations avec les services publics.</example>
                 <example><marker>2</marker> min.</example>
                 <example><marker>5</marker> points = 0,10 €.</example>
@@ -16800,12 +16801,12 @@ though, and has since been slightly modified)-->
                     <token regexp="yes" skip="-1">[a-z].*</token>
                     <token regexp="yes">[\.\!\?]</token>
                 </pattern>
-                <message>Les nombres ne peuvent pas être placés en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
+                <message>Il est déconseillé de placer des chiffres en début de phrase. Souhaitez-vous reformuler la phrase ?</message>
                 <example correction=""><marker>55 785</marker> manifestants ont été battus.</example>
                 <example><marker>9</marker> personnes sont attendues.</example>
             </rule>
         </rulegroup>
-        <rule id="NOMBRES_EN_LETTRES_2" name="nombres en lettres 2">
+        <rule id="NOMBRES_EN_LETTRES_2" name="nombres en lettres 2" type="style" tags="picky">
             <antipattern>
                 <token postag="Y"/>
                 <token regexp="yes">gr|roues?|[mp]ers|points?|juil|avr|févr|janv|min|millions?|millards?|milliardième|bd|route|av(enue)?|boulevard|rue|imp(asse)?|ch(emin)?|ter|bis|équivaut|place|pp|pages?|pour|contre|vols?|(?-i)CAD|(?-i)AM|ppm|pCi|sacbés?</token>
