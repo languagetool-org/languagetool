@@ -10724,6 +10724,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="FOLGEN_SCHWER" name="Folgen reich (folgenreich)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">sie|wir|die|ihr|ihm|denen|ihnen|diese|jene|manche|alle|den|viele|wenige|beide|\d+</token>
+                <token postag="ADJ:.*|UNKNOWN" postag_regexp="yes" min="0" />
+                <token>folgen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="ZAL" />
+                <token postag="ADJ:.*|UNKNOWN" postag_regexp="yes" min="0" />
+                <token>folgen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SUB:.*PLU.*" postag_regexp="yes" />
+                <token>folgen</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">und|oder</token>
+                <token postag="EIG:.*" postag_regexp="yes" />
+                <token>folgen</token>
+            </antipattern>
+            <pattern>
+                <token>folgen</token>
+                <token regexp="yes">(schwer|reich)(e[rsnm]?)?</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion>folgen<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
+            <example correction="folgenreich">Die Maßnahmen waren <marker>folgen reich</marker>.</example>
+            <example>Wir folgen reichen Menschen und rauben sie in ihrem Zuhause aus.</example>
+            <example>Tim und Karl folgen reichen Menschen und rauben sie in ihrem Zuhause aus.</example>
+        </rule>
         <rule id="SEINES_GLEICHEN" name="sucht seines gleichen (seinesgleichen)">
             <antipattern>
                 <token>gleichen</token>
@@ -37998,6 +38027,21 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Frage">Wie das gehen soll, ist eine offene <marker>frage</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Bb]ei</token>
+                    <token min="0">noch</token>
+                    <token min="0" regexp="yes">offenen|irgendwelchen|sonstigen|weiteren|unbeantworteten|ungelösten</token>
+                    <marker>
+                        <token case_sensitive="yes">fragen</token>
+                    </marker>
+                    <token postag="VER:.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Fragen">Bei <marker>fragen</marker> besuchen Sie bitte unsere Website.</example>
             </rule>
         </rulegroup>
         <rule id="OHNE_FRAGE" name="'ohne frage (Frage)'">
