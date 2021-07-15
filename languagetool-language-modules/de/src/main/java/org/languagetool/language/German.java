@@ -312,6 +312,7 @@ public class German extends Language implements AutoCloseable {
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
+      case "BEI_VERB": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "VERB_FEM_SUBST": return -1; // prefer Comma rules
       case "GEFEATURED": return -1; // prefer over spell checker
