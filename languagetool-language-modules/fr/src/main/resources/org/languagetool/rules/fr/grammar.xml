@@ -8521,32 +8521,61 @@ though, and has since been slightly modified)-->
             <example><marker>C’est</marker> une belle maison.</example>
             <example correction="C'est"><marker>Cet</marker> un garçon !</example>
         </rule>
-        <rule id="CEST_CETTE" name="C’EST au lieu de CETTE CET ou CES">
-            <pattern>
-                <token>
-                    <exception>,</exception></token>
-                <marker>
-                    <token>c'</token>
-                    <token>est</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes">
-                    <exception regexp="yes">pas|dommage|grâce|hyper|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bidon|bonnet|la|suite|incognito|face|ballot</exception>
-                    <exception postag="[^N].*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de « \2\3 » ?</message>
-            <example correction="Ces|Cet|Cette"><marker>C’est</marker> école est grande.</example>
-            <example><marker>Cette</marker> école est réputée.</example>
-            <example>C’est dommage de partir si tôt.</example>
-            <example>Vouloir c’est pouvoir.</example>
-            <example>C’est non seulement pour lui, mais aussi pour elle.</example>
-            <example>C’est dimanche qu’il arrive.</example>
-            <example>Comme c’est romantique.</example>
-            <example>C’est la fin.</example>
-            <example>C’est suite à cette victoire qu’il fut élu.</example>
-            <example>C’est incognito qu’il reporta le prix.</example>
-            <example>C’est face à la montée en puissance.</example>
-            <example>C'est ballot !</example>
-        </rule>
+        <rulegroup id="CEST_CETTE" name="C’EST au lieu de CETTE CET ou CES">
+            <antipattern>
+                <token>c'</token>
+                <token>est</token>
+                <token postag="[NJZ].*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes" skip="2">de|que</token>
+                <token postag="V inf"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>c'</token>
+                        <token>est</token>
+                    </marker>
+                    <token postag=".* m s" postag_regexp="yes" inflected="yes" regexp="yes">&elision_regexp;
+                        <exception>incognito</exception>
+                    </token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>cet</suggestion> au lieu de « \1\2 » ?</message>
+                <example correction="Cet"><marker>C’est</marker> arrosoir contient 15 litres.</example>
+                <example correction="Cet"><marker>C’est</marker> affront ne restera pas impuni.</example>
+                <example><marker>C’est</marker> affront que vouloir le contredire.</example>
+                <example>C’est dommage de partir si tôt.</example>
+                <example>Vouloir c’est pouvoir.</example>
+                <example>C’est dimanche qu’il arrive.</example>
+                <example>C’est incognito qu’il reporta le prix.</example>
+                <example>C'est ballot !</example>
+                <example>Que c’est t il passé?</example>
+                <example>C'est genre cul-cul la praline ton histoire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>c'</token>
+                        <token>est</token>
+                    </marker>
+                    <token postag=".* f s" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>cette</suggestion> au lieu de « \1\2 » ?</message>
+                <example correction="Cette"><marker>C’est</marker> école est grande.</example>
+                <example>C’est suite à cette victoire qu’il fut élu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>c'</token>
+                        <token>est</token>
+                    </marker>
+                    <token postag=".* .* p" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>ces</suggestion> au lieu de « \1\2 » ?</message>
+                <example correction="Ces"><marker>C’est</marker> ennuis sont temporaires.</example>
+                <example><marker>C’est</marker> "magouilles et companie".</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
             <pattern>
                 <marker>
