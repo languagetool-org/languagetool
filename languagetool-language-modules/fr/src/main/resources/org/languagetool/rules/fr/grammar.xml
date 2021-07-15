@@ -46858,7 +46858,7 @@ though, and has since been slightly modified)-->
             <example>autoentrepreneur et microentrepreneur</example>
         </rule>
         <rulegroup id="ABREVIATIONS_ET_PONCTUATION" name="Abréviations et ponctuation">
-            <rule>
+            <rule> <!-- CF -->
                 <antipattern>
                     <token regexp="yes">[._]</token>
                     <token spacebefore="no" regexp="yes">[Cc]f</token>
@@ -46874,6 +46874,66 @@ though, and has since been slightly modified)-->
                 <example>Nous avons déjà vu cette notion, cf. le cours précédent.</example>
                 <example>Nous savons déjà cela, cf… nos expériences passées.</example>
                 <example>Consultez le site www.administration.cf</example>
+            </rule>
+            <rule default="temp_off"> <!-- esperluete -->
+                <pattern>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <marker>
+                            <token>&amp;</token>
+                        </marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Le esperluète '&amp;' s’emploie essentiellement pour lier des patronymes, des prénoms ou des initiales dans des raisons sociales et dans certaines expressions figées. Elle ne doit pas être utilisée entre deux noms communs au sens de 'et'.</message>
+                <suggestion>et</suggestion>
+                <example correction="et">Meubles <marker>&amp;</marker> accessoires de bureau Beaudoin inc..</example>
+                <example>Bertrand &amp; Fils.</example>
+                <example>Simard &amp; Tremblay.</example>
+            </rule>
+            <rule default="temp_off"> <!-- c'est-à-dire 1 -->
+                <antipattern>
+                    <token case_sensitive="yes">CAD</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">c[aà]d</token>
+                    </marker>
+                </pattern>
+                <message>" C'est-à-dire " s'écrit <suggestion>c.-à-d.</suggestion> en abrégé.</message>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>cad</marker> que je ne mange pas les produits d’origine animale.</example>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>càd</marker> que je ne mange pas les produits d’origine animale.</example>
+            </rule>
+            <rule default="temp_off"> <!-- c'est-à-dire 2 -->
+                <antipattern>
+                    <token case_sensitive="yes">C</token>
+                    <token regexp="yes">à|A</token>
+                    <token case_sensitive="yes">D</token>
+                </antipattern>
+                <antipattern>
+                    <token>c</token>
+                    <token>.</token>
+                    <token>-</token>
+                    <token>à</token>
+                    <token>-</token>
+                    <token>d</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>c</token>
+                        <token regexp="yes">\.?\-?\_?</token>
+                        <token regexp="yes" min="0">\.?\-?\_?</token>
+                        <token regexp="yes">[aà]</token>
+                        <token regexp="yes">\.?\-?\_?</token>
+                        <token>d</token>
+                    </marker>
+                </pattern>
+                <message>" C'est-à-dire " s'écrit <suggestion>c.-à-d.</suggestion> en abrégé.</message>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>c.à-d</marker> que je ne mange pas les produits d’origine animale.</example>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>c.-à.d</marker> que je ne mange pas les produits d’origine animale.</example>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>c.a.d</marker> que je ne mange pas les produits d’origine animale.</example>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>c-a.d</marker> que je ne mange pas les produits d’origine animale.</example>
+                <example correction="c.-à-d.">Je suis végétalien, <marker>c-à-d</marker> que je ne mange pas les produits d’origine animale.</example>
+                <example>Je suis végétalien, <marker>c.-à-d.</marker> que je ne mange pas les produits d’origine animale.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FLECHES" name="-&gt; (→)">
