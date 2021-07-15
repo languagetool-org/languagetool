@@ -2879,14 +2879,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">de|a|pe</token>
+                        <token regexp="yes">de|a|pe|per</token>
                         <token regexp="yes">ls|les|la</token>
                     </marker>
                     <token regexp="yes" min="0">[\d.,]+</token>
                     <token regexp="yes">([\d.,]+)?%</token>
                 </pattern>
                 <message>Possible error de concordança. Probablement cal usar el masculí singular.</message>
-                <suggestion>\1l</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)r" regexp_replace=""/>l</suggestion>
                 <example correction="Del"><marker>Dels</marker> 43% de la població.</example>
                 <example correction="Del"><marker>Dels</marker> 43 % de la població.</example>
                 <example correction="Al"><marker>A les</marker> 43 % de la població.</example>
