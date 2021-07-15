@@ -176,6 +176,7 @@ public class AdverbFilter extends RuleFilter {
     put("globally", "global");
     put("pacifically", "pacific");
     put("seemingly", "seeming");
+    put("seamlessly", "seamless");
     put("sustainably", "sustainable");
     put("momentarily", "momentary");
     put("coldly", "cold");
