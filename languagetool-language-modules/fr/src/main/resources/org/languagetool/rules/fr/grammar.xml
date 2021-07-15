@@ -46845,7 +46845,7 @@ though, and has since been slightly modified)-->
             <example>autoentrepreneur et microentrepreneur</example>
         </rule>
         <rulegroup id="ABREVIATIONS_ET_PONCTUATION" name="Abréviations et ponctuation">
-            <rule> <!-- CF -->
+            <rule> <!-- 1 / CF -->
                 <antipattern>
                     <token regexp="yes">[._]</token>
                     <token spacebefore="no" regexp="yes">[Cc]f</token>
@@ -46862,7 +46862,7 @@ though, and has since been slightly modified)-->
                 <example>Nous savons déjà cela, cf… nos expériences passées.</example>
                 <example>Consultez le site www.administration.cf</example>
             </rule>
-            <rule default="temp_off"> <!-- esperluete -->
+            <rule default="temp_off"> <!-- 2 / esperluete -->
                 <pattern>
                         <token postag="N.*" postag_regexp="yes"/>
                         <marker>
@@ -46876,7 +46876,7 @@ though, and has since been slightly modified)-->
                 <example>Bertrand &amp; Fils.</example>
                 <example>Simard &amp; Tremblay.</example>
             </rule>
-            <rule default="temp_off"> <!-- c'est-à-dire 1 -->
+            <rule default="temp_off"> <!-- 3 / c'est-à-dire 1 -->
                 <antipattern>
                     <token case_sensitive="yes">CAD</token>
                 </antipattern>
@@ -46885,11 +46885,11 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">c[aà]d</token>
                     </marker>
                 </pattern>
-                <message>" C'est-à-dire " s'écrit <suggestion>c.-à-d.</suggestion> en abrégé.</message>
+                <message>'C'est-à-dire' s'écrit <suggestion>c.-à-d.</suggestion> en abrégé.</message>
                 <example correction="c.-à-d.">Je suis végétalien, <marker>cad</marker> que je ne mange pas les produits d’origine animale.</example>
                 <example correction="c.-à-d.">Je suis végétalien, <marker>càd</marker> que je ne mange pas les produits d’origine animale.</example>
             </rule>
-            <rule default="temp_off"> <!-- c'est-à-dire 2 -->
+            <rule default="temp_off"> <!-- 4 / c'est-à-dire 2 -->
                 <antipattern>
                     <token case_sensitive="yes">C</token>
                     <token regexp="yes">à|A</token>
@@ -46914,7 +46914,7 @@ though, and has since been slightly modified)-->
                         <token>d</token>
                     </marker>
                 </pattern>
-                <message>" C'est-à-dire " s'écrit <suggestion>c.-à-d.</suggestion> en abrégé.</message>
+                <message>'C'est-à-dire' s'écrit <suggestion>c.-à-d.</suggestion> en abrégé.</message>
                 <example correction="c.-à-d.">Je suis végétalien, <marker>c.à-d</marker> que je ne mange pas les produits d’origine animale.</example>
                 <example correction="c.-à-d.">Je suis végétalien, <marker>c.-à.d</marker> que je ne mange pas les produits d’origine animale.</example>
                 <example correction="c.-à-d.">Je suis végétalien, <marker>c.a.d</marker> que je ne mange pas les produits d’origine animale.</example>
