@@ -4233,6 +4233,16 @@ though, and has since been slightly modified)-->
             <message>" <match no="1" regexp_match="(anoma(l(es?)?|aux))" regexp_replace="$1"/> " est généralement utilisé en Sciences et Grammaire "Qui présente un caractère d'irrégularité par rapport à un type, une norme. (Technique)". Vouliez-vous dire <suggestion><match no="1" regexp_match="(ano)(ma(l(es?)?|aux))" regexp_replace="$1r$2"/></suggestion> "Contraire à la norme. Insolite. Inhabituel (Courant)"</message>
             <example correction="anormal">Cet évènement peut paraitre comme <marker>anomal</marker> au vu des statistiques habituelles.</example>
         </rule>
+        <rule id="ES_TU" name="es-tu" default="temp_off">
+            <pattern>
+                <token>est</token>
+                <token regexp="yes">-?tu</token>
+            </pattern>
+            <message>« Est » et « \1 » ne sont pas bien accordés en nombre ou personne.</message>
+            <suggestion>es-tu</suggestion>
+            <example correction="es-tu">Pourquoi <marker>est tu</marker> là, en réalité ?</example>
+            <example correction="Es-tu"><marker>Est-tu</marker> là, en réalité ?</example>
+        </rule>
         <rule id="MEDIA" name="media/média">
             <antipattern>
                 <token regexp="yes">mass|social</token>
@@ -7459,7 +7469,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.* ppa.*" postag_regexp="yes">
                         <exception regexp="yes">[a-z].*-[a-z].*|(dé)?couvert|carrés?|croisées?|fait|forfaits?|partie|pointe?s?|issues?|coté|partis?|portées?|prises?|mort|vue|revenus?|tapis|visées?|(?-i)Vitré</exception></token>
                 </pattern>
-                <message>L'auxiliaire avoir est généralement attendu avant le participe passé '\2'.</message>
+                <message>L'auxiliaire 'avoir' est généralement attendu avant le participe passé '\2'.</message>
                 <suggestion>a</suggestion>
                 <example correction="a">Il <marker>à</marker> été aux États-Unis.</example>
                 <example correction="a">Paul <marker>à</marker> travaillé tard.</example>
@@ -7497,6 +7507,18 @@ though, and has since been slightly modified)-->
                 <example>La vie est une boîte à surprises.</example>
                 <example>Ce sont des mots à traits d'union.</example>
                 <example>Voici les gâteaux de mi-cuit à cuit.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>en</token>
+                    <marker>
+                        <token>à</token>
+                    </marker>
+                    <!--<token postag="V ppa.*" postag_regexp="yes"/>-->
+                </pattern>
+                <message>L'auxiliaire 'avoir' est généralement attendu après le pronom 'en'.</message>
+                <suggestion>a</suggestion>
+                <example correction="a">Il en <marker>à</marker> envie.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OU" name="'Ou' au lieu de 'où'">
@@ -23928,7 +23950,7 @@ though, and has since been slightly modified)-->
                         <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*1.s|R.* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Faute de frappe.</message>
                 <example correction="élève|relève|enlève|lève">J'<marker>eleve</marker>.</example>
                 <example>Mais c'est bien d'utiliser le mot "je" le moins souvent possible. </example>
@@ -23944,7 +23966,7 @@ though, and has since been slightly modified)-->
                         <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*1.s|R.pers.obj.* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Faute de frappe.</message>
                 <example correction="élève|relève|enlève|lève">Je n'<marker>eleve</marker>.</example>
                 <example>et je me "rattrape"</example>
@@ -23958,7 +23980,7 @@ though, and has since been slightly modified)-->
                         <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*1.s|R.pers.obj.* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Faute de frappe.</message>
                 <example correction="élève|relève|enlève|lève">Je ne m'<marker>eleve</marker>.</example>
                 <example>Je ne me « bourre pas de compléments alimentaires ».</example>
@@ -23972,9 +23994,11 @@ though, and has since been slightly modified)-->
                         <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.s|R.pers.obj.* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Faute de frappe.</message>
                 <example correction="élèves|relèves|enlèves|lèves|élevas">Tu <marker>eleves</marker>.</example>
+                <example correction="étais|tais|jetais|entais|fêtais|pétais|tétais|vêtais|étaies|ôtais">Tu <marker>etais</marker>.</example>
+                <example correction="en">Tu <marker>een</marker> as envie.</example>
                 <example>Mais c'est bien d'utiliser le mot "je" le moins souvent possible. </example>
                 <example>Lucas est un Mr. Je-Sais-Tout.</example>
                 <example>Je "bave".</example>
@@ -23988,7 +24012,7 @@ though, and has since been slightly modified)-->
                         <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.s|R.pers.obj.* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Faute de frappe.</message>
                 <example correction="élèves|relèves|enlèves|lèves|élevas">Tu n'<marker>eleves</marker>.</example>
                 <example>et je me "rattrape"</example>
@@ -24002,7 +24026,7 @@ though, and has since been slightly modified)-->
                         <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s|R.pers.obj.* removeSuggestionsRegexp:^.*[éè]$"/>
                 <message>Faute de frappe.</message>
                 <example correction="élèves|relèves|enlèves|lèves|élevas">Tu ne m'<marker>eleves</marker>.</example>
                 <example>Je ne me « bourre pas de compléments alimentaires ».</example>
@@ -24026,10 +24050,11 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.s"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.s|R.pers.obj.*"/>
                 <message>Faute de frappe.</message>
                 <example correction="élève|relève|enlève|lève|éleva">Il <marker>eleve</marker>.</example>
                 <example correction="s'aperçoit|aperçoit">Il <marker>saperçoit</marker>.</example>
+                <example correction="l'eut|leur|peut|eut|veut|eût|lut|pleut|meut|lût">Il <marker>leut</marker> a dit.</example>
                 <!--<example correction="élève|relève|enlève|lève|éleva">Il <marker>saperçu</marker>.</example>-->
             </rule>
             <rule>
@@ -24041,7 +24066,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.s"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.s|R.pers.obj.*"/>
                 <message>Faute de frappe.</message>
                 <example correction="élève|relève|enlève|lève|éleva">Elle n'<marker>eleve</marker>.</example>
             </rule>
@@ -24055,9 +24080,57 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.s"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.s|R.pers.obj.*"/>
                 <message>Faute de frappe.</message>
                 <example correction="élève|relève|enlève|lève|éleva">Elle ne m'<marker>eleve</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ON_VERBE" name="on + verbe" default="temp_off">
+            <!-- TODO: exceptions for anglicisms -->
+            <antipattern>
+                <token regexp="yes">t|t'</token>
+                <token min="0">-</token>
+                <token>on</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>on</token>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.s|R.pers.obj.*"/>
+                <message>Faute de frappe.</message>
+                <example correction="élève|relève|enlève|lève|éleva">On <marker>eleve</marker>.</example>
+                <example correction="s'aperçoit|aperçoit">On <marker>saperçoit</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>on</token>
+                    <token postag="[AR].*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.s|R.pers.obj.*"/>
+                <message>Faute de frappe.</message>
+                <example correction="élève|relève|enlève|lève|éleva">On n'<marker>eleve</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>on</token>
+                    <token postag="[AR].*" postag_regexp="yes"/>
+                    <token postag="[AR].*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">\p{Ll}\p{L}+
+                            <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.s|R.pers.obj.*"/>
+                <message>Faute de frappe.</message>
+                <example correction="élève|relève|enlève|lève|éleva">On ne m'<marker>eleve</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ILS_VERBE" name="ils/elles + verbe">
@@ -24074,7 +24147,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.p"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*3.p|R.pers.obj.*"/>
                 <message>Faute de frappe.</message>
                 <example correction="élèvent">Ils <marker>eleven</marker>.</example>
             </rule>
@@ -24087,7 +24160,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.p"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*3.p|R.pers.obj.*"/>
                 <message>Faute de frappe.</message>
                 <example correction="élèvent">Elles n'<marker>eleven</marker>.</example>
             </rule>
@@ -24101,7 +24174,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">&exceptions_IL_VERBE;</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.p"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*3.p|R.pers.obj.*"/>
                 <message>Faute de frappe.</message>
                 <example correction="élèvent">Elles ne m'<marker>eleven</marker>.</example>
             </rule>
