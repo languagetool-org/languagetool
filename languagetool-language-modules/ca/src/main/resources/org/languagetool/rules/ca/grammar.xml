@@ -36697,7 +36697,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[A-Z]</token>
                 <token spacebefore="no">.</token>
             </antipattern>
-             <antipattern>
+            <antipattern>
                 <token>.</token>
                 <token regexp="yes">.</token>
                 <token>)</token>
@@ -36709,9 +36709,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.</token>
+                    <token regexp="yes">[\p{L}\d]</token>
                     <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">[\p{L}\d]</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
@@ -36751,7 +36751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token/>
-                    <token regexp="yes" spacebefore="yes">[.!?…]<exception postag="SENT_END"/></token>
+                    <token regexp="yes" spacebefore="yes">[.!?]<exception postag="SENT_END"/></token>
                     <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espai després del punt i no abans.</message>
@@ -36760,7 +36760,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vine. Com"><marker>Vine .Com</marker> t'agrada?</example>
                 <example correction="Vine. ¿"><marker>Vine .¿</marker>Com t'agrada?</example>
                 <example correction="així? Sempre">És <marker>així ?Sempre</marker>.</example>
-                <example correction="així… Sempre">És <marker>així …Sempre</marker>!</example>
                 <example correction="A. Čerenkov">amb P.<marker>A .Čerenkov</marker></example>
                 <example>És així. Sempre.</example>
                 <example>És així.</example>
@@ -36786,6 +36785,94 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Falta un espai després del punt.</message>
                 <suggestion><match no="1"/> <match no="2"/></suggestion>
                 <example correction=". von">Deixeble de C<marker>.von</marker> Sternberg.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt.</message>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="… Sempre">És així<marker>…Sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt i no abans.</message>
+                <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="així… Sempre">És <marker>així …Sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="… sempre|… Sempre">És així<marker>…sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt i no abans.</message>
+                <suggestion><match no="1"/>… <match no="3"/></suggestion>
+                <suggestion><match no="1"/>… <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="així… sempre|així… Sempre">És <marker>així …sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" spacebefore="no">.</token>
+                    <token regexp="yes">.</token>
+                    <token regexp="yes">.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt.</message>
+                <suggestion>... <match no="4" case_conversion="startupper"/></suggestion>
+                <example correction="... Sempre">És així<marker>...Sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">.</token>
+                    <token regexp="yes">.</token>
+                    <token regexp="yes">.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt i no abans.</message>
+                <suggestion><match no="1"/>... <match no="5" case_conversion="startupper"/></suggestion>
+                <example correction="així... Sempre">És <marker>així ...Sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" spacebefore="no">.</token>
+                    <token regexp="yes">.</token>
+                    <token regexp="yes">.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt.</message>
+                <suggestion>... <match no="4"/></suggestion>
+                <suggestion>... <match no="4" case_conversion="startupper"/></suggestion>
+                <example correction="... sempre|... Sempre">És així<marker>...sempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">.</token>
+                    <token regexp="yes">.</token>
+                    <token regexp="yes">.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espai després del punt i no abans.</message>
+                <suggestion><match no="1"/>... <match no="5"/></suggestion>
+                <suggestion><match no="1"/>... <match no="5" case_conversion="startupper"/></suggestion>
+                <example correction="així... sempre|així... Sempre">És <marker>així ...sempre</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="P_EX" name="Comprova la puntuació en: p. ex.">
@@ -42794,7 +42881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" skip="1">anar</token>
                     <token>amb</token>
-                    <token regexp="yes" min="1" max="4">una|un|mica|miqueta|poc|massa|de|poc</token>
+                    <token regexp="yes" min="1" max="4">una|un|mica|miqueta|poc|massa|de</token>
                     <marker>
                         <token regexp="yes">co[mn]te|conta|compta</token>
                     </marker>
@@ -42819,6 +42906,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="PASSAR_CONTES" name="passar *contes/comptes">
+            <antipattern>
+                <token skip="2">contes</token>
+                <token regexp="yes">vora|foc</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">passar|portar|quadrar|fer</token>
                 <token min="0">els</token>
