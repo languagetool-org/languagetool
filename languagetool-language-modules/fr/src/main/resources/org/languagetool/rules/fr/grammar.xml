@@ -8120,12 +8120,18 @@ though, and has since been slightly modified)-->
                     <token min="0" max="1">-</token>
                     <token regexp="yes">capote|ménage|vous</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>ce</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>ce</token>
                     </marker>
                     <token postag="V.*" postag_regexp="yes">
-                        <exception postag="[NJ] [me] sp?" postag_regexp="yes"/>
+                        <!-- add also f to the exceptions? Then it will be an error in D_N -->
+                        <exception postag="[NJ] [me] sp?|V ppa.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
                         <exception regexp="yes">faisant|faire</exception></token>
                 </pattern>
@@ -8150,6 +8156,10 @@ though, and has since been slightly modified)-->
                 <example>informé par la presse de ce fait divers étrange</example>
                 <example>Il nécessite de ce fait un entretien régulier.</example>
                 <example>et devra de ce fait être présenté sous forme adéquate</example>
+                <example correction="se">Une enceinte <marker>ce</marker> coupe.</example>
+                <!-- Other errors -->
+                <example>Ce presse tomate électrique est très utile.</example>
+                <example>Punir son enfant ce rentrée peut avoir lieu normalement.</example>
             </rule>
             <rule>
                 <antipattern>
