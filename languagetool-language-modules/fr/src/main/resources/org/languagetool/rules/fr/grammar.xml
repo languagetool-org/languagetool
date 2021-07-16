@@ -7516,16 +7516,25 @@ though, and has since been slightly modified)-->
                 <example>Voici les gâteaux de mi-cuit à cuit.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>en</token>
+                    <token>à</token>
+                </antipattern>
                 <pattern>
                     <token>en</token>
                     <marker>
                         <token>à</token>
                     </marker>
+                    <token>
+                        <exception>peine</exception></token>
                     <!--<token postag="V ppa.*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>L'auxiliaire 'avoir' est généralement attendu après le pronom 'en'.</message>
                 <suggestion>a</suggestion>
                 <example correction="a">Il en <marker>à</marker> envie.</example>
+                <example>Parlez en à ma chère épouse.</example>
+                <example>Il l'a réalisé en à peine quelques années.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OU" name="'Ou' au lieu de 'où'">
