@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +29,7 @@ import java.util.List;
  * @since 0.9.2
  */
 public final class IncorrectExample extends ExampleSentence {
+  
   private final Object corrections;
 
   public IncorrectExample(String example) {
@@ -46,6 +49,7 @@ public final class IncorrectExample extends ExampleSentence {
   /**
    * Return the possible corrections.
    */
+  @NotNull
   public List<String> getCorrections() {
     return corrections == null ? Collections.emptyList() :
            corrections instanceof String ? Collections.singletonList((String) corrections) :

@@ -231,8 +231,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if ("incorrect".equals(typeVal) || attrs.getValue("correction") != null) {
           inIncorrectExample = true;
           incorrectExample = new StringBuilder();
-          exampleCorrection = new StringBuilder();
           if (attrs.getValue("correction") != null) {
+            exampleCorrection = new StringBuilder();
             exampleCorrection.append(attrs.getValue("correction"));
           }
         } else if ("triggers_error".equals(typeVal)) {
@@ -460,14 +460,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
           correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           IncorrectExample example;
-          List<String> corrections = new ArrayList<>(Arrays.asList(exampleCorrection.toString().split("\\|")));
-          if (corrections.size() > 0) {
-            if (exampleCorrection.toString().endsWith("|")) {  // split() will ignore trailing empty items
+          if (exampleCorrection == null) {
+            example = new IncorrectExample(incorrectExample.toString());
+          } else {
+            List<String> corrections = new ArrayList<>(Arrays.asList(exampleCorrection.toString().split("\\|")));
+            if (exampleCorrection.toString().endsWith("|")) {  // suggestions plus an empty suggestion (split() will ignore trailing empty items)
               corrections.add("");
             }
             example = new IncorrectExample(incorrectExample.toString(), corrections);
-          } else {
-            example = new IncorrectExample(incorrectExample.toString());
           }
           incorrectExamples.add(example);
         } else if (inErrorTriggerExample) {
@@ -479,7 +479,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         correctExample = new StringBuilder();
         incorrectExample = new StringBuilder();
         errorTriggerExample = new StringBuilder();
-        exampleCorrection = new StringBuilder();
+        exampleCorrection = null;
         break;
       case MESSAGE:
         suggestionMatches = addLegacyMatches(suggestionMatches, message.toString(), true);

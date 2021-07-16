@@ -164,7 +164,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
-    testExamplesExist(rules);
     testGrammarRulesFromXML(rules, allRulesLt, lang);
     System.out.println(rules.size() + " rules tested.");
     allRulesLt.shutdown();
@@ -315,25 +314,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  protected void testExamplesExist(List<AbstractPatternRule> rules) {
-    for (AbstractPatternRule rule : rules) {
-      if (rule.getCorrectExamples().isEmpty()) {
-        boolean correctionExists = false;
-        for (IncorrectExample incorrectExample : rule.getIncorrectExamples()) {
-          if (incorrectExample.getCorrections().size() > 0) {
-            correctionExists = true;
-            break;
-          }
-        }
-        if (!correctionExists) {
-          String failure = "Rule needs at least one <example> with a 'correction' attribute"
-                  + " or one <example> of type='correct'.";
-          addError(rule, failure);
-        }
-      }
-    }
-  }
-
   private void addError(AbstractPatternRule rule, String failure) {
     synchronized (ruleErrors) {
       ruleErrors.addError(new PatternRuleTestFailure(rule, failure));
@@ -429,12 +409,11 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           continue;
       }
       
-      // causes false alarms, see https://github.com/languagetool-org/languagetool/issues/5352:
-      /*String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
+      String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
       if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith(".") && !k.startsWith("…"))) {
         System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
           "doesn't have a space, comma or dot at the start of the suggestion: " + origBadSentence + " => " + origBadExample.getCorrections());
-      }*/
+      }
 
       // necessary for XML Pattern rules containing <or>
       List<RuleMatch> matches = new ArrayList<>();
