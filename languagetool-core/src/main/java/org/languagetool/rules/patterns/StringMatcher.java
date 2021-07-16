@@ -37,9 +37,12 @@ import java.util.stream.Stream;
  */
 @ApiStatus.Internal
 public abstract class StringMatcher {
+  
   final String pattern;
   final boolean caseSensitive;
   final boolean isRegExp;
+  
+  public final static int MAX_MATCH_LENGTH = 250;
 
   private StringMatcher(String pattern, boolean isRegExp, boolean caseSensitive) {
     this.pattern = pattern;
@@ -88,6 +91,9 @@ public abstract class StringMatcher {
 
           @Override
           public boolean matches(String s) {
+            if (s.length() > MAX_MATCH_LENGTH) {
+              return false;
+            }
             return Arrays.binarySearch(sorted, s, String.CASE_INSENSITIVE_ORDER) >= 0;
           }
         };
@@ -100,6 +106,9 @@ public abstract class StringMatcher {
 
         @Override
         public boolean matches(String s) {
+          if (s.length() > MAX_MATCH_LENGTH) {
+            return false;
+          }
           return set.contains(s);
         }
       };
@@ -119,6 +128,9 @@ public abstract class StringMatcher {
 
       @Override
       public boolean matches(String s) {
+        if (s.length() > MAX_MATCH_LENGTH) {
+          return false;
+        }
         if (substrings != null && !substrings.matches(s, caseSensitive)) return false;
         if (substringsAreSufficient) return true;
         return compiled.matcher(new InterruptibleCharSequence(s)).matches();
@@ -136,6 +148,9 @@ public abstract class StringMatcher {
 
       @Override
       public boolean matches(String s) {
+        if (s.length() > MAX_MATCH_LENGTH) {
+          return false;
+        }
         return caseSensitive ? s.equals(pattern) : s.equalsIgnoreCase(pattern);
       }
     };

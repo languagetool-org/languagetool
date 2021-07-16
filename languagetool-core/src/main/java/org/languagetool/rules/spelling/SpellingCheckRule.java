@@ -61,6 +61,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 4.4
    */
   public static final String LANGUAGETOOLER = "LanguageTooler";
+  public static final int MAX_TOKEN_LENGTH = 200;
 
   protected final Language language;
 
@@ -283,6 +284,9 @@ public abstract class SpellingCheckRule extends Rule {
    * If possible, use {@link #ignoreToken(AnalyzedTokenReadings[], int)} instead.
    */
   protected boolean ignoreWord(String word) throws IOException {
+    if (word.length() > MAX_TOKEN_LENGTH) {
+      return true;
+    }
     if (!considerIgnoreWords) {
       return false;
     } 
