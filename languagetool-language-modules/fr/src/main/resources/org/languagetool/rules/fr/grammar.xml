@@ -8527,7 +8527,10 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="CES_CEST" name="CES|SES au lieu de C'EST" default="temp_off">
             <antipattern>
-                <token postag="V.*" postag_regexp="yes"/>
+                <token case_sensitive="yes" regexp="yes">[CS]ES</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*|P" postag_regexp="yes"/>
                 <token regexp="yes">[cs]es</token>
             </antipattern>
             <antipattern>
