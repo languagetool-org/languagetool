@@ -429,11 +429,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           continue;
       }
       
-      String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
+      // causes false alarms, see https://github.com/languagetool-org/languagetool/issues/5352:
+      /*String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
       if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith(".") && !k.startsWith("…"))) {
         System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
           "doesn't have a space, comma or dot at the start of the suggestion: " + origBadSentence + " => " + origBadExample.getCorrections());
-      }
+      }*/
 
       // necessary for XML Pattern rules containing <or>
       List<RuleMatch> matches = new ArrayList<>();
