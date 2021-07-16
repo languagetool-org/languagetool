@@ -386,7 +386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[dD]er|ein</token>
-                    <token inflected="yes" regexp="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
+                    <token inflected="yes" regexp="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|gro(ß|ss)|wesentlich|erheblich|relevant|gravierend|auffällig</token>
                     <marker>
                         <token>Unterschied</token>
                     </marker>
@@ -409,7 +409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">[dD]er|ein</token>
-                    <token inflected="yes" regexp="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|groß|wesentlich|erheblich|relevant|gravierend|auffällig</token>
+                    <token inflected="yes" regexp="yes" min="0">klein|fein|subtil|deutlich|krass|gewaltig|merklich|beträchtlich|himmelweit|gro(ß|ss)|wesentlich|erheblich|relevant|gravierend|auffällig</token>
                     <token>Unterschied</token>
                     <token>zwischen</token>
                     <marker>
@@ -1217,6 +1217,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>bei</token>
                 <token postag_regexp="yes" postag="VER:.*"/>
             </antipattern>
+            <antipattern>
+                <token>bei</token>
+                <token>sagen</token>
+                <token>wir</token>
+                <token>mal</token>
+            </antipattern>
             <pattern>
                 <token>bei</token>
                 <token min="0" postag="ADJ:DAT:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+em
@@ -1235,6 +1241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie lagen <marker>bei einigen</marker> 100 Nanosekunden.</example>
             <example>Bei ein paar Einträgen war ich mir unsicher.</example>
             <example correction=''><marker>Bei drastischem absenken</marker> des Drucks kann es zur Explosion kommen.</example>
+            <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
         </rule>
         <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
             <rule>
@@ -23156,7 +23163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>faden</token>
                 </marker>
-                <token inflected="yes">reißen</token>
+                <token inflected="yes">rei(ß|ss)en</token>
             </pattern>
             <message>Meinten Sie das Nomen <suggestion>Faden</suggestion>?</message>
             <short>&prgk;.</short>
@@ -23308,6 +23315,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>für</token>
                     <token regexp="yes">hinlegen|bezahlen|ausgeben|überweisen</token>
                 </antipattern>
+                <antipattern>
+                    <token>bei</token>
+                    <token>sagen</token>
+                    <token>wir</token>
+                    <token>mal</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[vV]or|[bB]ei|[Ff]ür|[Ii]n</token>
                     <marker>
@@ -23322,6 +23335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich stehe bei <marker>jungen</marker> Erwachsenen.</example>
                 <example correction="Grenzen">Die Begeisterung hielt sich in <marker>grenzen</marker>.</example>
                 <example>Wir können da auch gerne Geld für ausgeben.</example>
+                <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAS_BESTE_AM" name="'das beste (Beste) am' etc.">
@@ -38028,7 +38042,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Frage">Wie das gehen soll, ist eine offene <marker>frage</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[Bb]ei</token>
                     <token min="0">noch</token>
