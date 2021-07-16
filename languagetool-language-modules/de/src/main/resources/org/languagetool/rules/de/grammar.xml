@@ -19420,6 +19420,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Redundantes Kompositum</short>
                 <example correction="Kasserolle">Diese <marker>Stielkasserolle</marker> ist sehr praktisch!</example>
             </rule>
+            <rule default="temp_off">
+                <pattern><token regexp="yes">Holzxylo(ph|f)on(en?|s)?</token></pattern>
+                <message>Potenziell redundantes Kompositum: Als <suggestion><match no="1" regexp_replace="X" regexp_match="^Holzx"/></suggestion> (von griech. 'xýlon' [Holz]) bezeichnet man ausschließlich Schlaginstrumente mit hölzernen Klangstäben.</message>
+                <url>https://de.wikipedia.org/wiki/Xylophon</url>
+                <short>Potenziell redundantes Kompositum</short>
+                <example correction="Xylophon">Dieses <marker>Holzxylophon</marker> hat einen guten Klang, weil es aus Holz ist!</example>
+               <example correction="Xylofone">Diese <marker>Holzxylofone</marker> haben einen guten Klang, weil sie aus Holz sind!</example>
+            </rule>
             <rule>
                 <regexp>Marionettenpuppen?</regexp>
                 <message>Redundantes Kompositum: Marionetten sind an Fäden gezogene Puppen. Ersetzen durch <suggestion><match no="0" regexp_replace="" regexp_match="npuppe"/></suggestion>?</message>
