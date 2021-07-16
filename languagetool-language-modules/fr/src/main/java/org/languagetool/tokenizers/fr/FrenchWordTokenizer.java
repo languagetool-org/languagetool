@@ -182,7 +182,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (FrenchTagger.INSTANCE.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (FrenchTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
             // In the current POS tag, most apostrophes are curly: to be fixed
             l.add(s);
           }

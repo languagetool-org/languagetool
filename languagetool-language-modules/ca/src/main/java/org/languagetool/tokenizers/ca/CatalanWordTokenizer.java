@@ -205,7 +205,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
@@ -215,7 +215,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
             l.add(s);
           }
           // words with "ela geminada" with typo: col-legi (col·legi)
-          else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replace("l-l", "l·l"))).get(0).isTagged()) {
+          else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("l-l", "l·l"))).get(0).isTagged()) {
             l.add(s);
           // apostrophe in the last char
           } else if ((s.endsWith("'") || s.endsWith("’")) && s.length() > 1) {

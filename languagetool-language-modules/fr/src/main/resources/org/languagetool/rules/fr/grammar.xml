@@ -4234,14 +4234,19 @@ though, and has since been slightly modified)-->
             <example correction="anormal">Cet évènement peut paraitre comme <marker>anomal</marker> au vu des statistiques habituelles.</example>
         </rule>
         <rule id="ES_TU" name="es-tu" default="temp_off">
+            <antipattern>
+                <token>s'</token>
+                <token>est</token>
+            </antipattern>
             <pattern>
                 <token>est</token>
                 <token regexp="yes">-?tu</token>
             </pattern>
-            <message>« Est » et « \1 » ne sont pas bien accordés en nombre ou personne.</message>
+            <message>« Est » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
             <suggestion>es-tu</suggestion>
             <example correction="es-tu">Pourquoi <marker>est tu</marker> là, en réalité ?</example>
             <example correction="Es-tu"><marker>Est-tu</marker> là, en réalité ?</example>
+            <example>Il s'est tu, il a baissé ses yeux.</example>
         </rule>
         <rule id="MEDIA" name="media/média">
             <antipattern>
@@ -5459,7 +5464,7 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">[nv]otres?</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
+                <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(?iu)o" regexp_replace="ô" case_conversion="preserve"/></suggestion> ?</message>
                 <example correction="nôtre">C’est le <marker>notre</marker>.</example>
                 <example>Le Notre Père est une prière chrétienne.</example>
             </rule>
@@ -5472,8 +5477,10 @@ though, and has since been slightly modified)-->
                     <token>
                         <exception>.</exception></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="ô" regexp_replace="o"/></suggestion> ?</message>
+                <!-- remove the s, because the plural is vos, nos -->
+                <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(?iu)ôtres?" regexp_replace="otre" case_conversion="preserve"/></suggestion> ?</message>
                 <example correction="notre">C’est <marker>nôtre</marker> mère.</example>
+                <example correction="votre">Si vous en avez d'autres nous sommes à <marker>vôtres</marker> disposition pour y répondre.</example>
                 <example>Ils étaient vôtre.</example>
             </rule>
         </rulegroup>
@@ -7526,6 +7533,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">«|"</token>
                 <token>ou</token>
                 <token regexp="yes">»|"</token>
+            </antipattern>
+            <antipattern>
+                <token>et</token>
+                <token regexp="yes">\-|/</token>
+                <token>ou</token>
             </antipattern>
             <rule>
                 <antipattern>
