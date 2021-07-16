@@ -53,7 +53,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private Map<String, Integer> mStartNoSpace;
   private Map<String, AnalyzedToken> mFull;
   
-  private final int MAX_TOKENS_IN_MULTIWORD = 20;
+  private final static int MAX_TOKENS_IN_MULTIWORD = 20;
 
   /**
    * @param filename file text with multiwords and tags
