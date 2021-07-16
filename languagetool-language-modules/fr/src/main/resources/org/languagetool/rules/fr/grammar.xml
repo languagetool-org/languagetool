@@ -7510,7 +7510,8 @@ though, and has since been slightly modified)-->
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <token postag="V imp .*" postag_regexp="yes"/>
+                    <token postag="V imp.*" postag_regexp="yes"/>
+                    <token postag="R pers.*" postag_regexp="yes" min="0"/>
                     <token>en</token>
                     <token>à</token>
                 </antipattern>
@@ -7520,14 +7521,16 @@ though, and has since been slightly modified)-->
                         <token>à</token>
                     </marker>
                     <token>
-                        <exception>peine</exception></token>
+                        <exception regexp="yes">peine|peu</exception></token>
                     <!--<token postag="V ppa.*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>L'auxiliaire 'avoir' est généralement attendu après le pronom 'en'.</message>
                 <suggestion>a</suggestion>
                 <example correction="a">Il en <marker>à</marker> envie.</example>
                 <example>Parlez en à ma chère épouse.</example>
+                <example>Il l'a réalisé en à peu près trois heures.</example>
                 <example>Il l'a réalisé en à peine quelques années.</example>
+                <example>Tenez-vous en à cela.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OU" name="'Ou' au lieu de 'où'">
