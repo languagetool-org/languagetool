@@ -10731,7 +10731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="FOLGEN_SCHWER" name="Folgen reich (folgenreich)" default="temp_off">
+        <rule id="FOLGEN_SCHWER" name="Folgen reich (folgenreich)">
             <antipattern>
                 <token regexp="yes">sie|wir|die|ihr|ihm|denen|ihnen|diese|jene|manche|alle|den|viele|wenige|beide|\d+</token>
                 <token postag="ADJ:.*|UNKNOWN" postag_regexp="yes" min="0" />
@@ -39538,6 +39538,19 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="WIE_GEHST_DIR" name="Wie gehst (gehts) euch?" default="temp_off">
+            <pattern>
+                <token>wie</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[Gg]ehst|[Ll]äufst</token>
+                </marker>
+                <token regexp="yes" min="0">bei|mit</token>
+                <token regexp="yes">dir|euch|ihm|ihr</token>
+            </pattern>
+            <message>Die korrekte Verbform scheint hier <suggestion><match no="2" regexp_match="st" regexp_replace="ts" /></suggestion> zu sein.</message>
+            <example correction="gehts">Wie <marker>gehst</marker> dir?</example>
+            <example correction="läufts">Wie <marker>läufst</marker> bei euch?</example>
+        </rule>
         <rule id="GUT_BESSERUNG" name="gut (gute) Besserung">
             <pattern>
                 <token>gut</token>
