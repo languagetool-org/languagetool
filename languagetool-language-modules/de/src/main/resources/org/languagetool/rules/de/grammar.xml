@@ -39354,6 +39354,22 @@ Andere Projekte</example>
                 <example correction="Soll">Sein hat ihr <marker>soll</marker> erfüllt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SPARTEN_SUBST" name="'nach sparten (Sparten) geordnet' etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|nach</token>
+                    <marker>
+                        <token case_sensitive="yes">sparten</token>
+                    </marker>
+                    <token postag="VER:.*" postag_regexp="yes" />
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Sparten">Die Bücher sind in <marker>sparten</marker> aufgeteilt.</example>
+                <example correction="Sparten">Die Bücher sind nach <marker>sparten</marker> sortiert.</example>
+                <example>Die neuen Werkzeuge <marker>sparten</marker> uns eine Menge Arbeit.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHWARZ_AUF_WEISS" name="Schwarz auf Weiß (schwarz auf weiß)">
             <rule>
                 <antipattern case_sensitive="yes">
