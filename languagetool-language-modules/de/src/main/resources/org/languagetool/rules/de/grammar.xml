@@ -45758,6 +45758,32 @@ Andere Projekte</example>
                 <example correction="den">Geh diesen Quacksalbern doch nicht immer auf <marker>dem</marker> Leim!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AUF_DEM_PUNKT" name="auf dem (den) Punkt bringen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token>dem</token></marker>
+                    <token>Punkt</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">bringen</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Punkt bringen' (prägnant formulieren)?</message>
+                <example correction="den">Das hast du gut auf <marker>dem</marker> Punkt gebracht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">bringen</token>
+                    <token min="0" max="3" />
+                    <token min="0">nicht</token>
+                    <token>auf</token>
+                    <marker><token>dem</token></marker>
+                    <token>Punkt</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Punkt bringen' (prägnant formulieren)?</message>
+                <example correction="den">Bringen wir die Sache endlich mal auf <marker>dem</marker> Punkt!</example>
+                <example correction="den">Bringen wir die Sache doch endlich auf <marker>dem</marker> Punkt!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_ANGRIFF" name="in den Angriff (in Angriff) nehmen">
             <rule>
                 <pattern>
