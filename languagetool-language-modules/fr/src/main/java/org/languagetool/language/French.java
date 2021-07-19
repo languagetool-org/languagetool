@@ -277,6 +277,7 @@ public class French extends Language implements AutoCloseable {
       case "IL_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
+      case "MOTS_INCOMP": return -50; // greater than PRONSUJ_NONVERBE
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
       case "MAIS_SENT_START": return -151; // lower than grammalecte rules
