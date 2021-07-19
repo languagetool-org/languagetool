@@ -51807,7 +51807,7 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
 <!--  Komma vor 'auch wenn' etc.  -->
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[1] -->
                 <pattern>
                     <marker>
                     <token>
@@ -51824,7 +51824,7 @@ Andere Projekte</example>
                 <example>Der Dompteur geht in den <marker>Raubtierkäfig, auch wenn</marker> er Angst hat.</example>
             </rule>
 <!--  Komma vor 'ohne dass' etc.  -->
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[2] -->
                 <pattern>
                     <marker>
                     <token>
@@ -51841,7 +51841,7 @@ Andere Projekte</example>
                 <example>Der Dompteur geht in den <marker>Raubtierkäfig, ohne dass</marker> er Angst zeigt.</example>
             </rule>
 <!-- Komma vor Nebensatz   -->
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[3] -->
                 <antipattern>
                     <token regexp="yes">(&zeiteinheitensing;)e?n?|kurz</token>
                     <token regexp="yes">bevor|nachdem</token>
@@ -51966,7 +51966,7 @@ Andere Projekte</example>
                 <example>Sie badet lieber, als dass sie duscht.</example>
                 <example>Als ich kam, hat sie auch noch so getan, als ob sie schläft.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="temp_off"><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[4] -->
                 <antipattern>
                     <token>wie</token>
                     <token>folgt</token>
@@ -52076,7 +52076,7 @@ Andere Projekte</example>
                 -->
             </rule>
 <!-- Komma nach Nebensatz   -->
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[5] -->
                 <antipattern>
                     <token postag="VER:(AUX|MOD):.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -52149,7 +52149,7 @@ Andere Projekte</example>
                 <example>Jetzt bin ich offen für viele Dinge, allerdings interessiere ich mich nun schon seit geraumer Zeit für die Ergreifung eines Sozialberufs.</example>
                 <example>Da, finde ich, kann auch noch was passieren.</example>
             </rule>
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[6] -->
                 <antipattern>
                     <token postag="VER:(AUX|MOD):.*" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -52214,7 +52214,7 @@ Andere Projekte</example>
                 <example>Man stellt nun fest,  dass der so markierte Teil des Fluids innerhalb des Fluids weder steigt noch sinkt, da sich das gesamte Fluid in Ruhe befindet.</example>
             </rule>
 <!--    Komma zwischen zwei Satzteilen (recht allgemein)     -->
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[7] -->
                 <antipattern>
                     <token postag="ADJ:PRD:GRU"/>
                     <token postag="PKT"/>
@@ -52402,6 +52402,10 @@ Andere Projekte</example>
                     <token>Walt</token>
                     <token>Whitman</token>
                 </antipattern>
+                <antipattern><!-- word repetition is probably not a comma error -->
+                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
+                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"><match no="0"/></token>
+                </antipattern>
                 <pattern>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
                         <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -52485,8 +52489,9 @@ Andere Projekte</example>
                 <example>Geringfügige Verunreinigungen der Rohstoffe, die mit den normalen Qualitätsanforderungen an das Gebrauchsglas vereinbar sind, stellen ebenfalls Quellen für weitere (unbeabsichtigte) Glasbestandteile dar.</example>
                 <example>Du hast doch den Link zu web.de eingesetzt.</example>
                 <example>Bell erfand das Telefon nicht alleine.</example>
+                <example>In unserer Zeit ist die Zahl der Gedichteschreiber größer ist als die der Gedichteleser.</example><!-- probably not a missing comma but a doublet, found in Premium -->
             </rule>
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[8] -->
                 <antipattern>
                     <token>hab</token>
                     <token>und</token>
@@ -52502,7 +52507,7 @@ Andere Projekte</example>
                 <example>Nachdem ich sie gesehen <marker>hatte, habe</marker> sie gegrüßt.</example>
                 <example>Jeder hatte Hab und Gut verloren.</example>
             </rule>
-            <rule>
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[9] -->
                 <pattern>
                     <token inflected="yes">werden<exception regexp="yes">geworden|werden</exception></token>
                     <token inflected="yes">werden<exception>geworden</exception><exception scope="next" regexp="yes">\p{P}</exception></token>
