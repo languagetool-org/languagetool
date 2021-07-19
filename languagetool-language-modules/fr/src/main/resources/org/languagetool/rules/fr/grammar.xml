@@ -13645,24 +13645,25 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
-        <rule id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
-            <pattern>
-                <unify negate="yes">
-                    <feature id="number"/>
-                    <feature id="gender"/>
-                    <token postag="J.*" postag_regexp="yes"/>
+<rule  id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
+    <pattern>
+        <unify negate="yes">
+            <feature id="number"/>
+            <feature id="gender"/>
+            <token postag="N.*" postag_regexp="yes" skip="-1"/>
+            <marker>
+                <token postag="J.*" postag_regexp="yes" skip="-1"/>
                 <unify-ignore>
-                    <token min="0">,</token>
-                    <token regexp="yes">et|ni</token>
+                    <token>et</token>
                 </unify-ignore>
-                    <token postag="J.*" postag_regexp="yes"/>
-                </unify>
-            </pattern>
-            <message>L'adjectif "\4" ne semble pas accordé</message>
-            <suggestion><match no="4" postag="J.*" postag_regexp="yes" postag_replace="$1"/></suggestion>
-            <example correction="indirectes">Il doit assumer les conséquences directes et <marker>indirect</marker>.</example>
-            <example correction="franche">Son intervention n'est ni honnête, ni <marker>franc</marker>.</example>
-        </rule>
+                <token postag="J.*" postag_regexp="yes"/>
+            </marker>
+        </unify>
+    </pattern>
+    <filter class="org.languagetool.rules.fr.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:J.* lemmaFrom:4 lemmaSelect:J.* postagFrom:1 postagSelect:J.*"/>
+    <message>'\2' et '\4' ne semblent pas bien accordés.</message>
+    <example correction="indirectes">Il doit assumer les conséquences directes et <marker>indirect</marker>.</example>
+</rule>
         <rulegroup id="QUELQUE_PEU" name="quelque peu">
             <rule>
                 <pattern>
