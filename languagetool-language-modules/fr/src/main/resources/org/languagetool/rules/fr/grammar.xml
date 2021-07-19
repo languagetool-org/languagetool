@@ -949,6 +949,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="D_J" name="Concordance du déterminant avec l’adjectif">
                 <antipattern>
+                    <token postag="R.*" postag_regexp="yes"><exception regexp="yes">dont|tous</exception></token>
+                    <token>ses</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
                     <unify>
                         <feature id="number"/>
                         <feature id="gender"/>
@@ -16065,6 +16070,11 @@ though, and has since been slightly modified)-->
                 <example>vers le IVᵉ siècle</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>au</token>
+                    <token>une</token>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>au</token>
                     <token regexp="yes">&elision_regexp;
@@ -16076,6 +16086,7 @@ though, and has since been slightly modified)-->
                 <message>« \1 \2 » s’élide en <suggestion>à l'\2</suggestion>.</message>
                 <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1745</url>
                 <example correction="À l'homme"><marker>Au homme</marker>.</example>
+                <example>Au une épidémie de choléra.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32425,6 +32436,10 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">aux|des</token>
                     <token regexp="yes" case_sensitive="yes">[clmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|[vn]ous|on</token>
                 </antipattern>
+                <antipattern>
+                    <token>au</token>
+                    <token postag="D f s"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
                     <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
@@ -32573,6 +32588,59 @@ though, and has since been slightly modified)-->
                 <example>Je pense que si l'un de vous travail sur toulouse.</example>
                 <example>Par contre, si n´êtes pas fan de films d´horreur, pas la peine de vous l´infliger.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>au</token>
+                    <token postag="D f s"/>
+                    </marker>
+                </pattern>
+                <message>Les mots « \1 \2 » ne peuvent pas se suivre.</message>
+                <suggestion>à \2</suggestion>
+                <suggestion>au</suggestion>
+                <suggestion>\2</suggestion>
+                <example correction="à cette|au|cette">Il produisit du miel jusqu'<marker>au cette</marker> année fatidique.</example>
+			</rule>
+			<rule default="temp_off">
+				<antipattern>
+					<token><exception postag="SENT_START"/></token>
+					<token regexp="yes" case_sensitive="yes">Ces|Ses</token>
+					<token regexp="yes" case_sensitive="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon</token>
+			    </antipattern>
+			    <antipattern>
+					<token regexp="yes" case_sensitive="yes">CES|SES</token>
+					<token regexp="yes" case_sensitive="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon</token>
+			    </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ces|ses</token>
+                    <token regexp="yes" case_sensitive="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon</token>
+                    </marker>
+                </pattern>
+                <message>Ces deux déterminants ne peuvent pas se suivre.</message>
+                <suggestion>ce sont \2</suggestion>
+                <suggestion>c'est \2</suggestion>
+                <suggestion>\1</suggestion>
+                <suggestion>\2</suggestion>
+                <example correction="Ce sont des|C'est des|Ces|Des"><marker>Ces des</marker> vacances de rêve.</example>
+			</rule>
+			<rule default="temp_off">
+				<antipattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token regexp="yes" case_sensitive="yes">(?-i)ces|(?-i)cette</token>
+                    <token regexp="yes">[mts]a|[mts]on</token>
+				</antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ces|cette<exception scope="previous" regexp="yes">pas|plus|jamais</exception>
+                        <exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                    </marker>
+                        <token regexp="yes" case_sensitive="yes">[mts]a|[mts]on</token>
+                </pattern>
+                <message>Ces deux déterminants ne peuvent pas se suivre.</message>
+                <suggestion>c'est</suggestion>
+                <example correction="C'est"><marker>Cette</marker> ma carte.</example>
+			</rule>
         </rulegroup>
         <rule id="QUELQUE" name="quelque invariable devant nombre">
             <pattern>
