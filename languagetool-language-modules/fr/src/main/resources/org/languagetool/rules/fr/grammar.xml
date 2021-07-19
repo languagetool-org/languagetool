@@ -17771,16 +17771,34 @@ though, and has since been slightly modified)-->
                 <token>y</token>
                 <token>aller</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">[a-z].*</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">faut</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token>faut</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes">faut
-                    <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/>
+                    <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*|UNKNOWN" postag_regexp="yes"/>
                     <exception scope="next">il</exception></token>
             </pattern>
             <message>Cette expression peut sembler familière.</message>
             <suggestion>il faut</suggestion>
             <example correction="il faut">Après tout, <marker>faut</marker> avoir de solides bases dans ce domaine pour réussir.</example>
             <example>Loin s'en faut.</example>
+            <example>Code promo viking war of clans invalideil faut sur tous les activer.</example>
+            <example>Tenez-vous en faut à l'alcool ou à un jus de fruits.</example>
             <example>Que faut t-il faire ?</example>
+            <example>Le y'a-qu'a-faut-qu'on est décevant au travail, parce qu'il parle sans effet.</example>
+            <example>La défense de la police qu'il « faut réarmer moralement et matériellement ».</example>
         </rule>
         <rule default="temp_off">
             <antipattern>
@@ -17837,6 +17855,11 @@ though, and has since been slightly modified)-->
                 <token postag="A" min="0" max="3"/>
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                <token postag="M fin inte"/>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -17850,6 +17873,7 @@ though, and has since been slightly modified)-->
             <example correction="Il"><marker>Y</marker> faut pas avoir de peur de faire des erreurs.</example>
             <example>Y est aussi représenté de grands hommes.</example>
             <example>Y est de codimension finie dans X.</example>
+            <example>Y est-il allé ?</example>
         </rule>
         <rule default="temp_off">
             <antipattern>
@@ -17893,6 +17917,21 @@ though, and has since been slightly modified)-->
             <suggestion>Il en</suggestion>
             <example correction="Il en"><marker>Y'en</marker> faut un peu plus.</example>
             <example>Y la Rama llena de Frutos (1986).</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>il</token>
+                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token>faut</token>
+                <token>avouer</token>
+            </antipattern>
+            <pattern>
+                <token>faut</token>
+                <token>avouer</token>
+            </pattern>
+            <message>Cette expression peut sembler familière dans un contexte formel.</message>
+            <suggestion>il est vrai</suggestion>
+            <example correction="Il est vrai"><marker>Faut avouer</marker> qu'il n'est toujours pas là.</example>
         </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_FAUT_FAUX"  name="confusion faut faux" default="temp_off">
@@ -17977,7 +18016,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token postag="D.*|R m s" postag_regexp="yes">
-                        <exception regexp="yes">chacun|[nv]os|rien|nul|pareils|certaines|[mts]a</exception>
+                        <exception regexp="yes">chacune?s?|[nv]os|rien|nul(le)?s?|pareils?|certaines?|[mts]a</exception>
                         <exception postag="K"/></token>
                     <marker>
                         <token case_sensitive="yes">faut
@@ -18713,9 +18752,9 @@ though, and has since been slightly modified)-->
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                <token postag="V.*" postag_regexp="yes">
                     <exception postag="[ZNRJ].*|V ppr" postag_regexp="yes"/>
-                    <exception regexp="yes">puis|née?s?</exception>
+                    <exception regexp="yes">puis|née?s?|(?-i)[A-Z]</exception>
                     <exception scope="previous" regexp="yes" inflected="yes">qu[ei]</exception></token>
                 <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
                 <token postag="D.*" postag_regexp="yes" min="0" max="2" regexp="yes">(?-i)[a-z].*<exception regexp="yes">quel(le)?s?</exception></token>
@@ -18732,6 +18771,7 @@ though, and has since been slightly modified)-->
             <example correction="à">Je tente de régler la contribution <marker>a</marker> la formation.</example>
             <example correction="à">Je souhaiterais que l'article soit restauré dans sa version correspondante <marker>a</marker> la pose du bandeau.</example>
             <example correction="à">Les impôts effectuent une retenue stricte et coûteuse <marker>a</marker> la source sur le salaire.</example>
+            <example correction="à">La tonne élèverait le prix <marker>a</marker> la pompe de 30%.</example>
             <example>Le bâtiment hébergeant l'établissement scolaire a un intérêt historique ou architectural.</example>
             <example>Tout club qui remporte trois tournois consécutifs a le droit de conserver le trophée.</example>
             <example>Le fait de marquer l'évidentialité a des implications pragmatiques.</example>
@@ -31582,6 +31622,15 @@ though, and has since been slightly modified)-->
                     <token skip="-1">qui</token>
                     <token postag="V .*ind .*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="[ZR].*" postag_regexp="yes"/>
+                    <and>
+                        <token postag="V.*ind (futu|impa|psim).*" postag_regexp="yes"/>
+                        <token inflected="yes" regexp="yes">douter</token>
+                    </and>
+                    <token skip="-1" inflected="yes">que</token>
+                        <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="[ZR].*" postag_regexp="yes"/>
                     <and>
@@ -31591,6 +31640,7 @@ though, and has since been slightly modified)-->
                     <token skip="-1" inflected="yes">que</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
+                            <exception scope="previous" postag="UNKNOWN"/>
                             <exception postag="V .*sub .*|V.* inf" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -31598,9 +31648,11 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="4" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
                 <example correction="sois">Je veux que tu <marker>es</marker> prudent.</example>
                 <example>Je veux que tu <marker>sois</marker> prudent.</example>
+                <example>On craignit qu'il ne mourust avant qu'elle fust passée.</example>
                 <example correction="fusses">Je souhaitais que tu <marker>étais</marker> présent.</example>
                 <example>Je souhaitais que tu <marker>fusses</marker> présent.</example>
                 <example correction="soit">Il faut que la France <marker>est</marker> prête.</example>
+                <example>Tu te doutais qu'il ne viendrait pas cette nuit, non ?</example>
                 <example correction="apprenne">Je souhaite qu'avant de venir les enfants de ma tante <marker>apprend</marker> le français.</example>
                 <example>Ce coup-ci, on ne se presse pas, on attend que la fumée se dissipe.</example>
                 <example>Il faut que les enfants de sa tante qui est grande et jolie avec de nombreux atouts est des enfants.</example>
@@ -31818,6 +31870,13 @@ though, and has since been slightly modified)-->
                 <token skip="-1">soit</token>
                 <token>soit</token>
             </antipattern>
+            <antipattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token postag="D . p" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N . p" postag_regexp="yes"/>
+                <token postag="J . p" postag_regexp="yes" min="0" max="1"/>
+                <token>soit</token>
+            </antipattern>
             <pattern>
                 <token skip="-1" inflected="yes">que</token>
                 <token postag="D . p" postag_regexp="yes" min="1" max="2"/>
@@ -31836,6 +31895,7 @@ though, and has since been slightly modified)-->
             <example>Il ne faut pas que Philomax prennent mal le fait qu'un de ces articles soit mis sur cette liste.</example>
             <example>Nous ordonnons qu'on ne peigne plus soit sur tableaux soit autrement les peintures.</example>
             <example>Il faut qu'au moins l'un des adversaires soit impliqué dans deux théâtres différents.</example>
+            <example>Il faut que chacun de ses hôtels soit créé avec une approche sur-mesure.</example>
             <example>Il suffit que n'importe lequel parmi les trois anneaux soit rompu pour que tous les anneaux soient indépendants.</example>
             <example>Il faut que non seulement la proportion entre les composantes soit correcte, mais encore que la luminosité soit suffisante.</example>
         </rule>
