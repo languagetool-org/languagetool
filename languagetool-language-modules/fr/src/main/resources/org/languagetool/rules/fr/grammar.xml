@@ -51340,6 +51340,132 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="NE_VERBE_RIEN" name="ne verbe rien" default="temp_off">
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+                <token>de</token>
+                <token>rien</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien</token>
+            </antipattern>
+            <antipattern>
+                <token>n</token>
+                <token min="0" max="5">'</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+            </antipattern>
+            <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                        <exception scope="previous" postag="V.*|R pers obj.*" postag_regexp="yes"/>
+                        <exception scope="previous" regexp="yes">n|qui</exception>
+                        <exception regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*</exception>
+                    </token>
+                </marker>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="previous">puis</exception>
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>ne \1</suggestion>
+            <example correction="ne met">Cela <marker>met</marker> rien.</example>
+            <example>Il te suit rien que pour t'embêter.</example>
+            <example>Mais le matin, punaise rien de rien.</example>
+            <example>S'il revient rien ne l'empêche de redemander les droits.</example>
+            <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
+            <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
+            <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*
+                        <exception scope="previous" postag="V.*|R pers obj.*" postag_regexp="yes"/>
+                        <exception scope="previous" regexp="yes">n|qui</exception>
+                    </token>
+                </marker>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="previous">puis</exception>
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>n'\1</suggestion>
+            <example correction="n'arrive">Il <marker>arrive</marker> rien.</example>
+            <example>Il te suit rien que pour t'embêter.</example>
+            <example>Mais le matin, punaise rien de rien.</example>
+            <example>S'il revient rien ne l'empêche de redemander les droits.</example>
+            <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
+            <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
+            <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token  postag="R pers obj.*" postag_regexp="yes">
+                    <exception regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*</exception>
+                    <exception scope="previous" regexp="yes">n|qui</exception></token>
+                </marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                    <exception scope="previous" postag="V.*" postag_regexp="yes"/>
+                    <exception>puis</exception>
+                </token>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>ne \1</suggestion>
+            <example correction="ne lui">Il <marker>lui</marker> dit rien.</example>
+            <example>Il te suit rien que pour t'embêter.</example>
+            <example>Mais le matin, punaise rien de rien.</example>
+            <example>S'il revient rien ne l'empêche de redemander les droits.</example>
+            <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
+            <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
+            <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token  postag="R pers obj.*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|y
+                        <exception scope="previous" regexp="yes">n|qui</exception>
+                    </token>
+                </marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                    <exception scope="previous" postag="V.*" postag_regexp="yes"/>
+                    <exception>puis</exception>
+                </token>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>n'\1</suggestion>
+            <example correction="n'en">Il <marker>en</marker> sait rien.</example>
+            <example>Il te suit rien que pour t'embêter.</example>
+            <example>Mais le matin, punaise rien de rien.</example>
+            <example>S'il revient rien ne l'empêche de redemander les droits.</example>
+            <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
+            <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
+            <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="CONFUSION_A_DE" name="confusion a de" default="temp_off">
             <rule>
                 <!-- mon/ma/mes -->
