@@ -4220,6 +4220,43 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rulegroup id="SAIT_CES_C_EST_S_EST" name="sait ces c'est s'est" default="temp_off">
+            <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[sc]es</token>
+                <token>tu</token>
+                </marker>
+            </pattern>
+            <message>Le verbe savoir est attendu avant ce pronom.</message>
+            <suggestion>sais-\2</suggestion>
+            <example correction="Sais-tu"><marker>Ces tu</marker> comment il s'appelle ?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[sc]es</token>
+                    <token regexp="yes">il|on|elle</token>
+                </marker>
+            </pattern>
+            <message>Le verbe savoir est attendu avant ce pronom.</message>
+            <suggestion>sait-\2</suggestion>
+            <example correction="Sait-elle"><marker>Ces elle</marker> comment il s'appelle ?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[cs]'</token>
+                    <token>est</token>
+                    <token regexp="yes">il|on|elle</token>
+                </marker>
+                <token postag="A inte"/>
+            </pattern>
+            <message>Le verbe savoir est attendu avant ce pronom.</message>
+            <suggestion>sait-\3</suggestion>
+            <example correction="Sait-elle"><marker>C'est elle</marker> comment il s'appelle ?</example>
+        </rule>
+		</rulegroup>
         <rule id="ANOMAL_ANORMAL" name="anomal ou anormal" default="temp_off">
             <antipattern>
               <token regexp="yes">magnétiques?|Zeeman|monismes?|diffusions?|dispersions?|diffractions?|commutations?|produits?|biens?|biréfringences?</token>
