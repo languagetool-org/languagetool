@@ -496,6 +496,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("aufkeinenfal", "auf keinen Fall", rule, lt);
     assertFirstSuggestion("unverantwortunglosen", "verantwortungslosen", rule, lt);
     assertFirstSuggestion("unverantwortungslose", "verantwortungslose", rule, lt);
+    assertFirstSuggestion("neuliche", "neuerliche", rule, lt);
+    assertFirstSuggestion("kompensioniert", "kompensiert", rule, lt);
+    assertFirstSuggestion("desinfektionierender", "desinfizierender", rule, lt);
+    assertFirstSuggestion("Desinfektioniert", "Desinfiziert", rule, lt);
+    assertFirstSuggestion("desinfektionierst", "desinfizierst", rule, lt);
     
   }
 

@@ -979,6 +979,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("desinfektiert(e[mnrs]?)?", "fekt", "fiz");
     putRepl("desinfektierend(e[mnrs]?)?", "fekt", "fiz");
     putRepl("desinfektieren?", "fekt", "fiz");
+    putRepl("[dD]esinfektionier(en?|t(e[mnrs]?)?|st)", "fektionier", "fizier");
+    putRepl("[dD]esinfektionierend(e[mnrs]?)?", "fektionier", "fizier");
+    putRepl("[kK]ompensionier(en?|t(e[mnrs]?)?|st)", "ion", "");
+    putRepl("neuliche[mnrs]?", "neu", "neuer");
     putRepl("ausbüchsen?", "chs", "x");
     putRepl("aus(ge)?büchst(en?)?", "chs", "x");
     putRepl("innoff?iziell?(e[mnrs]?)?", "innoff?iziell?", "inoffiziell");
