@@ -7120,6 +7120,31 @@ though, and has since been slightly modified)-->
                 <example>En choisissant a négatif, il est évident que la transformée de Weierstrass d'une gaussienne est une autre gaussienne.</example>
                 <example>En définissant a tel que :</example>
             </rule>
+            <rule default="temp_off">
+				<antipattern>
+		            <token>y</token>
+		            <token>'</token>
+		            <token>a</token>
+		            <token>rien</token>
+				</antipattern>
+				<antipattern>
+		            <token>a</token>
+		            <token>rien</token>
+		            <token>a</token>
+		            <token regexp="yes">foutre|faire</token>
+				</antipattern>
+                <pattern>
+                    <token postag="[DNJ].*|UNKNOWN" postag_regexp="yes" min="1" max="5"><exception>n</exception></token>
+                        <marker>
+                            <token case_sensitive="yes">a</token>
+                        </marker>
+                    <token>rien<exception scope="next" postag="V.* ppa.*|P.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est attendue avant le pronom '\3'.</message>
+                <example correction="à">Je n'ai le gout <marker>a</marker> rien.</example>
+                <example>La page a rien à voir avec le Qur'ān.</example>
+                <example>Dont 95% des français a rien a foutre...</example>
+            </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
             <pattern>
