@@ -45754,7 +45754,7 @@ Andere Projekte</example>
                     <marker><token>dem</token></marker>
                     <token>Leim</token>
                 </pattern>
-                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Leim gehen' (auf etwas /jmd. hereinfallen)?</message>
+                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Leim gehen' (auf etwas/jmd. hereinfallen)?</message>
                 <example correction="den">Geh diesen Quacksalbern doch nicht immer auf <marker>dem</marker> Leim!</example>
             </rule>
         </rulegroup>
@@ -45782,6 +45782,44 @@ Andere Projekte</example>
                 <message>Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Punkt bringen' (prägnant formulieren)?</message>
                 <example correction="den">Bringen wir die Sache endlich mal auf <marker>dem</marker> Punkt!</example>
                 <example correction="den">Bringen wir die Sache doch endlich auf <marker>dem</marker> Punkt!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="UNTER_DEM_TEPPICH_KEHREN" name="unter dem (den) Teppich kehren" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>unter</token>
+                    <marker><token>dem</token></marker>
+                    <token>Teppich</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">kehren</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung 'unter <suggestion>den</suggestion> Teppich kehren' (vertuschen)?</message>
+                <example correction="den">Das wurde lange unter <marker>dem</marker> Teppich gekehrt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">kehren</token>
+                    <token min="1" max="6" />
+                    <token min="0">nicht</token>
+                    <token>unter</token>
+                    <marker><token>dem</token></marker>
+                    <token>Teppich</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung 'unter <suggestion>den</suggestion> Teppich kehren' (vertuschen)?</message>
+                <example correction="den">Kehren wir die Sache nicht länger unter <marker>dem</marker> Teppich!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_DEM_KOPF_STELLEN" name="auf dem (den) Kopf stellen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token>dem</token></marker>
+                    <token>Kopf</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">stellen</token>
+                </pattern>
+                <message>Grammatik: Meinten Sie die Redewendung 'auf <suggestion>den</suggestion> Kopf stellen' ('durchsuchen', 'verdrehen')?</message>
+                <example correction="den">Wir haben die ganze Wohnung auf <marker>dem</marker> Kopf gestellt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_ANGRIFF" name="in den Angriff (in Angriff) nehmen">
