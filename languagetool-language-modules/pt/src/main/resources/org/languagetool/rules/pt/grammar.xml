@@ -13116,6 +13116,45 @@ O pai de Pedro queria que ele estudasse teologia e que se tornasse um membro do 
       <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
     </rule>
 
+    <!-- 	É + QUE + A(S)/O(S) + NC + É/SÃO é a(s)/o(s) NOME ser(em) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-20 (25-JUN-2021+)      -->	
+    <rulegroup id='É_QUE_AS-OS_NC_É-SÃO' name="É que a(s)/o(s) Nome_Comum é/são → É a(s)/o(s) Nome_Comum ser(em)" type="style" default="temp_off">
+<!--
+A definição genérica é que o terrorismo é violento. → A definição genérica é o terrorismo ser violento.
+-->			
+		<rule>
+			<pattern>
+				<marker>
+					<token>é</token>
+					<token>que</token>
+					<token postag='DA.+' postag_regexp='yes'/>
+					<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+					<token>é</token>
+				</marker>
+			</pattern>		
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>\1 \3 \4 ser</suggestion>
+			<example correction="é o terrorismo ser">A definição genérica <marker>é que o terrorismo é</marker> violento.</example>  
+		</rule>
+<!--
+A definição genérica é que os terroristas são violentos. → A definição genérica é os terroristas serem violentos.
+-->	
+		<rule>
+			<pattern>
+				<marker>
+					<token>é</token>
+					<token>que</token>
+					<token postag='DA.+' postag_regexp='yes'/>
+					<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+					<token>são</token>
+				</marker>
+			</pattern>		
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>\1 \3 \4 serem</suggestion>
+			<example correction="é os terroristas serem">A definição genérica <marker>é que os terroristas são</marker> violentos.</example>  
+		</rule>
+	</rulegroup>
+
     <!-- 	VERB + QUE + É/SÃO verb + ser(em) -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 + 2021-07-06 (Enhanced) (1-JAN-2021+)      -->
 <!--
@@ -13191,7 +13230,6 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
 			<suggestion>sendo</suggestion>
 			<example correction="sendo">O edifício tem um grau de altura 5, <marker>que é</marker> também o mais alto da lista.</example>  
 		</rule>
-		
 		
 	</rulegroup>
 	
