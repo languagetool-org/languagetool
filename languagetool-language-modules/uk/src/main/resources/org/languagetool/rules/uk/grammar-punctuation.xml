@@ -1967,8 +1967,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>,</token>
         </pattern>
         <message>Сполучний засіб «\2 \3» не буває вставним і комами не відокремлюється (хоча кому можуть диктувати інші конструкції)</message>
-        <suggestion>\2 \3</suggestion>
-        <example correction="все ж">і<marker>, все ж,</marker> не сподобалося</example>
+        <suggestion> \2 \3</suggestion>
+        <example correction=" все ж">і<marker>, все ж,</marker> не сподобалося</example>
       </rule>
 
       <rule>
@@ -1992,8 +1992,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>,</token>
         </pattern>
         <message>Слово «\2» не буває вставним словом і комами не відокремлюється (хоча кому можуть диктувати інші конструкції)</message>
-        <suggestion>\2</suggestion>
-        <example correction="все-таки">і<marker>, все-таки,</marker> не сподобалося</example>
+        <suggestion> \2</suggestion>
+        <example correction=" все-таки">і<marker>, все-таки,</marker> не сподобалося</example>
       </rule>
   
       <rule>
@@ -2016,8 +2016,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>,</token>
         </pattern>
         <message>«\2» не буває вставним словом і комами не відокремлюється (хоча кому можуть диктувати інші конструкції)</message>
-        <suggestion>\2</suggestion>
-        <example correction="натомість">і<marker>, натомість,</marker> пішли у паб</example>
+        <suggestion> \2</suggestion>
+        <example correction=" натомість">і<marker>, натомість,</marker> пішли у паб</example>
       </rule>
 
       <rule>
@@ -2188,8 +2188,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>завгодно</token>
         </pattern>
         <message>У цій сталій сполуці кома перед «скільки» не ставиться: </message>
-        <suggestion>\2 \3</suggestion>
-        <example correction="скільки завгодно">і кричи <marker>, скільки завгодно</marker>.</example>
+        <suggestion> \2 \3</suggestion>
+        <example correction=" скільки завгодно">і кричи <marker>, скільки завгодно</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -2223,7 +2223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="short_vs_long_dash" name="Дефіс замість тире">
+    <rulegroup id="short_vs_long_dash" name="Дефіс замість тире" tags="picky">
       <rule>
         <pattern>
           <token regexp="yes">[а-яіїєґ'-]+</token>
@@ -2277,6 +2277,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>якщо чи то він чи то вона</example>
         <example>якщо вона рухається то вперед, то назад</example>
         <example>якщо ж то був він</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="no_comma_toscho" name="Зайва кома перед «тощо»">
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token>тощо</token>
+        </pattern>
+        <message>Перед словом «тощо», що вказує на неповноту переліку або продовження кому не ставимо.</message>
+        <suggestion> \2</suggestion>
+        <example correction=" тощо">сині, зелені<marker>, тощо</marker>.</example>
       </rule>
     </rulegroup>
 

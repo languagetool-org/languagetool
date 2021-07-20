@@ -53,6 +53,8 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf)", 0);
     assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf oder so)", 0);
     assertMatches("(Die URL lautet: http://www.pariscinema.org/).", 0);
+    assertMatches("Drücken Sie auf den \"Jetzt Starten\"-Knopf.", 0);
+    assertMatches("Welches ist dein Lieblings-\"Star Wars\"-Charakter?", 0);
     // incorrect sentences:
     assertMatches("Die „Sätze zum Testen.", 1);
     assertMatches("Die «Sätze zum Testen.", 1);

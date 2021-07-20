@@ -30,8 +30,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class AgreementRuleTest {
 
@@ -55,10 +56,11 @@ public class AgreementRuleTest {
     assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität", "Die derzeitige Standard-Priorität");
     assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
     assertBad("Danke für deine Account Daten", "deine Accountdaten", "deine Account-Daten");
-    assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
+    assertBad("Mit seinem Konkurrent Alistair Müller", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
+    assertGood("War das Eifersucht?");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
@@ -175,6 +177,8 @@ public class AgreementRuleTest {
     assertGood("Im Jahr 1922 verlieh ihm König George V. den erblichen Titel eines Baronet. ");
     assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
     assertGood("Ein Geschenk, das Maßstäbe setzt");
+    assertGood("Einwohnerzahl stieg um das Zweieinhalbfache");
+    assertGood("Die Müllers aus Hamburg.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -184,6 +188,7 @@ public class AgreementRuleTest {
     assertGood("Kannst du das Mittags machen?");
     assertGood("Können Sie das nächsten Monat erledigen?");
     assertGood("Können Sie das auch nächsten Monat erledigen?");
+    assertGood("War das Absicht?");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");
@@ -355,6 +360,7 @@ public class AgreementRuleTest {
     assertGood("Die Feuergefahr hingegen war für für die Londoner Teil des Alltags.");
     assertGood("Was ist, wenn ein Projekt bei den Berliner Type Awards mit einem Diplom ausgezeichnet wird?");
     assertGood("Was ist mit dem Liechtensteiner Kulturleben los?");
+    assertGood("Das ist der Mann den Präsident Xi Jinping verurteilte.");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
@@ -402,8 +408,8 @@ public class AgreementRuleTest {
     assertBad("Er erzählte von den Leute und den Dingen, die er gesehen hatte.");
     assertBad("Diese Partnerschaft wurde 1989 nach den Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
 
-    assertBad("Das Dach von meine Auto.", "mein Auto", "meine Autos", "meinem Auto");
-    assertBad("Das Dach von meinen Auto.", "mein Auto", "meinem Auto", "meinen Autos");
+    assertBad("Das Dach von meine Auto.", "meine Autos", "meinem Auto");
+    assertBad("Das Dach von meinen Auto.", "meinem Auto", "meinen Autos");
 
     assertBad("Das Dach mein Autos.", "mein Auto", "meine Autos", "meinen Autos", "meiner Autos", "meines Autos");
     assertBad("Das Dach meinem Autos.", "meine Autos", "meinem Auto", "meinen Autos", "meiner Autos", "meines Autos");
@@ -460,6 +466,7 @@ public class AgreementRuleTest {
     assertGood("Ein ID 3 von Volkswagen.");
     assertGood("Der ID.3 von Volkswagen.");
     assertGood("Der ID3 von Volkswagen.");
+    assertGood("Das bedeutet Krieg!");
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
@@ -467,6 +474,14 @@ public class AgreementRuleTest {
     assertBad("Das ist doch lächerlich, was ist denn das für ein Klinik?");
     assertGood("Das ist doch lächerlich, was ist denn das für eine Klinik?");
     assertGood("Was ist denn das für ein Typ?");
+    assertGood("Hier geht's zur Customer Journey.");
+    assertGood("Das führt zur Verbesserung der gesamten Customer Journey.");
+    assertGood("Meint er das wirklich Ernst?");
+    assertGood("Meinen Sie das Ernst?");
+    assertGood("Die können sich in unserer Hall of Fame verewigen.");
+    assertGood("Die können sich in unserer neuen Hall of Fame verewigen.");
+    assertGood("Auch, wenn das weite Teile der Bevölkerung betrifft.");
+    assertGood("Hat das Einfluss auf Ihr Trinkverhalten?");
 
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
@@ -478,6 +493,19 @@ public class AgreementRuleTest {
     assertGood("Sie werden merken, dass das echte Nutzer sind.");
     assertGood("Dieses neue Mac OS trug den Codenamen Rhapsody.");
     assertGood("Das Mac OS is besser als Windows.");
+    assertGood("Damit steht das Porsche Museum wie kaum ein anderes Museum für Lebendigkeit und Abwechslung.");
+    assertGood("Weitere Krankenhäuser sind dass Eastern Shore Memorial Hospital, IWK Health Centre, Nova Scotia Hospital und das Queen Elizabeth II Health Sciences Centre.");
+    assertGood("Ich bin von Natur aus ein sehr neugieriger Mensch.");
+    assertGood("Ich bin auf der Suche nach einer Junior Developerin.");
+    assertGood("War das Eifersucht?");
+    assertGood("Waren das schwierige Entscheidungen?");
+    assertGood("Soll das Demokratie sein?");
+    assertGood("Hat das Spaß gemacht?");
+    assertBad("Funktioniert das Software auch mit Windows?");
+    assertGood("Soll das Sinn stiften?");
+    assertGood("Soll das Freude machen?");
+    assertGood("Die Trial ist ausgelaufen.");
+    assertGood("Ein geworbener Neukunde interagiert zusätzlich mit dem Unternehmen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
@@ -563,6 +591,7 @@ public class AgreementRuleTest {
     assertGood("Eine Zeitreise durch die 68er Revolte");
     assertGood("Ich besitze ein Modell aus der 300er Reihe.");
     assertGood("Aber ansonsten ist das erste Sahne");
+    assertGood("...damit diese ausreichend Sauerstoff geben.");
 
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");

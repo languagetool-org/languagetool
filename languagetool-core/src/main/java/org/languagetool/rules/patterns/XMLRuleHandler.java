@@ -103,7 +103,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder correctExample = new StringBuilder();
   protected StringBuilder incorrectExample = new StringBuilder();
   protected StringBuilder errorTriggerExample = new StringBuilder();
-  protected StringBuilder exampleCorrection = new StringBuilder();
+  protected StringBuilder exampleCorrection = null;
   protected StringBuilder message = new StringBuilder();
   protected StringBuilder suggestionsOutMsg = new StringBuilder();
   protected StringBuilder match = new StringBuilder();
@@ -448,9 +448,11 @@ public class XMLRuleHandler extends DefaultHandler {
       if (hasPosixCharacterClass(exceptions.toString())) {
         exceptionLevelCaseSensitive = true;
       }
-      patternToken.setStringPosException(internString(exceptions.toString().trim()), exceptionStringRegExp,
-          exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-          exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
+      boolean caseSensitive = exceptionLevelCaseSensitive == null ? patternToken.isCaseSensitive() : exceptionLevelCaseSensitive;
+      PatternToken exception = new PatternToken(exceptionStringInflected, internMatcher(exceptions.toString().trim(), exceptionStringRegExp, caseSensitive));
+      exception.setNegation(exceptionStringNegation);
+      exception.setPosToken(obtainPosToken(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation));
+      patternToken.addException(exceptionValidNext, exceptionValidPrev, exception);
       exceptionPosToken = null;
       exceptionLevelCaseSensitive = null;
     }
@@ -587,8 +589,7 @@ public class XMLRuleHandler extends DefaultHandler {
       maxOccurrence = 1;
     }
     if (posToken != null) {
-      patternToken.setPosToken(internedPos.computeIfAbsent(Triple.of(posToken, posRegExp, posNegation),
-        t -> new PatternToken.PosToken(t.getLeft(), t.getMiddle(), t.getRight())));
+      patternToken.setPosToken(obtainPosToken(posToken, posRegExp, posNegation));
       posToken = null;
     }
     if (chunkTag != null) {
@@ -640,7 +641,14 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     resetToken();
   }
-  
+
+  private PatternToken.PosToken obtainPosToken(String posToken, boolean regExp, boolean negated) {
+    return internedPos.computeIfAbsent(Triple.of(posToken, regExp, negated), t -> {
+      StringMatcher matcher = t.getMiddle() ? internMatcher(t.getLeft(), true, true) : null;
+      return new PatternToken.PosToken(t.getLeft(), t.getRight(), matcher);
+    });
+  }
+
   protected static void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
     if (filterClassName != null && filterArgs != null) {
       if (rule instanceof RegexPatternRule) {

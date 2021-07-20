@@ -44,7 +44,7 @@ public class FrenchRuleDisambiguatorTest {
 
   @Before
   public void setUp() throws IOException {
-    tagger = new FrenchTagger();
+    tagger = FrenchTagger.INSTANCE;
     tokenizer = new FrenchWordTokenizer();
     French language = new French();
     sentenceTokenizer = new SRXSentenceTokenizer(language);
@@ -55,7 +55,7 @@ public class FrenchRuleDisambiguatorTest {
   @Test
   public void testChunker() throws IOException {
     TestTools.myAssert("Il a enfin publié son livre.",
-        "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s  /[null]null son/[son]D e s|son/[son]D m s|son/[son]_GN_MS  /[null]null livre/[livre]N e s|livre/[livre]_GN_MS ./[null]null", 
+        "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s  /[null]null son/[son]D e s  /[null]null livre/[livre]N e s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("Je danse toutes les semaines au club.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danser]V ind pres 1 s|danse/[danser]V sub pres 1 s  /[null]null toutes/[tout]D f p  /[null]null les/[le]D e p|les/[les]_GN_FP  /[null]null semaines/[semaine]N f p|semaines/[semaines]_GN_FP  /[null]null au/[à+le]P+D m s  /[null]null club/[club]N m s ./[null]null",

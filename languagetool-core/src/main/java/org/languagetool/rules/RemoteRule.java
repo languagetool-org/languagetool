@@ -25,7 +25,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
-import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,8 +58,8 @@ public abstract class RemoteRule extends Rule {
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
-  private AnnotatedText annotatedText;
   protected final boolean filterMatches;
+  protected final boolean fixOffsets;
   protected final Language ruleLanguage;
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
@@ -72,6 +71,7 @@ public abstract class RemoteRule extends Rule {
       ruleId = getId();
     }
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
+    fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
     lastFailure.putIfAbsent(ruleId, 0L);
     timeoutIntervalStart.putIfAbsent(ruleId, 0L);
     timeoutTotal.putIfAbsent(ruleId, new AtomicLong());
@@ -91,7 +91,7 @@ public abstract class RemoteRule extends Rule {
     return run(sentences, null);
   }
 
-  protected class RemoteRequest {}
+  protected static class RemoteRequest {}
 
   /**
    * run local preprocessing steps (or just store sentences)
@@ -178,28 +178,39 @@ public abstract class RemoteRule extends Rule {
             RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
 
+          if (fixOffsets) {
+            for (AnalyzedSentence sentence : sentences) {
+              List<RuleMatch> toFix = result.matchesForSentence(sentence);
+              if (toFix != null) {
+                fixMatchOffsets(sentence, toFix);
+              }
+            }
+          }
+
           if (filterMatches) {
             List<RuleMatch> filteredMatches = new ArrayList<>();
             for (AnalyzedSentence sentence : sentences) {
               List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
-              List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
-                ruleLanguage, sentence, sentenceMatches);
-              filteredMatches.addAll(filteredSentenceMatches);
+              if (sentenceMatches != null) {
+                List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
+                  ruleLanguage, sentence, sentenceMatches);
+                filteredMatches.addAll(filteredSentenceMatches);
+              }
             }
             result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
           }
 
           return result;
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        } catch (Exception e) {
           RemoteRuleMetrics.RequestResult status;
-          if (e instanceof TimeoutException || e instanceof InterruptedException ||
+          if (e instanceof TimeoutException || e instanceof InterruptedException || e instanceof CancellationException ||
             (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
             status = RemoteRuleMetrics.RequestResult.TIMEOUT;
             logger.warn("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
             timeoutTotal.get(ruleId).addAndGet(timeout);
           } else {
             status = RemoteRuleMetrics.RequestResult.ERROR;
-            logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
+            logger.error("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           }
 
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
@@ -237,10 +248,10 @@ public abstract class RemoteRule extends Rule {
     FutureTask<RemoteRuleResult> task = run(Collections.singletonList(sentence));
     task.run();
     try {
-      return task.get().getMatches().toArray(new RuleMatch[0]);
+      return task.get().getMatches().toArray(RuleMatch.EMPTY_ARRAY);
     } catch (InterruptedException | ExecutionException e) {
       logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 
@@ -249,4 +260,53 @@ public abstract class RemoteRule extends Rule {
   }
 
 
+  /**
+   *  Helper for {@link #fixMatchOffsets}
+   *  lookup table, find shifted index for i at shifts[i];
+   */
+  static int[] computeOffsetShifts(String s) {
+    int len = s.length() + 1;
+    int[] offsets = new int[len];
+    int shifted = 0, original = 0;
+
+    // go from codepoint to codepoint using shifted
+    // offset saved in original will correspond to Java string index shifted
+    while(shifted < s.length()) {
+      offsets[original] = shifted;
+      shifted = s.offsetByCodePoints(shifted, 1);
+      original++;
+    }
+    // save last shifted value if there is one remaining
+    if (original < len) {
+      offsets[original] = shifted;
+    }
+    // fill the rest of the array for exclusive toPos indices
+    for (int i = original + 1; i < len; i++) {
+      offsets[i] = offsets[i - 1] + 1;
+    }
+    return offsets;
+  }
+
+  /**
+   * Adapt match positions so that results from languages that thread emojis, etc. as length 1
+   * work for Java and match the normal offsets we use
+   * JavaScript also behaves like Java, so most clients will expect this behavior;
+   * but servers used for RemoteRules will often be written in Python (e.g. to access ML frameworks)
+   *
+   * based on offsetByCodePoints since codePointCount can be confusing,
+   * e.g. "👪".codePointCount(0,2) == 1, but length is 2
+   *
+   * Java substring methods use this length (which can be >1 for a single character)
+   * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
+   * so "😁foo".length() == 5, but len("😁foo") == 4;
+   * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'
+   */
+  public static void fixMatchOffsets(AnalyzedSentence sentence, List<RuleMatch> matches) {
+    int[] shifts = computeOffsetShifts(sentence.getText());
+    matches.forEach(m -> {
+      int from = shifts[m.getFromPos()];
+      int to = shifts[m.getToPos()];
+      m.setOffsetPosition(from, to);
+    });
+  }
 }

@@ -18,7 +18,9 @@
  */
 package org.languagetool.language;
 
-import com.google.common.cache.*;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -36,12 +38,18 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.en.EnglishHybridDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -66,7 +74,6 @@ public class English extends Language implements AutoCloseable {
           return rules;
         }
       });
-  private static volatile WeakReference<EnglishTagger> cachedTagger;
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
 
   private LanguageModel languageModel;
@@ -107,13 +114,7 @@ public class English extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    WeakReference<EnglishTagger> ref = cachedTagger;
-    EnglishTagger tagger = ref == null ? null : ref.get();
-    if (tagger == null) {
-      tagger = new EnglishTagger();
-      cachedTagger = new WeakReference<>(tagger);
-    }
-    return tagger;
+    return EnglishTagger.INSTANCE;
   }
 
   @Nullable
@@ -182,14 +183,14 @@ public class English extends Language implements AutoCloseable {
         new WhiteSpaceBeforeParagraphEnd(messages, this),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages, this),
-        new LongSentenceRule(messages, userConfig, 40, true, true),
+        new LongSentenceRule(messages, userConfig, 40),
         new LongParagraphRule(messages, this, userConfig),
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
         new PunctuationMarkAtParagraphEnd2(messages, this),
         // specific to English:
         new ConsistentApostrophesRule(messages),
-        new SpecificCaseRule(messages),
+        new EnglishSpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
@@ -317,6 +318,7 @@ public class English extends Language implements AutoCloseable {
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "LIFE_COMPOUNDS":            return 1;
+      case "DRIVE_THROUGH_HYPHEN":      return 1;   // higher prio than agreement rules
       case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
       case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
       case "HER_S":                     return 1;   // higher prio than THEIR_S
@@ -328,9 +330,6 @@ public class English extends Language implements AutoCloseable {
       case "MAY_MANY":                  return 1;   // higher prio than MAY_MANY_MY
       case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
       case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
-      case "UPPERCASE_SENTENCE_START":  return 1;   // higher prio than AI_HYDRA_LEO
-      case "TO_TOO":                    return 1;   // higher prio than AI_HYDRA_LEO_REPLACE_*
-      case "CAR_CARE":                  return 1;   // higher prio than AI_HYDRA_LEO_MISSING_THE
       case "LUV":                       return 1;   // higher prio than spell checker
       case "DAT":                       return 1;   // higher prio than spell checker
       case "MAC_OS":                    return 1;   // higher prio than spell checker
@@ -407,6 +406,10 @@ public class English extends Language implements AutoCloseable {
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
+      case "WANNA":                     return 1;   // prefer over spell checker
+      case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
+      case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
+      case "ANYWAYS":                   return -1;   // higher prio than spell checker
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
       case "NEEDS_FIXED":               return -1;  // less priority than MISSING_TO_BEFORE_A_VERB
@@ -483,6 +486,7 @@ public class English extends Language implements AutoCloseable {
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
+      case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
@@ -497,6 +501,12 @@ public class English extends Language implements AutoCloseable {
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
+    }
+    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      return -11;
+    }
+    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules (also speller)
+      return -21;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;

@@ -145,6 +145,7 @@ public class SuggestionReplacerTest {
     lt.disableRule("TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN");
     lt.disableRule("OLD_SPELLING");
     lt.disableRule("DE_TOO_LONG_SENTENCE_40");
+    lt.disableRule("TOO_LONG_SENTENCE_DE");
     lt.disableRule("PUNCTUATION_PARAGRAPH_END");
     PlainTextMapping mapping = filter.filter(origMarkup);
     List<RuleMatch> matches = lt.check(mapping.getPlainText());
@@ -174,7 +175,7 @@ public class SuggestionReplacerTest {
     PlainTextMapping mapping = filter.filter(origMarkup);
     lt.disableRule("PUNCTUATION_PARAGRAPH_END");  //  added to prevent crash; TODO: check if needed
     List<RuleMatch> matches = lt.check(mapping.getPlainText());
-    assertTrue("Expected >= 30 matches, got: " + matches, matches.size() >= 30);
+    assertTrue("Expected >= 29 matches, got: " + matches, matches.size() >= 29);
     for (RuleMatch match : matches) {
       SuggestionReplacer replacer = new SuggestionReplacer(mapping, origMarkup, new ErrorMarker("<s>", "</s>"));
       List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);

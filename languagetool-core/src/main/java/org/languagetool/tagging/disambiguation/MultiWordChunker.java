@@ -19,6 +19,7 @@
 
 package org.languagetool.tagging.disambiguation;
 
+import gnu.trove.THashMap;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -30,7 +31,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Multiword tagger-chunker.
@@ -43,9 +48,12 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private final boolean allowFirstCapitalized;
   private final boolean allowAllUppercase;
 
+  private volatile boolean initialized;
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, AnalyzedToken> mFull;
+  
+  private final static int MAX_TOKENS_IN_MULTIWORD = 20;
 
   /**
    * @param filename file text with multiwords and tags
@@ -71,15 +79,32 @@ public class MultiWordChunker extends AbstractDisambiguator {
    * Lazy init, thanks to Artur Trzewik
    */
   private void lazyInit() {
-
-    if (mStartSpace != null) {
+    if (initialized) {
       return;
     }
 
-    Map<String, Integer> mStartSpace = new HashMap<>();
-    Map<String, Integer> mStartNoSpace = new HashMap<>();
-    Map<String, AnalyzedToken> mFull = new HashMap<>();
+    synchronized (this) {
+      if (initialized) return;
 
+      THashMap<String, Integer> mStartSpace = new THashMap<>();
+      THashMap<String, Integer> mStartNoSpace = new THashMap<>();
+      THashMap<String, AnalyzedToken> mFull = new THashMap<>();
+
+      fillMaps(mStartSpace, mStartNoSpace, mFull);
+
+      mStartSpace.trimToSize();
+      mStartNoSpace.trimToSize();
+      mFull.trimToSize();
+
+      this.mStartSpace = mStartSpace;
+      this.mStartNoSpace = mStartNoSpace;
+      this.mFull = mFull;
+      initialized = true;
+    }
+  }
+
+  private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String, AnalyzedToken> mFull) {
+    Map<String, String> interner = new HashMap<>();
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
@@ -88,9 +113,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
           throw new RuntimeException(
               "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
         }
-        List<String> tokens = new ArrayList<String>();
-        String originalToken = tokenAndTag[0];
-        String tag = tokenAndTag[1];
+        List<String> tokens = new ArrayList<>();
+        String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
+        String tag = interner.computeIfAbsent(tokenAndTag[1], Function.identity());
         tokens.add(originalToken);
         if (allowFirstCapitalized) {
           String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
@@ -139,10 +164,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-
-    this.mStartSpace = mStartSpace;
-    this.mStartNoSpace = mStartNoSpace;
-    this.mFull = mFull;
   }
 
   /**
@@ -176,7 +197,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
         int len = mStartSpace.get(tok);
         int j = i;
         int lenCounter = 0;
-        while (j < anTokens.length) {
+        while (j < anTokens.length  && j - i < MAX_TOKENS_IN_MULTIWORD) {
           if (!anTokens[j].isWhitespace()) {
             tokens.append(anTokens[j].getToken());
             String toks = tokens.toString();
@@ -199,7 +220,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
       }
       if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
         int j = i;
-        while (j < anTokens.length && !anTokens[j].isWhitespace()) {
+        while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
           tokens.append(anTokens[j].getToken());
           String toks = tokens.toString();
           if (mFull.containsKey(toks)) {

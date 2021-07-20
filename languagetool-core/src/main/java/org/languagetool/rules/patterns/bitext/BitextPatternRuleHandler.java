@@ -145,9 +145,12 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     if (inCorrectExample) {
       example = new IncorrectExample(correctExample.toString());
     } else if (inIncorrectExample) {
-      String[] corrections = exampleCorrection.toString().split("\\|");
-      if (corrections.length > 0 && corrections[0].length() > 0) {
-        example = new IncorrectExample(incorrectExample.toString(), Arrays.asList(corrections));
+      if (exampleCorrection != null) {
+        List<String> corrections = new ArrayList<>(Arrays.asList(exampleCorrection.toString().split("\\|")));
+        if (exampleCorrection.toString().endsWith("|")) {  // suggestions plus an empty suggestion (split() will ignore trailing empty items)
+          corrections.add("");
+        }
+        example = new IncorrectExample(incorrectExample.toString(), corrections);
       } else {
         example = new IncorrectExample(incorrectExample.toString());
       }
@@ -156,7 +159,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     }
     correctExample = new StringBuilder();
     incorrectExample = new StringBuilder();
-    exampleCorrection = new StringBuilder();
+    exampleCorrection = null;
     return example;
   }
 

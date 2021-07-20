@@ -25,6 +25,7 @@ import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +35,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -102,8 +103,7 @@ public class BaseSynthesizer implements Synthesizer {
       synchronized (this) {
         dict = this.dictionary;
         if (dict == null) {
-          URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
-          this.dictionary = dict = Dictionary.read(url);
+          dictionary = dict = MorfologikSpeller.getDictionaryWithCaching(resourceFileName);
         }
       }
     }
@@ -188,7 +188,6 @@ public class BaseSynthesizer implements Synthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
-      initPossibleTags();
       Pattern p;
       try {
         p = Pattern.compile(posTag);
@@ -196,16 +195,25 @@ public class BaseSynthesizer implements Synthesizer {
         throw new RuntimeException("Error trying to synthesize POS tag " + posTag +
                 " (posTagRegExp: " + posTagRegExp + ") from token " + token.getToken(), e);
       }
-      List<String> results = new ArrayList<>();
-      for (String tag : possibleTags) {
-        Matcher m = p.matcher(tag);
-        if (m.matches()) {
-          results.addAll(lookup(token.getLemma(), tag));
-        }
-      }
-      return removeExceptions(results.toArray(new String[0]));
+
+      return synthesizeForPosTags(token.getLemma(), tag -> p.matcher(tag).matches());
     }
     return removeExceptions(synthesize(token, posTag));
+  }
+
+  /**
+   * Synthesize forms for the given lemma and for all POS tags satisfying the given predicate.
+   * @since 5.3
+   */
+  public String[] synthesizeForPosTags(String lemma, Predicate<String> acceptTag) throws IOException {
+    initPossibleTags();
+    List<String> results = new ArrayList<>();
+    for (String tag : possibleTags) {
+      if (acceptTag.test(tag)) {
+        results.addAll(lookup(lemma, tag));
+      }
+    }
+    return removeExceptions(results.toArray(new String[0]));
   }
 
   @Override

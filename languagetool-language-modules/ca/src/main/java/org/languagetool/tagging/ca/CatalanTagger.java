@@ -23,6 +23,8 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.chunking.ChunkTag;
+import org.languagetool.language.Catalan;
+import org.languagetool.language.ValencianCatalan;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -37,6 +39,9 @@ import java.util.regex.Pattern;
  */
 public class CatalanTagger extends BaseTagger {
 
+  public static final CatalanTagger INSTANCE_VAL = new CatalanTagger(new ValencianCatalan());
+  public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(new Catalan());
+  
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
   //private static final Pattern NOUN = Pattern.compile("NC.+");

@@ -40,7 +40,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro) (..+)$",
+      "^(anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*)$",
@@ -72,7 +72,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    tagger = new CatalanTagger(language);
+    if (language.getVariant() != null) {
+      tagger = CatalanTagger.INSTANCE_VAL;
+    } else {
+      tagger = CatalanTagger.INSTANCE_CAT;
+    }
     dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
@@ -101,12 +105,20 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     // move some run-on-words suggestions to the top
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
-    // for (SuggestedReplacement suggestion : suggestions) {
+    String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
 
       // remove wrong split prefixes
       if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
         continue;
+      }
+      
+   // Don't change first suggestions if they match word without diacritics
+      int posNewSugg = 0;
+      while (newSuggestions.size() > posNewSugg
+          && StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())
+              .equalsIgnoreCase(wordWithouDiacriticsString)) {
+        posNewSugg++;
       }
 
       // move some split words to first place
@@ -116,21 +128,24 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
         boolean isBalear = atkn.get(0).hasPosTag("VMIP1S0B") && !atkn.get(0).hasPosTagStartingWith("N");
         if (!isBalear) {
-          newSuggestions.add(0, suggestions.get(i));
+          newSuggestions.add(posNewSugg, suggestions.get(i));
           continue;
         }
       }
       
       String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
-      if (word.equalsIgnoreCase(suggWithoutDiacritics) && suggestions.get(0).getReplacement().contains("'")) {
-        newSuggestions.add(0, suggestions.get(i));
+      if (word.equalsIgnoreCase(suggWithoutDiacritics)) {
+        newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
 
       // move words with apostrophe or hyphen to second position
       String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
-        newSuggestions.add(1, suggestions.get(i));
+        if (posNewSugg == 0) {
+          posNewSugg = 1;
+        }
+        newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
 

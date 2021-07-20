@@ -50,7 +50,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
   private static final String SOR_FILE_NAME = "/en/en.sor";
   
-  private static final List<String> exceptions = Arrays.asList("e'er", "o'er", "ol'", "ma'am", "n't");
+  private static final List<String> exceptions = Arrays.asList("e'er", "o'er", "ol'", "ma'am", "n't", "informations");
 
   // A special tag to add determiners.
   private static final String ADD_DETERMINER = "+DT";
@@ -127,7 +127,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
     List<String> lookup = super.lookup(lemma, posTag);
     for (String result : lookup) {
-      results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result));
+      //results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result)); //why lowercase?
+      results.add(determiner + result);
     }
   }
   

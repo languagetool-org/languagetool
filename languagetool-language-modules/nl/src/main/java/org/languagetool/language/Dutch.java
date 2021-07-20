@@ -118,7 +118,7 @@ public class Dutch extends Language {
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, userConfig, 40, true, true),
+            new LongSentenceRule(messages, userConfig, 40),
             new LongParagraphRule(messages, this, userConfig),
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
@@ -195,7 +195,7 @@ public class Dutch extends Language {
     List<String> ruleFileNames = super.getRuleFileNames();
     String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
     ruleFileNames.add(dirBase + "nl-NL/grammar.xml");
-    //ruleFileNames.add(dirBase + "grammar-test-1.xml");
+    //ruleFileNames.add(dirBase + "grammar-test.xml");
     return ruleFileNames;
   }
 

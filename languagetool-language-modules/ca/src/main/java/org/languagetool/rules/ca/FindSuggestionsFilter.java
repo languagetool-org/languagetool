@@ -19,9 +19,9 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
@@ -30,8 +30,7 @@ import org.languagetool.tagging.ca.CatalanTagger;
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   private static final String DICT_FILENAME = "/ca/ca-ES.dict";
-  private static MorfologikSpeller speller;
-  private static final CatalanTagger tagger = new CatalanTagger(new Catalan());
+  private static MorfologikSpeller speller;  
 
   public FindSuggestionsFilter() throws IOException {
     // lazy init
@@ -44,12 +43,12 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected Tagger getTagger() {
-    return tagger;
+    return CatalanTagger.INSTANCE_CAT;
   }
 
   @Override
-  protected MorfologikSpeller getSpeller() {
-    return speller;
+  protected List<String> getSpellingSuggestions(String w) throws IOException {
+    return speller.findReplacements(w);
   }
 
 }

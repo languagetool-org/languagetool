@@ -33,7 +33,7 @@ public class SpanishTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = new SpanishTagger();
+    tagger = SpanishTagger.INSTANCE;
     tokenizer = new WordTokenizer();
   }
 

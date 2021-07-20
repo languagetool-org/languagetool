@@ -37,6 +37,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
@@ -94,6 +95,9 @@ public class CacheIO implements Serializable {
           MessageHandler.printToLogFile("Not a file URL: " + (url == null ? "null" : url));
         }
         return null;
+      }
+      if (DEBUG_MODE) {
+        MessageHandler.printToLogFile("file URL: " + url);
       }
       URI uri = new URI(url);
       return uri.getPath();
@@ -171,7 +175,7 @@ public class CacheIO implements Serializable {
    * save all caches if the document exceeds the defined minimum of paragraphs
    */
   public void saveCaches(XComponent xComponent, DocumentCache docCache, List<ResultCache> paragraphsCache,
-      Configuration config, MultiDocumentsHandler mDocHandler) {
+      IgnoredMatches ignoredMatches, Configuration config, MultiDocumentsHandler mDocHandler) {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
       try {
@@ -180,8 +184,8 @@ public class CacheIO implements Serializable {
           for (String ruleId : mDocHandler.getDisabledRules()) {
             disabledRuleIds.add(ruleId);
           }
-          allCaches = new AllCaches(docCache, paragraphsCache, 
-              disabledRuleIds, config.getDisabledCategoryNames(), config.getEnabledRuleIds(), JLanguageTool.VERSION);
+          allCaches = new AllCaches(docCache, paragraphsCache, disabledRuleIds, config.getDisabledCategoryNames(), 
+              config.getEnabledRuleIds(), ignoredMatches, JLanguageTool.VERSION);
           saveAllCaches(cachePath);
         } else {
           File file = new File( cachePath );
@@ -282,6 +286,23 @@ public class CacheIO implements Serializable {
   }
   
   /**
+   * get ignored matches
+   */
+  public Map<Integer, Map<String, Set<Integer>>> getIgnoredMatches() {
+    Map<Integer, Map<String, Set<Integer>>> ignoredMatches = new HashMap<>();
+    for (int y : allCaches.ignoredMatches.keySet()) {
+      Map<String, Set<Integer>> newIdMap = new HashMap<>();
+      Map<String, Set<Integer>> idMap = new HashMap<>(allCaches.ignoredMatches.get(y));
+      for (String id : idMap.keySet()) {
+        Set<Integer> xSet = new HashSet<>(idMap.get(id));
+        newIdMap.put(id, xSet);
+      }
+      ignoredMatches.put(y, newIdMap);
+    }
+    return ignoredMatches;
+  }
+  
+  /**
    * set all caches to null
    */
   public void resetAllCache() {
@@ -324,17 +345,18 @@ public class CacheIO implements Serializable {
 
   class AllCaches implements Serializable {
 
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
 
     DocumentCache docCache;                 //  cache of paragraphs
     List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
     List<String> disabledRuleIds;
     List<String> disabledCategories;
     List<String> enabledRuleIds;
+    Map<Integer, Map<String, Set<Integer>>> ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
     String ltVersion;
     
-    AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, 
-        Set<String> disabledRuleIds, Set<String> disabledCategories, Set<String> enabledRuleIds, String ltVersion) {
+    AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, Set<String> disabledRuleIds, Set<String> disabledCategories, 
+        Set<String> enabledRuleIds, IgnoredMatches ignoredMatches, String ltVersion) {
       this.docCache = docCache;
       this.paragraphsCache = paragraphsCache;
       this.disabledRuleIds = new ArrayList<String>();
@@ -350,6 +372,17 @@ public class CacheIO implements Serializable {
         this.enabledRuleIds.add(ruleID);
       }
       this.ltVersion = ltVersion;
+      Map<Integer, Map<String, Set<Integer>>> clone = new HashMap<>();
+      for (int y : ignoredMatches.getFullMap().keySet()) {
+        Map<String, Set<Integer>> newIdMap = new HashMap<>();
+        Map<String, Set<Integer>> idMap = new HashMap<>(ignoredMatches.get(y));
+        for (String id : idMap.keySet()) {
+          Set<Integer> xSet = new HashSet<>(idMap.get(id));
+          newIdMap.put(id, xSet);
+        }
+        clone.put(y, newIdMap);
+      }
+      this.ignoredMatches = clone;
     }
     
   }
@@ -373,21 +406,22 @@ public class CacheIO implements Serializable {
       cacheMapFile = new File(cacheDir, CACHEFILE_MAP);
       if (cacheMapFile != null) {
         if (cacheMapFile.exists() && !cacheMapFile.isDirectory()) {
-          read();
-        } else {
-          cacheMap = new CacheMap();
-          if (DEBUG_MODE) {
-            MessageHandler.printToLogFile("create cacheMap file");
+          if (read()) {
+            return;
           }
-          write(cacheMap);
         }
+        cacheMap = new CacheMap();
+        if (DEBUG_MODE) {
+          MessageHandler.printToLogFile("create cacheMap file");
+        }
+        write(cacheMap);
       }
     }
 
     /**
      * read the cache map from file
      */
-    public void read() {
+    public boolean read() {
       try {
         FileInputStream fileIn = new FileInputStream(cacheMapFile);
         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -397,8 +431,10 @@ public class CacheIO implements Serializable {
         }
         in.close();
         fileIn.close();
+        return true;
       } catch (Throwable t) {
         MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+        return false;
       }
     }
 

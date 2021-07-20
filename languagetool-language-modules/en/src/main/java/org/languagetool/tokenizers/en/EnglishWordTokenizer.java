@@ -18,7 +18,9 @@
  */
 package org.languagetool.tokenizers.en;
 
-import java.io.IOException;
+import org.languagetool.tagging.en.EnglishTagger;
+import org.languagetool.tokenizers.WordTokenizer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,17 +28,12 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.tagging.en.EnglishTagger;
-import org.languagetool.tokenizers.WordTokenizer;
-
 /**
  * @author Marcin Milkowski
  * @since 2.5
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private final EnglishTagger tagger = new EnglishTagger();
-  
   private final List<Pattern> patternList = Arrays.asList(
       Pattern.compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile(
@@ -111,39 +108,44 @@ public class EnglishWordTokenizer extends WordTokenizer {
   /* Splits a word containing hyphen(-’') if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
+    int hyphensAtEnd = 0;
     synchronized (this) { // speller is not thread-safe
       if (!s.isEmpty()) {
-        if (s.startsWith("-")) {
+        while (s.startsWith("-")) {
           l.add("-");
-          l.addAll(wordsToAdd(s.substring(1)));
-          return l;
+          s = s.substring(1);
         }
-        if (s.endsWith("-")) {
-          l.addAll(wordsToAdd(s.substring(0,s.length()-1)));
-          l.add("-");
-          return l;
+        while (s.endsWith("-")) {
+          s = s.substring(0,s.length()-1);
+          hyphensAtEnd++;
         }
-        if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
-          l.add(s);
-        } else {
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
-            l.add(s);
-          }
-          // some camel-case words containing hyphen (is there any better fix?)
-          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
-              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
-              || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaida")) {
+        if (!s.isEmpty()) {
+          if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
             l.add(s);
           } else {
-            // if not found, the word is split
-            //final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
-            final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
-            while (st2.hasMoreElements()) {
-              l.add(st2.nextToken());
+            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
+              l.add(s);
+            }
+            // some camel-case words containing hyphen (is there any better fix?)
+            else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
+                || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
+                || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
+                || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaida")) {
+              l.add(s);
+            } else {
+              // if not found, the word is split
+              // final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
+              final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
+              while (st2.hasMoreElements()) {
+                l.add(st2.nextToken());
+              }
             }
           }
         }
+      }
+      while (hyphensAtEnd > 0) {
+        l.add("-");
+        hyphensAtEnd--;
       }
       return l;
     }

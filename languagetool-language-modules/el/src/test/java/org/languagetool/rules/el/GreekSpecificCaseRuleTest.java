@@ -1,3 +1,5 @@
+package org.languagetool.rules.el;
+
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
  *
@@ -16,7 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -29,32 +30,29 @@ import java.io.IOException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class SpecificCaseRuleTest {
+public class GreekSpecificCaseRuleTest {
 
-  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
-  private final SpecificCaseRule rule = new SpecificCaseRule(TestTools.getEnglishMessages());
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("el"));
+  private final GreekSpecificCaseRule rule = new GreekSpecificCaseRule(TestTools.getEnglishMessages());
 
   @Test
   public void testRule() throws IOException {
-    assertGood("Harry Potter");
-    assertGood("I like Harry Potter.");
-    assertGood("I like HARRY POTTER.");
-    assertBad("harry potter");
-    assertBad("harry Potter");
-    assertBad("Harry potter");
+    assertGood("Ηνωμένες Πολιτείες");
+    assertGood("Κατοικώ στις Ηνωμένες Πολιτείες.");
+    assertGood("Κατοικώ στις ΗΝΩΜΕΝΕΣ ΠΟΛΙΤΕΙΕΣ.");
+    assertBad("ηνωμένες πολιτείες");
+    assertBad("ηνωμένες Πολιτείες");  
+    assertBad("Ηνωμένες πολιτείες");
 
-    RuleMatch[] matches1 = assertBad("I like Harry potter.");
-    assertThat(matches1[0].getFromPos(), is(7));
-    assertThat(matches1[0].getToPos(), is(19));
-    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Harry Potter]"));
-    assertThat(matches1[0].getMessage(), is("If the term is a proper noun, use initial capitals."));
-    
-    RuleMatch[] matches2 = assertBad("Alexander The Great");
-    assertThat(matches2[0].getMessage(), is("If the term is a proper noun, use the suggested capitalization."));
+    RuleMatch[] matches1 = assertBad("Κατοικώ στις Ηνωμένες πολιτείες.");
+    assertThat(matches1[0].getFromPos(), is(13));
+    assertThat(matches1[0].getToPos(), is(31));
+    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Ηνωμένες Πολιτείες]"));
+    assertThat(matches1[0].getMessage(), is("Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα."));
 
-    RuleMatch[] matches3 = assertBad("I like Harry  potter.");  // note the two spaces
-    assertThat(matches3[0].getFromPos(), is(7));
-    assertThat(matches3[0].getToPos(), is(20));
+    RuleMatch[] matches3 = assertBad("Κατοικώ στις Ηνωμένες  πολιτείες."); // note the two spaces
+    assertThat(matches3[0].getFromPos(), is(13));
+    assertThat(matches3[0].getToPos(), is(32));
   }
 
   private void assertGood(String input) throws IOException {

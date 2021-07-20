@@ -112,7 +112,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern KEEP_COUNT = Pattern.compile("Y|J .*|N .*|D .*|P.*|V ppa .*|M nonfin|UNKNOWN|Z.*|V.* inf|V ppr");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|et|ou|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile("[;:\\(\\)\\[\\]–—―‒]");
-  private static final Pattern PREPOSICIONS = Pattern.compile("P");
+  private static final Pattern PREPOSICIONS = Pattern.compile("P.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("d'|de|des|du|à|au|aux|en|dans|sur|entre|par|pour|avec|sans|contre|comme"); //???
   private static final Pattern VERB = Pattern.compile("V.* (inf|ind|sub|con|ppr|imp).*"); // Any verb that is not V ppa
   private static final Pattern INFINITIVE = Pattern.compile("V.* inf"); 
@@ -129,7 +129,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().toString().contains("Le système judiciaire")) {
+//    if (match.getSentence().getText().toString().contains("d'environ")) {
 //      int i = 0;
 //      i++;
 //    }
@@ -266,9 +266,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       if (i - j - 1 > 0) {
         if (matchRegexp(tokens[i - j].getToken(), PREPOSICIO_CANVI_NIVELL)
+            && matchPostagRegexp(tokens[i - j], PREPOSICIONS) // exclude "des" when it is only determiner
             && !matchPostagRegexp(tokens[i - j], CONJUNCIO) // "com" com a conjunció
             && !matchRegexp(tokens[i - j - 1].getToken(), COORDINACIO_IONI)
             && !matchPostagRegexp(tokens[i - j + 1], ADVERBI)) {
+          level++;
+          //exception: d'environ
+        } else if (tokens[i - j].getToken().equalsIgnoreCase("d'")
+            && tokens[i - j + 1].getToken().equalsIgnoreCase("environ")) {
           level++;
         }
       }
@@ -306,6 +311,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       j++;
     }
+    // comma + plural noun
+    isPlural = isPlural || (i - 2 > 0 && cNMP[0] + cNFP[0] + cNCP[0] > 0 && tokens[i - 2].getToken().equals(","));
+
     // there is no noun, (no determinant --> && cDtotal==0)
     if (cNtotal == 0 && cDtotal == 0) {
       return null;

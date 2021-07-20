@@ -42,12 +42,6 @@ public class SpanishWordTokenizer extends WordTokenizer {
   private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // ordinals
   private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
-  private final SpanishTagger tagger; 
-
-  public SpanishWordTokenizer() {
-    tagger = new SpanishTagger();
-  }
 
   @Override
   public List<String> tokenize(final String text) {
@@ -65,12 +59,14 @@ public class SpanishWordTokenizer extends WordTokenizer {
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
         + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
         + "\u2012\u2013\u2014\u2015"
-        + "\u2500\u3161" // other dashes
+        + "\u2500\u3161\u2713" // other dashes
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
         + "\u203C\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
-        + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" + ",.;()[]{}<>!?:=*#∗×+÷/\\\"'«»„”“‘`’…¿¡\t\n\r™®",
-        true);
+        + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
+        + ",.;()[]{}<>!?:=*#∗×+÷/\\\"'«»„”“‘`’…¿¡\t\n\r™®\u203d"
+        + "\u00b9\u00b2\u00b3\u2070\u2071\u2074\u2075\u2076\u2077\u2078\u2079" // superscripts
+        , true);
     // removed from the list: hyphen -; middle dot ·
     String s;
 
@@ -94,7 +90,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (SpanishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)

@@ -887,7 +887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
                 <pattern>
-                    <token regexp="yes">\p{Lu}{2,}</token>
+                    <token regexp="yes">\p{Lu}{2,30}</token>
                 </pattern>
                 <message>Verzichten Sie auf Abkürzungen.</message>
                 <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
@@ -969,7 +969,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABSTRAKTE_WOERTER" name="Leichte Sprache: abstrakte Wörter">
             <rule>
                 <pattern>
-                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ität|ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,})?</token>
+                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,30}(ität|ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,30})?</token>
                 </pattern>
                 <message>Vermeiden Sie abstrakte Wörter. Benutzen Sie möglichst konkrete Aussagen.</message>
                 <short>Abstrakte Wörter vermeiden</short>
@@ -994,7 +994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
             <pattern>
-                <token regexp="yes">\p{L}{14,}</token>
+                <token regexp="yes">\p{L}{14,30}</token>
             </pattern>
             <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
             <example>Die Schifffahrt auf der Donau ist beliebt.</example>
@@ -1136,10 +1136,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">bis|im|zum</token>
                     <token regexp="yes" inflected="yes">Jahr|Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember</token>
-                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,30}</token>
                 </antipattern>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,30}</token>
                 </pattern>
                 <message>Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>

@@ -88,6 +88,7 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("За його словами Україна – це країна...");
     
     assertEmptyMatch("славетних од цареві");
+    assertEmptyMatch("А шляхом тим була");
 
     assertEquals(1, ruleMatch("що, незважаючи стислі терміни візиту").length);
 
@@ -120,6 +121,9 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("ні до чого доброго силові дії не призведуть");
     
     assertEmptyMatch("у святая святих");
+
+    assertEmptyMatch("станом на зараз виконавча влада");
+    
 //    assertEmptyMatch("Імена від Андрій до Юрій");  // називний між від і до рідко зустрічається але такий виняток ховає багато помилок 
 
 //    assertEmptyMatch("як у Конана Дойла")).length); //TODO
@@ -211,6 +215,9 @@ public class TokenAgreementPrepNounRuleTest {
     assertEquals(1, matches.length);
 
     matches = ruleMatch("згідно з документа");
+    assertEquals(1, matches.length);
+
+    matches = ruleMatch("згідно зі змінам");
     assertEquals(1, matches.length);
 
     matches = ruleMatch("зацікавлених у ви користанні");

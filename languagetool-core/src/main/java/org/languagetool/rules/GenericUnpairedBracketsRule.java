@@ -230,14 +230,14 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     int startPos = startPosBase + tokens[i].getStartPos();
     if (token.equals(startSymbols.get(j)) || token.equals(endSymbols.get(j))) {
       boolean precededByWhitespace = getPrecededByWhitespace(tokens, i, j);
-      boolean followedByWhitespace = getFollowedByWhitespace(tokens, i, j);
+      boolean isSpecialCase = getSpecialCase(tokens, i, j);
       boolean noException = isNoException(token, tokens, i, j,
-              precededByWhitespace, followedByWhitespace, symbolStack);
+              precededByWhitespace, isSpecialCase, symbolStack);
 
       if (noException && precededByWhitespace && token.equals(startSymbols.get(j))) {
         symbolStack.push(new SymbolLocator(new Symbol(startSymbols.get(j), Symbol.Type.Opening), i, startPos, sentence, sentenceIdx));
         return true;
-      } else if (noException && (followedByWhitespace || tokens[i].isSentenceEnd())
+      } else if (noException && (isSpecialCase || tokens[i].isSentenceEnd())
               && token.equals(endSymbols.get(j))) {
         if (i > 1 && endSymbols.get(j).equals(")")
                 && (numerals.matcher(tokens[i - 1].getToken()).matches()
@@ -280,15 +280,17 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return precededByWhitespace;
   }
 
-  private boolean getFollowedByWhitespace(AnalyzedTokenReadings[] tokens, int i, int j) {
-    boolean followedByWhitespace = true;
+  private boolean getSpecialCase(AnalyzedTokenReadings[] tokens, int i, int j) {
+    boolean isException = true;
     if (i < tokens.length - 1 && startSymbols.get(j).equals(endSymbols.get(j))) {
-      followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
+      isException = tokens[i + 1].isWhitespaceBefore()
               || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches()
               || endSymbols.contains(tokens[i + 1].getToken())
+              || (i >= 1 && tokens[i - 1].getToken().endsWith("-")) // e.g. >>xxx-"yyy yyy"-zzz<<
+              || tokens[i + 1].getToken().startsWith("-") // e.g. >>"Go"-button<<
               || "s".equals(tokens[i + 1].getToken());// e.g. >>"I"s<< has and needs no space
     }
-    return followedByWhitespace;
+    return isException;
   }
 
   private boolean isEndSymbolUnique(String str) {
@@ -369,6 +371,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     public Symbol(String symbol, Type symbolType) {
       this.symbol = symbol;
       this.symbolType = symbolType;
+    }
+
+    @Override
+    public String toString() {
+      return symbol;
     }
   }
 }

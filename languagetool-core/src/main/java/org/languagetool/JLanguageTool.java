@@ -69,7 +69,7 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "5.4-SNAPSHOT";
+  public static final String VERSION = "5.5-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -998,7 +998,7 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, this.enabledRules, this.disabledRuleCategories).filter(ruleMatches);
+    ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
 
     ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
 
@@ -1056,8 +1056,10 @@ public class JLanguageTool {
             }
             remoteMatches.addAll(adjustedMatches);
           }
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | CancellationException e) {
           logger.warn("Failed to fetch result from remote rule.", e);
+        } catch (ExecutionException e) {
+          logger.error("Failed to fetch result from remote rule.", e);
         }
       }
 
@@ -1282,20 +1284,16 @@ public class JLanguageTool {
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
+    if (paraMode == ParagraphHandling.ONLYPARA) {
+      return Collections.emptyList();
+    }
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (Rule rule : rules) {
+      if (rule instanceof TextLevelRule || !checkRemoteRules && rule instanceof RemoteRule) {
+        continue;
+      }
       if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
         break;
-      }
-
-      if (rule instanceof TextLevelRule) {
-        continue;
-      }
-      if (!checkRemoteRules && rule instanceof RemoteRule) {
-        continue;
-      }
-      if (paraMode == ParagraphHandling.ONLYPARA) {
-        continue;
       }
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
       Collections.addAll(sentenceMatches, thisMatches);
@@ -1788,10 +1786,10 @@ public class JLanguageTool {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<AnalyzedSentence> analyzedSentences = null;
       for (Rule rule : rules.allRules()) {
-        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
-          break;
-        }
         if (rule instanceof TextLevelRule && paraMode != ParagraphHandling.ONLYNONPARA) {
+          if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
+            break;
+          }
           if (analyzedSentences == null) {
             analyzedSentences = sentences.stream().map(s -> s.analyzed).collect(Collectors.toList());
           }
@@ -1833,9 +1831,6 @@ public class JLanguageTool {
       List<Range> ignoreRanges = new ArrayList<>();
       int wordCounter = 0;
       for (SentenceData sentence : sentences) {
-        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
-          break;
-        }
         wordCounter += sentence.wordCount;
         try {
           //comment in to trigger an exception via input text:
@@ -1857,6 +1852,9 @@ public class JLanguageTool {
             cache.put(cacheKey, sentenceMatches);
           }
           if (!sentenceMatches.isEmpty()) {
+            if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
+              break;
+            }
             for (RuleMatch elem : sentenceMatches) {
               RuleMatch thisMatch = adjustRuleMatchPos(elem, sentence.startOffset, sentence.startColumn, sentence.startLine, sentence.text, annotatedText);
               if (elem.getErrorLimitLang() != null) {
@@ -1878,6 +1876,10 @@ public class JLanguageTool {
             //        ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
           }
         } catch (ErrorRateTooHighException e) {
+          throw e;
+        } catch (StackOverflowError e) {
+          System.out.println("Could not check sentence due to StackOverflowError (language: " + language + "): <sentcontent>"
+                  + StringUtils.abbreviate(sentence.analyzed.toTextString(), 10_000) + "</sentcontent>");
           throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>"

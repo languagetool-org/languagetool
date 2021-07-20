@@ -608,13 +608,13 @@ public class FlatParagraphTools {
    * if override: existing marks will be overridden
    */
   private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList, XParagraphCursor cursor, boolean override) {
+    boolean isChecked = flatPara.isChecked(TextMarkupType.PROOFREADING);
     if (override && cursor != null) {
       XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
       if (xMarkingAccess == null) {
         MessageHandler.printToLogFile("xMarkingAccess == null");
       } else {
         xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
-        flatPara.setChecked(TextMarkupType.PROOFREADING, true);
         XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
         if (markComponent != null) {
           markComponent.dispose();
@@ -651,6 +651,9 @@ public class FlatParagraphTools {
       if (override) {
         props = flatPara.getMarkupInfoContainer();
         flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
+      }
+      if (isChecked) {
+        flatPara.setChecked(TextMarkupType.PROOFREADING, true);
       }
     }
   }

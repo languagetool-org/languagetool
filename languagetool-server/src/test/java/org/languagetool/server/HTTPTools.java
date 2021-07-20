@@ -40,7 +40,7 @@ import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-final class HTTPTools {
+public final class HTTPTools {
 
   private HTTPTools() {
   }
@@ -77,7 +77,7 @@ final class HTTPTools {
     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
   }
 
-  static String checkAtUrl(URL url) throws IOException {
+  public static String checkAtUrl(URL url) throws IOException {
     try {
       InputStream stream = (InputStream)url.getContent();
       return StringTools.streamToString(stream, "UTF-8");

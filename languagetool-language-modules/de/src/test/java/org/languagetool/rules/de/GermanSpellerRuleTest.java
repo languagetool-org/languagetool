@@ -470,11 +470,32 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Second-Hand-Shops", "Secondhandshops", rule, lt);
     assertFirstSuggestion("mediterranischer", "mediterraner", rule, lt);
     assertFirstSuggestion("unterschreibungsfähige", "unterschriftsfähige", rule, lt);
+    assertFirstSuggestion("interplementiert", "implementiert", rule, lt);
+    assertFirstSuggestion("hochalterlich", "hochmittelalterlich", rule, lt);
+    assertFirstSuggestion("posiniert", "positioniert", rule, lt);
+    assertFirstSuggestion("russophobische", "russophobe", rule, lt);
+    assertFirstSuggestion("unsachmässiger", "unsachgemäßer", rule, lt);
+    assertFirstSuggestion("modernisches", "modernes", rule, lt);
+    assertFirstSuggestion("intapretation", "Interpretation", rule, lt);
+    assertFirstSuggestion("Rethorikkurses", "Rhetorikkurses", rule, lt);
+    assertFirstSuggestion("Deprisonen", "Depressionen", rule, lt);
     
+    assertFirstSuggestion("battalione", "Bataillone", rule, lt);
+    assertFirstSuggestion("Besuchungsverbot", "Besuchsverbot", rule, lt);
+    assertFirstSuggestion("widersprüchiges", "widersprüchliches", rule, lt);
+    assertFirstSuggestion("camelionhafte", "chamäleonhafte", rule, lt);
+    assertFirstSuggestion("angehangenen", "angehängten", rule, lt);
+    assertFirstSuggestion("spätrige", "spätere", rule, lt);
+    assertFirstSuggestion("faustigen", "faustdicken", rule, lt);
+    assertFirstSuggestion("Belastungsekgs", "Belastungs-EKGs", rule, lt);
     assertFirstSuggestion("-Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Teex", "Tee", rule, lt);
     assertFirstSuggestion("- Kaffeex", "Kaffee", rule, lt);
     assertFirstSuggestion("E -Commerce", "E-Commerce", rule, lt);
+    assertFirstSuggestion("Intranzparentheit", "Intransparenz", rule, lt);
+    assertFirstSuggestion("aufkeinenfal", "auf keinen Fall", rule, lt);
+    assertFirstSuggestion("unverantwortunglosen", "verantwortungslosen", rule, lt);
+    assertFirstSuggestion("unverantwortungslose", "verantwortungslose", rule, lt);
     
   }
 
@@ -822,6 +843,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);
+    assertFirstSuggestion("Auschwitzmythxs,", null, rule, lt);  // correction prevented by lcDoNotSuggestWords
   }
   
   @Test

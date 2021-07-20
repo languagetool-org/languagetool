@@ -19,6 +19,7 @@
 package org.languagetool.rules.es;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
@@ -30,7 +31,6 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   private static final String DICT_FILENAME = "/es/es-ES.dict";
   private static MorfologikSpeller speller;
-  private static final SpanishTagger tagger = new SpanishTagger();
 
   public FindSuggestionsFilter() throws IOException {
     // lazy init
@@ -43,12 +43,12 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected Tagger getTagger() {
-    return tagger;
+    return SpanishTagger.INSTANCE;
   }
 
   @Override
-  protected MorfologikSpeller getSpeller() {
-    return speller;
+  protected List<String> getSpellingSuggestions(String w) throws IOException {
+    return speller.findReplacements(w);
   }
 
 }

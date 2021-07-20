@@ -257,7 +257,7 @@ public class LanguageSpecificTest {
   private void assertIdAndDescriptionValidity(Language lang, Rule rule) {
     String ruleId = rule.getId();
     if (rule.getId().equals(rule.getDescription())) {
-      System.err.println("*** WARNING: " + lang.getShortCodeWithCountryAndVariant() + ": " + rule.getFullId() + ": id name are identical for this rule");
+      System.err.println("*** WARNING: " + lang.getShortCodeWithCountryAndVariant() + ": " + rule.getFullId() + ": 'id' and 'name' are identical for this rule");
     }
     if (rule.getId().trim().isEmpty()) {
       throw new RuntimeException("Empty rule id: '" + ruleId + "', language: " + lang.getShortCodeWithCountryAndVariant());

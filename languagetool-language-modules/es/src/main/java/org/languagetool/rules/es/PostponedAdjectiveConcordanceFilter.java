@@ -102,7 +102,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|e|o|ni|u"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";|lo");
   private static final Pattern PREPOSICIONS = Pattern.compile("SP.*");
-  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra");
+  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra|para");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
   
@@ -116,7 +116,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
-    /*if (match.getSentence().getText().contains("Necesidad de más mercado")) {
+    /*if (match.getSentence().getText().contains("Dictador descubierta")) {
       int kk=0;
       kk++;
     }*/
@@ -294,6 +294,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       j++;
     }
+    // comma + plural noun
+    isPlural = isPlural || (i - 2 > 0 && cNMP[0] + cNFP[0] + cNCP[0] > 0 && tokens[i - 2].getToken().equals(","));
+    
     // there is no noun, (no determinant --> && cDtotal==0)
     if (cNtotal == 0 && cDtotal == 0) {
       return null;
@@ -364,7 +367,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       // look into previous words
       j = 1;
       initializeApparitions();
-      while (i - j > 0 && keepCounting(tokens[i - j])) {
+      while (i - j > 0 && keepCounting(tokens[i - j]) && (level > 1 || j < 4)) {
         // there is a previous agreeing noun
         if (!matchPostagRegexp(tokens[i - j], _GN_) && matchPostagRegexp(tokens[i - j], NOM_DET)
             && matchPostagRegexp(tokens[i - j], substPattern)) {

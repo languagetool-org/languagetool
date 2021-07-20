@@ -65,7 +65,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
           continue;
         }
         // The whole implementation could be simpler, but this way we also catch cases where
-        // the word (and this its lemma) isn't known.
+        // the word (and thus its lemma) isn't known.
         String lemma = lemmaOrNull != null ? lemmaOrNull : token;
         String normToken = lemma.replace("-", "").toLowerCase();
         if (StringUtils.isNumeric(normToken)) {

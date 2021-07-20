@@ -63,14 +63,28 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, ...?) sur ce qui nous attend.");
     testSplit("Op. cit., op. cit.");
     testSplit("IVe siècle av. J.C. en architecture");
+    testSplit("IVe\u00a0siècle\u00a0av.\u00a0J.C.\u00a0en\u00a0architecture");
     testSplit("IVe siècle av. J.-C. en architecture");
     testSplit("sa mort le 19 août 14 apr. J.-C.");
     testSplit("Je suis Chris.[4] ", "Je suis Chris."); 
+    testSplit("Je suis Chris.[4]\u00a0", "Je suis Chris.");
+    testSplit("gaffa.org");
     
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, …?) sur ce qui nous attend.");
     // TODO:
     //testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
 
+    // without nbsp
+    testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
+    testSplit("Si « cf. » désigne l’abréviation de « confer »");
+    // with nbsp
+    testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
+    testSplit("Si « cf. » désigne l’abréviation de « confer »,"); 
+    testSplit("Ça ne sert à rien de me dire « Salut, comment ça va ? » si tu n'as rien d'autre à dire.");
+    testSplit("« Madame est dans sa chambre. » dit le serviteur.");
+    testSplit("« L'État, c'est moi ! » dit le roi.");
+   
+    
     assertThat(stokenizer.tokenize("Je suis Chris. Comment allez vous ?").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris?   Comment allez vous ???").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris ! Comment allez vous ???").size(), is(2));
@@ -80,6 +94,7 @@ public class FrenchSentenceTokenizerTest {
     assertThat(stokenizer.tokenize("Je suis Chris (la la la …). comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris (CHRISTOPHER!). Comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris... Comment allez vous.").size(), is(2));
+    
   }
 
   private void testSplit(final String... sentences) {

@@ -76,7 +76,7 @@ public class Catalan extends Language {
             		Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
             		Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
             new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages, userConfig, 50, true, true),
+            new LongSentenceRule(messages, userConfig, 50),
             // specific to Catalan:
             new CatalanWordRepeatRule(messages, this),
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
@@ -92,7 +92,8 @@ public class Catalan extends Language {
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages),
             new CheckCaseRule(messages, this),
-            new SimpleReplaceAdverbsMent(messages)
+            new SimpleReplaceAdverbsMent(messages),
+            new CatalanWordRepeatBeginningRule(messages, this)
             //REMEMBER TO ADD RULES TO ValencianCatalan!!
     );
   }
@@ -100,7 +101,7 @@ public class Catalan extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new CatalanTagger(this);
+    return CatalanTagger.INSTANCE_CAT;
   }
 
   @Nullable
@@ -184,7 +185,7 @@ public class Catalan extends Language {
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
-      case "INCORRECT_WORDS_IN_CONTEXT": return 30; // similar to CONFUSIONS
+      case "INCORRECT_WORDS_IN_CONTEXT": return 25; // similar to but lower than CONFUSIONS
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "MOTS_SENSE_GUIONETS": return 20; // greater than CONCORDANCES_NUMERALS
@@ -205,6 +206,7 @@ public class Catalan extends Language {
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
+      case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
       case "MORFOLOGIK_RULE_CA_ES": return -100;

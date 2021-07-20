@@ -204,7 +204,7 @@ public class TokenAgreementPrepNounExceptionHelper {
 
     if( i < tokens.length - 1
         && tokenReadings.getToken().equals("не")
-        && PosTagHelper.hasPosTagStart(tokens[i+1], "adj") )
+        && PosTagHelper.hasPosTagStart(tokens[i+1], "ad") )
       return new RuleException(0);
 
     if( tokenReadings.getToken().equals("дуже") )
@@ -217,7 +217,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     }
 
     if( prep.equals("на") || prep.equals("від") ) {
-      if( Arrays.asList("сьогодні", "тепер", "нині", "вчора", "учора", "завтра").contains(token.toLowerCase()) ) {
+      if( Arrays.asList("сьогодні", "тепер", "нині", "вчора", "учора", "завтра", "зараз").contains(token.toLowerCase()) ) {
         return new RuleException(Type.exception);
       }
     }

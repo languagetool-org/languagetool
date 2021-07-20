@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -60,7 +61,8 @@ class ApiV2 {
     this.allowOriginUrl = allowOriginUrl;
   }
 
-  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
+  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
+                     String remoteAddress, HTTPServerConfig config) throws Exception {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
     } else if (path.equals("maxtextlength")) {
@@ -68,7 +70,7 @@ class ApiV2 {
     } else if (path.equals("configinfo")) {
       handleGetConfigurationInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("info")) {
-      handleSoftwareInfoRequest(httpExchange, parameters, config);
+      handleSoftwareInfoRequest(httpExchange);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("words")) {
@@ -77,12 +79,9 @@ class ApiV2 {
       handleWordAddRequest(httpExchange, parameters, config);
     } else if (path.equals("words/delete")) {
       handleWordDeleteRequest(httpExchange, parameters, config);
-    } else if (path.equals("rule/examples")) {
-      // private (i.e. undocumented) API for our own use only
-      handleRuleExamplesRequest(httpExchange, parameters);
-    } else if (path.equals("log")) {
-      // private (i.e. undocumented) API for our own use only
-      handleLogRequest(httpExchange, parameters);
+    //} else if (path.equals("rule/examples")) {
+    //  // private (i.e. undocumented) API for our own use only
+    //  handleRuleExamplesRequest(httpExchange, parameters);
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
@@ -105,6 +104,9 @@ class ApiV2 {
   }
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+    if (JLanguageTool.isPremiumVersion()) {
+      throw new BadRequestException("Not supported in premium mode");
+    }
     if (parameters.get("language") == null) {
       throw new BadRequestException("'language' parameter missing");
     }
@@ -116,7 +118,7 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleSoftwareInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+  private void handleSoftwareInfoRequest(HttpExchange httpExchange) throws IOException {
     String response = getSoftwareInfo();
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
@@ -132,7 +134,12 @@ class ApiV2 {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
-      JsonNode data = mapper.readTree(parameters.get("data"));
+      JsonNode data;
+      try {
+        data = mapper.readTree(parameters.get("data"));
+      } catch (JsonProcessingException e) {
+        throw new BadRequestException("Could not parse JSON from 'data' parameter", e);
+      }
       if (data.get("text") != null && data.get("annotation") != null) {
         throw new BadRequestException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
       } else if (data.get("text") != null) {
@@ -283,19 +290,6 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleLogRequest(HttpExchange httpExchange, Map<String, String> parameters) throws IOException {
-    // used so the client (especially the browser add-ons) can report internal issues:
-    String message = parameters.get("message");
-    if (message != null && message.length() > 250) {
-      message = message.substring(0, 250) + "...";
-    }
-    ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent"));
-    String response = "OK";
-    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
-    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
-  }
-
   private AnnotatedText getAnnotatedTextFromString(JsonNode data, String text) {
     AnnotatedTextBuilder textBuilder = new AnnotatedTextBuilder().addText(text);
     if (data.has("metaData")) {
@@ -408,19 +402,19 @@ class ApiV2 {
         g.writeStartObject();
         g.writeStringField("ruleId", rule.getId());
         g.writeStringField("description", rule.getDescription());
-        if(rule.isDictionaryBasedSpellingRule()) {
+        if (rule.isDictionaryBasedSpellingRule()) {
           g.writeStringField("isDictionaryBasedSpellingRule", "yes");
         }
-        if(rule.isDefaultOff()) {
+        if (rule.isDefaultOff()) {
           g.writeStringField("isDefaultOff", "yes");
         }
-        if(rule.isOfficeDefaultOff()) {
+        if (rule.isOfficeDefaultOff()) {
           g.writeStringField("isOfficeDefaultOff", "yes");
         }
-        if(rule.isOfficeDefaultOn()) {
+        if (rule.isOfficeDefaultOn()) {
           g.writeStringField("isOfficeDefaultOn", "yes");
         }
-        if(rule.hasConfigurableValue()) {
+        if (rule.hasConfigurableValue()) {
           g.writeStringField("hasConfigurableValue", "yes");
           g.writeStringField("configureText", rule.getConfigureText());
           g.writeStringField("maxConfigurableValue", Integer.toString(rule.getMaxConfigurableValue()));
@@ -430,7 +424,7 @@ class ApiV2 {
         g.writeStringField("categoryId", rule.getCategory().getId().toString());
         g.writeStringField("categoryName", rule.getCategory().getName());
         g.writeStringField("locQualityIssueType", rule.getLocQualityIssueType().toString());
-        if(rule instanceof TextLevelRule) {
+        if (rule instanceof TextLevelRule) {
           g.writeStringField("isTextLevelRule", "yes");
           g.writeStringField("minToCheckParagraph", Integer.toString(((TextLevelRule) rule).minToCheckParagraph()));
         }

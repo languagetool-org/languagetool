@@ -1011,4 +1011,78 @@ Daqui não saio, daqui ninguém me tira.
       </rule>
     </rulegroup>
   </category>
+  
+  
+  
+ <category id='FORMAL_SPEECH_PT_BR' name="Linguagem Formal" type="register">
+ 
+ 	<!-- COM A GENTE connosco/conosco -->
+    <rule id='COM_A_GENTE_CONNOSCO_CONOSCO_PT_BR' name="Com a gente → Conosco">
+    <!--      Created by Tiago Santos and localised by Marco A.G.Pinto, Portuguese rule 2021-06-03 (17-MAR-2021+)      -->
+	<!--
+Tu vens com a gente? → Tu vens conosco?
+	-->
+      <pattern>
+          <token>com</token>
+          <token>a</token>
+          <token>gente</token>
+      </pattern>
+      <message>O uso de "com a gente" é informal.</message>
+        <suggestion>conosco</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+      <short>Linguagem informal</short>
+      <example correction="conosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
+    </rule>
+
+    <rule id='FORMAL_COM_NÓS_PT_BR' name="Expressões 'com nós'">
+    <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
+<!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *START* -->
+<!--
+Ele veio com nós para o revéillon. → Ele veio conosco para o revéillon.
+-->
+      <antipattern>
+        <token>com</token>
+        <token>nós</token>
+		<token postag='Z0.+|DI.+|PI.+' postag_regexp='yes'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *END* -->
+      <pattern>
+          <token>com</token>
+          <token>nós</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>conosco</suggestion>?</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+      <short>Linguagem informal</short>
+      <example correction="conosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
+    </rule>
+	
+	<!-- PUTO (BAD LANGUAGE IN pt-BR) -->
+    <rule id='PUTO_PT_BR' name="Puto (baixo calão pt_BR)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-10 (17-MAR-2021+)      -->
+	<!--
+O puto é bom.  → O homosexual é bom.
+	-->
+<!-- MARCOAGPINTO 2021-06-15 (17-MAR-2021+) *START* -->
+<!--
+O Rui está puto da vida.
+-->
+      <antipattern>
+		<token inflected='yes'>estar</token>
+        <token>puto</token>
+        <token>da</token>
+		<token>vida</token>
+	  </antipattern>
+<!-- MARCOAGPINTO 2021-06-15 (17-MAR-2021+) *END* -->	
+      <pattern>
+          <token regexp="yes">putos?</token>
+      </pattern>
+      <message>Esta palavra é de baixo calão. Considere as alternativas.</message>
+        <suggestion>#¿$?%!¡</suggestion>
+      <example correction="#¿$?%!¡">O <marker>puto</marker> é bom!</example>
+    </rule>	
+	
+ </category>  
+  
+  
 </rules>

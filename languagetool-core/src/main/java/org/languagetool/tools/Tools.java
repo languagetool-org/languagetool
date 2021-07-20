@@ -305,7 +305,7 @@ public final class Tools {
         // disable all rules except those in explicitly enabled categories, if any:
         for (Rule rule : lt.getAllRules()) {
           Category category = rule.getCategory();
-          if (category == null || !enabledCategories.contains(category.getId())) {
+          if (!enabledCategories.contains(category.getId())) {
             lt.disableRule(rule.getFullId());
           }
         }

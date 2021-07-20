@@ -30,6 +30,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.rules.spelling.CommonFileTypes;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
@@ -53,15 +54,33 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final int MAX_EDIT_DISTANCE = 2;
 
+  private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
+    // some of these are taken fom hunspell's dictionary where non-suggested words use tag "/n":
+    "verjuden", "verjudet", "verjudeter", "verjudetes", "verjudeter", "verjudeten", "verjudetem",
+    "entjuden", "entjudet", "entjudete", "entjudetes", "entjudeter", "entjudeten", "entjudetem",
+    "auschwitzmythos",
+    "judensippe", "judensippen",
+    "judensippschaft", "judensippschaften",
+    "nigger", "niggern", "niggers",
+    "neger", "negern", "negers",
+    "negerin", "negerinnen",
+    "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
+    "möse", "mösen",
+    "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
+    "judenrein", "judenreine", "judenreiner", "judenreines", "judenreinen", "judenreinem"
+  ));
+  
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
+  
+  private static final int MAX_TOKEN_LENGTH = 200;
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
-  private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
+  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
@@ -315,6 +334,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]nn?[ou]ll?ie?rung", "Annullierung");
     put("[sS]charm", "Charme");
     put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
+    put("[eE]rledung", "Erledigung");
+    put("erledigigung", "Erledigung");
+    put("woltest", "wolltest");
+    put("[iI]ntranzparentheit", "Intransparenz");
+    put("dunkellilane[mnrs]?", "dunkellila");
+    put("helllilane[mnrs]?", "helllila");
+    put("Behauptungsthese", "Behauptung");
+    put("genzut", "genutzt");
+    put("[eEäÄ]klerung", "Erklärung");
+    put("[wW]eh?wechen", "Wehwehchen");
+    put("nocheinmals", "noch einmal");
+    put("unverantwortungs?los(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("unverantwortungs?", "verantwortungs"), w.replaceFirst("ungs?los", "lich")));
+    putRepl("[eE]rhaltbar(e[mnrs]?)?", "haltbar", "hältlich");
+    putRepl("[aA]ufkeinenfall?", "keinenfall?", " keinen Fall");
     putRepl("[Dd]rumrum", "rum$", "herum");
     putRepl("([uU]n)?proff?esionn?ell?(e[mnrs]?)?", "proff?esionn?ell?", "professionell");
     putRepl("[kK]inderlich(e[mnrs]?)?", "inder", "ind");
@@ -526,6 +559,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("übertr[äa]gte", "übertrug");
     put("übertr[äa]gten", "übertrugen");
     put("NodeJS", "Node.js");
+    put("Express", "Express.js");
     put("erlas", "Erlass");
     put("schlagte", "schlug");
     put("schlagten", "schlugen");
@@ -579,6 +613,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[vV]orgensweise", "Vorgehensweise");
     put("[kK]autsch", "Couch");
     put("guterletzt", "guter Letzt");
+    put("Seminares", "Seminars");
+    put("Mousepad", "Mauspad");
+    put("Mousepads", "Mauspads");
     put("Wi[Ff]i-Router", "Wi-Fi-Router");
     putRepl("[Ll]ilane[srm]?", "ilane[srm]?", "ila");
     putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
@@ -802,6 +839,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Jockei", "Jockey");
     put("Roulett", "Roulette");
     put("Bestellungsdaten", "Bestelldaten");
+    put("Package", "Paket");
     put("Mo-Di", "Mo.–Di.");
     put("Mo-Mi", "Mo.–Mi.");
     put("Mo-Do", "Mo.–Do.");
@@ -876,6 +914,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Böhen?$", "h", "");
     putRepl("Aufständige[mnr]?$", "ig", "isch");
     putRepl("aufständig(e[mnrs]?)?$", "ig", "isch");
+    putRepl("duzend(e[mnrs]?)?$", "uzend", "utzend");
+    putRepl("unrelevant(e[mnrs]?)?$", "un", "ir");
+    putRepl("Unrelevant(e[mnrs]?)?$", "Un", "Ir");
     put("aufgrundedessen", "aufgrund dessen");
     put("Amalgane", "Amalgame");
     put("Kafe", w -> Arrays.asList("Kaffee", "Café"));
@@ -900,6 +941,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("pitza", "Pizza");
     put("Tütü", "Tutu");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
+    putRepl("[Gg]ilst", "ilst", "iltst");
     putRepl("[vV]ollrichtung(en)?", "oll", "er");
     putRepl("[vV]ollrichtest", "oll", "er");
     putRepl("[vV]ollrichten?", "oll", "er");
@@ -973,11 +1015,49 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Second-Hand-L[äa]dens?", "Second-Hand-L", "Secondhandl");
     putRepl("Second-Hand-Shops?", "Second-Hand-S", "Secondhands");
     putRepl("[mM]editerranisch(e[mnrs]?)?", "isch", "");
+    putRepl("interplementier(s?t|en?)", "inter", "im");
+    putRepl("[hH]ochalterlich(e[mnrs]?)?", "alter", "mittelalter");
+    putRepl("posiniert(e[mnrs]?)?", "si", "sitio");
+    putRepl("[rR]ussophobisch(e[mnrs]?)?", "isch", "");
+    putRepl("[uU]nsachmä(ß|ss?)ig(e[mnrs]?)?", "mä(ß|ss?)ig", "gemäß");
+    putRepl("[mM]odernisch(e[mnrs]?)?", "isch", "");
+    putRepl("intapretation(en)?", "inta", "Inter");
+    putRepl("[rR]ethorikkurs(e[ns]?)?", "eth", "het");
     putRepl("[uU]nterschreibungsfähig(e[mnrs]?)?", "schreibung", "schrift");
     putRepl("[eE]rrorier(en?|t(e[mnrs]?)?|st)", "ror", "u");
     putRepl("malediert(e[mnrs]?)?", "malediert", "malträtiert");
     putRepl("maletriert(e[mnrs]?)?", "maletriert", "malträtiert");
     putRepl("Ausbildereignerprüfung(en)?", "eigner", "eignungs");
+    putRepl("abtrakt(e[mnrs]?)?", "ab", "abs");
+    putRepl("unerfolgreich(e[mnrs]?)?", "unerfolgreich", "erfolglos");
+    putRepl("[bB]attalion(en?|s)?", "[bB]attalion", "Bataillon");
+    putRepl("[bB]esuchungsverbot(e[ns]?)?", "ung", "");
+    putRepl("spätrig(e[mnrs]?)?", "rig", "er");
+    putRepl("angehangene[mnrs]?", "hangen", "hängt");
+    putRepl("[ck]amel[ie]onhaft(e[mnrs]?)?", "[ck]am[ie]lion", "chamäleon");
+    putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
+    putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
+    putRepl("Belastungsekgs?", "ekg", "-EKG");
+    put("Schutzfließ", "Schutzvlies");
+    put("Simlock", "SIM-Lock");
+    put("fäschungen", "Fälschungen");
+    put("Weinverköstigung", "Weinverkostung");
+    put("vertag", "Vertrag");
+    put("geauessert", "geäußert");
+    put("gestriffen", "gestreift");
+    put("gefäh?ten", "Gefährten");
+    put("gefäh?te", "Gefährte");
+    put("immenoch", "immer noch");
+    put("sevice", "Service");
+    put("verhälst", "verhältst");
+    put("[sS]äusche", "Seuche");
+    put("Schalottenburg", "Charlottenburg");
+    put("senora", "Señora");
+    put("widerrum", "wiederum");
+    put("[dD]epp?risonen", "Depressionen");
+    put("Defribilator", "Defibrillator");
+    put("Defribilatoren", "Defibrillatoren");
+    put("SwatchGroup", "Swatch Group");
     put("achtungslo[ßs]", "achtlos");
     put("Boomerang", "Bumerang");
     put("Boomerangs", "Bumerangs");
@@ -1068,18 +1148,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[Ee][Ss]ports", "E-Sports");
     put("gerelaunch(ed|t)", "relauncht");
     put("Gerelaunch(ed|t)", "Relauncht");
+    put("Bowl", "Bowle");
+    put("Dark[Ww]eb", "Darknet");
+    put("Sachs?en-Anhal?t", "Sachsen-Anhalt");
+    put("[Ss]chalgen", "schlagen");
+    put("[Ss]chalge", "schlage");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(wordPattern), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(wordPattern, true, true), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
   }
 
   private static void put(String pattern, String replacement) {
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), w -> Collections.singletonList(replacement));
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(pattern, true, true), w -> Collections.singletonList(replacement));
   }
 
   private static void put(String pattern, Function<String, List<String>> f) {
-    ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), f);
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(pattern, true, true), f);
   }
 
   private static final GermanWordSplitter splitter = getSplitter();
@@ -1397,6 +1482,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    if (words.get(idx).length() > MAX_TOKEN_LENGTH) {
+      return true;
+    }
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false;
@@ -1691,9 +1779,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("ch")) {
       return Collections.singletonList("ich");
     } else {
-      for (Pattern p : ADDITIONAL_SUGGESTIONS.keySet()) {
-        if (p.matcher(word).matches()) {
-          return ADDITIONAL_SUGGESTIONS.get(p).apply(word);
+      for (Map.Entry<StringMatcher, Function<String, List<String>>> entry : ADDITIONAL_SUGGESTIONS.entrySet()) {
+        if (entry.getKey().matches(word)) {
+          return entry.getValue().apply(word);
         }
       }
     }
@@ -1990,6 +2078,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else {
       super.addProhibitedWords(words);
     }
+  }
+
+  @Override
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l.stream().filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());
   }
 
 }

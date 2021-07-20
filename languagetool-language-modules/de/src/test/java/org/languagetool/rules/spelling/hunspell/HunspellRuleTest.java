@@ -26,6 +26,7 @@ import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.de.GermanSpellerRule;
 
 import java.io.IOException;
@@ -34,12 +35,23 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class HunspellRuleTest {
 
+  @Test
+  public void testHighConfidenceSuggestion() {
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
+    assertTrue(rule.isFirstItemHighConfidenceSuggestion("HAus", Arrays.asList(new SuggestedReplacement("HAus"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("EI", Arrays.asList(new SuggestedReplacement("Eis"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("CMs", Arrays.asList(new SuggestedReplacement("CMS"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("DMs", Arrays.asList(new SuggestedReplacement("DMS"))));
+  }
+  
   @Test
   public void testRuleWithGerman() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);

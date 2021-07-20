@@ -51,8 +51,6 @@ public class German extends Language implements AutoCloseable {
 
   private static final Language GERMANY_GERMAN = new GermanyGerman();
 
-  private CompoundWordTokenizer compoundTokenizer;
-  private GermanCompoundTokenizer strictCompoundTokenizer;
   private LanguageModel languageModel;
   private List<Rule> nnRules;
   private Word2VecModel word2VecModel;
@@ -99,13 +97,13 @@ public class German extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new GermanTagger();
+    return GermanTagger.INSTANCE;
   }
 
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new GermanSynthesizer(this);
+    return GermanSynthesizer.INSTANCE;
   }
 
   @Override
@@ -157,7 +155,7 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new GermanStyleRepeatedWordRule(messages, this, userConfig),
             new CompoundCoherencyRule(messages),
-            new LongSentenceRule(messages, userConfig, 40, true, true),
+            new LongSentenceRule(messages, userConfig, 40),
             new GermanFillerWordsRule(messages, this, userConfig),
             new NonSignificantVerbsRule(messages, this, userConfig),
             new UnnecessaryPhraseRule(messages, this, userConfig),
@@ -197,29 +195,15 @@ public class German extends Language implements AutoCloseable {
    * @since 2.7
    */
   public CompoundWordTokenizer getNonStrictCompoundSplitter() {
-    if (compoundTokenizer == null) {
-      try {
-        GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
-        compoundTokenizer = word -> new ArrayList<>(tokenizer.tokenize(word));
-      } catch (IOException e) {
-        throw new RuntimeException("Could not set up German compound splitter", e);
-      }
-    }
-    return compoundTokenizer;
+    GermanCompoundTokenizer tokenizer = GermanCompoundTokenizer.getNonStrictInstance();  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
+    return word -> new ArrayList<>(tokenizer.tokenize(word));
   }
 
   /**
    * @since 2.7
    */
   public GermanCompoundTokenizer getStrictCompoundTokenizer() {
-    if (strictCompoundTokenizer == null) {
-      try {
-        strictCompoundTokenizer = new GermanCompoundTokenizer();
-      } catch (IOException e) {
-        throw new RuntimeException("Could not set up strict German compound splitter", e);
-      }
-    }
-    return strictCompoundTokenizer;
+    return GermanCompoundTokenizer.getStrictInstance();
   }
 
   @Override
@@ -298,8 +282,10 @@ public class German extends Language implements AutoCloseable {
       // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DE_COMPOUNDS": return 10;
+      case "IRGEND_COMPOUND": return 10;
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
+      case "JOE_BIDEN": return 1;  // better error than DE_CASE
       case "RESOURCE_RESSOURCE": return 1;  // better error than DE_CASE
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
@@ -324,14 +310,18 @@ public class German extends Language implements AutoCloseable {
       case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
+      case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
+      case "BEI_VERB": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
+      case "VERB_FEM_SUBST": return -1; // prefer Comma rules
       case "GEFEATURED": return -1; // prefer over spell checker
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "SUBJECT_VERB_AGREEMENT": return -1; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
       case "MODALVERB_FLEKT_VERB": return -1;
+      case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
       case "GERMAN_WORD_REPEAT_RULE": return -3; // prefer other more specific rules
@@ -344,6 +334,7 @@ public class German extends Language implements AutoCloseable {
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
+      case "SUBJUNKTION_KOMMA_2": return -11; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
       case "TOO_LONG_PARAGRAPH": return -15;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;

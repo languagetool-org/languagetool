@@ -8118,6 +8118,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="adj_costum" name="adj + costum">
+        <pattern>
+            <marker>
+                <token postag="A.*" postag_regexp="yes"/>
+            </marker>
+            <token inflected="yes">costum</token>
+        </pattern>
+        <disambig action="filter" postag="A.*"/>
+    </rule>
     <rule id="amic_nom" name="amic nom darrere d'adjectiu">
         <pattern>
             <unify>
@@ -8219,17 +8228,41 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="DI.*"/>
         </rule>
     </rulegroup>
-    <rule id="vora" name="vora (preposició)">
-        <pattern>
-            <token><exception postag="D.*|PX.*" postag_regexp="yes"/></token>
-            <marker>
-                <token>vora</token>
-            </marker>
-            <token postag="D.*" postag_regexp="yes"><exception>es</exception></token>
-            <token><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="SPS00"/>
-    </rule>
+    <rulegroup id="vora" name="vora (preposició)">
+        <rule>
+            <pattern>
+                <token><exception postag="D.*|PX.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>vora</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes"><exception>es</exception></token>
+                <token><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D..MP." postag_regexp="yes"/>
+                <marker>
+                    <token>vora</token>
+                </marker>
+                <token postag="DN.*" postag_regexp="yes"><exception>es</exception></token>
+                <token postag="NC[MC]P000" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D..FP." postag_regexp="yes"/>
+                <marker>
+                    <token>vora</token>
+                </marker>
+                <token postag="DN.*" postag_regexp="yes"><exception>es</exception></token>
+                <token postag="NC[FC]P000" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+    </rulegroup>
     <!--<rule id="en_preposicio" name="en (preposició) + article">
         <pattern>
         <marker>
@@ -8277,6 +8310,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">la|el|l'|els|les|en</token>
         </antipattern>
         <rule id="dosPP_VERB" name="dos pronoms personals més verb">
+            <antipattern>
+                <token>el</token>
+                <token>la</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="&pronom_feble;|PP[12]C[SP]000" postag_regexp="yes"><exception regexp="yes">['-].+|nosaltres|vosaltres|tu|mi</exception></token>
@@ -16947,6 +16984,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </disambig>
     </rule>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
+        <rule name="dates">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">(\d|[12]\d|3[01])[GFMAJSOND]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
         <rule>
             <!-- minus sign -->
             <pattern>
@@ -17093,6 +17136,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule name="Ignore spelling of punctuation characters" id="IGNORE_SPELLING_OF_PUNCTUATION">
         <pattern>
             <token regexp="yes">[_~°]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="IGNORE_SUBDOMAIN_SPELLING" name="Ignore spelling of subdomains">
+        <pattern>
+            <token regexp="yes">[a-z0-9\-]+</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">[a-z0-9\-]+</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">org|com|net|de|co|es|fr|nl|be|eu|biz|ru|ai|au|uk|in|ca|gov|edu|info|cn|us|name|ly|ch|at|mx|no|lu|br|jp|se</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

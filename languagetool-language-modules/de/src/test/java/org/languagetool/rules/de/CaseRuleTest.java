@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.regex.Pattern;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
@@ -32,6 +25,11 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
+import org.languagetool.rules.patterns.StringMatcher;
+
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 public class CaseRuleTest {
 
@@ -374,7 +372,16 @@ public class CaseRuleTest {
     assertGood("Audi A5 Sportback 2.0 TDI");
     assertGood("§ 1 Allgemeine Bedingungen");
     assertGood("§1 Allgemeine Bedingungen");
+    assertGood("[H3] Was ist Daytrading?");
     assertGood(" Das ist das Aus des Airbus A380.");
+    assertGood("Wir sollten ihr irgendwas Erotisches schenken.");
+    assertGood("Er trank ein paar Halbe.");
+    assertGood("Sie/Er hat Schuld.");
+    assertGood("Das war irgendein Irrer.");
+    assertGood("Wir wagen Neues.");
+    assertGood("Vielleicht reden wir später mit ein paar Einheimischen.");
+    assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
+    assertGood("Das denken zwar viele, ist aber total falsch.");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
@@ -386,6 +393,15 @@ public class CaseRuleTest {
     assertBad("Das ist Eine Schreibweise.");
     assertGood("Das ist ein Mann.");
     assertBad("Das ist Ein Mann.");
+
+    assertGood("Du Ärmste!");
+    assertGood("Du Ärmster, leg dich besser ins Bett.");
+    assertGood("Er wohnt Am Hohen Hain 6a");
+    assertGood("Das Bauvorhaben Am Wiesenhang 9");
+    assertGood("... und das Zwischenmenschliche Hand in Hand.");
+    assertGood("Der Platz auf dem die Ahnungslosen Kopf an Kopf stehen.");
+    assertGood("4.)   Bei Beschäftigung von Hilfskräften: Schadenfälle durch Hilfskräfte");
+    assertGood("Es besteht aus Schülern, Arbeitstätigen und Studenten.");
   }
 
   private void assertGood(String input) throws IOException {
@@ -464,13 +480,17 @@ public class CaseRuleTest {
   @Test
   public void testCompareLists() throws IOException {
     AnalyzedSentence sentence1 = lt.getAnalyzedSentence("Hier ein Test");
-    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new Pattern[]{Pattern.compile(""), Pattern.compile("Hier"), Pattern.compile("ein")}));
-    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new Pattern[]{Pattern.compile("Hier"), Pattern.compile("ein")}));
-    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new Pattern[]{Pattern.compile(""), Pattern.compile("Hier"), Pattern.compile("ein"), Pattern.compile("Test")}));
-    assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new Pattern[]{Pattern.compile(""), Pattern.compile("Hier"), Pattern.compile("ein"), Pattern.compile("Test")}));
+    assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, regexp(""), regexp("Hier"), regexp("ein")));
+    assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, regexp("Hier"), regexp("ein")));
+    assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, regexp(""), regexp("Hier"), regexp("ein"), regexp("Test")));
+    assertFalse(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("Hier"), regexp("ein"), regexp("Test")));
 
     AnalyzedSentence sentence2 = lt.getAnalyzedSentence("das Heilige Römische Reich");
-    assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new Pattern[]{Pattern.compile(""), Pattern.compile("das"), Pattern.compile("Heilige"), Pattern.compile("Römische"), Pattern.compile("Reich")}));
-    assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new Pattern[]{Pattern.compile(""), Pattern.compile("das"), Pattern.compile("Heilige"), Pattern.compile("Römische"), Pattern.compile("Reich")}));
+    assertTrue(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
+    assertFalse(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
+  }
+
+  private static StringMatcher regexp(String s) {
+    return StringMatcher.create(s, true, true);
   }
 }

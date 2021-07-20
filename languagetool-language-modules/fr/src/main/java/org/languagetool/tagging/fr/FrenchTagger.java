@@ -39,6 +39,8 @@ import java.util.regex.Pattern;
  * @author Jaume Ortolà
  */
 public class FrenchTagger extends BaseTagger {
+  
+  public static final FrenchTagger INSTANCE = new FrenchTagger();
 
   private static final Pattern VERB = Pattern.compile("V .+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile(

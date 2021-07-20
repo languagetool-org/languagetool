@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.VisibleForTesting;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -27,6 +28,7 @@ import org.languagetool.language.German;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
@@ -142,12 +144,6 @@ public class CaseRule extends Rule {
       token(","),
       token(","),
       regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // https://github.com/languagetool-org/languagetool/issues/1515
-      SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤|/|_|✒︎|☑️"),
-      regex(".*")
     ),
     Arrays.asList(
       // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of a sentence)
@@ -303,9 +299,9 @@ public class CaseRule extends Rule {
       token("innen")
     ),
     Arrays.asList(
-      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
-      new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build(),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm")
+      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", "Dorian Klug" ...
+      new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+").build(),
+      csRegex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Schön|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Kluge|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug|Greiser")
     ),
     Arrays.asList(
       token(","),
@@ -596,6 +592,21 @@ public class CaseRule extends Rule {
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
+      // ## Was macht eigentlich Karl
+      SENT_START,
+      token("#"),
+      token("#"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ### Was macht eigentlich Karl
+      SENT_START,
+      token("#"),
+      token("#"),
+      token("#"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
       // = Schrittweise Erklärung ()
       SENT_START,
       token("="),
@@ -645,7 +656,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // §1 Allgemeine Bedingungen
       SENT_START,
-      regex("§\\d"),
+      regex("§\\d+"),
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
@@ -685,7 +696,7 @@ public class CaseRule extends Rule {
     Arrays.asList( // "Sa. oder So."
       csRegex("Mo|Di|Mi|Do|Fr|Sa"),
       token("."),
-      csRegex("&|und|oder"),
+      csRegex("&|und|oder|-"),
       csToken("So"),
       token(".")
     ),
@@ -729,6 +740,233 @@ public class CaseRule extends Rule {
       token("-"),
       regex("[DPO]"),
       regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // Straßenname: "Am Hohen Hain 6"
+      csToken("Am"),
+      csRegex("[A-ZÄÖÜ].+n"),
+      posRegex("(EIG|SUB|UNKNOWN).*"),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Am hohen Hain 6"
+      csToken("Am"),
+      new PatternTokenBuilder().posRegex("ADJ:.+").csTokenRegex("[a-zäöü].+n").build(),
+      csRegex("[A-ZÄÜÖ].*"),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Am Wasserturm 6"
+      csToken("Am"),
+      posRegex("(EIG|SUB|UNKNOWN).*"),
+      csRegex("\\d+[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Neue Kantstraße 6"
+      csToken("Neue"),
+      csRegex("[A-Z].+stra(ss|ß)e"),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      // Straßenname: "Neue Kantstr. 6"
+      csToken("Neue"),
+      csRegex("[A-Z].+str"),
+      token("."),
+      csRegex("\\d{1,3}[a-hA-H]?")
+    ),
+    Arrays.asList(
+      SENT_START,
+      // Listenpunkt https://github.com/languagetool-org/languagetool/issues/1515
+      regex("\\*|-|/|_|%|o"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // Pfeil "=>"
+      regex("[=\\-–]"),
+      token(">"),
+      csRegex("[A-ZÄÖÜ].*")
+    ),
+    Arrays.asList(
+      // Zwei Kommas, die wie Anführungszeichen verwendet werden: ",,"
+      new PatternTokenBuilder().token(",").build(),
+      new PatternTokenBuilder().token(",").setIsWhiteSpaceBefore(false).build(),
+      new PatternTokenBuilder().csTokenRegex("[A-ZÄÜÖ].*").setIsWhiteSpaceBefore(false).build()
+    ),
+    Arrays.asList(
+      // Markup: "[H3] Die Headline"
+      SENT_START,
+      token("["),
+      regex("[A-Z0-9]+"),
+      token("]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "B.4 Neue Herstellervorgaben"
+      SENT_START,
+      regex("[a-z]"),
+      token("."),
+      regex("\\d+"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "1-) Ich bin ein Listenpunkt"
+      SENT_START,
+      regex("\\d+-"),
+      regex("[\\)\\]]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "1, Ich bin ebenfalls ein Listenpunkt"
+      SENT_START,
+      regex("[a-z0-9]"),
+      token(","),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "T = Das Ziel"
+      SENT_START,
+      regex("[A-Z0-9]+"),
+      token("="),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "(2c) Der Betrieb ist untersagt"
+      SENT_START,
+      regex("[\\[\\(\\{]"),
+      regex("[a-z0-9]{1,5}"),
+      regex("[\\]\\)\\}]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Sie/Er hat recht."
+      SENT_START,
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Sie/Er/Es hat recht."
+      SENT_START,
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*"),
+      token("/"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Er trank ein paar Halbe."
+      regex("paar|einige|zwei|drei|vier|\\d+"),
+      token("Halbe")
+    ),
+    Arrays.asList(
+      // "Wir machen das Sa So Mo" (fehlender Punkt)
+      csToken("Sa"),
+      csToken("So")
+    ),
+    Arrays.asList(
+      // "Wir machen das Sa oder So" (fehlender Punkt)
+      csToken("Sa"),
+      regex("&|und|oder|-"),
+      csToken("So")
+    ),
+    Arrays.asList(
+      // Vielleicht reden wir später mit ein paar Einheimischen.
+      token("ein"),
+      token("paar"),
+      new PatternTokenBuilder().posRegex(".*SUB.*").csTokenRegex("[A-ZÖÜÄ].+").build(),
+      new PatternTokenBuilder().csTokenRegex("[a-zäöüß.,!?:;\\-–].*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Neues").setSkip(1).build(),
+      new PatternTokenBuilder().token("wagen").matchInflectedForms().build()
+    ),
+    Arrays.asList( // Wir wagen Neues.
+      new PatternTokenBuilder().token("wagen").matchInflectedForms().build(),
+      token("Neues")
+    ),
+    Arrays.asList( // Das birgt zugleich Gefahren
+      new PatternTokenBuilder().csToken("birgen").matchInflectedForms().setSkip(5).build(),
+      token("Gefahren")
+    ),
+    Arrays.asList(
+      // Du Ärmster!
+      token("du"),
+      csRegex("Ärmster?"),
+      csRegex("[^A-ZÖÄÜ].*")
+    ),
+    Arrays.asList(
+        // "... und das Zwischenmenschliche Hand in Hand."
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Hand"),
+        csToken("in"),
+        csToken("Hand")
+    ),
+    Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Kopf and Kopf stehen.""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Kopf"),
+        csToken("an"),
+        csToken("Kopf")
+    ),
+    Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Stück für Stück ...""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Stück"),
+        csToken("für"),
+        csToken("Stück")
+    ),
+    Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Arm in Arm ...""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Arm"),
+        csToken("in"),
+        csToken("Arm")
+    ),
+    Arrays.asList(
+      // ``Ich bin ein Anführungszeich
+      SENT_START,
+      token("`"),
+      token("`"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "4b Ein Listenpunkt"
+      SENT_START,
+      regex("\\d{1,2}[a-z]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "3.) Ein Listenpunkt"
+      SENT_START,
+      regex("\\d{1,3}[a-z]?"),
+      token("."),
+      regex("[\\]\\)\\}]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // "Es besteht aus Schülern, Arbeitstätigen und Studenten."
+      posRegex("SUB:.+"),
+      token(","),
+      posRegex("SUB:.+"),
+      csRegex("und|oder|&"),
+      posRegex("SUB:.+:(MAS|FEM|NEU)")
+    ),
+    Arrays.asList(
+      // Das denken zwar viele, ist aber total falsch.
+      SENT_START,
+      csToken("Das"),
+      csToken("denken"),
+      new PatternTokenBuilder().posRegex("ADV:.+").min(0).build(),
+      csRegex("viele|manche|die|[dms]eine|ihre|eure|diese|jene|wenige")
     )
   );
 
@@ -760,6 +998,7 @@ public class CaseRule extends Rule {
   private static final String[] exceptions = {
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)
+    "Adult", // eng
     "Mo",
     "Di",
     "Mi",
@@ -805,6 +1044,22 @@ public class CaseRule extends Rule {
     "Werktätige",
     "Werktätiger",
     "Werktätigen",
+    "Getestete", // temporary fix
+    "Getesteten", // temporary fix
+    "Genesene", // temporary fix
+    "Genesenen", // temporary fix
+    "Geimpfte", // temporary fix
+    "Geimpften", // temporary fix
+    "Geflüchtete", // temporary fix
+    "Geflüchteten", // temporary fix
+    "Projektbeteiligte", // temporary fix
+    "Projektbeteiligten", // temporary fix
+    "Heranwachsende", // temporary fix
+    "Heranwachsenden", // temporary fix
+    "Interessierte", // temporary fix
+    "Interessierten", // temporary fix
+    "Infizierte", // temporary fix
+    "Infizierten", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
@@ -1344,7 +1599,7 @@ public class CaseRule extends Rule {
     languages.add("Weißrussisch");
   }
 
-  private static final Set<Pattern[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
+  private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
@@ -1721,7 +1976,8 @@ public class CaseRule extends Rule {
         // "aus sechs Überwiegend muslimischen Ländern"
         return false;
       }
-      return (prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|weniger?|einiger?|mehr|aufs") || isNumber(prevTokenStr)) ||
+      return ((prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs") && tokens[i].hasPartialPosTag("SUB"))
+              || isNumber(prevTokenStr)) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(((i < 4 && tokens.length > 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma("sein")) && prevToken.hasPosTagStartingWith("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag(":STD")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO:", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
@@ -1850,9 +2106,9 @@ public class CaseRule extends Rule {
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
-    for (Pattern[] patterns : exceptionPatterns) {
+    for (StringMatcher[] patterns : exceptionPatterns) {
       for (int j = 0; j < patterns.length; j++) {
-        if (patterns[j].matcher(tokens[i].getToken()).matches()) {
+        if (patterns[j].matches(tokens[i].getToken())) {
           int startIndex = i-j;
           if (compareLists(tokens, startIndex, startIndex+patterns.length-1, patterns)) {
             return true;
@@ -1863,14 +2119,14 @@ public class CaseRule extends Rule {
     return false;
   }
 
-  // non-private for tests
-  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, Pattern[] patterns) {
+  @VisibleForTesting
+  static boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, StringMatcher... patterns) {
     if (startIndex < 0) {
       return false;
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= patterns.length || j >= tokens.length || !patterns[i].matcher(tokens[j].getToken()).matches()) {
+      if (i >= patterns.length || j >= tokens.length || !patterns[i].matches(tokens[j].getToken())) {
         return false;
       }
       i++;

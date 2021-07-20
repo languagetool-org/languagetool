@@ -76,7 +76,7 @@ public class HTTPServerTest {
 
     File beolingus = new File("../languagetool-standalone/src/test/resources/beolingus_test.txt");
     assertTrue(beolingus.exists());
-    Files.write(configFile.toPath(), Collections.singletonList("beolingusFile=" + beolingus.getAbsolutePath()));
+    Files.write(configFile.toPath(), Collections.singletonList("beolingusFile=" + beolingus.getAbsolutePath().replace('\\', '/')));  // path works under Windows and Linux
 
     HTTPServer server = new HTTPServer(new HTTPServerConfig(new String[]{
       "--port", String.valueOf(HTTPTools.getDefaultPort()),

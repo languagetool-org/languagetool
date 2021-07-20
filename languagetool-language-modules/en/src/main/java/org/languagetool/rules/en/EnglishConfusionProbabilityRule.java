@@ -441,6 +441,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "us three", // vs is
       "way to go", // vs was
       "way won't", // was
+      "way over", // was
+      "way in the past", // was
+      "way in the future", // was
+      "aisle way", // was
+      "airport way", // was
       "and now him", // vs know
       "and now us,", // vs is
       "to control us", // vs is
@@ -484,6 +489,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("way"),
       posRegex("DT|PRP\\$"),
       posRegex("NN.*")
+    ),
+    Arrays.asList(
+      // sense vs since: Neubauer has been a youth ambassador of the non-governmental organization ONE since 2016.
+      token("since"),
+      tokenRegex("\\d{1,2}|\\d{4}")
     ),
     Arrays.asList(
       // way vs was

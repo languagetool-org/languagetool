@@ -17861,6 +17861,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='díriú orm'><marker>díriú isteach orm</marker></example>
         </rule>
     </category>
+    <category id="REDUNDANT_SIOS" name="redundant síos" type="style">
+        <rule id="MOILLIGH_SIOS" name="moilligh síos">
+            <pattern>
+                <token>moilligh</token>
+                <token>síos</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>\1</suggestion> a scríobh.</message>
+            <example correction='moilligh'><marker>moilligh síos</marker></example>
+        </rule>
+        <rule id="DUN_SIOS" name="dún síos">
+            <pattern>
+                <token>dún</token>
+                <token>síos</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>\1</suggestion> a scríobh.</message>
+            <example correction='dún'><marker>dún síos</marker></example>
+        </rule>
+        <rule id="DUNADH_SIOS" name="dúnadh síos">
+            <pattern>
+                <token>dúnadh</token>
+                <token>síos</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>\1</suggestion> a scríobh.</message>
+            <example correction='dúnadh'><marker>dúnadh síos</marker></example>
+        </rule>
+    </category>
+    <category id="AR_SEACHAS_AG" name="‘ag’ in ionad ‘ar’" type="grammar" default="off">
+	<rule id="AG_AN_AONACH" name="ar an aonach">
+            <pattern>
+                <marker>
+                    <token>ag</token>
+                </marker>
+		<token>an</token>
+                <token>aonach</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>ag</marker> an aonach</example>
+        </rule>
+	<rule id="AG_AN_LEIBHÉAL" name="ar an leibhéal">
+            <antipattern>
+                <token>ag</token>
+                <token>an</token>
+                <token>leibhéal</token>
+                <token>idirchontae</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ag</token>
+                </marker>
+		<token>an</token>
+                <token>leibhéal</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>ag</marker> an leibhéal</example>
+        </rule>
+    </category>
     <category id="GRAMADOIR_NITEE" name="Réamhlitir ‘t’ gan ghá" type="grammar">
         <rulegroup id="AR_AN_NMS" name="ar an NMS">
             <rule>

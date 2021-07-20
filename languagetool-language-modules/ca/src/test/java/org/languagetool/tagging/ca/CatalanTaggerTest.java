@@ -28,12 +28,11 @@ import java.io.IOException;
 
 public class CatalanTaggerTest {
 
-  private CatalanTagger tagger;
+  private CatalanTagger tagger = CatalanTagger.INSTANCE_CAT;
   private WordTokenizer tokenizer;
 
   @Before
   public void setUp() {
-    tagger = new CatalanTagger(new Catalan());
     tokenizer = new WordTokenizer();
   }
 

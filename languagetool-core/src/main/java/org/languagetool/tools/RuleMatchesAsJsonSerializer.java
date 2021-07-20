@@ -182,7 +182,7 @@ public class RuleMatchesAsJsonSerializer {
         }
         writeReplacements(g, match);
         g.writeNumberField("offset", match.getFromPos());
-      g.writeNumberField("length", match.getToPos()-match.getFromPos());
+        g.writeNumberField("length", match.getToPos()-match.getFromPos());
         writeContext(g, match, text, contextTools);
         g.writeObjectFieldStart("type");
         g.writeStringField("typeName", match.getType().toString());
@@ -297,7 +297,7 @@ public class RuleMatchesAsJsonSerializer {
       g.writeStartObject();
       if (match.getUrl() != null) {
         g.writeStringField("value", match.getUrl().toString());
-      } else {
+      } else if (rule.getUrl() != null) {
         g.writeStringField("value", rule.getUrl().toString());
       }
       g.writeEndObject();
@@ -317,10 +317,8 @@ public class RuleMatchesAsJsonSerializer {
   private void writeCategory(JsonGenerator g, Category category) throws IOException {
     g.writeObjectFieldStart("category");
     CategoryId catId = category.getId();
-    if (catId != null) {
-      g.writeStringField("id", catId.toString());
-      g.writeStringField("name", category.getName());
-    }
+    g.writeStringField("id", catId.toString());
+    g.writeStringField("name", category.getName());
     g.writeEndObject();
   }
 
