@@ -4225,7 +4225,7 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rulegroup id="SAIT_CES_C_EST_S_EST" name="sait ces c'est s'est" default="temp_off">
+        <rulegroup id="SAIT_CES_C_EST_S_EST" name="sait ces c'est s'est">
             <rule>
             <pattern>
                 <marker>
@@ -8652,7 +8652,7 @@ though, and has since been slightly modified)-->
             <example>C’est face à la montée en puissance.</example>
             <example>C'est ballot !</example>
         </rule>
-        <rule id="CES_CEST" name="CES|SES au lieu de C'EST" default="temp_off">
+        <rule id="CES_CEST" name="CES|SES au lieu de C'EST">
             <antipattern>
                 <token regexp="yes">[cs]es</token>
                 <token regexp="yes">point|plus|près</token>
@@ -17852,9 +17852,13 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                 <token>faut</token>
             </antipattern>
+             <antipattern>
+                <token regexp="yes">[a-z].*il$</token>
+                <token>faut</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes">faut
-                    <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*|UNKNOWN" postag_regexp="yes"/>
+                    <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/>
                     <exception scope="next">il</exception></token>
             </pattern>
             <message>Cette expression peut sembler familière.</message>
@@ -17907,7 +17911,7 @@ though, and has since been slightly modified)-->
             <example>Loin s'en faut.</example>
             <example>Que faut t-il faire ?</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token>y</token>
                 <token regexp="yes">compris|joue|figure|correspond|crosse|repose|coule</token>
@@ -17942,7 +17946,7 @@ though, and has since been slightly modified)-->
             <example>Y est de codimension finie dans X.</example>
             <example>Y est-il allé ?</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token>y</token>
                 <token min="0" max="1">'</token>
@@ -17964,7 +17968,7 @@ though, and has since been slightly modified)-->
             <example correction="Il"><marker>Y</marker> lui en faut un peu plus.</example>
             <example>Y la Rama llena de Frutos (1986).</example>
         </rule>
-         <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token>y</token>
                 <token min="0" max="1">'</token>
@@ -17985,7 +17989,7 @@ though, and has since been slightly modified)-->
             <example correction="Il en"><marker>Y'en</marker> faut un peu plus.</example>
             <example>Y la Rama llena de Frutos (1986).</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token>il</token>
                 <token postag="R pers obj.*" postag_regexp="yes"/>
@@ -18001,7 +18005,7 @@ though, and has since been slightly modified)-->
             <example correction="Il est vrai"><marker>Faut avouer</marker> qu'il n'est toujours pas là.</example>
         </rule>
         </rulegroup>
-        <rulegroup id="CONFUSION_FAUT_FAUX"  name="confusion faut faux" default="temp_off">
+        <rulegroup id="CONFUSION_FAUT_FAUX"  name="confusion faut faux">
             <rule>
                 <antipattern>
                     <token>peut</token>
@@ -18681,7 +18685,7 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> est attendue dans ce contexte.</message>
                 <example correction="à">Le repas cuit <marker>a</marker> couvert.</example>
             </rule>
-			<rule default="temp_off">
+			<rule>
             <antipattern>
                 <token>le</token>
                 <token>fait</token>
@@ -18858,7 +18862,7 @@ though, and has since been slightly modified)-->
             <example>Désopilant, il a été du Cœur a ses raisons et des Hauts et les bas de Sophie Paquin.</example>
             <example>La confiance qu'il a en sa monnaie a des influences extrêmement importantes sur l'activité économique.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token skip="-1">qui</token>
                 <token>a</token>
@@ -23578,7 +23582,7 @@ though, and has since been slightly modified)-->
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VOUS_NOUS_NON_VERBE" name="vous/nous + non verbe" default="temp_off">
+        <rulegroup id="VOUS_NOUS_NON_VERBE" name="vous/nous + non verbe">
             <rule>
                 <pattern>
                     <token regexp="yes">que|de</token>
@@ -31270,7 +31274,7 @@ though, and has since been slightly modified)-->
                 <message>L'adverbe de lieu et l'interjection <suggestion>là</suggestion> s'écrivent avec un accent grave.</message>
                 <example correction="là">Si cet homme est tout le temps <marker>la</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="1"/>
@@ -31749,7 +31753,7 @@ though, and has since been slightly modified)-->
                 <example correction="apprenne">Je souhaite qu’il <marker>apprend</marker> le français.</example>
                 <example>Je souhaite qu’il <marker>apprenne</marker> le français.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="[ZR].*" postag_regexp="yes"/>
                     <token inflected="yes">ne</token>
@@ -31814,7 +31818,7 @@ though, and has since been slightly modified)-->
                 <example correction="ait|soit">Il faut qu'il <marker>est</marker> la bonne solution.</example>
                 <example correction="ait|soit">Il faut qu'il <marker>est</marker> un homme.</example>
             </rule>
-           <rule default="temp_off">
+           <rule>
                 <pattern>
                     <token postag="V ind pres.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|vouloir</token>
                     <token min="0" max="1" regexp="yes">pas|plus|jamais</token>
@@ -31829,7 +31833,7 @@ though, and has since been slightly modified)-->
                 <suggestion>aient</suggestion>
                 <example correction="aient">Il faut que les enfants <marker>est</marker> mangé avant midi.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="V ind pres.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|souhaiter|suffire|vouloir</token>
                     <token min="0" max="1" regexp="yes">pas|plus|jamais</token>
@@ -31846,7 +31850,7 @@ though, and has since been slightly modified)-->
                 <example correction="ait|soit">Il faut que cet enfant <marker>est</marker> mangé avant midi.</example>
                 <example correction="ait|soit">La tradition veut que le régent <marker>est</marker> tombé malade lors d'une expédition.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
             <antipattern>
                 <token postag="[ZR].*" postag_regexp="yes"/>
                 <token inflected="yes" min="0" max="1">ne</token>
@@ -31923,7 +31927,7 @@ though, and has since been slightly modified)-->
             <example>Il suffit que n'importe lequel parmi les trois anneaux soit rompu pour que tous les anneaux soient indépendants.</example>
             <example>Il faut que non seulement la proportion entre les composantes soit correcte, mais encore que la luminosité soit suffisante.</example>
         </rule>
-         <rule default="temp_off">
+         <rule>
             <antipattern>
                 <token  inflected="yes" skip="1">que</token>
                 <token skip="-1" regexp="yes">quiquonque|importe</token>
@@ -32609,7 +32613,7 @@ though, and has since been slightly modified)-->
                 <example>Je pense que si l'un de vous travail sur toulouse.</example>
                 <example>Par contre, si n´êtes pas fan de films d´horreur, pas la peine de vous l´infliger.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>au</token>
@@ -32622,7 +32626,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\2</suggestion>
                 <example correction="à cette|au|cette">Il produisit du miel jusqu'<marker>au cette</marker> année fatidique.</example>
 			</rule>
-			<rule default="temp_off">
+			<rule>
 				<antipattern>
 					<token><exception postag="SENT_START"/></token>
 					<token regexp="yes" case_sensitive="yes">Ces|Ses</token>
@@ -32645,7 +32649,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\2</suggestion>
                 <example correction="Ce sont des|C'est des|Ces|Des"><marker>Ces des</marker> vacances de rêve.</example>
 			</rule>
-			<rule default="temp_off">
+			<rule>
 				<antipattern>
                     <token><exception postag="SENT_START"/></token>
                     <token regexp="yes" case_sensitive="yes">(?-i)ces|(?-i)cette</token>
@@ -35548,7 +35552,7 @@ though, and has since been slightly modified)-->
             <suggestion>cours de golf</suggestion>
             <example correction="cours de golf"><marker>clinique de golf</marker></example>
         </rule>
-        <rule id="AFFAIRES_CORPORATIVES" name="affaires corporative" default="temp_off">
+        <rule id="AFFAIRES_CORPORATIVES" name="affaires corporative">
             <!--WIP It is in the French dictionary. -->
             <pattern>
                 <token regexp="yes">affaires?</token>
@@ -51468,6 +51472,15 @@ though, and has since been slightly modified)-->
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
         <rulegroup id="NE_VERBE_RIEN" name="ne verbe rien" default="temp_off">
             <antipattern>
+                <token>je</token>
+                <token>dis</token>
+                <token>ça</token>
+                <token min="0" max="1">,</token>
+                <token>je</token>
+                <token>dis</token>
+                <token>rien</token>
+            </antipattern>
+            <antipattern>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
                 <token>rien</token>
@@ -51475,11 +51488,50 @@ though, and has since been slightly modified)-->
                 <token>rien</token>
             </antipattern>
             <antipattern>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">affirmer|dire|être|sembler|para[iî]tre|demeurer|devenir|rester|pouvoir|prétendre</token>
+                <token postag="A" min="0" max="2"/>
+                <token>ne</token>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+             <antipattern>
+                <token>mieux</token>
+                <token>vaut</token>
+                <token postag="A" min="0" max="2"/>
+                <token>ne</token>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
                 <token>rien</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token postag="[DJN].*" postag_regexp="yes" min="1" max="5"/>
+                <token>a</token>
+                <token>rien</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+                <token regexp="yes">foutre|faire</token>
             </antipattern>
             <antipattern>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
@@ -51500,12 +51552,11 @@ though, and has since been slightly modified)-->
                     <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
                         <exception scope="previous" postag="V.*|R pers obj.*" postag_regexp="yes"/>
                         <exception scope="previous" regexp="yes">n|qui</exception>
-                        <exception regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*</exception>
+                        <exception regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*|puis</exception>
                     </token>
                 </marker>
                 <token postag="A" min="0" max="2"/>
                 <token case_sensitive="yes">rien
-                    <exception scope="previous">puis</exception>
                     <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
             </pattern>
             <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
@@ -51517,8 +51568,18 @@ though, and has since been slightly modified)-->
             <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
             <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
             <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+            <example>Je pourrais ne rien dire.</example>
+            <example>Le téléchargement essaie de commencer et puis plus rien...</example>
+            <example>Je dis ça, je dis rien.</example>
+            <example>Mieux vaut ne rien faire que d'être occupé en ne faisant rien.</example>
         </rule>
         <rule>
+            <antipattern>
+                <token regexp="yes">[jc]'</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*</token>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*
@@ -51534,7 +51595,9 @@ though, and has since been slightly modified)-->
             <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
             <suggestion>n'\1</suggestion>
             <example correction="n'arrive">Il <marker>arrive</marker> rien.</example>
+            <example>Je n'ai le gout a rien !</example>
             <example>Il te suit rien que pour t'embêter.</example>
+            <example>J'entends rien.</example>
             <example>Mais le matin, punaise rien de rien.</example>
             <example>S'il revient rien ne l'empêche de redemander les droits.</example>
             <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
@@ -51542,6 +51605,13 @@ though, and has since been slightly modified)-->
             <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
         </rule>
         <rule>
+            <antipattern>
+                <token><exception postag="R pers obj.*|[NJ].*" postag_regexp="yes"/></token>
+                <token>t'</token>
+                <token postag="V.* (ind|con|sub).* 2 s" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token>rien</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token  postag="R pers obj.*" postag_regexp="yes">
@@ -51559,14 +51629,16 @@ though, and has since been slightly modified)-->
             <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
             <suggestion>ne \1</suggestion>
             <example correction="ne lui">Il <marker>lui</marker> dit rien.</example>
-            <example>Il te suit rien que pour t'embêter.</example>
-            <example>Mais le matin, punaise rien de rien.</example>
-            <example>S'il revient rien ne l'empêche de redemander les droits.</example>
-            <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
-            <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
-            <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+			<example>T'as encore rien vu.</example>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="R pers suj.*|[NJ].*" postag_regexp="yes"/>
+                <token regexp="yes">en|y</token>
+                <token postag="V.* (ind|con|sub).* [12] s" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+				<token>rien</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token  postag="R pers obj.*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|y
@@ -51584,12 +51656,80 @@ though, and has since been slightly modified)-->
             <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
             <suggestion>n'\1</suggestion>
             <example correction="n'en">Il <marker>en</marker> sait rien.</example>
-            <example>Il te suit rien que pour t'embêter.</example>
-            <example>Mais le matin, punaise rien de rien.</example>
-            <example>S'il revient rien ne l'empêche de redemander les droits.</example>
-            <example>Allons soyons sérieux, l ' âge n' a rien à voir à l'affaire.</example>
-            <example>C'était un discours qui n avaient rien a faire sur wikipedia.</example>
-            <example>Valérie Rouzeau, Pas revoir et Neige rien, La Table ronde, 2010.</example>
+            <example>Y avait rien de patriotique.</example>
+            <example>J'en sais rien.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>j'</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|y</token>
+                </marker>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>je n'\2</suggestion>
+            <example correction="Je n'ai"><marker>J'ai</marker> rien dit.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>t'<exception scope="previous" postag="R pers suj.*|[NJ].*" postag_regexp="yes"/></token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|y</token>
+                </marker>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>tu n'\2</suggestion>
+            <example correction="Tu n'as"><marker>T'as</marker> rien fait.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>c'</token>
+                <token postag="V.* (ind|con|sub).* 3 s" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|y</token>
+                </marker>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>ce n'\2</suggestion>
+            <example correction="Ce n'est"><marker>C'est</marker> rien.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>j'</token>
+                    <token regexp="yes">en|y</token>
+                </marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>je n'\2</suggestion>
+            <example correction="Je n'en"><marker>J'en</marker> ai rien dit.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>t'</token>
+                    <token regexp="yes">en|y</token>
+                </marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token case_sensitive="yes">rien
+                    <exception scope="next" inflected="yes" regexp="yes">ne|que</exception></token>
+            </pattern>
+            <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+            <suggestion>tu n'\2</suggestion>
+            <example correction="Tu n'en"><marker>T'en</marker> as rien fait.</example>
         </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_A_DE" name="confusion a de" default="temp_off">
@@ -52925,7 +53065,7 @@ though, and has since been slightly modified)-->
             <example>Elle <marker>et</marker> Mrs. Smith sont là.</example>
             <example>Elle est rentrée chez elle <marker>et</marker> fait à manger.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token skip="-1">dont</token>
                 <token postag="Z.*" postag_regexp="yes"/>
@@ -52962,7 +53102,7 @@ though, and has since been slightly modified)-->
             <example>Jonah Winter, Gertrude est Gertrude est Gertrude, Paris, éditions RMN, 2011.</example>
             <example>L'actrice préférée de Tom est Ellen Page.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token><exception postag="SENT_START"/></token>
                 <token regexp="yes">(?-i)Quel(le)?s?</token>
@@ -52992,7 +53132,7 @@ though, and has since been slightly modified)-->
             <example>Quel es t la cotation de l 'avant derniere voie.</example>
             <example>Une notation plus précise indique exactement quelles et combien de fonctions sont ajoutées à la base.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token><exception postag="SENT_START"/></token>
                 <token regexp="yes">(?-i)Ne|(?-i)N|(?-i)N[’´'‛′‘]</token>
@@ -53015,7 +53155,7 @@ though, and has since been slightly modified)-->
             <example>On suppose que E est de dimension finie non nulle n et que h est non dégénérée.</example>
             <example>On déduit ( est équipotent à (AB)C), celle entre ({0,1}N)N et {0,1}N et donc que l'ensemble des suites réelles indexées par les entiers a la puissance du continu.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token regexp="yes">(?-i)[MTS]'</token>
             </antipattern>
