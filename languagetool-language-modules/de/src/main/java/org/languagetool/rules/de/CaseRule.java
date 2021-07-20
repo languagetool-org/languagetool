@@ -916,6 +916,22 @@ public class CaseRule extends Rule {
         csToken("Kopf")
     ),
     Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Stück für Stück ...""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Stück"),
+        csToken("für"),
+        csToken("Stück")
+    ),
+    Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Arm in Arm ...""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Arm"),
+        csToken("in"),
+        csToken("Arm")
+    ),
+    Arrays.asList(
       // ``Ich bin ein Anführungszeich
       SENT_START,
       token("`"),

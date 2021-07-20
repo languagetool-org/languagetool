@@ -713,7 +713,10 @@ public class ProhibitedCompoundRule extends Rule {
           "Textartikel", // vs Textpartikel
           "Textartikels", // vs Textpartikels
           "Textartikeln", // vs Textpartikeln
-          "Feuchtmann" //name
+          "Feuchtmann", //name
+          "Fachlektüre",
+          "Fachlektüren",
+          "Bundessprechern" // vs Bundessprecherin
   ));
 
   // have per-class static list of these and reference that in instance

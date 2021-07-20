@@ -111,7 +111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token min="1" max="5" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto|adjunto</exception><exception regexp="yes">.*%</exception></token>
         </phrase>
         <phrase id="_GN_SINGULAR02">
-            <token postag="DI0.S0" postag_regexp="yes"/>
+            <token postag="DI0.S0" postag_regexp="yes"><exception postag="RG"/></token>
         </phrase>
         <phrase id="_GN_PLURAL01">
             <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">qué|cu[aá]l|cu[aá]nto</exception></token>
@@ -2907,6 +2907,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Te parece bien que tal persona se comporte así?</example>
                 <example correction="qué">Hola <marker>que</marker> tal?</example>
                 <example>¿Crees que tal vez es más económico?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INTERROGATIVAS_INDIRECTAS" name="interrogativas indirecas: el cómo, el quién" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>quien</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué persona), se escribe con tilde.</message>
+                <suggestion>quién</suggestion>
+                <example correction="quién">No importa el qué sino el <marker>quien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>cuanto</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cantidad), se escribe con tilde.</message>
+                <suggestion>cuánto</suggestion>
+                <example correction="cuánto">No importa el qué sino el <marker>cuanto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>cuando</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=en qué momento), se escribe con tilde.</message>
+                <suggestion>cuándo</suggestion>
+                <example correction="cuándo">No importa el qué sino el <marker>cuando</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>como</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=de qué manera), se escribe con tilde.</message>
+                <suggestion>cómo</suggestion>
+                <example correction="cómo">No importa el qué sino el <marker>como</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>donde</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=en qué lugar), se escribe con tilde.</message>
+                <suggestion>dónde</suggestion>
+                <example correction="dónde">No importa el qué sino el <marker>donde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>adonde</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=a qué lugar), se escribe con tilde.</message>
+                <suggestion>adónde</suggestion>
+                <example correction="adónde">No importa el qué sino el <marker>adonde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token min="0">,</token>
+                    <token regexp="yes">y|o|sino|ni</token>
+                    <token regexp="yes">el|del|al</token>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No importa el <marker>que</marker> sino el cuándo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|del|al</token>
+                    <token regexp="yes">quien|quién|cuanto|cuánto|como|cómo|cuando|cuándo|donde|dónde|adonde|adónde</token>
+                    <token regexp="yes">y|o|sino|ni</token>
+                    <token regexp="yes">el|del|al</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si introduce una oración interrogativa indirecta (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No importa el cuándo sino el <marker>que</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE_CREO" name="confusión: se creo/creó">
@@ -7781,6 +7877,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>EE</token>
+                    <token>UU</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>EE UU.</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>E</token>
+                    <token>.</token>
+                    <token>E</token>
+                    <token>.</token>
+                    <token>U</token>
+                    <token>.</token>
+                    <token>U</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>E.E.U.U.</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>EE</token>
+                    <token>UU</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>EE UU</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>JJ</token>
                     <token>.</token>
                     <token spacebefore="no">OO</token>
@@ -7801,6 +7940,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Abreviatura de "Juegos Olímpicos".</message>
                 <suggestion>JJ.&#160;OO.</suggestion>
                 <example correction="JJ.&#160;OO.">En los <marker>JJ.OO</marker></example>
+                <example>En JJ. OO.</example>
+                <example>En JJ.&#160;OO.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>JJ</token>
+                    <token>OO</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>JJ OO.</marker> de Pequín.</example>
+                <example>En JJ. OO.</example>
+                <example>En JJ.&#160;OO.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>JJ</token>
+                    <token>OO</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>JJ OO</marker></example>
+                <example>En JJ. OO.</example>
+                <example>En JJ.&#160;OO.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>J</token>
+                    <token>.</token>
+                    <token>J</token>
+                    <token>.</token>
+                    <token>O</token>
+                    <token>.</token>
+                    <token>O</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>J.J. O.O.</marker></example>
                 <example>En JJ. OO.</example>
                 <example>En JJ.&#160;OO.</example>
             </rule>
@@ -7834,6 +8013,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Abreviatura de "derechos humanos".</message>
                 <suggestion>DD.&#160;HH.</suggestion>
                 <example correction="DD.&#160;HH.">En los <marker>DD.HH</marker></example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>DD</token>
+                    <token>HH</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DD HH.</marker> de Pequín.</example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>DD</token>
+                    <token>HH</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DD HH</marker></example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>D</token>
+                    <token>.</token>
+                    <token>D</token>
+                    <token>.</token>
+                    <token>H</token>
+                    <token>.</token>
+                    <token>H</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>D.D. H.H.</marker></example>
                 <example>En DD. HH.</example>
                 <example>En DD.&#160;HH.</example>
             </rule>
@@ -15288,12 +15507,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="CS">que</token>
                     </or>
                     <token regexp="yes" min="0" max="3">[«"]|&quot;</token>
-                   <!-- <token min="0" postag="D...S." postag_regexp="yes"/>
+                    <!-- <token min="0" postag="D...S." postag_regexp="yes"/>
                     <token min="1" max="4" postag="(N.|A..).[SC].*|V.P..S." postag_regexp="yes"><exception regexp="yes">&exceptions_sujeto_singular;</exception><exception regexp="yes" inflected="yes">&unidades_tiempo;|&expresiones_tiempo;|&partes_dia;|vez</exception></token>-->
                     <phraseref idref="_GN_SINGULAR"/>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
                     <marker>
-                        <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
+                        <token postag="V...3P." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3S." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.* postagFrom:marker postagSelect:V(...)3P(.) postagReplace:V\b13S\b2"/>
@@ -15314,6 +15533,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una vez citaron a Cristóbal Colón al decir que los piratas eran demasiado "ingenuos".</example>
                 <example>Dos combaten, un tercero lucra.</example>
                 <example>Mi hobby son las lenguas.</example>
+                <example>Se lo dedico a todas las madres, a sus cajas de botones que tanto tienen que enseñarnos.</example>
+                <example>Como dice Panchosilio, que poco se valoran estos militantes.</example>
+                <example>Muy frecuentemente se pierde la voz de las personas que mucho hablan.</example>
+                <example>Muy frecuentemente se pierde la voz de las personas que poco hablan.</example>
             </rule>
             <!-- Plural -->
             <rule>
@@ -15357,7 +15580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <phraseref idref="_GN_PLURAL"/>
                     <token regexp="yes" min="0" max="3">&pronombre_personal_atono;|no</token>
                     <marker>
-                        <token postag="V...3S." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3P." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener></exception></token>
+                        <token postag="V...3S." postag_regexp="yes" regexp="yes">\p{Ll}.*<exception postag="V...3P." postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|tener</exception><exception>hay</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.* postagFrom:marker postagSelect:V(...)3S(.) postagReplace:V\b13P\b2"/>
@@ -15372,6 +15595,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esos productos los anunciaba en televisión.</example>
                 <example>Estas revistas las anunciaba en televisión.</example>
                 <example>Esta revista la anunciaba en televisión.</example>
+                <example>Algunos libros hay que degustarlos.</example>
+                <example>Familias disfuncionales hay a montones.</example>
             </rule>
             <!--<rule>
                 <pattern>
@@ -20288,15 +20513,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token spacebefore="no">.</token>
-                <token regexp="yes">[a-z]</token>
+                <token regexp="yes" spacebefore="yes">[a-z]</token>
                 <token spacebefore="no">.</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">.</token>
-                <token spacebefore="no">.</token>
-                <token regexp="yes" spacebefore="no">.</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">.</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
                     <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
@@ -20367,6 +20592,94 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>3200 a.C.– 1600 a.C.</example>
                 <example>3200 a. C.– 1600 a. C.</example>
                 <example>Versión 1.x</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto.</message>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="… Siempre">Es así<marker>…Siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto y no antes.</message>
+                <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="así… Siempre">Es <marker>así …Siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="… siempre|… Siempre">Es así<marker>…siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">…<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto y no antes.</message>
+                <suggestion><match no="1"/>… <match no="3"/></suggestion>
+                <suggestion><match no="1"/>… <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="así… siempre|así… Siempre">Es <marker>así …siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">.</token>
+                    <token>.</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto.</message>
+                <suggestion>... <match no="4" case_conversion="startupper"/></suggestion>
+                <example correction="... Siempre">Es así<marker>...Siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">.</token>
+                    <token>.</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Lu}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto y no antes.</message>
+                <suggestion><match no="1"/>... <match no="5" case_conversion="startupper"/></suggestion>
+                <example correction="así... Siempre">Es <marker>así ...Siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">.</token>
+                    <token>.</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto.</message>
+                <suggestion>... <match no="4"/></suggestion>
+                <suggestion>... <match no="4" case_conversion="startupper"/></suggestion>
+                <example correction="... siempre|... Siempre">Es así<marker>...siempre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">.</token>
+                    <token>.</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]</token>
+                </pattern>
+                <message>Falta un espacio después del punto y no antes.</message>
+                <suggestion><match no="1"/>... <match no="5"/></suggestion>
+                <suggestion><match no="1"/>... <match no="5" case_conversion="startupper"/></suggestion>
+                <example correction="así... siempre|así... Siempre">Es <marker>así ...siempre</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante">

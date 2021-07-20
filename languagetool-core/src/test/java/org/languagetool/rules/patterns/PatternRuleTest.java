@@ -164,7 +164,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
-    testExamplesExist(rules);
     testGrammarRulesFromXML(rules, allRulesLt, lang);
     System.out.println(rules.size() + " rules tested.");
     allRulesLt.shutdown();
@@ -311,25 +310,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       for (DisambiguationPatternRule antiPattern : antiPatterns) {
         PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getPatternTokens(),
                 antiPattern.getId(), antiPattern.getSubId(), lang);
-      }
-    }
-  }
-
-  protected void testExamplesExist(List<AbstractPatternRule> rules) {
-    for (AbstractPatternRule rule : rules) {
-      if (rule.getCorrectExamples().isEmpty()) {
-        boolean correctionExists = false;
-        for (IncorrectExample incorrectExample : rule.getIncorrectExamples()) {
-          if (incorrectExample.getCorrections().size() > 0) {
-            correctionExists = true;
-            break;
-          }
-        }
-        if (!correctionExists) {
-          String failure = "Rule needs at least one <example> with a 'correction' attribute"
-                  + " or one <example> of type='correct'.";
-          addError(rule, failure);
-        }
       }
     }
   }

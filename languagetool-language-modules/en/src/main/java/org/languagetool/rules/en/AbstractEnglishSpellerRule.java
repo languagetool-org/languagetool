@@ -20,9 +20,12 @@ package org.languagetool.rules.en;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import opennlp.tools.util.Span;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.ner.EnglishNamedEntityDetector;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
@@ -30,6 +33,8 @@ import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,8 +43,10 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  //private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
+
+  private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // words with 'NOSUGGEST' in en_US.dic:
@@ -90,6 +97,67 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
+  }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    RuleMatch[] matches = super.match(sentence);
+    if (languageModel != null && languageModel instanceof BaseLanguageModel) {
+      String sentenceText = sentence.getText();
+      try {
+        List<Span> namedEntities = ner.findNamedEntities(sentenceText);
+        //System.out.println("namedEntities: " + namedEntities);
+        List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
+        matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
+      } catch (Exception e) {
+        logger.warn("Could not run NER test on '" + sentenceText + "'", e);
+      }
+    }
+    return matches;
+  }
+
+  private List<RuleMatch> filter(RuleMatch[] matches, String sentenceText, List<Span> namedEntities, LanguageModel languageModel) {
+    BaseLanguageModel lm = (BaseLanguageModel) languageModel;
+    Set<RuleMatch> toFilter = new HashSet<>();
+    for (Span neSpan : namedEntities) {
+      for (RuleMatch match : matches) {
+        //System.out.println(neSpan.getStart() + " <= " + match.getFromPos() + " && " + neSpan.getEnd() + " >= " +  match.getToPos());
+        if (neSpan.getStart() <= match.getFromPos() && neSpan.getEnd() >= match.getToPos()) {
+          String covered = sentenceText.substring(match.getFromPos(), match.getToPos());
+          List<String> infos = new ArrayList<>();
+          long textCount = lm.getCount(covered);
+          infos.add(covered + "/" + textCount);
+          String mostCommonRepl = null;
+          long mostCommonReplCount = textCount;
+          int i = 0;
+          for (String repl : match.getSuggestedReplacements()) {
+            long replCount = lm.getCount(repl);
+            if (replCount > mostCommonReplCount) {
+              mostCommonRepl = repl;
+              mostCommonReplCount = replCount;
+            }
+            infos.add(repl + "/" + replCount);
+            if (i++ >= 4) {
+              break;
+            }
+          }
+          //String msg = "Could skip: " + covered + " FOR " + sentenceText.substring(neSpan.getStart(), neSpan.getEnd());
+          if (mostCommonRepl != null) {
+            //System.out.println(msg + "\n -> Would not skip, common repl: " + mostCommonRepl + ": " + infos);
+          } else {
+            //System.out.println(msg + "\n -> Would skip, " + infos);
+            toFilter.add(match);
+          }
+        }
+      }
+    }
+    List<RuleMatch> filteredMatches = new ArrayList<>();
+    for (RuleMatch match : matches) {
+      if (!toFilter.contains(match)) {
+        filteredMatches.add(match);
+      }
+    }
+    return filteredMatches;
   }
 
   /**
@@ -228,6 +296,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("ergo ") &&
                    !k.getReplacement().toLowerCase().startsWith("fore ") &&
                    !k.getReplacement().toLowerCase().startsWith("geo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("pro ") &&
                    !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
                    !k.getReplacement().toLowerCase().startsWith("psycho ") &&
                    !k.getReplacement().toLowerCase().startsWith("nano ") &&
@@ -241,6 +310,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("mu ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
@@ -409,6 +479,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("prolly", Arrays.asList("probably"));
+    s.put("corse", Arrays.asList("course"));
+    s.put("util", Arrays.asList("utility"));
+    s.put("Util", Arrays.asList("Utility"));
+    s.put("prorata", Arrays.asList("pro rata"));
+    s.put("pro-rata", Arrays.asList("pro rata"));
+    s.put("Prorata", Arrays.asList("Pro rata"));
+    s.put("Pro-rata", Arrays.asList("Pro rata"));
     s.put("wast", Arrays.asList("was", "waste", "waist", "wasn't"));
     s.put("Wast", Arrays.asList("Was", "Waste", "Waist", "Wasn't"));
     s.put("drag&drop", Arrays.asList("drag & drop"));
@@ -463,10 +541,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Pro-bono", Arrays.asList("Pro bono"));
     s.put("probono", Arrays.asList("pro bono"));
     s.put("Probono", Arrays.asList("Pro bono"));
-    s.put("pro-rata", Arrays.asList("pro rata"));
-    s.put("Pro-rata", Arrays.asList("Pro rata"));
-    s.put("prorata", Arrays.asList("pro rata"));
-    s.put("Prorata", Arrays.asList("Pro rata"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
     s.put("unpolite", Arrays.asList("impolite"));
@@ -791,7 +865,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("IO", Arrays.asList("I/O"));
     s.put("wierd", Arrays.asList("weird"));
     s.put("Wierd", Arrays.asList("Weird"));
-    s.put("hiphop", Arrays.asList("hip-hop"));
     s.put("HipHop", Arrays.asList("Hip-Hop"));
     s.put("gove", Arrays.asList("love", "give", "gave", "move"));
     s.put("birdseye", Arrays.asList("bird's-eye"));

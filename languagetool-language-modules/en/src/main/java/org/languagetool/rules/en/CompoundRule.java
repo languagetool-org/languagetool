@@ -91,6 +91,10 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().token("spring").build(),
         new PatternTokenBuilder().tokenRegex("cleans?|cleaned|cleaning").build(),
         new PatternTokenBuilder().tokenRegex("up|the|my|our|his|her").build()
+      ),
+      Arrays.asList( // Serie A team (A-Team)
+        new PatternTokenBuilder().tokenRegex("series?").build(),
+        new PatternTokenBuilder().tokenRegex("a").build()
       )
   ), AMERICAN_ENGLISH);
 

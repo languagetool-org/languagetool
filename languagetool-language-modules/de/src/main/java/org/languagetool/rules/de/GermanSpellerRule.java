@@ -74,6 +74,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
+  
+  private static final int MAX_TOKEN_LENGTH = 200;
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
@@ -939,6 +941,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("pitza", "Pizza");
     put("Tütü", "Tutu");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
+    putRepl("[Gg]ilst", "ilst", "iltst");
     putRepl("[vV]ollrichtung(en)?", "oll", "er");
     putRepl("[vV]ollrichtest", "oll", "er");
     putRepl("[vV]ollrichten?", "oll", "er");
@@ -1034,6 +1037,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[ck]amel[ie]onhaft(e[mnrs]?)?", "[ck]am[ie]lion", "chamäleon");
     putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
     putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
+    putRepl("Belastungsekgs?", "ekg", "-EKG");
     put("Schutzfließ", "Schutzvlies");
     put("Simlock", "SIM-Lock");
     put("fäschungen", "Fälschungen");
@@ -1478,6 +1482,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    if (words.get(idx).length() > MAX_TOKEN_LENGTH) {
+      return true;
+    }
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false;

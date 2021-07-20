@@ -38,11 +38,17 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
   abstract protected Tagger getTagger();
 
-  abstract protected MorfologikSpeller getSpeller();
+  //abstract protected MorfologikSpeller getSpeller();
+  abstract protected List<String> getSpellingSuggestions(String w) throws IOException; 
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+    
+//    if (match.getSentence().getText().contains("saperçoit")) {
+//      int ii=0;
+//      ii++;
+//    }
 
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
@@ -94,32 +100,35 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         if (atrWord.isTagged()) {
           wordToCheck = makeWrong(atrWord.getToken());
         }
-        List<String> suggestions = getSpeller().findReplacements(wordToCheck);
+        List<String> suggestions = getSpellingSuggestions(wordToCheck); //getSpeller().findReplacements(wordToCheck);
         if (suggestions.size() > 0) {
-          // TODO: do not tag capitalized words with tags for lower case
-          List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(suggestions);
-          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-            if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
-                && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-              if (!replacements.contains(analyzedSuggestion.getToken())
-                  && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
-                  && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-                if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
-                  String replacement = analyzedSuggestion.getToken();
-                  if (isWordAllupper) {
-                    replacement = replacement.toUpperCase();
-                  }
-                  if (isWordCapitalized) {
-                    replacement = StringTools.uppercaseFirstChar(replacement);
-                  }
-                  replacements.add(replacement);
-                }
-              }
+          for (String suggestion : suggestions) {
+            // TODO: do not tag capitalized words with tags for lower case
+            List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));
+            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
               if (replacements.size() >= MAX_SUGGESTIONS) {
                 break;
               }
+              if (!suggestion.equals(atrWord.getToken())
+                  && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+                if (!replacements.contains(suggestion)
+                    && !replacements.contains(suggestion.toLowerCase())
+                    && (!diacriticsMode || equalWithoutDiacritics(suggestion, atrWord.getToken()))) {
+                  if (regexpPattern == null || !regexpPattern.matcher(suggestion).matches()) {
+                    String replacement = suggestion;
+                    if (isWordAllupper) {
+                      replacement = replacement.toUpperCase();
+                    }
+                    if (isWordCapitalized) {
+                      replacement = StringTools.uppercaseFirstChar(replacement);
+                    }
+                    replacements.add(replacement);
+                  }
+                } 
+              }
             }
           }
+          
         }
       }
     }
@@ -218,5 +227,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
   private boolean equalWithoutDiacritics(String s, String t) {
     return StringTools.removeDiacritics(s).equalsIgnoreCase(StringTools.removeDiacritics(t));
+  }
+  
+  protected String cleanSuggestion(String s) {
+    return s;
   }
 }

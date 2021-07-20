@@ -60,7 +60,6 @@ public class RemoteRuleFilterTest extends PatternRuleTest {
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
     testRegexSyntax(lang, rules);
-    testExamplesExist(rules);
     testGrammarRulesFromXML(rules, allRulesLt, lang);
     System.out.println(rules.size() + " rules tested.");
     allRulesLt.shutdown();

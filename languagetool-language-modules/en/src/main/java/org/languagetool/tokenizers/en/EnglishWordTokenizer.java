@@ -123,7 +123,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
           if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
             l.add(s);
           } else {
-            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
               l.add(s);
             }
             // some camel-case words containing hyphen (is there any better fix?)

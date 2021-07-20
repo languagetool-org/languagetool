@@ -450,7 +450,7 @@ abstract class TextChecker {
       if (config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
         System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
         ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-        ServerMetricsCollector.getInstance().logHiddenServerRequest(false);
+        ServerMetricsCollector.getInstance().logHiddenServerRequest(false, lang, 0);
         logger.warn("Warn: Skipped querying hidden matches server at " +
           config.getHiddenMatchesServer() + " because of recent error/timeout (timeout=" + config.getHiddenMatchesServerFailTimeout() + "ms).");
       } else {
@@ -468,9 +468,9 @@ abstract class TextChecker {
           ServerMetricsCollector.getInstance().logHiddenServerStatus(true);
           lastHiddenMatchesServerTimeout = -1;
           hiddenMatchesServerFailures = 0;
-          ServerMetricsCollector.getInstance().logHiddenServerRequest(true);
+          ServerMetricsCollector.getInstance().logHiddenServerRequest(true, lang, hiddenMatches.size());
         } catch (Exception e) {
-          ServerMetricsCollector.getInstance().logHiddenServerRequest(false);
+          ServerMetricsCollector.getInstance().logHiddenServerRequest(false, lang, 0);
           hiddenMatchesServerFailures++;
           if (hiddenMatchesServerFailures >= config.getHiddenMatchesServerFall()) {
             ServerMetricsCollector.getInstance().logHiddenServerStatus(false);

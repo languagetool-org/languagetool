@@ -78,7 +78,7 @@ public class SentenceWhitespaceRule extends TextLevelRule {
       }
       if (tokens.length > 0) {
         String lastToken = tokens[tokens.length-1].getToken();
-        prevSentenceEndsWithWhitespace = lastToken.trim().isEmpty() && lastToken.length() == 1;
+        prevSentenceEndsWithWhitespace = lastToken.replace('\u00A0',' ').trim().isEmpty() && lastToken.length() == 1;
       }
       if (tokens.length > 1) {
         String prevLastToken = tokens[tokens.length-2].getToken();

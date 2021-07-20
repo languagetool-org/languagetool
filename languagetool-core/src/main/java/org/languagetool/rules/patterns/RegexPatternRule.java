@@ -46,6 +46,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
   // see: https://dev.languagetool.org/development-overview
   // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
   private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
+  public static final int MAX_SENT_LENGTH = 2000;
 
   private final Pattern pattern;
   private final int markGroup;
@@ -90,8 +91,11 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
     List<Pair<Integer, Integer>> suggestionsInSuggestionsOutMsg = getClausePositionsInMessage(suggestionPattern, suggestionsOutMsg);
     List<Pair<Integer, Integer>> backReferencesInSuggestionsOutMsg = getClausePositionsInMessage(matchPattern, suggestionsOutMsg);
 
-    Matcher patternMatcher = pattern.matcher(new InterruptibleCharSequence(text));
     List<RuleMatch> matches = new ArrayList<>();
+    if (text.length() > MAX_SENT_LENGTH) {
+      return matches.toArray(new RuleMatch[0]);
+    }
+    Matcher patternMatcher = pattern.matcher(new InterruptibleCharSequence(text));
 
     while (patternMatcher.find(startPos)) {
       try {

@@ -312,6 +312,7 @@ public class German extends Language implements AutoCloseable {
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
+      case "BEI_VERB": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "VERB_FEM_SUBST": return -1; // prefer Comma rules
       case "GEFEATURED": return -1; // prefer over spell checker
@@ -320,6 +321,7 @@ public class German extends Language implements AutoCloseable {
       case "SUBJECT_VERB_AGREEMENT": return -1; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
       case "MODALVERB_FLEKT_VERB": return -1;
+      case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
       case "GERMAN_WORD_REPEAT_RULE": return -3; // prefer other more specific rules

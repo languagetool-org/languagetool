@@ -195,7 +195,7 @@ public class Dutch extends Language {
     List<String> ruleFileNames = super.getRuleFileNames();
     String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
     ruleFileNames.add(dirBase + "nl-NL/grammar.xml");
-    //ruleFileNames.add(dirBase + "grammar-test-1.xml");
+    //ruleFileNames.add(dirBase + "grammar-test.xml");
     return ruleFileNames;
   }
 
