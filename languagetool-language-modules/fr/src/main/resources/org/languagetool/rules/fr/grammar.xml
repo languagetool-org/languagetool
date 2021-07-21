@@ -16587,6 +16587,43 @@ though, and has since been slightly modified)-->
                 <example>heu, la magnesie des autres m'a fait cadeau de pas mal de croix à vue...</example>
             </rule>
         </rulegroup>-->
+        <rule id="WRONG_ETRE_VPPA" name="nous (sommes)-> avons dansés" default="temp_off">
+            <antipattern>
+                <token postag_regexp="yes" postag="R pers.*|N.*"/>
+                <token postag_regexp="yes" postag="R pers obj.*"/>
+                <token min="0">en</token>
+                <token postag_regexp="yes" postag="V etre.*"/>
+                <token postag_regexp="yes" postag="V ppa.*" inflected="yes">&verbespronominaux_SE;|&verbespronominaux_S_elision;</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="R pers.*"/>
+                <token min="0">en</token>
+                <token postag_regexp="yes" postag="V etre.*"/>
+                <token postag_regexp="yes" postag="V ppa.*" inflected="yes">&verbesauxiliaire_etre_et_avoir;</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="R pers 3.*"/>
+                <token min="0">en</token>
+                <token postag_regexp="yes" postag="V etre.*"/>
+                <token postag_regexp="yes" postag="V ppa.*" inflected="yes">&verbestransitifsdirects_gpe1;|&verbestransitifsdirects_gpe2;|&verbestransitifsdirects_gpe3;|&verbestransitifsindirects_gpe1;|&verbestransitifsindirects_gpe2;|&verbestransitifsindirects_gpe3;</token>
+            </antipattern>
+            <pattern>
+                <token postag_regexp="yes" postag="R pers .*" regexp="yes"/>
+                <token min="0">en</token>
+                <marker>
+                    <token postag_regexp="yes" postag="V etre .*" regexp="yes"/>
+                </marker>
+                <token postag_regexp="yes" postag="V ppa .*" regexp="yes"/>
+            </pattern>
+            <message>Le participe passé '\4' se conjugue avec l'auxiliaire 'Avoir'.</message>
+            <suggestion><match no="3" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match></suggestion>
+            <example correction="avons">Nous <marker>sommes</marker> dansés.</example>
+            <example correction="a">Il <marker>est</marker> dormi.</example>
+            <example>Ils ont dansé toute la nuit.</example>
+            <example>La Salsa est dansée partout dans le monde.</example>
+            <example>Je me suis laissé dire que tu arriverais en retard.</example>
+        </rule>
+
         <rulegroup id="ACCORDS_PARTICULIERS_SINGULIER" name="accords particuliers au singulier">
             <rule>
                 <pattern>
