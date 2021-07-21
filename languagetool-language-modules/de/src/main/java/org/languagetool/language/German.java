@@ -284,6 +284,7 @@ public class German extends Language implements AutoCloseable {
       case "DE_COMPOUNDS": return 10;
       case "IRGEND_COMPOUND": return 10;
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
+      case "ZULANGE": return 1;  // better suggestion than SAGT_RUFT
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
       case "JOE_BIDEN": return 1;  // better error than DE_CASE
       case "RESOURCE_RESSOURCE": return 1;  // better error than DE_CASE
@@ -312,6 +313,7 @@ public class German extends Language implements AutoCloseable {
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
+      case "SAGT_RUFT": return -1; // prefer case rules
       case "BEI_VERB": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "VERB_FEM_SUBST": return -1; // prefer Comma rules
