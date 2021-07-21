@@ -4240,6 +4240,34 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="POLE_2" name="pôle" default="temp_off">
+        <!-- correctif pour ID="POLE" qui empêche la correction pole->pôle -->
+            <antipattern>
+              <token postag_regexp="yes" postag="D f s"/>
+              <token>pole</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">Stare|Legnickie|Žižkovo|Trnové|Tehelné|Svaté|Slivo|Královo|Ryńskie|Dolne|Dobré|Totem|Jill|single</token>
+              <token regexp="yes">[Pp]ole</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">poles?</token>
+              <token regexp="yes">positions?|dance</token>
+            </antipattern>
+            <pattern>
+                    <marker>
+                  <token regexp="yes">poles?</token>
+                    </marker>
+                    <token inflected="yes" min="0">de</token>
+                    <token regexp="yes">nord|sud|est|ouest|emploi|hotspitaliers?|santé|administratifs?|magnétiques?|purs?|géographiques?|azurs?|eurasiens?|métropolitains?|urbains?|eulériens?|Aquinetics?|Concessions?|Europe(éen)?s?|images?|compétitivités?|excellences?|territoria(l|aux])|coopérations?|éducati(fs?|ions?)|internationa(l|aux)</token>
+            </pattern>
+            <message>Une erreur d'orthographe semble être détectée.</message>
+            <suggestion><match no="1" regexp_match="(p)o(les?)" regexp_replace="$1ô$2"/></suggestion>
+            <example correction="pôle">Il a tenté la traversée du <marker>pole</marker> nord.</example>
+            <example correction="pôle">Ils inaugurent un <marker>pole</marker> d'excellence.</example>
+            <example>Hamilton prend la pole position.</example>
+            <example>Edmond de la Pole est ainsi décapité en 1513.</example>
+        </rule>
         <rulegroup id="SAIT_CES_C_EST_S_EST" name="sait ces c'est s'est">
             <rule>
             <pattern>
