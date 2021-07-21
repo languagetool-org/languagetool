@@ -1072,6 +1072,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Standbay", "Stand-by");
     put("[vV]ollkommnung", "Vervollkommnung");
     put("femist", "vermisst");
+    put("stantepede", "stante pede");
     put("[kK]ostarika", "Costa Rica");
     put("[kK]ostarikas", "Costa Ricas");
     put("[aA]uthenzität", "Authentizität");
