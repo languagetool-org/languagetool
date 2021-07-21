@@ -458,7 +458,6 @@ public class English extends Language implements AutoCloseable {
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
-      case "PRP_VB":                    return -2;  // prefer other more specific rules (with suggestions)
       case "BE_VBP_IN":                 return -2;  // prefer over BEEN_PART_AGREEMENT
       case "BEEN_PART_AGREEMENT":       return -3;  // prefer other more specific rules (e.g. VARY_VERY, VB_NN)
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
@@ -483,6 +482,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
+      case "PRP_VB":                    return -25;  // prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
