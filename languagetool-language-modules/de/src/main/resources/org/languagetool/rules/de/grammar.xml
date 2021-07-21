@@ -11527,12 +11527,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GROSS_FLAECHIG" name="groß zügig (großzügig)">
             <pattern>
                 <token regexp="yes">gro(ß|ss)</token>
-                <token inflected="yes" regexp="yes">flächig|mütig|räumig|zügig|denkend|herzig|kotzig|mächtig|maschig|mäulig|spurig|städtisch|wüchsig|artig|järig</token>
+                <token inflected="yes" regexp="yes">flächig|mütig|räumig|zügig|denkend|herzig|kotzig|mächtig|maschig|mäulig|spurig|städtisch|wüchsig|artig|jährig</token>
             </pattern>
             <message>Das Adjektiv <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
             <short>Zusammenschreibung</short>
             <example correction="großartige">Das ist eine <marker>groß artige</marker> Idee!</example>
-            <example correction="großzügig">Mein Vate ist sehr <marker>groß zügig</marker> zu mir.</example>
+            <example correction="großzügig">Mein Vater ist sehr <marker>groß zügig</marker> zu mir.</example>
         </rule>
         <rule id="ZWEI_KLASSEN_GESELLSCHAFT" name="Zwei-Klassen-Gesellschaft">
             <pattern>
@@ -21993,6 +21993,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie die Redewendung <suggestion>auf Messers Schneide</suggestion>?</message>
             <example correction="auf Messers Schneide">Das Spiel steht <marker>auf Messers schneide</marker>.</example>
+        </rule>
+        <rule id="ZUCKERBROT_UND_PEITSCHE" name="Zuckerbrot und peitsche (Peitsche)" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token>Zuckerbrot</token>
+                <token>und</token>
+                <marker>
+                    <token>peitsche</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Peitsche</suggestion>?</message>
+            <short>&prgk;.</short>
+            <example correction="Peitsche">Es gab abwechselnd Zuckerbrot und <marker>peitsche</marker>.</example>
         </rule>
         <rule id="HERR_MEINER_SELBST" name="Herr seiner Selbst (selbst)">
             <pattern>
