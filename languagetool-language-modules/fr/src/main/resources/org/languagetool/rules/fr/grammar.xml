@@ -26271,7 +26271,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token postag="V avoir .*" postag_regexp="yes"/>
-                    <token regexp="yes">assez|aussi|beaucoup|bien|déjà|encore|enfin|énormément|guère|mieux|moins|parfois|pas|peu|peut-être|plus|presque|toujours|très|trop</token>
+                    <token regexp="yes">jamais|assez|aussi|beaucoup|bien|déjà|encore|enfin|énormément|guère|mieux|moins|parfois|pas|peu|peut-être|plus|presque|toujours|très|trop</token>
                     <marker>
                         <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes">
                             <exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
@@ -26297,7 +26297,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="V avoir .*" postag_regexp="yes"/>
                     <token regexp="yes">assez|beaucoup|pas|plus|presque|peut-être|jamais|toujours|très|trop</token>
-                    <token regexp="yes">assez|beaucoup|bien|encore|énormément|peu|plus|très|trop</token>
+                    <token regexp="yes">assez|beaucoup|bien|encore|énormément|peu|plus|très|trop|vraiment</token>
                     <marker>
                         <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes">
                             <exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
@@ -26344,6 +26344,75 @@ though, and has since been slightly modified)-->
                 <example>Pourquoi a-t-il fait une telle chose ?</example>
                 <example>Qu'a-t-elle fait cette semaine ?</example>
                 <example>Ai-je fait quelque chose de travers ?</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token case_sensitive="yes">A
+                        <exception postag="SENT_START" scope="previous"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">bisphénols?</token>
+                    <token regexp="yes">(?-i)A</token>
+                </antipattern>
+                <antipattern>
+                    <token>il</token>
+                    <token>y</token>
+                    <token postag="V avoir .* 3 s" postag_regexp="yes" skip="2"/>
+                    <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Z|R pers suj.*" postag_regexp="yes" skip="1"/>
+                    <token postag="V avoir .*" postag_regexp="yes"/>
+                    <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                  <antipattern>
+                    <token postag="Z|R pers suj.*" postag_regexp="yes" skip="1"/>
+                    <token>a</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="Z|R pers suj.*" postag_regexp="yes" skip="1"/>
+                    <token postag="V avoir .*" postag_regexp="yes"/>
+                    <token regexp="yes">aille|faire|rendez|peut</token>
+                    <token regexp="yes">[aà]|vous|[êe]tre</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Z|R pers suj.*" postag_regexp="yes" skip="1"/>
+                    <token>a</token>
+                    <token postag="V (ind|sub|con).*" postag_regexp="yes"/>
+                    <token regexp="yes">-je|-tu|(-t)?-ils?|(-t)?-elles?|-on|-[nv]ous</token>
+                </antipattern>
+                <pattern>
+                    <token postag="Z|R pers suj.*" postag_regexp="yes" skip="1"/>
+                    <token postag="V avoir .*" postag_regexp="yes">
+                        <exception scope="previous"  postag="V.*" postag_regexp="yes"/>
+                        <exception postag="N m p">avions</exception></token>
+                    <token postag="A|R m s" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token postag="V (inf|ind|sub|con).*" postag_regexp="yes">
+                            <exception postag="[RND] .*|V .*ppa m s" postag_regexp="yes"/>
+                            <exception>hélas</exception></token>
+                    </marker>
+                </pattern>
+                <message>Après l’auxiliaire « \2 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa e (s|p|sp)"/></suggestion>
+                <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+                <example correction="signé|signée|signés|signées">Il n'a jamais <marker>signer</marker> le contrat</example>
+                <example correction="demandé|demandée|demandés|demandées">Je n'ai jamais vraiment <marker>demander</marker> de l'eau en caraffe.</example>
+                <example correction="signé|signée|signés|signées">Elle a <marker>signez</marker> le contrat</example>
+                <example>Le 28 de janvier il commença a dégeler.</example>
+                <example>Il n'a semble-t-il encore jamais joué en championnat avec Peñarol.</example>
+                <example correction="reçu|reçue|reçus|reçues">Il a <marker>reçut</marker> ta lettre</example>
+                <example correction="mangé|mangée|mangés|mangées">J’ai <marker>manger</marker> de la soupe.</example>
+                <example>Guillaume, damoiseau, il épouse Jeannette d'Usies de qui il a Guillemette.</example>
+                <example>Tu m'as conduit à l'hôpital.</example>
+                <example>La « foi » qu’il dit avoir concernerait ainsi l’immortalité de l’âme.</example>
+                <example>Il y a corner pour l'équipe adverse.</example>
+                <example>A moins qu'on ai faire à des demeurés.</example>
             </rule>
         </rulegroup>
         <rule id="AVOIR_PU" name="Avoir pu suivi d’un verbe conjugué">
