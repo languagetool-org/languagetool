@@ -59071,15 +59071,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Forma col·loquial de <suggestion>nosaltres</suggestion>.</message>
             <example correction="Nosaltres"><marker>Noltros</marker> venim.</example>
         </rule>
-        <rule id="ENCONSTIPAT" name="enconstipat">
+        <rule id="ENCONSTIPAT" name="enconstipat" default="temp_off">
             <pattern>
-                <token postag="[AVN].*" postag_regexp="yes" regexp="yes">(en)?costip.*</token>
+                <token regexp="yes">(enconstip|costip|encostip)[aeiàé].*</token>
             </pattern>
             <message>Forma col·loquial, no admesa per la majoria de diccionaris.</message>
-            <suggestion><match no="1" regexp_match="(?iu)((en)?)costip(.*)" regexp_replace="constip$3"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)(enconstip|costip|encostip)(.*)" regexp_replace="constip$2"/></suggestion>
             <!--<url>http://esadir.cat/entrades/fitxa/node/constipat</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=constipado&amp;numPagina=1&amp;database=CASCAT&amp;idFont=15497&amp;idHit=15497&amp;tipusFont=%3CI%3EDiccionari+catal%E0-castell%E0%3C%2FI%3E+d%27Enciclop%E8dia+Catalana+%283a+edici%F3%29&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=constipado+&amp;tematica=%28Totes%29&amp;tipusCerca=cerca.traduir</url>
             <example correction="constipat">Estic <marker>encostipat</marker>.</example>
+            <example correction="constipat">Estic <marker>enconstipat</marker>.</example>
             <example correction="constipar">Es va <marker>costipar</marker>.</example>
         </rule>
         <rulegroup id="PRONOMS_FEBLES_COLLOQUIALS" name="Pronoms febles col·loquials: digue'm">
