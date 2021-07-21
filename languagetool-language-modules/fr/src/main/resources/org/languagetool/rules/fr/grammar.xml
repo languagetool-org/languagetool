@@ -18855,6 +18855,16 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">de</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>à</token>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="[JPN].*|C coor" postag_regexp="yes" min="0" max="6"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="V.*" postag_regexp="yes">
                     <exception postag="[ZNRJ].*|V ppr" postag_regexp="yes"/>
@@ -18877,6 +18887,7 @@ though, and has since been slightly modified)-->
             <example correction="à">Les impôts effectuent une retenue stricte et coûteuse <marker>a</marker> la source sur le salaire.</example>
             <example correction="à">La tonne élèverait le prix <marker>a</marker> la pompe de 30%.</example>
             <example>Le bâtiment hébergeant l'établissement scolaire a un intérêt historique ou architectural.</example>
+            <example>La société connaissent à la recherche a des déclarations de lui.</example>
             <example>Tout club qui remporte trois tournois consécutifs a le droit de conserver le trophée.</example>
             <example>Le fait de marquer l'évidentialité a des implications pragmatiques.</example>
             <example>Le recours aux cricétomes des savanes pour détecter les mines anti-personnel a plusieurs avantages.</example>
@@ -23615,8 +23626,28 @@ though, and has since been slightly modified)-->
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VOUS_NOUS_NON_VERBE" name="vous/nous + non verbe">
+        <rulegroup id="VOUS_NOUS_NON_VERBE" name="vous/nous + non verbe" default="temp_off">
             <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>de</token>
+                    <token regexp="yes">[nv]ous</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token>de</token>
+                    <token regexp="yes">[nv]ous</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">que|de</token>
+                    <token regexp="yes">[nv]ous</token>
+                    <token>auto</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">que|de</token>
                     <marker>
@@ -23631,6 +23662,8 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" regexp_match="(?iu)ous" regexp_replace="os"/> \3</suggestion>
                 <suggestion>\2 {suggestion}</suggestion>
                 <example correction="vos travail|vous travaille|vous travailla">L'un de <marker>vous travail</marker> ce soir.</example>
+                <example>J'attends de vous célérité et sagacité.</example>
+                <example>Eux suivi de vous régulier.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23649,6 +23682,13 @@ though, and has since been slightly modified)-->
                 <example correction="être">Merci de vous <marker>êtres</marker> donner la peine de venir aujourd'hui.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>que</token>
+                    <token>vous</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token inflected="yes">de</token>
+                </antipattern>
                 <pattern>
                     <token>que</token>
                     <token>vous</token>
@@ -23876,6 +23916,15 @@ though, and has since been slightly modified)-->
                 <token postag="V.*" postag_regexp="yes" skip="1"/>
                 <token>que</token>
             </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token postag="V etre.* 3 s" postag_regexp="yes" skip="-1"/>
+                <token>que</token>
+                <token>vous</token>
+                <token postag="V.* 3 ." postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
+                <token postag="[JN].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token>que
                     <exception scope="previous" regexp="yes">tel(le)?s?|plutôt|parce|ainsi</exception>
@@ -23893,6 +23942,7 @@ though, and has since been slightly modified)-->
             <example correction="arriviez|arrivez">C'est dommage que vous <marker>arriver</marker> tard.</example>
             <example>Rome plutôt que vous est son premier long métrage.</example>
             <example>Que vous dérange pas que les sentiments.</example>
+            <example>C'est dans un cadre de toute beauté que vous flanque le diable un cloître ou un fieffé.</example>
             <example>En utilisant les moyens que vous apporte la connaissance des lois psychophysiologiques.</example>
             <example>Nous ne voulons que vous vendre des denrées.</example>
             <example>Qui mieux que vous sait vos besoins ?</example>
@@ -23927,6 +23977,20 @@ though, and has since been slightly modified)-->
             <example>C'est donc de la que vous vient cette haine des helicopteres.</example>
             <example>Que vous voulaient ces deux hommes ?</example>
         </rule>
+        <rule>
+                <pattern>
+                    <token regexp="yes">que|de</token>
+                        <token regexp="yes">[nv]ous</token>
+                                            <marker>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">.*(ir|er)$
+                            <exception postag="V.* inf" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet '\2'.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(ir|er)$" regexp_replace="ez"/></suggestion>
+                <example correction="plaisez">L'un de vous <marker>plaisir</marker> ce soir.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NON_V" name="pronom sujet + nom/adj" default="off">
             <!--<antipattern>
@@ -32657,10 +32721,6 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">la|le|les|nous|vous</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
-                    <token regexp="yes">(?-i)SA|(?-i)CET</token>
-                </antipattern>
-                <antipattern>
                     <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
                     <token regexp="yes" case_sensitive="yes">[cdlmst]es|ce[st]</token>
                 </antipattern>
@@ -32671,6 +32731,14 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token>au</token>
                     <token postag="D f s"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
+                    <token regexp="yes" case_sensitive="yes">[CDLMST]ES|[NV]OS|CETTE|CE[ST]|[MTS]A|MON</token>
+                </antipattern>
+                 <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[CDLMST]ES|[NV]OS|CETTE|CE[ST]|[MTS]A|MON|LEURS?|AUX?</token>
+                    <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
