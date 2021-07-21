@@ -51824,6 +51824,69 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+		    <rulegroup id="Y_APOSTROPHE" name="y apostrophe" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>y</token>
+                    <token>'</token>
+                    <token>a</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token regexp="yes">plus|pas|jamais|guère|rien</token>
+                </antipattern>
+                <antipattern>
+                    <token>y</token>
+                    <token>'</token>
+                    <token min="0" max="1">en</token>
+                    <token>a</token>
+                    <token skip="1" regexp="yes">t|t'</token>
+                    <token>il</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>y<exception scope="previous">il</exception></token>
+                        <token>'</token>
+                    </marker>
+                    <token min="0" max="1">en</token>
+                    <token>a</token>
+                </pattern>
+                <message>Cette expression peut sembler familière.</message>
+                <suggestion>il y</suggestion>
+                <example correction="Il y"><marker>Y'</marker> a beaucoup de devoirs ?</example>
+                <example>Y 'a t - il des connaisseurs ?</example>
+                <example>S'il y a des traces, c'est pas bon, évidemment, mais y 'en a t'il ?</example>
+                <example>S'il y' a du portage .....</example>
+                <example>Y'a jamais rien à faire ici.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>il</token>
+                    <marker>
+                        <token>y</token>
+                        <token>'</token>
+                    </marker>
+                    <token min="0" max="1">en</token>
+                    <token>a</token>
+                </pattern>
+                <message>L'apostrophe n'est pas nécessaire.</message>
+				<suggestion>y</suggestion>
+                <example correction="y">Il <marker>y'</marker> a beaucoup de devoirs ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>y</token>
+                        <token>'</token>
+                    </marker>
+                    <token min="0" max="1">en</token>
+                    <token>a</token>
+                    <token skip="1" regexp="yes">t|t'</token>
+                    <token>il</token>
+                </pattern>
+                <message>L'apostrophe n'est pas nécessaire.</message>
+                 <suggestion>y</suggestion>
+                <example correction="Y"><marker>Y '</marker>en a t'il ?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NE_VERBE_RIEN" name="ne verbe rien" default="temp_off">
             <antipattern>
                 <token>je</token>
