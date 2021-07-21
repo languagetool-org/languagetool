@@ -82,6 +82,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
+    put("DA", "Da");
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
     put("Wandererin", "Wanderin");
