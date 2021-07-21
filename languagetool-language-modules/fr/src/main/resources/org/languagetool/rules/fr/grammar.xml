@@ -49655,27 +49655,16 @@ though, and has since been slightly modified)-->
                     <token>muros</token>
                 </antipattern>
                 <antipattern>
-                    <token>siège</token>
-                    <token>-</token>
-                    <token>auto</token>
-                </antipattern>
-                <antipattern>
                     <token>ultra</token>
                     <token min="0">-</token>
                     <token regexp="yes">a.*|petita</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="[DN].*" postag_regexp="yes"/>
-                    <token>auto</token>
-                    <token min="0">-</token>
-                    <token postag="[NJ].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">auto|bio|cardio</token>
+                    <token regexp="yes">bio|cardio</token>
                     <token regexp="yes">o.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">macro|méta|mono|primo|co|agro|auto|cardio|éco|hydro|infra|inter|intra
+                    <token regexp="yes" case_sensitive="yes">macro|méta|mono|primo|co|agro|cardio|éco|hydro|infra|inter|intra
                         <exception scope="previous">.</exception></token>
                     <token min="0">-</token>
                     <token postag="[NJ].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
@@ -50130,6 +50119,46 @@ though, and has since been slightly modified)-->
                 <message>L'expression <suggestion>\1 \3</suggestion> s'écrit sans trait d'union.</message>
                 <example correction="petit ami">Elle a un <marker>petit-ami</marker>.</example>
             </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token regexp="yes" skip="1">systèmes?|moteurs|premières?|accidents?|pistes?|bo[iî]tes?</token>
+                <token>auto</token>
+            </antipattern>
+            <antipattern>
+                <token>auto</token>
+                <token min="0">-</token>
+                <token regexp="yes">tamponneuses?</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">auto<exception scope="previous" regexp="yes">[.-]</exception></token>
+                <token min="0">-</token>
+                <token postag="[NJ].*|V ppa.*" postag_regexp="yes">
+                    <exception regexp="yes">[iou].*</exception>
+                    <exception regexp="yes">adaptées?|immergées?|blindées?|garée|sortie|destinée|équipée</exception>
+                    <exception postag="V (ind|con|sub).*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Le préfixe 'auto' est attaché au mot qui le suit.</message>
+            <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="auto$1"/></suggestion>
+            <example correction="autodéfense">L'<marker>auto défense</marker> procure de l'assurance.</example>
+            <example correction="autobloquants">Les pavés <marker>auto bloquants</marker> sont assez récents.</example>
+            <example>Pour les systèmes dits auto coinçant, voir ci-dessous.</example>
+            <example>Il a des sièges-auto produits l'année dernière.</example>
+            <example>Il se lance alors dans la création d'une nouvelle auto adaptée à ces règles.</example>
+            <example>En 1972, Mogogné était accessible à partir d'une piste auto reliant Kossa à Balla Plata.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token regexp="yes" inflected="yes">[mts]e</token>
+                    <marker>
+                        <token case_sensitive="yes">auto</token>
+                        <token min="0">-</token>
+                        <token postag="V.*" postag_regexp="yes"><exception postag="V.* ppa.*" postag_regexp="yes"/></token>
+                    </marker>
+            </pattern>
+            <message>Le préfixe 'auto' est attaché au verbe qui le suit.</message>
+            <suggestion>\2\4</suggestion>
+            <example correction="autocensurer">Ils ont choisi de ne pas s'<marker>auto censurer</marker>.</example>
+        </rule>
         </rulegroup>
         <rule id="CEST_A_DIRE" name="c'est à dire">
             <pattern>
@@ -50794,6 +50823,27 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Un trait d'union lie ces deux termes afin de former le mot <suggestion>\1-\2</suggestion>.</message>
                 <example correction="afro-américains">Ils sont <marker>afro américains</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token case_sensitive="yes">auto</token>
+                    <token regexp="yes">tamponneuses?</token>
+                </pattern>
+                <message>Un trait d'union lie ces deux termes afin de former le mot <suggestion>\1-\2</suggestion>.</message>
+                <example correction="auto-tamponneuses">Les <marker>auto tamponneuses</marker> ne peuvent pas aller sur la route.</example>
+            </rule>
+            <rule>
+				<antipattern>
+                    <token regexp="yes" skip="1">systèmes?|moteurs|premières?|accidents?|pistes?|bo[iî]tes?|semi|moto</token>
+                    <token>auto</token>
+				</antipattern>
+                <pattern>
+                    <token case_sensitive="yes">auto</token>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes" regexp="yes">[iou].*
+                    <exception postag="V (ind|con|sub).*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Un trait d'union lie ces deux termes afin de former le mot <suggestion>\1-\2</suggestion>.</message>
+                <example correction="auto-inflammable">Ce produit est <marker>auto inflammable</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="QUASI_NOM" name="Quasi + nom">
