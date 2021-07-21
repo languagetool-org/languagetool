@@ -8662,6 +8662,11 @@ though, and has since been slightly modified)-->
         <rule id="CES_CEST" name="CES|SES au lieu de C'EST">
             <antipattern>
                 <token regexp="yes">[cs]es</token>
+                <token regexp="yes">même</token>
+                <token postag="[JN].p" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[cs]es</token>
                 <token regexp="yes">point|plus|près</token>
                 <token regexp="yes">:|forts?|techniques?|produits?|importants?|de</token>
             </antipattern>
@@ -8711,6 +8716,7 @@ though, and has since been slightly modified)-->
             <example>Ces très nombreuses variétés sont classées en groupes.</example>
             <example>Ces très petits et véloces coléoptères sont présents en Europe.</example>
             <example>Ces bruits seraient produits par les esprits qui habitaient dans ce village et ces alentours.</example>
+            <example>Ces même données sont aussi utilisée pour l'établissement d'attestations.</example>
         </rule>
         <rulegroup id="CEST_CETTE" name="C'est (cet) arrosoir" default="temp_off">
             <antipattern>
