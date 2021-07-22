@@ -10,8 +10,8 @@ title="Easy editing stylesheet" ?>
  Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
- Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Udo Mai and Yakov Reztsov
- who mentored the project.
+ Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Udo Mai
+ and Yakov Reztsov who mentored the project.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -13158,7 +13158,7 @@ A definição genérica é que os terroristas são violentos. → A definição 
 
 	<!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
     <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style" default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
 	<!--
 Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
 	-->
@@ -13168,8 +13168,9 @@ Os radicais retaliam contra Estados que são encarados como sendo os inimigos. �
 			<token>que</token>
 			<token regexp='yes'>é|são</token>
 			<token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
-			<token regexp='yes'>como|por</token>
+			<token regexp='yes'>com|como|em|n[ao]s?|para|pel[ao]s?|por</token>
 		</marker>
+		<token negate_pos="yes" postag='VMN0000' postag_regexp='no'/>
       </pattern>
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion>\4 \5</suggestion>
