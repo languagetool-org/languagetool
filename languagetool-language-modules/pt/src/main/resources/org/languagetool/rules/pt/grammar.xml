@@ -10,7 +10,8 @@ title="Easy editing stylesheet" ?>
  Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
- Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà and Yakov Reztsov who mentored the project.
+ Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Udo Mai and Yakov Reztsov
+ who mentored the project.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -38939,21 +38940,27 @@ Com você é verão o ano inteiro.
 		<token>verão</token>
 	  </antipattern>	  	  	  
 <!-- MARCOAGPINTO 2021-06-27 (25-JUN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-07-08 (25-JUN-2021+) *START* -->
+<!-- MARCOAGPINTO 2021-07-08 + 2021-07-22 (25-JUN-2021+) *START* -->
 <!--
 O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.
 Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.
 Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
+Ou o nativo visto pelo prisma do etnógrafo?
+Ninguém tem visto o Tom por um tempo.
+Pensei que já tivesse visto o Tom em algum lugar.
+Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.
+Era visto nas mãos de todos os japoneses em paradas.
 -->
       <antipattern>
+		<token negate="yes" regexp='no' inflected='yes'>ser</token>
 		<token>visto</token>
-		<token/>
-		<token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
-		<token postag='V.+' postag_regexp='yes'>
+		<token/>		
+		<token min="1" max="2" postag='NP.+|AQ0.+|NC.+|V.+' postag_regexp='yes'>
 			<exception postag_regexp='yes' postag='CS|RG'/>
 		</token>
+		<token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
 	  </antipattern>
-<!-- MARCOAGPINTO 2021-07-08 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-07-08 + 2021-07-22 (25-JUN-2021+) *END* -->
       <pattern>
 		<marker>
 			<token regexp='no' inflected='yes'>ver</token>	
@@ -38989,6 +38996,11 @@ Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
 	  <example>O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.</example>
 	  <example>Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.</example>
 	  <example>Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.</example>
+	  <example>Ou o nativo visto pelo prisma do etnógrafo?</example>
+	  <example>Ninguém tem visto o Tom por um tempo.</example>
+	  <example>Pensei que já tivesse visto o Tom em algum lugar.</example>
+	  <example>Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.</example>
+	  <example>Era visto nas mãos de todos os japoneses em paradas.</example>	  
     </rule>
 
  </category>
