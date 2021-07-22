@@ -10,8 +10,8 @@ title="Easy editing stylesheet" ?>
  Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
- Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Udo Mai
- and Yakov Reztsov who mentored the project.
+ Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
+ Udo Mai and Yakov Reztsov who mentored the project.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -13188,7 +13188,8 @@ Os radicais retaliam contra Estados que são encarados como sendo os inimigos. �
 Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
 	-->
       <pattern>
-		<token postag='V.+' postag_regexp='yes'/>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token min="0" max="1" negate_pos="yes" postag='AQ.+|NC.+' postag_regexp='yes'/>
 		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
 		<marker>
 			<token>de</token>
