@@ -9003,13 +9003,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Salvador Dalí"><marker>Salvator Dali</marker> war ein spanischer Maler.</example>
         </rule>
         <rule id="HANSI_FICK" name="Hansi Fick (Flick)">
+            <antipattern>
+                <token>fick</token>
+                <token>dich</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">hansi|hans-dieter</token>
+                <token regexp="yes">hansi|hans-dieter|((dfb|bayern|nationalelf)-)?coach|((dfb|bayern|nationalelf)-)?trainer|(chef|bundes)(trainer|coach)</token>
                 <token regexp="yes">ficks?</token>
             </pattern>
             <message>Meinten Sie den Fußballtrainer <suggestion><match no="1" case_conversion="startupper" /> <match no="2" regexp_match="(?i)i" regexp_replace="li" /></suggestion>?</message>
             <url>https://de.wikipedia.org/wiki/Hansi_Flick</url>
             <example correction="Hansi Flick"><marker>Hansi Fick</marker> gewann mit Bayern die Champions League.</example>
+            <example correction="Trainer Flick"><marker>Trainer Fick</marker> muss seine Spieler auf die WM vorbereiten.</example>
+            <example>Hansi fick dich!</example>
         </rule>
         <rule id="ASTRA_ZENECA" name="AstraZeneca">
             <pattern>
@@ -22166,7 +22172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Schmerzen">Die <marker>schmerzen</marker> lassen langsam nach.</example>
         </rule>
-        <rule id="GEBÜHREN_SUBST" name="die gebühren (Gebühren)" default="temp_off">
+        <rule id="GEBÜHREN_SUBST" name="die gebühren (Gebühren)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
                     <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
@@ -23157,7 +23163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Unterschied">Was ist der <marker>unterschied</marker> zwischen "gratis" und "kostenlos"?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>unterschieden</token>
                     <token min="0">zu</token>
@@ -26803,7 +26809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Ausnahmen">Da machen wir keine <marker>ausnahmen</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
                         <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
@@ -39643,7 +39649,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="ZULANGE" name="Es ist zulange her" default="temp_off">
+        <rulegroup id="ZULANGE" name="Es ist zulange her">
             <rule>
                 <antipattern>
                     <token skip="1">ich</token>
@@ -39704,7 +39710,7 @@ Andere Projekte</example>
                     <marker>
                         <token>zulange</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">warten|dauern</token>
+                    <token regexp="yes" inflected="yes">warten|dauern|reifen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt dem Verb "zulangen"?</message>
                 <example correction="zu lange">Das hat zum Glück nicht <marker>zulange</marker> gedauert.</example>
@@ -39739,6 +39745,17 @@ Andere Projekte</example>
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt dem Verb "zulangen"?</message>
                 <example correction="zu lange">Wir sollten uns nicht <marker>zulange</marker> damit aufhalten.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>wer</token>
+                    <marker>
+                        <token skip="2">zulange</token>
+                    </marker>
+                    <token postag="VER:3.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt dem Verb "zulangen"?</message>
+                <example correction="zu lange">Wer <marker>zulange</marker> Muße hat, der wird träge.</example>
             </rule>
         </rulegroup>
         <rule id="WIE_GEHST_DIR" name="Wie gehst (gehts) euch?">
