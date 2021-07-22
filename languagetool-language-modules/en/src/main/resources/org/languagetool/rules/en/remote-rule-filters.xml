@@ -249,6 +249,33 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">We will do <marker>it</marker> so that nobody complains.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>the</token>
+                    </marker>
+                </pattern>
+                <example correction="">A sole Russian aircraft carrier, <marker>the</marker> is rarely out to sea.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">inc|ltd</token>
+                    <token>.</token>
+                </pattern>
+                <example correction="">Internal Memo from Lynn Bellinghausen to Wynne Snoots and Marshall <marker>Eubank</marker> Inc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">inc|ltd</token>
+                    <marker>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <example correction="">Internal Memo from Lynn Bellinghausen to Wynne Snoots and Marshall Eubank Inc <marker>.</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>

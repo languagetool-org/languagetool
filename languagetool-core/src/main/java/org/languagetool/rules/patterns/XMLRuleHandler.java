@@ -103,7 +103,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder correctExample = new StringBuilder();
   protected StringBuilder incorrectExample = new StringBuilder();
   protected StringBuilder errorTriggerExample = new StringBuilder();
-  protected StringBuilder exampleCorrection = new StringBuilder();
+  protected StringBuilder exampleCorrection = null;
   protected StringBuilder message = new StringBuilder();
   protected StringBuilder suggestionsOutMsg = new StringBuilder();
   protected StringBuilder match = new StringBuilder();

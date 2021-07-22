@@ -90,7 +90,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (SpanishTagger.INSTANCE.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (SpanishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)

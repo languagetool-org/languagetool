@@ -210,9 +210,12 @@ public class EsperantoTagger implements Tagger {
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
 
-      // No Esperanto word is made of one letter only. This check avoids
-      // spurious tagging as single letter words "A", "O", "E", etc.
-      if (word.length() > 1) {
+      if (word.length() > 50) {
+        // avoid excessively long computation times for long (probably artificial) tokens:
+        l.add(new AnalyzedToken(word, null, null));
+      } else if (word.length() > 1) {
+        // No Esperanto word is made of one letter only. This check avoids
+        // spurious tagging as single letter words "A", "O", "E", etc.
         // Lemma contains words in lower case, and with Unicode transcription (as opposed
         // to x-system).
         String lWord = xSystemToUnicode(word.toLowerCase());

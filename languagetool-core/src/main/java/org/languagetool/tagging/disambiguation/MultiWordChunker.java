@@ -52,6 +52,8 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, AnalyzedToken> mFull;
+  
+  private final static int MAX_TOKENS_IN_MULTIWORD = 20;
 
   /**
    * @param filename file text with multiwords and tags
@@ -195,7 +197,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
         int len = mStartSpace.get(tok);
         int j = i;
         int lenCounter = 0;
-        while (j < anTokens.length) {
+        while (j < anTokens.length  && j - i < MAX_TOKENS_IN_MULTIWORD) {
           if (!anTokens[j].isWhitespace()) {
             tokens.append(anTokens[j].getToken());
             String toks = tokens.toString();
@@ -218,7 +220,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
       }
       if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
         int j = i;
-        while (j < anTokens.length && !anTokens[j].isWhitespace()) {
+        while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
           tokens.append(anTokens[j].getToken());
           String toks = tokens.toString();
           if (mFull.containsKey(toks)) {

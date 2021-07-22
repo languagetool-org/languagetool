@@ -10,7 +10,8 @@ title="Easy editing stylesheet" ?>
  Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
- Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà and Yakov Reztsov who mentored the project.
+ Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
+ Udo Mai and Yakov Reztsov who mentored the project.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -2545,7 +2546,7 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
 
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
     <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 (17-MAR-2021+)      -->
 	<!--
 Esta que foi a maior crítica ao trabalho de Ana. → Esta sendo a maior crítica ao trabalho de Ana.
 Não sou antirreligioso, só quero respeito com aqueles que são ateus.
@@ -2600,8 +2601,15 @@ Suas obras contêm o primeiro estudo formal conhecido da lógica, sendo incorpor
 				<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
 					<exception postag_regexp='yes' postag='NP.+'/>
 				</token>				
-			</marker>	
-			<token negate="yes" regexp='yes'>que|[,]</token>
+			</marker>
+			<and>
+				<token negate="yes" regexp='yes'>que|[,]</token>
+				<token negate_pos="yes" postag='DI.+|Z0.+' postag_regexp='yes'/>
+			</and>
+			<and>			
+				<token negate="yes" regexp='yes'>[:]|até|um|uns|umas?</token>
+				<token negate_pos="yes" postag='DI.+' postag_regexp='yes'/>
+			</and>
 		</pattern>		
 		<message>Esta perífrase pode ser simplificada.</message>
 		<suggestion>\3</suggestion>
@@ -13109,6 +13117,90 @@ O pai de Pedro queria que ele estudasse teologia e que se tornasse um membro do 
       <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
     </rule>
 
+    <!-- 	É + QUE + A(S)/O(S) + NC + É/SÃO é a(s)/o(s) NOME ser(em) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-20 (25-JUN-2021+)      -->	
+    <rulegroup id='É_QUE_AS-OS_NC_É-SÃO' name="É que a(s)/o(s) Nome_Comum é/são → É a(s)/o(s) Nome_Comum ser(em)" type="style">
+<!--
+A definição genérica é que o terrorismo é violento. → A definição genérica é o terrorismo ser violento.
+-->			
+		<rule>
+			<pattern>
+				<marker>
+					<token>é</token>
+					<token>que</token>
+					<token postag='DA.+' postag_regexp='yes'/>
+					<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+					<token>é</token>
+				</marker>
+			</pattern>		
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>\1 \3 \4 ser</suggestion>
+			<example correction="é o terrorismo ser">A definição genérica <marker>é que o terrorismo é</marker> violento.</example>  
+		</rule>
+<!--
+A definição genérica é que os terroristas são violentos. → A definição genérica é os terroristas serem violentos.
+-->	
+		<rule>
+			<pattern>
+				<marker>
+					<token>é</token>
+					<token>que</token>
+					<token postag='DA.+' postag_regexp='yes'/>
+					<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+					<token>são</token>
+				</marker>
+			</pattern>		
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>\1 \3 \4 serem</suggestion>
+			<example correction="é os terroristas serem">A definição genérica <marker>é que os terroristas são</marker> violentos.</example>  
+		</rule>
+	</rulegroup>
+
+	<!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
+    <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
+	<!--
+Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
+	-->
+      <pattern>
+		<token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC' postag_regexp='yes'/>
+		<marker>
+			<token>que</token>
+			<token regexp='yes'>é|são</token>
+			<token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+			<token regexp='yes'>com|como|em|n[ao]s?|para|pel[ao]s?|por</token>
+		</marker>
+		<token negate_pos="yes" postag='VMN0000' postag_regexp='no'/>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\4 \5</suggestion>
+      <example correction="encarados como">Os radicais retaliam contra Estados <marker>que são encarados como</marker> sendo os inimigos.</example>
+	  <example>Por exemplo, dados de satélite mostram uma diminuição de 10% na área coberta por neve desde os anos 1960.</example>
+	  <example>O poder Legislativo é exercido pela Assembléia Legislativa do Estado do Ceará composta por 46 deputados.</example>
+	  <example>O habitat é o ambiente sobre a qual uma espécies sabemos que ocorre e o tipo de comunidade formada como resultado.</example>
+	  <example>Estamos a viver uma fase de elevado desemprego, provocado por um baixo consumo.</example>	  
+    </rule>
+
+	<!-- MADRUGADA matinal -->
+    <rule id='MADRUGADA_MATINAL' name="De madrugada → matinal" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 (25-JUN-2021+)      -->
+	<!--
+Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
+	-->
+      <pattern>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token min="0" max="1" negate_pos="yes" postag='AQ.+|NC.+' postag_regexp='yes'/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+		<marker>
+			<token>de</token>
+			<token>madrugada</token>
+		</marker>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>matinal</suggestion>
+      <example correction="matinal">Vamos fazer exercício <marker>de madrugada</marker>.</example>
+    </rule>
+
     <!-- 	VERB + QUE + É/SÃO verb + ser(em) -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 + 2021-07-06 (Enhanced) (1-JAN-2021+)      -->
 <!--
@@ -13184,7 +13276,6 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
 			<suggestion>sendo</suggestion>
 			<example correction="sendo">O edifício tem um grau de altura 5, <marker>que é</marker> também o mais alto da lista.</example>  
 		</rule>
-		
 		
 	</rulegroup>
 	
@@ -31989,11 +32080,25 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
 A implementação 1.8.7 padrão é escrita em C, como uma linguagem de programação de único passe.
 A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.
 -->
+      <!--BUGGY on server mode
       <antipattern>
-		<token postag='Z0CN0' postag_regexp='no'/>
-		<token spacebefore="no" regexp='yes'>[.]</token>
-		<token spacebefore="no" postag='Z0CN0' postag_regexp='no'/>
+        <token postag='Z0CN0' postag_regexp='no'/>
+        <token spacebefore="no" regexp='yes'>[.]</token>
+        <token spacebefore="no" postag='Z0CN0' postag_regexp='no'/>
+      </antipattern>
+      --> 
+      <antipattern>
+        <token><exception postag="SENT_START"/></token>
+        <token postag='Z0CN0'/>
+        <token spacebefore="no" postag="_PUNCT">.</token>
+        <token spacebefore="no" postag='Z0CN0'/>
   	  </antipattern>
+      <antipattern>
+        <token postag="SENT_START"/>
+        <token postag='Z0CN0'/>
+        <token spacebefore="no" postag="_PUNCT">.</token>
+        <token spacebefore="no" postag='Z0CN0'/>
+      </antipattern>
 <!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *END* -->
       <pattern>
           <token regexp="yes">\d+\.\d+
@@ -32683,6 +32788,18 @@ ISBN 978-3-8321-7760-7.
 		<token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>		
       </antipattern>
 <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-07-21 (25-JUN-2021+) *START* -->
+<!--
+Isto foi criado em 27-JAN-2021.
+-->
+      <antipattern>
+		<token postag='Z0.+' postag_regexp='yes'/>	 
+		<token spacebefore='no'>-</token>
+		<token spacebefore='no' negate_pos="yes" postag='Z0.+' postag_regexp='yes'/>
+		<token spacebefore='no'>-</token>
+		<token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>		
+      </antipattern>
+<!-- MARCOAGPINTO 2021-07-21 (25-JUN-2021+) *END* -->
       <pattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp="yes">—|&hifen;</token>
@@ -32700,6 +32817,8 @@ ISBN 978-3-8321-7760-7.
       <example>10-10-10 — Data</example>
       <example>10-10-2010 — Data</example>
       <example>2010-10-10 — Data</example>
+	  
+	  <example>Isto foi criado em 27-JAN-2021.</example>
     </rule>
   </rulegroup>
 
@@ -38842,21 +38961,27 @@ Com você é verão o ano inteiro.
 		<token>verão</token>
 	  </antipattern>	  	  	  
 <!-- MARCOAGPINTO 2021-06-27 (25-JUN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-07-08 (25-JUN-2021+) *START* -->
+<!-- MARCOAGPINTO 2021-07-08 + 2021-07-22 (25-JUN-2021+) *START* -->
 <!--
 O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.
 Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.
 Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
+Ou o nativo visto pelo prisma do etnógrafo?
+Ninguém tem visto o Tom por um tempo.
+Pensei que já tivesse visto o Tom em algum lugar.
+Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.
+Era visto nas mãos de todos os japoneses em paradas.
 -->
       <antipattern>
+		<token negate="yes" regexp='no' inflected='yes'>ser</token>
 		<token>visto</token>
-		<token/>
-		<token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
-		<token postag='V.+' postag_regexp='yes'>
+		<token/>		
+		<token min="1" max="2" postag='NP.+|AQ0.+|NC.+|V.+' postag_regexp='yes'>
 			<exception postag_regexp='yes' postag='CS|RG'/>
 		</token>
+		<token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
 	  </antipattern>
-<!-- MARCOAGPINTO 2021-07-08 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-07-08 + 2021-07-22 (25-JUN-2021+) *END* -->
       <pattern>
 		<marker>
 			<token regexp='no' inflected='yes'>ver</token>	
@@ -38892,6 +39017,11 @@ Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
 	  <example>O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.</example>
 	  <example>Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.</example>
 	  <example>Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.</example>
+	  <example>Ou o nativo visto pelo prisma do etnógrafo?</example>
+	  <example>Ninguém tem visto o Tom por um tempo.</example>
+	  <example>Pensei que já tivesse visto o Tom em algum lugar.</example>
+	  <example>Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.</example>
+	  <example>Era visto nas mãos de todos os japoneses em paradas.</example>	  
     </rule>
 
  </category>

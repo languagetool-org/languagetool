@@ -3352,12 +3352,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>several</token>
             <token postag="MD" />
         </antipattern>
+        <antipattern><!-- do not remove JJ from adjectives in noun chunks -->
+            <token postag="DT" />
+            <token chunk_re="I-NP.*" postag="JJ.*" postag_regexp="yes" />
+            <token chunk_re="[EI]-NP.*" postag="NN.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
+                    <token postag_regexp="yes" postag="VB[PZDN]?|MD">
+                        <exception regexp="yes">given|known</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="NN.*">
+                        <exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/>
+                    </token>
                 </and>
             </marker>
             <token>
@@ -3381,6 +3390,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
         <example type="untouched">When did he last <marker>talk</marker> to them?</example>
         <example type="untouched">When did you last <marker>wipe</marker> someone's tears away?</example>
+        <example type="untouched">… or if they want to see all of a <marker>given</marker> Product ID's market depth.</example>
         <example type="untouched">Verb. What happens next <marker>shows</marker> the problem in a new light.</example>
         <example type="untouched">I can either plant this Sat or next week.</example>
         <example type="untouched">So I will either catch you from my car tomorrow morning, or we can talk on Monday.</example>
@@ -4005,7 +4015,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern>
             <token>to</token>
-            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey|Kill|Punch|Reform|Bang</token>
+            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey|Kill|Punch|Reform|Bang|Grow|Welcome</token>
         </antipattern>
         <antipattern>
             <token>let</token>
@@ -4039,6 +4049,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">So You Want To Be Taoiseach.</example><!-- #2748 -->
         <example type="untouched">Let's Be Radical.</example>
         <example type="untouched">Please Be Radical.</example>
+        <example type="untouched">We Need to Grow Facebook.</example>
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
         <example type="untouched">The Government Wants To Ban Violet Video.</example>
         <example type="ambiguous" inputform="Best[Best/NNP,best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="Best[Best/NNP]"><marker>Best</marker> Art Direction – Set Decoration</example>
@@ -7498,6 +7509,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>'s</token>
             <token postag="VB" />
         </antipattern>
+        <antipattern>
+            <token postag="MD">
+                <exception>need</exception>
+            </token>
+            <token postag="VB" />
+            <token postag="PRP\$|DT" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7544,6 +7562,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I will try to only focus on my health.</example>
         <example type="untouched">He would sexual assault her.</example>
         <example type="untouched">They will eventually revolt and</example>
+        <example type="untouched">Here: Customer cannot access his</example>
         <example type="untouched">...and angles that <marker>share</marker> a common vertex...</example>
         <example type="untouched">I have <marker>notice</marker> she doesn't like me.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
         <example type="untouched">Only <marker>count</marker> every 10th item when you do the test.</example>
@@ -8494,6 +8513,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token postag="NN.*" postag_regexp="yes">
                         <exception postag="NN|JJ.*" postag_regexp="yes"/>
                         <exception scope="next" postag="DT|RB" postag_regexp="yes"/>
+                        <exception case_sensitive="yes">BE</exception>
                     </token>
                     <token postag="VB[ZP]?" postag_regexp="yes"/>
                 </and>

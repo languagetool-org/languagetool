@@ -74,12 +74,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
+  
+  private static final int MAX_TOKEN_LENGTH = 200;
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
+    put("DA", "Da");
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
     put("Wandererin", "Wanderin");
@@ -977,6 +980,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("desinfektiert(e[mnrs]?)?", "fekt", "fiz");
     putRepl("desinfektierend(e[mnrs]?)?", "fekt", "fiz");
     putRepl("desinfektieren?", "fekt", "fiz");
+    putRepl("[dD]esinfektionier(en?|t(e[mnrs]?)?|st)", "fektionier", "fizier");
+    putRepl("[dD]esinfektionierend(e[mnrs]?)?", "fektionier", "fizier");
+    putRepl("[kK]ompensionier(en?|t(e[mnrs]?)?|st)", "ion", "");
+    putRepl("neuliche[mnrs]?", "neu", "neuer");
     putRepl("ausbüchsen?", "chs", "x");
     putRepl("aus(ge)?büchst(en?)?", "chs", "x");
     putRepl("innoff?iziell?(e[mnrs]?)?", "innoff?iziell?", "inoffiziell");
@@ -1035,6 +1042,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[ck]amel[ie]onhaft(e[mnrs]?)?", "[ck]am[ie]lion", "chamäleon");
     putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
     putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
+    putRepl("Belastungsekgs?", "ekg", "-EKG");
     put("Schutzfließ", "Schutzvlies");
     put("Simlock", "SIM-Lock");
     put("fäschungen", "Fälschungen");
@@ -1065,6 +1073,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Standbay", "Stand-by");
     put("[vV]ollkommnung", "Vervollkommnung");
     put("femist", "vermisst");
+    put("stantepede", "stante pede");
     put("[kK]ostarika", "Costa Rica");
     put("[kK]ostarikas", "Costa Ricas");
     put("[aA]uthenzität", "Authentizität");
@@ -1479,6 +1488,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    if (words.get(idx).length() > MAX_TOKEN_LENGTH) {
+      return true;
+    }
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false;

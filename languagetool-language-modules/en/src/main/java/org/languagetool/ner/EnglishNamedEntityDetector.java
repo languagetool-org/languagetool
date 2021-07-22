@@ -77,7 +77,7 @@ public class EnglishNamedEntityDetector {
   }
 
   // returned Spans refer to character offsets
-  public List<Span> findNamedEntities(String sentence) {
+  public synchronized List<Span> findNamedEntities(String sentence) {
     String[] tokens = tokenize(sentence);
     //System.out.println(Arrays.toString(tokens));
     Span[] spans = ner.find(tokens);

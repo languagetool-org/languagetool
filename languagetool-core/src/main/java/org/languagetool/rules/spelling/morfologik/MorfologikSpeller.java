@@ -24,6 +24,7 @@ import morfologik.stemming.Dictionary;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
@@ -117,6 +118,9 @@ public class MorfologikSpeller {
 
   public List<WeightedSuggestion> getSuggestions(String word) {
     List<WeightedSuggestion> suggestions = new ArrayList<>();
+    if (word.length() > StringMatcher.MAX_MATCH_LENGTH) {
+      return suggestions;
+    }
     // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
     // output changes when reused
     Speller speller = new Speller(dictionary, maxEditDistance);

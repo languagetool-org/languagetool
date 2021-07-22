@@ -51,7 +51,7 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   private static final Set<String> ADD_ADVERBS = new HashSet<>();
 
   // adverbs used to express contrast to what the previous sentence mentioned
-  private static final Set<String> CONTRAST_ADVERBS = new HashSet<>();
+  private static final Set<String> CONTRAST_CONJ = new HashSet<>();
 
   // adverbs used to express emphasis to what the previous sentence mentioned
   private static final Set<String> EMPHASIS_ADVERBS = new HashSet<>();
@@ -70,7 +70,8 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   private static final List<String> ADD_EXPRESSIONS = Arrays.asList("Así mismo");
   
   // linking expressions that can be used instead of the CONTRAST_ADVERBS
-  private static final List<String> CONTRAST_EXPRESSIONS = Arrays.asList("Aun así", "Por otra parte");
+  //TODO check if the comma is already present in the sentence
+  private static final List<String> CONTRAST_EXPRESSIONS = Arrays.asList("Aun así", "Por otra parte", "Sin embargo");
   
   private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la" , "los", "las");
   
@@ -81,9 +82,9 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
     ADD_ADVERBS.add("Además");
     ADD_ADVERBS.add("También");
     ADD_ADVERBS.add("Adicionalmente");
-    CONTRAST_ADVERBS.add("Pero");
-    CONTRAST_ADVERBS.add("Empero");
-    CONTRAST_ADVERBS.add("Mas");
+    CONTRAST_CONJ.add("Pero");
+    CONTRAST_CONJ.add("Empero");
+    CONTRAST_CONJ.add("Mas");
     EMPHASIS_ADVERBS.add("Obviamente");
     EMPHASIS_ADVERBS.add("Claramente");
     EMPHASIS_ADVERBS.add("Absolutamente");
@@ -118,7 +119,7 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
       return true;
     }
     String tok = token.getToken();
-    return ADD_ADVERBS.contains(tok) || CONTRAST_ADVERBS.contains(tok) || EMPHASIS_ADVERBS.contains(tok)
+    return ADD_ADVERBS.contains(tok) || CONTRAST_CONJ.contains(tok) || EMPHASIS_ADVERBS.contains(tok)
         || EXPLAIN_ADVERBS.contains(tok);
   }
 
@@ -134,9 +135,8 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
       List<String> addSuggestions = getDifferentAdverbsOfSameCategory(tok, ADD_ADVERBS);
       addSuggestions.addAll(ADD_EXPRESSIONS);
       return addSuggestions;
-    } else if (CONTRAST_ADVERBS.contains(tok)) {
-      List<String> contrastSuggestions = getDifferentAdverbsOfSameCategory(tok, CONTRAST_ADVERBS);
-      contrastSuggestions.addAll(CONTRAST_EXPRESSIONS);
+    } else if (CONTRAST_CONJ.contains(tok)) {
+      List<String> contrastSuggestions = CONTRAST_EXPRESSIONS; //getDifferentAdverbsOfSameCategory(tok, CONTRAST_CONJ);
       return contrastSuggestions;
     } else if (EMPHASIS_ADVERBS.contains(tok)) {
       return getDifferentAdverbsOfSameCategory(tok, EMPHASIS_ADVERBS);
