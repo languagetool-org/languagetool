@@ -37801,7 +37801,14 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token regexp="yes">[a-zäöü].+es</token>
+                    <token regexp="yes" min="0">&anf;</token>
                     <token postag="UNKNOWN|SUB:NOM:SIN:NEU|SUB:NOM:SIN:NEU:INF|ADJ:.*|EIG:AKK:SIN:NEU:ART:.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[a-zäöü].+es</token>
+                    <token regexp="yes">und|oder|&amp;|\/|bzw|beziehungsweise|,</token>
+                    <token regexp="yes">[a-zäöü].+es</token>
+                    <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
@@ -37832,12 +37839,13 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es</token>
+                    <token regexp="yes" min="0">&anf;</token>
                     <token postag="SUB:NOM:SIN:NEU|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
-                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett</token>
+                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -37849,6 +37857,8 @@ Andere Projekte</example>
                 <example correction="Gutes">Dahinter verbirgt sich nichts allzu <marker>gutes</marker>.</example>
                 <example correction="Passendes">Da findet sich nichts wirklich <marker>passendes</marker>.</example>
                 <example correction="Passendes">Da findet sich wenig wirklich <marker>passendes</marker>.</example>
+                <example correction="Leckeres">Das ist etwas ganz <marker>leckeres</marker>.</example>
+                <example correction="Banales">Vermutlich übersehe ich was total <marker>banales</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -37875,6 +37885,35 @@ Andere Projekte</example>
                 <suggestion><match no="4" case_conversion="startupper"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Schönes">Ich kaufte etwas teures und <marker>schönes</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">[a-zäöü].+em</token>
+                    <token regexp="yes" min="0">&anf;</token>
+                    <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[a-zäöü].+em</token>
+                    <token regexp="yes">und|oder|&amp;|\/|bzw|beziehungsweise|,</token>
+                    <token regexp="yes">[a-zäöü].+em</token>
+                    <token regexp="yes" min="0">&anf;</token>
+                    <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes" min="0">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total</token>
+                    <marker>
+                        <token postag="ADJ:DAT:SIN:.*" postag_regexp="yes" regexp="yes">[a-zäöü].+em<exception>anderem</exception></token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example correction="Leckerem">Am besten mit etwas <marker>leckerem</marker>.</example>
+                <example correction="Großem">Er wollte Teil von etwas ganz <marker>großem</marker> sein.</example>
+                <example>Der deutsche Knüppel ist vielleicht aus anderem, etwas weicherem Holz geschnitzt.</example>
+                <example>Der deutsche Knüppel ist vielleicht aus anderem, etwas weicherem "Holz" geschnitzt.</example>
+                <example>Der deutsche Knüppel ist vielleicht aus anderem, etwas weicherem und kleinerem Holz geschnitzt.</example>
+                <example>1909 hatte er in sehr viel bescheidenerem Maße den Film Andreas Hofer mit den Darstellern der Meraner Festspiele hergestellt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALLES_GUTE" name="'alles gute (Gute)' [Glückwunschformel]">
@@ -39649,10 +39688,10 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="ZULANGE" name="Es ist zulange her">
+        <rulegroup id="ZULANGE" name="Es ist zulange (zu lange) her">
             <rule>
                 <antipattern>
-                    <token skip="1">ich</token>
+                    <token skip="2">ich</token>
                     <token>zulange</token>
                 </antipattern>
                 <antipattern>
@@ -39664,7 +39703,7 @@ Andere Projekte</example>
                     <marker>
                         <token>zulange</token>
                     </marker>
-                    <token regexp="yes">bis|her|seit(dem)?</token>
+                    <token regexp="yes">bis|her|seit(dem)?|unterwegs</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Es ist <marker>zulange</marker> her.</example>
@@ -39672,7 +39711,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">dauern|sein</token>
+                    <token regexp="yes" inflected="yes">dauern|sein|werden|haben</token>
                     <token regexp="yes" min="0">[dm]ir|ih[mr]|uns|euch</token>
                     <token min="0">viel</token>
                     <marker>
@@ -39700,7 +39739,7 @@ Andere Projekte</example>
                     <marker>
                         <token>zulange</token>
                     </marker>
-                    <token postag="VER:.*" postag_regexp="yes" />
+                    <token postag="VER:.*|PKT" postag_regexp="yes" />
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Viel <marker>zulange</marker> sollten wir uns nicht damit beschäftigen.</example>
@@ -39710,7 +39749,7 @@ Andere Projekte</example>
                     <marker>
                         <token>zulange</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">warten|dauern|reifen</token>
+                    <token regexp="yes" inflected="yes">warten|dauern|reifen|wegbleiben|schlafen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Das hat zum Glück nicht <marker>zulange</marker> gedauert.</example>
@@ -39741,7 +39780,7 @@ Andere Projekte</example>
                         <token>zulange</token>
                     </marker>
                     <token min="0" regexp="yes">damit|hiermit</token>
-                    <token regexp="yes" inflected="yes">aufhalten|warten|fackeln|beschäftigen</token>
+                    <token regexp="yes" inflected="yes">aufhalten|warten|fackeln|beschäftigen|zögern|abwarten|brauchen|benötigen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Wir sollten uns nicht <marker>zulange</marker> damit aufhalten.</example>
@@ -39752,10 +39791,40 @@ Andere Projekte</example>
                     <marker>
                         <token skip="2">zulange</token>
                     </marker>
-                    <token postag="VER:3.*" postag_regexp="yes" />
+                    <token postag="VER:3:.*" postag_regexp="yes" />
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Wer <marker>zulange</marker> Muße hat, der wird träge.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>nicht</token>
+                    <marker>
+                        <token>zulange</token>
+                    </marker>
+                    <token postag="ADV:.*|ZUS" postag_regexp="yes" min="0" />
+                    <token postag="VER:INF:.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
+                <example correction="zu lange">Er sollte besser nicht <marker>zulange</marker> wegbleiben.</example>
+                <example correction="zu lange">Ich sollte mich nicht <marker>zulange</marker> ärgern.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="2">ich</token>
+                    <token>nicht</token>
+                    <token>zulange</token>
+                </antipattern>
+                <pattern>
+                    <token>nicht</token>
+                    <marker>
+                        <token>zulange</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
+                <example correction="zu lange">Er sollte besser nicht <marker>zulange</marker> wegbleiben.</example>
+                <example correction="zu lange">Aber bitte nicht <marker>zulange</marker>.</example>
+                <example>Wenn ich da nicht zulange, wär ich doch blöd!</example>
             </rule>
         </rulegroup>
         <rule id="WIE_GEHST_DIR" name="Wie gehst (gehts) euch?">
