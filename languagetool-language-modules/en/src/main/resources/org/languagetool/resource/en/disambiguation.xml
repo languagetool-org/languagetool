@@ -7779,6 +7779,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="PRP|NNP" postag_regexp="yes" />
             <token postag="VB.*" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes">every|each</token>
+            <token postag="JJ.*" postag_regexp="yes" min="0" />
+            <token postag="NNS" regexp="yes">.+s</token>
+            <token postag="NN|NN:UN?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -7821,6 +7827,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">My biggest concern with smart switches is that technology makes advancements too fast.</example><!-- #2923 -->
         <example type="untouched">The benefit is that that method makes improvements incredibly fast.</example><!-- #2923 -->
         <example type="untouched">It was 15 minutes too long.</example><!-- #2923 -->
+        <example type="untouched">Insights event pricing is still dependent on each customers use case.</example><!-- missing possessive apostrophe -->
         <example type="untouched">Was it 15 minutes too long when you did it?</example><!-- #2923 -->
         <example type="untouched">Bugs and new features can handled by the LT-team directly.</example><!-- #3251 -->
         <example type="untouched">New features can handled by the team directly.</example><!-- #3251 -->
