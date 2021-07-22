@@ -8387,14 +8387,14 @@ though, and has since been slightly modified)-->
                 <example>Cette même année c’est lui qui signe le contrat pour l’orgue de la cathédrale de Valence.</example>
             </rule>
         </rulegroup>
-        <rule id="MA" name="MA au lieu de M’A">
+        <rule id="MA" name="MA au lieu de M’A" default="temp_off">
             <pattern>
                 <marker>
                     <token>ma</token>
                 </marker>
                 <token postag="A" min="0" max="2"/>
                 <token postag="V.*" postag_regexp="yes">
-                    <exception postag="[NR].*|V ppa [fe] sp?" postag_regexp="yes"/></token>
+                    <exception postag="[NR].*|V ppa [fe] sp?|V.* inf" postag_regexp="yes"/></token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>m'a</suggestion> ?</message>
             <example correction="m'a">Il <marker>ma</marker> répondu.</example>
@@ -17890,7 +17890,7 @@ though, and has since been slightly modified)-->
                         <token inflected="yes" postag="V.* 3 s" postag_regexp="yes">falloir
                             <exception scope="next" regexp="yes">-il|il</exception></token>
                     </marker>
-                    <token regexp="yes">pas|plus</token>
+                    <token regexp="yes">pas|plus|jamais|guère|rien</token>
                 </pattern>
                 <message>Cette expression familière peut être considérée comme incorrecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion> ?</message>
                 <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
@@ -17900,27 +17900,27 @@ though, and has since been slightly modified)-->
                 <token>il</token>
                 <token inflected="yes">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>qui</token>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>y</token>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
                 <token postag="A" min="0" max="1"/>
                 <token regexp="yes">pas|plus|jamais</token>
             </antipattern>
             <antipattern>
                 <token>il</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">loin|tant|peu</token>
@@ -17930,10 +17930,10 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token postag="Y" skip="1"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
                 <token min="0" max="1" regexp="yes">t|t'|'</token>
                 <token regexp="yes">-?il</token>
             </antipattern>
@@ -17950,19 +17950,19 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token>en</token>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>il</token>
                 <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
              <antipattern>
                 <token regexp="yes">[a-z].*il$</token>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes">faut
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir
                     <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/>
                     <exception scope="next">il</exception></token>
             </pattern>
@@ -17981,38 +17981,39 @@ though, and has since been slightly modified)-->
                 <token>il</token>
                 <token inflected="yes">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>qui</token>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>y</token>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>il</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token postag="Y" skip="1"/>
-                <token>faut</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <pattern>
                 <marker>
-                    <token case_sensitive="yes">faut
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir
                         <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="A" min="0" max="1"/>
                 <token regexp="yes">pas|plus|guère|jamais</token>
             </pattern>
             <message>Cette expression peut sembler familière.</message>
-            <suggestion>il ne faut</suggestion>
+            <suggestion>il ne \1</suggestion>
             <example correction="il ne faut">Après tout, <marker>faut</marker> pas avoir le vertige pour sauter d'un avion.</example>
+            <example correction="il ne faudrait">En tant que prince cadet, <marker>faudrait</marker> pas qu'il se mette dans la tête de tuer son frère.</example>
             <example>Loin s'en faut.</example>
             <example>Que faut t-il faire ?</example>
         </rule>
@@ -18041,17 +18042,20 @@ though, and has since been slightly modified)-->
                 <marker>
                     <token>y</token>
                 </marker>
-                <token postag="V.* 3 s" postag_regexp="yes">
-                    <exception postag="V avoir.*" postag_regexp="yes"/></token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-z].*
+                    <exception postag="V avoir.*" postag_regexp="yes"/>
+                    <exception scope="next" regexp="yes">jamais|guère|pas|plus|rien</exception>
+                    </token>
             </pattern>
             <message>Cette expression est familière et peut être remplacée par le pronom personnel 'il'.</message>
             <suggestion>Il</suggestion>
-            <example correction="Il"><marker>Y</marker> faut pas avoir de peur de faire des erreurs.</example>
+            <example correction="Il"><marker>Y</marker> faut avoir du bon matériel pour cela.</example>
             <example>Y est aussi représenté de grands hommes.</example>
             <example>Y est de codimension finie dans X.</example>
+            <example>Y faut pas avoir peur.</example>
             <example>Y est-il allé ?</example>
         </rule>
-        <rule>
+        <rule default="temp_off">
             <antipattern>
                 <token>y</token>
                 <token min="0" max="1">'</token>
@@ -18108,6 +18112,32 @@ though, and has since been slightly modified)-->
             <message>Cette expression peut sembler familière dans un contexte formel.</message>
             <suggestion>il est vrai</suggestion>
             <example correction="Il est vrai"><marker>Faut avouer</marker> qu'il n'est toujours pas là.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>y</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                <token postag="M fin inte"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>y</token>
+                </marker>
+                <token postag="V.* 3 s" postag_regexp="yes">
+                    <exception postag="V avoir.*" postag_regexp="yes"/>
+                </token>
+                    <token regexp="yes">jamais|guère|pas|plus|rien</token>
+            </pattern>
+            <message>Cette expression est familière et peut être remplacée par le pronom personnel 'il'.</message>
+            <suggestion>Il ne</suggestion>
+            <example correction="Il ne"><marker>Y</marker> faut pas avoir peur du loup.</example>
         </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_FAUT_FAUX"  name="confusion faut faux">
@@ -24868,6 +24898,12 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                 </antipattern>
                 <antipattern>
+                    <token>de</token>
+					<token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère|rien</token>
+                </antipattern>
+                <antipattern>
                     <token>
                         <exception postag="SENT_START|M.*" postag_regexp="yes"/></token>
                     <token regexp="yes">après|suivant</token>
@@ -24927,6 +24963,25 @@ though, and has since been slightly modified)-->
                 <example>La Russie a joué au même jeu auquel jouent les États-Unis.</example>
                 <example>avec rappelons-le 570 chevaux</example>
                 <example>Dans la code suivant imaginons que Patrick s'est vu affecté l'adresse.</example>
+                <example>Ceux qui captent notre regard de sont pas de simples objets.</example>
+            </rule>
+            <rule default="temp_off">
+				<antipattern>
+                    <token>de</token>
+					<token postag="V.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+				</antipattern>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token postag="V.*" postag_regexp="yes"><exception postag="V.* inf|V.* ppa.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="A" min="0" max="2"/>
+                <token regexp="yes">pas|jamais|guère|rien</token>
+                </pattern>
+                <message>Un adverbe de négation est attendu avant ce verbe.</message>
+                <suggestion>ne \2</suggestion>
+                <example correction="ne fonctionne">Oui, bilan nul car cela <marker>de fonctionne</marker> pas.</example>
+                <example>Site officiel de Faut pas rêver.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe passé">
@@ -26433,7 +26488,7 @@ though, and has since been slightly modified)-->
                     <token postag="A|R m s" postag_regexp="yes" min="0" max="3"/>
                     <marker>
                         <token postag="V (inf|ind|sub|con).*" postag_regexp="yes">
-                            <exception postag="[RND] .*|V .*ppa m s" postag_regexp="yes"/>
+                            <exception postag="[RND] .*|V .*ppa m sp?" postag_regexp="yes"/>
                             <exception>hélas</exception></token>
                     </marker>
                 </pattern>
@@ -29314,6 +29369,11 @@ though, and has since been slightly modified)-->
                     <token min="0" postag="[JA].*|V ppa,*" postag_regexp="yes"/>
                     <token regexp="yes">que|qu'</token>
                 </antipattern>
+                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>bref</token>
+                    <token postag="V.* imp.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <or>
                         <token postag="SENT_START.*" postag_regexp="yes"/>
@@ -29412,6 +29472,7 @@ though, and has since been slightly modified)-->
                 <example correction="enfilait">Après son régime, Marie <marker>enfilaient</marker> de nouveau ses vieux pantalons.</example>
                 <example>D'un autre côté, nombreux sont ceux qui meurent jeunes.</example>
                 <example>Au début du vingtième siècle, nombreux étaient ceux qui pensaient que Vénus était un monde aqueux.</example>
+                <example>Bref restez pas sur l'image car c'est bon.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32542,10 +32603,31 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">vu|vue|vus|vues</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">que|qu'</token>
-                <token regexp="yes" skip="1">je|j'|tu|t'|il|ils|elle|elles|on|nous|vous</token>
+                <token regexp="yes">que|qu'|si</token>
+                <token min="0" max="1">l'</token>
+                <token postag="R pers suj.*|[NDZ].*" postag_regexp="yes" min="1" max="4"/>
                 <token inflected="yes">avoir</token>
                 <token>jamais</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">que|qu'|si|qui</token>
+                <token min="0" max="1">l'</token>
+                <token postag="R.*|[NZ].*" postag_regexp="yes" min="1" max="4"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>jamais</token>
+                <token postag="V.* ppa.*|[AJ].*|C sub" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>quiconque</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>jamais</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R.*|[NJZ].*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">finir</token>
+                <token regexp="yes">pas|jamais|guère</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>n</token>
@@ -32554,6 +32636,90 @@ though, and has since been slightly modified)-->
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
                 <token regexp="yes">pas|jamais|guère</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers suj.*|[NV].*" postag_regexp="yes"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes" inflected="yes">devoir|falloir|préférer|valoir|esperer|aimer|apprécier|vouloir|penser|souhaiter|pouvoir</token>
+                <token postag="A"/>
+                <token>ne</token>
+                <token regexp="yes">pas|jamais|guère</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (avoir|etre) (ind|con|sub).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token regexp="yes">pas|jamais|guère</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers suj.*|[NV].*" postag_regexp="yes"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes" inflected="yes">devoir|falloir|préférer|valoir|esperer|aimer|apprécier|vouloir|penser|souhaiter|pouvoir</token>
+                <token postag="A"/>
+                <token>ne</token>
+                <token regexp="yes">pas|jamais|guère</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>mieux</token>
+                <token>vaut</token>
+                <token regexp="yes">pas|jamais|guère</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers suj.*|[NZ].*" postag_regexp="yes"/>
+                <token inflected="yes">ne</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes" inflected="yes">esperer|aimer|apprécier|vouloir|penser|souhaiter|pouvoir</token>
+                <token regexp="yes">pas|jamais|guère</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*|[NZD].*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="V.* sub.*" postag_regexp="yes"/>
+                <token>jamais</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>jamais</token>
+                <token inflected="yes">de</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token regexp="yes">r[eé]</token>
+                <token min="0" max="1">-</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token regexp="yes">pas|jamais|guère</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token regexp="yes">-je|-tu|(-t)?-ils?|(-t)?-elles?|-on|-[nv]ous</token>
+                <token postag="V.* inf.*" postag_regexp="yes"/>
+                <token regexp="yes">pas|jamais|guère</token>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token regexp="yes">pas|jamais|guère</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token>pas</token>
+                <token>à</token>
+                <token>pas</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>non</token>
+                <token>pas</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>pas</token>
+                <token>cher</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -32573,14 +32739,17 @@ though, and has since been slightly modified)-->
                 <example>Je n’ai pas compris.</example>
                 <example>Le meilleur BASIC ayant jamais existé.</example>
                 <example>Je haussais pas les épaules.</example>
+                <example>C'est le dernier message que j'envisage jamais de vous envoyer.</example>
+                <example>J'aime mieux ne pas le dire.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>t'
-                            <exception scope="previous">ne</exception></token>
+                            <exception scope="previous" regexp="yes">ne|tu</exception></token>
                         <token postag="V.* 2 s" postag_regexp="yes" regexp="yes"> [aàâeéèêioœuyh].*
-                            <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                        <exception scope="previous" postag="R pers suj.*" postag_regexp="yes"/>
+                        <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="A" min="0" max="2"/>
                         <token regexp="yes">pas|jamais|guère</token>
                     </marker>
@@ -32592,6 +32761,7 @@ though, and has since been slightly modified)-->
                 <example correction="Tu n'as pas"><marker>T'as pas</marker> compris.</example>
                 <example>Tu n’as pas compris.</example>
                 <example>Ne t’inquiète pas.</example>
+                <example>Tu t’attends pas te retrouver avec quinze mioches.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32611,6 +32781,7 @@ though, and has since been slightly modified)-->
                 <example>On n’a pas compris.</example>
                 <example correction="n'a pas">Robert <marker>a pas</marker> compris.</example>
                 <example>On n’a pas compris.</example>
+                <example>Ce que Tom a jamais fait de plus dangereux, c'est un saut à l'élastique.</example>
                 <example>Il y a pas mal de choses à faire.</example>
                 <example>Il a pas moins de 10 voitures.</example>
                 <example>Ne vous inquiétez pas.</example>
@@ -32619,8 +32790,22 @@ though, and has since been slightly modified)-->
                 <example>C'est le meilleur repas que j'ai jamais mangé.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>vous</token>
+                    <token postag="V.* ind pres 2 p" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">finir</token>
+                    <token>pas</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                    <token postag="Z.*|R pers suj.*" postag_regexp="yes">
+                        <exception>j'</exception>
+                    </token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*</token>
                         <token postag="A" min="0" max="2"/>
@@ -32634,26 +32819,41 @@ though, and has since been slightly modified)-->
                 <example correction="ne part pas">On <marker>part pas</marker> encore.</example>
                 <example correction="ne suis pas">Je <marker>suis pas</marker> timide.</example>
                 <example>On ne part pas encore.</example>
+                <example>Vous bilez pas !</example>
+                <example>Tu finiras pas comprendre tout ça.</example>
+                <example>J'peux pas piffer les poulets, moi !</example>
+                <example>Je ne pense pas que je puisse jamais faire cela.</example>
+                <example>Et que vois-je traîner pas loin ?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                    <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">^[àâaêèéeiîoôòóöŌuœä].*</token>
+					<token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*
+                        <token postag="R.* obj.*" postag_regexp="yes">
                             <exception regexp="yes">.*'</exception></token>
+                    </marker>
                         <token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
                         <token regexp="yes">pas|jamais|guère</token>
-                    </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
-                <suggestion>ne \2 \3 \4 \5 \6</suggestion>
+                <suggestion>ne \2</suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
-                <example correction="ne vous a pas">On <marker>vous a pas</marker> compris.</example>
-                <example correction="ne vous a jamais">On <marker>vous a jamais</marker> compris.</example>
+                <example correction="ne vous">On <marker>vous</marker> a pas compris.</example>
+                <example correction="ne vous">On <marker>vous</marker> a jamais compris.</example>
                 <example>On ne vous a pas compris.</example>
+                <example>Peux-tu me l'expliquer pas à pas ?</example>
+                <example>Pensez-vous qu'il me soit jamais possible d'être pris pour un locuteur natif ?</example>
             </rule>
             <rule>
                 <pattern>
@@ -32664,7 +32864,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère<exception scope="next" postag="N.*" postag_regexp="yes"/></token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -32672,10 +32872,12 @@ though, and has since been slightly modified)-->
                 <suggestion>ne \2 \3 \4 \5 \6 \7</suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="ne le lui en a jamais">Il <marker>le lui en a jamais</marker> parlé.</example>
+                <example>Je vous mentionnerai pas mail.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                    <token postag="Z.*|R pers suj.*" postag_regexp="yes">
+                    <exception scope="previous" postag="P"/></token>
                     <marker>
                         <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*'</token>
                         <token postag="V.*" postag_regexp="yes"/>
@@ -32690,11 +32892,21 @@ though, and has since been slightly modified)-->
                 <example correction="ne m'attendais pas">Je <marker>m’attendais pas</marker> à ce</example>
                 <example correction="ne l'aurais pas">Je <marker>l’aurais pas</marker> enlevée</example>
                 <example>Quel est le meilleur conseil qu'on t'ait jamais donné ?</example>
+                <example>Je ne pense pas que je m'exprimerai jamais comme un locuteur natif.</example>
+                <example>Sortir ce que votre appétit pour elle l'est pas un précédent.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token>en</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                    <token>en</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes">
-                        <exception regexp="yes">.*'</exception></token>
+                        <exception regexp="yes">.*'|vous</exception></token>
                     <marker>
                         <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[aeiouyh].*
                             <exception regexp="yes" inflected="yes" postag="R.* obj.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
@@ -32708,9 +32920,10 @@ though, and has since been slightly modified)-->
                 <suggestion>n'\2 \3 \4 \5</suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="n'y a pas">Il <marker>y a pas</marker> d’eau.</example>
-                <example correction="n'en faites pas">Vous <marker>en faites pas</marker> !</example>
+                <example>Vous <marker>en faites pas</marker> trop !</example>
                 <example>Il n’y a pas d’eau.</example>
                 <example>Je ne l’y ait pas vu.</example>
+                <example>On en va pas en faire des kilomètres.</example>
             </rule>
              <rule default="temp_off">
                 <pattern>
@@ -32751,8 +32964,22 @@ though, and has since been slightly modified)-->
                 <example correction="Tu n'en as pas|Ne t'en as pas"><marker>T'en as pas</marker>.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token inflected="yes">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token>y</token>
+                    <token>a</token>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
                 <pattern>
-                    <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                    <token><exception postag="Z.*|R pers suj.*|R dem m s" postag_regexp="yes"/>
+                    <exception scope="previous" inflected="yes">ne</exception>
+                    <exception>t'</exception>
                     </token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">[aàâeéêioœuyh].*
@@ -32768,15 +32995,78 @@ though, and has since been slightly modified)-->
                 <suggestion>n'\2 \3 \4</suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="n'a pas">Cet élève <marker>a pas</marker> compris.</example>
+                <example>NE VOUS AVENTUREZ JAMAIS DE NUIT DANS LE MASSIF.</example>
+                <example>C'est pas vrai !</example>
+                <example>Il n'y’a pas mieux que la vie.</example>
+                <example>Il n'y a guère qu'elle.</example>
+                <example>Les États-Unis ont été une des plus grandes sources de progrès que le monde a jamais connu.</example>
+                <example>Dans la troupe, y a pas d'jambes de bois.</example>
+                <example>Nous ne connaissons pas encore celui qui ne ré-ouvrira pas ses portes dans 3 semaines.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">fau[xt]</token>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">ne|n</token>
+                    <token min="0" max="1" regexp="yes">[’´'‛′‘]’|´|'|‛|′|‘</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3" skip="1"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3" skip="1"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="V.* [12] s" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                    <token postag="A" min="0" max="2"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="V.* 3 p" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>pas</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>pas</token>
+                    <token regexp="yes">[a-z]</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>en</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">rendre</token>
+                    <token>compte</token>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
                 <pattern>
-                    <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                    <token><exception postag="Z.*|R pers suj.*|V (avoir|etre).*" postag_regexp="yes"/>
                         <exception scope="previous" inflected="yes">ne</exception>
                     </token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*
-                        <exception scope="previous" inflected="yes" regexp="yes">ne|n</exception>
+                        <exception scope="previous" inflected="yes" regexp="yes">ne|n|ny|ce</exception>
+                        <exception postag="J.*|V.* inf|V.* pp.*" postag_regexp="yes"/>
                         </token>
                         <token postag="A" min="0" max="2"/>
                         <token regexp="yes">pas|jamais|guère</token>
@@ -32787,6 +33077,26 @@ though, and has since been slightly modified)-->
                 <suggestion>ne \2 \3 \4</suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="ne part pas">Cet homme <marker>part pas</marker> encore.</example>
+                <example>Connais pas !</example>
+                <example>Trouve pas.</example>
+                <example>Faut jamais manquer à ses devoirs !</example>
+                <example>Je ne me « bourre pas de compléments alimentaires »</example>
+                <example>Peuvent pas dormir comme tout le monde !</example>
+                <example>Il y a un arrêt de bus pas loin.</example>
+                <example>N'essaye pas de changer pas de sujet.</example>
+                <example>Mais je n ‘ y crois pas.</example>
+                <example>Une paysanne collectivisée chinoise pas plus de 50.</example>
+                <example>Il ny comprend pas à Angers.</example>
+                <example>Je m'en suis rendu compte pas plus tard qu'hier.</example>
+                <example>Il travaille sans filet : au moindre faux pas, c'est la mort assurée.</example>
+                <example>Cela ne signifie pas que quiconque fera jamais l'expérience de la vérité dans toute son ampleur.</example>
+                <example>Les esprits finiraient pas sombrer dans un sommeil réparateur.</example>
+                <example>En espéranto tous les adjectifs finissent pas a.</example>
+                <example>« Mais non, on s'en fout pas ! »</example>
+                <example>« Comment quiconque pourrait jamais être fâché contre toi ? »</example>
+                <example>D'ailleurs, on était ressortit pas loin du Gotham Palais.</example>
+                <example>Vous pouvez saisir pas cher ce produit.</example>
+                <example>Mieux vaut pas de cuillère que pas de soupe.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -32809,23 +33119,61 @@ though, and has since been slightly modified)-->
                 <example correction="ne le lui en ont jamais">Les enfants <marker>le lui en ont jamais</marker> parlé.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>toi</token>
+                    <token>t'</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">ne|n</token>
+                    <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*</token>
+                    <token postag="R.* obj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes">[nv]ous</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token regexp="yes">pas|jamais|guère</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[nv]ous</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
+                    <token>pas</token>
+                    <token>la</token>
+                    <token>suite</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">ne|n</exception>
                     </token>
                     <marker>
                         <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*</token>
+                                            </marker>
                         <token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
-                        <token postag="V.*" postag_regexp="yes"/>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V.* inf" postag_regexp="yes"/>
+                        </token>
                         <token postag="A" min="0" max="2"/>
                         <token regexp="yes">pas|jamais|guère</token>
-                    </marker>
-                    <token negate="yes" regexp="yes">mal|moins</token>
+
+                    <token negate="yes" regexp="yes">mal|moins|loin</token>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
-                <suggestion>ne \2 \3 \4 \5 \6</suggestion>
+                <suggestion>ne <match no="2" case_conversion="startlower"/></suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
-                <example correction="ne lui en ont jamais">Les enfants <marker>lui en ont jamais</marker> parlé.</example>
+                <example correction="ne lui">Les enfants <marker>lui</marker> en ont jamais parlé.</example>
+                <example correction="Ne m'"><marker>M'</marker>embrouille pas.</example>
+                <example>Se sentir pas écouté fait qu'on parle.</example>
+                <example>Il ne me l'a jamais demandé.</example>
+                <example>Plus de salles de nous pouvons pas lui demander comment couvrir ses vraies.</example>
+                <example>J'ai remarqué qu'une Yaris III Phase 2 Hybride se garait pas loin.</example>
+                <example>Vous pourrez pas la suite utiliser le code.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -32844,6 +33192,208 @@ though, and has since been slightly modified)-->
                 <suggestion>ne \2\3 \4 \5</suggestion>
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="ne m'attendaient pas">Les enfants <marker>m’attendaient pas</marker> à ce moment-là.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>vous
+                            <exception scope="previous">ne</exception></token>
+                        <token postag="V.* ind pres 2 p" postag_regexp="yes" regexp="yes">[^àâaêèéeiîoôòóöŌuœä].*</token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>\1 ne \2 \3 \4</suggestion>
+                <suggestion>Ne <match no="1" case_conversion="startlower"/> \2 \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Vous ne bilez pas|Ne vous bilez pas"><marker>Vous bilez pas</marker>.</example>
+                <example correction="Vous ne voulez pas|Ne vous voulez pas"><marker>Vous voulez pas</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>vous
+                            <exception scope="previous">ne</exception></token>
+                        <token postag="V.* ind pres 2 p" postag_regexp="yes" regexp="yes">[aeiouéè].*</token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>vous n'\2 \3 \4</suggestion>
+                <suggestion>Ne <match no="1" case_conversion="startlower"/> \2 \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Vous n'arrivez pas|Ne vous arrivez pas"><marker>Vous arrivez pas</marker>.</example>
+                <example correction="Vous n'ébrouez pas|Ne vous ébrouez pas"><marker>Vous ébrouez pas</marker> ici.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>vous
+                            <exception scope="previous">ne</exception></token>
+                        <token regexp="yes">en|y</token>
+                        <token postag="V.* ind pres 2 p" postag_regexp="yes"/>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>Ne <match no="1" case_conversion="startlower"/> \2 \3 \4 \5</suggestion>
+                <suggestion>vous n'\2 \3 \4 \5</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Ne vous en faites pas|Vous n'en faites pas"><marker>Vous en faites pas</marker>.</example>
+                <example correction="Ne vous y arrivez pas|Vous n'y arrivez pas"><marker>Vous y arrivez pas</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>j'</token>
+                        <token postag="V.* 1 s" postag_regexp="yes" regexp="yes">[^aeéèêioœuyh].*</token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>je ne \2 \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Je ne peux pas"><marker>J’peux pas</marker> le blairer.</example>
+                <example>Je n’ai pas compris.</example>
+                <example>Le meilleur BASIC ayant jamais existé.</example>
+                <example>Je haussais pas les épaules.</example>
+                <example>C'est le dernier message que j'envisage jamais de vous envoyer.</example>
+                <example>J'aime mieux ne pas le dire.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">ce</token>
+                        <token postag="V.* 3 s" postag_regexp="yes" regexp="yes">[^aâàeéèêioœuyh].*</token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>ce ne \2 \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Ce ne serait pas"><marker>Ce serait pas</marker> intéressant d'aller voir le même film trois fois.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">ce</token>
+                        <token postag="V.* 3 s" postag_regexp="yes" regexp="yes">[aâàeéèêioœuyh].*
+                            <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>ce n'\2 \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Ce n'est pas"><marker>Ce est pas</marker> encore arrivé !</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                        <exception scope="previous" inflected="yes">ne</exception>
+                    </token>
+                    <marker>
+                        <token postag="V.* 3 p" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*
+                        <exception scope="previous" inflected="yes" regexp="yes">ne|n</exception>
+                        </token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>ils ne <match no="2" case_conversion="startlower"/> \3 \4</suggestion>
+                <suggestion>elles ne <match no="2" case_conversion="startlower"/> \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Ils ne peuvent pas|Elles ne peuvent pas"><marker>Peuvent pas</marker> dormir comme tout le monde !</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                        <exception scope="previous" inflected="yes">ne</exception>
+                    </token>
+                    <marker>
+                        <token postag="V.* 3 p" postag_regexp="yes" regexp="yes">[aàâeéêioœuyh].*
+                        <exception scope="previous" inflected="yes" regexp="yes">ne|n</exception>
+                        </token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>ils n'<match no="2" case_conversion="startlower"/> \3 \4</suggestion>
+                <suggestion>elles n'<match no="2" case_conversion="startlower"/> \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Ils n'arrivent pas|Elles n'arrivent pas"><marker>Arrivent pas</marker> à dormir comme tout le monde !</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+					<token postag="SENT_START"/>
+                    <marker>
+                        <token postag="V.* [12] s" postag_regexp="yes">
+                            <exception postag="[NJ].*" postag_regexp="yes"/>
+                        </token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                        <token postag="A" min="0" max="2"/>
+                        <token postag="SENT_END"/>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>je ne <match no="2" case_conversion="startlower"/> \3 \4</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Je ne connais pas"><marker>Connais pas</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+					<token postag="SENT_START"/>
+                    <marker>
+                        <token>en</token>
+                        <token postag="V.*" postag_regexp="yes"/>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>ils n'<match no="2" case_conversion="startlower"/> \3 \4 \5</suggestion>
+                <suggestion>elles n'<match no="2" case_conversion="startlower"/> \3 \4 \5</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="Ils n'en sont pas|Elles n'en sont pas"><marker>En sont pas</marker> à l'eau.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">ne|n</exception>
+                    </token>
+                        <token>toi</token>
+                    <marker>
+                        <token>t'</token>
+                        <token postag="V.*" postag_regexp="yes">
+                            <exception postag="V.* inf" postag_regexp="yes"/>
+                        </token>
+                        <token postag="A" min="0" max="2"/>
+                        <token regexp="yes">pas|jamais|guère</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
+                <suggestion>tu n'\4 \5 \6</suggestion>
+                <suggestion>n'\4 \5 \6</suggestion>
+                <url>http://www.academie-francaise.fr/ne</url>
+                <example correction="tu n'écoute pas|n'écoute pas">Toi <marker>t'écoute pas</marker> la radio.</example>
             </rule>
         </rulegroup>
         <rule id="DOUBLE_NEG" name="Double négation">
