@@ -54,6 +54,7 @@ public class WordListValidatorTest {
           "Arnautović/S",
           "Bhagavad-gītā",
           "Sønderjylland/S",
+          "Utøya/S",
           "Božena/S",
           "Brăila/S",
           "Timișoara/S",
