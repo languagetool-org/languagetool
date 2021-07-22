@@ -3352,12 +3352,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>several</token>
             <token postag="MD" />
         </antipattern>
+        <antipattern><!-- do not remove JJ from adjectives in noun chunks -->
+            <token postag="DT" />
+            <token chunk_re="I-NP.*" postag="JJ.*" postag_regexp="yes" />
+            <token chunk_re="[EI]-NP.*" postag="NN.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
+                    <token postag_regexp="yes" postag="VB[PZDN]?|MD">
+                        <exception regexp="yes">given|known</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="NN.*">
+                        <exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/>
+                    </token>
                 </and>
             </marker>
             <token>
@@ -3381,6 +3390,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
         <example type="untouched">When did he last <marker>talk</marker> to them?</example>
         <example type="untouched">When did you last <marker>wipe</marker> someone's tears away?</example>
+        <example type="untouched">… or if they want to see all of a <marker>given</marker> Product ID's market depth.</example>
         <example type="untouched">Verb. What happens next <marker>shows</marker> the problem in a new light.</example>
         <example type="untouched">I can either plant this Sat or next week.</example>
         <example type="untouched">So I will either catch you from my car tomorrow morning, or we can talk on Monday.</example>

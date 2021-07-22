@@ -463,7 +463,6 @@ public class English extends Language implements AutoCloseable {
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
       case "HE_VERB_AGR":               return -3;  // prefer other more specific rules (e.g. PRP_VBG)
       case "PRP_JJ":                    return -3;  // prefer other rules (e.g. PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
-      case "PRONOUN_NOUN":              return -3;  // prefer other rules (e.g. PRP_VB, PRP_JJ)
       case "INDIAN_ENGLISH":            return -3;  // prefer grammar rules, but higher prio than spell checker
       case "GONNA_TEMP":                return -3;
       case "PRP_THE":                   return -4;  // prefer other rules (e.g. I_A, PRP_JJ, IF_YOU_ANY, I_AN)
@@ -482,9 +481,10 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
-      case "PRP_VB":                    return -25;  // prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
+      case "PRP_VB":                    return -25;  // prefer other rules (with suggestions, e.g. confusion rules)
+      case "PRONOUN_NOUN":              return -26;  // prefer other rules (with suggestions, e.g. confusion rules)
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
