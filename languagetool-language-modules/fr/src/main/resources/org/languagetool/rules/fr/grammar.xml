@@ -54202,6 +54202,11 @@ though, and has since been slightly modified)-->
             </rule>
             <rule><!--53-->
                 <antipattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">barrer?</token>
+                    <token>l[ae']</token>
+                    <token regexp="yes">passage|route|chemin|voie|accès</token>
+                </antipattern>
+                <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">barres?|casses?|tires?</token>
                 </antipattern>
                 <antipattern>
@@ -54209,7 +54214,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[mts][e']|[nv]ous</token>
+                        <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">[mts][e']|[nv]ous</token>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">barrer</token>
                     </marker>
                 </pattern>
