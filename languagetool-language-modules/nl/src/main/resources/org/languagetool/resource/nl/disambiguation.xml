@@ -42,11 +42,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </rule>
 
 	<!-- ROMEINSE GETALLEN -->
-	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
+	<rule name="ignore roman numbers" id="IGNORE_SPELLER_ROMAN_NUMBERS">
 		<pattern case_sensitive="yes">
 			<token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
 		</pattern>
 		<disambig action="ignore_spelling"/>  
+	</rule>
+	<rule name="tag roman numbers" id="TAG_SPELLER_ROMAN_NUMBERS">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
+		</pattern>
+		<disambig action="add"><wd pos="GET:ROM:MRV"/></disambig>
 	</rule>
 
 	<!-- rangtelnummers -->
@@ -372,11 +378,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
     
 	<!-- GETALLEN -->
-	<rule name="GUESS_number" id="NUMBERS">
+	<rule name="GUESS_number" id="TAG_NUMBERS">
 		<pattern>
 			<token regexp="yes">[0-9]{1,10}<exception>1</exception></token>
 		</pattern>
-		<disambig action="add"><wd pos="GET:MRV"/></disambig>
+		<disambig action="add"><wd pos="GET:ARA:MRV"/></disambig>
+	</rule>
+	<rule name="GUESS_number" id="TAG_NUMBER_1">
+		<pattern>
+			<token>1</token>
+		</pattern>
+		<disambig action="add"><wd pos="GET:ARA:EKV"/></disambig>
 	</rule>
 
 	<rule name="GUESS_number" id="NUMBERS_RANKING">
@@ -652,7 +664,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<pattern>
 			<token>de</token>
 			<marker>
-				<token postag_regexp="yes" postag="BNW.*VRB|WKW:VTD:VRB|WKW:ODW:VRB|GET:MRV"/>
+				<token postag_regexp="yes" postag="BNW.*VRB|WKW:VTD:VRB|WKW:ODW:VRB|GET.*MRV"/>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 				<token postag="VGW:EKV:DE_"/>
 			</marker>
