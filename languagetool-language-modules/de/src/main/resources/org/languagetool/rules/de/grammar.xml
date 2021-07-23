@@ -5528,15 +5528,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EINWEIHEN_EINWEISEN" name="'einweist' vs. 'einweihst'" default="temp_off">
             <pattern>
                 <token>in</token>
-                <token regexp="yes">die(ses?)?|das</token>
+                <token regexp="yes">die(ses?)?|das|(&meindein;)e?</token>
                 <token min="0" postag="ADJ:AKK.+" postag_regexp="yes" />
-                <token regexp="yes" skip="3">Geheimnis(se)?</token>
+                <token regexp="yes" skip="3">Geheimnis(se)?|Mysteri(um|en)|Fluchtpläne|Anschlagspläne|Gedanken|Vorhaben</token>
                 <marker><token>einweist</token></marker>
             </pattern>
             <message>&verw;Meinten Sie <suggestion>einweihst</suggestion>, eine Form des Verbs 'einweihen' (ins Vertrauen ziehen)?</message>
+            <example correction="einweihst">Wenn du mich in deine geheimen Fluchtpläne <marker>einweist</marker>, werde ich dich belohnen!</example>
+            <example correction="einweihst">Wenn du mich in das tiefe Mysterium eures Glaubens <marker>einweist</marker>, werde ich dich reich belohnen, edler Fremder!</example>
             <example correction="einweihst">Wenn du mich in das große Geheimnis <marker>einweist</marker>, bin ich hinterher klüger!</example>
             <example correction="einweihst">Wenn du mich in das Geheimnis <marker>einweist</marker>, bin ich hinterher klüger!</example>
-            <example correction="einweihst">Wenn du mich in das Geheimnis der Magiergilde <marker>einweist</marker>, bin ich hinterher klüger!</example>
+            <example correction="einweihst">Wenn du mich in das Geheimnis der Magiergilde <marker>einweist</marker>, werde ich dich reich belohnen!</example>
             <example correction="einweihst">Wenn du mich in dieses Geheimnis <marker>einweist</marker>, werde ich weiser.</example>
             <example correction="einweihst">Wenn du mich in diese Geheimnisse <marker>einweist</marker>, werde ich weiser.</example>
         </rule>
