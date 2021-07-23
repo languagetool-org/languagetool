@@ -13157,7 +13157,7 @@ A definição genérica é que os terroristas são violentos. → A definição 
 	</rulegroup>
 
 	<!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
-    <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style" default="temp_off">
+    <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
 	<!--
 Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
@@ -13182,18 +13182,18 @@ Os radicais retaliam contra Estados que são encarados como sendo os inimigos. �
     </rule>
 
 	<!-- MADRUGADA matinal -->
-    <rule id='MADRUGADA_MATINAL' name="De madrugada → matinal" type="style" default="temp_off">
+    <rule id='MADRUGADA_MATINAL' name="De madrugada → matinal" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 (25-JUN-2021+)      -->
 	<!--
 Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
 	-->
       <pattern>
-		<token regexp='no' inflected='yes'>fazer</token>
+		<token regexp='yes' inflected='yes'>fazer|bater</token>
 		<token min="0" max="1" negate_pos="yes" postag='AQ.+|NC.+' postag_regexp='yes'/>
 		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
 		<marker>
 			<token>de</token>
-			<token>madrugada</token>
+			<token regexp='yes'>madrugada|manhã</token>
 		</marker>
       </pattern>
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
