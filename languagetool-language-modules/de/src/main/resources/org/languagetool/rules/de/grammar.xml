@@ -39722,6 +39722,16 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="KEIN_KEINEN" name="macht kein (keinen) Sinn" default="temp_off">
+            <pattern>
+                <token regexp="yes" skip="3">macht|ergibt|hat</token>
+                <marker><token>kein</token></marker>
+                <token>Sinn</token>
+            </pattern>
+            <message>Grammatik: Meinten Sie <suggestion>keinen</suggestion>?</message>
+            <short>Möglicher Grammatikfehler</short>
+            <example correction="keinen">Das macht absolut <marker>kein</marker> Sinn!</example>
+        </rule>
         <rulegroup id="ZULANGE" name="Es ist zulange (zu lange) her">
             <rule>
                 <antipattern>
