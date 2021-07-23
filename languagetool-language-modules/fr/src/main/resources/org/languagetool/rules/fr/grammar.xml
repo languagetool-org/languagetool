@@ -52487,7 +52487,7 @@ though, and has since been slightly modified)-->
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
         <rulegroup id="VERBES_FAMILIERS" name="verbes familiers" default="temp_off">
-            <rule>
+            <rule><!--VERBES_FAMILIERS[1]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">baragouiner</token>
@@ -52500,7 +52500,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">marmonner</match></suggestion>
                 <example correction="bafouillé|balbutié|bredouillé|marmonné">Il a <marker>baragouiné</marker> quelque chose d'inaudible.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[2]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">bidouiller</token>
@@ -52512,7 +52512,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">trafiquer</match></suggestion>
                 <example correction="réparait|bricolait|trafiquait">Il <marker>bidouillait</marker> son automobile.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[3]-->
                 <antipattern>
                     <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">blagues?</token>
                 </antipattern>
@@ -52536,7 +52536,7 @@ though, and has since been slightly modified)-->
                 <example>Tout était juste une blague pour lui.</example>
                 <example>C'est une sacrée blague, pas vrai.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[4]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">bouder</token>
@@ -52545,11 +52545,12 @@ though, and has since been slightly modified)-->
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">grimacer</match></suggestion>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">rechigner</match></suggestion>
-                <example correction="grimacent|rechignent">Les enfants <marker>boudent</marker> facilement à la moindre contrariété.</example>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V etre $2">être</match> fâché contre</suggestion>
+                <example correction="grimaçaient|rechignaient|étaient fâché contre">Les enfants <marker>boudaient</marker> facilement à la moindre contrariété.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[5]-->
                 <antipattern>
-                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">bouffes?</token>
+                    <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">bouffé?es?</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -52560,7 +52561,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">manger</match></suggestion>
                 <example correction="mangerais">J'ai tellement faim que je <marker>boufferais</marker> n'importe quoi.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[6]-->
                 <antipattern>
                     <token case_sensitive="yes"><exception postag="SENT_START"/>Je</token>
                     <token case_sensitive="yes">Bouquine</token>
@@ -52577,13 +52578,13 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">lire</match></suggestion>
                 <example correction="liras">Tu <marker>bouquineras</marker> après le dîner.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[7]-->
                 <antipattern>
                     <token case_sensitive="yes">Bousille</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">bousiller|déglinguer|maraver|péter</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">bousiller|déglinguer|maraver</token>
                     </marker>
                 </pattern>
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
@@ -52597,7 +52598,7 @@ though, and has since been slightly modified)-->
                 <example correction="tapées|abîmées|cassées|démolies|détériorées|saccagées">J'ai retrouvé mes affaires <marker>déglinguées</marker>.</example>
                 <example correction="tapera|abîmera|cassera|démolira|détériorera|saccagera">On le <marker>maravera</marker> dès qu'on le croisera.</example>
             </rule>
-             <rule>
+            <rule><!--VERBES_FAMILIERS[8]-->
                 <antipattern>
                     <token postag="N" postag_regexp="yes" regexp="yes">bulles?|glandes?</token>
                 </antipattern>
@@ -52627,9 +52628,10 @@ though, and has since been slightly modified)-->
                 <suggestion>ne rien <match no="1" postag="(V inf)" postag_regexp="yes" postag_replace="$1">faire</match></suggestion>
                 <example correction="trainer|procrastiner|ne rien faire">Ils passent leur journée à <marker>buller</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[9]-->
                 <antipattern>
                     <token postag="N" postag_regexp="yes" regexp="yes">bulles?|glandes?</token>
+                    <token postag="V.*" postag_regexp="yes" min="0"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" skip="1">à|enveloppes?|maisons?|papiers?|verrières?|grosses?|petites?|grandes?|fines?|infos?|effets?|simples?|doubles?|triples?</token>
@@ -52637,11 +52639,11 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">bulles?</token>
-                    <token regexp="yes">d('|es?|u|ans)|à|au|s(ur|ous)|pontificales?|papales?|internet|financières?|boursières?|spéculatives?|comportementales?</token>
+                    <token regexp="yes">d('|es?|u|ans)|à|au|s(ur|ous)|pontificales?|papales?|internet|financières?|boursières?|spéculatives?|comportementales?|littéraires?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">glandes?</token>
-                    <token regexp="yes">amphicrines?|violettes?|alvéolaires?|anales?|bulbo-urétrales?|endocrines?|gastriques?|labiosternales?|lacrymales?|mammaires?|métapleurales?|para-urétrales?|parathyroïdes?|parotides?|parotoïdes?|pinéales?|salivaires?|sébacées?|sublinguales?|submandibulaires?|sudoripares?|surrénales?|thyroïdes?|uropygiennes?|épiphyses?|de|vestibulaires?|bulbo|para|sous|clypéales?|tegumentaires?|aréolaires?|séricigènes?|métasternales?|métathoraciques?|exocrines?|endocrinoïdes?</token>
+                    <token regexp="yes">amphicrines?|violettes?|alvéolaires?|anales?|bulbo-urétrales?|endocrines?|gastriques?|labiosternales?|lacrymales?|mammaires?|métapleurales?|para-urétrales?|parathyroïdes?|parotides?|parotoïdes?|pinéales?|salivaires?|sébacées?|sublinguales?|submandibulaires?|sudoripares?|surrénales?|thyroïdes?|uropygiennes?|épiphyses?|de|vestibulaires?|bulbo|para|sous|clypéales?|tegumentaires?|aréolaires?|séricigènes?|métasternales?|métathoraciques?|exocrines?|endocrinoïdes?|cérébrales?|hypophysaires?</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Bull(a(s|(nt))?)?(e[sr]?)?|Glande?(ons)?</token>
@@ -52657,7 +52659,7 @@ though, and has since been slightly modified)-->
                 <suggestion>ne <match no="1" postag="(V ind|con|sub|imp) (.*)" postag_regexp="yes" postag_replace="$1 $2">faire</match> rien</suggestion>
                 <example correction="trainait|procrastinait|ne faisait rien">Mon fils <marker>glandait</marker> au lieu de chercher un travail.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[10]-->
                 <antipattern>
                     <token postag="N" postag_regexp="yes" inflected="yes">braille</token>
                 </antipattern>
@@ -52686,7 +52688,7 @@ though, and has since been slightly modified)-->
                 <example>Aveugle depuis peu, il ne savait pas encore lire le braille.</example>
                 <example>Il avait une sale gueule.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[11]-->
                 <antipattern>
                     <token case_sensitive="yes">Cafouille</token>
                 </antipattern>
@@ -52702,12 +52704,14 @@ though, and has since been slightly modified)-->
                 <example correction="bafouiller|se tromper|agir de manière désordonnée">Il doit éviter de <marker>cafouiller</marker> pour un rien.</example>
                 <example correction="bafouillait|se trompait|agissait de manière désordonnée">Il <marker>cafouillait</marker> pour un rien.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[12]-->
                 <antipattern>
                     <token case_sensitive="yes">Capote</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">grosses?|petites?|riches?|pauvres?|simples?</token>
+                    <token regexp="yes">grosses?|petites?|riches?|pauvres?|simples?|couvres?</token>
+                    <token min="0">-</token>
+                    <token min="0">-</token>
                     <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">capotes?</token>
                 </antipattern>
                 <pattern>
@@ -52722,7 +52726,7 @@ though, and has since been slightly modified)-->
                 <example correction="échouer|halluciner">En voyant ma voiture, vous allez <marker>capoter</marker>.</example>
                 <example>Cette option permet de baisser la capote en cas de beau temps.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[13]-->
                 <antipattern>
                     <token case_sensitive="yes">Carapate</token>
                 </antipattern>
@@ -52738,7 +52742,7 @@ though, and has since been slightly modified)-->
                 <example correction="fuyais|m'échappais">Dès le début de l'orage, je <marker>me carapatais</marker> sous la tonnelle.</example>
                 <example>Le film La Carapate de Gérard Oury.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[14]-->
                 <antipattern>
                     <token case_sensitive="yes">Carapate</token>
                 </antipattern>
@@ -52753,7 +52757,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\1 <match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">échapper</match></suggestion>
                 <example correction="fuîtes|vous échappâtes">Dès le début de l'orage, vous <marker>vous carapatâtes</marker> sous la tonnelle.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[15]-->
                 <antipattern>
                     <token case_sensitive="yes">Carapate</token>
                 </antipattern>
@@ -52771,7 +52775,7 @@ though, and has since been slightly modified)-->
                 <example correction="ai fui|me suis échappé">Avant la fin de l'orage, je <marker>me suis carapaté</marker>.</example>
                 <example correction="avaient fui|s' étaient échappées">Avant la fin de l'orage, elles <marker>s'étaient carapatées</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[16]-->
                 <antipattern>
                     <token case_sensitive="yes">Chouine</token>
                 </antipattern>
@@ -52785,7 +52789,7 @@ though, and has since been slightly modified)-->
                 <example correction="pleurer">Arrête de <marker>chouiner</marker> immédiatement.</example>
                 <example>La Chouine est un jeu de cartes se jouant à deux joueurs et utilisant un jeu de 32 cartes.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[17]-->
                 <antipattern>
                     <token case_sensitive="yes">Chicane</token>
                 </antipattern>
@@ -52804,7 +52808,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">marchander</match></suggestion>
                 <example correction="hésitera|discutera|marchandera">Il <marker>chipotera</marker> pour la moindre dépense.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[18]-->
                 <antipattern>
                     <token regexp="yes">Chouf?f[ea]</token>
                 </antipattern>
@@ -52817,7 +52821,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" regexp_match="(chouf?f)(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)" regexp_replace="regard$2"/></suggestion>
                 <example correction="regarder">Il a l'habitude de <marker>chouffer</marker> souvent sur sa vie.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[19]-->
                 <antipattern>
                     <token>ayant</token>
                     <token>été</token>
@@ -52848,9 +52852,9 @@ though, and has since been slightly modified)-->
                 <example>Ton pneu avant gauche est bel et bien crevé.</example>
                 <example>Pour échapper à la méduse, ils se sont volontairement crevé les deux yeux.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[20]-->
                 <antipattern>
-                    <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?</token>
+                    <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?|graves?</token>
                     <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">crises?</token>
                 </antipattern>
                 <pattern>
@@ -52862,7 +52866,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">enrager</match></suggestion>
                 <example correction="enrages">Tu <marker>crises</marker> au moindre problème.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[21]-->
                 <pattern>
                     <marker>
                         <token postag="V (inf|ind|cond|sub|imp|ppr).*" postag_regexp="yes" inflected="yes">débouler</token>
@@ -52873,7 +52877,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">surgir</match></suggestion>
                 <example correction="arriva soudainement|surgit">Il <marker>déboula</marker> dans la pièce sans crier gare.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[22]-->
               <pattern>
                 <marker>
                     <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir
@@ -52888,7 +52892,7 @@ though, and has since been slightly modified)-->
             <example correction="sont arrivées|sont arrivés|ont surgi|ont dévalé">Elles <marker>ont déboulé</marker> à la boulangerie.</example>
             <example correction="est arrivé|est arrivée|a surgi|a dévalé">Elle <marker>a déboulé</marker> à la boulangerie.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[23]-->
                 <antipattern>
                     <token regexp="yes" min="0">grosse?s?|petite?s?|riches?|pauvres?|simples?</token>
                     <token regexp="yes">dégueulasses?</token>
@@ -52902,7 +52906,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">vomir</match></suggestion>
                 <example correction="vomi">Il a <marker>dégueulé</marker> tout son repas.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[24]-->
                 <antipattern>
                     <token regexp="yes" min="0">grosse?s?|petite?s?|riches?|pauvres?|simples?</token>
                     <token regexp="yes">dégueulasses?|salopes?|crades?</token>
@@ -52916,7 +52920,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">salir</match></suggestion>
                 <example correction="sali">Il a <marker>salopé</marker> son pantalon dans la boue.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[25]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">démerder|démmerder|demmerder</token>
@@ -52926,9 +52930,9 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">débrouiller</match></suggestion>
                 <example correction="débrouiller">Si il n'est pas content, il n'a qu'à se <marker>démerder</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[26]-->
                 <antipattern>
-                    <token postag="N" inflected="yes" regexp="yes">crânes?</token>
+                    <token postag="N" inflected="yes" regexp="yes">cr[aâ]nes?|frimas?</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Cr[âa]nes?</token>
@@ -52942,7 +52946,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V etre $2">être</match> arrogant</suggestion>
                 <example correction="était arrogant">Il <marker>frimait</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[27]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">fringues?|fripp?es?</token>
                 </antipattern>
@@ -52960,7 +52964,7 @@ though, and has since been slightly modified)-->
                 <example>Fripe et Pouille, deux amis inséparables se sont enfuis d'une bande dessinée.</example>
                 <example>Le Secret du professeur Fringue par H.-J.Magog</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[28]-->
                 <antipattern>
                     <token regexp="yes" skip="4">saisons?|croisières?|vrai(es?)?|grosses?|en|plans?|air|descentes?|montées?|rappels?|sorties?|entrées?</token>
                     <token regexp="yes">galères?</token>
@@ -52986,7 +52990,7 @@ though, and has since been slightly modified)-->
                 <example>Mais ça reste galère</example>
                 <example>Dessin original de la Couverture de l'album Tim Galère ainsi que sa mise en couleurs</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[29]-->
                 <antipattern>
                     <token postag="N" regexp="yes">glaviots?|moll?ards?</token>
                 </antipattern>
@@ -52999,7 +53003,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">cracher</match></suggestion>
                 <example correction="crache">Il <marker>mollarde</marker> partout comme un lama.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[30]-->
                 <antipattern>
                     <token postag="N" regexp="yes">kiffs?</token>
                 </antipattern>
@@ -53016,7 +53020,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">apprécier</match></suggestion>
                 <example correction="aime|apprécie">Il <marker>kiffe</marker> le métal.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[31]-->
                 <antipattern>
                     <token postag="N" regexp="yes">léchouilles?</token>
                 </antipattern>
@@ -53029,7 +53033,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">lécher</match></suggestion>
                 <example correction="léché">Il a <marker>léchouillé</marker> sa glace avant qu'elle ne fonde.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[32]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">lever</token>
@@ -53042,7 +53046,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">diminuer</match></suggestion>
                 <example correction="ralentir|diminuer">Il devrait <marker>lever le pied</marker> pour prendre soin de sa santé.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[33]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">lourder</token>
@@ -53055,7 +53059,7 @@ though, and has since been slightly modified)-->
                 <suggestion>se <match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">séparer</match></suggestion>
                 <example correction="congédier|renvoyer|remercier|se séparer">Il s'est fait <marker>lourder</marker> par sa boite.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[34]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">mouchardes?</token>
                 </antipattern>
@@ -53066,9 +53070,10 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">dénoncer</match></suggestion>
-                <example correction="dénoncera">Si les enquêteurs lui mettent suffisamment la pression, il <marker>mouchardera</marker> ses complices.</example>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">rapporter</match></suggestion>
+                <example correction="dénoncera|rapportera">Si les enquêteurs lui mettent suffisamment la pression, il <marker>mouchardera</marker> ses complices.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[35]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">moufter|moufeter</token>
@@ -53079,7 +53084,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">protester</match></suggestion>
                 <example correction="réagira|protestera">Il ne <marker>mouftera</marker> pas devant plus grand que lui.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[36]-->
                 <pattern>
                     <marker>
                         <token regexp="yes">mython?n(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)</token>
@@ -53089,7 +53094,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" regexp_match="(mython?n)(ée?s?|i?e(s|z|nt|r(a(i(ent)?|s|t)?|i?on[st]|i?ez)?)?|i?ons?|a(nt|i(s|t|ent)?|s(s(es?|ions|iez|ent)?)?)?|â(mes|t(es)?)|èrent)" regexp_replace="affabul$2"/></suggestion>
                 <example correction="affabuler">Il a l'habitude de <marker>mythonner</marker> souvent sur sa vie.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[37]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">pipeauter</token>
@@ -53100,7 +53105,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">affabuler</match></suggestion>
                 <example correction="mentir|affabuler">Il aime <marker>pipeauter</marker> souvent sur sa vie.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[38]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">tchatches?</token>
                 </antipattern>
@@ -53114,7 +53119,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">parler</match></suggestion>
                 <example correction="bavardaient|parlaient">Ils <marker>papotaient</marker> en classe du début à a fin.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[39]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">pintes?</token>
                 </antipattern>
@@ -53130,7 +53135,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">boire</match> de l'alcool</suggestion>
                 <example correction="bu de l'alcool">Tu as trop <marker>picolé</marker> à ce mariage.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[40]-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Pagnote?a?</token>
                 </antipattern>
@@ -53144,7 +53149,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">coucher</match></suggestion>
                 <example correction="dormir|coucher">La fatigue m'oblige à aller <marker>pieuter</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[41]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">pige(s|ons?)?</token>
                 </antipattern>
@@ -53157,7 +53162,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">comprendre</match></suggestion>
                 <example correction="comprenais">Tu <marker>pigeais</marker> rien quand elle parlait.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[42]-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Chip(é?e|iez|as)|Chourave</token>
                 </antipattern>
@@ -53170,9 +53175,14 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">voler</match></suggestion>
                 <example correction="voler">Il s'est fait <marker>chouraver</marker> son portefeuille.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[43]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">pisses?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pisser</token>
+                    <token>du</token>
+                    <token>sang</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -53183,7 +53193,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">uriner</match></suggestion>
                 <example correction="uriné">Le chien avait <marker>pissé</marker> partout.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[44]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">puer|s?chlinguer</token>
@@ -53193,7 +53203,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">sentir</match> mauvais</suggestion>
                 <example correction="sentent mauvais">Ses vêtements <marker>puent</marker> le chien mouillé.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[45]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">rabâcher</token>
@@ -53203,7 +53213,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">ressasser</match></suggestion>
                 <example correction="ressassait">Sa mère lui <marker>rabâchait</marker> systématiquement les mêmes conseils.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[46]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">radine?s?</token>
                 </antipattern>
@@ -53219,7 +53229,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">venir</match></suggestion>
                 <example correction="venir">Ils ont intérêt de <marker>rappliquer</marker> fissa.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[47]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">pestes?|râles?|bisques?</token>
                 </antipattern>
@@ -53236,7 +53246,7 @@ though, and has since been slightly modified)-->
                 <suggestion>se <match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">plaindre</match></suggestion>
                 <example correction="protester|se plaindre">Ils doivent <marker>râler</marker> pour se faire entendre.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[48]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">rates?|loupes?</token>
                 </antipattern>
@@ -53252,7 +53262,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">manquer</match></suggestion>
                 <example correction="manquent">Ils <marker>ratent</marker> un tir sur deux.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[49]-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Bad(er?|ai?|é)</token>
                 </antipattern>
@@ -53266,7 +53276,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">regarder</match></suggestion>
                 <example correction="lorgner|regarder">Il passe son temps à <marker>reluquer</marker> les gens.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[50]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">grognasses?</token>
                 </antipattern>
@@ -53281,7 +53291,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">maugréer</match></suggestion>
                 <example correction="bougonnez|grommelez|maugréez">Vous <marker>rouspétez</marker> à la moindre contrariété.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[51]-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Rosses?</token>
                 </antipattern>
@@ -53298,7 +53308,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">malmener</match></suggestion>
                 <example correction="brutaliser|frapper|battre|molester|malmener">Ils ont l'intention de <marker>tabasser</marker> le pauvre bougre.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[52]-->
                 <antipattern>
                     <token case_sensitive="yes">Roupille</token>
                 </antipattern>
@@ -53312,7 +53322,12 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">somnoler</match></suggestion>
                 <example correction="dormir|somnoler">Cet élève passe son temps à <marker>roupiller</marker> en classe.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[53]-->
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">barrer?</token>
+                    <token regexp="yes">l[ae']</token>
+                    <token regexp="yes">passage|route|chemin|voie|accès</token>
+                </antipattern>
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">barres?|casses?|tires?</token>
                 </antipattern>
@@ -53321,7 +53336,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[mts][e']|[nv]ous</token>
+                        <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">[mts][e']|[nv]ous</token>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">barrer</token>
                     </marker>
                 </pattern>
@@ -53329,7 +53344,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">partir</match></suggestion>
                 <example correction="partir">Si tu n'est pas content, tu peux <marker>te barrer</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[54]-->
                 <pattern>
                     <token regexp="yes">[mts][e']|[nv]ous</token>
                     <marker>
@@ -53341,7 +53356,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">hâter</match></suggestion>
                 <example correction="dépêcher|hâter">Il a intérêt à se <marker>magner</marker> s'il ne veut pas arriver en retard.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[55]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">plant[es?]?(ons)</token>
                 </antipattern>
@@ -53357,7 +53372,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">échouer</match></suggestion>
                 <example correction="se tromper|échouer">Il a peur de <marker>se planter</marker> à l'examen.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[56]-->
                 <pattern>
                         <token regexp="yes">[mts][e']|[nv]ous</token>
                     <marker>
@@ -53368,7 +53383,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">disputer</match></suggestion>
                 <example correction="disputer">Ils passent leur temps à s'<marker>engueuler</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[57]-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Shoote?r?</token>
                 </antipattern>
@@ -53383,7 +53398,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">droguer</match></suggestion>
                 <example correction="tirer|photographier|droguer">L'ailier est très bon pour <marker>shooter</marker> à trois points.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[58]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">singes?</token>
                 </antipattern>
@@ -53402,7 +53417,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">pasticher</match></suggestion>
                 <example correction="caricaturer|contrefaire|imiter|pasticher">L'enfant se permet de <marker>singer</marker> ses frères et soeurs.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[59]-->
                 <antipattern>
                     <token case_sensitive="yes">Sniffer</token>
                 </antipattern>
@@ -53416,7 +53431,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">renifler</match></suggestion>
                 <example correction="prisait|reniflait">Au 19ème siècle, on <marker>sniffait</marker> du tabac.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[60]-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes">speeder</token>
                 </antipattern>
@@ -53433,7 +53448,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">accélérer</match></suggestion>
                 <example correction="se dépêchiez|accélériez">Il va falloir que vous <marker>speediez</marker> si vous voulez arriver à l'heure.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[61]-->
                 <antipattern>
                         <token postag="N.*" postag_regexp="yes" regexp="yes">squatts?</token>
                 </antipattern>
@@ -53447,9 +53462,11 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">occuper</match></suggestion>
-                <example correction="occupent">Des marginaux <marker>squattent</marker> cet immeuble.</example>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">rester</match></suggestion>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">prendre</match> possession</suggestion>
+                <example correction="occupent|restent|prennent possession">Des marginaux <marker>squattent</marker> cet immeuble.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[62]-->
                 <antipattern>
                         <token postag="N.*" postag_regexp="yes">squeeze</token>
                 </antipattern>
@@ -53465,7 +53482,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">presser</match></suggestion>
                 <example correction="pressé">Ils l'ont <marker>squeezé</marker> au moment de la vente.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[63]-->
                 <antipattern>
                         <token case_sensitive="yes" regexp="yes">Touille?(as)?</token>
                 </antipattern>
@@ -53480,7 +53497,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">brasser</match></suggestion>
                 <example correction="remuent|agitent|brassent">Ils <marker>touillent</marker> leur café pour diffuser le sucre.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[64]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">traficoter|traficouiller</token>
@@ -53490,7 +53507,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">trafiquer</match></suggestion>
                 <example correction="trafiquaient">Ils <marker>traficotaient</marker> des choses louches.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[65]-->
                 <antipattern>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token regexp="yes">turbines?</token>
@@ -53526,7 +53543,7 @@ though, and has since been slightly modified)-->
                 <example>C'est une turbine à vapeur.</example>
                 <example>Elles ont affronté le FFC Turbine Potsdam.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[66]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">tripatouiller|trifouiller</token>
@@ -53539,7 +53556,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">maquiller</match></suggestion>
                 <example correction="manier|manigancer|falsifier|maquiller">Son comptable avait été pris à <marker>tripatouiller</marker> les résultats de l'entreprise.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[67]-->
                 <antipattern>
                         <token postag="N" regexp="yes">trolle?s?</token>
                 </antipattern>
@@ -53555,9 +53572,9 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">provoquer</match></suggestion>
                 <example correction="provoquer">Il n'est jamais productif de <marker>troller</marker> gratuitement sur internet.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[68]-->
                 <antipattern>
-                        <token postag="N" regexp="yes">vadrouilles?|vagabondes?</token>
+                        <token postag="N|J" postag_regexp="yes" regexp="yes">vadrouilles?|vagabondes?</token>
                 </antipattern>
                 <antipattern>
                         <token case_sensitive="yes" regexp="yes">Vadrouilles?|Vagabond(er?)?a?</token>
@@ -53572,7 +53589,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">rôder</match></suggestion>
                 <example correction="errent|rôdent">Les sans-avris <marker>vadrouillent</marker> aux abords des gares.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[69]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">valdinguer|dégringoler</token>
@@ -53581,9 +53598,10 @@ though, and has since been slightly modified)-->
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">tomber</match></suggestion>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">chuter</match></suggestion>
-                <example correction="tomber|chuter">Un seul élément défectueux peut faire <marker>valdinguer</marker> tout l'ensemble.</example>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">descendre</match></suggestion>
+                <example correction="tomber|chuter|descendre">Un seul élément défectueux peut faire <marker>valdinguer</marker> tout l'ensemble.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[70]-->
                 <antipattern>
                         <token case_sensitive="yes">Yoyotte</token>
                 </antipattern>
@@ -53596,7 +53614,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">divaguer</match></suggestion>
                 <example correction="divaguer">Tu commences à <marker>yoyoter</marker>, tu devrais aller te reposer.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[71]-->
                 <antipattern>
                         <token case_sensitive="yes" regexp="yes">Zapp(er?)?a?</token>
                 </antipattern>
@@ -53611,7 +53629,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">oublier</match></suggestion>
                 <example correction="passer à autre chose|passer d'une chose à l'autre|oublier">Les jeunes ont tendances à <marker>zapper</marker> beaucoup.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[72]-->
                 <antipattern>
                         <token case_sensitive="yes">Zigouille</token>
                 </antipattern>
@@ -53625,7 +53643,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">tuer</match></suggestion>
                 <example correction="abattre|tuer">Le chef s'est fait <marker>trucider</marker> par un gang rival.</example>
             </rule>
-            <rule>
+            <rule><!--VERBES_FAMILIERS[73]-->
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">zozoter</token>
@@ -53634,6 +53652,56 @@ though, and has since been slightly modified)-->
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">bléser</match></suggestion>
                 <example correction="bléser">Ses séances chez l'orthophoniste lui ont permis de ne plus <marker>zozoter</marker>.</example>
+            </rule>
+            <rule><!--VERBES_FAMILIERS[74]-->
+                <pattern>
+                    <marker>
+                        <token postag="R pers obj .*" postag_regexp="yes"/>
+                        <token>la</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">péter</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">fanfaronner</match></suggestion>
+                <suggestion><match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">feindre</match> une attitude hautaine</suggestion>
+                <suggestion><match no="3" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">bonimenter</match></suggestion>
+                <example correction="fanfaronnait|feignait une attitude hautaine|bonimentait">Elle <marker>se la pétait</marker> dès qu'elle était avec nous.</example>
+            </rule>
+            <rule><!--VERBES_FAMILIERS[75]-->
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">péter</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token regexp="yes">plomb|câble|durite|boulon</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">devenir</match> furieux</suggestion>
+                <example correction="devenu furieux">Ils ont <marker>pété un plomb</marker>.</example>
+            </rule>
+            <rule><!--VERBES_FAMILIERS[76]-->
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">pisser</token>
+                        <token regexp="yes">du|le</token>
+                        <token>sang</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">saigner</match> abondamment</suggestion>
+                <example correction="saignait abondamment">Le chien <marker>pissait le sang</marker> sur la route.</example>
+            </rule>
+            <rule><!--VERBES_FAMILIERS[77]-->
+                <pattern>
+                    <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">laisser</token>
+                    <token postag="V inf">pisser</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion>ne pas <match no="1" postag="V inf" postag_regexp="yes" postag_replace="V inf">insister</match></suggestion>
+                <suggestion>n'<match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">insister</match> pas</suggestion>
+                <example correction="ne pas insister|n'insistons pas">Nous <marker>laissons pisser</marker> car ce n'est pas si grave.</example>
             </rule>
         </rulegroup>
         <rulegroup id="Y_APOSTROPHE" name="y apostrophe" default="temp_off">
