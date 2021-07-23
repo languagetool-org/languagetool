@@ -37820,7 +37820,10 @@ Andere Projekte</example>
                 <antipattern>
                     <token regexp="yes">[a-zäöü].+es</token>
                     <token regexp="yes">und|oder|&amp;|\/|bzw|beziehungsweise|,</token>
-                    <token regexp="yes">[a-zäöü].+es</token>
+                    <token regexp="yes" postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)|UNKNOWN" postag_regexp="yes">
+                        [a-zäöü].+es
+                    </token>
+                    <token regexp="yes" min="0">&anf;</token>
                     <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
@@ -37845,6 +37848,7 @@ Andere Projekte</example>
                 <example correction="Kluges">Bei dem Meeting wurde nur wenig <marker>kluges</marker> gesagt.</example>
                 <example correction="Bestimmtes">Suchst du etwas <marker>bestimmtes</marker>?</example>
                 <example correction="Gutes">Ja (dahinter verbirgt sich nichts <marker>gutes</marker>).</example>
+                <example correction="Besonderes">Jede Show war etwas <marker>besonderes</marker> und dieses Jahr sogar mit ausverkauften Plätzen.</example>
                 <example>Die Kirche weist eine Sakristei aus der Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
                 <example>Es hat für viel positives öffentliches Aufsehen gesorgt.</example>
                 <example>Zu viel deutsches Europa, zu wenig europäisches Deutschland.</example>
@@ -37899,7 +37903,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Schönes">Ich kaufte etwas teures und <marker>schönes</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">[a-zäöü].+em</token>
                     <token regexp="yes" min="0">&anf;</token>
@@ -37908,7 +37912,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token regexp="yes">[a-zäöü].+em</token>
                     <token regexp="yes">und|oder|&amp;|\/|bzw|beziehungsweise|,</token>
-                    <token regexp="yes">[a-zäöü].+em</token>
+                    <token regexp="yes" postag="ADJ:DAT:SIN:.*" postag_regexp="yes">[a-zäöü].+em</token>
                     <token regexp="yes" min="0">&anf;</token>
                     <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
@@ -39792,13 +39796,13 @@ Andere Projekte</example>
                     <marker>
                         <token>zulange</token>
                     </marker>
-                    <token min="0" regexp="yes">damit|hiermit</token>
+                    <token min="0" regexp="yes">damit|dad?rauf|hier(mit|auf)</token>
                     <token regexp="yes" inflected="yes">aufhalten|warten|fackeln|beschäftigen|zögern|abwarten|brauchen|benötigen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Wir sollten uns nicht <marker>zulange</marker> damit aufhalten.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>wer</token>
                     <marker>
@@ -39809,7 +39813,7 @@ Andere Projekte</example>
                 <message>Meinten Sie <suggestion>zu lange</suggestion> anstatt des Verbs "zulangen"?</message>
                 <example correction="zu lange">Wer <marker>zulange</marker> Muße hat, der wird träge.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>nicht</token>
                     <marker>
