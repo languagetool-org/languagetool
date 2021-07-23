@@ -409,7 +409,15 @@ public class GrammalecteRule extends Rule {
     "g2__eleu_élisions_manquantes__b2_a1_1",
     "g2__eleu_élisions_manquantes__b4_a1_1",
     "g2__eleu_élisions_manquantes__b5_a1_1",
-    "g2__eleu_élisions_manquantes__b6_a1_1"
+    "g2__eleu_élisions_manquantes__b6_a1_1",
+    "g2__conf_a_à_incohérences__b1_a1_1",
+    "g2__conf_a_à_verbe__b11_a1_1",
+    "g2__conf_a_à_verbe__b13_a1_1",
+    "g2__conf_a_à_verbe__b14_a7_1",
+    "g2__conf_a_à_verbe__b3_a1_1",
+    "g2__conf_a_à_verbe__b4_a1_1",
+    "g2__conf_a_à_verbe__b7_a1_1",
+    "g2__conf_a_à_verbe__b8_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
