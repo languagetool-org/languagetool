@@ -54,6 +54,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="add"><wd pos="GET:ROM:MRV"/></disambig>
 	</rule>
+	<rule name="ignore roman numbers" id="IGNORE_SPELLER_ROMAN_NUMBERS_LC">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">(?:m*(?:d?c{0,3}|c[dm])(?:l?x{0,3}|x[lc])(?:v?i{0,3}|i[vx]))</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+	<rule name="tag roman numbers" id="TAG_SPELLER_ROMAN_NUMBERS_LC">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">(?:m*(?:d?c{0,3}|c[dm])(?:l?x{0,3}|x[lc])(?:v?i{0,3}|i[vx]))</token>
+		</pattern>
+		<disambig action="add"><wd pos="GET:ROM:MRV"/></disambig>
+	</rule>
 
 	<!-- rangtelnummers -->
 	<rule name="ignore -ste" id="SPELLER_NUMBERS_RANKING">
