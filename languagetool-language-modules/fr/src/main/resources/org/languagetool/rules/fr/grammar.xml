@@ -17866,7 +17866,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token>faut</token>
-                    <token regexp="yes">pas|plus</token>
+                    <token regexp="yes">pas|plus|jamais|guère|rien</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -17895,22 +17895,61 @@ though, and has since been slightly modified)-->
                 <message>Cette expression familière peut être considérée comme incorrecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion> ?</message>
                 <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
             </rule>
-            <rule default="temp_off">
+        <rule default="temp_off">
             <antipattern>
-                <token>il</token>
+                <token regexp="yes">ils?|qu[ie]</token>
+                <token regexp="yes" min="0" max="1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token regexp="yes" min="0" max="1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token regexp="yes" min="0" max="1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
-                <token>qui</token>
-                <token inflected="yes" min="0" max="1">ne</token>
-                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token regexp="yes">il|qui</token>
+                <token postag="A"/>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
-                <token>y</token>
+                <token regexp="yes">il|qui</token>
+                <token>à</token>
+                <token>fallut</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">que</token>
+                <token>l</token>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token>i</token>
+                <token>l</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token>-</token>
+                <token regexp="yes">&gt;</token>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">k'il|en|y|une|l[ea]|y'en|if|y'm|in|quy|si|kil|du|II|i|chacune?s?|ilo|İl|tout|Parcequ'il|li|[nv]ot|l|luy|leurs</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token  min="0" max="1">'</token>
+                <token  min="0" max="1">ne</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>faut</token>
+                <token><exception postag="V.* inf" postag_regexp="yes"/></token>
             </antipattern>
             <antipattern>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
@@ -17918,8 +17957,14 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">pas|plus|jamais</token>
             </antipattern>
             <antipattern>
-                <token>il</token>
-                <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="[JN].*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="A" min="0" max="4"/>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
@@ -17934,7 +17979,8 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
-                <token min="0" max="1" regexp="yes">t|t'|'</token>
+                <token min="0" max="1">-</token>
+                <token min="0" max="1" regexp="yes">t|t'|'|-</token>
                 <token regexp="yes">-?il</token>
             </antipattern>
             <antipattern>
@@ -17949,32 +17995,103 @@ though, and has since been slightly modified)-->
                 <token spacebefore="no">faut</token>
             </antipattern>
             <antipattern>
-                <token>en</token>
+                <token>il</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[a-z].*|[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes" regexp="yes">(?-i)Falloir</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token regexp="yes">plus|moins|aussi</token>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
             <antipattern>
                 <token>il</token>
                 <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token regexp="yes" min="0" max="1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
-             <antipattern>
+            <antipattern>
+                <token>i</token>
+                <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token>l</token>
+                <token regexp="yes" min="0" max="1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token>faut</token>
+                <token>de</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>vrai</token>
+                <token>ou</token>
+                <token>faut</token>
+            </antipattern>
+            <antipattern>
+                <token>encore</token>
+                <token regexp="yes">faut|faudrait|faudra|fallut</token>
+                <token postag="C sub|R pers obj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">chansons?|titres?|albums?|séries?|épisodes?|cinéma.*|compile</token>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes" skip="-1">falloir</token>
+                <token regexp="yes" >chansons?|titres?|albums?|séries?|épisodes?|cinéma.*|compile</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">[a-z].*il$</token>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">failles?|(?-i)Fallut|(?-i)FAUT</token>
+            </antipattern>
             <pattern>
                 <token postag="V.* 3 s" postag_regexp="yes" case_sensitive="yes" inflected="yes">falloir
-                    <exception scope="previous" postag="SENT_START|R pers suj 3 m .|[DV].*" postag_regexp="yes"/>
-                    <exception scope="next">il</exception></token>
+                    <exception scope="previous" postag="SENT_START|R pers suj 3 .|[DVZ].*" postag_regexp="yes"/>
+                    <exception scope="next" regexp="yes">il|preuve|gaffe|rhum|plat|face|nom|car|-t-il</exception></token>
             </pattern>
-            <message>Cette expression peut sembler familière.</message>
+            <message>Cette expression peut sembler familière dans un contexte formel, car le sujet semble être manquant.</message>
             <suggestion>il faut</suggestion>
             <example correction="il faut">Après tout, <marker>faut</marker> avoir de solides bases dans ce domaine pour réussir.</example>
             <example>Loin s'en faut.</example>
+            <example>Parcequ'il nous faut revoter pour réélire deux administrateurs.</example>
+            <example>[I]l faut ou nier la sensation et la volonté.</example>
             <example>Code promo viking war of clans invalideil faut sur tous les activer.</example>
             <example>Tenez-vous en faut à l'alcool ou à un jus de fruits.</example>
             <example>Que faut t-il faire ?</example>
+            <example>Ouais,sauf quy faut ENCORE telecharger un truc !</example>
             <example>Le y'a-qu'a-faut-qu'on est décevant au travail, parce qu'il parle sans effet.</example>
             <example>La défense de la police qu'il « faut réarmer moralement et matériellement ».</example>
+            <example>Il me semble que c'est une faut d'orthographe, un abus que rien ne justifie.</example>
+            <example>Contrairement a ce qu'on a écrit plus faut, il y a bien des aérations sous les bras.</example>
+            <example>Même l'essence du réchaud est ok et y'en faut peu juste de quoi imprégner le coton.</example>
+            <example>C'est pas tout à fait faut !</example>
+            <example>Combien de temps faudra-t-il ?</example>
+            <example>j'ai absolument pas les trahisons ne faudrait apprendre plus incroyable.</example>
+            <example>Il à fallut la gerre de césésion pour abolir l'esclavage.</example>
+            <example>Mais je vois que j'avais tout faut.</example>
+            <example>Il convainc alors le Soviétique qu'l faut expulser les deux prêtres pour calmer le peuple.</example>
+            <example>C'est du néoprène k'il te faut.</example>
+            <example>Si if faut devenir membre de scribd, gratuit.</example>
+            <example>Vite y'm'faut un email chez eux !</example>
+            <example>Puisque la mer me faut passer.</example>
+            <example>I l faut être en forme , bien aclimate.</example>
+            <example>Ce sont celles qu'il [me] faut.</example>
+            <example>Sinon si faut pisser en bas des rochers, moi je viens.</example>
+            <example>Combien de broches faut -il pour des courses AD?</example>
+            <example>Elle reste incomplète faut de liaison.</example>
+            <example>Il aussi faut relever son penchant particulier pour la Loire.</example>
+            <example>Le troisième lui faut en novembre 1930 une nomination.</example>
+            <example>En 1985, sort un nouvel album, 24/24, avec entre autres le titre Faut qu'j'me laisse aller.</example>
+            <example>La plante qui mesure de 90 cm à 1,10 m de haut, faut preuve d’une très bonne résistance aux maladies.</example>
         </rule>
         <rule default="temp_off">
             <antipattern>
