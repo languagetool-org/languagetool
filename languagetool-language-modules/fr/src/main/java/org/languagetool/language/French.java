@@ -270,9 +270,10 @@ public class French extends Language implements AutoCloseable {
       case "FR_SIMPLE_REPLACE": return -10;
       case "TE_NV": return -10; // less than SE_CE, SE_SA and SE_SES
       case "IMP_PRON": return -10; // less than D_N
+      case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
-      case "TOO_LONG_PARAGRAPH": return -15;
+      case "VERBES_FAMILIERS": return -25; // less than PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF + PREP_VERBECONJUGUE
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "IL_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE

@@ -53738,7 +53738,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule><!--20-->
                 <antipattern>
-                    <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?</token>
+                    <token regexp="yes" min="0">grosses?|petites?|riches?|pauvres?|simples?|graves?</token>
                     <token postag="N f s|N f p" postag_regexp="yes" regexp="yes">crises?</token>
                 </antipattern>
                 <pattern>
@@ -53816,7 +53816,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule><!--26-->
                 <antipattern>
-                    <token postag="N" inflected="yes" regexp="yes">crânes?</token>
+                    <token postag="N" inflected="yes" regexp="yes">cr[aâ]nes?|frimas?</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Cr[âa]nes?</token>
@@ -53954,7 +53954,8 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">dénoncer</match></suggestion>
-                <example correction="dénoncera">Si les enquêteurs lui mettent suffisamment la pression, il <marker>mouchardera</marker> ses complices.</example>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">rapporter</match></suggestion>
+                <example correction="dénoncera|rapportera">Si les enquêteurs lui mettent suffisamment la pression, il <marker>mouchardera</marker> ses complices.</example>
             </rule>
             <rule><!--35-->
                 <pattern>
@@ -54061,6 +54062,11 @@ though, and has since been slightly modified)-->
             <rule><!--43-->
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">pisses?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pisser</token>
+                    <token>du</token>
+                    <token>sang</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -54556,6 +54562,30 @@ though, and has since been slightly modified)-->
                 <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
                 <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">devenir</match> furieux</suggestion>
                 <example correction="devenu furieux">Ils ont <marker>pété un plomb</marker>.</example>
+            </rule>
+            <rule><!--76-->
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">pisser</token>
+                        <token regexp="yes">du|le</token>
+                        <token>sang</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">saigner</match> abondamment</suggestion>
+                <example correction="saignait abondamment">Le chien <marker>pissait le sang</marker> sur la route.</example>
+            </rule>
+            <rule><!--77-->
+                <pattern>
+                    <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">laisser</token>
+                    <token postag="V inf">pisser</token>
+                    </marker>
+                </pattern>
+                <message>Ce verbe peut être considéré comme familier dans un contexte formel.</message>
+                <suggestion>ne pas <match no="1" postag="V inf" postag_regexp="yes" postag_replace="V inf">insister</match></suggestion>
+                <suggestion>n'<match no="1" postag="(V) (.*)" postag_regexp="yes" postag_replace="V $2">insister</match> pas</suggestion>
+                <example correction="n'insistons pas|ne pas insister">Nous <marker>laissons pisser</marker> car ce n'est pas si grave.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_A_DE" name="confusion a de" default="temp_off">
