@@ -13183,22 +13183,29 @@ Os radicais retaliam contra Estados que são encarados como sendo os inimigos. �
 
 	<!-- MADRUGADA matinal -->
     <rule id='MADRUGADA_MATINAL' name="De madrugada → matinal" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 + 2021-07-23 (25-JUN-2021+)      -->
 	<!--
 Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
 	-->
       <pattern>
-		<token regexp='yes' inflected='yes'>fazer|bater</token>
-		<token min="0" max="1" negate_pos="yes" postag='AQ.+|NC.+' postag_regexp='yes'/>
-		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
+		</token>
+		<token min="0" max="1" postag='DI.+|DA.+' postag_regexp='yes'/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
+			<exception regexp='no'>amanhã</exception>
+			<exception postag_regexp='no' postag='RG'/>
+		</token>
 		<marker>
-			<token>de</token>
+			<token regexp='yes'>d[ae]</token>
 			<token regexp='yes'>madrugada|manhã</token>
 		</marker>
       </pattern>
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion>matinal</suggestion>
       <example correction="matinal">Vamos fazer exercício <marker>de madrugada</marker>.</example>
+	  <example correction="matinal">Eu sempre tomo um banho <marker>de manhã</marker>.</example>		  
+	  <example correction="matinal">Eu tinha o costume de dar o passeio <marker>da manhã</marker>.</example>
     </rule>
 
     <!-- 	VERB + QUE + É/SÃO verb + ser(em) -->	
