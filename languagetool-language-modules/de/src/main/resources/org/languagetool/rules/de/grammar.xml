@@ -36879,6 +36879,18 @@ Andere Projekte</example>
                 <example>Ich <marker>stimme</marker> dir voll und ganz zu.</example>
                 <example correction="Stimme">Mit brüchiger <marker>stimme</marker> nahm er Abschied.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">stimmen?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">erheben|erkennen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Stimme</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Stimme">Ich habe gleich deine <marker>stimme</marker> erkannt.</example>
+                <example correction="Stimme">Ich habe dich gleich an der <marker>stimme</marker> erkannt.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WUESTE_SUBST" name="'wüste (Wüste)'">
             <rule>
@@ -39726,7 +39738,7 @@ Andere Projekte</example>
             <pattern>
                 <token regexp="yes" skip="3">macht|ergibt|hat</token>
                 <marker><token>kein</token></marker>
-                <token>Sinn</token>
+                <token regexp="yes">Sinn|Spaß</token>
             </pattern>
             <message>Grammatik: Meinten Sie <suggestion>keinen</suggestion>?</message>
             <short>Möglicher Grammatikfehler</short>
