@@ -5525,6 +5525,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schach">Wir halten sie solange in <marker>Schacht</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="BEDIENUNGEN_BEDINGUNGEN" name="Bedienungen vs. Bedingungen" default="temp_off">
+            <pattern>
+                <token>unter</token>
+                <token min="0" postag="ADV:.+|ADJ:PRD:GRU" postag_regexp="yes" />
+                <token regexp="yes">erschwerten|widrigen|gleichen|normalen|besonderen</token>
+                <marker><token>Bedienungen</token></marker>
+            </pattern>
+            <message>&verw;Meinten Sie <suggestion>Bedingungen</suggestion>?</message>
+            <example correction="Bedingungen">Wir arbeiten hier unter erschwerten <marker>Bedienungen</marker>.</example>
+            <example correction="Bedingungen">Wir arbeiten hier unter massiv erschwerten <marker>Bedienungen</marker>!</example>
+            <example correction="Bedingungen">Wir arbeiten hier unter erheblich erschwerten <marker>Bedienungen</marker>!</example>
+        </rule>
         <rule id="EINWEIHEN_EINWEISEN" name="'einweist' vs. 'einweihst'" default="temp_off">
             <pattern>
                 <token>in</token>
