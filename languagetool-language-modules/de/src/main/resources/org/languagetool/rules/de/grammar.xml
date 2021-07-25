@@ -39899,7 +39899,7 @@ Andere Projekte</example>
                 <example correction="zu lange">Er sollte besser nicht <marker>zulange</marker> wegbleiben.</example>
                 <example correction="zu lange">Ich sollte mich nicht <marker>zulange</marker> ärgern.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="2">ich</token>
                     <token>nicht</token>
@@ -43914,6 +43914,10 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
+            <antipattern>
+                <token>wie</token>
+                <token>folgt</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes" skip="-1">bin|b?ist|s(in|ei)d|war(s?t|en)?<exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
                 <marker>
@@ -43928,6 +43932,7 @@ Andere Projekte</example>
             <example correction="gefahndet">Es ist nach Einbrechern <marker>fahndet</marker> worden.</example>
             <example>Waren sie in der Stimmung zu <marker>schlagen</marker>, wurden die geschlagen.</example>
             <example>Der Platz war nie <marker>überbaut</marker> worden.</example>
+            <example>Die Sachbezugsregelung ist dazu wie folgt konkretisiert worden</example>
             <example correction="gewesen">Ein Jahr zuvor waren 76.000 Tonnen <marker>waren</marker> umgeladen worden.</example>
         </rule>
 <!--        <rule id="DOPPELTES_PERFEKT" name="Doppeltes Perfekt (z.B. 'Ich habe das geschrieben gehabt')">
@@ -51821,7 +51826,7 @@ Andere Projekte</example>
                     <token postag="PKT"/>
                 </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"</exception><exception postag="SENT_START"/></token>
+                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"|»|«</exception><exception postag="SENT_START"/></token>
                     <token>sondern</token>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
