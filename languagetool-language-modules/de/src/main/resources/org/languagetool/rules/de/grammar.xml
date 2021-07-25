@@ -39748,6 +39748,26 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="AUS_TIEFSTEM" name="aus tiefsten (tiefstem) Herzen" default="temp_off">
+            <pattern>
+                <token>aus</token>
+                <marker><token regexp="yes">tiefsten|vollen</token></marker>
+                <token>Herzen</token>
+            </pattern>
+            <message>Grammatik: Meinten Sie <suggestion><match no="2" regexp_replace="em" regexp_match="en"/></suggestion>?</message>
+            <short>Möglicher Grammatikfehler</short>
+            <example correction="tiefstem">Ich verabscheue das aus <marker>tiefsten</marker> Herzen!</example>
+        </rule>
+        <rule id="IN_AUGE" name="in (im) Auge behalten" default="temp_off">
+            <pattern>
+                <marker><token>in</token></marker>
+                <token>Auge</token>
+                <token inflected="yes">behalten</token>
+            </pattern>
+            <message>Grammatik: Meinten Sie <suggestion>im</suggestion>?</message>
+            <short>Möglicher Grammatikfehler</short>
+            <example correction="im">Das sollten wir <marker>in</marker> Auge behalten!</example>
+        </rule>
         <rule id="KEIN_KEINEN" name="macht kein (keinen) Sinn">
             <pattern>
                 <token regexp="yes" skip="3">macht|ergibt|hat</token>
