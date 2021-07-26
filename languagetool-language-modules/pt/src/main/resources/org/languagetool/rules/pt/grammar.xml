@@ -10,8 +10,8 @@ title="Easy editing stylesheet" ?>
  Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
- Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
- Udo Mai and Yakov Reztsov who mentored the project.
+ Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Udo Mai
+ and Yakov Reztsov who mentored the project.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -6019,6 +6019,7 @@ A tabela ao lado apresenta alguns tipos MIME.
 		  <token postag='VMIS3S0' postag_regexp='no'/>
 		  <token postag='SPS00|DA0MS0|NC[FM]S000|NP[FM]SG00|NP[FM]S000' postag_regexp='yes'/>		  
       </antipattern>	  
+
 <!-- MARCOAGPINTO 2021-03-17 (1-JAN-2021+) *START* -->
 <!--
 Com vontade de apagar estas más recordações morri.
@@ -6031,19 +6032,8 @@ Com vontade de apagar estas más recordações morri.
 		<token postag='VMIS1S0' postag_regexp='no'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-03-17 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-07-25 (25-JUN-2021+) *START* -->
-<!--
-Isto fazendo os polícias recuar para a cidade.
-Mais uma vez, é Vénus que ajuda os portugueses, mandando as ninfas seduzir os ventos para os acalmar.
-As temperaturas médias variam entre 27 °C e 15 °C, podendo as máximas alcançar os 35 °C nos dias mais quentes.
--->
-      <antipattern>
-		<token postag='VMG0000' postag_regexp='no'/>
-		<token/>
-		<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-		<token postag='VMN0000' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-07-25 (25-JUN-2021+) *END* -->
+
+	  
       <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -6107,10 +6097,6 @@ As temperaturas médias variam entre 27 °C e 15 °C, podendo as máximas alca
 	  <example>A tabela ao lado apresenta alguns tipos MIME.</example>
 
 	  <example>Com vontade de apagar estas más recordações morri.</example>
-	  
-	  <example>Isto fazendo os polícias recuar para a cidade.</example>
-	  <example>Mais uma vez, é Vénus que ajuda os portugueses, mandando as ninfas seduzir os ventos para os acalmar.</example>
-	  <example>As temperaturas médias variam entre 27 °C e 15 °C, podendo as máximas alcançar os 35 °C nos dias mais quentes.</example>
     </rule>
     <rule>
       <antipattern>
@@ -13171,13 +13157,13 @@ A definição genérica é que os terroristas são violentos. → A definição 
 	</rulegroup>
 
 	<!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
-    <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
+    <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style" default="temp_off">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
 	<!--
 Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
 	-->
       <pattern>
-		<token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC|V.+' postag_regexp='yes'/>
+		<token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC' postag_regexp='yes'/>
 		<marker>
 			<token>que</token>
 			<token regexp='yes'>é|são</token>
@@ -13193,56 +13179,6 @@ Os radicais retaliam contra Estados que são encarados como sendo os inimigos. �
 	  <example>O poder Legislativo é exercido pela Assembléia Legislativa do Estado do Ceará composta por 46 deputados.</example>
 	  <example>O habitat é o ambiente sobre a qual uma espécies sabemos que ocorre e o tipo de comunidade formada como resultado.</example>
 	  <example>Estamos a viver uma fase de elevado desemprego, provocado por um baixo consumo.</example>	  
-    </rule>
-	
-	<!-- QUE PÕE/PÕEM EM pondo em -->
-    <rule id='QUE_VERB_GERUND' name="Que + verbo + em → Gerúndio + em" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-23 + 2021-07-25 (25-JUN-2021+)      -->
-	<!--
-Há organizações que põem em causa a segurança internacional. → Há organizações pondo em causa a segurança internacional. 
-	-->
-      <pattern>
-		<token negate_pos="yes" postag='Z0.+|DA.+|DI.+|SPS.+' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
-		<marker>
-			<token>que</token>
-			<token postag='VMIP3.+|VMM02S0' postag_regexp='yes'/>
-		</marker>
-		<token regexp='no'>em</token>
-		<token postag='RG|NC.+|AQ0.+|NP.+' postag_regexp='yes'/>
-		<token min="0" max="1" postag='NP.+' postag_regexp='yes'/>
-		<token negate="yes" regexp='yes'>[.]</token>
-      </pattern>
-	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-	  <suggestion><match no='4' postag='VMIP3.+|VMM02S0' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
-      <example correction="pondo">Há organizações <marker>que põem</marker> em causa a segurança internacional.</example>
-    </rule>	
-
-	<!-- MADRUGADA matinal -->
-    <rule id='MADRUGADA_MATINAL' name="De madrugada → matinal" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 + 2021-07-23 (25-JUN-2021+)      -->
-	<!--
-Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
-	-->
-      <pattern>
-		<token postag='V.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
-		</token>
-		<token min="0" max="1" postag='DI.+|DA.+' postag_regexp='yes'/>
-		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
-			<exception regexp='no'>amanhã</exception>
-			<exception postag_regexp='no' postag='RG'/>
-		</token>
-		<marker>
-			<token regexp='yes'>d[ae]</token>
-			<token regexp='yes'>madrugada|manhã</token>
-		</marker>
-      </pattern>
-	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-	  <suggestion>matinal</suggestion>
-      <example correction="matinal">Vamos fazer exercício <marker>de madrugada</marker>.</example>
-	  <example correction="matinal">Eu sempre tomo um banho <marker>de manhã</marker>.</example>		  
-	  <example correction="matinal">Eu tinha o costume de dar o passeio <marker>da manhã</marker>.</example>
     </rule>
 
     <!-- 	VERB + QUE + É/SÃO verb + ser(em) -->	
