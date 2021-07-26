@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.ner.EnglishNamedEntityDetector;
+//import org.languagetool.ner.EnglishNamedEntityDetector;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
@@ -46,7 +46,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
-  private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
+  //private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // words with 'NOSUGGEST' in en_US.dic:
@@ -99,7 +99,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     this(messages, language, null, Collections.emptyList());
   }
 
-  @Override
+  /*@Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     RuleMatch[] matches = super.match(sentence);
     if (languageModel != null && languageModel instanceof BaseLanguageModel) {
@@ -159,6 +159,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     return filteredMatches;
   }
+  */
 
   /**
    * @since 4.4
