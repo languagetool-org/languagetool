@@ -4245,7 +4245,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token postag="R pers.*|[NJ].*" postag_regexp="yes"/>
                 <marker>
-                    <token regexp="yes">c'</token>
+                    <token>c'</token>
                 </marker>
                 <token>en</token>
                 <token postag="V.*" postag_regexp="yes"><exception postag="V.* pp.*|V.* inf" postag_regexp="yes"/></token>
@@ -4258,7 +4258,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token><exception postag="R pers.*|[NJ].*" postag_regexp="yes"/></token>
                 <marker>
-                    <token regexp="yes">s'</token>
+                    <token>s'</token>
                 </marker>
                 <token>en</token>
                 <token postag="V.*" postag_regexp="yes"><exception postag="V.* pp.*|V.* inf" postag_regexp="yes"/></token>
@@ -4267,6 +4267,34 @@ though, and has since been slightly modified)-->
             <suggestion>c'</suggestion>
             <example correction="C'"> <marker>S'</marker>en est fini de lui.</example>
         </rule>
+        <rule id="CONFUSION_OF_BED_BAD" name="confusion of bed/bad">
+			<antipattern>
+				<token postag="R pers suj.*" postag_regexp="yes"/>
+				<token regexp="yes">[cs]en[ts]|sans</token>
+				<token>peut</token>
+				<token>-</token>
+				<token>être</token>
+			</antipattern>
+			<antipattern>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+				<token regexp="yes">sen[ts]</token>
+				<token postag="V.* 3 ." postag_regexp="yes"/>
+			</antipattern>
+            <pattern>
+				<token postag="R pers suj.*" postag_regexp="yes"/>
+				<marker>
+				<token regexp="yes">[cs]en[ts]|sans</token>
+				</marker>
+				<token postag="V.*" postag_regexp="yes">
+					<exception>hélas</exception>
+					<exception postag="V.* pp.*|V.* inf|J.*" postag_regexp="yes"/>
+				</token>
+            </pattern>
+            <message>Did you mean <suggestion>s'en</suggestion>?</message>
+            <example correction="s'en">Il <marker>sans</marker> rend compte.</example>
+            <example>Il sent peut-etre un peu la discussion.</example>
+            <example>Ce que je sens est une bonne façon de voir.</example>
+		</rule>
         </rulegroup>
         <rule id="POLE_2" name="pôle" default="temp_off">
         <!-- correctif pour ID="POLE" qui empêche la correction pole->pôle -->
