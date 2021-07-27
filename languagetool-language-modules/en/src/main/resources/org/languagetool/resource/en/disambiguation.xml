@@ -9408,8 +9408,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN|NN:UN?" postag_regexp="yes" />
             <token postag="VBZ" />
         </antipattern>
+        <antipattern><!-- .... when the Sovereign grants letters -->
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token postag="NN|NN:UN?" postag_regexp="yes" />
+            <token postag="VBZ" />
+            <token postag="NNS|NN:UN?" postag_regexp="yes" chunk_re=".-NP.*" />
+        </antipattern>
         <antipattern><!-- The public demands answers -->
-            <token postag="SENT_START" />
+            <token postag="SENT_START" postag_regexp="yes" />
             <token postag="DT|PRP\$" postag_regexp="yes" />
             <token postag="NN|NN:UN?" postag_regexp="yes" />
             <token postag="VBZ" />
@@ -9470,6 +9476,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">There is one dogs.</example><!-- #3515 -->
         <example type="untouched">An elder woman points to the boy.</example>
         <example type="untouched">The road curves to the side.</example>
+        <example type="untouched">(b) limited, as when the Sovereign grants letters of denization to an alien</example>
+        <example type="untouched">... until the individual gains entry to a spiritual realm or Otherworld.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">The company is going to occupy a new headquarters that will reflect Enron's emphasis on energy efficiency.</example><!-- #3915 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
