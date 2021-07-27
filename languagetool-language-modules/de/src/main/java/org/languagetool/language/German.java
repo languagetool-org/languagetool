@@ -362,9 +362,6 @@ public class German extends Language implements AutoCloseable {
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
             "AI_DE_", "INTERNAL - dynamically loaded rule supported by remote server"));
-    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-            "AI_HYDRA_LEO", "INTERNAL - dynamically loaded rule supported by remote server"));
-
     return rules;
   }
 
