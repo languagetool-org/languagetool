@@ -21012,6 +21012,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="MEHR_LIEB_ALS" name="mehr lieb -> lieber" default="temp_off">
+            <antipattern>
+                <token>mehr</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>mehr</token>
+            </antipattern>
+            <antipattern>
+                <token>weniger</token>
+                <token>oder</token>
+                <token>mehr</token>
+            </antipattern>
+            <antipattern>
+                <token>mehr</token>
+                <token skip="1">schlecht</token>
+                <token>als</token>
+                <token>recht</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">nichts?|nix|niemand(en)?|nie|kein(e[rnms]?)?|kaum</token>
+                <token>mehr</token>
+            </antipattern>
+            <antipattern>
+                <token>mehr</token>
+                <token>lieb</token>
+                <token min="0">,</token>
+                <token>als</token>
+                <token postag="ADV:MOD" min="0" />
+                <token postag="ADJ:PRD:GRU" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">paar|wieder|einmal</token>
+                <token>mehr</token>
+            </antipattern>
+            <antipattern>
+                <token>ein</token>
+                <token>mal</token>
+                <token>mehr</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>mehr</token>
+                    <token>lieb</token>
+                </marker>
+                <token min="0">,</token>
+                <token regexp="yes">als|wie|\.|…|,|\!\?</token>
+            </pattern>
+            <message>Möglicherweise passt hier die Steigerung des Adjektivs besser.</message>
+            <suggestion>lieber</suggestion>
+            <example correction="lieber">Hast du mich <marker>mehr lieb</marker> als ihn?</example>
+            <example correction="lieber">Wen hast du <marker>mehr lieb</marker>, deine Mutter oder deinen Vater?</example>
+            <example>Niemand hat dich mehr lieb als ich.</example>
+        </rule>
         <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen">
             <pattern>
                 <token postag="VER:MOD:.*" postag_regexp="yes" />
@@ -22021,6 +22073,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="STRICH_SUBST" name="ein strich (Strich)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ein(en)?</token>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">strich</token>
+                    </marker>
+                    <token>durch</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Strich</suggestion> wird großgeschrieben.</message>
+                <example correction="Strich">Er machte uns einen <marker>strich</marker> durch die Rechnung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes">
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                    </token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">striche?</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Striche">Die <marker>striche</marker> sind alle gerade.</example>
+            </rule>
+        </rulegroup>
         <rule id="MESSERS_SCHNEIDE" name="auf Messers Schneide">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Messers|MESSERS</token>

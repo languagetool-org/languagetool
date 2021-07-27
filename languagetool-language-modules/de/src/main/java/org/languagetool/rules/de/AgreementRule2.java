@@ -108,6 +108,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Total"), tokenRegex("Tankstellen?")),
     asList(token("Ganz"), token("Gentleman")),
     asList(token("Golden"), token("Gate")),
+    asList(token("Wirtschaftlich"), tokenRegex("Berechtigte[rn]?")),
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
