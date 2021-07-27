@@ -5821,50 +5821,95 @@ though, and has since been slightly modified)-->
                 <example>Une intoxication en cours peut être diagnostiquée.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PEUT_PEUX_PEU" name="Peut ou peux au lieu de peu">
-            <rule>
-                <pattern>
-                    <token regexp="yes">très|trop|un|de|quelque|pour|à
-                        <exception scope="previous" regexp="yes">.+'</exception></token>
-                    <marker>
-                        <token regexp="yes">peu[tx]</token>
-                    </marker>
-                </pattern>
-                <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
-                <example correction="peu">Il travaille trop <marker>peut</marker>.</example>
-                <example>Est-ce que quelqu’un <marker>peut</marker> m’aider ?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">peu[tx]
-                            <exception scope="previous" regexp="yes">se|on|il|elle</exception></token>
-                    </marker>
-                    <token>de</token>
-                    <token>
-                        <exception regexp="yes">nouveau|même</exception></token>
-                </pattern>
-                <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
-                <example correction="Peu"><marker>Peut</marker> de gens.</example>
-                <example>Il est guéri et peut de nouveau travailler.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">peu[tx]
-                            <exception scope="previous" regexp="yes">se|on|il|elle</exception></token>
-                    </marker>
-                    <token inflected="yes">de</token>
-                    <token>
-                        <exception regexp="yes">abord|ailleurs|nouveau</exception></token>
-                </pattern>
-                <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
-                <example correction="Peu"><marker>Peut</marker> d’amis.</example>
-                <example>Je veux m’éloigner autant que faire se peut d’ici.</example>
-                <example>On peut d’ailleurs le vérifier.</example>
-                <example>Le médecin peut d’abord contacter l’entreprise.</example>
-                <example>Il est complètement remis et peut de nouveau travailler.</example>
-            </rule>
+        <rulegroup id="PEUT_PEUX_PEU" name="Peut ou peux au lieu de peu" default="temp_off">
+        <rule>
+            <antipattern>
+                <token regexp="yes">très|trop|un|de|quelque|pour|à</token>
+                <token regexp="yes">peu[tx]</token>
+                <token postag="R pers obj.*|A|C sub" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">très|trop|un|de|quelque|pour|à</token>
+                <token regexp="yes" skip="1">peu[tx]</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">très|trop|un|de|quelque|pour|à</token>
+                <token regexp="yes" case_sensitive="yes">peu[tx]</token>
+                <token>-</token>
+                <token regexp="yes">il|elle|on</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">très|trop|un|de|quelque|pour|à
+                    <exception scope="previous" regexp="yes">.+'</exception></token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">peu[tx]<exception scope="next" regexp="yes">[eê]tre</exception></token>
+                </marker>
+            </pattern>
+            <message>Un adverbe semble plus approprié qu'un verbe.</message>
+            <suggestion>peu</suggestion>
+            <example correction="peu">Il travaille trop <marker>peut</marker>.</example>
+            <example>Quelqu un peut m aider ?</example>
+            <example>Quelqu"un peut -il m'éclairer et si possible en justifiant.</example>
+            <example>Est-ce que quelqu’un <marker>peut</marker> m’aider ?</example>
+            <example>La commune de Peux-et-Couffouleux comprend plusieurs petits villages.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes">peu[tx]</token>
+                <token>de</token>
+                <token regexp="yes">ce|moins</token>
+                <token regexp="yes" skip="1">fait|en</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">peu[tx]</token>
+                <token>de</token>
+                <token skip="1">fait</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>autant</token>
+                <token>que</token>
+                <token min="0" max="1" regexp="yes">cela|faire</token>
+                <token regexp="yes">[cs]e</token>
+                <token regexp="yes">peu[tx]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">peu[tx]</token>
+                <token inflected="yes">de</token>
+                <token postag="[PADNJ].*|R pers obj.*" postag_regexp="yes" min="0" max="4"></token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">peu[tx]
+                        <exception scope="previous" regexp="yes">se|on|il|elle|ne|qui|ceci|cela|ça</exception>
+                        <exception scope="previous" postag="[NJZ].*|R pers.*|UNKNOWN" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token inflected="yes">de</token>
+                <token>
+                    <exception regexp="yes">abord|ailleurs|nouveau|même|lui-même|elles?-même|eux-même</exception></token>
+            </pattern>
+            <message>Un adverbe semble plus approprié qu'un verbe.</message>
+            <suggestion>peu</suggestion>
+            <example correction="Peu"><marker>Peut</marker> d’amis.</example>
+            <example>Je veux m’éloigner autant que faire se peut d’ici.</example>
+            <example>La Région administrative spéciale peut d'elle-même établir des relations.</example>
+            <example>On peut d’ailleurs le vérifier.</example>
+            <example>Le médecin peut d’abord contacter l’entreprise.</example>
+            <example>Cette méthode ne requiert pas de solubilisation et peut de ce fait être appliquée.</example>
+            <example>Il est complètement remis et peut de nouveau travailler.</example>
+            <example>Mathilde, l'épouse enceinte du nouvel agriculteur, peut de moins en moins le seconder.</example>
+            <example>Et peut de cette manière trier efficacement l'ensemble des données.</example>
+            <example>J'ai tenté autant que ce peut de tout mettre à l'imparfait.</example>
+            <example>L'augmentation des températures peut d'une part causer des dommages physiques.</example>
+            <example>Les responsabilités sont pointées du doigt et peut de fait aussi subir les conséquences de cet événement.</example>
+            <example>La majorité, formée à Saint-Louis, peut d'emblée assurer la production d’un cristal haut de gamme.</example>
+            <example>C'est un acte de gouvernement puisqu'il ne peut de toute façon y avoir d'autre forme de souveraineté.</example>
+        </rule>
         </rulegroup>
         <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
             <pattern>
@@ -8387,6 +8432,20 @@ though, and has since been slightly modified)-->
                 <example>Cette même année c’est lui qui signe le contrat pour l’orgue de la cathédrale de Valence.</example>
             </rule>
         </rulegroup>
+        <rule id="CE" name="ce" default="temp_off">
+                <pattern raw_pos="yes">
+                    <marker>
+                        <token>ce</token>
+                    </marker>
+                    <and>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+</and>
+                </pattern>
+                <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
+                <suggestion>se</suggestion>
+                <example correction="Se"><marker>Ce</marker> parler est relaxant.</example>
+            </rule>
         <rulegroup id="MA" name="MA au lieu de M’A" default="temp_off">
         <rule>
             <antipattern>
