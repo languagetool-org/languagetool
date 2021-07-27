@@ -343,9 +343,13 @@ public class German extends Language implements AutoCloseable {
       case "REDUNDANCY": return -15;
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
+      case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
+    }
+    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      return -11;
     }
     return super.getPriorityForId(id);
   }
@@ -358,6 +362,8 @@ public class German extends Language implements AutoCloseable {
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
             "AI_DE_", "INTERNAL - dynamically loaded rule supported by remote server"));
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+            "AI_HYDRA_LEO", "INTERNAL - dynamically loaded rule supported by remote server"));
 
     return rules;
   }
