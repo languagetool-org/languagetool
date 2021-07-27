@@ -6576,21 +6576,44 @@ though, and has since been slightly modified)-->
                     <token>a</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </antipattern>
-                <pattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>air</token>
+                    <token inflected="yes">de</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="Z.*" postag_regexp="yes"/>
+                    <token>a</token>
+                </antipattern>
+				<pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">qu[ie]?</exception></token>
                     <token postag="V.*" postag_regexp="yes">
                         <exception postag="[ZNRJ].*" postag_regexp="yes"/>
                         <exception postag="V inf"/>
                         <exception regexp="yes">puis|née?s?</exception></token>
-                    <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="[ZNDAJ].*" postag_regexp="yes" min="0"/>
                     <marker>
-                        <token case_sensitive="yes">a</token>
+                        <token case_sensitive="yes">a<exception scope="previous" regexp="yes">les|for|about|feeling|un|(?-i)Office</exception></token>
                     </marker>
                     <token>
-                        <exception regexp="yes">les|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception></token>
+                        <exception regexp="yes">(-t)?elle|(-t)?-il|(-t)?-on|lieu|les|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception></token>
                 </pattern>
                 <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
+                <example correction="à">Il rattachent Simon <marker>a</marker> son père.</example>
+                <example>Terra Naomi a deux frères.</example>
+                <example>La trappe a liquidité a-t-elle fonctionné au Japon ?</example>
+                <example>Son assignation a résidence a finalement été levée le 13 février 2010.</example>
+                <example>Or un coinceur a cames a tendance a bouger par lui-meme sous les secousses.</example>
+                <example>En tout cas la boite a ski a l'air d'avoir un paquet de T4 ou similaires en destockage a vendre.</example>
                 <example correction="à">Pensez <marker>a</marker> le dépasser.</example>
                 <example correction="à">Cet endroit est trop <marker>a</marker> découvert.</example>
                 <example>Clinton Mata a été terrible.</example>
@@ -18841,7 +18864,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <antipattern>
                     <token>a</token>
-                    <token>priori</token>
+                    <token regexp="yes">priori|lieu</token>
                 </antipattern>
                 <antipattern>
                     <token>type</token>
