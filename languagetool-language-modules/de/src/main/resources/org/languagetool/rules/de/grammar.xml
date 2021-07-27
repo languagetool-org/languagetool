@@ -26518,6 +26518,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="WUNDE_SUBST" name="'eine offene wunde (Wunde)' etc.">
             <rule>
+                <rule>
+                    <pattern case_sensitive="yes">
+                        <marker><token regexp="yes">wunden?</token></marker>
+                        <token inflected="yes" regexp="yes">(ver|ab)?heilen|versorgen|pflegen|eitern</token>
+                    </pattern>
+                    <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                    <short>&prgk;.</short>
+                    <example correction="Wunden">Ich werde meine <marker>wunden</marker> pflegen.</example>
+                </rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(blutende|offene|chronische|eiternde|eitrige|klaffende|heilende|verheilte|vernarbte|schmerzende|schwärende|seelische|tiefe)n?</token>
                     <marker>
