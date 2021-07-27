@@ -32783,6 +32783,51 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="P_V_PAS" name="négation sans NE">
             <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>si</token>
+                <token regexp="yes">aucune?s?|personne</token>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="R pers.*|[NJ].*" postag_regexp="yes"/></token>
+                <token>a</token>
+                <token regexp="yes">aucune?s?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ].*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="2"/>
+                <token regexp="yes">aucune?s?|personne</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">bien|mal|confiance</token>
+                <token>a</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token>qui</token>
+                <token>plus</token>
+                <token>est</token>
+                <token regexp="yes">aucune?s?|personne</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">dis|je</token>
+                <token regexp="yes">bien|sache</token>
+                <token postag="A" min="0" max="1"/>
+                <token regexp="yes">aucune?s?|personne</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">soit|puis|voire|quasi|devant|tout|pèse|cherche</token>
+                <token min="0" max="1">plus</token>
+                <token regexp="yes">aucune?s?|personne</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)Aucune?s?|Personne</token>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="R pers.*|[NJ].*" postag_regexp="yes"/></token>
+                <token>aucun</token>
+                <token regexp="yes">doute|soucis|problème</token>
+            </antipattern>
+            <antipattern>
                 <token>ayant</token>
                 <token>jamais</token>
                 <token postag_regexp="yes" postag="V.* ppa.*"/>
@@ -32815,7 +32860,7 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token postag="R.*|[NJZ].*" postag_regexp="yes"/>
                 <token postag="V.*" postag_regexp="yes" inflected="yes">finir</token>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -32824,14 +32869,14 @@ though, and has since been slightly modified)-->
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
             </antipattern>
             <antipattern>
                 <token postag="R pers suj.*|[NV].*" postag_regexp="yes"/>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes" inflected="yes">devoir|falloir|préférer|valoir|esperer|aimer|apprécier|vouloir|penser|souhaiter|pouvoir</token>
                 <token postag="A"/>
                 <token>ne</token>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
@@ -32839,27 +32884,27 @@ though, and has since been slightly modified)-->
                 <token postag="V (avoir|etre) (ind|con|sub).*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
                 <token postag="V.* ppa.*" postag_regexp="yes"/>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
             </antipattern>
             <antipattern>
                 <token postag="R pers suj.*|[NV].*" postag_regexp="yes"/>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes" inflected="yes">devoir|falloir|préférer|valoir|esperer|aimer|apprécier|vouloir|penser|souhaiter|pouvoir</token>
                 <token postag="A"/>
                 <token>ne</token>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>mieux</token>
                 <token>vaut</token>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
             </antipattern>
             <antipattern>
                 <token postag="R pers suj.*|[NZ].*" postag_regexp="yes"/>
                 <token inflected="yes">ne</token>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes" inflected="yes">esperer|aimer|apprécier|vouloir|penser|souhaiter|pouvoir</token>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 <token inflected="yes">que</token>
                 <token postag="R pers suj.*|[NZD].*" postag_regexp="yes" min="1" max="3"/>
                 <token postag="V.* (sub|con).*" postag_regexp="yes"/>
@@ -32879,19 +32924,19 @@ though, and has since been slightly modified)-->
                 <token min="0" max="1">-</token>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
             </antipattern>
             <antipattern>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
                 <token regexp="yes">-je|-tu|(-t)?-ils?|(-t)?-elles?|-on|-[nv]ous</token>
                 <token postag="V.* inf.*" postag_regexp="yes"/>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
             </antipattern>
             <antipattern>
                 <token>de</token>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="2"/>
-                <token regexp="yes">pas|jamais|guère</token>
+                <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
             </antipattern>
             <antipattern>
                 <token postag="V.*" postag_regexp="yes"/>
@@ -32917,7 +32962,7 @@ though, and has since been slightly modified)-->
                         <token postag="V.* 1 s" postag_regexp="yes" regexp="yes"> [aâàeéèêioœuyh].*
                             <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -32940,7 +32985,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" postag="R pers suj.*" postag_regexp="yes"/>
                         <exception regexp="yes" inflected="yes" postag="V.*|V.* ind pres 2 s" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -32957,7 +33002,7 @@ though, and has since been slightly modified)-->
                     <token>vous</token>
                     <token postag="V.* ind pres 2 p" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
@@ -32965,7 +33010,7 @@ though, and has since been slightly modified)-->
                         <token postag="V.*" postag_regexp="yes" regexp="yes"> [aàâeéêioœuyh].*
                             <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -32990,7 +33035,7 @@ though, and has since been slightly modified)-->
                     <token>vous</token>
                     <token postag="V.* ind pres 2 p" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="R pers suj.*" postag_regexp="yes"/>
@@ -33003,12 +33048,12 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[nv]ous</token>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*</token>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*</token>
                     <token>ne</token>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes">
@@ -33017,7 +33062,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*</token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33042,7 +33087,7 @@ though, and has since been slightly modified)-->
 					<token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
@@ -33053,7 +33098,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
@@ -33076,7 +33121,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère<exception scope="next" postag="N.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne<exception scope="next" postag="N.*" postag_regexp="yes"/></token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33094,7 +33139,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*'</token>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33112,7 +33157,7 @@ though, and has since been slightly modified)-->
                     <token postag="R pers suj.*" postag_regexp="yes"/>
                     <token>en</token>
                     <token postag="V.*" postag_regexp="yes"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     <token>en</token>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </antipattern>
@@ -33124,7 +33169,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes" inflected="yes" postag="R.* obj.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33144,7 +33189,7 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">en|y</token>
                         <token postag="V.* 1 s" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33164,7 +33209,7 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">en|y</token>
                         <token postag="V.* 2 s" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33181,12 +33226,12 @@ though, and has since been slightly modified)-->
                     <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token>y</token>
                     <token>a</token>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <pattern>
                     <token><exception postag="Z.*|R pers.*|R dem m s" postag_regexp="yes"/>
@@ -33199,7 +33244,7 @@ though, and has since been slightly modified)-->
                             <exception scope="previous" inflected="yes" regexp="yes">ne|n</exception>
                             </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33218,7 +33263,7 @@ though, and has since been slightly modified)-->
             <rule default="temp_off">
                 <antipattern>
                     <token regexp="yes">fau[xt]</token>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" regexp="yes">ne|n</token>
@@ -33226,20 +33271,20 @@ though, and has since been slightly modified)-->
                     <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3" skip="1"/>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="R pers suj.*" postag_regexp="yes"/>
                     <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3" skip="1"/>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token postag="V.* [12] s" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     <token postag="A" min="0" max="2"/>
                     <token postag="SENT_END"/>
                 </antipattern>
@@ -33247,7 +33292,7 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token postag="V.* 3 p" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
@@ -33264,12 +33309,12 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START"/>
                     <token>en</token>
                     <token postag="V.*" postag_regexp="yes"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">rendre</token>
                     <token>compte</token>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <pattern>
                     <token><exception postag="Z.*|R pers.*|V (avoir|etre).*" postag_regexp="yes"/>
@@ -33281,7 +33326,7 @@ though, and has since been slightly modified)-->
                         <exception postag="J.*|V.* inf|V.* pp.*" postag_regexp="yes"/>
                         </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33321,7 +33366,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33336,7 +33381,7 @@ though, and has since been slightly modified)-->
                     <token>t'</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" regexp="yes">ne|n</token>
@@ -33344,14 +33389,14 @@ though, and has since been slightly modified)-->
                     <token postag="R.* obj.*" postag_regexp="yes"/>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token>de</token>
                     <token regexp="yes">[nv]ous</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[nv]ous</token>
@@ -33365,21 +33410,21 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[nv]ous</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token postag="[NZP]|M nonfin" postag_regexp="yes"/>
                     <token regexp="yes">[nv]ous</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token><exception postag="[NJ].*|R pers suj.*" postag_regexp="yes"/></token>
                     <token>t'</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <pattern>
                     <token><exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
@@ -33393,7 +33438,7 @@ though, and has since been slightly modified)-->
                             <exception postag="V.* inf" postag_regexp="yes"/>
                         </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
 
                     <token negate="yes" regexp="yes">mal|moins|loin</token>
                 </pattern>
@@ -33419,14 +33464,14 @@ though, and has since been slightly modified)-->
                     <token>t'</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token><exception postag="R pers suj.*|R dem.*" postag_regexp="yes"/></token>
                     <token>t'</token>
                     <token postag="V.* ind pres 2 s" postag_regexp="yes"/>
                     <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère</token>
+                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
                     <token>pour</token>
@@ -33441,7 +33486,7 @@ though, and has since been slightly modified)-->
                     </marker>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
@@ -33459,7 +33504,7 @@ though, and has since been slightly modified)-->
                             <exception scope="previous">ne</exception></token>
                         <token postag="V.* ind pres 2 p" postag_regexp="yes" regexp="yes">[^àâaêèéeiîoôòóöŌuœä].*</token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33477,7 +33522,7 @@ though, and has since been slightly modified)-->
                             <exception scope="previous">ne</exception></token>
                         <token postag="V.* ind pres 2 p" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*</token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33498,7 +33543,7 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">en|y</token>
                         <token postag="V.* ind pres 2 p" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33515,7 +33560,7 @@ though, and has since been slightly modified)-->
                         <token>j'</token>
                         <token postag="V.* 1 s" postag_regexp="yes" regexp="yes">[^aeéèêioœuyh].*</token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33535,7 +33580,7 @@ though, and has since been slightly modified)-->
                         <token inflected="yes">ce</token>
                         <token postag="V.* 3 s" postag_regexp="yes" regexp="yes">[^aâàeéèêioœuyh].*</token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33551,7 +33596,7 @@ though, and has since been slightly modified)-->
                         <token postag="V.* 3 s" postag_regexp="yes" regexp="yes">[aâàeéèêioœuyh].*
                             <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33568,7 +33613,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" inflected="yes" regexp="yes">ne|n</exception>
                         </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33588,7 +33633,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" inflected="yes" regexp="yes">ne|n</exception>
                         </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33606,7 +33651,7 @@ though, and has since been slightly modified)-->
                             <exception postag="[NJ].*" postag_regexp="yes"/>
                         </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                         <token postag="A" min="0" max="2"/>
                         <token postag="SENT_END"/>
@@ -33623,7 +33668,7 @@ though, and has since been slightly modified)-->
                         <token>en</token>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
@@ -33644,7 +33689,7 @@ though, and has since been slightly modified)-->
                             <exception postag="V.* inf" postag_regexp="yes"/>
                         </token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33663,7 +33708,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
@@ -33678,7 +33723,7 @@ though, and has since been slightly modified)-->
                         <token>en</token>
                         <token postag="V.* 3 s" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33696,7 +33741,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" postag="R pers suj.*" postag_regexp="yes"/>
                         <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
@@ -33719,7 +33764,7 @@ though, and has since been slightly modified)-->
                         <token postag="R.* obj.*" postag_regexp="yes" min="0" max="1"/>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token postag="A" min="0" max="2"/>
-                        <token regexp="yes">pas|jamais|guère</token>
+                        <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
