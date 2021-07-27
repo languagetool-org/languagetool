@@ -23437,7 +23437,24 @@ Não se esqueça de calçar as meias.
       <message>Substitua por <suggestion>quê</suggestion>.</message>
       <example correction="quê">Mas o <marker>que</marker>?</example>
 	</rule>
-
+	
+	<!-- RAIS raiz -->
+    <rule id='RAIS_RAIZ' name="Confusão: rais/raiz" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-27 (25-JUN-2021+)      -->
+	<!--
+A rais da árvore está podre. → A raiz da árvore está podre.
+	-->
+      <pattern>
+		<token postag='DI.+|PD.+|PP.+|SPS.+' postag_regexp='yes'/>
+		<marker>
+			<token>rais</token>
+		</marker>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Substitua por <suggestion>raiz</suggestion>.</message>
+      <example correction="raiz">A <marker>rais</marker> da árvore está podre.</example>
+    </rule>	
+	
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
   <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (á)'>
