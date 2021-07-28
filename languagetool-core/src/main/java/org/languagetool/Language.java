@@ -301,6 +301,10 @@ public abstract class Language {
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
       }
+      String premiumFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/grammar-premium.xml";
+      if (dataBroker.ruleFileExists(premiumFileName)) {
+        ruleFiles.add(dataBroker.getRulesDir() + "/" + premiumFileName);
+      }
     }
     return ruleFiles;
   }

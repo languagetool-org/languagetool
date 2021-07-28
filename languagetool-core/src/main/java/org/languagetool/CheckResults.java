@@ -28,8 +28,8 @@ import java.util.Objects;
  */
 public class CheckResults {
 
-  private final List<RuleMatch> ruleMatches;
-  private final List<Range> ignoredRanges;
+  private List<RuleMatch> ruleMatches;
+  private List<Range> ignoredRanges;
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
@@ -42,6 +42,14 @@ public class CheckResults {
 
   public List<RuleMatch> getRuleMatches() {
     return ruleMatches;
+  }
+
+  public void setIgnoredRanges(List<Range> ignoredRanges) {
+    this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
+  }
+
+  public void setRuleMatches(List<RuleMatch> ruleMatches) {
+    this.ruleMatches = Objects.requireNonNull(ruleMatches);
   }
 
 }
