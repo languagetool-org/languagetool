@@ -11744,7 +11744,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>si<exception scope="previous">como</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
                     </marker>
-                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_END|_PUNCT.*|LOC_CONJ|CS" postag_regexp="yes"/>
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion>sino</suggestion>
@@ -11812,6 +11812,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él no solo es valiente sino sabio.</example>
                 <example>Ninguna de las dos entidades puede existir, sino en relación con el Otro.</example>
                 <example>Ningún estado quedará excluido, sino que serán recompensados.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>no</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token>si</token>
+                        <token>no</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente hay que usar la conjunción adversativa <suggestion>sino</suggestion>.</message>
+                <short>Posible confusión</short>
+                <example correction="sino">Para hoy no <marker>si no</marker> para mañana puesto que no es urgente.</example>
+                <example>Para mañana no si no lo puedes acabar.</example>
             </rule>
         </rulegroup>
     </category>
