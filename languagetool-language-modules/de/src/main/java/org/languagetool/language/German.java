@@ -319,6 +319,7 @@ public class German extends Language implements AutoCloseable {
       case "VERB_FEM_SUBST": return -1; // prefer Comma rules
       case "GEFEATURED": return -1; // prefer over spell checker
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
+      case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "SUBJECT_VERB_AGREEMENT": return -1; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
