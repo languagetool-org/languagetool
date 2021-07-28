@@ -11207,8 +11207,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"/>
                 </pattern>
-                <message>Possible confusió.</message>
-                <suggestion>si no</suggestion>
+                <message>Probablement cal escriure <suggestion>si no</suggestion> (conjunció condicional 'si' seguida de la negació 'no').</message>
+                <short>Possible confusió</short>
                 <example correction="Si no"><marker>Sinó</marker> hi véns, serà pitjor.</example>
                 <example correction="si no">¿Què podia fer <marker>sinó</marker> volia resignar-me?</example>
                 <example>Si no hi véns, serà pitjor.</example>
@@ -11232,8 +11232,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.[NG].*" postag_regexp="yes"/>
                 </pattern>
-                <message>Possible confusió.</message>
-                <suggestion>sinó</suggestion>
+                <message>Probablement cal usar la conjunció adversativa <suggestion>sinó</suggestion>.</message>
+                <short>Possible confusió</short>
                 <example correction="sinó">No va cantar, <marker>si no</marker> ballar.</example>
                 <example correction="sinó">¿Què podia fer <marker>si no</marker> resignar-me?</example>
                 <example>No va cantar, sinó ballar.</example>
@@ -11251,8 +11251,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">que|també|perquè|on|com|què|qui</token>
                 </pattern>
-                <message>Possible confusió.</message>
-                <suggestion>sinó</suggestion>
+                <message>Probablement cal usar la conjunció adversativa <suggestion>sinó</suggestion>.</message>
+                <short>Possible confusió</short>
                 <example correction="sinó">No només el peix, <marker>si no</marker> també la carn.</example>
                 <example correction="sinó">No és qui té la raó <marker>si no</marker> qui té el poder.</example>
                 <example>No només el peix, sinó també la carn.</example>
@@ -11278,11 +11278,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>si<exception scope="previous">com</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
                     </marker>
-                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_END|_PUNCT.|CS|LOC_CONJ*" postag_regexp="yes"/>
                 </pattern>
-                <message>Possible confusió.</message>
-                <suggestion>sinó</suggestion>
+                <message>Probablement cal usar la conjunció adversativa <suggestion>sinó</suggestion>.</message>
+                <short>Possible confusió</short>
                 <example correction="sinó">No ho ha fet ell <marker>si no</marker> el seu germà.</example>
+                <example correction="sinó">Per a avui no <marker>si no</marker> per a demà perquè no vindrà.</example>
                 <example>No ho ha fet ell sinó el seu germà.</example>
                 <example>No vinguis, si no ho passaràs malament.</example>
                 <example correction="sinó">¿Qui ha de venir <marker>si no</marker> ella?</example>
@@ -11303,8 +11304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>sinó</token>
                     </marker>
                 </pattern>
-                <message>Possible confusió.</message>
-                <suggestion>si no</suggestion>
+                <message>Probablement cal escriure <suggestion>si no</suggestion> (conjunció condicional 'si' seguida de la negació 'no').</message>   
                 <example correction="si no">Preguntem-li <marker>sinó</marker> al president.</example>
                 <example correction="si no">Preguntem-li-ho, <marker>sinó</marker>, al president.</example>
                 <example>Preguntem si no al president.</example>
@@ -11347,6 +11347,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="si no">Qui <marker>sinó</marker>?</example>
                 <example correction="si no">On anirem <marker>sinó</marker>?</example>
                 <example correction="si no">¿Qui ha de venir <marker>sinó</marker>?</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>no</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token>si</token>
+                        <token>no</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar la conjunció adversativa <suggestion>sinó</suggestion>.</message>
+                <short>Possible confusió</short>
+                <example correction="sinó">Per a demà no <marker>si no</marker> per a avui atès que és urgent.</example>
+                <example>Per a demà no si no ho pots acabar.</example>
+                <example>Per a demà no si no ho has pogut acabar.</example>
             </rule>
         </rulegroup>
     </category>
