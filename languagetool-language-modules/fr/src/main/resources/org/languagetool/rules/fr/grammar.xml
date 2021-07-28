@@ -5780,7 +5780,7 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">[êe]tre</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+                <message>Un trait d'union doit être placé entre ces deux mots pour former l'adverbe <suggestion>peut-être</suggestion>.</message>
                 <example correction="peut-être">Il partira <marker>peut être</marker> demain.</example>
                 <example correction="peut-être">J'ai espéré <marker>peut être</marker> pouvoir me rendre plus util.</example>
                 <example correction="peut-être">Il défendra son projet et aura <marker>peut être</marker> l’opportunité d'accéder à la finale.</example>
@@ -5800,7 +5800,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="V ppa.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+                <message>Un trait d'union doit être placé entre ces deux mots pour former l'adverbe <suggestion>peut-être</suggestion>.</message>
                 <example correction="peut-être">Vous avez <marker>peut être</marker> fait appel à une adresse URL erronée ou obsolète.</example>
                 <example correction="peut-être">Vous avez <marker>peut être</marker> remarqué qu'ils trouvent l'amour.</example>
             </rule>
@@ -5813,7 +5813,8 @@ though, and has since been slightly modified)-->
                         <token>peut-être</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>peut être</suggestion> ?</message>
+                <message>Ces deux verbes ne sont pas liés par un trait d'union.</message>
+                <suggestion>peut être</suggestion>
                 <example correction="peut être">Elle <marker>peut-être</marker> ennuyeuse.</example>
                 <example correction="peut être">Ce qu’il <marker>peut-être</marker> relou, alors.</example>
                 <example>La lettre est à elle peut-être.</example>
@@ -5831,7 +5832,7 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">[êe]tre</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
+                <message>Un trait d'union doit être placé entre ces deux mots pour former l'adverbe <suggestion>Peut-être</suggestion>.</message>
                 <example correction="Peut-être"><marker>Peut être</marker> viendra-t-il ?</example>
                 <example>Peut être résilié mensuellement.</example>
             </rule>
@@ -5854,7 +5855,8 @@ though, and has since been slightly modified)-->
                         <token>être</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+                <message>Cet adverbe comporte un 't'.</message>
+                <suggestion>peut-être</suggestion>
                 <example correction="peut-être">Il y a <marker>peu être</marker> du pain.</example>
                 <example correction="peut-être">Il y a <marker>peu-être</marker> du pain.</example>
                 <example correction="peut-être">C'est <marker>peu être</marker> la même chose.</example>
@@ -5871,13 +5873,52 @@ though, and has since been slightly modified)-->
                     <token postag="R pers obj.*" postag_regexp="yes"/>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+                <message>Un adverbe doit être placé avant ce verbe à l'infinitif.</message>
+                <suggestion>peut-être</suggestion>
                 <example correction="peut-être">et espéré <marker>peut être</marker> pouvoir me rendre plus util.</example>
                 <example>Cela peut être vrai.</example>
                 <example>L’Écosse peut être très chaude.</example>
                 <example>L’alcool au volant peut être dangereux.</example>
                 <example>Une intoxication en cours peut être diagnostiquée.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token postag="P" postag_regexp="yes"/>
+                <token>peut</token>
+                <token regexp="yes">[êe]tre</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"><exception>été</exception></token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">de|à</token>
+                <token>peut</token>
+                <token regexp="yes">[êe]tre</token>
+                <token postag="J.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="P"/>
+            </antipattern>
+            <antipattern>
+                <token postag="P" postag_regexp="yes"/>
+                <token>peut</token>
+                <token regexp="yes">[êe]tre</token>
+                <token>soit</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="P" postag_regexp="yes"><exception regexp="yes">avant|passé|(?-i)DE</exception></token>
+                <marker>
+                    <token>peut</token>
+                    <token regexp="yes">[êe]tre</token>
+                </marker>
+            </pattern>
+            <message>Un adverbe doit être placé après la préposition '\1'.</message>
+            <suggestion>peut-être</suggestion>
+            <example correction="peut-être">Il est arrivé avec <marker>peut être</marker> vingt minutes de retard.</example>
+            <example>Seule la roue avant peut être directrice et doit être commandée par un guidon.</example>
+            <example>Le radical du participe passé peut être irrégulier, mais il est stable en principe.</example>
+            <example>Tout endomorphisme sur peut être naturellement étendu.</example>
+            <example>La valeur de peut être différente de celle-ci.</example>
+            <example>Le bras avant peut être soit tendu (ancienne école) ou légèrement coudé (nouvelle école).</example>
+        </rule>
         </rulegroup>
         <rulegroup id="PEUT_PEUX_PEU" name="Peut ou peux au lieu de peu" default="temp_off">
         <rule>
