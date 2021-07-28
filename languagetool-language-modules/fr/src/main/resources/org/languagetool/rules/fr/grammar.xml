@@ -16890,6 +16890,24 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
+           <!-- <antipattern>
+                <token>puis</token>
+                <token regexp="yes" skip="2">que|qu'</token>
+                <token inflected="yes">être</token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>-->
+            <pattern>
+                <token>puis</token>
+                <token regexp="yes">que|qu'</token>
+            </pattern>
+            <message>Pour marquer une cause ou un motif, il faut écrire <suggestion>\1\2</suggestion>. "Puis que" signifie "après que".</message>
+            <example correction="puisqu'">On a été un peu plus rapide que vous <marker>puis qu'</marker>on s'est posé 500 m.</example>
+            <example correction="puisque">Pour la source, c'est de moi, <marker>puis que</marker> j'en suis le créateur</example>
+            <example correction="puisqu'">Autant dire que tu ne verras pas grand chose <marker>puis qu'</marker>il faut au moins 3 pixels pour identifier un élément.</example>
+            <example correction="puisqu'">Comment on peut les décoder <marker>puis qu'</marker>ils sont déjà aléatoires?</example>
+            <!--<example>Il m'a dit qu'il était parti tôt hier puis qu'il était allé en ville.</example>-->
+        </rule>
         <rule id="WRONG_ETRE_VPPA" name="nous (sommes)->avons dansés" default="temp_off">
             <antipattern>
                 <token postag_regexp="yes" postag="R pers.*|N.*"/>
