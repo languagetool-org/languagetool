@@ -36,6 +36,7 @@ public class AnnotatedText {
   public enum MetaDataKey {
     DocumentTitle,
     EmailToAddress,
+    FullName,
     EmailNumberOfAttachments
   }
 
