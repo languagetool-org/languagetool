@@ -8383,6 +8383,11 @@ though, and has since been slightly modified)-->
                     <token>ce</token>
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token><exception postag="R pers suj.*|[NJ].*" postag_regexp="yes"/></token>
+                    <token>ce</token>
+                    <token inflected="yes" regexp="yes">être|devoir|pouvoir</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>ce</token>
@@ -8390,13 +8395,13 @@ though, and has since been slightly modified)-->
                     <token postag="V.*" postag_regexp="yes">
                         <!-- add also f to the exceptions? Then it will be an error in D_N -->
                         <exception postag="[NJ] [me] sp?|V ppa.*" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
                         <exception regexp="yes">faisant|faire</exception></token>
                 </pattern>
                 <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
                 <suggestion>se</suggestion>
                 <example correction="Se"><marker>Ce</marker> promener est relaxant.</example>
                 <example correction="se">Ce phénomène <marker>ce</marker> transforme en phénomène de société.</example>
+                <example correction="se">Il faut que cet enfant <marker>ce</marker> soit lavé les mains avant de passer à table.</example>
                 <example>Ce sera bien.</example>
                 <example>Ce met est une spécialité culinaire de la région.</example>
                 <example>Ce peuple</example>
@@ -8511,22 +8516,6 @@ though, and has since been slightly modified)-->
                 <example>Cette même année c’est lui qui signe le contrat pour l’orgue de la cathédrale de Valence.</example>
             </rule>
             <rule default="temp_off">
-                <pattern raw_pos="yes">
-                    <token>qui<exception scope="previous" postag="P|V etre.*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token>ce</token>
-                    </marker>
-                    <and>
-                    <token postag="V.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </pattern>
-                <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
-                <suggestion>se</suggestion>
-                <example correction="se">C'est lui qui <marker>ce</marker> cache sous la table.</example>
-                <example>C'est qui ce type?</example>
-            </rule>
-            <rule default="temp_off">
                 <pattern>
                     <marker>
                         <token>c'</token>
@@ -8552,7 +8541,58 @@ though, and has since been slightly modified)-->
                 <suggestion>se</suggestion>
                 <example correction="Se"><marker>Ce</marker> sont-ils répondu ?</example>
             </rule>
-            <rule id="CE" name="ce" default="temp_off">
+			<rule default="temp_off">
+            <antipattern>
+                <token>ce</token>
+                <token postag="V etre.* p" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token regexp="yes">devenue?s</token>
+            </antipattern>
+            <antipattern>
+                <token>ce</token>
+                <token postag="V etre.* p" postag_regexp="yes" skip="-1"/>
+                <token>qui</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)CE</token>
+                <token postag="V etre.* p" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ce<exception scope="previous" postag="P"/></token>
+                </marker>
+                <token postag="V etre.* p" postag_regexp="yes"><exception>soient</exception></token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
+            <suggestion>se</suggestion>
+            <example correction="Se"><marker>Ce</marker> sont répondu les présidents.</example>
+            <example>D'autres possibles têtes de liste pour ce sont mentionnées.</example>
+            <example>Au total, ce sont entreprises qui étaient domiciliées à Longjumeau en 2015.</example>
+            <example>Il semble plutôt que ce soient dû aux procyanidines.</example>
+            <example>Les attributions économiques et sociales du CE seront alors exercées par les délégués du personnel.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern raw_pos="yes">
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">affirmer|dire|être|sembler|para[iî]tre|demeurer|devenir|rester|prétendre|savoir|pouvoir|faire|aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir
+                    <exception postag="V.* inf" postag_regexp="yes"/></token>
+                <token postag="A" min="0" max="3"/>
+                    <marker>
+                        <token>ce</token>
+                    </marker>
+                <and>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="V.* inf" postag_regexp="yes"><exception regexp="yes">pouvoir|souvenir</exception></token>
+                </and>
+            </pattern>
+            <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
+            <suggestion>se</suggestion>
+            <example correction="se">Il faut tout <marker>ce</marker> dire.</example>
+        </rule>
+            <rule default="temp_off">
                 <pattern raw_pos="yes">
                     <token>qui<exception scope="previous" postag="P|V etre.*" postag_regexp="yes"/></token>
                     <marker>
@@ -8565,9 +8605,73 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
                 <suggestion>se</suggestion>
-                <example correction="Se">C'est lui qui <marker>Ce</marker> cache sous la table.</example>
+                <example correction="se">C'est lui qui <marker>ce</marker> cache sous la table.</example>
                 <example>C'est qui ce type?</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token regexp="yes">tout|cela<exception scope="previous" postag="V.*" postag_regexp="yes"/></token>
+                <token>ce</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                <token min="0" max="1" regexp="yes" inflected="yes">,|ne</token>
+                <token postag="R pers obj.*|Z.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tout|cela</token>
+                <token>ce</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="P.*" postag_regexp="yes" skip="-1"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tout|cela</token>
+                <token>ce</token>
+                <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" skip="-1"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="N.*" postag_regexp="yes" min="0" max="1"/>
+                <token regexp="yes">tout|cela</token>
+                <token>ce</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pas|plus</token>
+                <token>du</token>
+                <token>tout</token>
+                <token>ce</token>
+            </antipattern>
+            <pattern raw_pos="yes">
+                <token regexp="yes">tout|cela<exception scope="previous" postag="P|V.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>ce</token>
+                </marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">monde|voyage|cercle|tapage</exception></token>
+                </and>
+                <token><exception postag="SENT_END"/>
+                    <exception>ce</exception>
+                </token>
+            </pattern>
+            <message>Le pronom réfléchi 'se' est attendu devant le verbe pronominal '\2'.</message>
+            <suggestion>se</suggestion>
+            <example correction="se">Cela <marker>ce</marker> passe sous la table.</example>
+            <example>C'est qui ce type?</example>
+            <example>Tout ce procédé coûta environ 20 euros.</example>
+            <example>Comment faire passer tout ce monde sans dégâts ?</example>
+            <example>Ca ne pose pas problème tout ce chlore.</example>
+            <example>Je connais pas du tout ce modèle.</example>
+            <example>Tout ce courant de pensée s'opposait à l'Action française.</example>
+            <example>De maniere generale, tout ce versant sud du lautaret est en tres bonnes conditions.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="MA" name="MA au lieu de M’A" default="temp_off">
         <rule>
@@ -9476,12 +9580,16 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">court?|courts</token>
                     </marker>
-                    <token regexp="yes">des?|du</token>
+                    <token regexp="yes">des?|du
+                    <exception scope="next" postag="V.* inf" postag_regexp="yes"/>
+                    <exception scope="next" regexp="yes">tennis|club</exception></token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>cours</suggestion> ?</message>
                 <url>https://fr.wiktionary.org/wiki/au_cours_de</url>
                 <example correction="cours">Au <marker>cour</marker> de l’été</example>
                 <example correction="cours">Au <marker>court</marker> des dix dernières années.</example>
+                <example>Quel est le plus court chemin pour aller au court de tennis ?</example>
+                <example>La quasi totalité du court est détruite et reconstruite pour permettre au court de recevoir un toit rétractable.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13558,15 +13666,48 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="MOI_MOIS" name="moi et mois">
             <rule>
+				<antipattern>
+                    <token regexp="yes" skip="-1">titres?|comédies?|éditions?</token>
+                    <token postag="[KY]" postag_regexp="yes"/>
+                    <token case_sensitive="yes">moi</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[KY]" postag_regexp="yes"/>
+                    <token case_sensitive="yes" skip="-1">moi</token>
+                    <token regexp="yes">titres?|comédies?|éditions?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[KY]" postag_regexp="yes"/>
+                    <token case_sensitive="yes">moi</token>
+                    <token>de</token>
+                    <token postag="Z.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">paris|lyon|marseille</token>
+                    <token postag="[KY]" postag_regexp="yes"/>
+                    <token case_sensitive="yes">moi</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[KY]" postag_regexp="yes"/>
+                    <token case_sensitive="yes">moi</token>
+                    <token postag="Z.*|UNKNOWN" postag_regexp="yes" skip="2"/>
+                    <token inflected="yes">je</token>
+                </antipattern>
                 <pattern>
                     <token postag="[KY]" postag_regexp="yes"/>
                     <marker>
-                        <token>moi</token>
+                        <token case_sensitive="yes">moi</token>
                     </marker>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+                <message>Le marqueur de temps se termine par un 's'.</message>
+                <suggestion>mois</suggestion>
                 <example correction="mois">Elle est enceinte de trois <marker>moi</marker>.</example>
                 <example correction="mois">Elle est enceinte de 3 <marker>moi</marker>.</example>
+                <example>1987 Moi, moi et moi.</example>
+                <example>2019 : Deux moi de Cédric Klapisch</example>
+                <example>Un jour je vais me faire casser la gueule dans un couloir de Paris 8 moi.</example>
+                <example>Aujourd'hui le 21/02/2016 moi Luki gb je demande la restauration de cette page.</example>
+                <example>Titre original : Deux moi</example>
             </rule>
             <rule>
                 <pattern>
@@ -13576,7 +13717,8 @@ though, and has since been slightly modified)-->
                     <token>de</token>
                     <token regexp="yes">janvier|février|mars|avril|mai|juin|juillet|septembre|novembre|décembre</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+                <message>Le marqueur de temps se termine par un 's'.</message>
+                <suggestion>mois</suggestion>
                 <example correction="mois">Le <marker>moi</marker> de mai a été froid.</example>
             </rule>
             <rule>
@@ -13587,7 +13729,8 @@ though, and has since been slightly modified)-->
                     <token inflected="yes">de</token>
                     <token regexp="yes">avril|ao[ûu]t|octobre</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+                <message>Le marqueur de temps se termine par un 's'.</message>
+                <suggestion>mois</suggestion>
                 <example correction="mois">Le <marker>moi</marker> d’avril a été froid.</example>
             </rule>
         </rulegroup>
