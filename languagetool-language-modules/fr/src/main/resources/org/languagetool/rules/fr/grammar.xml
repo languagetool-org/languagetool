@@ -1045,6 +1045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- better suggestion: sont cachés -->
                 <example correction="la 1re|le 1er">Selon <marker>le 1re</marker> chapitre</example>
                 <example correction="la seconde|le second|les seconds|les secondes">depuis <marker>le seconde</marker> moitié du XXe siècle</example>
+                <example correction="Cette même|Ce même|Ces mêmes"><marker>Ces même</marker> données sont aussi utilisées pour l'établissement d'attestations.</example>
                 <example>La poésie la peint et l'embellit.</example>
                 <example>Leur grâce les sauve.</example>
                 <example>Je connais la Voie et la fuis.</example>
@@ -3437,6 +3438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="prochains">Au cours des trois mois <marker>prochain</marker>.</example>
             <example>Au cours de l'année suivant leur inscription sur la liste annuelle.</example>
             <example>Mikko Franck, dont la formation rejoint pourtant celle de Järvi.</example>
+            <example>Il faut obéir aux lois même injustes.</example>
         </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style">
@@ -4299,7 +4301,7 @@ though, and has since been slightly modified)-->
         <rule id="POLE_2" name="pôle" default="temp_off">
         <!-- correctif pour ID="POLE" qui empêche la correction pole->pôle -->
             <antipattern>
-              <token postag_regexp="yes" postag="D f s"/>
+              <token postag="D f s"/>
               <token>pole</token>
             </antipattern>
             <antipattern>
@@ -20500,7 +20502,7 @@ though, and has since been slightly modified)-->
                 <or>
                     <token inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
                     <token regexp="yes">&exceptions_ELISION2;</token>
-                    <token postag="N [me] s" postag_regexp="yes">
+                    <token postag="[NJ] [me] (s|sp)|V ppa.*" postag_regexp="yes">
                         <exception regexp="yes">[àâaéêèeiîouœ].*|y[pts].*</exception>
                         <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/><!-- no error for unknown words or proper names -->
                         <exception regexp="yes">h.*</exception><!-- list for words beginning with h below --></token>
@@ -20511,6 +20513,7 @@ though, and has since been slightly modified)-->
             <url>https://www.dictionnaire-academie.fr/article/A6C0792*</url>
             <example correction="Ce"><marker>Cet</marker> vase.</example>
             <example correction="Ce"><marker>Cet</marker> monument.</example>
+            <example correction="Ce"><marker>Cet</marker> même monument.</example>
             <example>Cet hydrocarbure.</example>
             <example>Cet yttrium.</example>
             <example>Est-ce utile?</example>
