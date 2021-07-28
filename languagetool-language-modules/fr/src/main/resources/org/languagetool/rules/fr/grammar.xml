@@ -17133,6 +17133,22 @@ though, and has since been slightly modified)-->
                 <example>heu, la magnesie des autres m'a fait cadeau de pas mal de croix à vue...</example>
             </rule>
         </rulegroup>-->
+        <rule id="FAIT_LAISSE_INF" name="fait/laissé + inf -> invariable" default="temp_off">
+            <pattern>
+                <token postag="R pers.*" postag_regexp="yes" skip="3"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V ppa [fe] ." regexp="yes" inflected="yes">laisser|faire
+                        <exception scope="previous" postag_regexp="yes" postag="[CPA]"/>
+                        <exception postag_regexp="yes" postag="V (imp|ind) pres 2 p">faire</exception>
+                    </token>
+                </marker>
+                <token postag="V inf"/>
+            </pattern>
+            <message>Le participe passé de '<match no="2" regexp_match="(V) (ppa) (.*)" regexp_replace="$1 inf"/>' suivi d'un verbe à l'infinitif est invariable.</message>
+            <suggestion><match no="2" postag_regexp="yes" postag="(V ppa) (.*)" postag_replace="$1 m s"/></suggestion>
+            <url>https://www.dictionnaire-academie.fr/annexes/rectifications-orthographe.html#interr-6</url>
+            <example correction="laissé">Elle s’est <marker>laissée</marker> tomber.</example>
+        </rule>
         <rulegroup id="ACCORDS_PARTICULIERS_SINGULIER" name="accords particuliers au singulier">
             <rule>
                 <pattern>
