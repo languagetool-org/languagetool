@@ -10771,6 +10771,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="MEINET_WEGEN" name="Meinet wegen (meinetwegen)" default="temp_off">
+            <pattern>
+                <token regexp="yes">[dms]einet|euret|ihret|unse?ret|unsert|derent</token>
+                <token>wegen</token>
+            </pattern>
+            <message>Das Adverb <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="deinetwegen">Ich habe <marker>deinet wegen</marker> fast mein gesamtes Geld verloren!</example>
+        </rule>
         <rule id="FOLGEN_SCHWER" name="Folgen reich (folgenreich)">
             <antipattern>
                 <token regexp="yes">sie|wir|die|ihr|ihm|denen|ihnen|diese|jene|manche|alle|den|viele|wenige|beide|\d+</token>
@@ -34056,11 +34064,14 @@ Andere Projekte</example>
                         <exception postag_regexp="yes" postag=".*GEN.*"/>
                         <exception>leid</exception>
                         <exception>Von</exception>
+                        <exception regexp="yes">des|deinet|euret|meinet|ihret</exception>
                     </token>
                     <marker>
                         <token>wegen</token>
                     </marker>
-                    <token postag="SENT_END"><exception postag_regexp="yes" postag="SUB.*|UNKNOWN"/></token>
+                    <token postag="SENT_END" regexp="yes">
+                        [.!?]
+                    </token>
                 </pattern>
                 <message>&subanfang;<suggestion>Wegen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -34070,6 +34081,7 @@ Andere Projekte</example>
                 <example>Schmerzensgeld <marker>wegen</marker> Beleidigung</example>
                 <example>Von wegen!</example>
                 <example>Urteil wegen Wiederbetätigung</example>
+                <example>Damit sie nicht im Weg steht wegen:</example>
             </rule>
             <rule>
                 <pattern>
