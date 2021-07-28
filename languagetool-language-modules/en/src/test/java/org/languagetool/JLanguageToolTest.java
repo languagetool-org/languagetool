@@ -154,7 +154,9 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     RuleMatch match = matches.get(0);
     assertEquals(2, match.getLine());
-    assertEquals(14, match.getColumn());   // TODO: should actually be 15, as in testPositionsWithEnglish()
+    // It was 14. It should actually be 15, as in testPositionsWithEnglish(). 
+    // Fixed thanks to a change in the sentence split.
+    assertEquals(15, match.getColumn());   
   }
 
   @Test
