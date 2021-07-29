@@ -5525,7 +5525,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schach">Wir halten sie solange in <marker>Schacht</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="BEDIENUNGEN_BEDINGUNGEN" name="Bedienungen vs. Bedingungen" default="temp_off">
+        <rule id="VERFUGEN_VERFUEGEN" name="verfugen vs. verfügen">
+            <pattern>
+                <marker><token inflected="yes">verfugen</token></marker>
+                <token>über</token>
+            </pattern>
+            <message>&verw; Meinten Sie <suggestion><match no="1" postag="(.+)" postag_regexp="yes" postag_replace="$1">verfügen</match></suggestion>?</message>
+            <example correction="verfügt">Die Öplattform <marker>verfugt</marker> über fünf Schlauchboote.</example>
+            <example correction="verfügst">Du <marker>verfugst</marker> über erstaunliche Fähigkeiten.</example>
+        </rule>
+        <rule id="BEDIENUNGEN_BEDINGUNGEN" name="Bedienungen vs. Bedingungen">
             <pattern>
                 <token>unter</token>
                 <token min="0" postag="ADV:.+|ADJ:PRD:GRU" postag_regexp="yes" />
