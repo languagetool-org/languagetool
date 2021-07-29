@@ -32086,7 +32086,7 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
       </antipattern>
       <pattern>
         <marker>
-          <token regexp="yes">\d+\d{3},\d{4,}</token>
+          <token regexp="yes">\d+\d{3},\d{4,30}</token>
         </marker>
       </pattern>
       <message>Os algarismos devem ser agrupados em grupos de 3.</message>
@@ -35377,7 +35377,7 @@ Isto foi criado em 27-JAN-2021.
         <marker>
           <token regexp='yes'>cerca|perto|volta</token>
           <token>de</token>
-          <token regexp='yes'>1[1289]|[2-9][12346789]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>1[1289]|[2-9][12346789]|(?:\d{2,30}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
@@ -35403,7 +35403,7 @@ Isto foi criado em 27-JAN-2021.
       <pattern>
         <marker>
           <token regexp='yes'>aproximadamente|quase</token>
-          <token regexp='yes'>1[1289]|[2-9][12346789]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>1[1289]|[2-9][12346789]|(?:\d{2,30}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
@@ -37441,7 +37441,9 @@ pediu a eles → pediu-lhes
           <token>gás</token>
       </antipattern>
       <pattern>
-          <token inflected="yes" regexp="yes">(?:&obscenidades;)s?</token>
+          <token inflected="yes" regexp="yes">(?:&obscenidades;)s?
+            <exception postag_regexp='yes' postag='NP.+'/>
+		  </token>
       </pattern>
       <message>Esta palavra é de baixo calão. Considere as alternativas.</message>
         <suggestion>#¿$?%!¡</suggestion>
