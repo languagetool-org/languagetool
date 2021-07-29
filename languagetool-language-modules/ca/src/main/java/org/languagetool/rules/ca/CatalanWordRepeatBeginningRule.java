@@ -35,7 +35,7 @@ public class CatalanWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
   public CatalanWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    super.setDefaultTempOff();
+    //super.setDefaultTempOff();
     addExamplePair(Example.wrong("Però el carrer és tot modernista. <marker>Però</marker> té nom de poeta."),
         Example.fixed("Però el carrer és tot modernista. Així i tot, té nom de poeta."));
   }

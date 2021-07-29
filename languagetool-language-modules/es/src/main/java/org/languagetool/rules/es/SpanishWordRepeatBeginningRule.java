@@ -35,7 +35,7 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
   public SpanishWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    super.setDefaultTempOff();
+    //super.setDefaultTempOff();
     addExamplePair(Example.wrong("Asimismo, la calle es casi toda residencial. <marker>Asimismo</marker>, lleva el nombre de un poeta."),
                    Example.fixed("Además, la calle es casi toda residencal. También lleva el nombre de un poeta."));
   }
