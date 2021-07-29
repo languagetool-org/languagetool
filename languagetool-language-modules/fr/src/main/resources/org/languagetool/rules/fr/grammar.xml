@@ -7491,19 +7491,32 @@ though, and has since been slightly modified)-->
                     <token>a</token>
                     <token postag="V.* inf" postag_regexp="yes" regexp="yes">.+([^o]ir|er)|dire</token>
                 </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">l[ea]|l'</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>être</token>
+                </antipattern>
                 <pattern>
                     <token>a
                         <exception scope="previous" postag="R pers suj.*" postag_regexp="yes"/></token>
+                        <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </pattern>
                 <message>La préposition 'à' est généralement placé avant un verbe à l'infinitif.</message>
-                <suggestion>à \2</suggestion>
-                <example correction="À partir"><marker>A partir</marker> de demain.</example>
-                <example correction="À LOUER"><marker>A LOUER</marker></example>
+                <suggestion>à \2 \3</suggestion>
+                <example correction="À en partir"><marker>A en partir</marker> de demain.</example>
+                <example correction="À te LOUER"><marker>A te LOUER</marker></example>
                 <example>Je vois que tu a passer de bons moments !</example>
                 <example>Il n'efface pas la fatigue qui a voiler votre teint.</example>
                 <example>Sami a télécharger cette application.</example>
+                <example>Il y a l’être humain.</example>
                 <example>Cette femme ne m'a pas attaqué mais a dépasser certaines limites.</example>
+                <example>Or, tout prisonnier militaire a le devoir de tenter de s'évader.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -7737,6 +7750,18 @@ though, and has since been slightly modified)-->
             <example>Autrefois définie à puis transférée à par le traité d'Amsterdam.</example>
             <example>Je préfère demander à plus aguerri.</example>
             <example>çà à l'air dur, depuis que je l'ai passé çà à bien changé...</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>a
+                    <exception scope="previous" postag="R pers suj.*" postag_regexp="yes"/></token>
+                    <token>lui</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <message>La préposition 'à' est généralement placé avant un verbe à l'infinitif.</message>
+            <suggestion>à \2 \3</suggestion>
+            <example correction="à lui dire">J'ai réussi <marker>a lui dire</marker> ton nom.</example>
+            <example correction="à lui démontrer">Il tient <marker>a lui démontrer</marker> que la Terre est ronde.</example>
         </rule>
         </rulegroup>
         <rulegroup id="A_ACCENT_A" name="À au lieu de A">
