@@ -5792,12 +5792,13 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token>peut</token>
                     <token regexp="yes">[êe]tre</token>
+                    <token postag="A" min="0" max="1"/>
                     <token postag="V ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes">
                         <exception postag="V inf|[NJZ].*" postag_regexp="yes"/>
-                        <exception>cela</exception></token>
+                        <exception regexp="yes">cela|(?-i)A</exception></token>
                     <marker>
                         <token>peut</token>
                         <token regexp="yes">[êe]tre</token>
@@ -5812,6 +5813,8 @@ though, and has since been slightly modified)-->
                 <example>L’alcool au volant peut être dangereux.</example>
                 <example>Une intoxication en cours peut être diagnostiquée.</example>
                 <example>Tout ce que vous dites peut être utilisé contre vous.</example>
+                <example>Tout ce qui m'importe peut être vite dit.</example>
+                <example>Soyez conscient que la vitamine A peut être toxique à plus forte dose.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5828,6 +5831,12 @@ though, and has since been slightly modified)-->
                 <example correction="peut-être">Vous avez <marker>peut être</marker> remarqué qu'ils trouvent l'amour.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="1">[^a-z].*</token>
+                    <token regexp="yes">il|elle|on</token>
+                    <token>peut-être</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">il|elle|on
                         <exception scope="previous" regexp="yes">à|pour</exception>
@@ -5842,6 +5851,7 @@ though, and has since been slightly modified)-->
                 <example correction="peut être">Ce qu’il <marker>peut-être</marker> relou, alors.</example>
                 <example>La lettre est à elle peut-être.</example>
                 <example>C’est elle peut-être.</example>
+                <example>Dommage, peut*on peut-être envisagé une conférence filmée ?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -6760,6 +6770,20 @@ though, and has since been slightly modified)-->
                     <token postag="Z.*" postag_regexp="yes"/>
                     <token>a</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="[ZA].*" postag_regexp="yes" min="1" max="2"/>
+					<token postag="[DN].*" postag_regexp="yes" min="1" max="2"/>
+					<token>a</token>
+					<token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                 <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A.*" postag_regexp="yes"><exception postag="A"/></token>
+					<token postag="[DNZ].*" postag_regexp="yes" min="0" max="2"/>
+					<token>a</token>
+					<token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
 				<pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
                         <exception regexp="yes" scope="next">qu[ie]?</exception></token>
@@ -6767,7 +6791,8 @@ though, and has since been slightly modified)-->
                         <exception postag="[ZNRJ].*" postag_regexp="yes"/>
                         <exception postag="V.* inf" postag_regexp="yes"/>
                         <exception regexp="yes">puis|née?s?</exception></token>
-                    <token min="0" max="5"><exception postag="[KSIOVPCR].*" postag_regexp="yes"/></token>
+					<token postag="[ZA].*" postag_regexp="yes" min="0" max="2"/>
+					<token postag="[DN].*" postag_regexp="yes" min="0" max="2"/>
                     <marker>
                         <token case_sensitive="yes">a<exception scope="previous" regexp="yes">les|for|about|feeling|un|(?-i)Office</exception></token>
                     </marker>
@@ -7948,7 +7973,7 @@ though, and has since been slightly modified)-->
                 <antipattern>
                     <token regexp="yes">à|á</token>
 					<token>pas</token>
-					<token regexp="yes">feutrés|comptés</token>
+					<token regexp="yes">feutrés|comptés|saccadés</token>
                 </antipattern>
                 <antipattern>
                     <token postag="N.*" postag_regexp="yes" skip="3"/>
@@ -8605,9 +8630,11 @@ though, and has since been slightly modified)-->
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token><exception postag="R pers suj.*|[NJ].*" postag_regexp="yes"/></token>
+                    <token postag="R pers suj.*|[NJ].*" postag_regexp="yes"/>
                     <token>ce</token>
                     <token inflected="yes" regexp="yes">être|devoir|pouvoir</token>
+                    <token postag="A" min="0" max="1"/>
+                    <token><exception postag="V ppa.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -33120,6 +33147,8 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="P_V_PAS" name="négation sans NE">
             <antipattern>
+                            <token><exception postag="V.* (ind|sub|con).*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">pas|guère|jamais</exception></token>
                 <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="3"/>
                 <token regexp="yes">aucune?s?|personne</token>
@@ -33387,7 +33416,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token postag="R pers suj.*" postag_regexp="yes"/>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes">finir</token>
+                    <token inflected="yes">finir</token>
                     <token>pas</token>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </antipattern>
@@ -33419,6 +33448,7 @@ though, and has since been slightly modified)-->
                 <url>http://www.academie-francaise.fr/ne</url>
                 <example correction="ne part pas">On <marker>part pas</marker> encore.</example>
                 <example correction="ne suis pas">Je <marker>suis pas</marker> timide.</example>
+                <example correction="ne crois pas">Je <marker>crois pas</marker> obtenir aucune chance.</example>
                 <example>On ne part pas encore.</example>
                 <example>Vous bilez pas !</example>
                 <example>Vous pouvez ne pas.</example>
