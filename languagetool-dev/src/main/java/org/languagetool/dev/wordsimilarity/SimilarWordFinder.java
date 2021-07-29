@@ -87,10 +87,18 @@ class SimilarWordFinder {
           e.printStackTrace();
         }
       } else {
-        // TODO: these need to be handled, too
-        //System.out.println("-; " + word + "; " + simWord.word);
+        if (case1(word, simWord.word) || case1(simWord.word, word)) {
+          System.out.println("IGNORE: -; " + word + "; " + simWord.word);
+        } else {
+          System.out.println("-; " + word + "; " + simWord.word);
+        }
       }
     }
+  }
+
+  private boolean case1(String word1, String word2) {
+    boolean ignore = word1.endsWith("s") && !word1.endsWith("es") && word2.endsWith("es");  // z.B. des Manns, des Mannes -> beides ok
+    return ignore;
   }
 
   private void findSimilarWords(File indexDir) throws IOException {
