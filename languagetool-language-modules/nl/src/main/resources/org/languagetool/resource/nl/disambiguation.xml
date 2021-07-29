@@ -50,7 +50,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 	<rule name="tag roman numbers" id="TAG_SPELLER_ROMAN_NUMBERS">
 		<pattern case_sensitive="yes">
-			<token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
+			<token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))<exception postag="SENT_START"/></token>
 		</pattern>
 		<disambig action="add"><wd pos="GET:ROM:MRV"/></disambig>
 	</rule>
@@ -62,7 +62,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 	<rule name="tag roman numbers" id="TAG_SPELLER_ROMAN_NUMBERS_LC">
 		<pattern case_sensitive="yes">
-			<token regexp="yes">(?:m*(?:d?c{0,3}|c[dm])(?:l?x{0,3}|x[lc])(?:v?i{0,3}|i[vx]))</token>
+			<token regexp="yes">(?:m*(?:d?c{0,3}|c[dm])(?:l?x{0,3}|x[lc])(?:v?i{0,3}|i[vx]))<exception postag="SENT_START"/></token>
 		</pattern>
 		<disambig action="add"><wd pos="GET:ROM:MRV"/></disambig>
 	</rule>
@@ -1338,62 +1338,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-	<!--
-	<rule name="NOT_DUTCH_SENTENCE" id="NOT_DUTCH_SENTENCE">
-        <pattern case_sensitive="yes">
-			<token postag_regexp="yes" postag="SENT_START|START"" />
-			<token postag_regexp="yes" postag="UNKNOWN|ENM.*" min="3" />
-			<token postag="SENT_END"/>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-	-->
-	<!-- chunk voor Zelfstandig Meervoud De -->
-    <rule id="ZEM01" name="">
-        <pattern>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-			<marker>
-				<token postag_regexp="yes" postag=".*MRV.*"/>
-			</marker>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-        </pattern>
-		<disambig action="add"><wd pos="ZMD"/></disambig>
-    </rule>
-    <rule id="ZEM02" name="">
-        <pattern>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-			<marker>
-				<token min="0" max="3" postag_regexp="yes" postag=".*ONV"/>
-				<token postag_regexp="yes" postag=".*VRB"/>
-				<token postag_regexp="yes" postag=".*MRV.*"/>
-			</marker>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-        </pattern>
-		<disambig action="add"><wd pos="ZMD"/><wd pos="ZMD"/><wd pos="ZMD"/></disambig>
-    </rule>
 
-	<!-- chunk voor Zelfstandig Enkelvoud De -->
-    <rule id="ZED01" name="">
-        <pattern>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-			<marker>
-				<token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
-			</marker>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-        </pattern>
-		<disambig action="add"><wd pos="ZED"/></disambig>
-    </rule>
-    <rule id="ZED02" name="">
-        <pattern>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-			<marker>
-				<token min="0" max="3" postag_regexp="yes" postag=".*ONV"/>
-				<token postag_regexp="yes" postag=".*VRB"/>
-				<token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
-			</marker>
-			<token negate_pos="yes" postag_regexp="yes" postag="ZNW.*|BNW.*"/>
-        </pattern>
-		<disambig action="add"><wd pos="ZED"/><wd pos="ZED"/><wd pos="ZED"/></disambig>
-    </rule>
 
 </rules>
