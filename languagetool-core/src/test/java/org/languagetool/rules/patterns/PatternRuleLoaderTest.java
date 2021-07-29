@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
@@ -25,10 +26,16 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayInputStream;
+import java.io.FileWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.Key;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -121,4 +128,44 @@ public class PatternRuleLoaderTest {
     return result;
   }
 
+  @Test
+  @Ignore
+  public void testEncryptDecrypt() throws Exception {
+    String encrypted = encrypt();
+    System.out.println("encrypted: " + decrypt(encrypted));
+    String decrypted = decrypt(encrypted);
+    System.out.println("decrypted: " + decrypted);
+    PatternRuleLoader loader = new PatternRuleLoader();
+    List<AbstractPatternRule> rules = loader.getRules(new ByteArrayInputStream(decrypted.getBytes(StandardCharsets.UTF_8)), "<unknown>");
+    System.out.println("Loaded " + rules.size() + " rules");
+  }
+
+  private String encrypt() throws Exception {
+    Key key = generateKey();
+    Cipher c = Cipher.getInstance("AES");
+    c.init(Cipher.ENCRYPT_MODE, key);
+    List<String> lines = Files.readAllLines(Paths.get("grammar-premium.xml"));
+    String val = String.join("\n", lines);
+    //String val = "my-secret-data";
+    byte[] encVal = c.doFinal(val.getBytes(StandardCharsets.UTF_8));
+    String encoded = Base64.getEncoder().encodeToString(encVal);
+    try (FileWriter fw = new FileWriter("/tmp/encoded")) {
+      fw.write(encoded);
+    }
+    return encoded;
+  }
+
+  private String decrypt(String encrypted) throws Exception {
+    Key key = generateKey();
+    Cipher c = Cipher.getInstance("AES");
+    c.init(Cipher.DECRYPT_MODE, key);
+    byte[] decodedValue = Base64.getDecoder().decode(encrypted);
+    byte[] decValue = c.doFinal(decodedValue);
+    return new String(decValue);
+  }
+
+  private static Key generateKey() {
+    return new SecretKeySpec("mykey...........".getBytes(StandardCharsets.UTF_8), "AES");
+  }
+  
 }
