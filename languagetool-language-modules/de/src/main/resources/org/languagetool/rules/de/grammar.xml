@@ -10771,7 +10771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="MEINET_WEGEN" name="Meinet wegen (meinetwegen)" default="temp_off">
+        <rule id="MEINET_WEGEN" name="Meinet wegen (meinetwegen)">
             <pattern>
                 <token regexp="yes">[dms]einet|euret|ihret|unse?ret|unsert|derent</token>
                 <token>wegen</token>
@@ -39855,6 +39855,19 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="RESPONSIV_DESIGN" name="responsiv (Responsive) Design" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Responsive|RESPONSIVE</token>
+                <token regexp="yes">Webdesigns?|Designs?|DESIGNS?|WEBDESIGNS?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">responsive?</token>
+                <token regexp="yes">(web-?)?designs?</token>
+            </pattern>
+            <message>Meinten Sie den Anglizismus <suggestion>Responsive <match no="2" case_conversion="startupper" regexp_match="-" regexp_replace="" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Responsive_Webdesign</url>
+            <example correction="Responsive Design">Die Zauberformal für gute Websites heißt <marker>responsiv Design</marker>.</example>
+        </rule>
         <rule id="AUS_TIEFSTEM" name="aus tiefsten (tiefstem) Herzen" default="temp_off">
             <pattern>
                 <token>aus</token>
