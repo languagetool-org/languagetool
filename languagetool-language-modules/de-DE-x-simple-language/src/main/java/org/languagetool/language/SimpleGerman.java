@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.LongSentenceRule;
@@ -87,6 +88,14 @@ public class SimpleGerman extends GermanyGerman {
       return -1;
     }
     return super.getPriorityForId(id);
+  }
+
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = new ArrayList<>();
+    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
+    ruleFileNames.add(dirBase + "grammar.xml");
+    return ruleFileNames;
   }
 
 }
