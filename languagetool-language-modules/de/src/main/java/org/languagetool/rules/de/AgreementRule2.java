@@ -67,6 +67,7 @@ public class AgreementRule2 extends Rule {
     asList(token("psychisch"), regex("Kranken?")),
     asList(token("sportlich"), regex("Aktiven?")),
     asList(token("politisch"), regex("Interessierten?")),
+    asList(token("voraussichtlich"), regex("Ende|Anfang")),
     asList(regex("gesetzlich|privat"), regex("Versicherten?")),
     asList(token("typisch"), posRegex("SUB:.*"), regex("[!?.]")),  // "Typisch November!"
     asList(token("lecker"), token("Essen")),  // "Lecker Essen an Weihnachten."
@@ -112,7 +113,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
-    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate).*")),
+    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive).*")),
     asList(token("Smart"), tokenRegex("(Service|Home|Meter|City|Hall|Shopper|Shopping).*")),
     asList(token("GmbH"))
   );
