@@ -6184,6 +6184,30 @@ RB => Règles Brutes
                 <wd pos="SENT_START2"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*[123].*" postag_regexp="yes"/>
+                <token postag="R.*" postag_regexp="yes" spacebefore="no"/>
+                <marker>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="[DZNJ].*|V ppa.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="GN_START"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*[123].*" postag_regexp="yes"/>    
+                </marker>
+                <token postag="[DZNJ].*|V ppa.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="GN_START"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup name="Ignore spelling of numbers" id="IGNORE_SPELLING_OF_NUMBERS">
         <!--
