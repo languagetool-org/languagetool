@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.Premium;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CorrectExample;
@@ -104,7 +105,7 @@ class ApiV2 {
   }
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
-    if (JLanguageTool.isPremiumVersion()) {
+    if (Premium.isPremiumVersion()) {
       throw new BadRequestException("Not supported in premium mode");
     }
     if (parameters.get("language") == null) {
@@ -366,7 +367,7 @@ class ApiV2 {
       g.writeStringField("version", JLanguageTool.VERSION);
       g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
       g.writeStringField("commit", JLanguageTool.GIT_SHORT_ID);
-      g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+      g.writeBooleanField("premium", Premium.isPremiumVersion());
       g.writeEndObject();
       g.writeEndObject();
     }
@@ -390,7 +391,7 @@ class ApiV2 {
       g.writeStringField("name", "LanguageTool");
       g.writeStringField("version", JLanguageTool.VERSION);
       g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
-      g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+      g.writeBooleanField("premium", Premium.isPremiumVersion());
       g.writeEndObject();
       
       g.writeObjectFieldStart("parameter");

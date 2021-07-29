@@ -24,9 +24,12 @@ import org.languagetool.rules.Rule;
  * Information about premium-only rules.
  */
 public class Premium {
-  
-  public static boolean isPremiumRule(Rule rule) {
+
+  public static boolean isPremiumVersion() {
     return false;
   }
 
+  public static boolean isPremiumRule(Rule rule) {
+    return false;
+  }
 }

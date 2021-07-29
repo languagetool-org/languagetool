@@ -159,8 +159,9 @@ public class JLanguageTool {
   }
 
   /**
-   * @since 4.2
+   * Use {@link Premium#isPremiumVersion()} instead
    */
+  @Deprecated
   public static boolean isPremiumVersion() {
     return false;
   }

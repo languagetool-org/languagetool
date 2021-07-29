@@ -60,7 +60,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIsPremium() {
-    assertFalse(JLanguageTool.isPremiumVersion());
+    assertFalse(Premium.isPremiumVersion());
   }
 
   @Test
