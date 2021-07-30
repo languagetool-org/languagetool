@@ -41,6 +41,7 @@ public class RemoveUnknownCompoundsFilter extends RuleFilter {
       //System.err.println("Ignoring match for " + compound + ": " + match.getRule().getFullId());
       return null;
     }
+    // TODO: use ngrams. no occurrences for compound = don't show error
     return match;
   }
 }
