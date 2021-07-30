@@ -51,8 +51,8 @@ public class ProhibitedCompoundRuleTest {
     map.put("Eisensande",100);
     map.put("Eisenstange",101);
   }
-  private final ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
-  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+  private final ProhibitedCompoundRule testRule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
+  private final JLanguageTool testLt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
   @Test
   @Ignore("for interactive use, e.g. after extending the list of pairs")
@@ -66,7 +66,7 @@ public class ProhibitedCompoundRuleTest {
     try (Scanner sc = new Scanner(input)) {
       while (sc.hasNextLine()) {
         String line = sc.nextLine().trim();
-        RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(line));
+        RuleMatch[] matches = rule.match(testLt.getAnalyzedSentence(line));
         if (matches.length > 0) {
           System.out.println(line + " -> " + matches[0].getSuggestedReplacements());
         }
@@ -115,27 +115,31 @@ public class ProhibitedCompoundRuleTest {
     map.put("Eisensande", 101);
     map.put("Eisenstange", 100);
     ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Die Eisenstande"));
+    RuleMatch[] matches = rule.match(testLt.getAnalyzedSentence("Die Eisenstande"));
     assertThat(matches[0].getSuggestedReplacements().toString(), is("[Eisensande]"));
   }
 
   @Test
   public void testRemoveHyphensAndAdaptCase() {
-    assertNull(rule.removeHyphensAndAdaptCase("Marathonläuse"));
-    assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse"), is("Marathonläuse"));
-    assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse-Test"), is("Marathonläusetest"));
-    assertThat(rule.removeHyphensAndAdaptCase("Marathon-läuse-test"), is("Marathonläusetest"));
-    assertThat(rule.removeHyphensAndAdaptCase("viele-Läuse-Test"), is("vieleläusetest"));
-    assertNull(rule.removeHyphensAndAdaptCase("S-Bahn"));
+    assertNull(testRule.removeHyphensAndAdaptCase("Marathonläuse"));
+    assertThat(testRule.removeHyphensAndAdaptCase("Marathon-Läuse"), is("Marathonläuse"));
+    assertThat(testRule.removeHyphensAndAdaptCase("Marathon-Läuse-Test"), is("Marathonläusetest"));
+    assertThat(testRule.removeHyphensAndAdaptCase("Marathon-läuse-test"), is("Marathonläusetest"));
+    assertThat(testRule.removeHyphensAndAdaptCase("viele-Läuse-Test"), is("vieleläusetest"));
+    assertNull(testRule.removeHyphensAndAdaptCase("S-Bahn"));
   }
 
   void assertMatches(String input, int expectedMatches) throws IOException {
+    assertMatches(input, expectedMatches, testRule, testLt);
+  }
+
+  void assertMatches(String input, int expectedMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expectedMatches));
   }
 
   void assertMatches(String input, String expectedMarkedText, String expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    RuleMatch[] matches = testRule.match(testLt.getAnalyzedSentence(input));
     assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(1));
     String markedText = input.substring(matches[0].getFromPos(), matches[0].getToPos());
     assertThat(markedText, is(expectedMarkedText));
