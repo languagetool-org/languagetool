@@ -17137,6 +17137,17 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="DUPLICATE_DETERMINER" name="déterminant en double (la la)" default="temp_off">
+            <pattern>
+                <token postag="(P\+)?D .*" postag_regexp="yes"/>
+                <token postag="D .*" postag_regexp="yes"/>
+                <token postag="[NZ] .*" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:3 determinerFrom:1"/>
+            <message>Confusion probable : Il y a un déterminant en double.</message>
+            <example correction="les fêtes|la fête"><marker>la les fêtes</marker></example>
+            <example correction="une fête|des fêtes">d'<marker>un une fête</marker></example>
+        </rule>
         <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
            <!-- <antipattern>
                 <token>puis</token>
