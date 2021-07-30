@@ -6787,6 +6787,7 @@ though, and has since been slightly modified)-->
 					<token postag="[DNZ].*" postag_regexp="yes" min="1" max="2"/>
 					<token>a</token>
 					<token postag="A" min="0" max="2"/>
+					<token min="0" max="1">bien</token>
 					<token postag="V.* ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -6846,6 +6847,8 @@ though, and has since been slightly modified)-->
                 <example>C'est pourquoi l'avocat a encore protesté.</example>
                 <example>La trappe a liquidité a-t-elle fonctionné au Japon ?</example>
                 <example>Je ne sais pas quel âge a Tom.</example>
+                <example>Je me demande où Tom a bien pu acheter ça.</example>
+                <example>Je me demande où ma montre a encore bien pu passer.</example>
                 <example>On se demande parfois si la vie a un sens.</example>
                 <example>Comme je le pensais a réussi à susciter l'intérêt de Kaido.</example>
                 <example>Cet objet mystérieux qu’est le miroir a toujours été lié à la magie.</example>
@@ -8703,7 +8706,7 @@ though, and has since been slightly modified)-->
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="R pers suj.*|[NJ].*" postag_regexp="yes"/>
+					<token><exception postag="R pers suj.*" postag_regexp="yes"/></token>
                     <token>ce</token>
                     <token inflected="yes" regexp="yes">être|devoir|pouvoir</token>
                     <token postag="A" min="0" max="1"/>
