@@ -184,6 +184,9 @@ public class CaseRuleTest {
     assertGood(":D Auf dieses Frl.");
     assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
 
+    assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
+    assertGood("Das ist ein Satz !!! Das auch.");
+
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
     assertGood("▶ Dies ist ein Test");
