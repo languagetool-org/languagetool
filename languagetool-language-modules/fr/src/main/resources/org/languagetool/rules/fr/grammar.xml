@@ -1841,31 +1841,141 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>et a enlevé et séquestré Blanche</example>
             </rule>
         </rulegroup>
-        <rule id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
-            <pattern>
-                <!--<token min="0" regexp="yes">et|ni</token>-->
-                <unify negate="yes">
-                    <feature id="number"/>
-                    <feature id="gender"/>
-                    <marker>
-                        <token postag="J.*" postag_regexp="yes"/>
-                        <unify-ignore>
-                            <token min="0">,</token>
-                            <token min="0" regexp="yes">et|ni</token>
-                        </unify-ignore>
-                        <token postag="J.*" postag_regexp="yes"/>
-                    </marker>
-                </unify>
-            </pattern>
-            <message>'\1' et '\4' ne semblent pas bien accordés.</message>
-            <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
-            <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
-            <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
-            <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
-            <example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>
-            <example correction="pertinent, ni clair|pertinente, ni claire|pertinents, ni clairs|pertinentes, ni claires">Son intervention n'est ni <marker>pertinente, ni clair</marker>.</example>
-            <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
-        </rule>
+        <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
+            <rule>
+                <!-- with conjugation -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">,</token>
+                                <token min="1" regexp="yes">et|ni|ou</token>
+                            </unify-ignore>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\1' et '\4' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/>\2 \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
+                <example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>
+                <example correction="pertinent, ni clair|pertinente, ni claire|pertinents, ni clairs|pertinentes, ni claires">Son intervention n'est ni <marker>pertinente, ni clair</marker>.</example>
+                <!--<example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>-->
+            </rule>
+            <rule>
+                <!-- with comma -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token>,</token>
+                            </unify-ignore>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\1' et '\3' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/>\2 <match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/>\2 <match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/>\2 <match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/>\2 <match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
+                <example correction="direct, indirect|directe, indirecte|directs, indirects|directes, indirectes">Il doit assumer les conséquences <marker>directes, indirect</marker> et...</example>
+            </rule>
+            <rule>
+                <!-- with no separator -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\1' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
+                <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
+            </rule>
+            <!-- same rules including V ppa: more FPs expected -->
+            <rule>
+                <!-- with conjugation -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">,</token>
+                                <token min="1" regexp="yes">et|ni|ou</token>
+                            </unify-ignore>
+                            <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\1' et '\4' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/>\2 \3 <match no="4" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/>\2 \3 <match no="4" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/>\2 \3 <match no="4" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/>\2 \3 <match no="4" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
+                <example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>
+                <example correction="pertinent, ni clair|pertinente, ni claire|pertinents, ni clairs|pertinentes, ni claires">Son intervention n'est ni <marker>pertinente, ni clair</marker>.</example>
+                <!--<example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>-->
+            </rule>
+            <rule>
+                <!-- with comma -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token>,</token>
+                            </unify-ignore>
+                            <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\1' et '\3' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/>\2 <match no="3" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/>\2 <match no="3" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/>\2 <match no="3" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/>\2 <match no="3" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
+                <example correction="direct, indirect|directe, indirecte|directs, indirects|directes, indirectes">Il doit assumer les conséquences <marker>directes, indirect</marker> et...</example>
+            </rule>
+            <rule>
+                <!-- with no separator -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                            <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\1' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/> <match no="2" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] s"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/> <match no="2" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] s"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/> <match no="2" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
+                <suggestion><match no="1" postag="(J|V ppa)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
+                <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_PEU" name="Concordances avec 'peu'">
             <rule>
                 <antipattern>
