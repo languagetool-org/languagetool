@@ -22,6 +22,7 @@ import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.German;
@@ -1334,6 +1335,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       !k.matches("\\p{L} \\p{L}+")  // single chars like in "ü berstenden" (#2610)
     ).collect(Collectors.toList());
     return suggestions;
+  }
+
+  @NotNull
+  protected static List<String> getSpellingFilePaths(String langCode) {
+    List<String> paths = new ArrayList<>(CompoundAwareHunspellRule.getSpellingFilePaths(langCode));
+    paths.add( "/" + langCode + "/hunspell/spelling_recommendation.txt");
+    return paths;
   }
 
   @Nullable
