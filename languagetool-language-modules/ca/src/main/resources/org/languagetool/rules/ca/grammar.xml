@@ -5968,6 +5968,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Em van agradar el de pinya i el de préssec.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_SUBJECT_VERB_INTERROGATIVE" name="concordances subjecte i verb en interrogatives" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" regexp="yes">\p{P}</token>
+                    <token min="0" max="2" postag="SPS00"/>
+                    <token postag="PT.*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V...3S.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="LOC_ADV|RG|V.[PN].*|SPS00" postag_regexp="yes" min="0" max="6"/>
+                    <token postag="D...P." postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="6" postag="(V...3)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="venen|vénen">D'on <marker>ve</marker> aquests regals?</example>
+                <example correction="han">Cap a on <marker>ha</marker> anat els teus germans?</example>
+                <example correction="han">Cap a on <marker>ha</marker> d'anar els teus germans?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" regexp="yes">\p{P}</token>
+                    <token min="0" max="2" postag="SPS00"/>
+                    <token postag="PT.*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V...3P.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="LOC_ADV|RG|V.[PN].*|SPS00" postag_regexp="yes" min="0" max="6"/>
+                    <token postag="D...S." postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="6" postag="(V...3)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="ve|ven">D'on <marker>venen</marker> aquest regal?</example>
+                <example correction="ha">Cap a on <marker>han</marker> anat el teu germà?</example>
+                <example correction="ha">Cap a on <marker>han</marker> d'anar anar el teu germà?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
             <antipattern>
                 <marker>
@@ -11305,7 +11347,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>sinó</token>
                     </marker>
                 </pattern>
-                <message>Probablement cal escriure <suggestion>si no</suggestion> (conjunció condicional 'si' seguida de la negació 'no').</message>   
+                <message>Probablement cal escriure <suggestion>si no</suggestion> (conjunció condicional 'si' seguida de la negació 'no').</message>
                 <example correction="si no">Preguntem-li <marker>sinó</marker> al president.</example>
                 <example correction="si no">Preguntem-li-ho, <marker>sinó</marker>, al president.</example>
                 <example>Preguntem si no al president.</example>
