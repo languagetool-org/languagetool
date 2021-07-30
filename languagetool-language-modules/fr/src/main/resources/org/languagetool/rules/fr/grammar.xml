@@ -60932,6 +60932,29 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category name="majuscules" id="CASING">
+        <rule id="PRONOMS_PERSONNELS_MINISCULE" name="pronoms personnels en minuscule" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="4">\p{P}</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token>:</token>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </pattern>
+            <message>Les pronoms personnels s'écrivent généralement en minuscules</message>
+            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="je">Voilà pourquoi <marker>Je</marker> convie tous les Français à s'unir à moi dans l'action.</example>
+            <example>Je suis désolée.</example>
+            <example>"Je suis désolée."</example>
+            <example>--"Je suis désolée."</example>
+            <example>Il dit: "Je suis désolée".</example>
+            <example>Il dit: Je suis désolée.</example>
+        </rule>
         <rule id="GOOGLE" name="Google">
             <antipattern>
                 <token regexp="yes">je|il|elle</token>
