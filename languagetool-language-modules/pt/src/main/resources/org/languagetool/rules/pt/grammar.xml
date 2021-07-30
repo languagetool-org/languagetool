@@ -2546,7 +2546,7 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
 
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
     <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 (17-MAR-2021+)      -->
 	<!--
 Esta que foi a maior crítica ao trabalho de Ana. → Esta sendo a maior crítica ao trabalho de Ana.
 Não sou antirreligioso, só quero respeito com aqueles que são ateus.
@@ -2562,7 +2562,7 @@ Ela não é a mesma que foi dez anos atrás.
 			</marker>
 			<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
 		</pattern>		
-		<message>Esta perífrase pode ser simplificada.</message>
+		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion>sendo</suggestion>
 		<example correction="sendo">Esta <marker>que foi</marker> a maior crítica ao trabalho de Ana.</example>
 		<example>Não sou antirreligioso, só quero respeito com aqueles que são ateus.</example>
@@ -2582,18 +2582,31 @@ Suas obras contêm o primeiro estudo formal conhecido da lógica, que foi incorp
 				<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
 			</marker>			
 		</pattern>		
-		<message>Esta perífrase pode ser simplificada.</message>
+		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion>\4</suggestion>
 		<example correction="elevado">Temos um número constante maior que zero e diferente de um,<marker>que é elevado</marker> a três.</example>
 		<example>Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.</example>
 		<example>Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.</example>
     </rule>	
 	<!--
-Temos um número constante maior que zero e diferente de um, que é elevado a três. → Temos um número constante maior que zero e diferente de um, elevado a três.
+Temos um número constante maior que zero e diferente de um, sendo elevado a três. → Temos um número constante maior que zero e diferente de um, elevado a três.
 Há também o Instituto Federal do Amapá, sendo fundado em 29 de dezembro de 2008. → Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.
 Suas obras contêm o primeiro estudo formal conhecido da lógica, sendo incorporado posteriormente à lógica formal. → Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.
 	-->
 	<rule>
+<!-- MARCOAGPINTO 2021-07-30 (25-JUN-2021+) *START* -->
+<!--
+A popularidade de Getúlio, porém, continua grande, sendo muito aplaudido na sua última grande aparição pública no dia do trabalho em 1 de maio de 1945.
+É claro que, sendo grande amigo seu, ele vai ajudá-lo.
+Os inhames são em geral vendidos a peso, sendo comum serem cortados nos mercados para serem comercializados em porções.
+-->
+      <antipattern>
+		<token regexp='yes'>[,]</token>
+		<token inflected='yes'>ser</token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-07-30 (25-JUN-2021+) *END* -->
 		<pattern>
 			<token regexp='yes'>[,]</token>
 			<marker>
@@ -2611,11 +2624,14 @@ Suas obras contêm o primeiro estudo formal conhecido da lógica, sendo incorpor
 				<token negate_pos="yes" postag='DI.+' postag_regexp='yes'/>
 			</and>
 		</pattern>		
-		<message>Esta perífrase pode ser simplificada.</message>
+		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion>\3</suggestion>
 		<example correction="elevado">Temos um número constante maior que zero e diferente de um,<marker>sendo elevado</marker> a três.</example>
 		<example>Há também o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.</example>
 		<example>Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.</example>
+		<example>A popularidade de Getúlio, porém, continua grande, sendo muito aplaudido na sua última grande aparição pública no dia do trabalho em 1 de maio de 1945.</example>
+		<example>É claro que, sendo grande amigo seu, ele vai ajudá-lo.</example>
+		<example>Os inhames são em geral vendidos a peso, sendo comum serem cortados nos mercados para serem comercializados em porções.</example>
     </rule>
 	</rulegroup>
 

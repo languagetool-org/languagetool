@@ -132,7 +132,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeStringField("version", JLanguageTool.VERSION);
     g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
     g.writeNumberField("apiVersion", API_VERSION);
-    g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+    g.writeBooleanField("premium", Premium.isPremiumVersion());
     if (showPremiumHint) {
       g.writeStringField("premiumHint", PREMIUM_HINT);
     }
@@ -305,7 +305,7 @@ public class RuleMatchesAsJsonSerializer {
       g.writeEndArray();
     }
     writeCategory(g, rule.getCategory());
-    if (JLanguageTool.isPremiumVersion()) {
+    if (Premium.isPremiumVersion()) {
       g.writeBooleanField("isPremium", Premium.isPremiumRule(rule));
     }
     if (rule.getTags().size() > 0) {

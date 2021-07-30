@@ -27,7 +27,7 @@ public class LanguageTest {
 
   @Test
   public void testRuleFileName() {
-    if (JLanguageTool.isPremiumVersion()) {
+    if (Premium.isPremiumVersion()) {
       assertTrue(new BritishEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
       assertTrue(new BritishEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/en-GB/grammar.xml"));
       assertTrue(new AmericanEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));

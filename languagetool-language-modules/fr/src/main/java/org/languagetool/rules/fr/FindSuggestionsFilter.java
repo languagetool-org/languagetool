@@ -70,7 +70,10 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   @Override
   protected String cleanSuggestion(String s) {
     //remove pronouns before verbs
-    return s.replaceAll("^[smntl]'|^(nous|vous|le|la|les|me|te|se|leur|en|y) ", "");
+    String output = s.replaceAll("^[smntl]'|^(nous|vous|le|la|les|me|te|se|leur|en|y) ", "");
+    //check only first element 
+    output = output.split(" ")[0];
+    return output;
   }
 
 }

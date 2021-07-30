@@ -28,6 +28,7 @@ import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.hotspot.DefaultExports;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Premium;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -136,7 +137,7 @@ public class ServerMetricsCollector {
   }
 
   public ServerMetricsCollector() {
-    buildInfo.info("version", Objects.toString(JLanguageTool.VERSION), "buildDate", Objects.toString(JLanguageTool.BUILD_DATE), "revision", Objects.toString(JLanguageTool.GIT_SHORT_ID), "premium", Objects.toString(String.valueOf(JLanguageTool.isPremiumVersion())));
+    buildInfo.info("version", Objects.toString(JLanguageTool.VERSION), "buildDate", Objects.toString(JLanguageTool.BUILD_DATE), "revision", Objects.toString(JLanguageTool.GIT_SHORT_ID), "premium", Objects.toString(String.valueOf(Premium.isPremiumVersion())));
   }
 
 
