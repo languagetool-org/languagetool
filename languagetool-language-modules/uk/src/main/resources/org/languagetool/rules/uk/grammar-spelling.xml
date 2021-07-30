@@ -126,7 +126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <!-- to speed up slow rule: these don't happen often: геліо|гідро|космо|метео|мілі|палео|рентгено|стерео|фоно  -->
-          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|гео|гіпер|давньо|екзо|еко|екстра|електро|етно|загально|зоо|ізо|квазі|кіно|контр|лже|макро|мета|мікро|моно|мото|мульти|нео|пост|псевдо|радіо|соціо|супер|теле|транс|турбо|ультра|фото)[-–][а-яіїєґ][^-]{2,}
+          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|гео|гіпер|давньо|екзо|еко|екстра|електро|етно|загально|зоо|ізо|квазі|кіно|контр|лже|макро|мета|мікро|моно|мото|мульти|нео|пост|псевдо|радіо|соціо|супер|теле|транс|турбо|ультра|фото)[-–][а-яіїєґ][^-]{2,35}
             <exception inflected="yes" regexp="yes">аудіо-відео|геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
             <!-- will be handled by 2019 spelling rule -->
             <exception regexp="yes">контр[-–]адмір.*</exception>
@@ -182,7 +182,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes">анти|віце|екс|квазі|лже|супер|ультра</token>
-          <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="noun.*?prop.*">[А-ЯІЇЄҐ][а-яіїєґ']{3,}
+          <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="noun.*?prop.*">[А-ЯІЇЄҐ][а-яіїєґ']{3,35}
             <exception>Нова</exception>
           </token>
         </pattern>
@@ -198,7 +198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
-          <token regexp="yes">(багато|високо|мало|низько)[-–][а-яіїєґ][^-]{2,}
+          <token regexp="yes">(багато|високо|мало|низько)[-–][а-яіїєґ][^-]{2,35}
             <exception regexp="yes">багато[–-](пре)?багато|високо[–-](пре)?високо|низько[–-]низ(ен)?ько|мало[–-]помалу|мало[–-]мало</exception>
             <!-- TODO: exception for everything tagged -->
             <exception regexp="yes">(багато|мало)[–-](хто|кому|кого|ким|що|чого|чому|чим|багато|мало|коли|де)</exception>

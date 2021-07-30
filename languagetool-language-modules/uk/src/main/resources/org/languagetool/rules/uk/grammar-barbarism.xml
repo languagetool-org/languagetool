@@ -6765,6 +6765,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="по п'яному|напідпитку|з п'яних очей">загинув <marker>по п'яні</marker>.</example>
     </rule>
 
+    <rule id="a_raptom" name="А раптом">
+      <pattern>
+        <marker>
+          <token>а</token>
+          <token>раптом</token>
+        </marker>
+        <token min="0" max="2">
+          <exception postag_regexp="yes" postag="verb.*futr.*" />
+        </token>
+        <token postag_regexp="yes" postag="verb.*futr.*" />
+      </pattern>
+      <message>Правильно: <suggestion>а що як</suggestion></message>
+      <suggestion>ану (ж)</suggestion>
+      <url>http://yak-my-hovorymo.wikidot.com/pryslivnyky#raptom-a-shho-yak-anu-zh</url>
+      <example correction="а що як|ану (ж)"><marker>а раптом</marker> він прийде до нас.</example>
+    </rule>
+
     <rule id="glupyi" name="Глупий">
       <pattern>
         <token inflected="yes">глупий
