@@ -15205,7 +15205,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <phraseref idref="_GN_SINGULAR"/>
                     <token min="0">no</token>
                     <marker>
-                        <token postag="V.[IS].3P." postag_regexp="yes" regexp="yes" inflected="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..S..|_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].3P." postag_regexp="yes" regexp="yes" inflected="yes">estar|ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..S..|_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -15213,6 +15213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="es">Esta sopa <marker>son</marker> muy buena.</example>
                 <example correction="merece">Mención especial <marker>merecen</marker> su trabajo.</example>
                 <example correction="parece">La cosa <marker>parecen</marker> que es así.</example>
+                <example correction="está">Este helado <marker>están</marker> muy bueno.</example>
                 <example>Dos son sacerdotes.</example>
                 <example>Su pasión son las fresas.</example>
                 <example>Su pasión eran las fresas.</example>
@@ -15234,7 +15235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.[IS].3P." postag_regexp="yes" inflected="yes">haber</token>
                     </marker>
-                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes" inflected="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer</token>
+                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes" inflected="yes">estar|ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer</token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion><match no="4" postag="(V.[IS].3)P." postag_regexp="yes" postag_replace="$1S."/></suggestion>
@@ -15275,7 +15276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|mismo|resto|qué|cu[aá]l|cu[aá]nto</exception></token>
                     <token min="0">no</token>
                     <marker>
-                        <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes" regexp="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..P..|_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..P..|_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -15285,6 +15286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tienen">Los amigos <marker>tiene</marker> sed.</example>
                 <example correction="merecen">Menciones especiales <marker>merece</marker> tus trabajos.</example>
                 <example correction="siguen">Aquellas personas <marker>sigue</marker> igual.</example>
+                <example correction="están">Estos helados <marker>está</marker> buenos.</example>
                 <example>Aquellos días todo era bonito.</example>
                 <example>Las cosas parece claramente que son así.</example>
                 <example>¿Cuántos años tiene él?</example>
@@ -15303,7 +15305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes">haber</token>
                     </marker>
-                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer</token>
+                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer</token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion><match no="5" postag="(V.[IS].3)S." postag_regexp="yes" postag_replace="$1P."/></suggestion>
@@ -15320,7 +15322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estados Unidos había sido rico en recursos naturales.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGRREMENT_SUBJECT_PREDICATE" name="Concordancia de sujeto y predicado" default="off">
+        <rulegroup id="AGRREMENT_SUBJECT_PREDICATE" name="Concordancia de sujeto y predicado" default="temp_off">
             <rule id="SUJ_PRED_ATRIB_SINGULAR" name="Concordancia de sujeto y predicado en singular en oraciones atributivas">
                 <pattern case_sensitive="yes">
                     <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*" postag_regexp="yes" scope="previous"/><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*" postag_regexp="yes"/><exception regexp="yes">mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
