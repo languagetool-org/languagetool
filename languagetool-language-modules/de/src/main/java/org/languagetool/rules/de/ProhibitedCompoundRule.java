@@ -716,6 +716,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Feuchtmann", //name
           "Fachlektüre",
           "Fachlektüren",
+          "Kamelart", // vs. Kabelart
+          "Kamelarten", // vs. Kabelarten
           "Bayern-Präsident", // vs Bauernpräsident
           "Bayern-Präsidenten", // vs Bauernpräsident
           "Bundessprechern" // vs Bundessprecherin
