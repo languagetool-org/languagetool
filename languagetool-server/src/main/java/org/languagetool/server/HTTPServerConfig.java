@@ -94,6 +94,7 @@ public class HTTPServerConfig {
   protected int hiddenMatchesServerFall;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
   protected boolean premiumAlways;
+  protected boolean premiumOnly;
   protected String dbDriver = null;
   protected String dbUrl = null;
   protected String dbUsername = null;
@@ -310,6 +311,20 @@ public class HTTPServerConfig {
           if (!code.isEmpty()) {
             hiddenMatchesLanguages.add(Languages.getLanguageForShortCode(code));
           }
+        }
+        String premiumAlwaysValue = props.getProperty("premiumAlways");
+        if (premiumAlwaysValue != null) {
+          premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
+          if (premiumAlways) {
+            System.out.println("*** Running in PREMIUM-ALWAYS mode");
+          }
+        }
+        premiumOnly = Boolean.valueOf(getOptionalProperty(props, "premiumOnly", "false").trim());
+        if (premiumOnly) {
+          if (!Premium.isPremiumVersion()) {
+            throw new IllegalArgumentException("Cannot use premiumOnly=true with non-premium version");
+          }
+          System.out.println("*** Running in PREMIUM-ONLY mode");
         }
         dbDriver = getOptionalProperty(props, "dbDriver", null);
         dbUrl = getOptionalProperty(props, "dbUrl", null);
@@ -841,10 +856,6 @@ public class HTTPServerConfig {
     return hiddenMatchesServer;
   }
 
-  /**
-   * @since 4.4
-   * @param hiddenMatchesServerTimeout
-   */
   @Experimental
   public void setHiddenMatchesServerTimeout(int hiddenMatchesServerTimeout) {
     this.hiddenMatchesServerTimeout = hiddenMatchesServerTimeout;
@@ -859,17 +870,11 @@ public class HTTPServerConfig {
   }
 
 
-  /**
-   * @since 4.4
-   */
   @Experimental
   public void setHiddenMatchesServer(String hiddenMatchesServer) {
     this.hiddenMatchesServer = hiddenMatchesServer;
   }
 
-  /**
-   * @since 4.4
-   */
   @Experimental
   public void setHiddenMatchesLanguages(List<Language> hiddenMatchesLanguages) {
     this.hiddenMatchesLanguages = hiddenMatchesLanguages;
@@ -1148,6 +1153,10 @@ public class HTTPServerConfig {
   /** @since 5.1 */
   void setPremiumAlways(boolean premiumAlways) {
     this.premiumAlways = premiumAlways;
+  }
+
+  public boolean isPremiumOnly() {
+    return premiumOnly;
   }
 
 }
