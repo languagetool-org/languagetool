@@ -5531,7 +5531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>über</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion><match no="1" postag="(.+)" postag_regexp="yes" postag_replace="$1">verfügen</match></suggestion>?</message>
-            <example correction="verfügt">Die Öplattform <marker>verfugt</marker> über fünf Schlauchboote.</example>
+            <example correction="verfügt">Die Ölplattform <marker>verfugt</marker> über fünf Schlauchboote.</example>
             <example correction="verfügst">Du <marker>verfugst</marker> über erstaunliche Fähigkeiten.</example>
         </rule>
         <rule id="BEDIENUNGEN_BEDINGUNGEN" name="Bedienungen vs. Bedingungen">
@@ -22122,6 +22122,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Striche">Die <marker>striche</marker> sind alle gerade.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUSMASS_SUBST" name="von ungeahnten ausmaßen (Ausmaßen) etc.">
+            <rule>
+                <pattern>
+                    <token skip="2">von</token>
+                    <token regexp="yes">((un)?gekannt|(un)?vorstellbar|alarmierend|apokalyptisch|beängstigend|bedrohlich|beträchtlich|biblisch|dramatisch|epidemisch|erschreckend|gewaltig|gigantisch|katastrophal|unbekannt|ungeahnt|ungeheur)en</token>
+                    <marker>
+                        <token case_sensitive="yes">ausmaßen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ausmaßen">Eine Katastrophe von bislang ungekannten <marker>ausmaßen</marker>.</example>
+                <example correction="Ausmaßen">Eine Katastrophe von ungeahnten <marker>ausmaßen</marker>.</example>
+                <example correction="Ausmaßen">Eine Katastrophe von wahrhaft katastrophalen <marker>ausmaßen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="1">von|in</token>
+                    <token regexp="yes">((un)?gekannt|(un)?vorstellbar|alarmierend|apokalyptisch|beängstigend|bedrohlich|beträchtlich|biblisch|dramatisch|epidemisch|erschreckend|gewaltig|gigantisch|katastrophal|unbekannt|ungeahnt|ungeheur)em</token>
+                    <marker>
+                        <token case_sensitive="yes">ausmaß</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ausmaß">Eine Katastrophe von ungeahntem <marker>ausmaß</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="MESSERS_SCHNEIDE" name="auf Messers Schneide">
