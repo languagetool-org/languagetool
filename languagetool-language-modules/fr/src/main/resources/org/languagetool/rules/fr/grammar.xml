@@ -1907,6 +1907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] p"/></suggestion>
                 <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] p"/></suggestion>
                 <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
+                <example>Ancienne petite amie et ancienne victime de Sydney Carlin.</example>
             </rule>
             <!-- same rules including V ppa: more FPs expected -->
             <rule>
@@ -6963,12 +6964,12 @@ though, and has since been slightly modified)-->
                 </antipattern>
 				<pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
-                        <exception regexp="yes" scope="next">qu[ie]?</exception></token>
+                        <exception regexp="yes" scope="next">qu[ie]?|quand|comment</exception></token>
                     <token postag="V.*" postag_regexp="yes">
                         <exception postag="[ZNRJ].*" postag_regexp="yes"/>
                         <exception postag="V.* inf" postag_regexp="yes"/>
                         <exception regexp="yes">puis|née?s?</exception></token>
-					<token postag="[ZA].*" postag_regexp="yes" min="0" max="2"/>
+				    <token postag="[ZA].*" postag_regexp="yes" min="0" max="2"><exception postag="A inte|C suj" postag_regexp="yes"/></token>
 					<token postag="[DN].*" postag_regexp="yes" min="0" max="2"/>
                     <marker>
                         <token case_sensitive="yes">a<exception scope="previous" regexp="yes">les|for|about|feeling|un|(?-i)Office</exception></token>
@@ -6979,6 +6980,8 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
                 <example correction="à">Il rattachent Simon <marker>a</marker> son père.</example>
                 <example correction="à">Je participe très rarement <marker>a</marker> des concours.</example>
+                <example>Je ne sais pas quand le mari a appelé.</example>
+                <example>Personne ne sait comment l'incendie a commencé.</example>
                 <example>Terra Naomi a deux frères.</example>
                 <example>C'est pourquoi l'avocat a encore protesté.</example>
                 <example>La trappe a liquidité a-t-elle fonctionné au Japon ?</example>
@@ -60939,8 +60942,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
             <antipattern>
-                <token>:</token>
-                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes">\p{P}<exception regexp="yes">[,;]</exception></token>
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
             <pattern case_sensitive="yes">
@@ -60954,6 +60956,12 @@ though, and has since been slightly modified)-->
             <example>--"Je suis désolée."</example>
             <example>Il dit: "Je suis désolée".</example>
             <example>Il dit: Je suis désolée.</example>
+            <!-- TODO: improve sentence tokenizer -->
+            <example>Robin : 90M (Elle a rien fait de spécial).</example>
+            <example>Pas devant elle ! "Elle ne m'aime plus !"</example>
+            <example>« Où est ma salle de classe ? » - « Elle est au troisième étage. »</example>
+            <example>« Où est mon épouse ? » - « Elle est en prison. »</example>
+            <example>Tu as menti au F.B.I. Vous avez menti au F.B.I.</example>
         </rule>
         <rule id="GOOGLE" name="Google">
             <antipattern>

@@ -1888,7 +1888,21 @@ RB => Règles Brutes
                     <feature id="gender"/>
                     <marker>
                         <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</token>
-                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</exception></token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <marker>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</token>
+                        <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</token>
+                        <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau</exception></token>
                     </marker>
                 </unify>
             </pattern>
