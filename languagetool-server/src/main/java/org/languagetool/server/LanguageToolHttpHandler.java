@@ -179,7 +179,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String pathWithoutVersion = path.substring("/v2/".length());
           apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
         } else if (path.endsWith("/Languages")) {
-          throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
+          throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see " + API_DOC_URL);
         } else if (path.equals("/")) {
           throw new BadRequestException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
         } else if (path.contains("/v2/")) {
