@@ -842,11 +842,37 @@ public class HTTPServerConfig {
   }
 
   /**
+   * @since 4.4
+   * @param hiddenMatchesServerTimeout
+   */
+  @Experimental
+  public void setHiddenMatchesServerTimeout(int hiddenMatchesServerTimeout) {
+    this.hiddenMatchesServerTimeout = hiddenMatchesServerTimeout;
+  }
+
+  /**
    * Timeout in milliseconds for querying {@link #getHiddenMatchesServer()}.
    * @since 4.0
    */
   int getHiddenMatchesServerTimeout() {
     return hiddenMatchesServerTimeout;
+  }
+
+
+  /**
+   * @since 4.4
+   */
+  @Experimental
+  public void setHiddenMatchesServer(String hiddenMatchesServer) {
+    this.hiddenMatchesServer = hiddenMatchesServer;
+  }
+
+  /**
+   * @since 4.4
+   */
+  @Experimental
+  public void setHiddenMatchesLanguages(List<Language> hiddenMatchesLanguages) {
+    this.hiddenMatchesLanguages = hiddenMatchesLanguages;
   }
 
   /**
