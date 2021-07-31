@@ -93,6 +93,7 @@ public class HTTPServerConfig {
   protected int hiddenMatchesServerFailTimeout;
   protected int hiddenMatchesServerFall;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
+  protected boolean premiumAlways;
   protected String dbDriver = null;
   protected String dbUrl = null;
   protected String dbUsername = null;
@@ -127,6 +128,7 @@ public class HTTPServerConfig {
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
+    "premiumAlways",
     "redisPassword", "redisHost", "dbLogging", "premiumOnly");
 
   /**
@@ -176,6 +178,13 @@ public class HTTPServerConfig {
           break;
         case "--public":
           publicAccess = true;
+          break;
+        case "--premiumAlways":
+          if (!Premium.isPremiumVersion()) {
+            throw new IllegalArgumentException("Cannot use --premiumAlways with non-premium version");
+          }
+          premiumAlways = true;
+          System.out.println("*** Running in PREMIUM-ALWAYS mode, premium features are available without authentication");
           break;
         case "--allow-origin":
           try {
@@ -1103,6 +1112,16 @@ public class HTTPServerConfig {
       return defaultValue;
     }
     return propertyValue;
+  }
+
+  /** @since 5.1 */
+  boolean isPremiumAlways() {
+    return premiumAlways;
+  }
+
+  /** @since 5.1 */
+  void setPremiumAlways(boolean premiumAlways) {
+    this.premiumAlways = premiumAlways;
   }
 
 }
