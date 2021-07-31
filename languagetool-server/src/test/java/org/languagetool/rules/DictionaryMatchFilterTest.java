@@ -86,21 +86,20 @@ public class DictionaryMatchFilterTest {
 
   @Test
   public void matchesWithoutFilter() throws IOException {
-    JLanguageTool lt = getLT(Sets.newHashSet("foo", "bar", "foobar"), Collections.emptySet(), false);
-    List<RuleMatch> matches = lt.check("This is foo. Very bar of you! Even foobar, one might say.");
+    JLanguageTool lt = getLT(Sets.newHashSet("fooxxx", "bar", "foobar"), Collections.emptySet(), false);
+    List<RuleMatch> matches = lt.check("This is fooxxx. Very bar of you! Even foobar, one might say.");
     assertEquals(3, matches.size());
-    assertTrue(isForbiddenWordMatch("foo", matches.get(0)));
+    assertTrue(isForbiddenWordMatch("fooxxx", matches.get(0)));
     assertTrue(isForbiddenWordMatch("bar", matches.get(1)));
     assertTrue(isForbiddenWordMatch("foobar", matches.get(2)));
   }
-
 
   @Test
   public void spellingRuleMatches() throws IOException {
     JLanguageTool lt = getLT(Collections.emptySet(), Collections.emptySet(), false);
     assertTrue(isSpellingMatch(lt.check("This is a mistak").get(0)));
     JLanguageTool lt2 = getLT(Collections.emptySet(), Sets.newHashSet("mistak"), true);
-    assertEquals(lt2.check("This is a mistak.").size(), 0);
+    assertEquals(0, lt2.check("This is a mistak.").size());
     assertTrue(isSpellingMatch(lt2.check("This is another mistke.").get(0)));
   }
 
@@ -108,7 +107,7 @@ public class DictionaryMatchFilterTest {
   public void filter() throws IOException {
     JLanguageTool lt = getLT(Sets.newHashSet("foo", "bar"), Sets.newHashSet("foo"), true);
     List<RuleMatch> matches = lt.check("This is foo. This is bar.");
-    assertEquals(matches.size(), 1);
+    assertEquals(1, matches.size());
     assertTrue(isForbiddenWordMatch("bar", matches.get(0)));
   }
 

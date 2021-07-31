@@ -37,7 +37,11 @@ public class JLanguageToolTest {
     assertEquals(1, lt.check("Ein Test Test, der Fehler geben sollte.").size());
     lt.setListUnknownWords(true);
     // no spelling mistakes as we have not created a variant:
-    assertEquals(0, lt.check("I can give you more a detailed description").size());
+    if (Premium.isPremiumVersion()) {
+      assertEquals(1, lt.check("I can give you more a detailed description").size());
+    } else {
+      assertEquals(0, lt.check("I can give you more a detailed description").size());
+    }
     //test unknown words listing
     assertEquals("[I, can, description, detailed, give, more, you]", lt.getUnknownWords().toString());    
   }
@@ -49,7 +53,11 @@ public class JLanguageToolTest {
     assertEquals(1, lt.check("Ein Test Test, der Fehler geben sollte.").size());
     lt.setListUnknownWords(true);
     // German rule has no effect with English error, but they are spelling mistakes:
-    assertEquals(6, lt.check("I can give you more a detailed description").size());
+    if (Premium.isPremiumVersion()) {
+      assertEquals(7, lt.check("I can give you more a detailed description").size());
+    } else {
+      assertEquals(6, lt.check("I can give you more a detailed description").size());
+    }
     //test unknown words listing
     assertEquals("[I, can, description, detailed, give, more, you]", lt.getUnknownWords().toString());
   }
