@@ -31,6 +31,7 @@ import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.rules.RemoteRuleConfig;
+import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -239,6 +240,29 @@ class PipelinePool {
     if (userConfig.filterDictionaryMatches()) {
       lt.addMatchFilter(new DictionaryMatchFilter(userConfig));
     }
+
+    if (config.isPremiumOnly()) {
+      //System.out.println("Enabling ONLY premium rules.");
+      int premiumEnabled = 0;
+      int otherDisabled = 0;
+      for (Rule rule : lt.getAllActiveRules()) {
+        if (Premium.isPremiumRule(rule)) {
+          lt.enableRule(rule.getFullId());
+          premiumEnabled++;
+        } else {
+          lt.disableRule(rule.getFullId());
+          otherDisabled++;
+        }
+      }
+      //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
+    } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
+      for (Rule rule : lt.getAllActiveRules()) {
+        if (Premium.isPremiumRule(rule)) {
+          lt.disableRule(rule.getFullId());
+        }
+      }
+    }
+
     if (pool != null) {
       lt.setupFinished();
     }

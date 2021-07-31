@@ -169,7 +169,7 @@ abstract class TextChecker {
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          true, true, false, mode, JLanguageTool.Level.PICKY, null);
+          true, true, false, false, mode, JLanguageTool.Level.PICKY, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
@@ -366,7 +366,7 @@ abstract class TextChecker {
     boolean inputLogging = !parameters.getOrDefault("inputLogging", "").equals("no");
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback, inputLogging);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, false, enableTempOffRules, mode, level, callback, inputLogging);
 
     int textSize = aText.getPlainText().length();
 
@@ -768,6 +768,7 @@ abstract class TextChecker {
     final boolean useQuerySettings;
     final boolean allowIncompleteResults;
     final boolean enableHiddenRules;
+    final boolean premium;
     final boolean enableTempOffRules;
     final JLanguageTool.Mode mode;
     final JLanguageTool.Level level;
@@ -778,12 +779,12 @@ abstract class TextChecker {
     final boolean regressionTestMode; // no fallbacks for remote rules, retries, enable all rules
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
-      this(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback, true);
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
+      this(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, premium, enableTempOffRules, mode, level, callback, true);
     }
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback, boolean inputLogging) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback, boolean inputLogging) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -793,6 +794,7 @@ abstract class TextChecker {
       this.useQuerySettings = useQuerySettings;
       this.allowIncompleteResults = allowIncompleteResults;
       this.enableHiddenRules = enableHiddenRules;
+      this.premium = premium;
       this.enableTempOffRules = enableTempOffRules;
       this.regressionTestMode = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
@@ -816,6 +818,7 @@ abstract class TextChecker {
         .append(useQuerySettings)
         .append(allowIncompleteResults)
         .append(enableHiddenRules)
+        .append(premium)
         .append(enableTempOffRules)
         .append(regressionTestMode)
         .append(mode)
@@ -842,6 +845,7 @@ abstract class TextChecker {
         .append(useQuerySettings, other.useQuerySettings)
         .append(allowIncompleteResults, other.allowIncompleteResults)
         .append(enableHiddenRules, other.enableHiddenRules)
+        .append(premium, other.premium)
         .append(enableTempOffRules, other.enableTempOffRules)
         .append(regressionTestMode, other.regressionTestMode)
         .append(mode, other.mode)
