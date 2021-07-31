@@ -58,6 +58,54 @@ public class RequestLimiterTest {
   }
 
   @Test
+  public void testIsAccessOkayWithFingerprintDisabled() throws Exception {
+    RequestLimiter limiter = new RequestLimiter(3, 0, 1, 0);
+    String firstIp = "192.168.10.1";
+    String secondIp = "192.168.10.2";
+    Map<String, List<String>> firstHeader = new HashMap<>();
+    Map<String, List<String>> secondHeader = new HashMap<>();
+    secondHeader.put("User-Agent", Collections.singletonList("Test"));
+    Map<String, String> params = new HashMap<>();
+    assertOkay(limiter, firstIp, params, firstHeader);
+    assertOkay(limiter, firstIp, params, firstHeader);
+    assertOkay(limiter, firstIp, params, firstHeader);
+    assertException(limiter, firstIp, params, firstHeader);
+    assertException(limiter, firstIp, params, secondHeader);
+    assertOkay(limiter, secondIp, params, firstHeader);
+    assertOkay(limiter, secondIp, params, secondHeader);
+    Thread.sleep(1050);
+    assertOkay(limiter, firstIp, params, firstHeader);
+    assertOkay(limiter, secondIp, params, firstHeader);
+    assertOkay(limiter, secondIp, params, firstHeader);
+    assertOkay(limiter, secondIp, params, firstHeader);
+    assertException(limiter, secondIp, params, firstHeader);
+  }
+
+  @Test
+  public void testIsAccessOkayWithByteLimitNoFingerprint() throws Exception {
+    RequestLimiter limiter = new RequestLimiter(10, 35, 1, 0);
+    String firstIp = "192.168.10.1";
+    String secondIp = "192.168.10.2";
+    Map<String, List<String>> firstHeader = new HashMap<>();
+    Map<String, List<String>> secondHeader = new HashMap<>();
+    secondHeader.put("User-Agent", Collections.singletonList("Test"));
+    Map<String, String> params = new HashMap<>();
+    params.putIfAbsent("text", "0123456789");
+    assertOkay(limiter, firstIp, params, firstHeader);  // 10 bytes
+    assertOkay(limiter, firstIp, params, firstHeader);  // 20 bytes
+    assertOkay(limiter, firstIp, params, firstHeader);  // 30 bytes
+    assertException(limiter, firstIp, params, firstHeader);  // 40 bytes!
+    assertException(limiter, firstIp, params, secondHeader);
+    assertOkay(limiter, secondIp, params, firstHeader);
+    assertOkay(limiter, secondIp, params, secondHeader);
+    Thread.sleep(1050);
+    assertOkay(limiter, firstIp, params, firstHeader);
+    assertOkay(limiter, firstIp, params, secondHeader);
+    assertOkay(limiter, secondIp, params, firstHeader);
+    assertOkay(limiter, secondIp, params, secondHeader);
+  }
+
+  @Test
   public void testIsAccessOkayWithByteLimit() throws Exception {
     RequestLimiter limiter = new RequestLimiter(10, 35, 1, 2);
     String firstIp = "192.168.10.1";

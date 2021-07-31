@@ -143,6 +143,7 @@ abstract class Server {
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
     System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
+    System.out.println("                 'premiumOnly' - activate only the premium rules (optional)");
     System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
     System.out.println("                 Spellcheck-only languages: You can add simple spellcheck-only support for languages that LT doesn't");
     System.out.println("                 support by defining two optional properties:");
@@ -165,6 +166,7 @@ abstract class Server {
     System.out.println("                         parameter in properties files)");
     System.out.println("  --word2vecModel  a directory with word2vec data (optional), see");
     System.out.println("                   https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
+    System.out.println("  --premiumAlways  activate the premium rules even when user has no username/password - useful for API servers");
   }
 
   protected static void checkForNonRootUser() {

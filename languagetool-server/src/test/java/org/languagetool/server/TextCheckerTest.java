@@ -103,7 +103,10 @@ public class TextCheckerTest {
     String token = JWT.create()
             .withIssuer("http://foobar")
             .withIssuedAt(new Date())
-            .withClaim("maxTextLength", 30)
+            .withClaim("maxTextLength", 5000)
+            .withClaim("premium", true)
+            .withClaim("dictCacheSize", 10000L)
+            .withClaim("uid", 42L)
             //.withClaim("skipLimits", true)
             //.withExpiresAt(new Date());
             .sign(algorithm);

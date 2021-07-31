@@ -39,6 +39,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Extend results by adding rules matches from a different API server.
@@ -77,6 +78,33 @@ class ResultExtender {
                 extensionMatch.estimatedContextForSureMatch());
         RuleMatch hiddenRuleMatch = new RuleMatch(hiddenRule, sentence, extensionMatch.getErrorOffset(),
                 extensionMatch.getErrorOffset()+extensionMatch.getErrorLength(), "(hidden message)");
+        filteredExtMatches.add(hiddenRuleMatch);
+      }
+    }
+    return filteredExtMatches;
+  }
+
+  /**
+   * Filter {@code extensionMatches} so that only those matches are left that don't cover or touch one of the {@code matches}.
+   */
+  @NotNull
+  static List<RuleMatch> getAsHiddenMatches(List<RuleMatch> matches, List<RuleMatch> extensionMatches) {
+    List<RuleMatch> filteredExtMatches = new ArrayList<>();
+    for (RuleMatch extensionMatch : extensionMatches) {
+      Rule rule = extensionMatch.getRule();
+      Predicate<RuleMatch> touchedByMatch = m ->
+        extensionMatch.getFromPos() <= m.getToPos() && extensionMatch.getToPos() >= m.getFromPos();
+      if (matches.stream().noneMatch(touchedByMatch)) {
+        AnalyzedSentence sentence = extensionMatch.getSentence();
+        String issueType = null;
+        if (rule.getLocQualityIssueType() != null) {
+          issueType = rule.getLocQualityIssueType().toString();
+        }
+        String categoryId = rule.getCategory().getId().toString();
+        String categoryName = rule.getCategory().getName();
+        HiddenRule hiddenRule = new HiddenRule(categoryId, categoryName, issueType, rule.getTags(), rule.estimateContextForSureMatch());
+        RuleMatch hiddenRuleMatch = new RuleMatch(hiddenRule, sentence,
+          extensionMatch.getFromPos(), extensionMatch.getToPos(), "(hidden message)");
         filteredExtMatches.add(hiddenRuleMatch);
       }
     }

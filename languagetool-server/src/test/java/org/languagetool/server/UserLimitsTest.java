@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -27,16 +26,17 @@ import static org.junit.Assert.*;
 public class UserLimitsTest {
 
   @Test
-  public void testDefaultLimits() throws Exception {
+  public void testDefaultLimits() {
     HTTPServerConfig config = new HTTPServerConfig();
     UserLimits defLimits = UserLimits.getDefaultLimits(config);
     assertThat(defLimits.getMaxTextLength(), is(Integer.MAX_VALUE));
     assertThat(defLimits.getMaxCheckTimeMillis(), is(-1L));
     assertNull(defLimits.getPremiumUid());
+    //assertNull(defLimits.getDictCacheSize());
   }
-  
+
   @Test
-  public void testLimitsFromToken1() throws Exception {
+  public void testLimitsFromToken1() {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setSecretTokenKey("foobar");
     // See TextCheckerText.makeToken():
@@ -45,10 +45,11 @@ public class UserLimitsTest {
     assertThat(limits.getMaxTextLength(), is(30));
     assertThat(limits.getMaxCheckTimeMillis(), is(-1L));
     assertNull(limits.getPremiumUid());
+    //assertNull(limits.getDictCacheSize());
   }
   
   @Test
-  public void testLimitsFromToken2() throws Exception {
+  public void testLimitsFromToken2() {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setSecretTokenKey("foobar");
     // See TextCheckerText.makeToken():
@@ -57,17 +58,20 @@ public class UserLimitsTest {
     assertThat(limits.getMaxTextLength(), is(50));
     assertThat(limits.getMaxCheckTimeMillis(), is(-1L));
     assertThat(limits.getPremiumUid(), is(1234L));
+    //assertNull(limits.getDictCacheSize());
   }
   
   @Test
-  @Ignore("would require network access to languagetoolplus.com and the server's secret key")
-  public void testGetLimitsFromUserAccount() throws Exception {
+  public void testLimitsFromToken3() {
     HTTPServerConfig config = new HTTPServerConfig();
-    config.setSecretTokenKey("fixme");
-    UserLimits limits = UserLimits.getLimitsFromUserAccount(config, "fixme", "fixme");
-    assertThat(limits.getMaxTextLength(), is(25000));
+    config.setSecretTokenKey("foobar");
+    // See TextCheckerText.makeToken():
+    String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjQyLCJwcmVtaXVtIjp0cnVlLCJpc3MiOiJodHRwOi8vZm9vYmFyIiwiZGljdENhY2hlU2l6ZSI6MTAwMDAsImlhdCI6MTUzNzM1MDAwOSwibWF4VGV4dExlbmd0aCI6NTAwMH0.utunN5ZXGWR6kk7GkTeDDUkUvxiJivsYc8HEOqyTk28";
+    UserLimits limits = UserLimits.getLimitsFromToken(config, token);
+    assertThat(limits.getMaxTextLength(), is(5000));
     assertThat(limits.getMaxCheckTimeMillis(), is(-1L));
-    assertThat(limits.getPremiumUid(), is(1L));
+    assertThat(limits.getPremiumUid(), is(42L));
+    //assertThat(limits.getDictCacheSize(), is(10000L));
   }
-  
+
 }

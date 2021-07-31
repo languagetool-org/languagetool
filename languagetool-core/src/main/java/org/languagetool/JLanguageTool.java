@@ -158,14 +158,6 @@ public class JLanguageTool {
     }
   }
 
-  /**
-   * Use {@link Premium#isPremiumVersion()} instead
-   */
-  @Deprecated
-  public static boolean isPremiumVersion() {
-    return false;
-  }
-
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
   private static ClassBroker classBroker = new DefaultClassBroker();
 

@@ -29,9 +29,19 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class FakeHttpExchange extends HttpExchange {
+
+  public FakeHttpExchange() {
+    this("get");
+  }
+
+  public FakeHttpExchange(String method) {
+    this.method = method;
+  }
+
+  private final String method;
   
   private final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    
+
   @Override
   public Headers getRequestHeaders() {
     return new Headers();
@@ -46,7 +56,7 @@ public class FakeHttpExchange extends HttpExchange {
   }
   @Override
   public String getRequestMethod() {
-    return "get";
+    return method;
   }
   @Override
   public HttpContext getHttpContext() {
