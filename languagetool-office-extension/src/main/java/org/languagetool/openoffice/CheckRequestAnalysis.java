@@ -500,7 +500,7 @@ class CheckRequestAnalysis {
       }
       toText = docCache.textSize() - toText;
       from = docCache.getFlatParagraphNumber(fromText);
-      to = docCache.getFlatParagraphNumber(toText);
+      to = toText < 0 ? 0 : docCache.getFlatParagraphNumber(toText);
     } else {
       // if no change in text is found check the number of flat paragraphs which have changed
       while (from < docCache.size() && from < oldDocCache.size()
