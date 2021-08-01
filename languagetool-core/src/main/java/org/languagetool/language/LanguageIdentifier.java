@@ -52,7 +52,7 @@ public class LanguageIdentifier {
   // texts shorter than this will *only* consider preferred languages (if set):
   private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
 
-  // ast and gl often prevent the correct detection of Spanish (as the are quite similar
+  // ast and gl often prevent the correct detection of Spanish (as they are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
   private static final List<String> ignoreLangCodes = Arrays.asList("ast", "gl");
 
