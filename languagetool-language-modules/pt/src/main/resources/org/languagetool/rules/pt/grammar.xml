@@ -2367,6 +2367,27 @@ Chamaram-no de volta, em meio à sua viagem.
 	  </rule>	  	  
     </rulegroup>
 	
+	<!-- HAVER_PRESENTE_CONJUNTIVO_IMPESSOAL  Haver Pretérito Imp Con -->
+    <rule id='HAVER_PRESENTE_CONJUNTIVO_IMPESSOAL' name="Haver + Presente Conj/Imp → Haver + Pretérito Imp Con" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-01 (25-JUN-2021+)      -->
+	<!--
+Havia o receio que causem problemas. → Havia o receio que causassem problemas.
+	-->
+      <pattern>
+<!--		<token>havia</token>			-->
+		<token postag='VMII.S0' postag_regexp='yes'/>
+		<token/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token>que</token>		
+		<marker>
+			<token postag='VMSP.+' postag_regexp='yes'/>			
+		</marker>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Substitua por <suggestion><match no='5' postag='VMSP(...)' postag_regexp="yes" postag_replace='VMSI$1'/></suggestion>.</message>
+      <example correction="causassem">Havia o receio que <marker>causem</marker> problemas.</example>
+    </rule>
+	
 	<!-- QUE CADA VEZ SERÃO que serão cada vez -->
     <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 + 2021-04-27 + 2021-04-28 + 2021-07-11 (17-MAR-2021+)      -->
