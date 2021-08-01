@@ -16647,6 +16647,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="ESTIGUES" name="estés/estigués" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">estés|estès</token>
+                </marker>
+                <token postag="V.P..S.." postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíu dir <suggestion>estigués</suggestion> (del v. 'estar')?</message>
+            <example correction="estigués">És com si no <marker>estès</marker> preparada.</example>
+        </rule>
         <rule id="PREGUEM_DISCULPIN" name="preguem disculpin/disculpeu">
             <pattern>
                 <token>preguem</token>
