@@ -55,7 +55,8 @@ public final class PatternTestTools {
    * These strings are not be recognized as a regular expression
    */
   private static final Set<String> NO_REGEXP = new HashSet<>(Arrays.asList(
-    "PRP:LOK+TMP+MOD:DAT+AKK", "AUX:ind+pres+3+p", "PRP:TMP+MOD+CAU:DAT", "PRP:LOK+TMP:DAT", "PRP:LOK+TMP+CAU:DAT+AKK", "PRP:MOD:GEN+DAT"
+    "PRP:LOK+TMP+MOD:DAT+AKK", "AUX:ind+pres+3+p", "PRP:TMP+MOD+CAU:DAT", "PRP:LOK+TMP:DAT", "PRP:LOK+TMP+CAU:DAT+AKK",
+    "PRP:MOD:GEN+DAT", "PRP:LOK+TMP+CAU:DAT"
     ));
 
 
