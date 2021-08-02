@@ -54051,6 +54051,53 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="R pers suj 2 p" skip="2"/>
+                    <marker>
+                        <token regexp="yes">(contre|pré|dé|inter|mé)dites</token>
+                    </marker>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\2'.</message>
+               <suggestion><match no="2" regexp_match="(contre|pré|dé|inter|mé)(dites)" regexp_replace="$1disez"/></suggestion>
+                <example correction="contredisez">Vous me <marker>contredites</marker> tout le temps.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="R pers suj 2 p" skip="2"/>
+                    <marker>
+                        <token regexp="yes">(re)?disez</token>
+                    </marker>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\2'.</message>
+               <suggestion><match no="2" regexp_match="((re)?)(disez)" regexp_replace="$1dites"/></suggestion>
+                <example correction="dites">Vous <marker>disez</marker> des choses intéressantes.</example>
+            </rule>
+           <rule>
+                <pattern>
+                    <token postag="R pers suj 2 p" skip="2"/>
+                    <marker>
+                        <token regexp="yes">(contre|(re?)dé|for|par|satis|stupé|sur)?faisez</token>
+                    </marker>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\2'.</message>
+               <suggestion><match no="2" regexp_match="(contre|(re?)dé|for|par|satis|stupé|sur)(faisez)" regexp_replace="$1faites"/></suggestion>
+                <example correction="satisfaites">Vous <marker>satisfaisez</marker> les gens qui comptent sur vous.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="R pers suj .*" skip="2"/>
+                    <marker>
+                        <token regexp="yes">(ré|(re|auto)?dis|ab)soud(i?ons|i?ez|ai(s|(en)?t))</token>
+                    </marker>
+                </pattern>
+                <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\2'.</message>
+               <suggestion><match no="2" regexp_match="(ré|(re|auto)?dis|ab)(so)(ud)(i?ons|i?ez|ai(s|(en)?t))" regexp_replace="$1$2$3lv$5"/></suggestion>
+                <example correction="résolvons">Nous <marker>résoudons</marker> une affaire de cambriolage.</example>
+                <example correction="dissolviez">Vous <marker>dissoudiez</marker> un cachet dans votre verre d'eau.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VERBES_FAMILIERS" name="verbes familiers" default="temp_off">
             <rule><!--VERBES_FAMILIERS[1]-->
                 <pattern>
