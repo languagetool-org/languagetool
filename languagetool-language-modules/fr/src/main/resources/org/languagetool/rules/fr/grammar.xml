@@ -1854,7 +1854,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>autres</token>
             </antipattern>
             <rule>
-                <!-- with conjuction -->
                 <pattern>
                     <token regexp="yes">ni|comme</token>
                     <unify negate="yes">
@@ -1881,7 +1880,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="frauduleux et ennuyeux|frauduleuse et ennuyeuse|frauduleuses et ennuyeuses">Ce nombre a été rapporté comme <marker>frauduleuse et ennuyeux</marker>.</example>
             </rule>
             <rule>
-                <!-- with conjuction -->
                 <pattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <unify negate="yes">
@@ -1903,6 +1901,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
                 <example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">,</token>
+                                <token min="1" regexp="yes">et|ni|ou</token>
+                            </unify-ignore>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\3' et '\6' ne semblent pas bien accordés.</message>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
+                <example correction="simple et efficace|simples et efficaces">vous donnent les moyens, <marker>simples et efficace</marker>, de ne pas vous identifier.</example>
+                <example correction="spécifique et certifié|spécifique et certifiée|spécifiques et certifiés|spécifiques et certifiées">satisfaire tous vos attentes, <marker>spécifiques et certifié</marker>.</example>
+            </rule>
+            <rule>
+                <!-- with no separator -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>'\1' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
+                <suggestion><match no="1" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/> <match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
+                <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
+                <example>Ancienne petite amie et ancienne victime de Sydney Carlin.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
