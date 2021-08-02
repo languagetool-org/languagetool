@@ -20,6 +20,7 @@
 package org.languagetool.tagging.disambiguation;
 
 import gnu.trove.THashMap;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -31,10 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -166,6 +164,11 @@ public class MultiWordChunker extends AbstractDisambiguator {
     }
   }
 
+  @Override
+  public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+    return disambiguate(input, null);
+  }
+
   /**
    * Implements multiword POS tags, e.g., &lt;ELLIPSIS&gt; for ellipsis (...)
    * start, and &lt;/ELLIPSIS&gt; for ellipsis end.
@@ -174,7 +177,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
    * @return AnalyzedSentence with additional markers.
    */
   @Override
-  public final AnalyzedSentence disambiguate(AnalyzedSentence input) {
+  public final AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
 
     lazyInit();
 
@@ -189,6 +192,10 @@ public class MultiWordChunker extends AbstractDisambiguator {
       // If the second token is not whitespace, concatenate it
       if (i + 1 < anTokens.length && !anTokens[i + 1].isWhitespace()) {
         tok = tok + output[i + 1].getToken();
+      }
+
+      if (checkCanceled != null && checkCanceled.checkCancelled()) {
+        break;
       }
 
       StringBuilder tokens = new StringBuilder();
