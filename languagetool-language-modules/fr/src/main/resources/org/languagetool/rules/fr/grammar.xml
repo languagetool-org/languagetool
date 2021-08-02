@@ -4645,6 +4645,106 @@ though, and has since been slightly modified)-->
             <suggestion>encre</suggestion>
             <example correction="encre">Il faut de l'<marker>ancre</marker> invisible.</example>
         </rule>
+        <rule>
+            <antipattern>
+                <token>j'</token>
+                <token regexp="yes" case_sensitive="yes">aie?s?|ait</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">aie?s?|ait<exception scope="previous">aie</exception></token>
+            </marker>
+            <token regexp="yes">obligatoire|difficile|(im)?possible|(in)?évitable|obligatoire|malade|temps|fou|folle|(in)?capable|(in)?utile|(mal)?heureu(x|se)|curieuse|curieux|hilare|gaie?|sereine?|calme|confiante?|paisible|ennuyeux|ennuyeuse|nostalgique|fi[eè]re?|mélancolique|nerveuse|nerveux|impatiente?|consternée?|enthousiaste|optimiste|morose|furieu(x|se)|ombrageu(x|se)|méprisable|sournois|zen|amical|compatissante?|impuissante?|incertaine?|hostile|(in)sensible|injuste|(in)?délicat|combati(f|ve)|impolie?|superficiel(le)?|bornée?|maniaque|euphorique|dangereu(x|se)|haineu(x|se)|nécessaire|(mé)contente?|amere?|protecteur|soupçonneu(x|se)|vulnérable|Exigeante?|désireu(x|se)|désireu(x|se)|envieuse?|jaloux|jalouse|gourmande?|possessif|possessive|aigrie?|rancuni[eè]re|coupable|confuse?|(in)?satisafaite?|fragile|méfiante?|craintive?|craintif|anxieuse|anxieux|inqui[eè]te?|fatiguée?s?|malade|heureux|joyeux|étonnée?s?|tristes?|amoureux|amoureuses?|orgueilleu(x|se)</token>
+        </pattern>
+        <message>Cet état ne peut s'exprimer qu'avec le verbe être.</message>
+        <suggestion>est</suggestion>
+        <example correction="est">Il <marker>ai</marker> nécessaire.</example>
+        <example>2011 : J'ai triste, reprise de Les Valentins.</example>
+        <example>aie aie aie malheureux...</example>
+    </rule>
+    <rule>
+        <antipattern>
+            <token>j'</token>
+            <token regexp="yes" case_sensitive="yes">aie?s?|ait</token>
+            <token skip="-1">triste</token>
+            <token>les</token>
+            <token>valentins</token>
+        </antipattern>
+        <antipattern>
+            <token>les</token>
+            <token skip="-1" regexp="yes">duo|valentins</token>
+            <token>j'</token>
+            <token regexp="yes" case_sensitive="yes">aie?s?|ait</token>
+            <token>triste</token>
+        </antipattern>
+        <pattern>
+            <marker>
+            <token>j'</token>
+                <token regexp="yes" case_sensitive="yes">aie?s?|ait</token>
+            </marker>
+            <token regexp="yes">obligatoire|difficile|(im)?possible|(in)?évitable|obligatoire|malade|temps|fou|folle|(in)?capable|(in)?utile|(mal)?heureu(x|se)|curieuse|curieux|hilare|gaie?|sereine?|calme|confiante?|paisible|ennuyeux|ennuyeuse|nostalgique|fi[eè]re?|mélancolique|nerveuse|nerveux|impatiente?|consternée?|enthousiaste|optimiste|morose|furieu(x|se)|ombrageu(x|se)|méprisable|sournois|zen|amical|compatissante?|impuissante?|incertaine?|hostile|(in)sensible|injuste|(in)?délicat|combati(f|ve)|impolie?|superficiel(le)?|bornée?|maniaque|euphorique|dangereu(x|se)|haineu(x|se)|nécessaire|(mé)contente?|amere?|protecteur|soupçonneu(x|se)|vulnérable|Exigeante?|désireu(x|se)|désireu(x|se)|envieuse?|jaloux|jalouse|gourmande?|possessif|possessive|aigrie?|rancuni[eè]re|coupable|confuse?|(in)?satisafaite?|fragile|méfiante?|craintive?|craintif|anxieuse|anxieux|inqui[eè]te?|fatiguée?s?|malade|heureux|joyeux|étonnée?s?|tristes?|amoureux|amoureuses?|orgueilleu(x|se)</token>
+        </pattern>
+        <message>Cet état ne peut s'exprimer qu'avec le verbe être.</message>
+        <suggestion>il est</suggestion>
+        <example correction="Il est"><marker>J'ai</marker> nécessaire.</example>
+        <example>2011 : J'ai triste, reprise de Les Valentins.</example>
+    </rule>
+    <rule>
+        <antipattern>
+            <token>est</token>
+            <token>peine</token>
+            <token>perdue</token>
+        </antipattern>
+        <antipattern>
+            <token>dieu</token>
+            <token>est</token>
+            <token>raison</token>
+        </antipattern>
+        <antipattern>
+            <token>est</token>
+            <token>lieu</token>
+            <token inflected="yes">de</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <token inflected="yes" skip="3">que</token>
+            <marker>
+                <token>est</token>
+            </marker>
+            <token regexp="yes">obligation|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|raison|accès|lieu</token>
+        </pattern>
+        <message>Cet état ne peut s'exprimer qu'avec le verbe avoir.</message>
+        <suggestion>ait</suggestion>
+        <example correction="ait">Il ne faut pas qu'il <marker>est</marker> faim.</example>
+        <example>C’est peine perdue.</example>
+        <example>Hobbes croyait toutefois que le raisonnement est divin et que Dieu est raison.</example>
+        <example>Calhoun pense aussi que le gouvernement est lieu de tension.</example>
+    </rule>
+    <rule>
+        <pattern>
+            <marker>
+                <token regexp="yes">ait?e?<exception scope="previous">f</exception></token>
+            </marker>
+            <token>partie</token>
+            <token regexp="yes">des?|du</token>
+        </pattern>
+        <message>Les verbes 'faire' et 'être' semble plus appropriés que le verbe avoir.</message>
+        <suggestion>fait</suggestion>
+        <suggestion>est</suggestion>
+        <example correction="fait|est">Il <marker>ait</marker> partie du système défensif.</example>
+    </rule>
+    <rule>
+        <pattern>
+            <marker>
+                <token regexp="yes">ait?e?</token>
+            </marker>
+            <token>en</token>
+            <token>colère</token>
+        </pattern>
+        <message>Cette émotion ne peut s'exprimer qu'avec le verbe être.</message>
+        <suggestion>est</suggestion>
+        <example correction="est">Il <marker>ait</marker> en colère.</example>
+    </rule>
         </rulegroup>
         <rulegroup id="C_EN_S_EN" name="c'en ou s'en" default="temp_off">
         <rule>
