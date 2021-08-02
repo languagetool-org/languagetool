@@ -1948,6 +1948,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
                 <example>Ancienne petite amie et ancienne victime de Sydney Carlin.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.* p" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <!--<feature id="gender"/>-->
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token postag="C coor"/>
+                            </unify-ignore>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\2' et '\4' ne semblent pas bien accordés.</message>
+                <!--<suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/> \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/> \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>-->
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/> \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/> \3 <match no="4" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
+                <example correction="handicapés ou traumatisés|handicapées ou traumatisées">pour les <marker>handicapés ou traumatisée</marker> suite à des accidents divers.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
             <antipattern>
