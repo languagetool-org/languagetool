@@ -61290,32 +61290,144 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category name="majuscules" id="CASING">
-        <rule id="PRONOMS_PERSONNELS_MINISCULE" name="pronoms personnels en minuscule" default="temp_off">
+         <rule id="PRONOMS_PERSONNELS_MINUSCULE" name="pronoms personnels en minuscule" default="temp_off">
             <antipattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes" min="0" max="4">\p{P}</token>
+                <token regexp="yes" min="0" max="4">\p{P}|[^a-z].*|/d+|/^+</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">/d+</token>
+                <token>.</token>
+                <token regexp="yes" min="0" max="3">/d+</token>
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{P}<exception regexp="yes">[,;]</exception></token>
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
-            <pattern case_sensitive="yes">
+
+            <antipattern>
+                <token regexp="yes" skip="1">(?-i)Elle</token>
+                <token regexp="yes">(?-i)Lui</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes"  skip="1">(?-i)Lui</token>
+                <token regexp="yes">(?-i)Elle</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">marques?|magasines?|concours|commentaire|pages|section|article|lectrices|lecteurs|lectorat</token>
+                <token case_sensitive="yes">Elle</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" skip="-1">Elle</token>
+                <token regexp="yes">marques?|magasines?|concours|commentaire|pages|section|article|lectrices|lecteurs|lectorat</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+                <token regexp="yes">&amp;</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token>:</token>
+                <token regexp="yes">[^a-z].*|(?-i)[A-Z]</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token>château</token>
+                <token>des</token>
+                <token regexp="yes">(?-i)Ils</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+                <token regexp="yes" inflected="yes">évangile|film|réalisée?s?|jeu|épisode|série|canal|festival|album|groupe|parue?s?|publiée?s?|laffont|réaliser|thriller|conte|éditeur|écrire|acteur|discours|théâtre|présenter|campagne|nouvelles|chanter|tube|TV|remix|ouvrage|version|poème|association|asso|nouvelle|chanteur|journal|réédition|biographie|spectacle|interpréter|tournage|originale|essai|saison|compositeur|opéra|VO|traduction|rôle|documentaire|publier|publication|gallimard|lafont|albin|hachette|hatier|éd|peinture|titre|performance|(?-i)XO|texte|dessinée|métrage|édition|monologue|récit|téléfilm|film|nouvelle|adaptation|livre|roman|fiction|émission|tome|point|commentaire|chanson|album|série|critique|reprise|écran|parodie|production|sortir|(.*-)métrage|concours|prix|box-office|comédie|histoire</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">il|je</token>
+                <token regexp="yes">était|vous</token>
+                <token regexp="yes">une|salue</token>
+                <token regexp="yes">fois|marie</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="-1">évangile|film|réalisée?s?|jeu|épisode|série|canal|festival|album|groupe|parue?s?|publiée?s?|laffont|réaliser|thriller|conte|éditeur|écrire|acteur|discours|théâtre|présenter|campagne|nouvelles|chanter|tube|TV|remix|ouvrage|version|poème|association|asso|nouvelle|chanteur|journal|réédition|biographie|spectacle|interpréter|tournage|originale|essai|saison|compositeur|opéra|VO|traduction|rôle|documentaire|publier|publication|gallimard|lafont|albin|hachette|hatier|éd|peinture|titre|performance|(?-i)XO|texte|dessinée|métrage|édition|monologue|récit|téléfilm|film|nouvelle|adaptation|livre|roman|fiction|émission|tome|point|commentaire|chanson|album|série|critique|reprise|écran|parodie|production|sortir|(.*-)métrage|concours|prix|box-office|comédie|histoire</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">une?|[dl]es|le|la|aux</token>
+                <token regexp="yes">Nous|tu</token>
+            </antipattern>
+            <antipattern>
+                <token>Il</token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
+            <antipattern>
+                <token>Il</token>
+                <token postag="UNKNOWN"/>
+            </antipattern>
+            <antipattern>
+                <token postag="Z.*|UNKNOWN" postag_regexp="yes" min="1" max="2"/>
+                <token regexp="yes">[:;,]|dans|avec|pour</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+                <token>-</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">Il</token>
+                <token regexp="yes">Dieu|Allah|Prophète|Jésus|sauveur|seigneur|psaume|christ|colombe</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="1" max="10" regexp="yes">&gt;</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">Dieu|Allah|Prophète|Jésus|sauveur|seigneur|psaume|christ|colombe</token>
+                <token regexp="yes">Il|Tu</token>
+            </antipattern>
+            <antipattern>
+                <token skip="5">bonjour</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+            <marker>
+                <token></token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils<exception scope="previous">|</exception></token>
+            </marker>
             </pattern>
-            <message>Les pronoms personnels s'écrivent généralement en minuscules</message>
-            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
-            <example correction="je">Voilà pourquoi <marker>Je</marker> convie tous les Français à s'unir à moi dans l'action.</example>
+            <message>La majuscule n'est employée qu'au début d'une phrase ou d'un titre d'oeuvre, ou bien pour désigner Dieu.</message>
+            <suggestion>\1. \2</suggestion>
+            <suggestion>\1 <match no="2" case_conversion="alllower"/></suggestion>
+            <example correction="pourquoi. Je|pourquoi je">Voilà <marker>pourquoi Je</marker> convie tous les Français à s'unir à moi dans l'action.</example>
             <example>Je suis désolée.</example>
+            <example>17.2 Vous reconnaissez et acceptez que Google ne saurait être tenue responsable de la disponibilité des sites ou ressources externes.</example>
+            <example>Elle travaille depuis plus de 30 ans pour des grandes marques comme Elle.</example>
             <example>"Je suis désolée."</example>
+            <example>Ces résistant(e)s s’appellent les Nous et sont des LIB.</example>
+            <example>Don Lorenzo Bedesh, Il modernismo e Romolo Murri in Italia, Parme Guanda, 1968</example>
+            <example>Xhtml 1.0 strict | CSS | WAI AA | Il y avait par ailleurs une grande distance entre les musées et l'université.</example>
             <example>--"Je suis désolée."</example>
             <example>Il dit: "Je suis désolée".</example>
             <example>Il dit: Je suis désolée.</example>
             <!-- TODO: improve sentence tokenizer -->
+            <example>Le château des Ils</example>
             <example>Robin : 90M (Elle a rien fait de spécial).</example>
             <example>Pas devant elle ! "Elle ne m'aime plus !"</example>
+            <example>:P Je recommande vraiment ce site !</example>
             <example>« Où est ma salle de classe ? » - « Elle est au troisième étage. »</example>
             <example>« Où est mon épouse ? » - « Elle est en prison. »</example>
+            <example>L'asso Nous and Co accompagne les habitants à créer des zones de gratuité.</example>
+            <example>↑ Elle réussirait, disait-elle, « by hook or by crook ».</example>
+            <example>Le cas échéant, Il Posto se réserve également la possibilité de mettre en cause la responsabilité civile.</example>
+            <example>Le Professeur Je-Sais-Tout s'est encore exprimé.</example>
+            <example>Gérard Macé, Je suis l'autre, Paris, Le Promeneur, 2007</example>
+            <example>Le jeu se termine dès qu'un joueur gagne, en réussissant à poser toutes ses cartes Il était une fois...</example>
+            <example>^^ Il fait partie des albums en liste.</example>
+            <example>Le Je vous salue Marie et le Notre Père des dizaines sont remplacés par des prières spécifiques.</example>
+            <example>Parfait Coffret Soin Beauté pour Lui et Elle.</example>
+            <example>2 Elle fixe, après consultation des milieux concernés, le moment, le genre et le volume des mesures.</example>
             <example>Tu as menti au F.B.I. Vous avez menti au F.B.I.</example>
         </rule>
         <rule id="GOOGLE" name="Google">
