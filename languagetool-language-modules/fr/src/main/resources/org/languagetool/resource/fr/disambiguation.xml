@@ -1568,6 +1568,21 @@ RB => Règles Brutes
     </rulegroup>
     <!-- END: prepositions -->
     <!-- CATEGORY: proper nouns -->
+    <rule id="CHER_Z" name="Cher">
+        <antipattern>
+            <token regexp="yes">\p{L}+</token>
+            <token case_sensitive="yes">Cher</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token postag="J m s">Cher</token>
+            </marker>
+            <token postag="[NJZ].*|V ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="J m s"/>
+        <example type="untouched">du Cher</example>
+        <example type="untouched">le Cher</example>
+    </rule>
     <rule id="WINDOWS" name="windows">
         <pattern>
             <token>Windows</token>
