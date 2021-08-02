@@ -4380,6 +4380,183 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+     <rulegroup id="AIT_AIE_AIES_EST" name="ait ai aies est" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>j'</token>
+                    <marker>
+                        <token>est</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe avoir à la première personne du singulier est attendu.</message>
+                <suggestion>ai</suggestion>
+                <example correction="ai">J'<marker>est</marker> déjà participé.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">je</token>
+                    <token min="0" inflected="yes">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+                    <marker>
+                        <token>est</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe avoir à la première personne du singulier est attendu.</message>
+                <suggestion>ai</suggestion>
+                <example correction="ai">J'y <marker>est</marker> déjà participé.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>il</token>
+                    <token>y</token>
+                    <token min="0" max="1">en</token>
+                    <token>ai</token>
+                    <token postag="[DP].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">il<exception scope="previous" regexp="yes">qu|qu'</exception></token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+                    <marker>
+                        <token>ai<exception scope="next" regexp="yes">faite?s?</exception></token>
+                    </marker>
+                </pattern>
+                <message>Le verbe avoir à la troisième personne du singulier est attendu.</message>
+                <suggestion>est</suggestion>
+                <example correction="est">Il y <marker>ai</marker> affiché sur la première page.</example>
+                <example>J'ai peur qu'il y ai détournement d'un coté ou de l'autre.</example>
+                <example>Et quand bien même il l'ai faite à l'échauffement ?</example>
+                <example>Coucou, c'est normal que dans la liste des articles le plus consulté il y ai un lien rouge?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">qu'?</token>
+                    <token>il</token>
+                    <marker>
+                        <token>ai</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe avoir à la troisième personne du singulier est attendu.</message>
+                <suggestion>ait</suggestion>
+                <example correction="ait">Il faut qu'il <marker>ai</marker> une médaille.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">il<exception scope="previous" regexp="yes">qu|qu'</exception></token>
+                    <token>y</token>
+                    <token min="0" max="1">en</token>
+                    <marker>
+                        <token>ai</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe avoir à la troisième personne du singulier est attendu.</message>
+                <suggestion>ait</suggestion>
+                <example correction="ait">C'est dommage que certains jours il y <marker>ai</marker> des nuages.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="1">tu<exception scope="previous">que</exception></token>
+                    <token>y</token>
+                    <marker>
+                        <token regexp="yes">aie?s?|ait</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe être à la deuxième personne du singulier est attendu.</message>
+                <suggestion>es</suggestion>
+                <example correction="es">Comment tu t'y <marker>ai</marker> pris ?</example>
+                <example>Dommage que tu n'y aies pas pensé plus tôt.</example>
+            </rule>
+            <rule>
+            <pattern>
+                <token regexp="yes">cela|ça|c'</token>
+                <token>y</token>
+                <marker>
+                    <token regexp="yes">aie?s?|ait<exception scope="next" regexp="yes">été|jamais</exception></token>
+                </marker>
+            </pattern>
+            <message>Le verbe être à la troisième personne du singulier est attendu.</message>
+            <suggestion>est</suggestion>
+            <example correction="est">Cela y <marker>ai</marker> ?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>y</token>
+                    <token regexp="yes">aie?s?|ait</token>
+                </marker>
+            </pattern>
+            <message>Le sujet semble être manquant.</message>
+            <suggestion>j'y ai</suggestion>
+            <example correction="J'y ai"><marker>Y ai</marker> passé plusieurs heures.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes">ait|aies|aie</token>
+                <token>partie</token>
+                <token regexp="yes">des?|du</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                <token>bien</token>
+                <token skip="-1">que</token>
+                <token regexp="yes">ait|aies|aie</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ait|aies|aie</token>
+                <token>mort</token>
+                <token>d'</token>
+                <token regexp="yes">hommes?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">ait|aies|aie</token>
+                </marker>
+                <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes" inflected="yes">aller|devenir|rester|venir|naître|tomber|arriver|mourir|partir|appara[îi]tre</token>
+            </pattern>
+            <message>Ce verbe ne se conjugue qu'avec l'auxiliaire être.</message>
+            <suggestion>est</suggestion>
+            <example correction="est">Il <marker>ait</marker> venu hier.</example>
+            <example>Bien que la période des vacances de la construction ait resté les deux dernières semaines de juillet.</example>
+            <example>Elle ait partie des 11 vidéos réalisées pour l'album.</example>
+            <example>Ils sont repoussés par les seules forces de police et la Garde civique sans qu'il y ait mort d'homme.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token inflected="yes" regexp="yes">je|tu|j</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token regexp="yes">aie?s?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[tm]oi</token>
+                <token>qui</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token regexp="yes">aie?s?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="C coor"/>
+                <token>ai</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">j</token>
+                <token regexp="yes">est|es|aie?s?</token>
+                <token>été</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">est|es|aie?s?</token>
+                </marker>
+                <token>été</token>
+            </pattern>
+            <message>Ce verbe ne se conjugue qu'avec l'auxiliaire avoir.</message>
+            <suggestion>ait</suggestion>
+            <example correction="ait">Bien que cette hypothèse <marker>est</marker> été avancée, nous ne l'avons pas retenue.</example>
+            <example>C'est moi qui ai été complice.</example>
+            <example>J' ai été opéré par Kirshmayer, à Grenoble-Sud.</example>
+            <example>Je n'ai été mordu par une tique qu'une fois dans ma vie.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="C_EN_S_EN" name="c'en ou s'en" default="temp_off">
         <rule>
             <antipattern>
@@ -27657,6 +27834,12 @@ though, and has since been slightly modified)-->
                 </marker>
             </antipattern>
             <rule name="je + token + verbe">
+                <antipattern>
+                    <token>j'</token>
+                    <token min="0" inflected="yes">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+			        <token>est</token>
+                </antipattern>
                 <pattern>
                     <token postag="R pers suj 1 s">
                         <exception regexp="yes">-.+</exception></token>
@@ -27675,6 +27858,7 @@ though, and has since been slightly modified)-->
                 <example correction="eusse">Ma foi, à ce moment-là il se peut que j'<marker>eusses</marker> trébuché, oui.</example>
                 <!-- TODO: remove interrogative forms -->
                 <example>Je peux</example>
+                <example>J'est déjà participé.</example>
                 <example correction="arrive">J’<marker>arrives</marker>.</example>
                 <example>J’arrive</example>
                 <example correction="travaille">Je ne <marker>travailles</marker> pas.</example>
@@ -27721,6 +27905,12 @@ though, and has since been slightly modified)-->
                     <token postag="V ppa m s"/>
                 </antipattern>
                 <antipattern>
+                    <token><exception>que</exception></token>
+                    <token skip="1">tu</token>
+                    <token>y</token>
+			        <token regexp="yes">aie?s?|ait</token>
+			    </antipattern>
+                <antipattern>
                     <token postag="V .* 2 s" postag_regexp="yes"/>
                     <token min="0">-</token>
                     <token>tu</token>
@@ -27740,6 +27930,7 @@ though, and has since been slightly modified)-->
                 <example correction="travaillais">Tu <marker>travaillait</marker></example>
                 <example>Tu travaillais</example>
                 <example>Si tu suis le sentier.</example>
+                <example>Comment tu t'y ai pris ?</example>
                 <example correction="travaillais">Tu ne <marker>travaillait</marker> pas</example>
                 <example>Tu ne travaillais pas.</example>
                 <example correction="attendras">Tu m’<marker>attendra</marker></example>
@@ -27810,6 +28001,17 @@ though, and has since been slightly modified)-->
                     <token postag="V .* 3 sp?" postag_regexp="yes"/>
                     <token regexp="yes">elle|il</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">qu'?</token>
+                    <token>il</token>
+                    <token>ai</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">il<exception scope="previous" regexp="yes">qu|qu'</exception></token>
+                    <token>y</token>
+                    <token min="0" max="1">en</token>
+                    <token>ai</token>
+                </antipattern>
                 <pattern>
                     <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
                         <exception regexp="yes">-.+</exception>
@@ -27829,6 +28031,8 @@ though, and has since been slightly modified)-->
                 <example>Qu'il s'est lui-même constitué tout au court de sa carrière.</example>
                 <example>Il travaille</example>
                 <example>Ce sont des histoires.</example>
+                <example>Il faut qu'il est une médaille.</example>
+                <example>C'est dommage que certains jours il y ai des nuages.</example>
                 <example>Celle adressée à mon ami</example>
                 <example>À elle reviennent toutes les maisons.</example>
                 <example>Des polluants comme celui-ci viennent de la combustion.</example>
@@ -27928,6 +28132,13 @@ though, and has since been slightly modified)-->
                     <token postag="V .* 3 sp?" postag_regexp="yes"/>
                     <token regexp="yes">elle|il</token>
                 </antipattern>
+                <antipattern>
+                    <token><exception regexp="yes">qu|qu'</exception></token>
+                    <token inflected="yes">il</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
+		            <token>ai</token>
+		            <token><exception regexp="yes">faite?s?</exception></token>
+                </antipattern>
                 <pattern>
                     <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
                         <exception regexp="yes">lui|ça|cela|ceci|ce|celle|-.*|c'|(celui|celle)-(ci|là)|celui|.*-même</exception>
@@ -27944,6 +28155,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
                 <example correction="veut">Il ne me <marker>veux</marker> pas.</example>
                 <example>Il ne me <marker>veut</marker> pas.</example>
+                <example>Il y ait affiché depuis longtemps.</example>
                 <example>Pour cela nous en parlons à notre mère.</example>
                 <example correction="avait">Comme il n’<marker>avais</marker> plus de voiture, il prenait le bus.</example>
                 <example>Comme il n’avait plus de voiture, il prenait le bus.</example>
