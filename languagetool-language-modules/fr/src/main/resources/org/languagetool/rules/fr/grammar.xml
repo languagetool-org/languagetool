@@ -1841,6 +1841,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>et a enlevé et séquestré Blanche</example>
             </rule>
         </rulegroup>
+        <rulegroup id="MULTI_ADJ2" name="accord entre plusieurs adjectifs" default="temp_off">
+            <antipattern>
+                <!-- TODO: we need a way to find repeated lemmas! -->
+                <token inflected="yes">citoyen</token>
+                <token postag="C coor"></token>
+                <token inflected="yes">citoyen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="C coor"></token>
+                <token>autres</token>
+            </antipattern>
+            <rule>
+                <!-- with conjuction -->
+                <pattern>
+                    <token regexp="yes">ni|comme</token>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">,</token>
+                                <token min="1" regexp="yes">et|ni|ou</token>
+                            </unify-ignore>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\2' et '\5' ne semblent pas bien accordés.</message>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
+                <!--<example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>-->
+                <example correction="pertinent, ni clair|pertinente, ni claire|pertinents, ni clairs|pertinentes, ni claires">Son intervention n'est ni <marker>pertinente, ni clair</marker>.</example>
+                <!--<example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>-->
+                <example correction="frauduleux et ennuyeux|frauduleuse et ennuyeuse|frauduleuses et ennuyeuses">Ce nombre a été rapporté comme <marker>frauduleuse et ennuyeux</marker>.</example>
+            </rule>
+            <rule>
+                <!-- with conjuction -->
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="J.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">,</token>
+                                <token min="1" regexp="yes">et|ni|ou</token>
+                            </unify-ignore>
+                            <token postag="J.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>'\2' et '\5' ne semblent pas bien accordés.</message>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
+                <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
+                <example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
             <antipattern>
                 <!-- TODO: we need a way to find repeated lemmas! -->
