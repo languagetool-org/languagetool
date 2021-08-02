@@ -4574,6 +4574,83 @@ though, and has since been slightly modified)-->
             <example>J' ai été opéré par Kirshmayer, à Grenoble-Sud.</example>
             <example>Je n'ai été mordu par une tique qu'une fois dans ma vie.</example>
         </rule>
+     </rulegroup>
+        <rulegroup id="ANCRE_ENCRE" name="ancre_encre" default="temp_off">
+             <rule>
+            <antipattern>
+                <token regexp="yes" skip="-1">pointes?|feuilles?|papier|mangas?|encre|couleurs?|dessins?</token>
+                <token regexp="yes">encrée?s?</token>
+                <token>dans</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">^encrée?s?</token>
+                <token skip="-1">dans</token>
+                <token regexp="yes">pointes?|feuilles?|papier|mangas?|encre|couleurs?|dessins?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">encrée?s?</token>
+                </marker>
+                <token>dans</token>
+            </pattern>
+            <message>Ce mot, synonyme d'établir, commence par un 'a'.</message>
+            <suggestion><match no="1" regexp_match="^e(?iu)" regexp_replace="a"/></suggestion>
+            <example correction="ancrées">Les traditions sont <marker>encrées</marker> dans l'esprit des villageois.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes" skip="-1">pointes?|feuilles?|papier|mangas?|encre|couleurs?|dessins?</token>
+                <token regexp="yes">^encrages?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">^encrages?</token>
+                <token regexp="yes">pointes?|feuilles?|papier|mangas?|encre|couleurs?|dessins?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">^encrages?</token>
+                </marker>
+                <token>dans</token>
+            </pattern>
+            <message>Ce mot, synonyme de fixation, commence par un 'a'.</message>
+            <suggestion><match no="1" regexp_match="^e(?iu)" regexp_replace="a"/></suggestion>
+            <example correction="ancrage">Le point d'<marker>encrage</marker> dans l'espace est très important.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" skip="1">points?</token>
+                <marker>
+                    <token regexp="yes">^encrages?</token>
+                </marker>
+            </pattern>
+            <message>Ce mot, synonyme de fixation, commence par un 'a'.</message>
+            <suggestion><match no="2" regexp_match="^e(?iu)" regexp_replace="a"/></suggestion>
+            <example correction="ancrage">Le point d'<marker>encrage</marker> dans l'espace est très important.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">bâtons?|pierres?|jets?|cartouches?|coeurs?|cœurs?|crayons?|stylos?|sangs?|aquarelles?|lunes?|économies?|noirs?|t[aâ]ches?|réservoirs?|gouttes?|flux|rollers?|lavis</token>
+                <token postag="P"/>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">ancres?</token>
+                </marker>
+            </pattern>
+            <message>Ce liquide commence par un 'e'.</message>
+            <suggestion>encre</suggestion>
+            <example correction="encre">Il faut une pierre à <marker>ancre</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>ancre</token>
+                </marker>
+                <token postag="P" min="0" max="1"/>
+                <token regexp="yes">liquide|invisible|Chine</token>
+            </pattern>
+            <message>Ce liquide commence par un 'e'.</message>
+            <suggestion>encre</suggestion>
+            <example correction="encre">Il faut de l'<marker>ancre</marker> invisible.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="C_EN_S_EN" name="c'en ou s'en" default="temp_off">
         <rule>
