@@ -1379,6 +1379,13 @@ RB => Règles Brutes
         </disambig>
     </rule>
     <rulegroup id="DE_P_D" name="de (prep / det )">
+        <!--<rule>
+            <pattern>
+                <token postag="P">d'</token>
+                <token postag="D.*" postag_regexp="yes" regexp="yes">un|une</token>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>-->
         <rule>
             <pattern>
                 <token postag="V.*" postag_regexp="yes">
@@ -1390,7 +1397,7 @@ RB => Règles Brutes
                     <marker>
                         <token postag="D.*" postag_regexp="yes" regexp="yes">de|du|d'|des</token>
                     </marker>
-                    <token postag="J.*|D.*" postag_regexp="yes"/>
+                    <token postag="J.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes">
                         <exception regexp="yes">dans|envers|mais|plus|non|contre</exception>
                         <exception inflected="yes" regexp="yes">avoir|être</exception></token>

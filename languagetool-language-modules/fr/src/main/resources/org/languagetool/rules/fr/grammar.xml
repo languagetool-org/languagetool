@@ -17417,15 +17417,40 @@ though, and has since been slightly modified)-->
             <example correction="">Olivier Assayas pense que le film a <marker>un.</marker></example>
         </rule>
         <rule id="DUPLICATE_DETERMINER" name="déterminant en double (la la)" default="temp_off">
+            <antipattern>
+                <token inflected="yes">aucun</token>
+                <token>des</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">une|un</token>
+                <token>des</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">tout</token>
+                <token inflected="yes" regexp="yes">le|mon|ton|son|notre|votre|leur</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">le</token>
+                <token postag="K|Y" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token postag="(P\+)?D .*" postag_regexp="yes"/>
-                <token postag="D .*" postag_regexp="yes"/>
+                <token postag="(P\+)?D .*" postag_regexp="yes"><exception postag="N.*|K|Y" postag_regexp="yes"/></token>
+                <token postag="D .*" postag_regexp="yes"><exception postag="N.*|K|Y" postag_regexp="yes"/></token>
                 <token postag="[NZ] .*" postag_regexp="yes"/>
             </pattern>
             <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:3 determinerFrom:1"/>
             <message>Confusion probable : Il y a un déterminant en double.</message>
             <example correction="les fêtes|la fête"><marker>la les fêtes</marker></example>
             <example correction="une fête|des fêtes">d'<marker>un une fête</marker></example>
+            <example>Tous leurs efforts furent vains.</example>
+            <example>Pour profiter d'un accès illimité, un compte payant est requis.</example>
+            <example>On se souviendra de cette série pendant longtemps.</example>
+            <example>Pourquoi as-tu prêté de l'argent à quelqu'un comme elle ?</example>
+            <example>Je chantais tous les jours quand j'étais enfant.</example>
+            <example>Je n'arrive pas à croire la manière dont tout le monde réagit.</example>
+            <example>Le thermomètre est tombé à zéro la nuit dernière.</example>
+            <example>Les Deux Sirènes</example>
+            <example>Les 2 Sirènes</example>
         </rule>
         <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
            <!-- <antipattern>
