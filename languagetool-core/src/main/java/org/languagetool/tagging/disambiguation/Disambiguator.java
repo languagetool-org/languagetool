@@ -18,9 +18,11 @@
  */
 package org.languagetool.tagging.disambiguation;
 
-import java.io.IOException;
-
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+
+import java.io.IOException;
 
 /**
  * Disambiguator interface. Particular implementations are language-dependent.
@@ -55,4 +57,13 @@ public interface Disambiguator {
    */
   AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException;
 
+  /**
+   * The same as {@link #disambiguate(AnalyzedSentence)},
+   * but may call {@code checkCanceled} (if it's non-null) to allow for better interruptibility.
+   */
+  default AnalyzedSentence disambiguate(
+    AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled
+  ) throws IOException {
+    return disambiguate(input);
+  }
 }

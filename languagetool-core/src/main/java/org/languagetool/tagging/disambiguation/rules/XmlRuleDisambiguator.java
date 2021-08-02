@@ -19,6 +19,7 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -55,8 +56,16 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
   }
 
   @Override
-  public AnalyzedSentence disambiguate(AnalyzedSentence sentence) throws IOException {
+  public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+    return disambiguate(input, null);
+  }
+
+  @Override
+  public AnalyzedSentence disambiguate(AnalyzedSentence sentence, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
     for (Rule rule : disambiguationRules.rulesForSentence(sentence)) {
+      if (checkCanceled != null && checkCanceled.checkCancelled()) {
+        break;
+      }
       sentence = ((DisambiguationPatternRule) rule).replace(sentence);
     }
     return sentence;

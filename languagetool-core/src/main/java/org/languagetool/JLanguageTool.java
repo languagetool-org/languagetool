@@ -1438,7 +1438,7 @@ public class JLanguageTool {
       return cachedSentence;
     } else {
       AnalyzedSentence raw = getRawAnalyzedSentence(sentence);
-      AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw);
+      AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw, checkCancelledCallback);
       AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), raw.getTokens());
       if (language.getPostDisambiguationChunker() != null) {
         language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
