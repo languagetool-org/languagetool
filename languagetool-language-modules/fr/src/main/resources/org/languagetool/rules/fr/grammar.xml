@@ -56241,6 +56241,27 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="MERCI_POUR_INF" name="merci pour->de">
+                <pattern>
+                    <token>
+                        <exception regexp="yes">suffisamment|assez</exception>
+                    </token>
+                    <token regexp="yes">merci|désolée?s?|navrée?s?</token>
+                    <marker>
+                        <token>pour</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="R pers obj .*" min="0"/>
+                    <token postag="V inf"/>
+                    <token>
+                        <exception postag="V ppa" regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>On ne met pas d’article devant un jour de la semaine.</message>
+                <suggestion>de</suggestion>
+                <example correction="de">Merci <marker>pour</marker> m’aider en français.</example>
+                <example>Merci pour m’avoir aidé en français.</example>
+                <example>Il était suffisamment désolé pour me présenter des excuses.</example>
+            </rule>
             <rule id="LE_JOUR_DE_LA_SEMAINE" name="le lundi->lundi">
                 <pattern>
                     <marker>
