@@ -5652,11 +5652,76 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
                 <example correction="près">C’est à peu <marker>prêt</marker> la même chose.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
-                    <token>de</token>
-                    <token>plus</token>
+                    <token regexp="yes">au|de</token>
+                    <token min="0" max="1">un</token>
+                    <token regexp="yes">trop|plus|très|vraiment</token>
                     <token>près</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V ppr"/>
+                    <token min="0" max="1">au</token>
+                    <token regexp="yes">trop|plus|très|vraiment</token>
+                    <token>près</token>
+                    <token>à</token>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token regexp="yes">quelques?</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>près</token>
+                </antipattern>
+                <antipattern>
+                    <token>au</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>près</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="Y" skip="1"/>
+                    <token>près</token>
+                </antipattern>
+                <antipattern>
+                    <token>à</token>
+                    <token regexp="yes">peut?</token>
+                    <token>de</token>
+                    <token regexp="yes">choses?</token>
+                    <token>près</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">[mts]e</token>
+                    <token inflected="yes" skip="5">intéresser</token>
+                    <token>près</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="1">passer</token>
+                    <token>près</token>
+                </antipattern>
+                 <antipattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token regexp="yes">(?-i)Près</token>
+                </antipattern>
+                <antipattern>
+                    <token>près</token>
+                    <token>à</token>
+					<token postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*|C coor" postag_regexp="yes"/>
+                    <token>si</token>
+                    <token>près</token>
+                    <token>à</token>
+                </antipattern>
+                 <antipattern>
+                    <token>a</token>
+                    <token>près</token>
+                    <token>à</token>
+                    <token postag="D.*|R m s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>au</token>
+                    <token regexp="yes">&unites_de_mesure;</token>
+                     <token>près</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -5665,22 +5730,67 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token>à</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>prêt</suggestion> ?</message>
+                <message>Dans le sens de 'disposé à' ou ' préparé à' cet adjectif s'écrit <suggestion>prêt</suggestion>.</message>
                 <example correction="prêt">Il est <marker>près</marker> à tout.</example>
                 <example>L’étoile se trouve à peu <marker>près</marker> à 50 années-lumière.</example>
                 <example>Il s’intéresse de près à l’environnement.</example>
+                <example>Ils ont été associés de très près à l'élaboration de cette nouvelle vision.</example>
+                <example>Un baril par jour correspond à peu de chose près à par an.</example>
+                <example>Les sauts sont mesurés au centimètre près à partir du bout de la planche.</example>
+                <example>L'autoroute E4 passe tout près à l'est de Brahehus.</example>
+                <example>Elle est située près à Fontebranda.</example>
+                <example>Presque identique au détail près à l'Indian Springs School.</example>
+                <example>Je suis pas à 100 euros près à l'année.</example>
+                <example>Enfin à l'intérieur, identique à quelques détails près à la DS3.</example>
+                <example>A près à chacun d'en faire ce qu'il veut.</example>
+                <example>Pas moyen de trouver une traduction qui colle au plus près à cette phrase.</example>
+                <example>Elle loue un grenier près à Giverny afin d'épier Claude Monet.</example>
+                <example>Rendez-moi mon cœur, sur le modèle de Sombreros et Mantilles mais collant plus près à l'actualité espagnole.</example>
+                <example>Il s'intéresse alors de très près à la formation des permanents patronaux.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>tout</token>
+                    <token regexp="yes" skip="1">prêts?</token>
+                    <token regexp="yes">collections?|documents?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">prêts?</token>
+                    <token>d'</token>
+                    <token>ici</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">prêts?</token>
+                    <token>d'</token>
+                    <token skip="1">ici</token>
+                    <token regexp="yes">&mois_annee;|&jours_semaine;|&unites_temps;</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">être|situer|tenir|tout|assez|bien</token>
                     <marker>
-                        <token regexp="yes">prête?s?</token>
+                        <token regexp="yes">prêts?</token>
                     </marker>
                     <token regexp="yes">de|du|d'|des</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
+                <message>Dans le sens de proche ce mot s'écrit <suggestion>près</suggestion>.</message>
                 <example correction="près">Nous sommes <marker>prêts</marker> d’arriver.</example>
-                <example correction="près">Elle est <marker>prête</marker> de partir.</example>
+                <example>Le legs du duc d'Aumale interdit tout prêt des collections.</example>
+                <example>Le système devrait être prêt d'ici 2022 pour le prolongement du RER E vers l'ouest.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>près</token>
+                    </marker>
+                    <token regexp="yes">d'|dans</token>
+                    <token min="0" max="1">ici</token>
+                    <token min="0" max="1">à</token>
+                    <token postag="[KY]" postag_regexp="yes" min="0" max="1"/>
+                    <token regexp="yes">&mois_annee;|&jours_semaine;|&unites_temps;</token>
+                </pattern>
+                <message>Dans le sens de 'préparé' ce mot s'écrit <suggestion>prêt</suggestion></message>
+                <example correction="prêt">Nous serons <marker>près</marker> d'ici à lundi.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5691,10 +5801,10 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token inflected="yes">de</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
+                <message>Dans le sens de proche, ce mot s'écrit <suggestion>près</suggestion>.</message>
                 <example correction="près">Nous ne sommes pas <marker>prêts</marker> d’arriver.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <antipattern>
                     <token>l'</token>
                     <token>un</token>
