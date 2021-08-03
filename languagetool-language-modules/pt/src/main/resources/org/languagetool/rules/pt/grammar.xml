@@ -13228,18 +13228,43 @@ A definição genérica é que os terroristas são violentos. → A definição 
 	<!--
 Ele é o Rui e que queria comer bem. → Ele é o Rui e queria comer bem.
 	-->
+<!--
+Todos dizem que Kate é um gênio e que terá um futuro próspero.
+Uma população é um grupo de indivíduos pertencentes a determinada espécie e que ocupa um espaço delimitado.
+-->
+      <antipattern>
+		<token>e</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='SPS.+|Z0.+' postag_regexp='yes'/>
+      </antipattern> 
+<!--
+Não esquecer os disparos e que são necessários para fragilizar o inimigo.
+-->
+      <antipattern>
+		<token>e</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='SPS.+|Z0.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>  	   	  
       <pattern>
 	    <marker>
 			<token>e</token>
 			<token>que</token>
 			<token postag='V.+' postag_regexp='yes'/>
 		</marker>
-		<token postag='V.+|NC.+|AQ.+|DA.+|RG|NP.+|RM' postag_regexp='yes'/>
-		<token negate_pos="yes" postag='CC|SPS.+' postag_regexp='yes'/>
+		<token postag='V.+|SPS.+|NC.+|AQ.+|DA.+|DI.+|RG|NP.+|RM' postag_regexp='yes'/>
       </pattern>
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion>e \3</suggestion>
       <example correction="e queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
+	  
+	  <example>Todos dizem que Kate é um gênio e que terá um futuro próspero.</example>
+	  <example>Uma população é um grupo de indivíduos pertencentes a determinada espécie e que ocupa um espaço delimitado.</example>
+	  
+	  <example>Não esquecer os disparos e que são necessários para fragilizar o inimigo.</example>
     </rule>
 
 	<!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
