@@ -56241,6 +56241,18 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="HYGROMETRIE" name="hydro->hygrométrie">
+                <pattern>
+                <token>taux</token>
+                <token min="0">d'</token>
+                    <marker>
+                        <token regexp="yes">hydrométries?</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="3" regexp_match="(hy)d(rométries?)" regexp_replace="$1g$2"/></suggestion>
+                <example correction="hygrométrie">Le taux d'<marker>hydrométrie</marker> est plus haut que la normale.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">antidiluvien(nes?|s)?</token>
