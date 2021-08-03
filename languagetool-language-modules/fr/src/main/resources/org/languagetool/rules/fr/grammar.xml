@@ -56241,6 +56241,22 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="AU_MEME_TEMPS" name="au même temps->revenus">
+                <pattern>
+                    <token>
+                        <exception postag_regexp="yes" postag="V.*|V etre .*" regexp="yes" inflected="yes" >appartenir|apparaître|être|accorder|utiliser</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">aux?</token>
+                        <token regexp="yes">mêmes?</token>
+                        <token>temps</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>en \3 \4</suggestion>
+                <suggestion>\2 \3 moment</suggestion>
+                <example correction="en même temps|au même moment">J'écoute et je lis l'histoire <marker>au même temps</marker>.</example>
+            </rule>
             <rule id="REVENU" name="revenues->revenus">
                 <pattern>
                     <token postag_regexp="yes" postag="D.*" skip="1"/>
