@@ -56241,6 +56241,22 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="VITE_RAPIDE" name="vite->rapide">
+                <pattern>
+                    <token postag_regexp="yes" postag="(V etre|V).*" regexp="yes" inflected="yes">être|paraître|sembler|demeurer|devenir|rester</token>
+                    <marker>
+                        <token regexp="yes">vites?</token>
+                    </marker>
+                        <token>
+                            <exception postag_regexp="yes" postag="(J|V ppa).*"/>
+                        </token>
+                        <token postag_regexp="yes" postag="(J|V ppa).*" min="0"/>
+                        <token regexp="yes" min="0">,|.|;|:</token>
+                </pattern>
+                <message>'\2' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="2" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture semble <marker>vite</marker>.</example>
+            </rule>
             <rule id="MERCI_POUR_INF" name="merci pour->de">
                 <pattern>
                     <token>
