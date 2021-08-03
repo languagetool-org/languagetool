@@ -56241,6 +56241,18 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="REVENU" name="revenues->revenus">
+                <pattern>
+                    <token postag_regexp="yes" postag="D.*" skip="1"/>
+                    <marker>
+                        <token regexp="yes">revenues?</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="2" regexp_match="(revenu)e(s?)" regexp_replace="$1$2"/></suggestion>
+                <example correction="revenus">Quels sont les <marker>revenues</marker> que vous avez déclarés.</example>
+                <example>Elle est partie, puis revenue</example>
+            </rule>
             <rule id="HYGROMETRIE" name="hydro->hygrométrie">
                 <pattern>
                 <token>taux</token>
