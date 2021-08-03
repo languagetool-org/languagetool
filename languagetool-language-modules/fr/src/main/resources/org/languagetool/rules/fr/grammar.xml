@@ -56241,6 +56241,21 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="LE_JOUR_DE_LA_SEMAINE" name="le lundi->lundi">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">le</token>
+                        <token regexp="yes">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+                    </marker>
+                        <token>
+                            <exception>,</exception>
+                        </token>
+                </pattern>
+                <message>On ne met pas d’article devant un jour de la semaine.</message>
+                <suggestion>\2</suggestion>
+                <example correction="Lundi"><marker>Le lundi</marker> prochain, je pars en vacances.</example>
+                <example>le lundi, je fais du sport.</example>
+            </rule>
             <rule id="AU_MEME_TEMPS" name="au même temps->revenus">
                 <pattern>
                     <token>
