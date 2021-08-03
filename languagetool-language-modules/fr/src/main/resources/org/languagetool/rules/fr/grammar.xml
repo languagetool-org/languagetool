@@ -56241,21 +56241,59 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
-            <rule id="VITE_RAPIDE" name="vite->rapide">
+            <rule id="VITE_RAPIDE_1" name="vite->rapide">
                 <pattern>
-                    <token postag_regexp="yes" postag="(V etre|V).*" regexp="yes" inflected="yes">être|paraître|sembler|demeurer|devenir|rester</token>
+                        <token>
+                            <exception>y</exception>
+                        </token>
+                    <token postag_regexp="yes" postag="(V etre|V) .*" regexp="yes" inflected="yes">être|paraître|sembler|demeurer|devenir|rester</token>
                     <marker>
                         <token regexp="yes">vites?</token>
                     </marker>
                         <token>
-                            <exception postag_regexp="yes" postag="(J|V ppa).*"/>
+                            <exception postag_regexp="yes" postag="[^C].*"/>
                         </token>
-                        <token postag_regexp="yes" postag="(J|V ppa).*" min="0"/>
-                        <token regexp="yes" min="0">,|.|;|:</token>
                 </pattern>
-                <message>'\2' ne se place pas après un verbe d'état.</message>
-                <suggestion><match no="2" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
-                <example correction="rapide">Cette voiture semble <marker>vite</marker>.</example>
+                <message>'\3' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="3" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture semble <marker>vite</marker> et je vais la conduire.</example>
+            </rule>
+            <rule id="VITE_RAPIDE_2" name="vite->rapide">
+                <pattern>
+                        <token>
+                            <exception>y</exception>
+                        </token>
+                    <token postag_regexp="yes" postag="V avoir .*" regexp="yes" inflected="yes">avoir</token>
+                    <token>l'</token>
+                    <token>air</token>
+                    <marker>
+                        <token regexp="yes">vites?</token>
+                    </marker>
+                        <token>
+                            <exception postag_regexp="yes" postag="[^C].*"/>
+                        </token>
+                </pattern>
+                <message>'\5' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="5" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture a l'air <marker>vite</marker> et je vais la conduire.</example>
+            </rule>
+            <rule id="VITE_RAPIDE_3" name="vite->rapide">
+                <pattern>
+                        <token>
+                            <exception>y</exception>
+                        </token>
+                    <token postag_regexp="yes" postag="V .*" regexp="yes" inflected="yes">passer</token>
+                    <token>pour</token>
+                    <marker>
+                        <token regexp="yes">vites?</token>
+                    </marker>
+                        <token>
+                            <exception postag_regexp="yes" postag="[^C].*"/>
+                        </token>
+                </pattern>
+                <message>'\4' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="4" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture passe pour <marker>vite</marker> et je vais la conduire.</example>
             </rule>
             <rule id="MERCI_POUR_INF" name="merci pour->de">
                 <pattern>
