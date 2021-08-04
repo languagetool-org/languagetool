@@ -56241,6 +56241,33 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="CONFORME_1" name="conforme avec->à">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">conformes?</token>
+                        <token>avec</token>
+                    </marker>
+                </pattern>
+                <message>'\1 \2' est une expression fautive. </message>
+                <suggestion>conforme à</suggestion>
+                <suggestion>en conformité avec</suggestion>
+                <example correction="conforme à|en conformité avec">Ce produit est <marker>conforme avec</marker> sa description.</example>
+                <example>Ce produit est conforme à sa description.</example>
+            </rule>
+            <rule id="CONFORME_2" name="conformité a->avec">
+                <pattern>
+                    <marker>
+                        <token>en</token>
+                        <token regexp="yes">conformités?</token>
+                        <token>à</token>
+                    </marker>
+                </pattern>
+                <message>'\1 \2 \3' est une expression fautive. </message>
+                <suggestion>conforme à</suggestion>
+                <suggestion>en conformité avec</suggestion>
+                <example correction="conforme à|en conformité avec">Ce produit est <marker>en conformité à</marker> la legislation.</example>
+                <example>Ce produit en conformité avec la legislation.</example>
+            </rule>
             <rule id="CEST_CE_SONT" name="c'est->ce sont">
                 <antipattern>
                     <token>c'</token>
