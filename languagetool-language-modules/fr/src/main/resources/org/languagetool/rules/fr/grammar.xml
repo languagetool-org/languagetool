@@ -56241,6 +56241,19 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="SE_BAFRER" name="se bâfrer">
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="R pers obj .*"/>
+                        <token postag_regexp="yes" postag="V etre .*" skip="1" min="0"/>
+                        <token postag_regexp="yes" postag="V .*" inflected="yes">bâfrer</token>
+                    </marker>
+                </pattern>
+                <message>'Bâfrer' ne prend pas de forme pronominale</message>
+                <suggestion><match no="2" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match> \3</suggestion>
+                <example correction="a bâfré">>Il <marker>s'est bâfré</marker> au buffet à volonté.</example>
+                <example correction="bâfre">Il <marker>se bâfre</marker> au buffet à volonté.</example>
+            </rule>
             <rule id="AUTREMENT_1" name="autrement plus">
                 <pattern>
                     <marker>
