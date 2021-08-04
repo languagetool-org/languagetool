@@ -548,6 +548,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mes trois frères sont maintenant tous quelque part à Boston.</example>
                 <example>Tom rencontre sa petite amie tous les après-midi dans ce café.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>toutes</token>
+                    <token postag="D [ef] p" postag_regexp="yes"/>
+                    <token postag="_GN_FP"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tout|toute|toutes</token>
+                    </marker>
+                    <token>les</token>
+                    <token postag="K"></token>
+                </pattern>
+                <message>'<match no="1" case_conversion="startupper"/>' et '\2' ne semblent pas bien accordés.</message>
+                <suggestion>tous</suggestion>
+                <example correction="tous">Nous avions <marker>tout</marker> les deux tort.</example>
+                <example>Toutes les deux femmes</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles et noms/adjectifs">
             <!-- this rulegroup only for DET + NOUN and DET + ADJ -->
