@@ -10096,6 +10096,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="PERMITIR_QUE_A" name="permitir que/a" default="temp_off">
+            <antipattern>
+                <token>que</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="[DAN].*S.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <!-- it could be any verb? -->
+                    <token inflected="yes" regexp="yes">permitir|prohibir|autorizar</token>
+                    <marker>
+                        <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
+                        <token postag="V.N.*" postag_regexp="yes"/>    
+                    </marker>
+                </pattern>
+                <message>Construcción incorrecta.</message>
+                <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMSP3P0"></match></suggestion>
+                <example correction="a los niños conocer|que los niños conozcan">Eso permite <marker>que los niños conocer</marker> mejor la naturaleza.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="[DAN].*P.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">permitir|prohibir|autorizar</token>
+                    <marker>
+                        <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
+                        <token postag="V.N.*" postag_regexp="yes"/>    
+                    </marker>
+                </pattern>
+                <message>Construcción incorrecta.</message>
+                <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMSP3S0"></match></suggestion>
+                <example correction="a la juventud conocer|que la juventud conozca">Eso permite <marker>que la juventud conocer</marker> mejor la naturaleza.</example>
+            </rule>
+        </rulegroup>
         <rule id="VERBO_MODAL_INFINITIVO" name="verbo modal + infinitivo" default="temp_off">
             <antipattern>
                 <token>de</token>
