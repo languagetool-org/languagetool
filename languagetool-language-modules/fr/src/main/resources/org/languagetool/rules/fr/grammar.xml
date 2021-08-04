@@ -56241,6 +56241,25 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="CEST_CE_SONT" name="c'est->ce sont">
+                <antipattern>
+                    <token>c'</token>
+                    <token skip="2">est</token>
+                    <token postag_regexp="yes" postag="R (pers|dem) .*"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>c'</token>
+                        <token skip="2">est</token>
+                    </marker>
+                    <token postag_regexp="yes" postag=".* p|sp .*"/>
+                </pattern>
+                <message>'C'est' suivi d'un pluriel devient 'ce sont'. Dans la langue parlée, on admet 'c'est' suivi par 'ceux/celles' ou 'eux|elles'</message>
+                <suggestion>ce sont</suggestion>
+                <example correction="Ce sont"><marker>C'est</marker> des barbares qui ont fait ça.</example>
+                <example>C'est eux qui ont eu l'idée.</example>
+                <example>C'est ceux qui ont eu l'idée.</example>
+            </rule>
             <rule id="SE_BAFRER" name="se bâfrer">
                 <pattern>
                     <marker>
