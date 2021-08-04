@@ -15365,6 +15365,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_SUBJECT_VERB_INTERROGATIVE" name="concordancias sujeto y verbo en interrogativas" default="temp_off">
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" regexp="yes">\p{P}</token>
+                    <token regexp="yes">qué|quién</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V...3S.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="D[^N]..S." postag_regexp="yes" skip="-1"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="4" regexp="yes">\p{P}</token>
@@ -15372,17 +15381,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PT.*" postag_regexp="yes"/>
                     <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V...3S.*" postag_regexp="yes"/>
+                        <token postag="V...3S.*" postag_regexp="yes"><exception>hay</exception></token>
                     </marker>
-                    <token postag="LOC_ADV|RG|V.[PN].*|SPS00|_GV_" postag_regexp="yes" min="0" max="6"/>
-                    <token postag="D...P." postag_regexp="yes" skip="-1"/>
+                    <!--<token postag="LOC_ADV|RG|V.[PN].*|_GV_" postag_regexp="yes" min="0" max="6"/>-->
+                    <token postag="D[^N]..P." postag_regexp="yes" skip="-1"/>
                     <token>?</token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion><match no="6" postag="(V...3)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="vienen">¿De dónde <marker>viene</marker> esos regalos?</example>
-                <example correction="han">¿Hacia dónde <marker>ha</marker> ido tus hermanos?</example>
-                <example correction="tienen">¿Hacia dónde <marker>tiene</marker> que ir tus hermanos?</example>
+                <example type="triggers_error" reason="dropped subject">¿De dónde trae esos regalos?</example>
+                <!--<example correction="han">¿Hacia dónde <marker>ha</marker> ido tus hermanos?</example>
+                <example correction="tienen">¿Hacia dónde <marker>tiene</marker> que ir tus hermanos?</example>-->
+                <example>¿Quién acecha en las sombras?</example>
+                <example>¿Qué causa las modificaciones en las rocas?</example>
+                <example>¿Quién se comió todos los pasteles?</example>
+                <example>¿A quién le está permitido llamar a las cosas por su nombre?</example>
+                <example>¿Por qué hay doce meses?</example>
+                <example>¿Quién proveerá las bebidas?</example>
+                <example>¿Por qué tiene dos coches?</example>
+                <example>¿A quién le toca lavar los platos?</example>
+                <example>¿Para qué utiliza las cookies esta página web?</example>
+                <example type="triggers_error">¿Dónde ve los libros? </example>             
             </rule>
             <rule>
                 <pattern>
@@ -15394,15 +15414,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V...3P.*" postag_regexp="yes"/>
                     </marker>
-                    <token postag="LOC_ADV|RG|V.[PN].*|SPS00|_GV_" postag_regexp="yes" min="0" max="6"/>
+                    <!--<token postag="LOC_ADV|RG|V.[PN].*|SPS00|_GV_" postag_regexp="yes" min="0" max="6"/>-->
                     <token postag="D...S." postag_regexp="yes" skip="-1"/>
                     <token>?</token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion><match no="6" postag="(V...3)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="viene">¿De dónde <marker>vienen</marker> ese regalo?</example>
-                <example correction="ha">¿Hacia dónde <marker>han</marker> ido tu hermano?</example>
-                <example correction="tiene">¿Hacia dónde <marker>tienen</marker> que ir tu hermano?</example>
+                <!--<example correction="ha">¿Hacia dónde <marker>han</marker> ido tu hermano?</example>
+                <example correction="tiene">¿Hacia dónde <marker>tienen</marker> que ir tu hermano?</example>-->
             </rule>
         </rulegroup>
         <rulegroup id="AGRREMENT_SUBJECT_PREDICATE" name="Concordancia de sujeto y predicado" default="temp_off">
