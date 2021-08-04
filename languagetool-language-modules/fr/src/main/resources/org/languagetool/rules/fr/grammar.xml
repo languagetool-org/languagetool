@@ -1861,7 +1861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>et a enlevé et séquestré Blanche</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MULTI_ADJ2" name="accord entre plusieurs adjectifs" default="temp_off">
+        <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
             <antipattern>
                 <!-- TODO: we need a way to find repeated lemmas! -->
                 <token inflected="yes">citoyen</token>
@@ -1893,9 +1893,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
-                <!--<example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>-->
                 <example correction="pertinent, ni clair|pertinente, ni claire|pertinents, ni clairs|pertinentes, ni claires">Son intervention n'est ni <marker>pertinente, ni clair</marker>.</example>
-                <!--<example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>-->
                 <example correction="frauduleux et ennuyeux|frauduleuse et ennuyeuse|frauduleuses et ennuyeuses">Ce nombre a été rapporté comme <marker>frauduleuse et ennuyeux</marker>.</example>
             </rule>
             <rule>
@@ -1920,6 +1918,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
                 <suggestion><match no="2" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\3 \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
                 <example correction="direct et indirect|directe et indirecte|directs et indirects|directes et indirectes">Il doit assumer les conséquences <marker>directes et indirect</marker>.</example>
+                <example correction="amusant et divertissant|amusante et divertissante|amusants et divertissants|amusantes et divertissantes">une expérience d'apprentissage <marker>amusante et divertissantes</marker> pour les adolescents.</example>
+                <example correction="concret et facile|concrète et facile|concrets et faciles|concrètes et faciles">avec des exemples <marker>concrets et facile</marker> á mettre en place</example>
+                <example correction="culturel et musical|culturelle et musicale|culturels et musicaux|culturelles et musicales">sa réputation de carrefour <marker>culturelle et musical</marker> d'Afrique de l'Ouest</example>
+                <example correction="culturel et social|culturelle et sociale|culturels et sociaux|culturelles et sociales"> en matière <marker>culturelle et sociales</marker></example>
+                <example correction="simple et économique|simples et économiques">une solution <marker>simple et économiques</marker> pour gérer leurs impayés !</example>
             </rule>
             <rule>
                 <pattern>
@@ -1931,18 +1934,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker>
                             <token postag="J.*" postag_regexp="yes"/>
                             <unify-ignore>
-                                <token min="0">,</token>
-                                <token min="1" regexp="yes">et|ni|ou</token>
+                                <token min="1" regexp="yes">et|ou</token>
                             </unify-ignore>
                             <token postag="J.*" postag_regexp="yes"/>
                         </marker>
                     </unify>
                 </pattern>
                 <message>'\3' et '\6' ne semblent pas bien accordés.</message>
-                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
-                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
-                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
-                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/>\4 \5 <match no="6" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
+                <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (p|sp)"/></suggestion>
                 <example correction="simple et efficace|simples et efficaces">vous donnent les moyens, <marker>simples et efficace</marker>, de ne pas vous identifier.</example>
                 <example correction="spécifique et certifié|spécifique et certifiée|spécifiques et certifiés|spécifiques et certifiées">satisfaire tous vos attentes, <marker>spécifiques et certifié</marker>.</example>
             </rule>
@@ -1990,7 +1992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="handicapés ou traumatisés|handicapées ou traumatisées">pour les <marker>handicapés ou traumatisée</marker> suite à des accidents divers.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
+        <rulegroup id="MULTI_ADJ_" name="accord entre plusieurs adjectifs" default="off">
             <antipattern>
                 <!-- TODO: we need a way to find repeated lemmas! -->
                 <token inflected="yes">citoyen</token>
