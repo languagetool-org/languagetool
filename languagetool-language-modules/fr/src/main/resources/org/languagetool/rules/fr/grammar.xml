@@ -61757,7 +61757,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category name="majuscules" id="CASING">
-         <rule id="PRONOMS_PERSONNELS_MINUSCULE" name="pronoms personnels en minuscule" default="temp_off">
+         <rulegroup id="PRONOMS_PERSONNELS_MINUSCULE" name="pronoms personnels en minuscule" default="temp_off">
             <antipattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="4">\p{P}|[^a-z].*|/d+|/^+</token>
@@ -61774,7 +61774,6 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">\p{P}<exception regexp="yes">[,;]</exception></token>
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
-
             <antipattern>
                 <token regexp="yes" skip="1">(?-i)Elle</token>
                 <token regexp="yes">(?-i)Lui</token>
@@ -61842,8 +61841,8 @@ though, and has since been slightly modified)-->
                 <token>-</token>
             </antipattern>
             <antipattern>
-                <token skip="-1">Il</token>
-                <token regexp="yes">Dieu|Allah|Prophète|Jésus|sauveur|seigneur|psaume|christ|colombe</token>
+                <token skip="-1" regexp="yes">Il|Je|Tu</token>
+                <token regexp="yes">Dieu|Allah|Prophète|Jésus|sauveur|seigneur|psaume|christ|colombe|mondo|antéchrist|fils</token>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
@@ -61851,17 +61850,32 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="-1">Dieu|Allah|Prophète|Jésus|sauveur|seigneur|psaume|christ|colombe</token>
-                <token regexp="yes">Il|Tu</token>
+                <token regexp="yes" skip="-1">Dieu|Allah|Prophète|Jésus|sauveur|seigneur|psaume|christ|colombe|antéchrist|fils</token>
+                <token regexp="yes">Il|Tu|Je</token>
             </antipattern>
             <antipattern>
                 <token skip="5">bonjour</token>
                 <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token postag="UNKNOWN"/>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </antipattern>
+         <rule>
             <pattern case_sensitive="yes">
             <marker>
                 <token></token>
-                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils<exception scope="previous">|</exception></token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils<exception scope="previous" regexp="yes">[|,;]</exception></token>
             </marker>
             </pattern>
             <message>La majuscule n'est employée qu'au début d'une phrase ou d'un titre d'œuvre, ou bien pour désigner Dieu.</message>
@@ -61869,6 +61883,8 @@ though, and has since been slightly modified)-->
             <suggestion>\1 <match no="2" case_conversion="alllower"/></suggestion>
             <example correction="pourquoi. Je|pourquoi je">Voilà <marker>pourquoi Je</marker> convie tous les Français à s'unir à moi dans l'action.</example>
             <example>Je suis désolée.</example>
+            <example>Restez Chez Vous !</example>
+            <example>Le résultat obtenu sera toujours très beau mais aléatoire.✅ Vous avez le choix.</example>
             <example>17.2 Vous reconnaissez et acceptez que Google ne saurait être tenue responsable de la disponibilité des sites ou ressources externes.</example>
             <example>Elle travaille depuis plus de 30 ans pour des grandes marques comme Elle.</example>
             <example>"Je suis désolée."</example>
@@ -61897,6 +61913,20 @@ though, and has since been slightly modified)-->
             <example>2 Elle fixe, après consultation des milieux concernés, le moment, le genre et le volume des mesures.</example>
             <example>Tu as menti au F.B.I. Vous avez menti au F.B.I.</example>
         </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">[,;]</token>
+                <token regexp="yes">Je|Tu|Elle|Il|Nous|Vous|Elles|Ils</token>
+            </marker>
+            </pattern>
+            <message>La majuscule n'est employée qu'au début d'une phrase ou d'un titre d'oeuvre, ou bien pour désigner Dieu.</message>
+            <suggestion>. \2</suggestion>
+            <suggestion>\1 <match no="2" case_conversion="alllower"/></suggestion>
+            <example correction=". Il|, il">Le pauvre est resté coincé<marker>, Il</marker> ne peut l'atteindre étant donné que toutes les portes lui sont fermées au nez.</example>
+            <example>Je suis désolée.</example>
+        </rule>
+        </rulegroup>
         <rule id="GOOGLE" name="Google">
             <antipattern>
                 <token regexp="yes">je|il|elle</token>
