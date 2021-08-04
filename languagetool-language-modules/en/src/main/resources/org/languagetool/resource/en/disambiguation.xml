@@ -491,6 +491,11 @@
             <token regexp="yes">1|one</token>
             <token chunk="E-NP-singular" postag="NN:UN"/>
         </antipattern>
+        <antipattern>
+            <token>the</token>
+            <token regexp="yes">one|1</token>
+            <token postag="NN:UN" />
+        </antipattern>
         <pattern>
             <token postag="DT"/>
             <token postag="CD"/>
@@ -506,6 +511,7 @@
         <example type="untouched">If one player has enough of a presence in any one <marker>market</marker> they can cause prices to move in their favor.</example><!-- #3876 -->
         <example type="untouched">Although no 1 <marker>market</marker> he supplies is likely to predominate....</example><!-- #3876 -->
         <example type="untouched">They proposed limiting the investment an employee can have in any one <marker>stock</marker> in their 401(k) to 20 percent.</example><!-- #3876 -->
+        <example type="untouched">The one question I had was ...</example>
         <example type="ambiguous" inputform="love[love/NN:UN,love/VB,love/VBP]" outputform="love[love/VB,love/VBP]">The two <marker>love</marker> you.</example>
     </rule>
 
@@ -9237,6 +9243,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" chunk_re="E-NP-plural" />
             <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
         </antipattern>
+        <antipattern><!-- ... and whether one of the expense contracts needs to be amended for this transaction. -->
+            <token postag="NNS" />
+            <token>needs</token>
+            <token postag="TO|PRP\$|DT" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -9274,6 +9285,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Here is the draft of the needs assessment for global standards.</example><!-- #3356 -->
         <example type="untouched">Yet now the very spirit of the times demands great, courageous purity.</example><!-- #3355 -->
         <example type="untouched">Incorrect grammar: ... and how it can increase when several other related factors stays constant.</example>
+        <example type="untouched">... and whether one of the expense contracts needs to be amended for this transaction.</example>
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> fitness.</example>
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> tomorrow's calloused hands!</example>
         <example type="ambiguous" inputform="needs[need/NNS,need/VBZ,needs/RB]" outputform="needs[need/VBZ]">... do it first, because A <marker>needs</marker> assessment sooner than B does.</example>
