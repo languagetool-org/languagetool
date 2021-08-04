@@ -14619,6 +14619,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token postag="V.P..PF" postag_regexp="yes"/>
+                    <token regexp="yes">miles|millones</token>
+                    <token>de</token>
+                    <token postag="N.FP.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
                     <unify negate="yes">
@@ -14657,6 +14663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pensé que habías dicho dos y media.</example>
                 <example>Da como resultado tiempos quirúrgicos más cortos.</example>
                 <example>Tengo decididas mis preferidas entre la 4 y la 5.</example>
+                <example>cómo tratan de mantenerse actualizadas millones de marcas personales</example>
             </rule>
             <rule>
                 <antipattern>
@@ -16545,6 +16552,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rulegroup id="PERSONES" name="persones/personas" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">los|las|unos|unas</token>
+                    <marker>
+                        <token>persones</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>personas</suggestion> en vez de "persones" (del v. 'personar')?</message>
+                <example correction="personas">Las <marker>persones</marker> que viniero no las conozco.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>persones</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>personas</suggestion> en vez de "persones" (del v. 'personar')?</message>
+                <example correction="personas">Esas <marker>persones</marker> que viniero no las conozco.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>te</exception></token>
+                    <marker>
+                        <token>persones</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>personas</suggestion> en vez de "persones" (del v. 'personar')?</message>
+                <example correction="personas">Esas <marker>persones</marker> que viniero no las conozco.</example>
+                <example>Han exigido que te persones en el juzgado.</example>
+            </rule>
+        </rulegroup>
         <rule id="SE_LO_ENTREGADA" name="se lo *entregada/entregara">
             <pattern>
                 <token regexp="yes">me|te|se|nos|os</token>
