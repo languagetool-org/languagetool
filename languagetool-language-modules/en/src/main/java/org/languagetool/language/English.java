@@ -382,6 +382,7 @@ public class English extends Language implements AutoCloseable {
       case "THIS_YEARS_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
       case "SPURIOUS_APOSTROPHE":       return 1;   // higher prio than THIS_NNS
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
+      case "IT_SEAMS":                  return 1;   // higher prio than THIS_NNS_VB
       case "NO_WHERE":                  return 1;   // higher prio than NOW
       case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES
       case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
