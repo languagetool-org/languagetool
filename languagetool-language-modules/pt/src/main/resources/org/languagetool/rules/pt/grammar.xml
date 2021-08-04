@@ -13224,7 +13224,7 @@ A definição genérica é que os terroristas são violentos. → A definição 
 
 	<!-- E QUE VERBO e verbo -->
     <rule id='E_QUE_VERBO_E_VERBO' name="E que + Verbo > E + Verbo" type='style'>
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 + 2021-08-04 (25-JUN-2021+)      -->
 	<!--
 Ele é o Rui e que queria comer bem. → Ele é o Rui e queria comer bem.
 	-->
@@ -13253,13 +13253,15 @@ Não esquecer os disparos e que são necessários para fragilizar o inimigo.
 	    <marker>
 			<token>e</token>
 			<token>que</token>
-			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='V.+|CS' postag_regexp='yes'/>
 		</marker>
 		<token postag='V.+|SPS.+|NC.+|AQ.+|DA.+|DI.+|RG|NP.+|RM' postag_regexp='yes'/>
+		<token negate_pos="yes" postag='CS|PE.+|PR.+|PT.+' postag_regexp='yes'/>		
       </pattern>
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion>e \3</suggestion>
       <example correction="e queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
+	  <example>E que se supõe que devo fazer quando me xingar?</example>
 	  
 	  <example>Todos dizem que Kate é um gênio e que terá um futuro próspero.</example>
 	  <example>Uma população é um grupo de indivíduos pertencentes a determinada espécie e que ocupa um espaço delimitado.</example>
