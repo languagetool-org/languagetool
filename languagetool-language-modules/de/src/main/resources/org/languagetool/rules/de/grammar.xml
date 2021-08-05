@@ -52394,7 +52394,286 @@ Andere Projekte</example>
                 <example>Ob genau das die Motivation war, ist allerdings noch unklar.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
+        <rule id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
+            <antipattern>
+                <token postag="ADJ:PRD:GRU"/>
+                <token postag="PKT"/>
+                <token skip="4"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="ADJ:PRD:.+" postag_regexp="yes"/>
+                <token postag="PA2:.+" postag_regexp="yes"/>
+                <token postag="KON:.+" postag_regexp="yes"/>
+                <token skip="4"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="PA2:.+" postag_regexp="yes"/>
+                <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                <token postag="VER:MOD:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>so</token>
+                <token postag="ADJ:.+" postag_regexp="yes"/>
+                <token skip="5"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token postag="VER:PA2:.+" postag_regexp="yes"/>
+                <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
+                <token regexp="yes">zu|noch|respektive|beziehungsweise</token>
+                <token postag="VER:[1-3]:.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
+                    <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
+                </token>
+                <token postag="VER:AUX:.*" postag_regexp="yes"/>
+                <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
+            </antipattern>
+            <antipattern>
+                <token postag="(VER:(AUX|MOD):[1-3]:.*)" postag_regexp="yes" skip="-1">
+                    <exception regexp="yes" scope="next">,|\.|:|•|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                </token>
+                <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
+                    <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
+                </token>
+                <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
+                    <exception postag="SUB:.*" postag_regexp="yes"/>
+                </token>
+                <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
+                    <exception postag="VER:INF:.*|VER:MOD:INF.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
+                </token>
+                <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
+                    <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
+                </token>
+                <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
+                    <exception postag="SUB:.*" postag_regexp="yes"/>
+                </token>
+                <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="VER:[1-3]:.*" postag_regexp="yes"/>
+                <token skip="-1">sowohl</token>
+                <token>als</token>
+                <token skip="-1">auch</token>
+                <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:1:PLU:PRT:NON"/>
+                <token postag="VER:MOD:[123]:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>sage</token>
+                <token>und</token>
+                <token>schreibe</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
+                <token regexp="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen</token>
+                <token skip="-1" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes">
+                    <exception postag="SUB:.*|ADJ:.*|PA[12]:.*" postag_regexp="yes"/>
+                    <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                </token>
+                <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
+                    <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                </token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token postag="KON:.+" postag_regexp="yes"/>
+                <token skip="-1"/>
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+            </antipattern>
+            <antipattern>
+                <token postag="PKT"></token>
+                <token postag="ADV:PRO"></token>
+                <token skip="-1"></token>
+                <token postag="VER:.+" postag_regexp="yes"></token>
+                <token postag="PKT"></token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:AUX:.+" postag_regexp="yes"></token>
+                <token postag="VER:.+" postag_regexp="yes"></token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:IMP:.+" postag_regexp="yes"/>
+                <token postag="VER:AUX:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="ART:.+" postag_regexp="yes"/>
+                <token postag="UNKNOWN"/>
+                <token skip="-1"/>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token skip="-1"/>
+                <token>,</token>
+                <token postag="KON:.+" postag_regexp="yes"/>
+                <token skip="-1"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token skip="-1"/>
+                <token>,</token>
+                <token skip="-1"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token skip="-1"/>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.+" postag_regexp="yes"/>
+                <token regexp="yes">/|\(|\)|»|«|›|‹|“|–|"|‘|„|´|`</token>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                <token postag="PRO:.+|EIG:.+|SUB:.+" postag_regexp="yes"/>
+                <token postag="VER:.+:NEB" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </antipattern>
+            <antipattern>
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
+                <token regexp="yes">und|oder</token>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+            </antipattern>
+            <antipattern>
+                <!-- Ernüchtert dreinblickend kam sie aus dem Zimmer. -->
+                <token postag="VER:PA2.*" postag_regexp="yes"/>
+                <token postag="VER:PA1.*" postag_regexp="yes"/>
+                <token postag="VER:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- Daniel Schöpf hat sie ins Studio begleitet. -->
+                <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
+                <token postag="VER:IMP:SIN.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>  <!-- zu viele Namen wie "Schöpf", "Klemm" -->
+            </antipattern>
+            <antipattern>
+                <token>kreuz</token>
+                <token>und</token>
+                <token>quer</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:IMP:SIN"/>
+                <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </antipattern>
+            <antipattern>
+                <token>Walt</token>
+                <token>Whitman</token>
+            </antipattern>
+            <antipattern><!-- word repetition is probably not a comma error -->
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
+                <token><match no="0"/></token>
+            </antipattern>
+            <pattern>
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
+                    <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    <exception inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
+                    <exception>bitte</exception>
+                    <exception case_sensitive="yes">Bell</exception>
+                    <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
+                    <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
+                </token>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
+                    <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                    <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
+                    <exception regexp="yes">bitte|halt|mindere|lichte|sog|rauf</exception>
+                    <exception postag="VER:IMP:SIN:NON" />
+                    <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                    <exception scope="next">,</exception>
+                </token>
+            </pattern>
+            <filter class="org.languagetool.rules.de.InsertCommaFilter" args="fake:1"/>
+            <message>Hier sollte ein Komma eingefügt werden, wenn es sich bei dem hinteren Satzteil um einen Nebensatz handelt.</message>
+            <suggestion><match include_skipped="all" no="1"/> <match no="2"/></suggestion> <!-- suggestion will be set by InsertCommaFilter, if possible -->
+            <example correction="">Die Sonne <marker>versank hinter dem Horizont die Schatten der Nacht senkten</marker> sich über das Land.</example>
+            <example correction="steht, parkt">Das Auto, das am Straßenrand <marker>steht parkt</marker> im Halteverbot.</example>
+            <example correction="habt, wäre">Und wenn ihr noch ein Kabel <marker>habt wäre</marker> das super.</example>
+            <example correction="denke, er hat">Ich <marker>denke er hat</marker> einen guten Sinn für Humor.</example>
+            <example correction="glaube, er hat">Ich <marker>glaube er hat</marker> keine Zeit.</example>
+            <example correction="hoffe, Ihnen geht">Ich <marker>hoffe Ihnen geht</marker> es gut.</example>
+            <example correction="hoffe, ich konnte">Ich <marker>hoffe ich konnte</marker> Ihnen helfen.</example>
+            <example correction="hoffe, du bist">Ich <marker>hoffe du bist</marker> mir nicht böse.</example>
+            <example correction="dachte, du willst">Ich <marker>dachte du willst</marker> uns helfen.</example>
+            <example correction="Sag mal, hast"><marker>Sag mal hast</marker> du morgen schon etwas vor?</example>
+            <example correction="Sagt mal, habt"><marker>Sagt mal habt</marker> ihr morgen schon etwas vor?</example>
+            <example correction="sagt mal, habt">Aber <marker>sagt mal habt</marker> ihr morgen schon etwas vor?</example>
+            <example correction="meint, das Genussleben führe">Aristoteles <marker>meint das Genussleben führe</marker> nicht zum Glück.</example>
+            <example correction="denke, seine Meinung ist">Ich <marker>denke seine Meinung ist</marker> sehr wichtig.</example>
+            <example correction="glaube, folgender Fall ist">Ich <marker>glaube folgender Fall ist</marker> auch noch interessant.</example>
+            <example correction="denke, hier sollten">Ich <marker>denke hier sollten</marker> wir den Gedankenstrich mitaufnehmen.</example>
+            <example correction="glaube, eure Premium-Accounts sind">Ich <marker>glaube eure Premium-Accounts sind</marker> noch aktiv.</example>
+            <example correction="glaube, eure individuellen Premium-Accounts sind">Ich <marker>glaube eure individuellen Premium-Accounts sind</marker> noch aktiv.</example>
+            <example correction="Weißt du, warum diese Regel aus ist"><marker>Weißt du warum diese Regel aus ist</marker>?</example>
+            <example correction="schätze, diese Krawatte passt">Ich <marker>schätze diese Krawatte passt</marker> gut zum Anzug.</example>
+            <example correction="">Es <marker>ist der erste Schritt der zählt</marker>.</example>
+            <example correction="">Dies <marker>ist das Bild welches er malte</marker>.</example>
+            <example correction="">Es <marker>ist das Tier in mir das danach schreit</marker>.</example>
+            <example correction="">Du <marker>bist ja gemein ich bin</marker> doch nicht zum küssen da.</example>
+            <example correction="ankamen, waren">Als wir in Cadiz <marker>ankamen waren</marker> wir zu zehnt.</example>
+            <example>Deine Gitarre ist so teuer, dass ich sie nicht kaufen kann.</example>
+            <example>Ich bin so müde, dass ich kaum laufen kann.</example>
+            <example>Walt Whitman ist mein liebster amerikanischer Dichter.</example>
+            <example>Sein Benehmen auf der Party war so lustig, dass ich das Lachen nicht zurückhalten konnte.</example>
+            <example>Ich bin verheiratet gewesen, du bist verheiratet gewesen, lass uns heiraten!</example>
+            <example>Da  nur wenig bebaubare Flächen vorhanden sind, wird allerdings bezweifelt, dass ein solcher Anstieg der Einwohnerzahlen tatsächlich realisiert werden kann.</example>
+            <example>Es wird oftmals auch zum Genre der Brettspiele gezählt, obwohl es sich streng genommen um ein Legespiel handelt.</example>
+            <example>Er rannte so schnell er konnte, um den Flug noch zu erwischen.</example>
+            <example>Die Sonne <marker>versank hinter dem Horizont, die Schatten der Nacht senkten</marker> sich über das Land.</example>
+            <example>Beim Einsatz gentechnisch veränderter Individuen könnten jedoch schädliche Gene durch Hybridisierung in den Genpool anderer Tierarten gelangen.</example>
+            <example>Dies wird durch den sog. Brechungsindex n ausgedrückt.</example>
+            <example>Wer zu ihm gelangen will, muss sich verpflichten, nichts über ihn zu verraten.</example>
+            <example>Es war jahrelang mangelhaft unterhalten worden und hatte erhebliche Schäden.</example>
+            <example>Es war verlegt worden, aber es arbeitete dennoch nicht profitabel.</example>
+            <example>Die Bürger schickten statt der ausgefüllten Bögen Müll in Umschlägen zurück.</example>
+            <example>Er war mit einem Lkw kollidiert.</example>
+            <example>So ist es halt.</example>
+            <example>Da die für Schmucksteine begehrteste Farbe nur selten zu finden ist, wird mindere Qualität durch Brennen verbessert.</example>
+            <example>Um sage und schreibe 190 Prozent war der Preis im Laufe des Jahres in die Höhe geschossen.</example>
+            <example>Hallo, da die Nachfrage nach diesem Produkt sehr hoch ist, möchten wir gerne noch weitere bestellen.</example>
+            <example>Sie hatten weitererzählt, dass er sie entführt hat, weswegen sie keinen Groll hatte.</example>
+            <example>Das hatte die Folge, dass er beschuldigt wurde, wofür es keine Antworten gab.</example>
+            <example>Verdächtig sind vier Männer.</example>
+            <example>Dies gelingt nur, wenn die einzelnen Einheiten anschlussfähig sind, was durch einen systemspezifischen Code geleistet wird.</example>
+            <example>Wir waren so aufgeregt, dass wir nicht still sitzen konnten.</example>
+            <example>Das Vorstellungsgespräch ist so gut verlaufen, dass er die Stelle bekommen hat.</example>
+            <example>Das Stadtviertel wird von einer Straße durchschnitten, durch die ein Fluß verläuft.</example>
+            <example>Er gibt laufend Interviews, mal denkt er über Koalitionsmöglichkeiten mit der AfD nach, mal fordert er einen Untersuchungsausschuss zur Flüchtlingsfrage.</example>
+            <example>Tessa und Gerard waren sehr erfahren und sehr gut trainiert, weswegen sich der Kampf in die Länge zog.</example>
+            <example>Olivia sagte total erschöpft: „Ich hoffe, sie ist zufrieden.“</example>
+            <example>Er wird sie hochführen.</example>
+            <example>Iss und trink so viel du willst!</example>
+            <example>Ernüchtert dreinblickend kam sie aus dem Zimmer.</example>
+            <example>US-Justizminister William Barr hat eine aktive Unterstützung angekündigt.</example>
+            <example>Daniel Schöpf hat sie ins Studio begleitet.</example>
+            <example>Wir fuhren rauf und runter mit dem Fahrstuhl.</example>
+            <example>Geringfügige Verunreinigungen der Rohstoffe, die mit den normalen Qualitätsanforderungen an das Gebrauchsglas vereinbar sind, stellen ebenfalls Quellen für weitere (unbeabsichtigte) Glasbestandteile dar.</example>
+            <example>Du hast doch den Link zu web.de eingesetzt.</example>
+            <example>Bell erfand das Telefon nicht alleine.</example>
+            <example>In unserer Zeit ist die Zahl der Gedichteschreiber größer ist als die der Gedichteleser.</example><!-- probably not a missing comma but a doublet, found in Premium -->
+        </rule>
+        <rulegroup id="KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2" name="Fehlendes Komma zwischen Haupt- und Nebensatz oder zwei Hauptsätzen">
 <!--  Komma vor 'auch wenn' etc.  -->
             <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[1] -->
                 <pattern>
@@ -52803,286 +53082,8 @@ Andere Projekte</example>
                 <example>Man stellt nun fest,  dass der so markierte Teil des Fluids innerhalb des Fluids weder steigt noch sinkt, da sich das gesamte Fluid in Ruhe befindet.</example>
             </rule>
 <!--    Komma zwischen zwei Satzteilen (recht allgemein)     -->
+        
             <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[7] -->
-                <antipattern>
-                    <token postag="ADJ:PRD:GRU"/>
-                    <token postag="PKT"/>
-                    <token skip="4"/>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="ADJ:PRD:.+" postag_regexp="yes"/>
-                    <token postag="PA2:.+" postag_regexp="yes"/>
-                    <token postag="KON:.+" postag_regexp="yes"/>
-                    <token skip="4"/>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="PA2:.+" postag_regexp="yes"/>
-                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
-                    <token postag="VER:MOD:.+" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>so</token>
-                    <token postag="ADJ:.+" postag_regexp="yes"/>
-                    <token skip="5"/>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                    <token postag="VER:PA2:.+" postag_regexp="yes"/>
-                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
-                    <token postag="PKT"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
-                    <token regexp="yes">zu|noch|respektive|beziehungsweise</token>
-                    <token postag="VER:[1-3]:.*" postag_regexp="yes" />
-                </antipattern>
-                <antipattern>
-                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
-                    </token>
-                    <token postag="VER:AUX:.*" postag_regexp="yes"/>
-                    <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="(VER:(AUX|MOD):[1-3]:.*)" postag_regexp="yes" skip="-1">
-                        <exception regexp="yes" scope="next">,|\.|:|•|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
-                    </token>
-                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
-                    </token>
-                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="SUB:.*" postag_regexp="yes"/>
-                    </token>
-                    <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|VER:MOD:INF.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                        <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
-                    </token>
-                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="SUB:.*|ADV.*" postag_regexp="yes"/>
-                    </token>
-                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="SUB:.*" postag_regexp="yes"/>
-                    </token>
-                    <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1" postag="VER:[1-3]:.*" postag_regexp="yes"/>
-                    <token skip="-1">sowohl</token>
-                    <token>als</token>
-                    <token skip="-1">auch</token>
-                    <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:1:PLU:PRT:NON"/>
-                    <token postag="VER:MOD:[123]:.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern case_sensitive="yes">
-                    <token>sage</token>
-                    <token>und</token>
-                    <token>schreibe</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
-                    <token regexp="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen</token>
-                    <token skip="-1" postag="VER:.*|EIG:.*|ART:.*|PRO:PER:.*|ADV:.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*" postag_regexp="yes">
-                        <exception postag="SUB:.*|ADJ:.*|PA[12]:.*" postag_regexp="yes"/>
-                        <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
-                    </token>
-                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                    </token>
-                </antipattern>
-                <antipattern>
-                    <token>,</token>
-                    <token postag="KON:.+" postag_regexp="yes"/>
-                    <token skip="-1"/>
-                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
-                    <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="PKT"></token>
-                    <token postag="ADV:PRO"></token>
-                    <token skip="-1"></token>
-                    <token postag="VER:.+" postag_regexp="yes"></token>
-                    <token postag="PKT"></token>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:AUX:.+" postag_regexp="yes"></token>
-                    <token postag="VER:.+" postag_regexp="yes"></token>
-                    <token>,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:IMP:.+" postag_regexp="yes"/>
-                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="ART:.+" postag_regexp="yes"/>
-                    <token postag="UNKNOWN"/>
-                    <token skip="-1"/>
-                    <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
-                </antipattern>
-               <antipattern>
-                   <token postag="VER:.+" postag_regexp="yes"/>
-                   <token skip="-1"/>
-                   <token>,</token>
-                   <token postag="KON:.+" postag_regexp="yes"/>
-                   <token skip="-1"/>
-                   <token postag="VER:.+" postag_regexp="yes"/>
-               </antipattern>
-               <antipattern>
-                  <token postag="VER:.+" postag_regexp="yes"/>
-                  <token skip="-1"/>
-                  <token>,</token>
-                  <token skip="-1"/>
-                  <token postag="VER:.+" postag_regexp="yes"/>
-               </antipattern>
-               <antipattern>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                    <token skip="-1"/>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                    <token>,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                    <token regexp="yes">/|\(|\)|»|«|›|‹|“|–|"|‘|„|´|`</token>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
-                    <token postag="PRO:.+|EIG:.+|SUB:.+" postag_regexp="yes"/>
-                    <token postag="VER:.+:NEB" postag_regexp="yes"/>
-                    <token postag="PKT"/>
-                </antipattern>
-                <antipattern>
-                   <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
-                   <token regexp="yes">und|oder</token>
-                   <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
-                </antipattern>
-                <antipattern>
-                    <!-- Ernüchtert dreinblickend kam sie aus dem Zimmer. -->
-                   <token postag="VER:PA2.*" postag_regexp="yes"/>
-                   <token postag="VER:PA1.*" postag_regexp="yes"/>
-                   <token postag="VER:.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <!-- Daniel Schöpf hat sie ins Studio begleitet. -->
-                   <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
-                   <token postag="VER:IMP:SIN.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>  <!-- zu viele Namen wie "Schöpf", "Klemm" -->
-                </antipattern>
-                <antipattern>
-                   <token>kreuz</token>
-                   <token>und</token>
-                   <token>quer</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="VER:IMP:SIN"/>
-                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
-                    <token postag="PKT"/>
-                </antipattern>
-                <antipattern>
-                    <token>Walt</token>
-                    <token>Whitman</token>
-                </antipattern>
-                <antipattern><!-- word repetition is probably not a comma error -->
-                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
-                    <token><match no="0"/></token>
-                </antipattern>
-                <pattern>
-                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
-                        <exception>bitte</exception>
-                        <exception case_sensitive="yes">Bell</exception>
-                        <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
-                        <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
-                    </token>
-                    <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
-                        <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
-                        <exception regexp="yes">bitte|halt|mindere|lichte|sog|rauf</exception>
-                        <exception postag="VER:IMP:SIN:NON" />
-                        <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
-                        <exception scope="next">,</exception>
-                    </token>
-                </pattern>
-                <filter class="org.languagetool.rules.de.InsertCommaFilter" args="fake:1"/>
-                <message>Hier sollte ein Komma eingefügt werden, wenn es sich bei dem hinteren Satzteil um einen Nebensatz handelt.</message>
-                <suggestion><match include_skipped="all" no="1"/> <match no="2"/></suggestion> <!-- suggestion will be set by InsertCommaFilter, if possible -->
-                <example correction="">Die Sonne <marker>versank hinter dem Horizont die Schatten der Nacht senkten</marker> sich über das Land.</example>
-                <example correction="steht, parkt">Das Auto, das am Straßenrand <marker>steht parkt</marker> im Halteverbot.</example>
-                <example correction="habt, wäre">Und wenn ihr noch ein Kabel <marker>habt wäre</marker> das super.</example>
-                <example correction="denke, er hat">Ich <marker>denke er hat</marker> einen guten Sinn für Humor.</example>
-                <example correction="glaube, er hat">Ich <marker>glaube er hat</marker> keine Zeit.</example>
-                <example correction="hoffe, Ihnen geht">Ich <marker>hoffe Ihnen geht</marker> es gut.</example>
-                <example correction="hoffe, ich konnte">Ich <marker>hoffe ich konnte</marker> Ihnen helfen.</example>
-                <example correction="hoffe, du bist">Ich <marker>hoffe du bist</marker> mir nicht böse.</example>
-                <example correction="dachte, du willst">Ich <marker>dachte du willst</marker> uns helfen.</example>
-                <example correction="Sag mal, hast"><marker>Sag mal hast</marker> du morgen schon etwas vor?</example>
-                <example correction="Sagt mal, habt"><marker>Sagt mal habt</marker> ihr morgen schon etwas vor?</example>
-                <example correction="sagt mal, habt">Aber <marker>sagt mal habt</marker> ihr morgen schon etwas vor?</example>
-                <example correction="meint, das Genussleben führe">Aristoteles <marker>meint das Genussleben führe</marker> nicht zum Glück.</example>
-                <example correction="denke, seine Meinung ist">Ich <marker>denke seine Meinung ist</marker> sehr wichtig.</example>
-                <example correction="glaube, folgender Fall ist">Ich <marker>glaube folgender Fall ist</marker> auch noch interessant.</example>
-                <example correction="denke, hier sollten">Ich <marker>denke hier sollten</marker> wir den Gedankenstrich mitaufnehmen.</example>
-                <example correction="glaube, eure Premium-Accounts sind">Ich <marker>glaube eure Premium-Accounts sind</marker> noch aktiv.</example>
-                <example correction="glaube, eure individuellen Premium-Accounts sind">Ich <marker>glaube eure individuellen Premium-Accounts sind</marker> noch aktiv.</example>
-                <example correction="Weißt du, warum diese Regel aus ist"><marker>Weißt du warum diese Regel aus ist</marker>?</example>
-                <example correction="schätze, diese Krawatte passt">Ich <marker>schätze diese Krawatte passt</marker> gut zum Anzug.</example>
-                <example correction="">Es <marker>ist der erste Schritt der zählt</marker>.</example>
-                <example correction="">Dies <marker>ist das Bild welches er malte</marker>.</example>
-                <example correction="">Es <marker>ist das Tier in mir das danach schreit</marker>.</example>
-                <example correction="">Du <marker>bist ja gemein ich bin</marker> doch nicht zum küssen da.</example>
-                <example correction="ankamen, waren">Als wir in Cadiz <marker>ankamen waren</marker> wir zu zehnt.</example>
-                <example>Deine Gitarre ist so teuer, dass ich sie nicht kaufen kann.</example>
-                <example>Ich bin so müde, dass ich kaum laufen kann.</example>
-                <example>Walt Whitman ist mein liebster amerikanischer Dichter.</example>
-                <example>Sein Benehmen auf der Party war so lustig, dass ich das Lachen nicht zurückhalten konnte.</example>
-                <example>Ich bin verheiratet gewesen, du bist verheiratet gewesen, lass uns heiraten!</example>
-                <example>Da  nur wenig bebaubare Flächen vorhanden sind, wird allerdings bezweifelt, dass ein solcher Anstieg der Einwohnerzahlen tatsächlich realisiert werden kann.</example>
-                <example>Es wird oftmals auch zum Genre der Brettspiele gezählt, obwohl es sich streng genommen um ein Legespiel handelt.</example>
-                <example>Er rannte so schnell er konnte, um den Flug noch zu erwischen.</example>
-                <example>Die Sonne <marker>versank hinter dem Horizont, die Schatten der Nacht senkten</marker> sich über das Land.</example>
-                <example>Beim Einsatz gentechnisch veränderter Individuen könnten jedoch schädliche Gene durch Hybridisierung in den Genpool anderer Tierarten gelangen.</example>
-                <example>Dies wird durch den sog. Brechungsindex n ausgedrückt.</example>
-                <example>Wer zu ihm gelangen will, muss sich verpflichten, nichts über ihn zu verraten.</example>
-                <example>Es war jahrelang mangelhaft unterhalten worden und hatte erhebliche Schäden.</example>
-                <example>Es war verlegt worden, aber es arbeitete dennoch nicht profitabel.</example>
-                <example>Die Bürger schickten statt der ausgefüllten Bögen Müll in Umschlägen zurück.</example>
-                <example>Er war mit einem Lkw kollidiert.</example>
-                <example>So ist es halt.</example>
-                <example>Da die für Schmucksteine begehrteste Farbe nur selten zu finden ist, wird mindere Qualität durch Brennen verbessert.</example>
-                <example>Um sage und schreibe 190 Prozent war der Preis im Laufe des Jahres in die Höhe geschossen.</example>
-                <example>Hallo, da die Nachfrage nach diesem Produkt sehr hoch ist, möchten wir gerne noch weitere bestellen.</example>
-                <example>Sie hatten weitererzählt, dass er sie entführt hat, weswegen sie keinen Groll hatte.</example>
-                <example>Das hatte die Folge, dass er beschuldigt wurde, wofür es keine Antworten gab.</example>
-                <example>Verdächtig sind vier Männer.</example>
-                <example>Dies gelingt nur, wenn die einzelnen Einheiten anschlussfähig sind, was durch einen systemspezifischen Code geleistet wird.</example>
-                <example>Wir waren so aufgeregt, dass wir nicht still sitzen konnten.</example>
-                <example>Das Vorstellungsgespräch ist so gut verlaufen, dass er die Stelle bekommen hat.</example>
-                <example>Das Stadtviertel wird von einer Straße durchschnitten, durch die ein Fluß verläuft.</example>
-                <example>Er gibt laufend Interviews, mal denkt er über Koalitionsmöglichkeiten mit der AfD nach, mal fordert er einen Untersuchungsausschuss zur Flüchtlingsfrage.</example>
-                <example>Tessa und Gerard waren sehr erfahren und sehr gut trainiert, weswegen sich der Kampf in die Länge zog.</example>
-                <example>Olivia sagte total erschöpft: „Ich hoffe, sie ist zufrieden.“</example>
-                <example>Er wird sie hochführen.</example>
-                <example>Iss und trink so viel du willst!</example>
-                <example>Ernüchtert dreinblickend kam sie aus dem Zimmer.</example>
-                <example>US-Justizminister William Barr hat eine aktive Unterstützung angekündigt.</example>
-                <example>Daniel Schöpf hat sie ins Studio begleitet.</example>
-                <example>Wir fuhren rauf und runter mit dem Fahrstuhl.</example>
-                <example>Geringfügige Verunreinigungen der Rohstoffe, die mit den normalen Qualitätsanforderungen an das Gebrauchsglas vereinbar sind, stellen ebenfalls Quellen für weitere (unbeabsichtigte) Glasbestandteile dar.</example>
-                <example>Du hast doch den Link zu web.de eingesetzt.</example>
-                <example>Bell erfand das Telefon nicht alleine.</example>
-                <example>In unserer Zeit ist die Zahl der Gedichteschreiber größer ist als die der Gedichteleser.</example><!-- probably not a missing comma but a doublet, found in Premium -->
-            </rule>
-            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[8] -->
                 <antipattern>
                     <token>hab</token>
                     <token>und</token>
@@ -53098,7 +53099,7 @@ Andere Projekte</example>
                 <example>Nachdem ich sie gesehen <marker>hatte, habe</marker> sie gegrüßt.</example>
                 <example>Jeder hatte Hab und Gut verloren.</example>
             </rule>
-            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[9] -->
+            <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[8] -->
                 <pattern>
                     <token inflected="yes">werden<exception regexp="yes">geworden|werden</exception></token>
                     <token inflected="yes">werden<exception>geworden</exception><exception scope="next" regexp="yes">\p{P}</exception></token>

@@ -335,7 +335,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
       case "SUBJUNKTION_KOMMA_2": return -11; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
@@ -346,6 +346,7 @@ public class German extends Language implements AutoCloseable {
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -52; // prefer AI_HYDRA_LEO_MISSING_COMMA because KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ doesn't always offer a suggestion
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
