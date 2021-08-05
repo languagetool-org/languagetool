@@ -528,6 +528,21 @@ class SingleDocument {
   }
 
   /**
+   * get the queue entry for the first changed paragraph in document cache
+   */
+  public QueueEntry getQueueEntryForChangedParagraph() {
+    if (docCache != null) {
+      CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
+          OfficeTools.PROOFINFO_GET_PROOFRESULT, numParasToCheck, this, paragraphsCache, viewCursor);
+      int nPara = requestAnalysis.changesInDocumentCache();
+      if (nPara >= 0) {
+        return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+      }
+    }
+    return null;
+  }
+
+  /**
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
