@@ -8992,7 +8992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="astro$1"/></suggestion>
                 <example correction="astroturismo">La promoción del <marker>astro turismo</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SPS00"/>
                     <token>todo</token>
@@ -9030,6 +9030,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Cofundador">«<marker>Co-fundador</marker> de Kraftwerk».</example>
                 <example correction="corresponsable">Él es <marker>co responsable</marker> de los gastos.</example>
                 <example correction="corresponsabilidad">Se actúa con <marker>co-responsabilidad</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>rifi</token>
+                    <token min="0">-</token>
+                    <token>rafe</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>rifirrafe</suggestion>
+                <url>https://www.fundeu.es/recomendacion/rifirrafe-95/</url>
+                <example correction="rifirrafe">Hubo un <marker>rifi-rafe</marker> al final del partido.</example>
+                <example correction="rifirrafe">Hubo un <marker>rifi rafe</marker> al final del partido.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
