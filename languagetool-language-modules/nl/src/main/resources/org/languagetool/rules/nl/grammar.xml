@@ -41603,8 +41603,50 @@ steenwijk;Steenwijk
 
 
 	</category>
-	<!--
+
 	<category id="UNLIKELY_SENTENCE_PATTERNS" name="ongebruikelijke zinspatronen">
+		<!-- ongeldige zinnen van maar 1 token bestaan bijna niet. Elk woord kan als een uitroep of vraag worden gebruikt
+		<rule id="UNLIKELY_2" name="ongebruikelijke zinnen van 2 tokens (1 woord)">
+			<pattern>
+				<token postag="SENT_START"/>
+				<marker>
+					<token/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</marker>
+			</pattern>
+			<message></message>
+			<example></example>
+		</rule>
+		-->
+		<rule id="UNLIKELY_3" name="ongebruikelijke zinnen van 3 tokens (2 woorden)" default="temp_off">
+			<!-- adressen -->
+			<antipattern><token postag="SENT_START"/><token case_sensitive="yes" postag_regexp="yes" postag="ZNW.*" regexp="yes">[A-Z].*(straat|plein|weg|steeg|boulevard)</token><token regexp="yes">[0-9]+(a-z)</token><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 173.23333333333340533500 -->
+			<!-- eigennamen -->
+			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM:PER.*"/><token postag_regexp="yes" postag="ENM:PER.*"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 107.57313492063553894695 -->
+			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:LST:NIX"/><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 59.91250000000002273737 -->
+			<antipattern><token postag="SENT_START"/><token postag="ZNW:EKV:HET"/><token postag="GET:ARA:MRV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 45.94999999999999573674 -->
+			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:FST"/><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 41.64583333333340675608 -->
+			<antipattern><token postag="SENT_START"/><token postag="BNW:STL:VRB"/><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 35.45972222222223990684 -->
+			<antipattern><token postag="SENT_START"/><token postag="ZNW:MRV:DE_"/><token postag="GET:ARA:MRV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> 	<!-- score: 27.00000000000000000000 -->
+			<antipattern><token postag="SENT_START"/><token postag="BNW:STL:VRB"/><token postag="ZNW:MRV:DE_"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 18.43194444444444002329 -->
+			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:LST:NIX"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 12.85138888888888253348 -->
+			<antipattern><token postag="SENT_START"/><token postag="BNW:STL:ONV"/><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> 	<!-- score: 11.36805555555554825276 -->
+			<antipattern><token postag="SENT_START"/><token postag="VNW:AWZ:EKV:DE_"/><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 3.82500000000000150990 -->
+
+			<antipattern><token postag="SENT_START" skip="-1"/><token postag="UNKNOWN" skip="-1"/><token postag="SENT_END"/></antipattern>
+
+			<pattern>
+				<token postag="SENT_START"/>
+				<marker>
+					<token/>
+					<token/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</marker>
+			</pattern>
+			<message>Zinnen van maar 2 woorden komen wel voor, maar zijn vaak onvolledig. Dat is niet erg als het een kopje is, of antwoord op een vraag. Bij een kopje zie je meestal geen leesteken aan het einde. Het kan ook zijn dat een tekst op een vreemde plek gesplitst is door een ongebruikelijk geplaatste punt. Meld bij onterechte meldingen de hele zin s.v.p. op het forum: forum.languagetool.org.</message>
+			<example type="incorrect"><marker>fietsend koe.</marker></example>
+		</rule>
+
 	</category>
-	-->
+
 </rules>
