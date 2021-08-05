@@ -5788,7 +5788,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">&mois_annee;|&jours_semaine;|&unites_temps;</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">être|situer|tenir|tout|assez|bien</token>
+                    <token inflected="yes" regexp="yes">être|situer|tenir|tout|assez|bien|durer</token>
                     <marker>
                         <token regexp="yes">prêts?</token>
                     </marker>
@@ -5796,6 +5796,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Dans le sens de proche ce mot s'écrit <suggestion>près</suggestion>.</message>
                 <example correction="près">Nous sommes <marker>prêts</marker> d’arriver.</example>
+                <example correction="près">Ce film dure <marker>prêts</marker> de deux heures.</example>
                 <example>Le legs du duc d'Aumale interdit tout prêt des collections.</example>
                 <example>Le système devrait être prêt d'ici 2022 pour le prolongement du RER E vers l'ouest.</example>
             </rule>
@@ -5841,6 +5842,18 @@ though, and has since been slightly modified)-->
                 <example correction="prêt">J’ai obtenu un <marker>près</marker> de la banque.</example>
                 <example>vivre l’un près de l’autre.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">pré<exception scope="previous" postag="[JDP].*|C coor|M nonfin|UNKNOWN" postag_regexp="yes"/></token>
+                    <token>à</token>
+                    </marker>
+                </pattern>
+                <message>La préposition '\2' ne peut pas suivre le mot '\1'.</message>
+                <suggestion>prêt à</suggestion>
+                <suggestion>près de</suggestion>
+                <example correction="prêt à|près de">Il est <marker>pré à</marker> deux heures.</example>
+			</rule>
         </rulegroup>
         <rulegroup id="COTE" name="coté, côté, cote, cotte">
             <rule>
@@ -21030,7 +21043,7 @@ though, and has since been slightly modified)-->
             <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
         </rule>
         <!-- End of additions -->
-        <rule id="PRES_DE" name="prés/près">
+        <rule id="PRES_DE" name="prés/près" default="temp_off">
             <antipattern>
                 <token postag="(P\+)?D [em] (s|sp)" postag_regexp="yes"/>
                 <token>pré</token>
@@ -21053,13 +21066,45 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token>fauche</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">[«"]</token>
+                <token regexp="yes">prés?</token>
+                <token regexp="yes">d[eu']</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="2">bois|prairies?|forêts?|champs?|colines?|roseaux</token>
+                <token regexp="yes">prés?</token>
+                <token regexp="yes">d[eu']</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">prés?</token>
+                <token regexp="yes" skip="-1">d[eu']</token>
+                <token regexp="yes">herbes?|foins</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">prés?</token>
+                <token regexp="yes" skip="1">d[eu']</token>
+                <token regexp="yes">[aâ]ne</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">prés?</token>
+                <token regexp="yes" skip="-1">d[eu']</token>
+                <token postag="[TD].*" postag_regexp="yes"/>
+            </antipattern>
+             <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes"/>
+                <token regexp="yes">prés?</token>
+                <token regexp="yes">d[eu']</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">prés?</token>
                 </marker>
                 <token regexp="yes">d[eu']</token>
             </pattern>
-            <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>. C'est correct si ça veut dire "prairie".</message>
+            <message>L'adverbe <suggestion>près</suggestion> apporte une indication de lieu.</message>
             <example correction="près">sur une colline <marker>prés</marker> de Paris.</example>
             <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
             <example correction="près">et sur <marker>prés</marker> de 200 km de parcours</example>
@@ -21074,7 +21119,12 @@ though, and has since been slightly modified)-->
             <example>Ce niveau se nomme Pré des Fous.</example>
             <example>à 59 km du Pré de Marius.</example>
             <example>à 59 km du pré de Marius.</example>
+            <example>Les terres, bois et prés du prieuré s’étendaient jusqu’à Palisay.</example>
+            <example>Pré de Mme Carle - refuge du Glacier Blanc - Traversée des Agneaux.</example>
+            <example>L'église paroissiale Notre-Dame qui se trouvait au « pré de la croix ».</example>
+            <example>Cette monoculture cède la place à de vastes prés de type bocager.</example>
             <example>Le pré de Marius.</example>
+            <example>P__ de pré de l'ane, je l'ai toujours pas skier.</example>
             <example>Les prés de Marius.</example>
         </rule>
         <rule id="FAITS_ACTUELS" name="accord: faits actuels">
