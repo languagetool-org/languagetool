@@ -39,7 +39,8 @@ public class LanguageDependentFilter implements RuleMatchFilter {
   protected Set<String> enabledRules;
   protected Set<CategoryId> disabledCategories;
   
-  private static final Pattern CAT_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b(a|de) e(l)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   public LanguageDependentFilter(Language lang, RuleSet rules) {
     language = lang;
@@ -62,7 +63,7 @@ public class LanguageDependentFilter implements RuleMatchFilter {
             if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
               s = s.replace("'", "’");
             }
-            Matcher m = CAT_OLD_DIACRITICS.matcher(s);
+            Matcher m = CA_OLD_DIACRITICS.matcher(s);
             if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m.matches()) {
               // skip this suggestion with traditional diacritics
             } else {
@@ -91,8 +92,21 @@ public class LanguageDependentFilter implements RuleMatchFilter {
         }
         return newRuleMatches;
       }
+    } else if (language.getShortCode().equals("es")) {
+        List<RuleMatch> newRuleMatches = new ArrayList<>();
+        for (RuleMatch rm : ruleMatches) {
+          List<String> replacements = rm.getSuggestedReplacements();
+          List<String> newReplacements = new ArrayList<>();
+          for (String s : replacements) {
+            Matcher m = ES_CONTRACTIONS.matcher(s);
+            s= m.replaceAll("$1$2");
+            newReplacements.add(s);
+          }
+          RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+          newRuleMatches.add(newMatch);
+        }
+        return newRuleMatches;
     }
-
     return ruleMatches;
   }
 
