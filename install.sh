@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Made by Innovative Inventor at https://github.com/innovativeinventor.
 # If you like this code, star it on GitHub!
@@ -30,6 +30,13 @@ VERSION="2.3"
 clone_depth="1"
 text="spellcheck.txt"
 
+if [[ "$(id -u)" -ne 0 ]];
+then
+  echo "
+Please, Run This Programm as Root!
+"
+  exit 1
+fi
 while [[ $# -gt 0 ]]
 do
 key="$1"
