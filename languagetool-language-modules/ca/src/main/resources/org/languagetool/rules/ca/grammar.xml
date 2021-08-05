@@ -6488,7 +6488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="VERBS" name="Verbs" type="grammar">
-        <rulegroup id="PERMETRE_QUE_A" name="permetre que/a" default="temp_off">
+        <rulegroup id="PERMETRE_QUE_A" name="permetre que/a">
             <antipattern>
                 <token>que</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
@@ -6503,12 +6503,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">permetre|prohibir|autoritzar|deixar</token>
                     <marker>
                         <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
-                        <token postag="V.N.*" postag_regexp="yes"/>    
+                        <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>    
                     </marker>
                 </pattern>
                 <message>Construcció incorrecta.</message>
                 <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
-                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMSP3P0."></match></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="(V.)N.*" postag_regexp="yes" postag_replace="$1SP3P0."></match></suggestion>
                 <example correction="a les nenes conèixer|que les nenes coneguen|que les nenes coneguin">Això permet <marker>que les nenes conèixer</marker> més bé la natura.</example>
             </rule>
             <rule>
@@ -6520,13 +6520,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">permetre|prohibir|autoritzar|deixar</token>
                     <marker>
                         <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
-                        <token postag="V.N.*" postag_regexp="yes"/>    
+                        <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>    
                     </marker>
                 </pattern>
                 <message>Construcció incorrecta.</message>
                 <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
-                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMSP3S0."></match></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="(V.)N.*" postag_regexp="yes" postag_replace="$1SP3S0."></match></suggestion>
                 <example correction="a el jovent conèixer|que el jovent conega|que el jovent conegui">Això permet <marker>que el jovent conèixer</marker> més bé la natura.</example>
+                <example>No hem de permetre que la voluntat de ser políticament correctes ens obsessioni.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONTACTAR" name="contactar (intransitiu)">

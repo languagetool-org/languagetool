@@ -10096,7 +10096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="PERMITIR_QUE_A" name="permitir que/a" default="temp_off">
+        <rulegroup id="PERMITIR_QUE_A" name="permitir que/a">
             <antipattern>
                 <token>que</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
@@ -10111,13 +10111,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">permitir|prohibir|autorizar</token>
                     <marker>
                         <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
-                        <token postag="V.N.*" postag_regexp="yes"/>    
+                        <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" postag="SP.*|LOC_PREP" postag_regexp="yes"/></token>    
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
-                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMSP3P0"></match></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="(V.)N.*" postag_regexp="yes" postag_replace="$1SP3P0"></match></suggestion>
                 <example correction="a los niños conocer|que los niños conozcan">Eso permite <marker>que los niños conocer</marker> mejor la naturaleza.</example>
+                <example>Nadie más autorizado que ella, para comentar la despedida.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -10128,13 +10129,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">permitir|prohibir|autorizar</token>
                     <marker>
                         <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
-                        <token postag="V.N.*" postag_regexp="yes"/>    
+                        <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" postag="SP.*|LOC_PREP" postag_regexp="yes"/></token>    
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
-                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMSP3S0"></match></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="(V.)N.*" postag_regexp="yes" postag_replace="$1SP3S0"></match></suggestion>
                 <example correction="a la juventud conocer|que la juventud conozca">Eso permite <marker>que la juventud conocer</marker> mejor la naturaleza.</example>
+                <example correction="a la juventud ser|que la juventud sea">Eso permite <marker>que la juventud ser</marker> conocedora de la naturaleza.</example>
+                <example>permitirá que el placer, se vaya manifestando cada vez</example>
             </rule>
         </rulegroup>
         <rule id="VERBO_MODAL_INFINITIVO" name="verbo modal + infinitivo" default="temp_off">
