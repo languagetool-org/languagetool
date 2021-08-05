@@ -6500,6 +6500,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <!-- it could be any verb? -->
+                    <token postag="V..[ISC].*" postag_regexp="yes" inflected="yes" regexp="yes">permetre|prohibir|autoritzar|deixar</token>
+                    <marker>
+                        <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
+                        <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>    
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="(V.)N.*" postag_regexp="yes" postag_replace="$1SI3P0."></match></suggestion>
+                <example correction="a les nenes conèixer|que les nenes conegueren|que les nenes coneguessen|que les nenes coneguessin">Això permetia <marker>que les nenes conèixer</marker> més bé la natura.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="[DAN].*P.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="V..[ISC].*" postag_regexp="yes" inflected="yes" regexp="yes">permetre|prohibir|autoritzar|deixar</token>
+                    <marker>
+                        <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
+                        <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>    
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion><match no="2" regexp_match="que" regexp_replace="a" include_skipped="all"/> \3</suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3" postag="(V.)N.*" postag_regexp="yes" postag_replace="$1SI3S0."></match></suggestion>
+                <example correction="a el jovent conèixer|que el jovent coneguera|que el jovent conegués">Això permetria <marker>que el jovent conèixer</marker> més bé la natura.</example>
+                <example>No hem de permetre que la voluntat de ser políticament correctes ens obsessioni.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="[DAN].*S.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <!-- it could be any verb? -->
                     <token inflected="yes" regexp="yes">permetre|prohibir|autoritzar|deixar</token>
                     <marker>
                         <token skip="6">que<exception scope="next" postag="V,N.*|V...[123].*" postag_regexp="yes"/></token>
