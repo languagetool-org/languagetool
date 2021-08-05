@@ -942,6 +942,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("kontest", "konntest");
     put("pitza", "Pizza");
     put("Tütü", "Tutu");
+    put("gebittet", "gebeten");
+    put("gekricht", "gekriegt");
+    put("Krankenheit", "Krankheit");
+    put("Krankenheiten", "Krankheiten");
+    put("[hH]udd[yi]", "Hoodie");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
     putRepl("[Gg]ilst", "ilst", "iltst");
     putRepl("[vV]ollrichtung(en)?", "oll", "er");
