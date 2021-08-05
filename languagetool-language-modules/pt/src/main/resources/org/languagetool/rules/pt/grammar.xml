@@ -13183,6 +13183,70 @@ O Ido tem algumas publicações de assinatura ou que podem ser baixadas da Inter
       <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
     </rule>
 
+    <!-- 	A. C. D. C. A. D. a.C. d.C. A.D. -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-05 (25-JUN-2021+)      -->	
+    <rulegroup id='ANTES_DEPOIS_CRISTO' name="Abreviações 'antes/depois de Cristo' e 'Anno Domini'" type="style" default="temp_off">
+<!--
+Faleceu aos oitenta anos de idade, em 483 a. C., em Kushinagar, na Índia. → Faleceu aos oitenta anos de idade, em 483 a.C., em Kushinagar, na Índia.
+Por volta de 950 d.c. esses assentamentos foram amplamente eslavizados. → Por volta de 950 d.C. esses assentamentos foram amplamente eslavizados.
+Isto aconteceu em 10 a.D. uma vez. → Isto aconteceu em 10 A.D. uma vez.
+-->			
+		<rule>
+<!--
+4 a.C.
+4 d.C.
+-->
+			<antipattern>
+				<token postag='Z0.+' postag_regexp='yes'/>
+				<token regexp='yes'>a|d</token>
+				<token spacebefore='no' regexp='yes'>[.]</token>
+				<token spacebefore='no' case_sensitive='yes'>C</token>
+				<token spacebefore='no' regexp='yes'>[.]</token>
+			</antipattern>		
+			<pattern>
+				<token postag='Z0.+' postag_regexp='yes'/>
+				<marker>
+					<token regexp="yes">a|d</token>
+					<token regexp="yes">[.]</token>
+					<token regexp="yes">c</token>
+					<token min="0" regexp="yes">[.]</token>
+				</marker>
+			</pattern>		
+			<message>Capitalize sem espaços as abreviações 'antes/depois de Cristo' e 'Anno Domini'.</message>
+			<suggestion><match no='2' case_conversion='startlower'/>.<match no='4' case_conversion='startupper'/>.</suggestion>
+			<example correction="a.C.">Isto aconteceu no ano 500 <marker>a.c.</marker>.</example>
+			<example>Faleceu aos oitenta anos de idade, em 483 a.C., em Kushinagar, na Índia.</example>
+			<example>Por volta de 950 d.C. esses assentamentos foram amplamente eslavizados.</example>
+		</rule>
+
+		<rule>
+<!--
+10 A.D.
+-->
+			<antipattern>
+				<token postag='Z0.+' postag_regexp='yes'/>
+				<token case_sensitive='yes'>A</token>
+				<token spacebefore='no' regexp='yes'>[.]</token>
+				<token spacebefore='no' case_sensitive='yes'>D</token>
+				<token spacebefore='no' regexp='yes'>[.]</token>
+			</antipattern>		
+			<pattern>
+				<token postag='Z0.+' postag_regexp='yes'/>
+				<marker>
+					<token regexp="yes">a</token>
+					<token regexp="yes">[.]</token>
+					<token regexp="yes">d</token>
+					<token min="0" regexp="yes">[.]</token>
+				</marker>
+			</pattern>		
+			<message>Capitalize sem espaços as abreviações 'antes/depois de Cristo' e 'Anno Domini'.</message>
+			<suggestion><match no='2' case_conversion='startupper'/>.<match no='4' case_conversion='startupper'/>.</suggestion>
+			<example correction="A.D.">Isto aconteceu no ano 500 <marker>a.d.</marker>.</example>
+			<example>Isto aconteceu em 10 A.D. uma vez.</example>
+		</rule>
+		
+	</rulegroup>
+
     <!-- 	É + QUE + A(S)/O(S) + NC + É/SÃO é a(s)/o(s) NOME ser(em) -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-20 (25-JUN-2021+)      -->	
     <rulegroup id='É_QUE_AS-OS_NC_É-SÃO' name="É que a(s)/o(s) Nome_Comum é/são → É a(s)/o(s) Nome_Comum ser(em)" type="style">
