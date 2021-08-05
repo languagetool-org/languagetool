@@ -1940,7 +1940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <message>'\3' et '\6' ne semblent pas bien accordés.</message>
+                <message>'\3' et '\5' ne semblent pas bien accordés.</message>
                 <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (s|sp)"/></suggestion>
                 <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [fe] (s|sp)"/></suggestion>
                 <suggestion><match no="3" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/> \4 <match no="5" postag="(J)(.*)" postag_regexp="yes" postag_replace="$1 [me] (p|sp)"/></suggestion>
@@ -39588,9 +39588,9 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">tâches?</token>
             </pattern>
             <message>« Assigner (quelqu’un) à une tâche » peut être considéré comme un anglicisme.</message>
-            <suggestion><match no="1" postag="V.*" postag_regexp="yes">affecter</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">affecter</match></suggestion>
             <example correction="affecter"><marker>assigner</marker> à une tâche</example>
-            <example><marker>affecter à une tâche</marker></example>
+            <example correction="affecté">Il a été <marker>assigné</marker> à une tâche.</example>
         </rule>
         <rule id="AMI_DE_GARCON" name="ami de garçon/gars">
             <pattern>
