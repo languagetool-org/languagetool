@@ -41623,7 +41623,7 @@ steenwijk;Steenwijk
 			</pattern>
 			<message>Mogelijk is dit een verkeerde vorm van het werkwoord.</message>
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
-			<example correction="beheerde|beheert">Jan <marker>beheerd</marker> slecht.</example>
+			<example correction="beheerde|beheert">Amalia <marker>beheerd</marker> slecht.</example>
 		</rule>
 		<rule id="_4_TOKENS_002" name="ontbrekend woord" >
 			<pattern>
@@ -41636,7 +41636,7 @@ steenwijk;Steenwijk
 				&PUNT;
 			</pattern>
 			<message>Hier ontbreekt vast een werkwoord.</message>
-			<example type="incorrect"><marker>Jan zich</marker> slecht.</example>
+			<example type="incorrect"><marker>Amalia zich</marker> slecht.</example>
 		</rule>
 
 		<rule id="_4_TOKENS_003" name="ontbrekend woord" >
@@ -41646,13 +41646,31 @@ steenwijk;Steenwijk
 				<marker>
 					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
 				</marker>
-				<token regexp="yes">de|het|een|geen</token>
+				<or>
+					<token regexp="yes">de|het|een|geen</token>
+					<token postag_regexp="yes" postag=".*BEZ"/>
+				</or>
 				<token postag_regexp="yes" postag="ZNW.*|.*WKW.*"/>
 				&PUNT;
 			</pattern>
 			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
-			<example correction="beheerde|beheert">Jan <marker>beheerd</marker> de fietsen.</example>
+			<example correction="beheerde|beheert">Amalia <marker>beheerd</marker> de fietsen.</example>
+		</rule>
+		<rule id="_5_TOKENS_001" name="ontbrekend woord" >
+			<pattern>
+				&START;
+				<token postag="BYW"/>
+				<marker>
+					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></token>
+				</marker>
+				<token postag_regexp="yes" postag="GET:(TXT|ARA):MRV"/>
+				<token postag_regexp="yes" postag=".*MRV.*"/>
+				&PUNT;
+			</pattern>
+			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
+			<example correction="waren|zijn">Er <marker>is</marker> drie producten.</example>
 		</rule>
 
 	</category>

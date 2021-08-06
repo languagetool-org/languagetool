@@ -462,6 +462,13 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="remove" postag="ZNW.*"/>
 	</rule>	
+	<rule id="ZNW_ZELDZAAM2" name="niet, bij etc">
+		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
+		<pattern>
+			<marker><token regexp="yes">jan</token></marker>
+		</pattern>
+		<disambig action="remove" postag="ENM.*"/>
+	</rule>
 
 	<!-- correct for 'een ons bekend ... -->
 	<rule id="ONS_BEKEND" name="terugcorrigeren">
@@ -1082,10 +1089,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
 	<rule id="START_NO_PROPER" name="">
-		<antipattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token case_sensitive="yes" regexp="yes">Jan</token>
-		</antipattern>
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
