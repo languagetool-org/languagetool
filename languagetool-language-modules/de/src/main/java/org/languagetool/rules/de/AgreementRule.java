@@ -1186,6 +1186,12 @@ public class AgreementRule extends Rule {
       token("das"),
       csRegex("Einfluss|Auswirkungen"),
       csRegex("auf|darauf")
+    ),
+    Arrays.asList( // ein Auto, das schnell fährt und in **das Menschen** gerne einsteigen
+      posRegex("VER.*[123].*"),
+      tokenRegex("und|oder|aber"),
+      new PatternTokenBuilder().posRegex("PRP.*").min(0).build(),
+      posRegex("ART:DEF.*")
     )
   );
 
