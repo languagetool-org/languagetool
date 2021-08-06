@@ -4578,6 +4578,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*|.*_GN_.*"/>
     </rule>
+    <rule id="fe" name="fe (verb balear)">
+        <antipattern>
+            <token>fe</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>fe</token>
+            <token>que</token>
+        </antipattern>
+        <pattern>
+            <token><exception regexp="yes">em|et|li|us|vos|ens|els</exception></token>
+            <marker>
+                <token>fe</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VMIS3S0B"/>
+    </rule>
     <rulegroup id="fer_nom" name="fer + nom/adj: elimina el participi">
         <antipattern>
             <token>un</token>
