@@ -41640,6 +41640,7 @@ steenwijk;Steenwijk
 		</rule>
 
 		<rule id="_4_TOKENS_003" name="ontbrekend woord" >
+			<antipattern><token postag_regexp="yes" postag=".*MRV.*"/><token>zijn</token></antipattern>
 			<pattern>
 				&START;
 				<token postag_regexp="yes" postag="ENM.*"/>
@@ -41660,9 +41661,9 @@ steenwijk;Steenwijk
 		<rule id="_5_TOKENS_001" name="ontbrekend woord" >
 			<pattern>
 				&START;
-				<token postag="BYW"/>
+				<token postag="BYW"><exception>Dan</exception></token>
 				<marker>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></token>
+					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><exception regexp="yes">wel|vast</exception></token>
 				</marker>
 				<token postag_regexp="yes" postag="GET:(TXT|ARA):MRV"/>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
@@ -41671,6 +41672,8 @@ steenwijk;Steenwijk
 			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
 			<example correction="waren|zijn">Er <marker>is</marker> drie producten.</example>
+			<example>Dan nam vijf slaappillen</example>
+			<example>Maar wel vast twee foto's.</example>
 		</rule>
 
 	</category>
