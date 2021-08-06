@@ -144,8 +144,9 @@ regexp case-insensitive maken : (?i)
 
 <!ENTITY GRP_ZNW:MRV:DE_ '<token postag="GRP:ZNW:MRV:DE_"/><token min="0" max="5" pos="GRP:ZNW:MRV:DE_"/>< token postag="GRP:ZNW:MRV:DE_:END"/>'>
 
-<!ENTITY UNLIKELY 'off'>
-
+<!ENTITY START  '<token postag_regexp="yes" postag="SENT_START|START"/>'>
+<!ENTITY VRGTKN '<token postag_regexp="yes" postag="SENT_END|END">?</token>'>
+<!ENTITY PUNT   '<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[.!]</token>'>
 ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -41605,84 +41606,23 @@ steenwijk;Steenwijk
 
 
 	</category>
-
-	<category id="UNLIKELY_SENTENCE_PATTERNS" name="ongebruikelijke zinspatronen">
-
-		<!-- ongeldige zinnen van maar 1 token bestaan bijna niet. Elk woord kan als een uitroep of vraag worden gebruikt
-		<rule id="UNLIKELY_2" name="ongebruikelijke zinnen van 2 tokens (1 woord)">
+	<category id="TEST" name="test">
+		<rule id="VERKEERDE_VORM_001" name="verkeerde vorm" >
 			<pattern>
-				<token postag="SENT_START"/>
+				&START;
+				<token postag="ENM:PER:LST:NIX"/>
 				<marker>
-					<token/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
 				</marker>
+				<or>
+					<token postag_regexp="yes" postag=".*ONV|BYW"/>
+					<token regexp="yes">&DVW;</token>
+				</or>
+				&PUNT;
 			</pattern>
-			<message></message>
-			<example></example>
-		</rule>
-		-->
-		<rule id="UNLIKELY_3" name="ongebruikelijke zinnen van 3 tokens (2 woorden)" default="&UNLIKELY;">
-			<!-- adressen -->
-			<antipattern><token postag="SENT_START"/><token case_sensitive="yes" postag_regexp="yes" postag="ZNW.*" regexp="yes">[A-Z].*(straat|plein|weg|steeg|boulevard)</token><token regexp="yes">[0-9]+(a-z)</token><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 173.23333333333340533500 -->
-			<!-- eigennamen -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM:PER.*"/><token postag_regexp="yes" postag="ENM:PER.*"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 107.57313492063553894695 -->
-			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:LST:NIX"/><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 59.91250000000002273737 -->
-			<antipattern><token postag="SENT_START"/><token postag="ZNW:EKV:HET"/><token postag="GET:ARA:MRV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 45.94999999999999573674 -->
-			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:FST"/><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 41.64583333333340675608 -->
-			<antipattern><token postag="SENT_START"/><token postag="BNW:STL:VRB"/><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 35.45972222222223990684 -->
-			<antipattern><token postag="SENT_START"/><token postag="ZNW:MRV:DE_"/><token postag="GET:ARA:MRV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> 	<!-- score: 27.00000000000000000000 -->
-			<antipattern><token postag="SENT_START"/><token postag="BNW:STL:VRB"/><token postag="ZNW:MRV:DE_"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 18.43194444444444002329 -->
-			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:LST:NIX"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 12.85138888888888253348 -->
-			<antipattern><token postag="SENT_START"/><token postag="BNW:STL:ONV"/><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> 	<!-- score: 11.36805555555554825276 -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:AWZ:EKV:DE_"/><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 3.82500000000000150990 -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:PER:1EP:EKV:ACT"/><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- Ik loop. -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:PER:2EP:EKV:ACT"/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- Jij loopt. -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- Hij loopt. -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:PER:2EP:EKV:ACT"/><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- Wij lopen. -->
-
-
-			<antipattern><token postag="SENT_START" skip="-1"/><token postag="UNKNOWN" skip="-1"/><token postag="SENT_END"/></antipattern>
-
-			<pattern>
-				<token postag="SENT_START"/>
-				<marker>
-					<token/>
-					<token/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-				</marker>
-			</pattern>
-			<message>Zinnen van maar 2 woorden komen wel voor, maar zijn vaak onvolledig. Dat is niet erg als het een kopje is, of antwoord op een vraag. Bij een kopje zie je meestal geen leesteken aan het einde. Het kan ook zijn dat een tekst op een vreemde plek gesplitst is door een ongebruikelijk geplaatste punt. Meld bij onterechte meldingen de hele zin s.v.p. op het forum: forum.languagetool.org.</message>
-			<example type="incorrect"><marker>fietsend koe.</marker></example>
-	</rule>
-
-		<rule id="UNLIKELY_4" name="ongebruikelijke zinnen van 4 tokens (3 woorden)" default="&UNLIKELY;">
-		    <!-- Johansson leek onzeker. -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:VLT:1EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 15.94001322751323357352 -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:TGW:3EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 15.94001322751323357352 -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:VLT:1EP"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 8.44606481481480919626 -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:TGW:3EP"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 8.44606481481480919626 -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:VLT:1EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 7.35972222222221983401 -->
-			<antipattern><token postag="SENT_START"/><token postag_regexp="yes" postag="ENM.*"/><token postag="WKW:VLT:3EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 7.35972222222221983401 -->
-			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:FST"/><token>van</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 4.20643638768638528092 -->
-			<antipattern><token postag="SENT_START"/><token postag="ENM:PER:FST"/><token postag="VGW"/><token postag="ENM:PER:FST"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- score: 3.69375000000000008882 -->
-
-			<antipattern><token postag="SENT_START"/><token postag="VNW:AWZ:EKV:DE_"/><token postag_regexp="yes" postag="ZNW:EKV.*"/><token postag_regexp="yes" postag="WKW:VLT:3EP|WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- De man loopt. -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:AWZ:EKV:HET"/><token postag_regexp="yes" postag="ZNW.*HET"/><token postag_regexp="yes" postag="WKW:VLT:3EP|WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- De man loopt. -->
-			<antipattern><token postag="SENT_START"/><token postag="VNW:AWZ:MRV:DE_"/><token postag_regexp="yes" postag=".*MRV.*"/><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token postag="SENT_END" regexp="yes">[.!]</token></antipattern> <!-- De mannen liepen. -->
-
-			<antipattern><token postag="SENT_START" skip="-1"/><token postag="UNKNOWN" skip="-1"/><token postag="SENT_END"/></antipattern>
-
-			<pattern>
-				<token postag="SENT_START"/>
-				<marker>
-					<token/>
-					<token/>
-					<token/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-				</marker>
-			</pattern>
-			<message>Zinnen van maar 3 woorden komen wel voor, maar zijn vaak onvolledig. Dat is niet erg als het een kopje is, of antwoord op een vraag. Bij een kopje zie je meestal geen leesteken aan het einde. Het kan ook zijn dat een tekst op een vreemde plek gesplitst is door een ongebruikelijk geplaatste punt. Meld bij onterechte meldingen de hele zin s.v.p. op het forum: forum.languagetool.org.</message>
-			<example type="incorrect"><marker>fietsend niets koe.</marker></example>
+			<message>Mogelijk is dit een verkeerde vorm van het werkwoord.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
+			<example correction="beheerde|beheert">Jan <marker>beheerd</marker> slecht.</example>
 		</rule>
 
 	</category>
