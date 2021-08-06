@@ -41607,7 +41607,8 @@ steenwijk;Steenwijk
 
 	</category>
 	<category id="TEST" name="test">
-		<rule id="VERKEERDE_VORM_001" name="verkeerde vorm" >
+		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
+		<rule id="_4_TOKENS_001" name="verkeerde werkwoordvorm" >
 			<pattern>
 				&START;
 				<token postag="ENM:PER:LST:NIX"/>
@@ -41615,7 +41616,7 @@ steenwijk;Steenwijk
 					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
 				</marker>
 				<or>
-					<token postag_regexp="yes" postag=".*ONV|BYW"/>
+					<token min="1" max="3" postag_regexp="yes" postag=".*ONV|BYW"/>
 					<token regexp="yes">&DVW;</token>
 				</or>
 				&PUNT;
@@ -41623,6 +41624,35 @@ steenwijk;Steenwijk
 			<message>Mogelijk is dit een verkeerde vorm van het werkwoord.</message>
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
 			<example correction="beheerde|beheert">Jan <marker>beheerd</marker> slecht.</example>
+		</rule>
+		<rule id="_4_TOKENS_002" name="ontbrekend woord" >
+			<pattern>
+				&START;
+				<marker>
+					<token postag_regexp="yes" postag="ENM:.*"/>
+					<token postag="VNW:RFX"/>
+				</marker>
+				<token postag_regexp="yes" postag=".*ONV|BYW"/>
+				&PUNT;
+			</pattern>
+			<message>Hier ontbreekt vast een werkwoord.</message>
+			<example type="incorrect"><marker>Jan zich</marker> slecht.</example>
+		</rule>
+
+		<rule id="_4_TOKENS_003" name="ontbrekend woord" >
+			<pattern>
+				&START;
+				<token postag_regexp="yes" postag="ENM.*"/>
+				<marker>
+					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
+				</marker>
+				<token regexp="yes">de|het|een|geen</token>
+				<token postag_regexp="yes" postag="ZNW.*|.*WKW.*"/>
+				&PUNT;
+			</pattern>
+			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
+			<example correction="beheerde|beheert">Jan <marker>beheerd</marker> de fietsen.</example>
 		</rule>
 
 	</category>
