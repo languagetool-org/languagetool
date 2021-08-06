@@ -15169,4 +15169,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd lemma="be" pos="VBZ"/></disambig>
         </rule>
     </rulegroup>
+
+    <rulegroup id="REMOVE_POS_FROM_FILE_NAMES" name="Remove POS from file names">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">.*[a-z0-9].*</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
+            </pattern>
+            <disambig action="remove" postag="VB.*"/>
+            <example type="ambiguous" inputform="index[index/NN,index/VB,index/VBP]" outputform="index[index/NN]">I have <marker>index</marker>.php modifications.</example>
+        </rule>
+    </rulegroup>
 </rules>
