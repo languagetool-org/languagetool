@@ -8832,13 +8832,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="3" postag="V.[^M].*" postag_regexp="yes">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|sensació|xiulit|crit|efecte</token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|sensació|xiulit|crit</token>
                 </pattern>
                 <message>Val més usar el v. 'fer'.</message>
                 <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion>
                 <example correction="Feia"><marker>Donava</marker> molts petons</example>
                 <example correction="fer">Va <marker>donar</marker>-li molts petons</example>
-                <example correction="Fa"><marker>Dóna</marker> l'efecte de ser antic.</example>
                 <example>feia petons</example>
                 <example>Ha donat tema a goigs.</example>
                 <example>Dona com a efecte això.</example>
@@ -8848,7 +8847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="3" postag="V.M.*" postag_regexp="yes">donar<exception postag="V.[^M].*" postag_regexp="yes"/><exception scope="next" postag="SPS00"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit|crit|efecte</token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit|crit</token>
                 </pattern>
                 <message>Val més usar el v. 'fer'.</message>
                 <suggestion><match no="1" postag="(V.M.*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion>
@@ -8994,6 +8993,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">capgirar</match></suggestion>
                 <example correction="capgirar">Volia <marker>donar la volta a</marker> les enquestes.</example>
                 <example correction="capgirar">Volia <marker>donar la volta a</marker> aquella situació.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">em|et|li|ens|us|vos|els</token>
+                    <token min="0" regexp="yes" inflected="yes">anar|haver</token>
+                    <marker>
+                        <token inflected="yes" skip="1">donar</token>
+                    </marker>
+                    <token>l'</token>
+                    <token>efecte</token>
+                </pattern>
+                <message>Val més usar el v. 'fer'.</message>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="fer">Em va <marker>donar</marker> l'efecte que no era així.</example>
+                <example correction="fa">Em <marker>dona</marker> l'efecte que no era així.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SER_ESTAR" name="alguns casos de ser/estar">
