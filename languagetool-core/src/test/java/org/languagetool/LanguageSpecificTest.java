@@ -319,7 +319,7 @@ public class LanguageSpecificTest {
       }
     }
     System.out.println("Number of default='temp_off' rules for " + lang + ": " + count);
-    int limit = 10;
+    int limit = 20;
     if (count > limit) {
       System.err.println("################################################################################################");
       System.err.println("WARNING: " + count + " default='temp_off' rules for " + lang + ", please make sure to turn on these");
