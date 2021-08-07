@@ -29,7 +29,7 @@ public class LatvianConcurrencyTest extends AbstractLanguageConcurrencyTest {
 
   @Override
   protected String createSampleText() {
-    return "Vikipedijoje nėra straipsnio norimu pavadinimu.";
+    return "Vikipēdija (Wikipedia) ir brīva, daudzvalodu enciklopēdija ar bezmaksas saturu, kuras ikdienas darbību nodrošina bezpeļņas organizācija Wikimedia Foundation. Kopš tās dibināšanas 2001.";
   }
 
 }

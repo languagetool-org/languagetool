@@ -65,7 +65,7 @@ public class Latvian extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Mantas Kriaučiūnas")};
+    return new Contributor[] {new Contributor("Aidan Plenert Macdonald")};
   }
 
   @Override

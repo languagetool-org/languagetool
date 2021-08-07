@@ -29,7 +29,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikLatvianSpellerRule extends MorfologikSpellerRule {
 
-  private static final String RESOURCE_FILENAME = "/lv/hunspell/lv_LT.dict";
+  private static final String RESOURCE_FILENAME = "/lv/hunspell/lv_LV.dict";
 
   public MorfologikLatvianSpellerRule(ResourceBundle messages,
                                          Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
