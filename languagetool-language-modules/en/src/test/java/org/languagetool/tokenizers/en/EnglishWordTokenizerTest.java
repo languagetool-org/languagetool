@@ -75,6 +75,16 @@ public class EnglishWordTokenizerTest {
     assertEquals(tokens13.size(), 8);
     final List <String> tokens14 = wordTokenizer.tokenize("Don't do it");
     assertEquals("[Do, n't,  , do,  , it]", tokens14.toString());
-    assertEquals(tokens14.size(), 6); 
+    assertEquals(tokens14.size(), 6);
+    final List<String> tokens15 = wordTokenizer.tokenize("My address is address@email.com");
+    assertEquals("[My,  , address,  , is,  , address@email.com]", tokens15.toString());
+    assertEquals(tokens15.size(), 7);
+    final List<String> tokens16 = wordTokenizer.tokenize("@test@test.social you are aweesome!");
+    assertEquals("[@test@test.social,  , you,  , are,  , aweesome, !]", tokens16.toString());
+    assertEquals(tokens16.size(), 8);
+    final List<String> tokens17 = wordTokenizer.tokenize("My address is address@email.com or other@email.com.");
+    assertEquals("[My,  , address,  , is,  , address@email.com,  , or,  , other@email.com, .]", tokens17.toString());
+    assertEquals(tokens17.size(), 12);
+    
   }
 }
