@@ -22090,6 +22090,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="DAS_WEITE" name="das weite (Weite) suchen" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token>das</token>
+                <marker>
+                    <token>weite</token>
+                </marker>
+                <token inflected="yes">suchen</token>
+            </pattern>
+            <message>In dieser Wendung wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> in der Regel großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Weite">Ich habe gleich das <marker>weite</marker> gesucht.</example>
+        </rule>
+        <rule id="IN_DER_MACHE" name="in der mache (Mache)" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">noch|schon|bereits</token>
+                <token>in</token>
+                <token>der</token>
+                <marker>
+                    <token>mache</token>
+                </marker>
+            </pattern>
+            <message>In dieser Wendung wird <suggestion><match no="4" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Mache">Das ist noch in der <marker>mache</marker>.</example>
+        </rule>
+        <rule id="DIE_HECHTE" name="barsche (Barsche) etc. fangen" default="temp_off">
+            <pattern case_sensitive="yes">
+                <marker><token regexp="yes">barsche|hechte|fische|schlangen</token></marker>
+                <token inflected="yes" regexp="yes">fangen|angeln|fischen</token>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example correction="Hechte">Ich werde dort <marker>hechte</marker> angeln gehen.</example>
+        </rule>
+        <rule id="KUGELN_SUBST" name="zwei kugeln (Kugeln) Eis" default="temp_off">
+            <pattern case_sensitive="yes">
+                <marker><token>kugeln</token></marker>
+                <token>Eis</token>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example correction="Kugeln">Bitte zwei <marker>kugeln</marker> Eis!</example>
+        </rule>
         <rulegroup id="STRICH_SUBST" name="ein strich (Strich)">
             <rule>
                 <pattern>
