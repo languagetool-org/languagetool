@@ -40,7 +40,7 @@ public class LanguageDependentFilter implements RuleMatchFilter {
   protected Set<CategoryId> disabledCategories;
   
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[[Dd]e) e(l)\\b",Pattern.UNICODE_CASE);
+  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
 
   public LanguageDependentFilter(Language lang, RuleSet rules) {
     language = lang;
