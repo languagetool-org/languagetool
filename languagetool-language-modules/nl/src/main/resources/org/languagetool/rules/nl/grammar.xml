@@ -41609,6 +41609,7 @@ steenwijk;Steenwijk
 	</category>
 	<category id="TEST" name="test">
 		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
+
 		<rule id="_4_TOKENS_001" name="verkeerde werkwoordvorm" >
 			<pattern>
 				&START;
@@ -41638,6 +41639,7 @@ steenwijk;Steenwijk
 			</pattern>
 			<message>Hier ontbreekt vast een werkwoord.</message>
 			<example type="incorrect"><marker>Amalia zich</marker> slecht.</example>
+
 		</rule>
 		<rule id="_4_TOKENS_003" name="verkeerde werkwoordvorm" >
 			<antipattern><token postag_regexp="yes" postag=".*MRV.*"/><token>zijn</token></antipattern>
@@ -41658,6 +41660,85 @@ steenwijk;Steenwijk
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
 			<example correction="beheerde|beheert">Amalia <marker>beheerd</marker> de fietsen.</example>
 		</rule>
+		<rule id="_4_TOKENS_004" name="verkeerde werkwoordvorm" >
+			<pattern>
+				&START;
+				<token postag_regexp="yes" postag="ENM.*"/>
+				<marker>
+					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
+				</marker>
+				<token postag="SENT_END"/>
+			</pattern>
+			<message>Mogelijk is dit een verkeerde vorm van het werkwoord. Zo niet, dan is het een vrij ongebruikelijk zinnetje.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
+			<example correction="deed|doet">Amalia <marker>doen</marker>.</example>
+		</rule>
+		<rule id="_4_TOKENS_005" name="vreemde zinsbouw" >
+			<pattern>
+				&START;
+				<marker>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="BYW|.*ONV"/>
+					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
+					&VRGTKN;
+				</marker>
+			</pattern>
+			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk.</message>
+			<example type="incorrect"><marker>Amalia niet doen?</marker>.</example>
+		</rule>
+		<rule id="_4_TOKENS_006" name="vreemde zinsbouw" >
+			<pattern>
+				&START;
+				<marker>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="BYW|.*ONV"/>
+					<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+					&VRGTKN;
+				</marker>
+			</pattern>
+			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
+			<example type="incorrect"><marker>Jasper dood was?</marker></example>
+		</rule>
+		<rule id="_4_TOKENS_007" name="vreemde zinsbouw" >
+			<pattern>
+				&START;
+				<marker>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="VNW.*PSF"/>
+					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
+					<token postag="SENT_END"/>
+				</marker>
+			</pattern>
+			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
+			<example type="incorrect"><marker>Amalia hem vermoorden?</marker></example>
+		</rule>
+		<rule id="_4_TOKENS_008" name="vreemde zinsbouw" >
+			<pattern>
+				&START;
+				<marker>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="VNW:AWZ.*DE_"/>
+					<token postag_regexp="yes" postag="ZNW.*DE_"/>
+					<token postag="SENT_END"/>
+				</marker>
+			</pattern>
+			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
+			<example type="incorrect"><marker>Amina deze vrouw?</marker></example>
+		</rule>
+		<rule id="_4_TOKENS_009" name="vreemde zinsbouw" >
+			<pattern>
+				&START;
+				<marker>
+					<token postag_regexp="yes" postag="ENM.*"/>
+					<token postag_regexp="yes" postag="WKW:VTD:ONV|BNW:STL:ONV"/>
+					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
+					<token postag="SENT_END"/>
+				</marker>
+			</pattern>
+			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
+			<example type="incorrect"><marker>Amina rood hebben?</marker></example>
+		</rule>
+
 		<rule id="_5_TOKENS_001" name="verkeerde werkwoordvorm" >
 			<pattern>
 				&START;
