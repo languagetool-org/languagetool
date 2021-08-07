@@ -38423,6 +38423,57 @@ E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
       <example correction="reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
     </rule>	
 
+	<!-- HÁ NC QUE VERBO verbo há nc -->
+    <rulegroup id='HÁ_NC_QUE_VERBO' name="Há + NC + que + Verbo → Verbo + há + NC" type='style' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-07 (25-JUN-2021+)      -->
+	<!--
+Estes problemas há décadas que são abordados por cientistas. → Estes problemas são há décadas abordados por cientistas.
+Estes problemas há muitas décadas que são abordados por cientistas. → Estes problemas são há muitas décadas abordados por cientistas.
+	-->
+	<rule>
+<!--
+O artesanato bracarense há muito que ultrapassou as fronteiras do país. → O artesanato bracarense ultrapassou há muito as fronteiras do país.
+-->
+      <pattern>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		</token>
+		<marker>
+			<token>há</token>
+			<token postag='NC.+|AQ.+|RG|DI.+' postag_regexp='yes'/>
+			<token>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</marker>
+		<token postag='VMP.+|DA.+|DI.+|DD.+|PD.+|CC' postag_regexp='yes'/>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\5 há \3</suggestion>
+      <example correction="são há décadas">Estes problemas <marker>há décadas que são</marker> abordados por cientistas.</example>
+    </rule>
+
+	<rule>
+<!--
+O artesanato bracarense há muito tempo que ultrapassou as fronteiras do país. → O artesanato bracarense ultrapassou há muito tempo as fronteiras do país.
+-->
+      <pattern>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		</token>
+		<marker>
+			<token>há</token>
+			<token postag='NC.+|AQ.+|RG|DI.+' postag_regexp='yes'/>
+			<token postag='NC.+|AQ.+|RG|DI.+' postag_regexp='yes'/>
+			<token>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</marker>
+		<token postag='VMP.+|DA.+|DI.+|DD.+|PD.+|CC' postag_regexp='yes'/>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\6 há \3 \4</suggestion>
+      <example correction="são há muitas décadas">Estes problemas <marker>há muitas décadas que são</marker> abordados por cientistas.</example>
+    </rule>
+    </rulegroup>	
+	
     <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='Para/Por + Ter + Particípio passado'>
 	<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-28 (2-JUL-2020+)   -->
 
