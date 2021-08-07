@@ -1089,6 +1089,11 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
 	<rule id="START_NO_PROPER" name="">
+		<antipattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="ENM.*"/>
+			<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+		</antipattern>
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>

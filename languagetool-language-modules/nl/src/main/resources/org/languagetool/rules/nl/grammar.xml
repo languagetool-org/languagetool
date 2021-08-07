@@ -16285,7 +16285,7 @@ steenwijk;Steenwijk
 				<pattern case_sensitive="yes">
 					<token regexp="yes">[,;]</token>
 					<marker>
-						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception regexp="yes">Kamer.*</exception></token>
+						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
 					</marker>
 				</pattern>
 				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
@@ -19008,7 +19008,7 @@ steenwijk;Steenwijk
 				<antipattern><token>is</token><token>welk</token></antipattern>
 				<antipattern><token skip="2">de</token><token>staat</token></antipattern>
 				<pattern>
-					<token/>
+					<token><exception postag="SENT_START"/></token>
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte</exception></token>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM.*"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
@@ -41430,6 +41430,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'" >
 			<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+			<antipattern><token>de</token><token>iets</token><token postag_regexp="yes" postag="BNW.*"/></antipattern>
 			<antipattern><token>social</token><token>media</token></antipattern>
 			<antipattern><token>first</token><token>lady</token></antipattern>
 			<antipattern><token>de</token><token>intensive</token><token>cares</token></antipattern>
@@ -41638,8 +41639,7 @@ steenwijk;Steenwijk
 			<message>Hier ontbreekt vast een werkwoord.</message>
 			<example type="incorrect"><marker>Amalia zich</marker> slecht.</example>
 		</rule>
-
-		<rule id="_4_TOKENS_003" name="ontbrekend woord" >
+		<rule id="_4_TOKENS_003" name="verkeerde werkwoordvorm" >
 			<antipattern><token postag_regexp="yes" postag=".*MRV.*"/><token>zijn</token></antipattern>
 			<pattern>
 				&START;
@@ -41658,7 +41658,7 @@ steenwijk;Steenwijk
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
 			<example correction="beheerde|beheert">Amalia <marker>beheerd</marker> de fietsen.</example>
 		</rule>
-		<rule id="_5_TOKENS_001" name="ontbrekend woord" >
+		<rule id="_5_TOKENS_001" name="verkeerde werkwoordvorm" >
 			<pattern>
 				&START;
 				<token postag="BYW"><exception>Dan</exception></token>
@@ -41674,6 +41674,22 @@ steenwijk;Steenwijk
 			<example correction="waren|zijn">Er <marker>is</marker> drie producten.</example>
 			<example>Dan nam vijf slaappillen</example>
 			<example>Maar wel vast twee foto's.</example>
+		</rule>
+		<rule id="_6_TOKENS_001" name="verkeerde werkwoordvorm" >
+			<pattern>
+				&START;
+				<token postag_regexp="yes" postag="ENM.*"/>
+				<marker>
+					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
+				</marker>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token postag="VGW"/>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				&PUNT;
+			</pattern>
+			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
+			<example correction="werd|wordt">Amalia <marker>worden</marker> artieste en prinses.</example>
 		</rule>
 
 	</category>
