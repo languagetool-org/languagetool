@@ -26618,20 +26618,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Band">Die Stimme kommt vom <marker>band</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="MASS_SUBST" name="'das maß (Maß) aller Dinge' etc.">
-            <pattern case_sensitive="yes">
-                <token regexp="yes" case_sensitive="no">das|zum|als</token>
-                <marker>
-                    <token regexp="yes">maß|mass</token>
-                </marker>
-                <token>aller</token>
-                <token>Dinge</token>
-            </pattern>
-            <message>&subanfang;<suggestion>Maß</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example correction="Maß">Die Aussage, der Mensch sei das <marker>maß</marker> aller Dinge, wird Protagoras zugeschrieben.</example>
-            <example>Das Zimmer <marker>maß</marker> zwei mal zwei Meter.</example>
-        </rule>
+        <rulegroup id="MASS_SUBST" name="'das maß (Maß) aller Dinge' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" case_sensitive="no">das|zum|als</token>
+                    <marker>
+                        <token regexp="yes">maß|mass</token>
+                    </marker>
+                    <token>aller</token>
+                    <token>Dinge</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Maß</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Maß">Die Aussage, der Mensch sei das <marker>maß</marker> aller Dinge, wird Protagoras zugeschrieben.</example>
+                <example>Das Zimmer <marker>maß</marker> zwei mal zwei Meter.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token case_sensitive="no">mit</token>
+                    <token>zweierlei</token>
+                    <marker>
+                        <token regexp="yes">maß|mass</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Maß</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Maß">Hier wird mit zweierlei <marker>maß</marker> gemessen.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEGEL_SUBST" name="'den Wind aus den segeln (Segeln) nehmen'">
             <pattern case_sensitive="yes">
                 <token>aus</token>
