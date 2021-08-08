@@ -24,20 +24,49 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+
+<!-- Unless otherwise stated, citations refer to ANDRA KALNAČA, ILZE LOKMANE - LATVIAN GRAMMAR -->
 <rules lang="lv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<category id="CAT1" name="Šķiršanās kļūdas">
-		<rulegroup id="test" name="test">
-			<rule>
+		<rulegroup id="prepositions" name="Prepositions">
+			<!-- Page 330 Section 2.7.2 -->
+			<rule name="accusative">
 				<pattern>
 					<marker>
-						<token postag="P....." postag_regexp="yes" />
+						<token regexp="yes">ap|caur|gar|pār</token>
+						<token postag="N[^A]...." postag_regexp="yes" />
+					</marker>
+				</pattern>
+				<message>\1 [ko]</message>
+				<suggestion>\1 draugu</suggestion>
+				<example correction="ap draugu">
+					<marker>ap draugs</marker>
+				</example>
+			</rule>
+			<rule name="instrumental">
+				<pattern>
+					<marker>
+						<token regexp="yes">ar</token>
+						<token postag="N[^A]S...|N[^D]P..." postag_regexp="yes" />
+					</marker>
+				</pattern>
+				<message>\1 [ko]</message>
+				<suggestion>\1 draugiem</suggestion>
+				<example correction="ar draugiem">
+					<marker>ar draugus</marker>
+				</example>
+			</rule>
+			<rule name="genitive">
+				<pattern>
+					<marker>
+						<token regexp="yes">bez|no</token>
 						<token postag="N[^G]...." postag_regexp="yes" />
 					</marker>
 				</pattern>
-				<message>Genitive after prepositions (fake rule)</message>
+				<message>\1 [ko]</message>
 				<suggestion>\1 drauga</suggestion>
-				<example correction="pie drauga">
-					<marker>pie draugs</marker>
+				<example correction="no drauga">
+					<marker>no draugs</marker>
 				</example>
 			</rule>
 		</rulegroup>
