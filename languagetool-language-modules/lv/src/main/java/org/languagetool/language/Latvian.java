@@ -24,7 +24,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.lv.MorfologikLatvianSpellerRule;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.xx.DemoTagger;
+import org.languagetool.tagging.lv.LatvianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -60,7 +60,7 @@ public class Latvian extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new DemoTagger();
+    return LatvianTagger.INSTANCE;
   }
 
   @Override

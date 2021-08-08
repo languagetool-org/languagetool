@@ -29,14 +29,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		<rulegroup id="test" name="test">
 			<rule>
 				<pattern>
-                    <marker>
-						<token regexp="yes">pie</token>
-						<token>draugs</token>
-                    </marker>
-                </pattern>
-                <message>Genitive after prepositions (fake rule)</message>
+					<marker>
+						<token postag="P....." postag_regexp="yes" />
+						<token postag="N[^G]...." postag_regexp="yes" />
+					</marker>
+				</pattern>
+				<message>Genitive after prepositions (fake rule)</message>
 				<suggestion>\1 drauga</suggestion>
-                <example correction="pie drauga"><marker>pie draugs</marker></example>
+				<example correction="pie drauga">
+					<marker>pie draugs</marker>
+				</example>
 			</rule>
 		</rulegroup>
 	</category>
