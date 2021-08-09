@@ -56365,6 +56365,31 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+            <rule id="BENEFICIER_A" name="bénéficier->profiter à">
+                <antipattern>
+                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">bénéficier</token>
+                    <token regexp="yes" skip="2">à|aux?</token>
+                    <token regexp="yes">seule?s?|rigueurs?|contraire|cours|mêmes?|présent|nord|sud|est|ouest|tours?|reprises?|retour|ces?|cette|partir|nouveau|maximum|minimum|point|fois|sorties?|fondations?|époques?|débuts?|fins?|positions?|niveaux?|total|sujets?|fil|départ|arrivée|moments?|quotidien|termes?|titres?|vues?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">bénéficier</token>
+                    <token regexp="yes">à|aux?</token>
+                    <token regexp="yes">plus|moins</token>
+                    <token regexp="yes">des?|d'</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="V avoir.*" min="0"/>
+                        <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">bénéficier</token>
+                        <token regexp="yes">à|aux?</token>
+                    </marker>
+                </pattern>
+                <message>On ne peut utiliser le verbe 'bénéficier' avec pour sujet un inanimé et pour complément un nom introduit par la préposition 'à'.</message>
+                <suggestion>\1 <match no="2"  postag="(V.*)" postag_regexp="yes" postag_replace="$1">profiter</match> \3</suggestion>
+                <suggestion>au bénéfice de</suggestion>
+                <url>https://www.academie-francaise.fr/beneficier</url>
+                <example correction="a profité à|au bénéfice de">Cette ristourne <marker>a bénéficié à</marker> bon nombre de clients.</example>
+                <example correction="profite aux|au bénéfice de">Un décret qui <marker>bénéficie aux</marker> plus démunis.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">antidiluvien(nes?|s)?</token>
