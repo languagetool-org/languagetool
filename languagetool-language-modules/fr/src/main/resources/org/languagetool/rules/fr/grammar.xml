@@ -55081,6 +55081,39 @@ though, and has since been slightly modified)-->
             <example correction="tout">C'est une <marker>toute</marker> autre affaire.</example>
             <example>Toute autre utilisation de ce CD est interdite.</example>
         </rule>
+        <rule id="SE_FAIRE_FORT_INF" name="se faire fort + inf">
+            <pattern>
+                <token postag_regexp="yes" postag="R pers obj.*" skip="2"/>
+                <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">faire</token>
+                <marker>
+                    <token regexp="yes" inflected="yes">fort(e|s|es)</token>
+                </marker>
+                <token regexp="yes" inflected="yes">de|d'</token>
+                <token postag="V inf|V etre inf|V avoir inf"/>
+            </pattern>
+            <message>Devant un infinitif, 'se faire fort de' ne se met jamais au féminin ni au pluriel : 'fort' reste invariable.</message>
+            <suggestion>fort</suggestion>
+            <example correction="fort">Elle se fait <marker>forte</marker> de réussir.</example>
+            <example>Elle se fait forte de votre soutien.</example>
+        </rule>
+        <rule id="SE_FAIRE_FORT_PPA" name="se faire fort + ppa">
+            <pattern>
+                <token postag_regexp="yes" postag="R pers obj.*" skip="2"/>
+                <token postag_regexp="yes" postag="V etre.*"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V ppa.*" regexp="yes" inflected="yes">faire
+                        <exception>fait</exception>
+                    </token>
+                </marker>
+                    <token regexp="yes" inflected="yes">forte?s?</token>
+                <token regexp="yes" inflected="yes">de|d'</token>
+                <token postag_regexp="yes" postag="V inf|V etre inf|V avoir inf"/>
+            </pattern>
+            <message>'Se faire fort de' est une expression figée. Devant un infinitif, le participe passé 'fait' reste invariable.</message>
+            <suggestion>fait</suggestion>
+            <example correction="fait">Ils se sont <marker>faits</marker> fort de gagner.</example>
+            <example>Elles se faites fortes de votre soutien.</example>
+        </rule>
         <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
             <rule>
                 <pattern>
