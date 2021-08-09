@@ -73,7 +73,8 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   //TODO check if the comma is already present in the sentence
   private static final List<String> CONTRAST_EXPRESSIONS = Arrays.asList("Aun así", "Por otra parte", "Sin embargo");
   
-  private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la" , "los", "las");
+  private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la", "los", "las", "punto", "artículo",
+      "módulo", "parte", "sesión", "unidad", "tema");
   
   static {
     // based on https://www.pinterest.com/pin/229542912245527548/
@@ -110,7 +111,8 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
   @Override
   public boolean isException(String token) {
-    return super.isException(token) || EXCEPCIONS_START.contains(token.toLowerCase());
+    return super.isException(token) || Character.isDigit(token.charAt(0))
+        || EXCEPCIONS_START.contains(token.toLowerCase());
   }
 
   @Override
