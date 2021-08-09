@@ -3555,6 +3555,11 @@ Copyright (C) 2011 Juan Martorell
             <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
             <token postag="V.[IS].*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+            <token postag="CS|PR.*" postag_regexp="yes" skip="5"/>
+            <token regexp="yes">lo|la|los|las</token>
+            <token postag="V...[123].." postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
@@ -3569,11 +3574,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="[^V].*"/>
         </rule>
         <rule>
-            <antipattern>
-                <token postag="CS|PR.*" postag_regexp="yes" skip="5"/>
-                <token regexp="yes">lo|la|los|las</token>
-                <token postag="V...3S." postag_regexp="yes"/>
-            </antipattern>
             <pattern>
                 <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
                 <marker>
