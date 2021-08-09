@@ -750,11 +750,21 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token regexp="yes">mil|ciento</token>
                 </marker>
-                <token postag="DN0CP0"/>
+                <token postag="DN0.P0" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace">
                 <wd pos="DN0CP0"/>
             </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">mil|ciento</token>
+                </marker>
+                <token>y</token>
+                <token postag="DN0.P0" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="DN.*"/>
         </rule>
         <rule>
             <pattern>

@@ -468,6 +468,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="al igual que">Lo hizo <marker>al igual a lo que</marker> hizo el otro.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HOLA_QUE_TAL" name="hola, ¿qué tal?" default="temp_off">
+            <antipattern>
+                <token>Hola</token>
+                <token>,</token>
+                <token>¿</token>
+                <token>qué</token>
+                <token skip="20">tal</token>
+                <token>?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hola</token>
+                        <token min="0">,</token>
+                        <token min="0">¿</token>
+                        <token regexp="yes">que|qué</token>
+                        <token skip="20">tal</token>    
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿qué tal,</suggestion>
+                <example correction="Hola, ¿qué tal,"><marker>hola que tal</marker> amigos?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hola</token>
+                        <token min="0">,</token>
+                        <token min="0">¿</token>
+                        <token regexp="yes">que|qué</token>
+                        <token>tal</token>    
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿qué tal?</suggestion>
+                <example correction="Hola, ¿qué tal?"><marker>hola que tal</marker> amigos.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
             <antipattern>
                 <token>Hola</token>
@@ -12502,6 +12541,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A Tom no le gusta las mates.</example>
                 <example>¿O esos acaso existían?</example>
                 <example>Y si no las rechazo pierdo el amor.</example>
+                <example>Las mil quinientas fotos que tengo.</example>
+                <example>Las mil y dos noches.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
                 <!-- que una espacio y tiempo (possible but rare) -->
             </rule>
@@ -16616,6 +16657,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="MASTATE" name="mastate/mataste" default="temp_off">
+            <pattern>
+                <token>mastate<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Quería decir <suggestion>mataste</suggestion> (del v. 'matar')?</message>
+            <example correction="mataste">¿Por qué la <marker>mastate</marker>?</example>
+        </rule>
         <rule id="PERSONES" name="persones/personas">
             <pattern>
                 <token><exception>te</exception></token>
@@ -16664,12 +16712,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- done already by the rule AGREEMENT_DET_NOUN, but a specific message is needed -->
             <pattern>
                 <token postag="D..FP." postag_regexp="yes"/>
-                <token regexp="yes">miles|millones</token>
+                <token regexp="yes">miles|millones|millares</token>
             </pattern>
             <message>Error de concordancia. "<match no="2" case_conversion="startupper"/>" es una sustantivo masculino independientemente del sustantivo posterior (p. ej., unos <match no="2" case_conversion="alllower"/> de personas).</message>
-            <suggestion><match no="1" postag="(D..)FP." postag_regexp="yes" postag_replace="$1MP0"/> miles</suggestion>
+            <suggestion><match no="1" postag="(D..)FP." postag_regexp="yes" postag_replace="$1MP0"/> \2</suggestion>
             <url>https://www.fundeu.es/recomendacion/los-miles-de-personas-no-las-miles-de-personas-861/</url>
             <example correction="los miles">De <marker>las miles</marker> de personas que vinieron.</example>
+            <example correction="los millares">De <marker>las millares</marker> de personas que vinieron.</example>
         </rule>
         <rule id="A_TRAVES" name="través/a través">
             <antipattern>
