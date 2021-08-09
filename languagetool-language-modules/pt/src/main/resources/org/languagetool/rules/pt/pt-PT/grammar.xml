@@ -1430,6 +1430,30 @@ THIS IS TO CREATE A RULE: "Confusão: rais/raiz"
 		<token postag='SPS.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-07-27 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-08-09 (25-JUN-2021+) *START* -->
+<!--
+Só deveria ter as polegadas do ecrã e não montes de opções com tamanho dos ecrãs.
+-->
+      <antipattern>
+		<token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
+		<token postag='RN' postag_regexp='no'/>
+		<token postag='VMM02S0|VMSP2S0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>	  
+<!--
+Isto praticamente como antes do início da guerra.
+Nunca se mente tanto como antes das eleições, durante a guerra e depois da caça.
+-->
+      <antipattern>
+		<token postag='PT.+' postag_regexp='yes'>
+			<exception regexp='no'>que</exception>
+		</token>
+		<token postag='VMSP2S0' postag_regexp='no'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2021-08-09 (25-JUN-2021+) *END* -->
       <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2S.+" postag_regexp='yes'>
@@ -1459,7 +1483,11 @@ THIS IS TO CREATE A RULE: "Confusão: rais/raiz"
 	  <example>Deveríamos dar a ela flores.</example>
 	  
 	  <example>Já não acredito muito nas <marker>empresas</marker>.</example>  
-	  <example>Tom vive agora nas Ilhas Cayman.</example>	  
+	  <example>Tom vive agora nas Ilhas Cayman.</example>
+
+	  <example>Só deveria ter as polegadas do ecrã e não montes de opções com tamanho dos ecrãs.</example>
+	  <example>Isto praticamente como antes do início da guerra.</example>
+	  <example>Nunca se mente tanto como antes das eleições, durante a guerra e depois da caça.</example>	  
     </rule>
     <rule>
       <pattern>
