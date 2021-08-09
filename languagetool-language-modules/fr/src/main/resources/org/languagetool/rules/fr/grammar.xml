@@ -6018,6 +6018,141 @@ though, and has since been slightly modified)-->
                 <example>Je n'ai que ça autour de mon PC.</example>
                 <example>Je ne connais pas si bien que ça Paris.</example>
             </rule>
+			<rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token>ça
+                        <exception postag="V.*|UNKNOWN" postag_regexp="yes" scope="previous"/>
+                        <exception scope="previous">pas</exception></token>
+                </marker>
+                <token postag="J [fe] p|V ppa [fe].* p" postag_regexp="yes">
+                    <exception postag="V.*" postag_regexp="yes"/>
+                    <exception regexp="yes">[a-z]</exception></token>
+                <token postag="N [fe] p" postag_regexp="yes"/>
+            </pattern>
+            <message>L'accord entre le déterminant et l'adjectif qui suit semble incorrect.</message>
+            <suggestion>ces</suggestion>
+            <suggestion>ses</suggestion>
+            <example correction="ces|ses">Il parle de <marker>ça</marker> nouvelles maisons.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>ça</token>
+                <token>rousse</token>
+                <token>pète</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token>comme</token>
+                <token>ça</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ça
+                        <exception postag="V.*|UNKNOWN" postag_regexp="yes" scope="previous"/>
+                        <exception scope="previous">pas</exception></token>
+                </marker>
+                <token postag="J [fe] s|V ppa [fe] s" postag_regexp="yes">
+                    <exception postag="V.*" postag_regexp="yes"/>
+                    <exception regexp="yes">[a-z]</exception></token>
+                <token postag="N [fe] s" postag_regexp="yes"/>
+            </pattern>
+            <message>Le pronom possessif s'écrit <suggestion>sa</suggestion>.</message>
+            <example correction="sa">Il parle de <marker>ça</marker> nouvelle maison.</example>
+            <example>La conduite d’un brun est plus tranquille, ça rousse pète moins.</example>
+            <example>Tu chantes bien mais ça libre champ aux fameuses élites.</example>
+            <example>Mais que c'est bon tout ça petites remarques.</example>
+            <example>Allez continuez comme ça chère institution respectueuse de la loi.</example>
+            <example>2003 : Check ça sale pute !</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token>que</token>
+                <token>ça</token>
+                <token>question</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ça</token>
+                <token postag="N f s" regexp="yes">h.*
+                    <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* inf" postag_regexp="yes" skip="3"/>
+                <token>que</token>
+                <token>ça</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="M nonfin" min="0" max="1"/>
+                <token postag="SENT_END|R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>
+                    <exception postag="V.*" postag_regexp="yes"/>
+                </token>
+                <token>pas</token>
+                <token>de</token>
+                <token>ça</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes" skip="-1">prononcer|appeler|nommer</token>
+                <token>ça</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" skip="3"/>
+                <token>comme</token>
+                <token>ça</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>fais</token>
+                <token>pas</token>
+                <token skip="1">ci</token>
+                <token>fais</token>
+                <token>pas</token>
+                <token>ça</token>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="[VP].*" postag_regexp="yes"/></token>
+                <token>ça</token>
+                <token postag="N f s"/>
+                <token postag="A" min="1" max="3" skip="-1"/>
+                <token><exception postag="V.*" postag_regexp="yes"/></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ça
+                        <exception postag="V.*" postag_regexp="yes" scope="previous"/></token>
+                </marker>
+                <token postag="N f s">
+                    <exception postag="[JT].*" postag_regexp="yes"/>
+                    <exception postag="V.*" postag_regexp="yes"/>
+                    <exception regexp="yes">[a-z]|oui|non|(?-i)[A-Z].*|mi-&mois_annee;|trole|personne</exception>
+                </token>
+            </pattern>
+            <message>Le pronom possessif s'écrit <suggestion>sa</suggestion>.</message>
+            <example correction="sa">Il parle de <marker>ça</marker> maison.</example>
+            <example>Je ne trouve pas ça drôle.</example>
+            <example>Tu imagine ça marron ?</example>
+            <example>C'est l'Italie, ça madame...</example>
+            <example>C'est pas si mal que ça question condition...</example>
+            <example>Je ne savait pas ça chouette.</example>
+            <example>En fonction de ça Discussion.</example>
+            <example>Ça montre que tu n’as pas compris.</example>
+            <example>Des fois si on est limités en gaz ou qu'on a trop froid pour attendre 2h que ça boue.</example>
+            <example>C'est juste une proposition comme ça histoire d'avoir quelques retours.</example>
+            <example>Ça c’est un couteau.</example>
+            <example>Ça n’a pas de sens.</example>
+            <example>Mais ça oui.</example>
+            <example>Je prends un pantalon de rando, qui se dézippe aux genoux comme ça rando/escalade.</example>
+            <example>Arachné, ça se prononce Arakhnê, et ça minerve, ça.</example>
+            <example>Je ne toucherais pas à ça si j'étais toi.</example>
+            <example>Je n'ai que ça autour de mon PC.</example>
+            <example>Et ça côte plutôt 6c/6c+.</example>
+            <example>Pour suivre un itinéraire, ça fonction très bien.</example>
+            <example>Je ne connais pas si bien que ça Paris.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="SA_CA_SE" name="confusions sa/ça/se">
             <rule>
