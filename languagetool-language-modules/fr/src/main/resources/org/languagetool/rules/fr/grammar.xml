@@ -53105,6 +53105,34 @@ though, and has since been slightly modified)-->
             <suggestion>\2\4</suggestion>
             <example correction="autocensurer">Ils ont choisi de ne pas s'<marker>auto censurer</marker>.</example>
         </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>en</token>
+                <token>-</token>
+                <token>deça</token>
+            </pattern>
+            <message>Ce mot n'existe pas. Il peut être remplacé par <suggestion>au-dessous</suggestion>.</message>
+            <example correction="au-dessous">Il est <marker>en-deça</marker> du seuil autorisé.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>en</token>
+                <token>-</token>
+                <token>dedans</token>
+                <token postag="P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Le mot '\1\2\3' n'existe pas. Il peut être remplacé par <suggestion>dans</suggestion>.</message>
+            <example correction="dans">Il est <marker>en-dedans de</marker> la ville.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>en</token>
+                <token>-</token>
+                <token>delà</token>
+            </pattern>
+            <message>Ce mot n'existe pas. Il peut être remplacé par <suggestion>au-delà</suggestion>.</message>
+            <example correction="au-delà">Il ne faut pas aller <marker>en-delà</marker> du seuil autorisé.</example>
+        </rule>
         </rulegroup>
         <rule id="CEST_A_DIRE" name="c'est à dire">
             <pattern>
