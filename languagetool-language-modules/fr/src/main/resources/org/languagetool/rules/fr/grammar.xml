@@ -29052,6 +29052,97 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="trouver">Veuillez <marker>trouvez</marker> ci-joint.</example>
             </rule>
+			<rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ça|cela</token>
+                        <marker>
+                            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
+                                <exception postag="V.*|R pers obj.*|N f s" postag_regexp="yes"/>
+                                <exception regexp="yes">a|as</exception>
+                                <exception inflected="yes">ne</exception></token>
+                        </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <example correction="sort|sorte|sortes|sortis|sors">Cela <marker>sorts</marker> ce soir.</example>
+                <example correction="envoie">Et ça <marker>envoi</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token regexp="yes">ça|cela</token>
+                    <token postag="N f s"/>
+                </antipattern>
+                <antipattern>
+                    <token>suite</token>
+                    <token>à</token>
+                    <token>ça</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token regexp="yes">ça|cela</token>
+                    <token postag="N f s"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ça|cela<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                        <marker>
+                            <token postag="N f s">
+                                <exception>personne</exception>
+                                <exception postag="V.* (ind|sub).*" postag_regexp="yes"/></token>
+                        </marker>
+                    <token postag="A" skip="-1"/>
+                    <token><exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <example correction="fonctionne|fonctionna">Cela <marker>fonction</marker> très bien.</example>
+                <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça <marker>côte</marker> plutôt 6c.</example>
+                <example>Il est fortement déconseillé de faire ça popote dedans.</example>
+                <example>Suite à ça douleur forte et j'arrive plus à tenir les prises.</example>
+                <example>Pouvez vous m'indiquer aussi les procédures finales pour ça publication ?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ça|cela<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                    <token inflected="yes">ne</token>
+                    <marker>
+                            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
+                        <exception postag="V.* (ind|sub).*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <example correction="fonctionne|fonctionna">Cela ne <marker>fonction</marker> très bien.</example>
+                <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Eh, ça ne <marker>côte</marker> pas plutôt 6c ?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ça|cela</token>
+                    <token inflected="yes">ne</token>
+                    <token min="1" max="3" postag="R pers obj.*" postag_regexp="yes"/>
+                    <marker>
+                            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
+                        <exception postag="V.* (ind|sub).*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <example correction="fonctionne|fonctionna">Cela ne lui <marker>fonction</marker> très bien.</example>
+                <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça ne leur <marker>côte</marker> rien.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">ça|cela</token>
+                    <token min="1" max="3" regexp="yes">[mts]e|[mts]'|lui|leur|[nv]ous</token>
+                    <marker>
+                            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
+                        <exception postag="V.* (ind|sub).*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).* removeSuggestionsRegexp:^.*[éè]$"/>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <example correction="fonctionne|fonctionna">Cela lui <marker>fonction</marker> très bien.</example>
+                <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça nous <marker>côte</marker> plutôt cher.</example>
+                </rule>
         </rulegroup>
         <rulegroup id="NE_IMP_PAS" name="Ne + impératif + pas">
             <rule>
