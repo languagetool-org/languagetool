@@ -6234,6 +6234,79 @@ though, and has since been slightly modified)-->
                 <example correction="ça">Tu n’es pas si fort que <marker>çà</marker>.</example>
                 <example>Il trouva de la nourriture çà et là.</example>
             </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>comment</token>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token postag="J.*| V.* ppa.*" postag_regexp="yes">
+                    <exception scope="next" postag="N f s"/>
+                    <exception postag="N [fe] s" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Le pronom démonstratif <suggestion>ça</suggestion> est attendu après cet adjectif interrogatif.</message>
+            <example correction="ça">Comment <marker>sa</marker> malhonnête ?</example>
+            <example>Elle découvre comment sa jeune veuve assume l'épreuve dans l'espérance chrétienne.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token><exception postag="V.*" postag_regexp="yes"/></token>
+                <token>pas</token>
+                <token>ça</token>
+                <token postag="J f s"/>
+            </antipattern>
+            <pattern>
+                <token>ça<exception scope="previous" regexp="yes">/d</exception></token>
+                <marker>
+                    <token postag="J f s">
+                        <exception scope="next" postag="[JN].*|UNKNOWN" postag_regexp="yes"/>
+                        <exception postag="V.*" postag_regexp="yes"/>
+                        <exception regexp="yes">seule|commune|(?-i)[A-Z].*</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>L'adjectif est accordé au masculin avec '\1'.</message>
+            <suggestion><match no="2" postag="J f s" postag_regexp="yes" postag_replace="J m s"/></suggestion>
+            <example correction="normal">Trouvez-vous ça <marker>normale</marker> ?</example>
+            <example>Pas ça malheureuse.</example>
+            <example>Je veux faire ça seule.</example>
+            <example>Le maire est responsable sur ça commune.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token postag="P.*|C sub|[AV].*" postag_regexp="yes"/>
+                <token>sa</token>
+                <token postag="J [me].*| V.* ppa [me].*" postag_regexp="yes"/>
+                <token postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" regexp="yes">trouver|penser|voir|affirmer|vouloir|souhaiter</token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token postag="J [me].*| V.* ppa [me].*" postag_regexp="yes">
+                    <exception regexp="yes">poétique|1e|2e|3e|rythmique|décapotable|sémantique|propre|bio</exception>
+                    <exception postag="V.*|UNKNOWN|N [ef] s" postag_regexp="yes"/></token>
+                <token postag="[PMZ].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Le pronom démonstratif <suggestion>ça</suggestion> est attendu avant cet adjectif.</message>
+            <example correction="ça">Et tu trouves <marker>sa</marker> drôle ?</example>
+            <example>Elle découvre comment sa jeune veuve assume l'épreuve dans l'espérance chrétienne.</example>
+            <example>Dès sa 2e ou 3e contrib, il connait la bandeau désaccord de neutalité.</example>
+            <example>Tant par sa poétique, sa politique que sa réception, ce recueil constitue une œuvre majeure de la littérature québécoise.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                    <token regexp="yes">continue?</token>
+                </marker>
+            </pattern>
+            <message>Le pronom démonstratif est attendu devant ce verbe.</message>
+            <suggestion>ça continue</suggestion>
+            <example correction="ça continue">Et <marker>sa continue</marker> encore.</example>
+		</rule>
         </rulegroup>
         <rulegroup id="QUANT_QUAND_QU_EN" name="Quant, quand ou qu'en">
             <rule>
