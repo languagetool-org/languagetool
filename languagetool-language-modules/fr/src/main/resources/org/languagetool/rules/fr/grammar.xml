@@ -55049,20 +55049,19 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-        <rule id="REMERCIER_POUR" name="remercier pour->de" default="temp_off">
-                <pattern>
-                    <marker>
-                        <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">remercier</token>
-                        <token>pour</token>
-                    </marker>
-                        <token postag_regexp="yes" postag="V.*|R pers obj.*"/>
-                </pattern>
-                <message>La préposition 'pour' s'utilise lorsque le complément introduit est un nom.</message>
-                <suggestion>\1 de</suggestion>
-                <suggestion>\1 d'</suggestion>
-                <example correction="remercie de|remercie d'">Je te <marker>remercie pour</marker> m'avoir aidé.</example>
-            </rule>
-
+        <rule id="REMERCIER_POUR" name="remercier pour (de)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">remercier</token>
+                    <token>pour</token>
+                </marker>
+                    <token postag_regexp="yes" postag="V.*|R pers obj.*"/>
+            </pattern>
+            <message>La préposition 'pour' s'utilise lorsque le complément introduit est un nom.</message>
+            <suggestion>\1 de</suggestion>
+            <suggestion>\1 d'</suggestion>
+            <example correction="remercie de|remercie d'">Je te <marker>remercie pour</marker> m'avoir aidé.</example>
+        </rule>
         <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
             <rule>
                 <pattern>
