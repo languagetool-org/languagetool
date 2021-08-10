@@ -36566,6 +36566,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Va ser el 5è. I l'altre el 6è.</example>
             <example>1r, 2n...</example>
         </rule>
+        <rulegroup id="GRAMS" name="abreviatura de grams (g)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d\.,]+\d</token>
+                    <marker>
+                        <token>gr</token>
+                        <token>.<exception postag="SENT_END"/></token>
+                    </marker>
+                </pattern>
+                <message>L'abreviatura normalitzada de "grams" és <suggestion>g</suggestion> (sense punt).</message>
+                <example correction="g">Afegiu-hi 250 <marker>gr.</marker> de tomaca.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d\.,]+\d</token>
+                    <marker>
+                        <token>gr</token>
+                    </marker>
+                </pattern>
+                <message>L'abreviatura normalitzada de "grams" és <suggestion>g</suggestion> (sense punt).</message>
+                <example correction="g">Afegiu-hi 250 <marker>gr</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
             <rule>
                 <pattern>
@@ -37110,6 +37133,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>P. ex. el camp.</example>
         </rule>
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
+            <antipattern>
+                <token regexp="yes">[\d\.,]+\d</token>
+                <token>gr</token>
+            </antipattern>
             <pattern case_sensitive="no">
                 <marker>
                     <!-- Eliminades les abreviatures d'una sola lletra. spacebefore="yes" -->
