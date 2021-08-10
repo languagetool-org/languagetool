@@ -4240,13 +4240,17 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rule id="SI_CI" name="cette fois si" default="temp_off">
+        <rule id="SI_CI_1" name="cette fois si (ci)" default="temp_off">
+            <antipattern>
+                  <token>si</token>
+                    <token postag_regexp="yes" postag="Z|N.*" skip="2"/>
+                    <token postag_regexp="yes" postag="V.*"/>
+                  <token>si</token>
+            </antipattern>
             <pattern>
                 <token>cette</token>
                 <marker>
-                    <token>fois
-                        <exception>,</exception>
-                    </token>
+                    <token>fois</token>
                     <token>si</token>
                 </marker>
             </pattern>
