@@ -1192,6 +1192,11 @@ public class AgreementRule extends Rule {
       tokenRegex("und|oder|aber"),
       new PatternTokenBuilder().posRegex("PRP.*").min(0).build(),
       posRegex("ART:DEF.*")
+    ),
+    Arrays.asList( // weil man oft bei **anderen schreckliches Essen** vorgesetzt bekommt
+      tokenRegex("andere[rn]?"),
+      posRegex("ADJ.*"),
+      posRegex("SUB.*")
     )
   );
 
