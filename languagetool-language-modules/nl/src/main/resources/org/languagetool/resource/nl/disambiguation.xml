@@ -469,6 +469,13 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="remove" postag="ENM.*"/>
 	</rule>
+	<rule id="ZNW_ZELDZAAM3" name="van">
+		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
+		<pattern>
+			<marker><token>van</token></marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW.*"/>
+	</rule>
 
 	<!-- correct for 'een ons bekend ... -->
 	<rule id="ONS_BEKEND" name="terugcorrigeren">
@@ -1378,19 +1385,38 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </rule>
 	<rule id="COMMON_PATTERNS_7_001" name="x">
 	   <pattern>
-		   <token postag="VRZ"/>
-		   <token postag="VNW:AWZ:EKV:DE_"/>
+		   <token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|GET:TXT:EKV"/>
+		   <token min="0" max="1" postag=".*VRB"/>
 		   <token postag="ZNW:EKV:DE_"/>
-		   <token postag="VRZ"/>
+		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
 	   </pattern>
 	   <disambig action="filterall"/>
 	</rule>
 	<rule id="COMMON_PATTERNS_7_002" name="x">
 	   <pattern>
-		   <token postag="VRZ"/>
 		   <token postag="VNW:AWZ:EKV:HET"/>
+		   <token min="0" max="1" postag=".*VRB"/>
 		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
-		   <token postag="VRZ"/>
+		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
+	   </pattern>
+	   <disambig action="filterall"/>
+	</rule>
+	<rule id="COMMON_PATTERNS_7_003" name="x">
+	   <pattern>
+		   <token postag="GET:TXT:EKV"/>
+		   <token min="0" max="2" postag=".*ONV"/>
+		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
+		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
+	   </pattern>
+	   <disambig action="filterall"/>
+	</rule>
+	<rule id="COMMON_PATTERNS_7_002" name="x">
+	   <pattern>
+		   <token postag="VNW:AWZ:EKV:HET"/>
+		   <token min="0" max="1" postag=".*ONV"/>
+		   <token min="0" max="1" postag=".*VRB"/>
+		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
+		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
 	   </pattern>
 	   <disambig action="filterall"/>
 	</rule>

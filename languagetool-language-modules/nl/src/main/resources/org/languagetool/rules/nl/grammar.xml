@@ -12948,13 +12948,12 @@ onwaarschijnlijk
 				<pattern case_sensitive="yes">
 					<marker>
 						<token>de</token>
-						<token regexp="yes">Baarsjes|Bilt|Klinge|Meern|Wolden|Lier|Ronde|Moeren</token>
+						<token regexp="yes" case_sensitive="yes">Baarsjes|Bilt|Klinge|Meern|Wolden|Lier|Ronde|Moeren</token>
 					</marker>
 					<token><exception>van</exception></token>
 				</pattern>
 				<message>Wanneer u de plaats bedoelt, dan is <suggestion><match no="1" case_conversion="startupper"/> <match no="2"/></suggestion> correct.</message>
 				<short>Hoofdletter?</short>
-				<example correction="De Ronde">Kortom Oudenaarde heeft een hart voor <marker>de Ronde</marker>.</example>
 				<example correction="De Klinge">Zo heeft hij ook zijn Célévie leren kennen op een kermiskoers in <marker>de Klinge</marker>.</example>
 				<example correction="De Bilt">Of het hoofdstation in <marker>de Bilt</marker> nog een keer voor een zomerse dag in aanmerking komt is de vraag.</example>
 				<example correction="De Moeren">Tussen legde Wensel Cobergher <marker>de Moeren</marker> droog.</example>
@@ -36522,7 +36521,7 @@ steenwijk;Steenwijk
 					<token>rond</token>
 					<token>de</token>
 					<token>tafel</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">zo|bij|een|weer|van|wil|voor|te</exception><exception postag_regexp="yes" postag="WKW.*|VRZ"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">zo|bij|een|weer|van|wil|voor|te</exception><exception postag_regexp="yes" postag="WKW.*|VRZ|SENT_END"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -41784,7 +41783,6 @@ steenwijk;Steenwijk
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
 			<example correction="werd|wordt">Amalia <marker>worden</marker> artieste en prinses.</example>
 		</rule>
-
 	</category>
 	<category id="FULL_SENTENCES" name="volledige zinnen met fout">
 		<rule id="FULL_SENTENCE_001" name="verkeerde werkwoordvorm" >
