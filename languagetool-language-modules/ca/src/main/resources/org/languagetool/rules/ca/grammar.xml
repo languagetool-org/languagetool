@@ -36569,13 +36569,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GRAMS" name="abreviatura de grams (g)" default="temp_off">
             <rule>
                 <pattern>
-                    <token regexp="yes">[\d\.,]+\d</token>
+                    <token regexp="yes">[\d\., &#160;]*\d</token>
                     <marker>
                         <token>gr</token>
                         <token>.<exception postag="SENT_END"/></token>
                     </marker>
                 </pattern>
-                <message>L'abreviatura normalitzada de "grams" és <suggestion>g</suggestion> (sense punt).</message>
+                <message>El símbol normalitzat de "grams" és <suggestion>g</suggestion> (sense punt).</message>
                 <example correction="g">Afegiu-hi 250 <marker>gr.</marker> de tomaca.</example>    
             </rule>
             <rule>
@@ -36585,7 +36585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>gr</token>
                     </marker>
                 </pattern>
-                <message>L'abreviatura normalitzada de "grams" és <suggestion>g</suggestion> (sense punt).</message>
+                <message>El símbol normalitzat de "grams" és <suggestion>g</suggestion> (sense punt).</message>
                 <example correction="g">Afegiu-hi 250 <marker>gr</marker>.</example>
             </rule>
         </rulegroup>
@@ -37915,6 +37915,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Les unitats s'escriuen sense punt.</message>
             <suggestion>\1</suggestion>
             <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
+        </rule>
+        <rule id="PUNT_EN_UNITATS_SI" name="unitats sense punt: *km./km" default="temp_off">
+            <pattern>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </marker>
+            </pattern>
+            <message>Les unitats s'escriuen sense punt.</message>
+            <suggestion>\2</suggestion>
+            <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
+            <example>Està a 20 km.</example>
         </rule>
         <rulegroup id="SUPERINDEXS" name="superíndexs en unitats: m2/m²">
             <rule>
