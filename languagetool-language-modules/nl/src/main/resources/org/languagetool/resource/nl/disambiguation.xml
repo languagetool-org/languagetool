@@ -1383,42 +1383,30 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-	<rule id="COMMON_PATTERNS_7_001" name="x">
-	   <pattern>
-		   <token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|GET:TXT:EKV"/>
-		   <token min="0" max="1" postag=".*VRB"/>
-		   <token postag="ZNW:EKV:DE_"/>
-		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
-	   </pattern>
-	   <disambig action="filterall"/>
-	</rule>
-	<rule id="COMMON_PATTERNS_7_002" name="x">
-	   <pattern>
-		   <token postag="VNW:AWZ:EKV:HET"/>
-		   <token min="0" max="1" postag=".*VRB"/>
-		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
-		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
-	   </pattern>
-	   <disambig action="filterall"/>
-	</rule>
-	<rule id="COMMON_PATTERNS_7_003" name="x">
-	   <pattern>
-		   <token postag="GET:TXT:EKV"/>
-		   <token min="0" max="2" postag=".*ONV"/>
-		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
-		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
-	   </pattern>
-	   <disambig action="filterall"/>
-	</rule>
-	<rule id="COMMON_PATTERNS_7_004" name="x">
-	   <pattern>
-		   <token postag="VNW:AWZ:EKV:HET"/>
-		   <token min="0" max="1" postag=".*ONV"/>
-		   <token min="0" max="1" postag=".*VRB"/>
-		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
-		   <token postag_regexp="yes" postag="VRZ|SENT_END"/>
-	   </pattern>
-	   <disambig action="filterall"/>
-	</rule>
 
+	<rule id="AMBIGUITY_001" name="x">
+		<antipattern>
+			<token regexp="yes" skip="1">n?iets</token>
+			<token/>
+		</antipattern>
+		<pattern>
+			<and>
+				<token postag_regexp="yes" postag="BNW:.*:ONV"/>
+				<token postag_regexp="yes" postag="BNW:.*:IET"/>
+			</and>
+		</pattern>
+	   <disambig action="remove" postag="BNW:.*IET"/>
+	</rule>
+	<rule id="AMBIGUITY_002" name="x">
+		<pattern>
+			<token regexp="yes" skip="1">n?iets</token>
+			<marker>
+				<and>
+					<token postag_regexp="yes" postag="BNW:.*:ONV"/>
+					<token postag_regexp="yes" postag="BNW:.*:IET"/>
+				</and>
+			</marker>
+		</pattern>
+	   <disambig action="remove" postag="BNW:.*ONV"/>
+	</rule>
 </rules>
