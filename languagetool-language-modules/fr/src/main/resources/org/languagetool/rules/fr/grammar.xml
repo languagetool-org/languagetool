@@ -55049,6 +55049,38 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rule id="TOUT_TOUTE" name="tout + élision" default="temp_off">
+            <antipattern>
+                <token regexp="yes">toutes?</token>
+                <token postag_regexp="yes" postag="N.*"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token>toute</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">,|que|:|;</token>
+                <token>toute</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="P|C.*"/>
+                <token>toute</token>
+            </antipattern>
+            <pattern>
+                <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">demeurer|devenir|être|para[îi]tre|rester|sembler</token>
+                <token postag_regexp="yes" postag="D.*" min="0"/>
+                <marker>
+                    <token>toute</token>
+                </marker>
+                    <token regexp="yes" postag_regexp="yes" postag="J.*|V ppa.*">&elision_regexp;</token>
+            </pattern>
+            <message>Si 'tout' peut être ôté de la phrase, c’est un adverbe signifiant 'entièrement'. Il est donc invariable.</message>
+            <suggestion>tout</suggestion>
+            <url>https://www.projet-voltaire.fr/regles-orthographe/tout-autre-ou-toute-autre/</url>
+            <example correction="tout">Elle semble <marker>toute</marker> étonnée.</example>
+            <example correction="tout">C'est une <marker>toute</marker> autre affaire.</example>
+            <example>Toute autre utilisation de ce C.D. est interdite.</example>
+        </rule>
         <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
             <rule>
                 <pattern>
