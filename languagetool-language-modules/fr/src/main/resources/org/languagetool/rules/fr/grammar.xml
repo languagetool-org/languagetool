@@ -55045,6 +55045,21 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rule id="REMERCIER_SALUER_A" name="remercier/saluer (à)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">remercier|saluer</token>
+                    <token>à</token>
+                </marker>
+                <token postag_regexp="yes" postag="Z|R .*">
+                    <exception regexp="yes">l'|ce(ttes?|s)?|avance|nouveau|jamais|occasions?|arrivées?|départs?|fois|mi-|moment</exception>
+                </token>
+            </pattern>
+            <message>Le verbe '\1' ne peut se construire que directement.</message>
+            <suggestion>\1</suggestion>
+            <url>http://www.dictionnaire-academie.fr/article/DNP0961</url>
+            <example correction="remercie">Je vous <marker>remercie à</marker> tous.</example>
+        </rule>
         <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
             <rule>
                 <pattern>
