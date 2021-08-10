@@ -513,6 +513,19 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall"/>
 	</rule>
 
+	<rule id="TE_MRV" name="alleen wkw">
+		<pattern>
+			<token>te</token>
+			<marker>
+				<and>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="WKW:TGW:INF"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:INF"/>
+	</rule>
+
 	<rule id="DE_X_END" name="alleen znw">
 		<!-- hier alleen zelfstandige naamwoorden met de ; is wellicht -->
 		<pattern>
@@ -1363,5 +1376,23 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+	<rule id="COMMON_PATTERNS_7_001" name="x">
+	   <pattern>
+		   <token postag="VRZ"/>
+		   <token postag="VNW:AWZ:EKV:DE_"/>
+		   <token postag="ZNW:EKV:DE_"/>
+		   <token postag="VRZ"/>
+	   </pattern>
+	   <disambig action="filterall"/>
+	</rule>
+	<rule id="COMMON_PATTERNS_7_002" name="x">
+	   <pattern>
+		   <token postag="VRZ"/>
+		   <token postag="VNW:AWZ:EKV:HET"/>
+		   <token postag_regexp="yes" postag="ZNW:.*:HET"/>
+		   <token postag="VRZ"/>
+	   </pattern>
+	   <disambig action="filterall"/>
+	</rule>
 
 </rules>
