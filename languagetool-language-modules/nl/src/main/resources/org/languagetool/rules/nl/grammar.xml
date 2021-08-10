@@ -41604,6 +41604,19 @@ steenwijk;Steenwijk
 				<example correction="24 uursrace">Het was een <marker>24-uursrace</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="ME_CAMPER" name="Me/mijn" default="off">
+			<rule>
+				<pattern>
+					<token><exception postag_regexp="yes" postag="WKW.*"/></token>
+					<marker>
+						<token>me</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>De juiste bezit aangevende vorm is<suggestion>mijn</suggestion>.</message>
+				<example correction="mijn">Ik heb deze vouwfietsen gekocht en gekeken of ze in <marker>me</marker> camper konden.</example>
+			</rule>
+		</rulegroup>
 
 	</category>
 	<category id="TEST" name="test">
@@ -41773,5 +41786,22 @@ steenwijk;Steenwijk
 		</rule>
 
 	</category>
-
+	<category id="FULL_SENTENCES" name="volledige zinnen met fout">
+		<rule id="FULL_SENTEMCE_001" name="verkeerde werkwoordvorm" >
+			<pattern>
+				&START;
+				<token postag_regexp="yes" postag="BNW:STL:ONV|BYW"/>
+				<marker>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+				</marker>
+				<token>de</token>
+				<token postag_regexp="yes" postag=".*MRV.*"/>
+				<token postag_regexp="yes" postag="BNW:STL:ONV|BYW"/>
+				&PUNT;
+			</pattern>
+			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
+			<example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
+		</rule>
+	</category>
 </rules>
