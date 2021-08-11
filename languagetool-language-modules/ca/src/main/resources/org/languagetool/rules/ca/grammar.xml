@@ -15728,6 +15728,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Premeu la tecla Av Pàg.</example>
         </rule>
         <rulegroup id="ADRECA_DIRECCIO" name="*adreça/direcció">
+            <antipattern>
+                <token regexp="yes" inflected="yes">llibreta|quadern</token>
+                <token>d'</token>
+                <token>adreces</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -15761,6 +15766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sol·licitar una adreça a la IANA.</example>
                 <example>ADREÇA D'ENVIAMENT.</example>
                 <example>adreça IANA</example>
+                <example>Llibreta d'adreces de Google.</example>
             </rule>
         </rulegroup>
         <!--<rule id="ENCARA_AIXI" name="*encara (i) així/així i tot" default="off">
@@ -20642,6 +20648,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">adreça</match></suggestion>?</message>
                 <example correction="adreça">Una <marker>direcció</marker> de 32 bits.</example>
+                <example>Les adreces IP.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">llibreta|quadern|llista|llibre</token>
+                    <marker>
+                        <token>de</token>
+                        <token>direccions</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>d'adreces</suggestion>?</message>
+                <example correction="d'adreces">Una llibreta <marker>de direccions</marker> de Google.</example>
                 <example>Les adreces IP.</example>
             </rule>
         </rulegroup>
@@ -41236,6 +41254,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="finançaments"><marker>finaçiacions</marker></example>
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
+            <rule id="GAY" name="gay/gai">
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token case_sensitive="yes">Gay</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Gay</token>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">gays?</token>
+                </pattern>
+                <message>Anglicisme innecessari. Considereu fer servir la grafia adaptada.</message>
+                <suggestion><match no="1" regexp_match="(?iu)y" regexp_replace="i" case_conversion="preserve"/></suggestion>
+                <example correction="Gai">El Festival <marker>Gay</marker> de la ciutat</example>
+                <example>Es diu Francesc Gay.</example>
+            </rule>
             <rule id="NEW_YORK" name="New York">
                 <antipattern>
                     <token postag="UNKNOWN"/>
