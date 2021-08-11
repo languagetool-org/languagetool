@@ -38544,6 +38544,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="feia feredat|esgarrifava|esmussava|esborronava">Allò <marker>donava molta grima</marker>.</example>
             <example correction="feia feredat|esgarrifava|esmussava|esborronava">Allò <marker>feia grima</marker>.</example>
         </rule>
+        <rulegroup id="SEVER" name="sever / greu" default="temp_off">
+            <url>https://esadir.cat/entrades/fitxa/node/severesever</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="6" regexp="yes">dolor|mal</token>
+                    <marker>
+                        <token inflected="yes">sever</token>
+                    </marker>
+                </pattern>
+                <message>En aquest context, "sever" pot ser un calc inapropiat de l'anglès.</message>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">intens</match></suggestion>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">agut</match></suggestion>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">fort</match></suggestion>
+                <example correction="intens|agut|fort">Patia un dolor <marker>sever</marker>.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="6">clima</token>
+                    <marker>
+                        <token inflected="yes">sever</token>
+                    </marker>
+                </pattern>
+                <message>En aquest context, "sever" pot ser un calc inapropiat de l'anglès.</message>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">rigorós</match></suggestion>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">dur</match></suggestion>
+                <example correction="rigorós|dur">Un clima <marker>sever</marker>.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="6">pobresa|incendi|inundació|terratrèmol|tsunami</token>
+                    <marker>
+                        <token inflected="yes">sever</token>
+                    </marker>
+                </pattern>
+                <message>En aquest context, "sever" pot ser un calc inapropiat de l'anglès.</message>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">extrem</match></suggestion>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">greu</match></suggestion>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">important</match></suggestion>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">seriós</match></suggestion>
+                <example correction="extrema|greu|important|seriosa">Vivien en condicions de pobresa <marker>severa</marker>.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="6">malaltia|lesió|ferida</token>
+                    <marker>
+                        <token inflected="yes">sever</token>
+                    </marker>
+                </pattern>
+                <message>En aquest context, "sever" pot ser un calc inapropiat de l'anglès.</message>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">greu</match></suggestion>
+                <example correction="greu">Patia una malaltia molt <marker>severa</marker>.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="2">colp|cop|xoc</token>
+                    <marker>
+                        <token inflected="yes">sever</token>
+                    </marker>
+                </pattern>
+                <message>En aquest context, "sever" pot ser un calc inapropiat de l'anglès.</message>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">fort</match></suggestion>
+                <example correction="fort">Va rebre un colp molt <marker>sever</marker>.</example>    
+            </rule>
+        </rulegroup>
         <rule id="PRENDRE_ACCIÓ" name="prendre acció (anglicisme)">
             <pattern>
                 <token inflected="yes">prendre</token>
