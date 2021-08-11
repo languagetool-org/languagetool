@@ -36566,7 +36566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Va ser el 5è. I l'altre el 6è.</example>
             <example>1r, 2n...</example>
         </rule>
-        <rulegroup id="GRAMS" name="abreviatura de grams (g)" default="temp_off">
+        <rulegroup id="GRAMS" name="abreviatura de grams (g)">
             <rule>
                 <pattern>
                     <token regexp="yes">[\d\., &#160;]*\d</token>
@@ -37904,31 +37904,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>”</suggestion>
             <example correction="—|«|»|“|”">Ara i ací <marker>„</marker>sempre.</example>
         </rule>
-        <rule id="PUNT_EN_UNITATS" name="unitats sense punt: *km./km">
-            <pattern>
-                <marker>
-                    <token regexp="yes">(?-i)k?(g|m)|cm|ha</token>
+        <rulegroup id="PUNT_EN_UNITATS_SI" name="unitats sense punt: *km./km">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">aC|dC</token>
+                        <token>.<exception postag="SENT_END"/></token>
+                    </marker>
+                </pattern>
+                <message>Aquesta abreviatura s'escriu sense punt.</message>
+                <suggestion>\1</suggestion>
+                <example correction="aC">(De l'any 210 <marker>aC.</marker>).</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">[A-Z]</token>
                     <token>.</token>
-                </marker>
-                <token regexp="yes">\p{Ll}.*|[,;]</token>
-            </pattern>
-            <message>Les unitats s'escriuen sense punt.</message>
-            <suggestion>\1</suggestion>
-            <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
-        </rule>
-        <rule id="PUNT_EN_UNITATS_SI" name="unitats sense punt: *km./km" default="temp_off">
-            <pattern>
-                <token regexp="yes">[\d\., &#160;]*\d</token>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
-                    <token>.<exception postag="SENT_END"/></token>
-                </marker>
-            </pattern>
-            <message>Les unitats s'escriuen sense punt.</message>
-            <suggestion>\2</suggestion>
-            <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
-            <example>Està a 20 km.</example>
-        </rule>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[\d\., &#160;]*\d</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                        <token>.<exception postag="SENT_END"/></token>
+                    </marker>
+                </pattern>
+                <message>Les unitats de mesura del sistema internacional s'escriuen sense punt.</message>
+                <suggestion>\2</suggestion>
+                <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
+                <example>Està a 20 km.</example>
+                <example>2 C.E. Vendrell</example>
+                <example>VIC 2009 C.P.V.</example>
+                <example>Ràdio Sarrià 87.6 F.M.</example>
+                <example>Endemés, des del 1966 K. S. Khovdaverdyan dirigeix l'Hayrakan Sovetakan Hanregitaran.</example>
+                <example>L'any 1894 L. Mariano Vidal hi realitzà excavacions.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUPERINDEXS" name="superíndexs en unitats: m2/m²">
             <rule>
                 <pattern>
