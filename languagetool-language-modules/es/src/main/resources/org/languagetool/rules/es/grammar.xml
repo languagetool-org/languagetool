@@ -10601,6 +10601,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>La conjunción 'o' se transforma en 'u'</short>
                 <example correction="u">El torneo lo disputarán Alemania <marker>o</marker> Honduras.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>o</token>
+                    </marker>
+                    <token regexp="yes">8[,.\d]*</token>
+                </pattern>
+                <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
+                <suggestion>u</suggestion>
+                <short>La conjunción 'o' se transforma en 'u'</short>
+                <example correction="u">Quiero hablar de 7 <marker>o</marker> 8 temas.</example>
+                <example correction="u">Han pasado 70 <marker>o</marker> 80 días.</example>
+                <example correction="u">Han pasado 700 <marker>o</marker> 800 días.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PORQUE" name="porque/por que/porqué">
             <url>https://www.rae.es/consultas/porque-porque-por-que-por-que</url>
