@@ -4984,6 +4984,25 @@ though, and has since been slightly modified)-->
             <example>Ce que je sens est une bonne façon de voir.</example>
 		</rule>
         </rulegroup>
+        <rule id="SI_CI_1" name="cette fois si (ci)" default="temp_off">
+            <antipattern>
+                  <token>si</token>
+                    <token postag_regexp="yes" postag="Z|N.*" skip="2"/>
+                    <token postag_regexp="yes" postag="V.*"/>
+                  <token>si</token>
+            </antipattern>
+            <pattern>
+                <token>cette</token>
+                <marker>
+                    <token>fois</token>
+                    <token>si</token>
+                </marker>
+            </pattern>
+            <message>La conjonction 'si' induit une condition.</message>
+            <suggestion>fois-ci</suggestion>
+            <example correction="fois-ci">Malheureusement, encore une énième rechute, qui je crois cette <marker>fois si</marker> sonnera le glas de la fin de carrière de Jesse</example>
+            <example>Mais cette fois, si tu y penses</example>
+        </rule>
         <rule id="POLE_2" name="pôle" default="temp_off">
         <!-- correctif pour ID="POLE" qui empêche la correction pole->pôle -->
             <antipattern>
