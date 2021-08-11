@@ -468,7 +468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="al igual que">Lo hizo <marker>al igual a lo que</marker> hizo el otro.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HOLA_QUE_TAL" name="hola, ¿qué tal?" default="temp_off">
+        <rulegroup id="HOLA_QUE_TAL" name="hola, ¿qué tal?">
             <antipattern>
                 <token>Hola</token>
                 <token>,</token>
@@ -477,6 +477,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="20">tal</token>
                 <token>?</token>
             </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hola</token>
+                        <token min="0">,</token>
+                        <token min="0">¿</token>
+                        <token regexp="yes">que|qué</token>
+                        <token>tal</token>    
+                    </marker>
+                    <token skip="20">,</token>
+                    <token>?</token>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿qué tal</suggestion>
+                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker>, amigos?</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -16678,7 +16694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rule id="MASTATE" name="mastate/mataste" default="temp_off">
+        <rule id="MASTATE" name="mastate/mataste">
             <pattern>
                 <token>mastate<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
             </pattern>
@@ -16847,7 +16863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="ESTABAMOS" name="está vamos/estábamos" default="temp_off">
+        <rule id="ESTABAMOS" name="está vamos/estábamos">
             <pattern>
                 <token>está</token>
                 <token>vamos</token>
