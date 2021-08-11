@@ -41645,7 +41645,30 @@ steenwijk;Steenwijk
 				<example correction="maakte|maakten">Gisteren <marker>maak</marker> ik het weer.</example>
 			</rule>
 		</rulegroup>
-
+		<rulegroup id="ZIEKTE_IN_MENSEN" name="Anglicisme" >
+			<rule>
+				<pattern>
+					<token regexp="yes" inflected="yes">ziekte|besmetting|covid|griep|influenza</token>
+					<marker>
+						<token>in</token>
+					</marker>
+					<token regexp="yes">mensen|kinderen|jongens|meisjes|baby's</token>
+				</pattern>
+				<message>U bedoelt hier 'in' vast niet letterlijk. Het is een anglicisme; gebruik <suggestion>bij</suggestion>.</message>
+				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> kinderen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes" inflected="yes">ziekte|besmetting|covid|griep|influenza</token>
+					<marker>
+						<token>in</token>
+					</marker>
+					<token postag="WKW:VTD:ZNW:MRV:DE_"/>
+				</pattern>
+				<message>U bedoelt hier 'in' vast niet letterlijk. Het is een anglicisme; gebruik <suggestion>bij</suggestion>.</message>
+				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> gevaccineerden.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="TEST" name="test">
 		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
