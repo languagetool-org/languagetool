@@ -41603,17 +41603,46 @@ steenwijk;Steenwijk
 				<example correction="24 uursrace">Het was een <marker>24-uursrace</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ME_CAMPER" name="Me/mijn" default="off">
+		<rulegroup id="ME_MOETEN" name="Me/we" >
 			<rule>
 				<pattern>
-					<token><exception postag_regexp="yes" postag="WKW.*"/></token>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>me</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token postag_regexp="yes" postag="WKW.*INF.*"/>
 				</pattern>
-				<message>De juiste bezit aangevende vorm is<suggestion>mijn</suggestion>.</message>
-				<example correction="mijn">Ik heb deze vouwfietsen gekocht en gekeken of ze in <marker>me</marker> camper konden.</example>
+				<message>U bedoelt misschien <suggestion>We</suggestion>. Zo niet, dan is deze volgorde ongebruikelijk.</message>
+				<example correction="We"><marker>Me</marker> moeten weg.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GISTEREN_GA" name="verkeerde tijd" >
+			<rule>
+				<antipattern>
+					<token regexp="yes">zoals|als</token>
+					<token>gisteren</token>
+				</antipattern>
+				<antipattern>
+					<token>ben</token>
+					<token>ik</token>
+				</antipattern>
+				<antipattern>
+					<token inflected="yes" regexp="yes" skip="-1">hebben|zijn|kunnen|worden</token>
+					<token postag_regexp="yes" postag="WKW:VTD:ONV|WKW:TGW:INF"/>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="WKW:VLT.*"/>
+					<token>gisteren</token>
+				</antipattern>
+				<pattern>
+					<token>gisteren</token>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW.*"><exception postag_regexp="yes" postag="WKW:VLT.*|BNW.*|WKW:TGW:INF|BYW"/><exception>kwijt</exception></token>
+					</marker>
+				</pattern>
+				<message>Bij gisteren past meestal de verleden tijd beter.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VLT.*"/></suggestion>
+				<example correction="maakte|maakten">Gisteren <marker>maak</marker> ik het weer.</example>
 			</rule>
 		</rulegroup>
 
@@ -41803,17 +41832,18 @@ steenwijk;Steenwijk
 			<example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
 		</rule>
 	</category>
-	<!--
+<!--
 	<category id="TEST_AMBIGUITY" name="dubbelzinnigheid in postags">
-		<rule id="BNWSTLONV-BNWSTLIET" name="BNW:STL:ONV BNW:STL:IET" >
+		<rule id="ZNWEKVDE_WKWTGW1EP" name="ZNW:EKV:DE_ WKW:TGW:1EP" >
+			&demoantipatterns;
 			<pattern>
 				<and>
-					<token postag="BNW:STL:ONV"/>
-					<token postag="BNW:STL:IET"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="WKW:TGW:1EP"/>
 				</and>
 			</pattern>
 			<message>Dit token is hier ambigu.</message>
-			<example type="incorrect">Hij is <marker>boos</marker>.</example>
+			<example type="incorrect">In <marker>loop</marker> van de dag.</example>
 		</rule>
 	</category>
 	-->
