@@ -10392,6 +10392,21 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token>c'</token>
                 <token>est</token>
+                <token postag="R inte"/>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token>est</token>
+                <token>lui</token>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token>est</token>
+                <token postag="D.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token>est</token>
                 <token>lui</token>
             </antipattern>
             <antipattern>
@@ -10427,6 +10442,10 @@ though, and has since been slightly modified)-->
                 <example>C'est ballot !</example>
                 <example>Que c’est t il passé?</example>
                 <example>C'est genre cul-cul la praline ton histoire.</example>
+                <example>C’est un moyen puissant pour rester zen.</example>
+                <example>C'est lui qui élève son beau canard à elle.</example>
+                <example>C’est la naissance de l’industrie des machines.</example>
+                <example>C'est quoi?</example>
                 <example>C’est un moyen puissant pour rester zen.</example>
                 <example>C'est lui qui élève son beau canard à elle.</example>
                 <example>c’est la naissance de l’industrie des machines.</example>
@@ -55049,6 +55068,52 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rule id="REMERCIER_POUR" name="remercier pour (de)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="V.*" inflected="yes">remercier</token>
+                    <token>pour</token>
+                </marker>
+                <token postag_regexp="yes" postag="V.*|R pers obj.*"/>
+            </pattern>
+            <message>La préposition 'pour' s'utilise lorsque le complément introduit est un nom.</message>
+            <suggestion>\1 de</suggestion>
+            <suggestion>\1 d'</suggestion>
+            <example correction="remercie de|remercie d'">Je te <marker>remercie pour</marker> m'avoir aidé.</example>
+        </rule>
+        <rulegroup id="S_ENSUIVRE" name="s'en suivre(s'ensuivre)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="R pers obj 3 .*">s'</token>
+                        <token>en</token>
+                        <token postag_regexp="yes" postag="V .*" inflected="yes">suivre</token>
+                    </marker>
+                </pattern>
+                <message>Au sens de 'découler, résulter' utilisez '\1<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensuivre</match>' ou '<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suivre</match>'.</message>
+                <suggestion>\1<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensuivre</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suivre</match></suggestion>
+                <url>http://www.dictionnaire-academie.fr/article/DNP0222</url>
+                <example correction="s'ensuivit|suivit">Il <marker>s’en suivit</marker> de grands troubles.</example>
+                <example correction="s'ensuivirent|suivirent">De grands troubles <marker>s’en suivirent</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="R pers obj 3 .*">s'</token>
+                        <token>en</token>
+                        <token postag_regexp="yes" postag="V etre .*"/>
+                        <token postag_regexp="yes" postag="V ppa .*" inflected="yes">suivre</token>
+                    </marker>
+                </pattern>
+                <message>Au sens de 'découler, résulter' utilisez '\1\3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match>', '\1\2 \3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match>' ou '<match no="3" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match> <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="$1$2">suivre</match>'.</message>
+                <suggestion>\1\3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match></suggestion>
+                <suggestion>\1\2 \3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match></suggestion>
+                <suggestion><match no="3" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match> <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="$1$2">suivre</match></suggestion>
+                <url>http://www.dictionnaire-academie.fr/article/DNP0222</url>
+                <example correction="s'est ensuivi|s'en est ensuivi|a suivi">Le développement qui <marker>s’en est suivi</marker> fut remarquable.</example>
+            </rule>
+        </rulegroup>
         <rule id="TOUT_TOUTE" name="tout + élision" default="temp_off">
             <antipattern>
                 <token regexp="yes">toutes?</token>
@@ -55084,7 +55149,7 @@ though, and has since been slightly modified)-->
          <rule id="SE_FAIRE_FORT_INF" name="se faire fort + inf" default="temp_off">
             <pattern>
                 <token postag_regexp="yes" postag="R pers obj.*" skip="2"/>
-                <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">faire</token>
+                <token postag_regexp="yes" postag="V.*" inflected="yes">faire</token>
                 <marker>
                     <token regexp="yes" inflected="yes">fort(e|s|es)</token>
                 </marker>
@@ -55101,7 +55166,7 @@ though, and has since been slightly modified)-->
                 <token postag_regexp="yes" postag="R pers obj.*" skip="2"/>
                 <token postag_regexp="yes" postag="V etre.*"/>
                 <marker>
-                    <token postag_regexp="yes" postag="V ppa.*" regexp="yes" inflected="yes">faire
+                    <token postag_regexp="yes" postag="V ppa.*" inflected="yes">faire
                         <exception>fait</exception>
                     </token>
                 </marker>
@@ -56823,19 +56888,19 @@ though, and has since been slightly modified)-->
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
             <rule id="BENEFICIER_A" name="bénéficier->profiter à">
                 <antipattern>
-                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">bénéficier</token>
+                    <token postag_regexp="yes" postag="V.*" inflected="yes">bénéficier</token>
                     <token regexp="yes" skip="2">à|aux?</token>
                     <token regexp="yes">seule?s?|rigueurs?|contraire|cours|mêmes?|présent|nord|sud|est|ouest|tours?|reprises?|retour|ces?|cette|partir|nouveau|maximum|minimum|point|fois|sorties?|fondations?|époques?|débuts?|fins?|positions?|niveaux?|total|sujets?|fil|départ|arrivée|moments?|quotidien|termes?|titres?|vues?</token>
                 </antipattern>
                 <antipattern>
-                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">bénéficier</token>
+                    <token postag_regexp="yes" postag="V.*" inflected="yes">bénéficier</token>
                     <token regexp="yes">à|aux?</token>
                     <token regexp="yes">plus|moins</token>
                     <token regexp="yes">des?|d'</token></antipattern>
                 <pattern>
                     <marker>
                         <token postag_regexp="yes" postag="V avoir.*" min="0"/>
-                        <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">bénéficier</token>
+                        <token postag_regexp="yes" postag="V.*" inflected="yes">bénéficier</token>
                         <token regexp="yes">à|aux?</token>
                     </marker>
                 </pattern>
