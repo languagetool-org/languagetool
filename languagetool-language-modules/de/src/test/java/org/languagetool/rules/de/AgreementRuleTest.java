@@ -571,6 +571,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetAdjNounRule() throws IOException {
     // correct sentences:
+    assertGood("Das ist, weil man oft bei anderen schreckliches Essen vorgesetzt bekommt.");
     assertGood("Das ist der riesige Tisch.");
     assertGood("Der riesige Tisch ist groß.");
     assertGood("Die Kanten der der riesigen Tische.");
