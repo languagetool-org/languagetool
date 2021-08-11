@@ -1194,7 +1194,8 @@ public class AgreementRule extends Rule {
       posRegex("ART:DEF.*")
     ),
     Arrays.asList( // weil man oft bei **anderen schreckliches Essen** vorgesetzt bekommt
-      tokenRegex("andere[rn]?"),
+      tokenRegex("bei|zum"),
+      token("anderen"),
       posRegex("ADJ.*"),
       posRegex("SUB.*")
     )
