@@ -38,7 +38,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY expressoes_de_tempo "(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)|época)s?|m(?:ês|eses)">
 
     <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
-    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|esmo|uito)|n(ada|ão)|pouco|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)|.+mente">
+    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|esmo)|muit[ao]|n(ada|ão)|pouc[ao]|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)|.+mente">
     <!ENTITY adverbios_de_lugar "(?:a(?:baixo|cima|dentro|diante|fora|í|l(?:ém|gures|hures|i)|quém|trás)|cá|dentro|e(?:mbaixo|xternamente)|l(?:á|onge)|nenhures|perto)">
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
 
@@ -38423,6 +38423,58 @@ E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
       <example correction="reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
     </rule>	
 
+	<!-- HÁ TEMPO QUE VERBO verbo há tempo -->
+    <rulegroup id='HÁ_TEMPO_QUE_VERBO_V2' name="Há + Tempo + que + Verbo → Verbo + há + Tempo" type='style'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-11 (Enhanced) (25-JUN-2021+)      -->
+	<!--
+Estes problemas há décadas que são abordados por cientistas. → Estes problemas são há décadas abordados por cientistas.
+Estes problemas há muitas décadas que são abordados por cientistas. → Estes problemas são há muitas décadas abordados por cientistas.
+	-->
+	<rule>
+<!--
+O artesanato bracarense há muito que ultrapassou as fronteiras do país. → O artesanato bracarense ultrapassou há muito as fronteiras do país.
+-->
+      <pattern>
+		<token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		</token>
+		<marker>
+			<token>há</token>
+			<token regexp='yes'>&adverbios_de_intensidade;|&expressoes_de_tempo;</token>
+			<token>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</marker>
+		<token negate_pos="yes" postag='VMN0000' postag_regexp='no'/>
+      </pattern>
+	  <message>Em certos contextos temporais, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\5 há \3</suggestion>
+      <example correction="são há décadas">Estes problemas <marker>há décadas que são</marker> abordados por cientistas.</example>
+	  <example>O artesanato bracarense ultrapassou há muito as fronteiras do país.</example>
+    </rule>
+	<rule>
+<!--
+O artesanato bracarense há muito tempo que ultrapassou as fronteiras do país. → O artesanato bracarense ultrapassou há muito tempo as fronteiras do país.
+-->
+      <pattern>
+		<token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		</token>
+		<marker>
+			<token>há</token>
+			<token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|&expressoes_de_tempo;</token> <!-- inflected='yes': with two keywords it accepts intensity plurals -->
+			<token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|&expressoes_de_tempo;</token> <!-- inflected='yes': with two keywords it accepts intensity plurals -->
+			<token>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</marker>
+		<token negate_pos="yes" postag='VMN0000' postag_regexp='no'/>
+      </pattern>
+	  <message>Em certos contextos temporais, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\6 há \3 \4</suggestion>
+      <example correction="são há muitas décadas">Estes problemas <marker>há muitas décadas que são</marker> abordados por cientistas.</example>
+	  <example>O artesanato bracarense ultrapassou há muito tempo as fronteiras do país.</example>
+    </rule>
+	</rulegroup>
+	
     <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='Para/Por + Ter + Particípio passado'>
 	<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-28 (2-JUL-2020+)   -->
 
