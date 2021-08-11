@@ -56904,6 +56904,217 @@ though, and has since been slightly modified)-->
                 <example correction="leurs vélos">C'est <marker>les vélos à eux</marker>.</example>
             </rule>
         </rulegroup>
+            <rule id="CONFORME_1" name="conforme avec (à)" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">conformes?</token>
+                        <token>avec</token>
+                    </marker>
+                </pattern>
+                <message>'\1 \2' est une expression fautive.</message>
+                <suggestion>conforme à</suggestion>
+                <suggestion>en conformité avec</suggestion>
+                <example correction="conforme à|en conformité avec">Ce produit est <marker>conforme avec</marker> sa description.</example>
+                <example>Ce produit est conforme à sa description.</example>
+            </rule>
+            <rule id="CONFORME_2" name="conformité a (avec)" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>en</token>
+                        <token regexp="yes">conformités?</token>
+                        <token>à</token>
+                    </marker>
+                </pattern>
+                <message>'\1 \2 \3' est une expression fautive. </message>
+                <suggestion>conforme à</suggestion>
+                <suggestion>en conformité avec</suggestion>
+                <example correction="conforme à|en conformité avec">Ce produit est <marker>en conformité à</marker> la legislation.</example>
+                <example>Ce produit en conformité avec la legislation.</example>
+            </rule>
+            <rule id="CEST_CE_SONT" name="c'est (ce sont)" default="temp_off">
+                <antipattern>
+                    <token>c'</token>
+                    <token skip="2">est</token>
+                    <token postag_regexp="yes" postag="R (pers|dem) .*"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>c'</token>
+                        <token skip="2">est</token>
+                    </marker>
+                    <token postag_regexp="yes" postag=".* p|sp .*"/>
+                </pattern>
+                <message>'C'est' suivi d'un pluriel devient 'ce sont'. Dans la langue parlée, on admet 'c'est' suivi par 'ceux/celles' ou 'eux|elles'.</message>
+                <suggestion>ce sont</suggestion>
+                <example correction="Ce sont"><marker>C'est</marker> des barbares qui ont fait ça.</example>
+                <example>C'est eux qui ont eu l'idée.</example>
+                <example>C'est ceux qui ont eu l'idée.</example>
+            </rule>
+            <rule id="SE_BAFRER" name="se bâfrer" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="R pers obj .*"/>
+                        <token postag_regexp="yes" postag="V etre .*" skip="1" min="0"/>
+                        <token postag_regexp="yes" postag="V .*" inflected="yes">bâfrer</token>
+                    </marker>
+                </pattern>
+                <message>'Bâfrer' ne prend pas de forme pronominale.</message>
+                <suggestion><match no="2" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match> \3</suggestion>
+                <example correction="a bâfré">>Il <marker>s'est bâfré</marker> au buffet à volonté.</example>
+                <example correction="bâfre">Il <marker>se bâfre</marker> au buffet à volonté.</example>
+            </rule>
+            <rule id="AUTREMENT_1" name="autrement plus" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>autrement</token>
+                        <token>plus</token>
+                    </marker>
+                </pattern>
+                <message>'Autrement' étant déjà un comparatif au sens de 'bien plus', on se gardera de dire 'autrement plus' qui serait un pléonasme.</message>
+                <suggestion>autrement</suggestion>
+                <example correction="autrement">Celui-ci est <marker>autrement plus</marker> travaillé que le précédent.</example>
+            </rule>
+            <rule id="AUTREMENT_2" name="autrement moins" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>autrement</token>
+                        <token>moins</token>
+                    </marker>
+                </pattern>
+                <message>'Autrement' étant déjà un comparatif au sens de 'bien plus', on se gardera de dire 'autrement moins' qui serait un contresens.</message>
+                <suggestion>bien moins</suggestion>
+                <example correction="bien moins">Celui-ci est <marker>autrement moins</marker> travaillé que le précédent.</example>
+            </rule>
+            <rule id="VITE_RAPIDE_1" name="vite (rapide)1" default="temp_off">
+                <pattern>
+                        <token>
+                            <exception>y</exception>
+                        </token>
+                    <token postag_regexp="yes" postag="(V etre|V) .*" regexp="yes" inflected="yes">être|paraître|sembler|demeurer|devenir|rester</token>
+                    <marker>
+                        <token regexp="yes">vites?</token>
+                    </marker>
+                        <token>
+                            <exception postag_regexp="yes" postag="[^C].*"/>
+                        </token>
+                </pattern>
+                <message>'\3' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="3" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture semble <marker>vite</marker> et je vais la conduire.</example>
+            </rule>
+            <rule id="VITE_RAPIDE_2" name="vite (rapide)2" default="temp_off">
+                <pattern>
+                        <token>
+                            <exception>y</exception>
+                        </token>
+                    <token postag_regexp="yes" postag="V avoir .*" regexp="yes" inflected="yes">avoir</token>
+                    <token>l'</token>
+                    <token>air</token>
+                    <marker>
+                        <token regexp="yes">vites?</token>
+                    </marker>
+                        <token>
+                            <exception postag_regexp="yes" postag="[^C].*"/>
+                        </token>
+                </pattern>
+                <message>'\5' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="5" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture a l'air <marker>vite</marker> et je vais la conduire.</example>
+            </rule>
+            <rule id="VITE_RAPIDE_3" name="vite (rapide)3" default="temp_off">
+                <pattern>
+                        <token>
+                            <exception>y</exception>
+                        </token>
+                    <token postag_regexp="yes" postag="V .*" regexp="yes" inflected="yes">passer</token>
+                    <token>pour</token>
+                    <marker>
+                        <token regexp="yes">vites?</token>
+                    </marker>
+                        <token>
+                            <exception postag_regexp="yes" postag="[^C].*"/>
+                        </token>
+                </pattern>
+                <message>'\4' ne se place pas après un verbe d'état.</message>
+                <suggestion><match no="4" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
+                <example correction="rapide">Cette voiture passe pour <marker>vite</marker> et je vais la conduire.</example>
+            </rule>
+            <rule id="MERCI_POUR_INF" name="merci pour (de)" default="temp_off">
+                <pattern>
+                    <token>
+                        <exception regexp="yes">suffisamment|assez</exception>
+                    </token>
+                    <token regexp="yes">merci|désolée?s?|navrée?s?</token>
+                    <marker>
+                        <token>pour</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="R pers obj .*" min="0"/>
+                    <token postag="V inf"/>
+                    <token>
+                        <exception postag="V ppa" regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>On ne met pas d’article devant un jour de la semaine.</message>
+                <suggestion>de</suggestion>
+                <example correction="de">Merci <marker>pour</marker> m’aider en français.</example>
+                <example>Merci pour m’avoir aidé en français.</example>
+                <example>Il était suffisamment désolé pour me présenter des excuses.</example>
+            </rule>
+            <rule id="LE_JOUR_DE_LA_SEMAINE" name="le lundi (lundi)" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">le</token>
+                        <token regexp="yes">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+                    </marker>
+                        <token>
+                            <exception>,</exception>
+                        </token>
+                </pattern>
+                <message>On ne met pas d’article devant un jour de la semaine.</message>
+                <suggestion>\2</suggestion>
+                <example correction="Lundi"><marker>Le lundi</marker> prochain, je pars en vacances.</example>
+                <example>le lundi, je fais du sport.</example>
+            </rule>
+            <rule id="AU_MEME_TEMPS" name="au même temps (revenus)" default="temp_off">
+                <pattern>
+                    <token>
+                        <exception postag_regexp="yes" postag="V.*|V etre .*" regexp="yes" inflected="yes" >appartenir|apparaître|être|accorder|utiliser</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">aux?</token>
+                        <token regexp="yes">mêmes?</token>
+                        <token>temps</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion>en \3 \4</suggestion>
+                <suggestion>\2 \3 moment</suggestion>
+                <example correction="en même temps|au même moment">J'écoute et je lis l'histoire <marker>au même temps</marker>.</example>
+            </rule>
+            <rule id="REVENU" name="revenues (revenus)" default="temp_off">
+                <pattern>
+                    <token postag_regexp="yes" postag="D.*" skip="1"/>
+                    <marker>
+                        <token regexp="yes">revenues?</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="2" regexp_match="(revenu)e(s?)" regexp_replace="$1$2"/></suggestion>
+                <example correction="revenus">Quels sont les <marker>revenues</marker> que vous avez déclarés.</example>
+                <example>Elle est partie, puis revenue</example>
+            </rule>
+            <rule id="HYGROMETRIE" name="(hydro) hygrométrie" default="temp_off">
+                <pattern>
+                <token>taux</token>
+                <token min="0">d'</token>
+                    <marker>
+                        <token regexp="yes">hydrométries?</token>
+                    </marker>
+                </pattern>
+                <message>Une erreur d'orthographe semble être détectée.</message>
+                <suggestion><match no="3" regexp_match="(hy)d(rométries?)" regexp_replace="$1g$2"/></suggestion>
+                <example correction="hygrométrie">Le taux d'<marker>hydrométrie</marker> est plus haut que la normale.</example>
+            </rule>
         <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
             <rule id="BENEFICIER_A" name="bénéficier->profiter à">
                 <antipattern>
