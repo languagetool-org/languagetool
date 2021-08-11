@@ -38423,35 +38423,6 @@ E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
       <example correction="reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
     </rule>	
 
-	<!-- HÁ TEMPO QUE VERBO verbo há tempo -->
-    <rule id='HÁ_TEMPO_QUE_VERBO' name="Há + Tempo + que + Verbo → Verbo + há + Tempo" type='style' tags="picky">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-07 + 2021-08-08 + 2021-08-10 (25-JUN-2021+)      -->
-	<!--
-Estes problemas há décadas que são abordados por cientistas. → Estes problemas são há décadas abordados por cientistas.
-O artesanato bracarense há muito que ultrapassou as fronteiras do país. → O artesanato bracarense ultrapassou há muito as fronteiras do país.
-	-->
-      <pattern>
-		<token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='V.+'/>
-		</token>
-		<marker>
-			<token>há</token>
-			<token postag='NC.+|AQ.+|DI0.S.+|RG' postag_regexp='yes'>
-				<exception postag_regexp='yes' postag='DD.+'/>
-			</token>
-			<token>que</token>
-			<token postag='V.+' postag_regexp='yes'/>
-		</marker>
-		<token postag='V.+|DA.+|DI.+|DD.+|PD.+|CC|NC.+|AQ.+' postag_regexp='yes'>
-			<exception postag_regexp='no' postag='VMN0000'/>
-		</token>
-      </pattern>
-	  <message>Em certos contextos temporais, esta perífrase pode ser simplificada.</message>
-	  <suggestion>\5 há \3</suggestion>
-      <example correction="são há décadas">Estes problemas <marker>há décadas que são</marker> abordados por cientistas.</example>
-	  <example>O artesanato bracarense ultrapassou há muito as fronteiras do país.</example>
-    </rule>
-	
     <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='Para/Por + Ter + Particípio passado'>
 	<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-28 (2-JUL-2020+)   -->
 
