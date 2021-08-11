@@ -55049,7 +55049,7 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-        <rulegroup id="S_EN_SUIVRE_2" name="s'en suivre(s'ensuivre)" default="temp_off">
+        <rulegroup id="S_ENSUIVRE" name="s'en suivre(s'ensuivre)" default="temp_off">
             <rule>
                 <pattern>
                     <marker>
@@ -55058,11 +55058,12 @@ though, and has since been slightly modified)-->
                         <token postag_regexp="yes" postag="V .*" inflected="yes">suivre</token>
                     </marker>
                 </pattern>
-                <message>On ne doit pas écrire 's’en suivre' en trois mots car si le verbe 'suivre' peut s’employer en ce sens, ce n’est pas le cas de la forme pronominale 'se suivre'.</message>
-                <suggestion>\1<match no="3"  postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensuivre</match></suggestion>
+                <message>Au sens de 'découler, résulter' utilisez '\1<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensuivre</match>' ou '<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suivre</match>'.</message>
+                <suggestion>\1<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensuivre</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suivre</match></suggestion>
                 <url>http://www.dictionnaire-academie.fr/article/DNP0222</url>
-                <example correction="s'ensuivit">Il <marker>s’en suivit</marker> de grands troubles.</example>
-                <example correction="s'ensuivirent">De grands troubles <marker>s’en suivirent</marker>.</example>
+                <example correction="s'ensuivit|suivit">Il <marker>s’en suivit</marker> de grands troubles.</example>
+                <example correction="s'ensuivirent|suivirent">De grands troubles <marker>s’en suivirent</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -55073,11 +55074,12 @@ though, and has since been slightly modified)-->
                         <token postag_regexp="yes" postag="V ppa .*" inflected="yes">suivre</token>
                     </marker>
                 </pattern>
-                <message>On ne doit pas écrire s’en suivre en trois mots car si le verbe 'suivre' peut s’employer en ce sens, ce n’est pas le cas de la forme pronominale 'se suivre'.</message>
+                <message>Au sens de 'découler, résulter' utilisez '\1\3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match>', '\1\2 \3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match>' ou '<match no="3" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match> <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="$1$2">suivre</match>'.</message>
                 <suggestion>\1\3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match></suggestion>
                 <suggestion>\1\2 \3 <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="V ppa e sp">ensuivre</match></suggestion>
+                <suggestion><match no="3" postag="(V etre) (.*)" postag_regexp="yes" postag_replace="V avoir $2">avoir</match> <match no="4" postag="(V ppa)(.*)" postag_regexp="yes" postag_replace="$1$2">suivre</match></suggestion>
                 <url>http://www.dictionnaire-academie.fr/article/DNP0222</url>
-                <example correction="s'est ensuivi|s'en est ensuivi">Le développement qui <marker>s’en est suivi</marker> fut remarquable.</example>
+                <example correction="s'est ensuivi|s'en est ensuivi|a suivi">Le développement qui <marker>s’en est suivi</marker> fut remarquable.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
