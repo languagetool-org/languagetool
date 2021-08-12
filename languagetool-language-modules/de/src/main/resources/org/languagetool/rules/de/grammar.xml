@@ -1108,6 +1108,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>um</suggestion>?</message>
                 <example correction="um">Es handelt sich <marker>im</marker> eine gute Idee.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>im</token>
+                    </marker>
+                    <token min="0">etwas</token>
+                    <token regexp="yes">Geduld|Hilfe</token>
+                    <token postag="ZUS" min="0" />
+                    <token postag="PKT|VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>um</suggestion>?</message>
+                <example correction="um">Wir müssen Sie <marker>im</marker> Geduld bitten.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>im</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">es|mich|dich|sich|euch|[Ss]ie|ihn</token>
+                    <token postag="ZUS" min="0" />
+                    <token postag="PKT|VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>um</suggestion>?</message>
+                <example correction="um">Ich werde <marker>im</marker> dich kämpfen.</example>
+            </rule>
         </rulegroup>
         <rule id="DES_ES" name="des (es)">
             <pattern>
@@ -50833,6 +50858,20 @@ Andere Projekte</example>
                 <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
                 <suggestion>“</suggestion>
                 <example correction="“">„Hallo<marker>"</marker>, sagte er zur Begrüßung.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token postag="SENT_END" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no" postag="SENT_END">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <example correction="“">„Hallo<marker>"</marker></example>
             </rule>
             <rule>
                 <pattern>
