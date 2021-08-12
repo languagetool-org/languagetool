@@ -175,6 +175,23 @@ class RequestLimiter {
     return values.get(0);
   }
 
+  static void checkUserLimit(String referer, String userAgent, Long clientId, Long server, UserLimits user) {
+    Long maxRequests = user.getRequestsPerDay();
+    if (user.getPremiumUid() != null
+      && maxRequests != null
+      && user.getLimitEnforcementMode() != LimitEnforcementMode.DISABLED) {
+      if (user.getLimitEnforcementMode() == LimitEnforcementMode.PER_DAY) {
+        Long requestCount = DatabaseAccess.getInstance().getUserRequestCount(user.getPremiumUid());
+        //System.out.printf("requests for %d: %d / %d%n", user.getPremiumUid(), requestCount, maxRequests);
+        if (requestCount > maxRequests) {
+          String message = "limit: " + maxRequests + ", requests: " + requestCount + ", enforcement: " + user.getLimitEnforcementMode().name();
+          DatabaseLogger.getInstance().log(new DatabaseAccessLimitLogEntry("MaxUserRequests", server, clientId, user.getPremiumUid(), message, referer, userAgent));
+          throw new TooManyRequestsException("User request limit of " + maxRequests + " per day exceeded. Try again after midnight UTC.");
+        }
+      }
+    }
+  }
+
   void checkLimit(String ipAddress, Map<String, String> parameters, Map<String, List<String>> httpHeader) {
     int requestsByIp = 0;
     int requestSizeByIp = 0;

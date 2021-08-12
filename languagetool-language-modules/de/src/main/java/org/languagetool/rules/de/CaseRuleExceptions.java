@@ -33,9 +33,21 @@ import java.util.Set;
  */
 final class CaseRuleExceptions {
 
-  static Set<StringMatcher[]> getExceptionPatterns() {
+  private static final Set<String> exceptions = loadExceptions(
+    "/de/eigennamen_gross.txt",  // Premium
+    "/de/case_rule_exceptions.txt"
+  );
+
+  private CaseRuleExceptions() {
+  }
+
+  public static Set<String> getExceptions() {
+    return exceptions;
+  }
+
+  public static Set<StringMatcher[]> getExceptionPatterns() {
     THashSet<StringMatcher[]> exceptionPatterns = new THashSet<>(250);
-    for (String phrase : loadExceptions("/de/case_rule_exceptions.txt")) {
+    for (String phrase : exceptions) {
       String[] parts = StringUtils.split(phrase, ' ');
       StringMatcher[] patterns = new StringMatcher[parts.length];
       for (int j = 0; j < parts.length; j++) {

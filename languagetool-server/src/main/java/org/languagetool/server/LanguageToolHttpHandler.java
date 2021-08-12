@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
@@ -220,8 +222,11 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = e.getMessage();
       } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
-        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
-                   "Please make sure you have selected the proper language or consider submitting a shorter text.";
+        if (e.getMessage().contains("Checking took longer than")) {
+          response = e.getMessage(); // more specific information already provided
+        } else {
+          response = "Checking took longer than " + config.getMaxCheckTimeMillisAnonymous() / 1000.0f + " seconds, which is this server's limit. Please make sure you have selected the proper language or consider submitting a shorter text.";
+        }
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -353,8 +358,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     Long client = db.getOrCreateClientId(params.get("agent"));
     Long user = null;
     try {
-      user = db.getUserId(params.get("username"), params.get("apiKey"));
-    } catch(IllegalArgumentException | IllegalStateException ignored) {
+      user = db.getUserInfoWithApiKey(params.get("username"), params.get("apiKey")).getUserId();
+    } catch(IllegalArgumentException | IllegalStateException | AuthException ignored) {
       // invalid username, api key or combination thereof - user stays null
     }
     logger.log(new DatabaseMiscLogEntry(server, client, user, message));
