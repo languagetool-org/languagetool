@@ -64,7 +64,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
         + "\u203C\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
-        + ",.;()[]{}<>!?:=*#∗×+÷/\\\"'«»„”“‘`’…¿¡\t\n\r™®\u203d"
+        + "¦‖∣|,.;()[]{}<>!?:=*#∗×+÷/\\\"'«»„”“‘`’…¿¡\t\n\r™®\u203d"
         + "\u00b9\u00b2\u00b3\u2070\u2071\u2074\u2075\u2076\u2077\u2078\u2079" // superscripts
         , true);
     // removed from the list: hyphen -; middle dot ·
