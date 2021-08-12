@@ -486,12 +486,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">que|qué</token>
                         <token>tal</token>    
                     </marker>
-                    <token skip="20">,</token>
+                    <token skip="20" postag="V.*|_PUNCT_CONT" postag_regexp="yes"/>
                     <token>?</token>
                 </pattern>
                 <message>Error de ortografía.</message>
                 <suggestion>Hola, ¿qué tal</suggestion>
                 <example correction="Hola, ¿qué tal"><marker>hola que tal</marker>, amigos?</example>
+                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker> estás amigo?</example>
             </rule>
             <rule>
                 <pattern>
@@ -500,8 +501,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token min="0">,</token>
                         <token min="0">¿</token>
                         <token regexp="yes">que|qué</token>
-                        <token skip="20">tal</token>    
+                        <token>tal</token>    
                     </marker>
+                    <token postag="N.*" postag_regexp="yes" skip="20"/>
                     <token>?</token>
                 </pattern>
                 <message>Error de ortografía.</message>
@@ -515,12 +517,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token min="0">,</token>
                         <token min="0">¿</token>
                         <token regexp="yes">que|qué</token>
-                        <token>tal</token>    
+                        <token>tal</token>
+                        <token regexp="yes">\.|\?</token>
                     </marker>
                 </pattern>
                 <message>Error de ortografía.</message>
                 <suggestion>Hola, ¿qué tal?</suggestion>
-                <example correction="Hola, ¿qué tal?"><marker>hola que tal</marker> amigos.</example>
+                <example correction="Hola, ¿qué tal?"><marker>hola que tal.</marker></example>
+            </rule><rule>
+                <pattern>
+                    <marker>
+                        <token>hola</token>
+                        <token min="0">,</token>
+                        <token min="0">¿</token>
+                        <token regexp="yes">que|qué</token>
+                        <token postag="SENT_END">tal</token>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿qué tal?</suggestion>
+                <example correction="Hola, ¿qué tal?"><marker>hola que tal</marker></example>
+            </rule>
+            <rule>
+                <!-- catch-all rule: words after "tal" are unknown -->
+                <antipattern>
+                    <token>Hola</token>
+                    <token>,</token>
+                    <token>¿</token>
+                    <token>qué</token>
+                    <token>tal</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hola</token>
+                        <token min="0">,</token>
+                        <token min="0">¿</token>
+                        <token regexp="yes">que|qué</token>
+                        <token>tal</token>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿qué tal</suggestion>
+                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker> amigos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
