@@ -67240,6 +67240,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pel que m'hi anava, em vaig espavilar.</example>
                 <example>Es va en romeria a l'ermita.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <and>
+                        <token>haver</token>
+                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                    </and>
+                    <token regexp="yes">-me|-te|-se</token>
+                    <token inflected="yes" regexp="yes" postag="V.P.*" postag_regexp="yes">anar|pujar|venir<exception inflected="yes">vendre</exception></token>
+                </pattern>
+                <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
+                <suggestion>\1\2'n \3</suggestion>
+                <suggestion>\1 \3</suggestion>
+                <example correction="haver-se'n anat|haver anat">Podria <marker>haver-se anat</marker> a casa.</example>
+                <example>Podria haver-se anat fent.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <and>
+                        <token>haver</token>
+                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                    </and>
+                    <token regexp="yes">-nos|-vos</token>
+                    <token inflected="yes" regexp="yes" postag="V.P.*" postag_regexp="yes">anar|pujar|venir<exception inflected="yes">vendre</exception></token>
+                </pattern>
+                <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
+                <suggestion>\1\2-en \3</suggestion>
+                <suggestion>\1 \3</suggestion>
+                <example correction="haver-vos-en anat|haver anat">Podríeu <marker>haver-vos anat</marker> a casa.</example>
+                <example>Podria haver-se anat fent.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PASSAR_PER" name="passar per (no pronominal)">
             <antipattern>
