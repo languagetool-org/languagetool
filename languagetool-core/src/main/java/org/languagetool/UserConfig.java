@@ -42,7 +42,9 @@ public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
   private final int maxSpellingSuggestions;
+  private final Long userDictCacheSize;
   private final String userDictName;
+  private final Long premiumUid;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final LinguServices linguServices;
   // needs to be in UserConfig so it is considered both in ResultCache and in PipelinePool
@@ -66,7 +68,7 @@ public class UserConfig {
   }
 
   public UserConfig(Map<String, Integer> ruleValues, LinguServices linguServices) {
-    this(new ArrayList<>(), Objects.requireNonNull(ruleValues), 0, null, linguServices);
+    this(new ArrayList<>(), Objects.requireNonNull(ruleValues), 0, 0L, null, 0L, linguServices);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
@@ -74,24 +76,25 @@ public class UserConfig {
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null, null);
-  }
-  
-  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
-                    int maxSpellingSuggestions, String userDictName,
-                    LinguServices linguServices) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, userDictName, linguServices, false);
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null, null, null, null);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
-                    int maxSpellingSuggestions, String userDictName,
+                    int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
+                    LinguServices linguServices) {
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, false);
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
+                    int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, userDictName, linguServices,
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
       filterDictionaryMatches, null, null);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
-                    int maxSpellingSuggestions, String userDictName,
+                    int maxSpellingSuggestions, Long premiumUid, String userDictName,
+                    Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
                     @Nullable String abTest, @Nullable Long textSessionId) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
@@ -99,7 +102,9 @@ public class UserConfig {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
     this.maxSpellingSuggestions = maxSpellingSuggestions;
+    this.premiumUid = premiumUid;
     this.userDictName = userDictName == null ? "default" : userDictName;
+    this.userDictCacheSize = userDictCacheSize;
     this.linguServices = linguServices;
     this.filterDictionaryMatches = filterDictionaryMatches;
     this.abTest = abTest;
@@ -151,10 +156,26 @@ public class UserConfig {
   }
 
   /**
-   * @since 4.4
+   * for speedup, certain users custom dictionaries are cached.
+   * Null if disabled, else max. number of words in cache
+   * @since 4.3
+   */
+  public Long getUserDictCacheSize() {
+    return userDictCacheSize;
+  }
+
+  /**
+   * @since 4.3
    */
   public String getUserDictName() {
     return userDictName;
+  }
+
+  /**
+   * @since 4.3
+   */
+  public Long getPremiumUid() {
+    return premiumUid;
   }
 
   @Override
@@ -163,10 +184,12 @@ public class UserConfig {
     if (o == null || getClass() != o.getClass()) return false;
     UserConfig other = (UserConfig) o;
     // optimization: equals on userSpecificSpellerWords can be expensive with huge dictionaries
-    // -> we use user id & dictionary names
+    // -> we use user id & dictionary names first
+    // -> userSpecificSpellerWords still needs to be included,
+    //  otherwise ResultCache can be used even when dictionaries have changed
     return new EqualsBuilder()
-      .append(maxSpellingSuggestions, other.maxSpellingSuggestions)
       .append(configurableRuleValues, other.configurableRuleValues)
+      .append(premiumUid, other.premiumUid)
       .append(userDictName, other.userDictName)
       .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
       .append(filterDictionaryMatches, other.filterDictionaryMatches)
@@ -182,7 +205,9 @@ public class UserConfig {
     // not calculating userSpecificSpellerWords.hashCode(), can be expensive; premiumId + userDictName is close enough
     return new HashCodeBuilder(3, 11)
       .append(maxSpellingSuggestions)
+      .append(premiumUid)
       .append(userDictName)
+      .append(userDictCacheSize)
       .append(configurableRuleValues)
       .append(abTest)
       .append(filterDictionaryMatches)

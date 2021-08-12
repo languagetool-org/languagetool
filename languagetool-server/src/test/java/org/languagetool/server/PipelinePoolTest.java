@@ -22,6 +22,7 @@
 package org.languagetool.server;
 
 import org.junit.Ignore;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -79,6 +80,7 @@ public class PipelinePoolTest {
     checker.pipelinePool = pool;
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
+    // PREMIUM: premium=false
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
       new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
     UserConfig user1 = new UserConfig();
@@ -112,6 +114,7 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params1, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     Language lang2 = Languages.getLanguageForShortCode("de-DE");
+    // PREMIUM: premium=false
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
       new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
     UserConfig user1 = new UserConfig();
@@ -132,6 +135,7 @@ public class PipelinePoolTest {
     verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings2), notNull());
 
+    // PREMIUM: premium=false
     TextChecker.QueryParams queryParams2 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), Collections.singletonList("DE_CASE"),
       new LinkedList<>(), new LinkedList<>(), false, true, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
     Map<String, String> params3 = new HashMap<>();
@@ -160,6 +164,7 @@ public class PipelinePoolTest {
     config1.setMaxPipelinePoolSize(1);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     Language lang2 = Languages.getLanguageForShortCode("de-DE");
+    // PREMIUM: premium=false
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
       new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
     UserConfig user1 = new UserConfig();
@@ -212,6 +217,7 @@ public class PipelinePoolTest {
     checker.pipelinePool = pool;
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
+    // PREMIUM: premium=false
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
       new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
     UserConfig user1 = new UserConfig();
@@ -229,6 +235,114 @@ public class PipelinePoolTest {
     verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
   }
+
+  @Test
+  public void testPipelinePoolUserConfig() throws Exception {
+    HTTPServerConfig config = getHttpServerConfig();
+    DatabaseAccess.init(config);
+    // no need to also create test tables for logging
+    DatabaseLogger.getInstance().disableLogging();
+    try {
+      DatabaseAccess.deleteTestTables();
+      DatabaseAccess.createAndFillTestTables();
+
+      Map<String, String> paramsUser1 = new HashMap<>();
+      paramsUser1.put("text", "not used");
+      paramsUser1.put("language", "en-US");
+      paramsUser1.put("username", UserDictTest.USERNAME1);
+      paramsUser1.put("apiKey", UserDictTest.API_KEY1);
+      int expireTime = 1;
+      HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+      config1.setPipelineCaching(true);
+      config1.setPipelineExpireTime(expireTime);
+      config1.setMaxPipelinePoolSize(10);
+      TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
+      PipelinePool pool = spy(checker.pipelinePool);
+      checker.pipelinePool = pool;
+
+      checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), paramsUser1, null, null);
+      Language lang1 = Languages.getLanguageForShortCode("en-US");
+      // PREMIUM: premium=true
+      TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
+        new LinkedList<>(), new LinkedList<>(), false, false,
+        false, false, true, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+      UserConfig user1 = new UserConfig(Collections.emptyList(), Collections.emptyMap(), config.getMaxSpellingSuggestions(),
+        UserDictTest.USER_ID1, null, null, null);
+
+      PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
+        null, queryParams1, gConfig, user1);
+      // test pipeline with user config correctly created
+      verify(pool).getPipeline(settings1);
+      verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
+      verify(pool).returnPipeline(eq(settings1), notNull());
+
+      checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), paramsUser1, null, null);
+      // test pipeline with user correctly cached
+      verify(pool, times(2)).getPipeline(settings1);
+      verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1,
+        Collections.emptyList());
+      verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
+
+      Map<String, String> paramsUser2 = new HashMap<>();
+      paramsUser2.put("text", "not used");
+      paramsUser2.put("language", "en-US");
+      paramsUser2.put("username", UserDictTest.USERNAME2);
+      paramsUser2.put("apiKey", UserDictTest.API_KEY2);
+
+      UserConfig user2 = new UserConfig(Collections.emptyList(), Collections.emptyMap(), config.getMaxSpellingSuggestions(),
+        UserDictTest.USER_ID2, null, null, null);
+      PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang1,
+        null, queryParams1, gConfig, user2);
+
+      // test pipeline with different user correctly created
+      checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), paramsUser2, null, null);
+
+      verify(pool, times(2)).getPipeline(settings1);
+      verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
+      verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
+
+      verify(pool).getPipeline(settings2);
+      verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user2, Collections.emptyList());
+      verify(pool).returnPipeline(eq(settings2), notNull());
+
+      ApiV2 api = new ApiV2(checker, "*");
+      Map<String, String> paramsUser1AddWord = new HashMap<>();
+      paramsUser1AddWord.put("username", UserDictTest.USERNAME1);
+      paramsUser1AddWord.put("apiKey", UserDictTest.API_KEY1);
+      paramsUser1AddWord.put("word", "test");
+      api.handleRequest("words/add", new FakeHttpExchange("post"), paramsUser1AddWord, null, null, config);
+      UserConfig user1New = new UserConfig(Collections.singletonList("test"), Collections.emptyMap(), config.getMaxSpellingSuggestions(), UserDictTest.USER_ID1, null, null, null);
+      PipelinePool.PipelineSettings settings1New = new PipelinePool.PipelineSettings(lang1,
+        null, queryParams1, gConfig, user1New);
+
+      // test new pipeline created when dictionary changed
+      checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), paramsUser1, null, null);
+      verify(pool, times(2)).getPipeline(settings1);
+      verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
+      verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
+
+      verify(pool).getPipeline(settings1New);
+      verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1New, Collections.emptyList());
+      verify(pool).returnPipeline(eq(settings1New), notNull());
+    } finally {
+      DatabaseAccess.deleteTestTables();
+    }
+  }
+
+    @NotNull
+    protected HTTPServerConfig getHttpServerConfig() {
+      HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+      config.setDatabaseDriver("org.hsqldb.jdbcDriver");
+      config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
+      config.setDatabaseUsername("");
+      config.setDatabasePassword("");
+      config.setSecretTokenKey("myfoo");
+      config.setCacheSize(100);
+      config.setPipelineCaching(true);
+      config.setMaxPipelinePoolSize(5);
+      config.setPipelineExpireTime(60);
+      return config;
+    }
 
   @Test
   public void testPipelineMutation() {

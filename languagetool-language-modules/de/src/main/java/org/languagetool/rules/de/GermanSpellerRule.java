@@ -1366,7 +1366,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
           BufferedReader variantReader = getVariantReader(languageVariantPlainTextDict);
           return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), paths,
-            variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
+            variantReader, languageVariantPlainTextDict, userConfig, MAX_EDIT_DISTANCE);
         }
       } else {
         return null;
