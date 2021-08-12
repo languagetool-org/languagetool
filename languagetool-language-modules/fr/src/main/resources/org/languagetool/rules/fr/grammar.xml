@@ -5003,8 +5003,7 @@ though, and has since been slightly modified)-->
             <example correction="fois-ci">Malheureusement, encore une énième rechute, qui je crois cette <marker>fois si</marker> sonnera le glas de la fin de carrière de Jesse</example>
             <example>Mais cette fois, si tu y penses</example>
         </rule>
-        <rule id="POLE_2" name="pôle" default="temp_off">
-        <!-- correctif pour ID="POLE" qui empêche la correction pole->pôle -->
+        <rule id="POLE_2" name="pôle">
             <antipattern>
               <token postag="D f s"/>
               <token>pole</token>
@@ -5068,7 +5067,7 @@ though, and has since been slightly modified)-->
             <example correction="Sait-elle"><marker>C'est elle</marker> comment il s'appelle ?</example>
         </rule>
 		</rulegroup>
-        <rule id="ANOMAL_ANORMAL" name="anomal ou anormal" default="temp_off">
+        <rule id="ANOMAL_ANORMAL" name="anomal ou anormal">
             <antipattern>
               <token regexp="yes">magnétiques?|Zeeman|monismes?|diffusions?|dispersions?|diffractions?|commutations?|produits?|biens?|biréfringences?</token>
               <token regexp="yes">anoma(l(es?)?|aux)</token>
@@ -10337,7 +10336,7 @@ though, and has since been slightly modified)-->
             <example correction="faites|fautes|frites|fuites|frittes|fartes|fuîtes|fîtes|haïtes">Tout indique que vous <marker>faîtes</marker> preuve de sang-froid.</example>
             <example correction="carte|case|casse|capte|quarte|castre|baste|cafte|calte">Elle <marker>caste</marker> Johanna pour la marque Biomilk</example>
         </rule>
-        <rule default="off" id="CETTE_CEST" name="CETTE au lieu de C’EST">
+        <rule id="CETTE_CEST" name="CETTE au lieu de C’EST">
             <pattern>
                 <marker>
                     <token regexp="yes">cette|cet</token>
@@ -18210,7 +18209,7 @@ though, and has since been slightly modified)-->
                 <example>Il n'est pas rare à cette époque de le voir commencer un concert avec deux heures de retard !</example>
             </rule>
         </rulegroup>
-        <rule id="FAIT_LAISSE_INF" name="fait/laissé + inf -> invariable" default="temp_off">
+        <rule id="FAIT_LAISSE_INF" name="fait/laissé + inf -> invariable">
             <pattern>
                 <token postag="R pers.*" postag_regexp="yes" skip="3"/>
                 <marker>
@@ -45039,7 +45038,8 @@ though, and has since been slightly modified)-->
             <suggestion>très grand</suggestion>
             <example correction="très grand"><marker>extra large</marker></example>
         </rule>
-        <rule id="POLE" name="pole">
+        <rule id="POLE" name="pole" default="temp_off">
+<!-- deactivated : improved by id="POLE_2" -->
             <pattern>
                 <token regexp="yes">poles?</token>
             </pattern>
@@ -55090,7 +55090,7 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-        <rule id="REMERCIER_POUR" name="remercier pour (de)" default="temp_off">
+        <rule id="REMERCIER_POUR" name="remercier pour (de)">
             <pattern>
                 <marker>
                     <token postag_regexp="yes" postag="V.*" inflected="yes">remercier</token>
@@ -55103,7 +55103,7 @@ though, and has since been slightly modified)-->
             <suggestion>\1 d'</suggestion>
             <example correction="remercie de|remercie d'">Je te <marker>remercie pour</marker> m'avoir aidé.</example>
         </rule>
-        <rulegroup id="S_ENSUIVRE" name="s'en suivre(s'ensuivre)" default="temp_off">
+        <rulegroup id="S_ENSUIVRE" name="s'en suivre(s'ensuivre)">
             <rule>
                 <pattern>
                     <marker>
@@ -55136,7 +55136,7 @@ though, and has since been slightly modified)-->
                 <example correction="s'est ensuivi|s'en est ensuivi|a suivi">Le développement qui <marker>s’en est suivi</marker> fut remarquable.</example>
             </rule>
         </rulegroup>
-        <rule id="TOUT_TOUTE" name="tout + élision" default="temp_off">
+        <rule id="TOUT_TOUTE" name="tout + élision">
             <antipattern>
                 <token regexp="yes">toutes?</token>
                 <token postag_regexp="yes" postag="N.*"/>
@@ -55168,7 +55168,8 @@ though, and has since been slightly modified)-->
             <example correction="tout">C'est une <marker>toute</marker> autre affaire.</example>
             <example>Toute autre utilisation de ce CD est interdite.</example>
         </rule>
-        <rule id="SE_FAIRE_FORT_INF" name="se faire fort + inf" default="temp_off">
+        <rule id="SE_FAIRE_FORT_INF" name="se faire fort + inf">
+
             <pattern>
                 <token postag_regexp="yes" postag="R pers obj.*" skip="2"/>
                 <token postag_regexp="yes" postag="V.*" inflected="yes">faire</token>
@@ -55183,7 +55184,7 @@ though, and has since been slightly modified)-->
             <example correction="fort">Elle se fait <marker>forte</marker> de réussir.</example>
             <example>Elle se fait forte de votre soutien.</example>
         </rule>
-        <rule id="SE_FAIRE_FORT_PPA" name="se faire fort + ppa" default="temp_off">
+        <rule id="SE_FAIRE_FORT_PPA" name="se faire fort + ppa">
             <pattern>
                 <token postag_regexp="yes" postag="R pers obj.*" skip="2"/>
                 <token postag_regexp="yes" postag="V etre.*"/>
@@ -55201,7 +55202,7 @@ though, and has since been slightly modified)-->
             <example correction="fait">Ils se sont <marker>faits</marker> fort de gagner.</example>
             <example>Elles se faites fortes de votre soutien.</example>
         </rule>
-        <rule id="REMERCIER_SALUER_A" name="remercier/saluer à" default="temp_off">
+        <rule id="REMERCIER_SALUER_A" name="remercier/saluer à">
             <pattern>
                 <marker>
                     <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">remercier|saluer</token>
@@ -55216,7 +55217,7 @@ though, and has since been slightly modified)-->
             <url>http://www.dictionnaire-academie.fr/article/DNP0961</url>
             <example correction="remercie">Je vous <marker>remercie à</marker> tous.</example>
         </rule>
-        <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez" default="temp_off">
+        <rulegroup id="CONJUGAISON_NON_STANDARD" name="contredîtes -> contredisez">
             <rule>
                 <pattern>
                     <token postag="R pers suj 2 p" skip="2"/>
@@ -55689,7 +55690,7 @@ though, and has since been slightly modified)-->
                 <example correction="leurs vélos">C'est <marker>les vélos à eux</marker>.</example>
             </rule>
         </rulegroup>
-            <rule id="CONFORME_1" name="conforme avec (à)" default="temp_off">
+            <rule id="CONFORME_1" name="conforme avec (à)">
                 <pattern>
                     <marker>
                         <token regexp="yes">conformes?</token>
@@ -55702,7 +55703,7 @@ though, and has since been slightly modified)-->
                 <example correction="conforme à|en conformité avec">Ce produit est <marker>conforme avec</marker> sa description.</example>
                 <example>Ce produit est conforme à sa description.</example>
             </rule>
-            <rule id="CONFORME_2" name="conformité a (avec)" default="temp_off">
+            <rule id="CONFORME_2" name="conformité a (avec)">
                 <pattern>
                     <marker>
                         <token>en</token>
@@ -55735,7 +55736,7 @@ though, and has since been slightly modified)-->
                 <example>C'est eux qui ont eu l'idée.</example>
                 <example>C'est ceux qui ont eu l'idée.</example>
             </rule>
-            <rule id="SE_BAFRER" name="se bâfrer" default="temp_off">
+            <rule id="SE_BAFRER" name="se bâfrer">
                 <pattern>
                     <marker>
                         <token postag_regexp="yes" postag="R pers obj .*"/>
@@ -55748,7 +55749,7 @@ though, and has since been slightly modified)-->
                 <example correction="a bâfré">>Il <marker>s'est bâfré</marker> au buffet à volonté.</example>
                 <example correction="bâfre">Il <marker>se bâfre</marker> au buffet à volonté.</example>
             </rule>
-            <rule id="AUTREMENT_1" name="autrement plus" default="temp_off">
+            <rule id="AUTREMENT_1" name="autrement plus">
                 <pattern>
                     <marker>
                         <token>autrement</token>
@@ -55759,7 +55760,7 @@ though, and has since been slightly modified)-->
                 <suggestion>autrement</suggestion>
                 <example correction="autrement">Celui-ci est <marker>autrement plus</marker> travaillé que le précédent.</example>
             </rule>
-            <rule id="AUTREMENT_2" name="autrement moins" default="temp_off">
+            <rule id="AUTREMENT_2" name="autrement moins">
                 <pattern>
                     <marker>
                         <token>autrement</token>
@@ -55770,7 +55771,7 @@ though, and has since been slightly modified)-->
                 <suggestion>bien moins</suggestion>
                 <example correction="bien moins">Celui-ci est <marker>autrement moins</marker> travaillé que le précédent.</example>
             </rule>
-            <rule id="VITE_RAPIDE_1" name="vite (rapide)1" default="temp_off">
+            <rule id="VITE_RAPIDE_1" name="vite (rapide)1">
                 <pattern>
                         <token>
                             <exception>y</exception>
@@ -55787,7 +55788,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="3" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
                 <example correction="rapide">Cette voiture semble <marker>vite</marker> et je vais la conduire.</example>
             </rule>
-            <rule id="VITE_RAPIDE_2" name="vite (rapide)2" default="temp_off">
+            <rule id="VITE_RAPIDE_2" name="vite (rapide)2">
                 <pattern>
                         <token>
                             <exception>y</exception>
@@ -55806,7 +55807,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="5" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
                 <example correction="rapide">Cette voiture a l'air <marker>vite</marker> et je vais la conduire.</example>
             </rule>
-            <rule id="VITE_RAPIDE_3" name="vite (rapide)3" default="temp_off">
+            <rule id="VITE_RAPIDE_3" name="vite (rapide)3">
                 <pattern>
                         <token>
                             <exception>y</exception>
@@ -55861,7 +55862,7 @@ though, and has since been slightly modified)-->
                 <example correction="Lundi"><marker>Le lundi</marker> prochain, je pars en vacances.</example>
                 <example>le lundi, je fais du sport.</example>
             </rule>
-            <rule id="AU_MEME_TEMPS" name="au même temps (revenus)" default="temp_off">
+            <rule id="AU_MEME_TEMPS" name="au même temps (revenus)">
                 <pattern>
                     <token>
                         <exception postag_regexp="yes" postag="V.*|V etre .*" regexp="yes" inflected="yes" >appartenir|apparaître|être|accorder|utiliser</exception>
@@ -55911,7 +55912,7 @@ though, and has since been slightly modified)-->
                 <example>Seule la compagnie Ryanair est pour le moment revenue à Modlin.</example>
                 <example>C'est le montant total que l'homme d'affaires Rakesh Gooljaury doit à la Mauritius Revenue Authority (MRA).</example>
             </rule>
-            <rule id="HYGROMETRIE" name="(hydro) hygrométrie" default="temp_off">
+            <rule id="HYGROMETRIE" name="(hydro) hygrométrie">
                 <pattern>
                 <token>taux</token>
                 <token min="0">d'</token>
@@ -55923,7 +55924,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="3" regexp_match="(hy)d(rométries?)" regexp_replace="$1g$2"/></suggestion>
                 <example correction="hygrométrie">Le taux d'<marker>hydrométrie</marker> est plus haut que la normale.</example>
             </rule>
-        <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers" default="temp_off">
+        <rulegroup id="BARBARISMES_COURANTS" name="Barbarismes courants divers">
             <rule id="BENEFICIER_A" name="bénéficier->profiter à">
                 <antipattern>
                     <token postag_regexp="yes" postag="V.*" inflected="yes">bénéficier</token>
@@ -56214,7 +56215,7 @@ though, and has since been slightly modified)-->
                 <example correction="induisant">Il maintenait la confusion en <marker>enduisant</marker> en erreur son entourage .</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DE_MA_FAUTE" name="Ce n'est pas de ma faute (ma faute)" default="temp_off">
+        <rulegroup id="DE_MA_FAUTE" name="Ce n'est pas de ma faute (ma faute)">
             <rule>
                 <pattern>
                     <token postag="A.*" postag_regexp="yes"/>
