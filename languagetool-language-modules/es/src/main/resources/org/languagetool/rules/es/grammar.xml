@@ -4661,7 +4661,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esté">Cuando se <marker>este</marker> bien aquí.</example>
                 <example correction="estén">Cuando se le <marker>esten</marker> cayendo.</example>
             </rule>
-            <rule default="on">
+            <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">condición|valor|entrega</token>
                     <marker>
@@ -4673,15 +4673,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="límite">Son condiciones <marker>limite</marker>.</example>
                 <example>Que limite las condiciones.</example>
             </rule>
-            <rule default="on">
+            <rule>
                 <pattern>
-                    <token postag="D..MS.|SP:DA" postag_regexp="yes"/>
+                    <token postag="D...S.|SP:DA" postag_regexp="yes"/>
                     <marker>
                         <token>ingles</token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>inglés</suggestion>?</message>
                 <example correction="inglés">Me gusto mucho el <marker>ingles</marker>.</example>
+                <example correction="inglés">Mi <marker>ingles</marker> no es muy bueno.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12612,6 +12613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Y si no las rechazo pierdo el amor.</example>
                 <example>Las mil quinientas fotos que tengo.</example>
                 <example>Las mil y dos noches.</example>
+                <example>Una vez que la canceles, puedes volver.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
                 <!-- que una espacio y tiempo (possible but rare) -->
             </rule>
@@ -16732,6 +16734,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="CENYO" name="seño/ceño" default="temp_off">
+            <pattern>
+                <token postag="D..MS." postag_regexp="yes"/>
+                <marker>
+                    <token>seño</token>    
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion>ceño</suggestion> (entrecejo)? "Seño" es un apócope de "señora" o "señorita".</message>
+            <example correction="ceño">Entonces frunció el <marker>seño</marker>.</example>
+        </rule>
         <rule id="CAYO" name="cayo/cayó" default="temp_off">
             <antipattern>
                 <token postag="SP.*|LOC_PREP"/>
