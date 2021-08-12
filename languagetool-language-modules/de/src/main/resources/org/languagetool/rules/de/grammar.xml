@@ -50686,11 +50686,12 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d))</regexp>
+            <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d|(?i)[a-z]{1,20}))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
             <example correction="eins:">Ein weicher Teppichboden erfordert vor allem <marker>eins :</marker> harte Stuhlrollen.</example>
+            <example>Variable :user</example>
             <example>So sieht’s aus :-)</example>
             <example>So sieht’s aus :)</example>
             <example>So sieht’s aus :(</example>
