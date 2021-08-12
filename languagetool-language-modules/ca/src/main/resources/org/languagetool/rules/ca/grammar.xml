@@ -34806,6 +34806,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ESPAI_FI" name="Espai fi entre nombres i unitats" tags="picky">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=percentatge&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8786&amp;idHit=8786&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=per+cent+%28s%EDmbol%29+%2F+percentatge+o+tant+per+cent+%28s%EDmbol%29&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]</token>
+                <token>.</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">\d[\d+\.,]*</token>
@@ -38544,7 +38549,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="feia feredat|esgarrifava|esmussava|esborronava">Allò <marker>donava molta grima</marker>.</example>
             <example correction="feia feredat|esgarrifava|esmussava|esborronava">Allò <marker>feia grima</marker>.</example>
         </rule>
-        <rulegroup id="SEVER" name="sever / greu" default="temp_off">
+        <rulegroup id="SEVER" name="sever / greu">
             <url>https://esadir.cat/entrades/fitxa/node/severesever</url>
             <rule>
                 <pattern>
@@ -41319,16 +41324,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
             <rule id="GAY" name="gay/gai">
-                <antipattern>
-                    <token postag="NP.*" postag_regexp="yes"/>
+                <!--<antipattern>
+                    <token postag="NP.*|UNKNOWN" postag_regexp="yes"/>
+                    <token min="0">i</token>
                     <token case_sensitive="yes">Gay</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Gay</token>
-                    <token postag="NP.*" postag_regexp="yes"/>
-                </antipattern>
+                    <token min="0">i</token>
+                    <token postag="NP.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>-->
                 <pattern>
-                    <token regexp="yes">gays?</token>
+                    <token regexp="yes" case_sensitive="yes">gays?</token>
                 </pattern>
                 <message>Anglicisme innecessari. Considereu fer servir la grafia adaptada.</message>
                 <suggestion><match no="1" regexp_match="(?iu)y" regexp_replace="i" case_conversion="preserve"/></suggestion>
