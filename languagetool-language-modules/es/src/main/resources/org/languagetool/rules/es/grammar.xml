@@ -9143,6 +9143,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rifirrafe">Hubo un <marker>rifi-rafe</marker> al final del partido.</example>
                 <example correction="rifirrafe">Hubo un <marker>rifi rafe</marker> al final del partido.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>caza</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="caza$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="cazar$1"/></suggestion>
+                <example correction="cazarrecompensas">Era un <marker>caza recompensas</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
             <url>https://www.fundeu.es/recomendacion/super-superestrella-superheroe-coalicion-prefijo-815/</url>
@@ -16746,7 +16757,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CAYO" name="cayo/cayó" default="temp_off">
             <antipattern>
-                <token postag="SP.*|LOC_PREP"/>
+                <token postag="SP.*|LOC_PREP" postag_regexp="yes"/>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
                 <token>cayo</token>
             </antipattern>
