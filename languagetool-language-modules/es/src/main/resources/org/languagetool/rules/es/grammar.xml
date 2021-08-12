@@ -16732,6 +16732,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="CAYO" name="cayo/cayó" default="temp_off">
+            <antipattern>
+                <token postag="SP.*|LOC_PREP"/>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token>cayo</token>
+            </antipattern>
+            <pattern>
+                <token>cayo</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>cayó</suggestion> (del v. 'caer')? "Cayo" es correcto como sustantivo.</message>
+            <example correction="cayó">Entonces se <marker>cayo</marker> de la bicicleta.</example>
+            <example correction="cayó">Fue cuando esta <marker>cayo</marker> inconsciente.</example>
+        </rule>
         <rule id="MASTATE" name="mastate/mataste">
             <pattern>
                 <token>mastate<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
