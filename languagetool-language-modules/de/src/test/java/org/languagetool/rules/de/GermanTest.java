@@ -63,6 +63,14 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "Kommata";
           suggWord = "Kommas";
         }
+        if (message.contains("Präfix")) {
+          origWord = "Präfix";
+          suggWord = "Vorsilbe";
+        }
+        if (message.contains("Suffix")) {
+          origWord = "Suffix";
+          suggWord = "Nachsilbe";
+        }
         if (message.contains("Substantiv")) {
           origWord = "Substantiv";
           suggWord = "Nomen";
