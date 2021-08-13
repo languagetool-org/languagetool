@@ -51,7 +51,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
     super.setCategory(Categories.CASING.getCategory(messages));
     addExamplePair(Example.wrong("Wie geht es Dir? Bist <marker>du</marker> wieder gesund?"),
                    Example.fixed("Wie geht es Dir? Bist <marker>Du</marker> wieder gesund?"));
-    setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Gross-oder-Kleinschreibung-von-duDu-und-ihrIhr"));
+    setUrl(Tools.getUrl("https://insights.languagetool.com/de/beitrag/duzen-grossgeschrieben/"));
   }
 
   @Override
