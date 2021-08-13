@@ -62,6 +62,8 @@ public class CatalanWordRepeatRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("Si no no es gaudeix."));
     assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("HUCHA-GANGA.ES es presenta."));
+    assertEquals(0, matches.length);
         
     //incorrect
     matches = rule.match(lt.getAnalyzedSentence("Tots els els homes són iguals."));
