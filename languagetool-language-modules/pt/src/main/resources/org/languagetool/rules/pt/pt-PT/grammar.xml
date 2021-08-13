@@ -221,6 +221,26 @@ Eles se odiavam.
 		<token/>
       </antipattern>  
 <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *END* -->	  
+<!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *START* -->
+<!--
+Partilhei o link do vídeo no Skype, não sei se reparou.
+Não sei se virá.
+ão sei se poderei bancar o alto custo da reforma.
+Ele será certamente deportado se for encontrado.
+Não sei se choverá ou não amanhã.
+Eu não sei se entraria em contacto com ela.
+-->
+      <antipattern>
+		<token postag='VMP00.+|VMIP.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AQ0.+|NP.+|NC.+'/>
+		</token>
+		<token>se</token>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='VMIP.+|VMN0.+'/>
+		</token>
+		<token negate_pos="yes" postag='VMG.+' postag_regexp='yes'/>	
+      </antipattern>
+<!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *END* -->
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
