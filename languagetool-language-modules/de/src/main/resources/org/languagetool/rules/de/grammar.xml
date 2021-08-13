@@ -1109,7 +1109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="in|um">Hindernisse <marker>im</marker> meinem Leben kann ich nicht ertragen.</example>
                 <example correction="in|um">Es handelt sich <marker>im</marker> eine gute Idee.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -1122,7 +1122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>um</suggestion>?</message>
                 <example correction="um">Wir müssen Sie <marker>im</marker> Geduld bitten.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -9045,14 +9045,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>Winfried Kretschmann</suggestion> (= Politiker der Grünen)?</message>
             <example correction="Winfried Kretschmann"><marker>Wilfried Kretschman</marker> ist ein Politiker der Grünen.</example>
         </rule>
-        <!-- <rule id="MICHAEL_KRETSCHMER" name="Michael Kretschmer" default="temp_off">
-            <pattern>
-                <token>Michael</token>
-                <token regexp="yes">Kr[äe]tschmann?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Michael Kretschmer</suggestion> (= Politiker der CDU)?</message>
-            <example correction="Winfried Kretschmer"><marker>Michael Kretschmann</marker> ist ein Politiker der Grünen.</example>
-        </rule> -->
         <rule id="SALVADOR_DALI" name="Salvador Dalí">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Salvador|SALVADOR</token>
@@ -22116,6 +22108,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="EXTRA" name="Extra als Adverb" default="temp_off">
+            <antipattern>
+                <token postag=".*(NOM|DAT|AKK|GEN):SIN:NEU.*|UNKNOWN" postag_regexp="yes" regexp="yes">
+                    .*[a-z].*
+                    <exception>es</exception>
+                </token>
+                <token>Extra</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">als|aus|von</token>
+                <token>extra</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">.*[a-z].*</token>
+                <marker>
+                    <token case_sensitive="yes">Extra</token>
+                </marker>
+                <token postag="ZUS|NEG|ADV.*" min="0" max="2" />
+                <token postag="VER:.*" postag_regexp="yes" />
+            </pattern>
+            <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird in der Regel kleingeschrieben.</message>
+            <example correction="extra">Ich werde es <marker>Extra</marker> schnell machen!</example>
+            <example correction="extra">Den Support müssten die <marker>Extra</marker> einkaufen.</example>
+        </rule>
         <rule id="DAS_WEITE" name="das weite (Weite) suchen">
             <pattern case_sensitive="yes">
                 <token>das</token>
@@ -50687,7 +50703,7 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d|(?i)[a-z]{1,20}))</regexp>
+            <regexp>(\w+) ([!?:])(?!(-?[()/DO]|\s\d|(?i)[a-z]{1,20}))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
@@ -51567,7 +51583,7 @@ Andere Projekte</example>
                 <!-- smiley -->
                 <token regexp="yes">[:;]</token>
                 <token spacebefore="no" min="0" regexp="yes">[o-]</token>
-                <token spacebefore="no" regexp="yes">[()dp]</token>
+                <token spacebefore="no" regexp="yes">[()dpo]</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">„|»|«|"|\(</token>
@@ -51599,8 +51615,8 @@ Andere Projekte</example>
             </antipattern>
             <pattern>
                 <marker>
-                <token regexp="yes">:|;</token>
-                <token spacebefore="no"><exception postag="SENT_END"/></token>
+                    <token regexp="yes" spacebefore="no">:|;</token>
+                    <token spacebefore="no"><exception postag="SENT_END"/></token>
                 </marker>
             </pattern>
             <message>Hinter einem '\1' sollte ein Leerzeichen stehen.</message>
