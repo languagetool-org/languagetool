@@ -50678,7 +50678,7 @@ though, and has since been slightly modified)-->
                 <example>Nous savons déjà cela, cf… nos expériences passées.</example>
                 <example>Consultez le site www.administration.cf</example>
             </rule>
-            <rule default="temp_off"> <!-- 2 / esperluete -->
+            <rule> <!-- 2 / esperluete -->
                 <pattern>
                         <token postag="N.*" postag_regexp="yes"/>
                         <marker>
@@ -50692,7 +50692,7 @@ though, and has since been slightly modified)-->
                 <example>Bertrand &amp; Fils.</example>
                 <example>Simard &amp; Tremblay.</example>
             </rule>
-            <rule default="temp_off"> <!-- 3 / c'est-à-dire 1 -->
+            <rule> <!-- 3 / c'est-à-dire 1 -->
                 <antipattern>
                     <token case_sensitive="yes">CAD</token>
                 </antipattern>
@@ -50705,7 +50705,7 @@ though, and has since been slightly modified)-->
                 <example correction="c.-à-d.">Je suis végétalien, <marker>cad</marker> que je ne mange pas les produits d’origine animale.</example>
                 <example correction="c.-à-d.">Je suis végétalien, <marker>càd</marker> que je ne mange pas les produits d’origine animale.</example>
             </rule>
-            <rule default="temp_off"> <!-- 4 / c'est-à-dire 2 -->
+            <rule> <!-- 4 / c'est-à-dire 2 -->
                 <antipattern>
                     <token min="0">.</token>
                     <token case_sensitive="yes">C</token>
@@ -55826,7 +55826,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="4" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
                 <example correction="rapide">Cette voiture passe pour <marker>vite</marker> et je vais la conduire.</example>
             </rule>
-            <rule id="MERCI_POUR_INF" name="merci pour (de)" default="temp_off">
+            <rule id="MERCI_POUR_INF" name="merci pour (de)">
                 <pattern>
                     <token>
                         <exception regexp="yes">suffisamment|assez|sans</exception>
@@ -55879,7 +55879,7 @@ though, and has since been slightly modified)-->
                 <suggestion>\2 \3 moment</suggestion>
                 <example correction="en même temps|au même moment">J'écoute et je lis l'histoire <marker>au même temps</marker>.</example>
             </rule>
-            <rule id="REVENU" name="revenues (revenus)" default="temp_off">
+            <rule id="REVENU" name="revenues (revenus)">
                 <antipattern>
                     <token postag_regexp="yes" postag="V etre .*"/>
                     <token regexp="yes">revenues?</token>
