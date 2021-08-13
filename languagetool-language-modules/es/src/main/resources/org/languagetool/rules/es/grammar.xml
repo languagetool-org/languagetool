@@ -9143,16 +9143,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rifirrafe">Hubo un <marker>rifi-rafe</marker> al final del partido.</example>
                 <example correction="rifirrafe">Hubo un <marker>rifi rafe</marker> al final del partido.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>caza</token>
                     <token min="0">-</token>
-                    <token regexp="yes">..+</token>
+                    <token regexp="yes">....+</token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="caza$1"/></suggestion>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="cazar$1"/></suggestion>
                 <example correction="cazarrecompensas">Era un <marker>caza recompensas</marker>.</example>
+                <example>Quien caza dos liebres al mismo tiempo, no caza ninguna.</example>
+                <example>La caza es muy sabrosa.</example>
             </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok" default="temp_off">
@@ -16765,18 +16767,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>ceño</suggestion> (entrecejo)? "Seño" es una apócope de "señora" o "señorita".</message>
             <example correction="ceño">Entonces frunció el <marker>seño</marker>.</example>
         </rule>
-        <rule id="CAYO" name="cayo/cayó" default="temp_off">
+        <rule id="CAYO" name="cayo/cayó">
             <antipattern>
                 <token postag="SP.*|LOC_PREP" postag_regexp="yes"/>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
                 <token>cayo</token>
             </antipattern>
-            <pattern>
+            <antipattern>
+                <token skip="4">isla</token>
+                <token postag="D..MS." postag_regexp="yes"/>
                 <token>cayo</token>
+            </antipattern>
+            <pattern>
+                <token>cayo<exception postag="_possible_NP"></exception></token>
             </pattern>
             <message>¿Quería decir <suggestion>cayó</suggestion> (del v. 'caer')? "Cayo" es correcto como sustantivo.</message>
             <example correction="cayó">Entonces se <marker>cayo</marker> de la bicicleta.</example>
             <example correction="cayó">Fue cuando esta <marker>cayo</marker> inconsciente.</example>
+            <example>Augusto tras la muerte de sus dos nietos, Lucio y Cayo, se vio obligado a reconocer a Tiberio.</example>
+            <example>Una vez en la isla (el cayo), encontrarás una carretera que la atraviesa de este a oeste. </example>
         </rule>
         <rule id="MASTATE" name="mastate/mataste">
             <pattern>
