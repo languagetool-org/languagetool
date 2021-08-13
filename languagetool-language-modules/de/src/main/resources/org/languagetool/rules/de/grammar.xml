@@ -1105,8 +1105,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">(&meindein;|k?ein|d(ies)?)e[mrs]?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>um</suggestion>?</message>
-                <example correction="um">Es handelt sich <marker>im</marker> eine gute Idee.</example>
+                <message>Möglicher Tippfehler gefunden: Meinten Sie <suggestion>in</suggestion> oder <suggestion>um</suggestion>?</message>
+                <example correction="in|um">Hindernisse <marker>im</marker> meinem Leben kann ich nicht ertragen.</example>
+                <example correction="in|um">Es handelt sich <marker>im</marker> eine gute Idee.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -51565,8 +51566,8 @@ Andere Projekte</example>
             <antipattern>
                 <!-- smiley -->
                 <token regexp="yes">[:;]</token>
-                <token spacebefore="no" min="0">-</token>
-                <token spacebefore="no" regexp="yes">[()D]</token>
+                <token spacebefore="no" min="0" regexp="yes">[o-]</token>
+                <token spacebefore="no" regexp="yes">[()dp]</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">„|»|«|"|\(</token>
@@ -51607,6 +51608,9 @@ Andere Projekte</example>
             <example correction=": »">Er sagte<marker>:»</marker>Der Garten ist wirklich schön.«</example>
             <example>Das Abendessen wird um 18:30 Uhr fertig sein.</example>
             <example>Ich habe deshalb allen Freund:innen Bescheid gegeben.</example>
+            <example>Danke für die geduldigen Antworten :o)</example>
+            <example>bitte :P bitte, sei wieder lieb</example>
+            <example>nur ein scherz :-)</example>
         </rule>
     </category>
 
