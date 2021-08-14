@@ -271,6 +271,11 @@ public class LanguageIdentifier {
           }
           result = getHighestScoringResult(scores);
         }
+        if (preferredLangs.contains("no") && !preferredLangs.contains("da")) {
+          // Special case, as Norwegian easily gets detected as Danish (https://github.com/languagetool-org/languagetool/issues/5520).
+          scores.keySet().removeIf(k -> k.equals("da"));
+          result = getHighestScoringResult(scores);
+        }
         if (cleanText.length() < CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
           //System.out.println("remove? " + preferredLangs + " <-> " + scores);
           scores.keySet().removeIf(k -> !preferredLangs.contains(k));
