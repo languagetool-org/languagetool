@@ -1049,6 +1049,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
     putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
     putRepl("Belastungsekgs?", "ekg", "-EKG");
+    put("Bingerloch", "Binger Loch");
+    put("[nN]or[dt]rh?einwest(f|ph)alen", "Nordrhein-Westfalen");
+    put("abzusolvieren", "zu absolvieren");
     put("Schutzfließ", "Schutzvlies");
     put("Simlock", "SIM-Lock");
     put("fäschungen", "Fälschungen");
