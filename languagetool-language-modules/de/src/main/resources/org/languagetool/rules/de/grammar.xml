@@ -51615,18 +51615,20 @@ Andere Projekte</example>
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes" spacebefore="no">:|;</token>
+                    <token regexp="yes">:|;<exception postag="SENT_END"/></token>
                     <token spacebefore="no"><exception postag="SENT_END"/></token>
                 </marker>
             </pattern>
             <message>Hinter einem '\1' sollte ein Leerzeichen stehen.</message>
             <suggestion>\1 \2</suggestion>
             <example correction=": »">Er sagte<marker>:»</marker>Der Garten ist wirklich schön.«</example>
+            <example correction="; Sonnen-">Himmels- und Sturmgötter <marker>;Sonnen-</marker> und Mondgötter</example>
             <example>Das Abendessen wird um 18:30 Uhr fertig sein.</example>
             <example>Ich habe deshalb allen Freund:innen Bescheid gegeben.</example>
             <example>Danke für die geduldigen Antworten :o)</example>
             <example>bitte :P bitte, sei wieder lieb</example>
             <example>nur ein scherz :-)</example>
+            <example>Hier ein paar Beispiele:</example>
         </rule>
     </category>
 
