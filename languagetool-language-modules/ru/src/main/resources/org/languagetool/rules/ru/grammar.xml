@@ -12104,8 +12104,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Lower_Letters_after_comma" name="Строчная буква после запятой">
             <pattern case_sensitive="yes">
                 <token>,</token>
-                <token spacebefore="yes" regexp="yes" postag="VB:.*" postag_regexp="yes">[А-Я][а-я]*<exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
+                <token spacebefore="yes" regexp="yes" postag="VB:.*|DPT:.*" postag_regexp="yes">[А-Я][а-я]*<exception postag="VB:.*|DPT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>|DPT:.*
             <message>После запятой требуется строчная буква: <suggestion>, <match no="2" case_conversion="alllower"></match></suggestion></message>
             <short>Строчная буква</short>
             <example correction=", слушай">Привет, мамочка<marker>, Слушай</marker> меня</example>
