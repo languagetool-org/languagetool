@@ -1055,15 +1055,26 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-    <!--<rule id="MILLON" name="millón">
-        <pattern>
-            <token postag="DN..P." postag_regexp="yes"/>
-            <marker>
-                <token regexp="yes" inflected="yes">millón|billón|trillón</token>
-            </marker>
-        </pattern>
-        <disambig action="add"><wd pos="DN0CP0"/></disambig>
-    </rule>-->
+    <rulegroup id="MILLON" name="millón">
+        <rule>
+            <pattern>
+                <token postag="DN..P." postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes" inflected="yes">millón|billón|trillón|coma|cero|uno|una</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="K"/></disambig>    
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">millón|billón|trillón|coma|cero|uno|una</token>
+                </marker>
+                <token postag="DN..P." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="K"/></disambig>    
+        </rule>
+    </rulegroup>
     <rulegroup id="romans_exceptions" name="excepciones números romanos">
         <rule>
             <pattern case_sensitive="yes">

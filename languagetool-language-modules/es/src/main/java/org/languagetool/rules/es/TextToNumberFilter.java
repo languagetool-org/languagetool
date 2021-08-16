@@ -28,73 +28,75 @@ import org.languagetool.rules.patterns.RuleFilter;
 
 public class TextToNumberFilter extends RuleFilter {
 
-  private static Map<String, Long> numbers = new HashMap<String, Long>();
-  private static Map<String, Long> multipliers = new HashMap<String, Long>();
+  private static Map<String, Float> numbers = new HashMap<String, Float>();
+  private static Map<String, Float> multipliers = new HashMap<String, Float>();
 
   static {
-    numbers.put("un", (long) 1);
-    numbers.put("uno", (long) 1);
-    numbers.put("una", (long) 1);
-    numbers.put("dos", (long) 2);
-    numbers.put("tres", (long) 3);
-    numbers.put("cuatro", (long) 4);
-    numbers.put("cinco", (long) 5);
-    numbers.put("seis", (long) 6);
-    numbers.put("siete", (long) 7);
-    numbers.put("ocho", (long) 8);
-    numbers.put("nueve", (long) 9);
-    numbers.put("diez", (long) 10);
-    numbers.put("once", (long) 11);
-    numbers.put("doce", (long) 12);
-    numbers.put("trece", (long) 13);
-    numbers.put("catorce", (long) 14);
-    numbers.put("quince", (long) 15);
-    numbers.put("diecisés", (long) 16);
-    numbers.put("diecisiete", (long) 17);
-    numbers.put("dieciocho", (long) 18);
-    numbers.put("diecinueve", (long) 19);
-    numbers.put("veinte", (long) 20);
-    numbers.put("veintiuno", (long) 21);
-    numbers.put("veintidós", (long) 22);
-    numbers.put("veintitrés", (long) 23);
-    numbers.put("veinticuatro", (long) 24);
-    numbers.put("veinticinco", (long) 25);
-    numbers.put("veintiséis", (long) 26);
-    numbers.put("veintisiete", (long) 27);
-    numbers.put("veintiocho", (long) 28);
-    numbers.put("veintinueve", (long) 29);
-    numbers.put("treinta", (long) 30);
-    numbers.put("cuarenta", (long) 40);
-    numbers.put("cincuenta", (long) 50);
-    numbers.put("sesenta", (long) 60);
-    numbers.put("setenta", (long) 70);
-    numbers.put("ochenta", (long) 80);
-    numbers.put("noventa", (long) 90);
-    numbers.put("cien", (long) 100);
-    numbers.put("ciento", (long) 100);
-    numbers.put("doscientos", (long) 200);
-    numbers.put("trescientos", (long) 300);
-    numbers.put("cuatrocientos", (long) 400);
-    numbers.put("quinientos", (long) 500);
-    numbers.put("seiscientos", (long) 600);
-    numbers.put("setecientos", (long) 700);
-    numbers.put("ochocientos", (long) 800);
-    numbers.put("novecientos", (long) 900);
-    numbers.put("doscientas", (long) 200);
-    numbers.put("trescientas", (long) 300);
-    numbers.put("cuatrocientas", (long) 400);
-    numbers.put("quinientas", (long) 500);
-    numbers.put("seiscientas", (long) 600);
-    numbers.put("setecientas", (long) 700);
-    numbers.put("ochocientas", (long) 800);
-    numbers.put("novecientas", (long) 900);
-    multipliers.put("mil", (long) 1000);
-    multipliers.put("millón", (long) 1000000);
-    multipliers.put("millones", (long) 1000000);
-    multipliers.put("billón", (long) 10^12);
-    multipliers.put("billones", (long) 10^12);
-    multipliers.put("trillón", (long) 10^18);
-    multipliers.put("trillones", (long) 10^18);
+    numbers.put("cero", (float) 0);
+    numbers.put("medio", (float) 0.5);
+    numbers.put("un", (float) 1);
+    numbers.put("uno", (float) 1);
+    numbers.put("una", (float) 1);
+    numbers.put("dos", (float) 2);
+    numbers.put("tres", (float) 3);
+    numbers.put("cuatro", (float) 4);
+    numbers.put("cinco", (float) 5);
+    numbers.put("seis", (float) 6);
+    numbers.put("siete", (float) 7);
+    numbers.put("ocho", (float) 8);
+    numbers.put("nueve", (float) 9);
+    numbers.put("diez", (float) 10);
+    numbers.put("once", (float) 11);
+    numbers.put("doce", (float) 12);
+    numbers.put("trece", (float) 13);
+    numbers.put("catorce", (float) 14);
+    numbers.put("quince", (float) 15);
+    numbers.put("diecisés", (float) 16);
+    numbers.put("diecisiete", (float) 17);
+    numbers.put("dieciocho", (float) 18);
+    numbers.put("diecinueve", (float) 19);
+    numbers.put("veinte", (float) 20);
+    numbers.put("veintiuno", (float) 21);
+    numbers.put("veintidós", (float) 22);
+    numbers.put("veintitrés", (float) 23);
+    numbers.put("veinticuatro", (float) 24);
+    numbers.put("veinticinco", (float) 25);
+    numbers.put("veintiséis", (float) 26);
+    numbers.put("veintisiete", (float) 27);
+    numbers.put("veintiocho", (float) 28);
+    numbers.put("veintinueve", (float) 29);
+    numbers.put("treinta", (float) 30);
+    numbers.put("cuarenta", (float) 40);
+    numbers.put("cincuenta", (float) 50);
+    numbers.put("sesenta", (float) 60);
+    numbers.put("setenta", (float) 70);
+    numbers.put("ochenta", (float) 80);
+    numbers.put("noventa", (float) 90);
+    numbers.put("cien", (float) 100);
+    numbers.put("ciento", (float) 100);
+    numbers.put("doscientos", (float) 200);
+    numbers.put("trescientos", (float) 300);
+    numbers.put("cuatrocientos", (float) 400);
+    numbers.put("quinientos", (float) 500);
+    numbers.put("seiscientos", (float) 600);
+    numbers.put("setecientos", (float) 700);
+    numbers.put("ochocientos", (float) 800);
+    numbers.put("novecientos", (float) 900);
+    numbers.put("doscientas", (float) 200);
+    numbers.put("trescientas", (float) 300);
+    numbers.put("cuatrocientas", (float) 400);
+    numbers.put("quinientas", (float) 500);
+    numbers.put("seiscientas", (float) 600);
+    numbers.put("setecientas", (float) 700);
+    numbers.put("ochocientas", (float) 800);
+    numbers.put("novecientas", (float) 900);
+    multipliers.put("mil", (float) 1000);
+    multipliers.put("millón", (float) 1000000);
+    multipliers.put("millones", (float) 1000000);
+    multipliers.put("billón", (float) 10E12);
+    multipliers.put("billones", (float) 10E12);
+    multipliers.put("trillón", (float) 10E18);
+    multipliers.put("trillones", (float) 10E18);
   }
 
   @Override
@@ -102,30 +104,68 @@ public class TextToNumberFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     int posWord = 0;
-    long total = 0;
-    int current = 0;
+    float total = 0;
+    float current = 0;
+    float totalDecimal = 0;
+    float currentDecimal = 0;
+    int addedZeros = 0;
+    boolean percentage = false;
+    boolean decimal = false;
     while (posWord < patternTokens.length && patternTokens[posWord].getEndPos() <= match.getToPos()) {
       // inside <marker>
       if (patternTokens[posWord].getStartPos() >= match.getFromPos()
           && patternTokens[posWord].getEndPos() <= match.getToPos()) {
         String form = patternTokens[posWord].getToken().toLowerCase();
-        if (numbers.containsKey(form)) {
-          current += numbers.get(form);
-        } else if (multipliers.containsKey(form)) {
-          if (current == 0) {
-            // mil
-            current = 1;
+        if (form.equals("ciento") && patternTokens[posWord - 1].getToken().toLowerCase().equals("por")) {
+          percentage = true;
+          break;
+        }
+        if (form.equals("coma")) {
+          decimal = true;
+          posWord++;
+          continue;
+        }
+        if (!decimal) {
+          if (numbers.containsKey(form)) {
+            current += numbers.get(form);
+          } else if (multipliers.containsKey(form)) {
+            if (current == 0) {// mil
+              current = 1;
+            }
+            total += current * multipliers.get(form);
+            current = 0;
           }
-          total += current * multipliers.get(form);
-          current = 0;
+        } else {
+          if (numbers.containsKey(form)) {
+            int zerosToAdd = format((numbers.get(form)), false).length();
+            currentDecimal += numbers.get(form) / Math.pow(10, addedZeros + zerosToAdd);
+            addedZeros++;
+          } /* else: multipliers after the decimal comma are not expected */
         }
       }
       posWord++;
     }
     total += current;
+    totalDecimal += currentDecimal;
+    total = total + totalDecimal /* / (Float.toString(totalDecimal).length() + addedZeros) */;
     RuleMatch ruleMatch = match;
-    ruleMatch.addSuggestedReplacement(Long.toString(total));
+    String sugg = format(total, percentage);
+
+    ruleMatch.addSuggestedReplacement(sugg);
     return ruleMatch;
+  }
+
+  private static String format(float d, boolean percentage) {
+    String result;
+    if (d == (long) d) {
+      result = String.format("%d", (long) d);
+    } else {
+      result = String.format("%s", d);
+    }
+    if (percentage) {
+      result = result + "\u202F%"; // narrow non-breaking space + percentage
+    }
+    return result;
   }
 
 }
