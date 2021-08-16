@@ -8,6 +8,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
   <!DOCTYPE rules [
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
     <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY genderzeichen "[:_*]">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -48,6 +49,209 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag=".*:(NEU|NOG).*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+
+    <rulegroup id="SUB_INNEN" name="Student*innen">
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no" regexp="yes">in(nen)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:FEM"/>
+                <wd pos="SUB:NOM:PLU:FEM"/>
+                <wd pos="SUB:NOM:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:FEM"/>
+                <wd pos="SUB:AKK:PLU:FEM"/>
+                <wd pos="SUB:AKK:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:FEM"/>
+                <wd pos="SUB:GEN:PLU:FEM"/>
+                <wd pos="SUB:GEN:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:FEM"/>
+                <wd pos="SUB:DAT:PLU:FEM"/>
+                <wd pos="SUB:DAT:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:SIN:FEM"/>
+                <wd pos="SUB:NOM:SIN:FEM"/>
+                <wd pos="SUB:NOM:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:SIN:FEM"/>
+                <wd pos="SUB:AKK:SIN:FEM"/>
+                <wd pos="SUB:AKK:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:SIN:FEM"/>
+                <wd pos="SUB:GEN:SIN:FEM"/>
+                <wd pos="SUB:GEN:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:SIN:FEM"/>
+                <wd pos="SUB:DAT:SIN:FEM"/>
+                <wd pos="SUB:DAT:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:MAS"/>
+                <wd pos="SUB:NOM:PLU:MAS"/>
+                <wd pos="SUB:NOM:PLU:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:MAS"/>
+                <wd pos="SUB:AKK:PLU:MAS"/>
+                <wd pos="SUB:AKK:PLU:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:MAS"/>
+                <wd pos="SUB:GEN:PLU:MAS"/>
+                <wd pos="SUB:GEN:PLU:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">innen</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:MAS"/>
+                <wd pos="SUB:DAT:PLU:MAS"/>
+                <wd pos="SUB:DAT:PLU:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:SIN:MAS"/>
+                <wd pos="SUB:NOM:SIN:MAS"/>
+                <wd pos="SUB:NOM:SIN:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:SIN:MAS"/>
+                <wd pos="SUB:AKK:SIN:MAS"/>
+                <wd pos="SUB:AKK:SIN:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:SIN:MAS"/>
+                <wd pos="SUB:GEN:SIN:MAS"/>
+                <wd pos="SUB:GEN:SIN:MAS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&genderzeichen;</token>
+                <token spacebefore="no">in</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:SIN:MAS"/>
+                <wd pos="SUB:DAT:SIN:MAS"/>
+                <wd pos="SUB:DAT:SIN:MAS"/>
+            </disambig>
+        </rule>
+    </rulegroup>
 
     <rule name="ein bisschen → ADV" id="EIN_BISSCHEN_ADV">
         <pattern>
