@@ -38,7 +38,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY expressoes_de_tempo "(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)|época)s?|m(?:ês|eses)">
 
     <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
-    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|esmo)|muit[ao]|n(ada|ão)|pouc[ao]|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)|.+mente">
+    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|esmo)|muit[ao]|n(ada|ão)|pouc[ao]|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)|.+mente|vári[ao]s">
     <!ENTITY adverbios_de_lugar "(?:a(?:baixo|cima|dentro|diante|fora|í|l(?:ém|gures|hures|i)|quém|trás)|cá|dentro|e(?:mbaixo|xternamente)|l(?:á|onge)|nenhures|perto)">
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
 
@@ -38441,7 +38441,32 @@ E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
       <example correction="reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
     </rule>	
-
+	
+	<!-- PERDER semanas a/para demorar semanas a/para -->
+    <rule id='PERDER_DEMORAR_LEVAR' name="Perder → Demorar/levar" type='style' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-16 (25-JUN-2021+)      -->
+	<!--
+Perdi meses a escrever o livro. → Demorei meses a escrever o livro.
+Perdi vários meses a escrever o livro. → Demorei vários meses a escrever o livro.
+	-->
+      <pattern>
+		<marker>
+			<token inflected='yes'>perder</token>
+		</marker>
+		<or>
+			<token min="0" max="1" regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+			<token postag='Z0.+' postag_regexp='yes'/>
+		</or>
+		<token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+		<token regexp="yes">a|para</token>
+		<token postag='V.+' postag_regexp='yes'/>			
+      </pattern>
+	  <message>Nesta situação o verbo 'perder' é depreciativo. Utilize um alternativo.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>demorar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>levar</match></suggestion>
+      <example correction="Demorei|Levei"><marker>Perdi</marker> meses a escrever o livro.</example>
+    </rule>
+	
 	<!-- HÁ TEMPO QUE VERBO verbo há tempo -->
     <rulegroup id='HÁ_TEMPO_QUE_VERBO_V2' name="Há + Tempo + que + Verbo → Verbo + há + Tempo" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-11 (Enhanced) (25-JUN-2021+)      -->
