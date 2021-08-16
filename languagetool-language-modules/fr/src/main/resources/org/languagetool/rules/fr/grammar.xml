@@ -55826,7 +55826,7 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="4" regexp_match="(vite)(s?)" regexp_replace="rapide$2"/></suggestion>
                 <example correction="rapide">Cette voiture passe pour <marker>vite</marker> et je vais la conduire.</example>
             </rule>
-            <rule id="MERCI_POUR_INF" name="merci pour (de)">
+            <rule id="MERCI_POUR_INF" name="merci pour (de)" default="temp_off">
                 <antipattern>
                     <token regexp="yes">merci|désolée?s?|navrée?s?</token>
                     <token>pour</token>
@@ -55847,7 +55847,7 @@ though, and has since been slightly modified)-->
                         <exception postag="V ppa" regexp="yes"/>
                     </token>
                 </pattern>
-                <message>On ne met pas d’article devant un jour de la semaine.</message>
+                <message>La préposition 'pour' s'utilise lorsque le complément introduit est un nom.</message>
                 <suggestion>de</suggestion>
                 <example correction="de">Merci <marker>pour</marker> m’aider en français.</example>
                 <example>Merci pour m’avoir aidé en français.</example>
