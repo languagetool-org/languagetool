@@ -66,7 +66,7 @@ public class DatabaseLoggerTest {
       //logger.createTestTables(true);
       //DatabaseAccess.createAndFillTestTables(true);
       logger.createTestTables();
-      DatabaseAccess.createAndFillTestTables();
+      DatabaseAccess.getInstance().createAndFillTestTables();
 
       HTTPServer server = new HTTPServer(config);
       Language en = Languages.getLanguageForShortCode("en-US");
@@ -87,10 +87,10 @@ public class DatabaseLoggerTest {
         Long serverId = db.getOrCreateServerId();
         Long agent1 = db.getOrCreateClientId("agent1");
         Long agent2 = db.getOrCreateClientId("agent2");
-        Long user1 = db.getUserId(UserDictTest.USERNAME1, UserDictTest.API_KEY1);
-        Long user2 = db.getUserId(UserDictTest.USERNAME2, UserDictTest.API_KEY2);
+        Long user1 = db.getUserInfoWithApiKey(UserDictTest.USERNAME1, UserDictTest.API_KEY1).getUserId();
+        Long user2 = db.getUserInfoWithApiKey(UserDictTest.USERNAME2, UserDictTest.API_KEY2).getUserId();
         Thread.sleep(DatabaseLogger.SQL_BATCH_WAITING_TIME);
-        try (ResultSet results = DatabaseAccess.executeStatement(checkLogQuery)) {
+        try (ResultSet results = DatabaseAccess.getInstance().getInstance().executeStatement(checkLogQuery)) {
           results.next();
           assertEquals(results.getLong(1), 1);
           assertEquals(Long.valueOf(results.getLong(2)), user1);
@@ -148,7 +148,7 @@ public class DatabaseLoggerTest {
           FROM("rule_matches");
           WHERE("check_id in (1, 2, 3)");
         }};
-        try (ResultSet results = DatabaseAccess.executeStatement(ruleMatchQuery1)) {
+        try (ResultSet results = DatabaseAccess.getInstance().executeStatement(ruleMatchQuery1)) {
           assertFalse(results.next());
         }
 
@@ -159,7 +159,7 @@ public class DatabaseLoggerTest {
           WHERE("c.text_session_id = 123456789");
           ORDER_BY("r.match_id");
         }};
-        try (ResultSet results = DatabaseAccess.executeStatement(ruleMatchQuery2)) {
+        try (ResultSet results = DatabaseAccess.getInstance().executeStatement(ruleMatchQuery2)) {
           results.next();
           assertEquals(results.getLong(1), 1);
           assertEquals(results.getLong(2), 4);
@@ -186,7 +186,7 @@ public class DatabaseLoggerTest {
           SELECT("COUNT(*)");
           FROM("check_log");
         }};
-        try (ResultSet results = DatabaseAccess.executeStatement(checkCount)) {
+        try (ResultSet results = DatabaseAccess.getInstance().getInstance().executeStatement(checkCount)) {
           results.next();
           check_count = results.getInt(1);
         }
@@ -194,7 +194,7 @@ public class DatabaseLoggerTest {
           check(en, String.format("This is the check with batch number %d.", i), null, null, null, null);
         }
         int check_count2;
-        try (ResultSet results = DatabaseAccess.executeStatement(checkCount)) {
+        try (ResultSet results = DatabaseAccess.getInstance().executeStatement(checkCount)) {
           results.next();
           check_count2 = results.getInt(1);
           assertThat(check_count2, is(check_count + DatabaseLogger.SQL_BATCH_SIZE));
@@ -202,14 +202,14 @@ public class DatabaseLoggerTest {
         // test committing after wait time elapsed
         check(en, "This is a check I am waiting for.", null, null, null, null);
         int check_count3;
-        try (ResultSet results = DatabaseAccess.executeStatement(checkCount)) {
+        try (ResultSet results = DatabaseAccess.getInstance().executeStatement(checkCount)) {
           results.next();
           check_count3 = results.getInt(1);
           assertThat(check_count2, is(check_count3));
         }
         Thread.sleep(DatabaseLogger.SQL_BATCH_WAITING_TIME);
         int check_count4;
-        try (ResultSet results = DatabaseAccess.executeStatement(checkCount)) {
+        try (ResultSet results = DatabaseAccess.getInstance().executeStatement(checkCount)) {
           results.next();
           check_count4 = results.getInt(1);
           assertThat(check_count4, is(check_count3 + 1));
@@ -219,7 +219,7 @@ public class DatabaseLoggerTest {
       }
     } finally {
       logger.dropTestTables();
-      DatabaseAccess.deleteTestTables();
+      DatabaseAccess.getInstance().deleteTestTables();
     }
   }
 

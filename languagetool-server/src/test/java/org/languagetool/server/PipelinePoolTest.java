@@ -243,8 +243,8 @@ public class PipelinePoolTest {
     // no need to also create test tables for logging
     DatabaseLogger.getInstance().disableLogging();
     try {
-      DatabaseAccess.deleteTestTables();
-      DatabaseAccess.createAndFillTestTables();
+      DatabaseAccess.getInstance().deleteTestTables();
+      DatabaseAccess.getInstance().createAndFillTestTables();
 
       Map<String, String> paramsUser1 = new HashMap<>();
       paramsUser1.put("text", "not used");
@@ -262,10 +262,9 @@ public class PipelinePoolTest {
 
       checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), paramsUser1, null, null);
       Language lang1 = Languages.getLanguageForShortCode("en-US");
-      // PREMIUM: premium=true
       TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
         new LinkedList<>(), new LinkedList<>(), false, false,
-        false, false, true, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+        false, false, Premium.isPremiumVersion(), false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
       UserConfig user1 = new UserConfig(Collections.emptyList(), Collections.emptyMap(), config.getMaxSpellingSuggestions(),
         UserDictTest.USER_ID1, null, null, null);
 
@@ -325,7 +324,7 @@ public class PipelinePoolTest {
       verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1New, Collections.emptyList());
       verify(pool).returnPipeline(eq(settings1New), notNull());
     } finally {
-      DatabaseAccess.deleteTestTables();
+      DatabaseAccess.getInstance().deleteTestTables();
     }
   }
 

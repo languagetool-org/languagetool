@@ -42,7 +42,7 @@ public class HTTPSServerConfigTest {
     assertThat(config1.isVerbose(), is(false));
     assertThat(config1.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
     assertThat(config1.getKeyStorePassword(), is("mytest"));
-    assertThat(config1.getMaxTextLength(), is(50000));
+    assertThat(config1.getMaxTextLengthAnonymous(), is(50000));
 
     HTTPSServerConfig config2 = new HTTPSServerConfig(("-p 9999 --config " + propertyFile).split(" "));
     assertThat(config2.getPort(), is(9999));
@@ -50,7 +50,7 @@ public class HTTPSServerConfigTest {
     assertThat(config2.isVerbose(), is(false));
     assertThat(config2.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
     assertThat(config2.getKeyStorePassword(), is("mytest"));
-    assertThat(config2.getMaxTextLength(), is(50000));
+    assertThat(config2.getMaxTextLengthAnonymous(), is(50000));
   }
 
   @Test
@@ -62,7 +62,7 @@ public class HTTPSServerConfigTest {
     assertThat(config.isVerbose(), is(false));
     assertThat(config.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
     assertThat(config.getKeyStorePassword(), is("mytest"));
-    assertThat(config.getMaxTextLength(), is(Integer.MAX_VALUE));
+    assertThat(config.getMaxTextLengthAnonymous(), is(Integer.MAX_VALUE));
   }
 
   @Test

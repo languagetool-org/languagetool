@@ -34,8 +34,8 @@ public class DictionaryMatchFilterTest extends UserDictTest {
 
   @NotNull
   @Override
-  protected HTTPServerConfig getServerConfig() {
-    HTTPServerConfig config = super.getServerConfig();
+  protected HTTPServerConfig getHttpServerConfig() {
+    HTTPServerConfig config = super.getHttpServerConfig();
     config.setPipelineCaching(true);
     config.setPipelineExpireTime(300);
     return config;
@@ -51,20 +51,20 @@ public class DictionaryMatchFilterTest extends UserDictTest {
     assertTrue(matched(USERNAME2, API_KEY2, false));
     assertTrue(matched(USERNAME2, API_KEY2, true));
 
-    addWord("this", USERNAME1, API_KEY1);
+    addWord("this", USERNAME1, API_KEY1, null);
     assertTrue(matched(USERNAME1, API_KEY1, false));
     assertFalse(matched(USERNAME1, API_KEY1, true));
     assertTrue(matched(USERNAME2, API_KEY2, true));
     assertTrue(matched(USERNAME2, API_KEY2, false));
 
-    addWord("this", USERNAME2, API_KEY2);
+    addWord("this", USERNAME2, API_KEY2, null);
     assertFalse(matched(USERNAME2, API_KEY2, true));
     assertTrue(matched(USERNAME2, API_KEY2, false));
   }
 
   private boolean matched(String user, String key, boolean filterDictionaryMatches) throws IOException {
     String option = "&filterDictionaryMatches=" + filterDictionaryMatches;
-    String json = check(Languages.getLanguageForShortCode("en"), TEST_SENTENCE, user, key, option);
+    String json = check(Languages.getLanguageForShortCode("en"), TEST_SENTENCE, user, key, null, option);
     return json.contains("THIS_NNS");
   }
 }
