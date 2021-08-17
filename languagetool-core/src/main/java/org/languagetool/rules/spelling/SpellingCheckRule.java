@@ -489,8 +489,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.9, signature modified in 3.9
    */
   protected void addIgnoreWords(String line) {
-    if (!tokenizeNewWords()) 
-    {
+    if (!tokenizeNewWords()) {
       wordsToBeIgnored.add(line);
     }
     else {
