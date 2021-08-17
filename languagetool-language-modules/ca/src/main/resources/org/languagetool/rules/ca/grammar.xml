@@ -15151,6 +15151,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="DONAR_PALS_DE_CEC" name="*donar pals de cec">
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token>pals</token>
+                <token>de</token>
+                <token>cec</token>
+            </pattern>
+            <message>Aquesta expressió és un calc del castellà.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> a les palpentes</suggestion>
+            <example correction="anar a les palpentes">No feia sinó <marker>donar pals de cec</marker>.</example>
+        </rule>
         <rule id="PUDENT" name="pudent/benestant">
             <pattern>
                 <token inflected="yes" regexp="yes">classe|senyor|home|dona|empresari|propietarri|terratinent</token>
