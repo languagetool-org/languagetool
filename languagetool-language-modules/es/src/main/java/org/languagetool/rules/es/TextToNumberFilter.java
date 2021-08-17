@@ -51,7 +51,7 @@ public class TextToNumberFilter extends RuleFilter {
     numbers.put("trece", (float) 13);
     numbers.put("catorce", (float) 14);
     numbers.put("quince", (float) 15);
-    numbers.put("diecisés", (float) 16);
+    numbers.put("dieciséis", (float) 16);
     numbers.put("diecisiete", (float) 17);
     numbers.put("dieciocho", (float) 18);
     numbers.put("diecinueve", (float) 19);
