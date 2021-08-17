@@ -51580,10 +51580,15 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="LEERZEICHEN_HINTER_DOPPELPUNKT" name="Fehlendes Leerzeichen hinter ':' und ';'">
             <antipattern>
-                <!-- smiley -->
+                <!-- separate-token smiley -->
                 <token regexp="yes">[:;]</token>
-                <token spacebefore="no" min="0" regexp="yes">[o-]</token>
-                <token spacebefore="no" regexp="yes">[()dpo]</token>
+                <token spacebefore="no" min="0" regexp="yes">[o–—-]</token>
+                <token spacebefore="no" regexp="yes">[\(\)\\\/dpo]</token>
+            </antipattern>
+            <antipattern>
+                <!-- smiley with nose and mouth as one token -->
+                <token regexp="yes">[:;]</token>
+                <token spacebefore="no" regexp="yes">-[dpo]</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">„|»|«|"|\(</token>
@@ -51629,6 +51634,12 @@ Andere Projekte</example>
             <example>bitte :P bitte, sei wieder lieb</example>
             <example>nur ein scherz :-)</example>
             <example>Hier ein paar Beispiele:</example>
+            <example>nicht besonders gelungen :-/</example>
+            <example>nicht besonders gelungen :-\</example>
+            <example>nicht besonders gelungen :/</example>
+            <example>Aber ohne mich :-P nur ein Scherz</example>
+            <example>Ich bin dabei :-o Wahnsinn!</example>
+            <example>AhA :-D Das reicht schon, vielen Dank!</example>
         </rule>
     </category>
 
