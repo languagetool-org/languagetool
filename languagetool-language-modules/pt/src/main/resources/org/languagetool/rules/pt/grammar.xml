@@ -3642,6 +3642,18 @@ As simulações são as mais realistas que há.
 		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
+<!--
+O patrão deve vários meses de salário aos trabalhadores.
+Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.
+Nesta cidade violenta várias moças e saqueia o comércio local.
+-->
+      <antipattern>
+		<token negate='yes' regexp='yes'>a|o|à|n[ao]</token>
+		<token regexp='yes'>vári[ao]s</token>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3692,6 +3704,10 @@ As simulações são as mais realistas que há.
 	 <example>As simulações devem ser o mais realistas que há.</example>
 	 <example>As simulações são o mais realistas que há.</example>
 	 <example>As simulações são as mais realistas que há.</example>
+	 
+	 <example>O patrão deve vários meses de salário aos trabalhadores.</example>
+	 <example>Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.</example>
+	 <example>Nesta cidade violenta várias moças e saqueia o comércio local.</example> 
     </rule>
     <rule>	
       <antipattern>
@@ -4025,6 +4041,18 @@ A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o ani
 		  <token postag='SPS00' postag_regexp='no'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2021-05-24 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
+<!--
+O patrão deve vários meses de salário aos trabalhadores.
+Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.
+Nesta cidade violenta várias moças e saqueia o comércio local.
+-->
+      <antipattern>
+		<token negate='yes' regexp='yes'>a|o|à|n[ao]</token>
+		<token regexp='yes'>vári[ao]s</token>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -4089,12 +4117,28 @@ A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o ani
 	  <example>Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal.</example>
 	  <example>Vimos os fogos de artifício a quatro de julho.</example>
 	  <example>A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o aniversário natalício do sober...</example>
+	  
+	  <example>O patrão deve vários meses de salário aos trabalhadores.</example>
+	  <example>Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.</example>
+	  <example>Nesta cidade violenta várias moças e saqueia o comércio local.</example>
 	</rule>
     <rule>
       <antipattern>
           <token postag_regexp='yes' regexp='yes' postag='R.+'>&contracoes_FS;
             <exception postag_regexp='yes' negate_pos='yes' postag='R.+'/></token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
+<!--
+O patrão deve vários meses de salário aos trabalhadores.
+Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.
+Nesta cidade violenta várias moças e saqueia o comércio local.
+-->
+      <antipattern>
+		<token negate='yes' regexp='yes'>a|o|à|n[ao]</token>
+		<token regexp='yes'>vári[ao]s</token>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
       </antipattern>
+<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -4113,6 +4157,10 @@ A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o ani
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
       <example correction='numa espécie|numas espécies'>Valor contido <marker>numa espécies</marker> por descobrir.</example>
+	  
+	  <example>O patrão deve vários meses de salário aos trabalhadores.</example>
+	  <example>Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.</example>
+	  <example>Nesta cidade violenta várias moças e saqueia o comércio local.</example>
     </rule>
     <rule>
       <antipattern>
