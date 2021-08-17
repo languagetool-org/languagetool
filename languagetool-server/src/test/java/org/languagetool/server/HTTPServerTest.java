@@ -292,7 +292,7 @@ public class HTTPServerTest {
   @Test
   public void testTimeout() {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
-    config.setMaxCheckTimeMillis(1);
+    config.setMaxCheckTimeMillisAnonymous(1);
     HTTPServer server = new HTTPServer(config, false);
     try {
       server.run();

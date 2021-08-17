@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.Premium;
 
 import java.util.Objects;
 
@@ -38,14 +39,14 @@ public class UserLimitsTest {
     config = new HTTPServerConfig(HTTPTools.getDefaultPort());
     UserDictTest.configureTestDatabase(config);
     DatabaseAccess.init(config);
-    DatabaseAccess.deleteTestTables();
-    DatabaseAccess.createAndFillTestTables();
+    DatabaseAccess.getInstance().deleteTestTables();
+    DatabaseAccess.getInstance().createAndFillTestTables();
   }
 
   @After
   public void tearDown() {
-    DatabaseAccess.deleteTestTables();
-    DatabaseAccess.shutdownCompact();
+    DatabaseAccess.getInstance().deleteTestTables();
+    DatabaseAccess.getInstance().shutdownCompact();
     DatabaseAccess.reset();
   }
 
@@ -107,6 +108,9 @@ public class UserLimitsTest {
 
   @Test
   public void testGetLimitsFromUserAccount() {
+    if (!Premium.isPremiumVersion()) {
+      return;
+    }
     config.setMaxTextLengthAnonymous(100);
     config.setMaxTextLengthLoggedIn(1000);
     config.setMaxTextLengthPremium(10000);
@@ -128,6 +132,9 @@ public class UserLimitsTest {
   
   @Test
   public void testGetLimitsFromUserAccountViaApiKey() {
+    if (!Premium.isPremiumVersion()) {
+      return;
+    }
     config.setMaxTextLengthAnonymous(100);
     config.setMaxTextLengthLoggedIn(1000);
     config.setMaxTextLengthPremium(10000);
@@ -144,6 +151,9 @@ public class UserLimitsTest {
 
   @Test
   public void testGetLimitsFromUserAccountViaAddonToken() {
+    if (!Premium.isPremiumVersion()) {
+      return;
+    }
     config.setMaxTextLengthAnonymous(100);
     config.setMaxTextLengthLoggedIn(1000);
     config.setMaxTextLengthPremium(10000);
@@ -160,6 +170,9 @@ public class UserLimitsTest {
 
   @Test
   public void testUserGroup() {
+    if (!Premium.isPremiumVersion()) {
+      return;
+    }
     UserLimits limits1 = UserLimits.getLimitsByAddonToken(config, UserDictTest.USERNAME1, UserDictTest.TOKEN_V2_1);
     assertEquals(Objects.requireNonNull(limits1.getAccount()).getUserGroup(),
       UserDictTest.USER_GROUP_1);

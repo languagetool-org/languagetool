@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,28 +16,37 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool;
+package org.languagetool.server;
 
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.rules.Rule;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Information about premium-only rules.
+ * An item from a user's dictionary, fetched from a database.
+ * @since 4.3
  */
-public class Premium {
+public class DictGroupEntry {
 
-  public static boolean isPremiumVersion() {
-    return false;
+  private final String name;
+  private final long id;
+  @Nullable
+  private final Long userGroupId;
+
+  public DictGroupEntry(long id, String name, @Nullable Long userGroupId) {
+    this.name = name;
+    this.id = id;
+    this.userGroupId = userGroupId;
   }
 
-  public static boolean isPremiumRule(Rule rule) {
-    return false;
+  public String getName() {
+    return name;
   }
 
-  public static boolean isPremiumStatusCheck(AnnotatedText text) {
-    final String testRuleText = "languagetool testrule 8634756";
-    final String testRuleText2 = "The languagetool testrule 8634756.";
-    return testRuleText2.equals(text.getOriginalText()) || testRuleText.equals(text.getOriginalText());
+  public long getId() {
+    return id;
   }
 
+  @Nullable
+  public Long getUserGroupId() {
+    return userGroupId;
+  }
 }

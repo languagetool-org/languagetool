@@ -129,8 +129,8 @@ public class UserDictTest {
     // no need to also create test tables for logging
     DatabaseLogger.getInstance().disableLogging();
     try {
-      DatabaseAccess.deleteTestTables();
-      DatabaseAccess.createAndFillTestTables();
+      DatabaseAccess.getInstance().deleteTestTables();
+      DatabaseAccess.getInstance().createAndFillTestTables();
       HTTPServer server = new HTTPServer(config);
       try {
         server.run();
@@ -139,7 +139,7 @@ public class UserDictTest {
         server.stop();
       }
     } finally {
-      DatabaseAccess.deleteTestTables();
+      DatabaseAccess.getInstance().deleteTestTables();
     }
   }
 
@@ -184,6 +184,9 @@ public class UserDictTest {
   }
 
   protected void testUserDictGroups() throws IOException {
+    if (!Premium.isPremiumVersion()) {
+      return;
+    }
     // test groups
     List<String> group;
 

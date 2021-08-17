@@ -58,7 +58,7 @@ public class TextCheckerTest {
     params.put("text", "not used");
     params.put("language", "en");
     HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
-    config1.setMaxTextLength(10);
+    config1.setMaxTextLengthAnonymous(10);
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     try {
       checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);

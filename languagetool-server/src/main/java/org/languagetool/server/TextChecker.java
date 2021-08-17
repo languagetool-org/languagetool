@@ -169,7 +169,7 @@ abstract class TextChecker {
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          true, true, false, false, mode, JLanguageTool.Level.PICKY, null);
+          true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
@@ -225,6 +225,12 @@ abstract class TextChecker {
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     String userAgent = httpExchange.getRequestHeaders().getFirst("User-Agent");
 
+    if (!config.isAnonymousAccessAllowed() && limits.getPremiumUid() == null) {
+      databaseLogger.log(new DatabaseAccessLimitLogEntry("AnonymousAccessOnRestrictedServer", logServerId, agentId, userId,
+        "", referrer, userAgent));
+      throw new AuthException("Anonymous access is prohibited on this server, please provide authentication.");
+    }
+
     if (aText.getPlainText().length() > limits.getMaxTextLength()) {
       String msg = "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length();
       databaseLogger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
@@ -232,6 +238,44 @@ abstract class TextChecker {
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
+    // static because we can't rely on errorRequestLimiter, null when timeoutRequestLimit option not set
+    try {
+      RequestLimiter.checkUserLimit(referrer, userAgent, agentId, logServerId, limits);
+    } catch(TooManyRequestsException e) {
+      String response = "Error: Access denied: " + e.getMessage();
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+      String message = "Blocked request from uid:" + userId + " because user limit is reached: ";
+      message += "limit = " + limits.getRequestsPerDay() + ", mode = " + limits.getLimitEnforcementMode() + ". ";
+      message += "Access from " + remoteAddress + ", ";
+      message += "HTTP user agent: " + userAgent + ", ";
+      message += "User agent param: " + parameters.get("useragent") + ", ";
+      message += "Referrer: " + referrer + ", ";
+      message += "language: " + parameters.get("language") + ", ";
+      message += "h: " + reqCounter.getHandleCount() + ", ";
+      message += "r: " + reqCounter.getRequestCount();
+      if (parameters.get("username") != null) {
+        message += ", user: " + parameters.get("username");
+      }
+      if (parameters.get("apiKey") != null) {
+        message += ", apiKey: " + parameters.get("apiKey");
+      }
+      String text = parameters.get("text");
+      if (text != null) {
+        message += ", text length: " + text.length();
+      }
+      logger.warn(message);
+      return;
+    }
+    List<String> dictGroups = null;
+    String dictName = "default";
+    if (parameters.containsKey("dicts")) {
+      dictGroups = Arrays.asList(parameters.get("dicts").split(","));
+      dictGroups.sort(Comparator.naturalOrder());
+      dictName = "groups_" + String.join(",", dictGroups);
+    }
+    List<String> dictWords = limits.getPremiumUid() != null ?
+      getUserDictWords(limits, dictGroups) : Collections.emptyList();
 
     boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
 
@@ -280,10 +324,8 @@ abstract class TextChecker {
       }
     }
 
-    UserConfig userConfig = new UserConfig(
-            limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
-            getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches,
-      abTest, textSessionId);
+    UserConfig userConfig = new UserConfig(dictWords, getRuleValues(parameters), config.getMaxSpellingSuggestions(),
+      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
@@ -359,6 +401,9 @@ abstract class TextChecker {
             enabledCategories.size() > 0 || disabledCategories.size() > 0 || enableTempOffRules;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
+    if (limits.hasPremium()) {
+      enableHiddenRules = false;
+    }
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     JLanguageTool.Level level = ServerTools.getLevel(parameters);
     String callback = parameters.get("callback");
@@ -366,7 +411,7 @@ abstract class TextChecker {
     boolean inputLogging = !parameters.getOrDefault("inputLogging", "").equals("no");
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, false, enableTempOffRules, mode, level, callback, inputLogging);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
 
     int textSize = aText.getPlainText().length();
 
@@ -445,6 +490,30 @@ abstract class TextChecker {
     setHeaders(httpExchange);
 
     List<RuleMatch> hiddenMatches = new ArrayList<>();
+
+    // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
+    if (!params.premium && config.getHiddenMatchesServer() == null && params.enableHiddenRules &&
+      config.getHiddenMatchesLanguages().contains(lang)) {
+      List<RuleMatch> allMatches = new ArrayList<>(); // for filtering out overlapping matches, collect across CheckResults
+      List<RuleMatch> premiumMatches = new ArrayList<>();
+      for (CheckResults result : res) {
+        List<RuleMatch> filteredMatches = new ArrayList<>();
+        for (RuleMatch match : result.getRuleMatches()) {
+          if (Premium.isPremiumRule(match.getRule())) {
+            premiumMatches.add(match);
+          } else {
+            // filter out premium matches
+            filteredMatches.add(match);
+            // keep track for filtering out overlapping matches
+            allMatches.add(match);
+          }
+          // need to replace list, can't iterate and remove since some rules may return unmodifiable lists
+          result.setRuleMatches(filteredMatches);
+        }
+      }
+      hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
+    }
+
     if (config.getHiddenMatchesServer() != null && params.enableHiddenRules &&
       config.getHiddenMatchesLanguages().contains(lang)) {
       if (config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
@@ -507,9 +576,32 @@ abstract class TextChecker {
     }
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
-    String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
+    List<String> premiumMatchRuleIds = res.stream().
+            flatMap(r -> r.getRuleMatches().stream()).
+            filter(k -> Premium.isPremiumRule(k.getRule())).
+            map(k -> k.getRule().getId()).
+            collect(Collectors.toList());
+    String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    
+    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+            ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
+            + premiumMatchRuleIds.size() + "/"
+            + res.size() + " matches, "
+            + computationTime + "ms, agent:" + agent + version
+            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
+            + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
+            + ", r:" + reqCounter.getRequestCount()
+            + ", m:" + ServerTools.getModeForLog(mode) + skipLimits
+            + ", premium: " + (limits.getPremiumUid() != null && limits.hasPremium())
+            + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
+    if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
+      logger.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
+    }
+    if (premiumMatchRuleIds.size() > 0) {
+      for (String premiumMatchRuleId : premiumMatchRuleIds) {
+        logger.info("premium:" + lang.getShortCodeWithCountryAndVariant() + ":" + premiumMatchRuleId);
+      }
+    }
     int matchCount = 0;
     Map<String, Integer> ruleMatchCount = new HashMap<>();
     for (CheckResults r : res) {
@@ -519,46 +611,47 @@ abstract class TextChecker {
         ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
       }
     }
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
-        ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
-        + matchCount + " matches, "
-        + computationTime + "ms, agent:" + agent + version
-        + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
-        + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
-        + ", m:" + ServerTools.getModeForLog(mode) + skipLimits);
-    ServerMetricsCollector.getInstance().logCheck(
-      lang, computationTime, textSize, matchCount, mode);
-    
-    if (!config.isSkipLoggingChecks()) {
-      DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
-        lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
-      logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
-        config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
-      databaseLogger.log(logEntry);
-    }
 
-    if (databaseLogger.isLogging()) {
-      if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
-        logger.info("Cleaning pings DB (" + pings.size() + " items)");
-        pings.clear();
-        pingsCleanDateMillis = System.currentTimeMillis();
+    if (!Premium.isPremiumStatusCheck(aText)) { // exclude status checks from add-on from metrics
+      ServerMetricsCollector.getInstance().logCheck(
+        lang, computationTime, textSize, matchCount, mode);
+
+      if (!config.isSkipLoggingChecks()) {
+        // NOTE: Java/DB (not sure) can't keep up with logging the volume of new entries we've reached,
+        // so we limit it to enterprise customers where we actually pay attention to the request limits
+        if (limits.getRequestsPerDay() != null) {
+          DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
+            lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
+          logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
+            config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
+          databaseLogger.log(logEntry);
+        }
       }
-      if (agentId != null && userId != null) {
-        DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
-        if (!pings.contains(ping)) {
-          databaseLogger.log(ping);
-          if (pings.size() >= PINGS_MAX_SIZE) {
-            // prevent pings taking up unlimited amounts of memory
-            logger.warn("Pings DB has reached max size: " + pings.size());
-          } else {
-            pings.add(ping);
+
+      if (databaseLogger.isLogging()) {
+        if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
+          logger.info("Cleaning pings DB (" + pings.size() + " items)");
+          pings.clear();
+          pingsCleanDateMillis = System.currentTimeMillis();
+        }
+        if (agentId != null && userId != null) {
+          DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
+          if (!pings.contains(ping)) {
+            databaseLogger.log(ping);
+            if (pings.size() >= PINGS_MAX_SIZE) {
+              // prevent pings taking up unlimited amounts of memory
+              logger.warn("Pings DB has reached max size: " + pings.size());
+            } else {
+              pings.add(ping);
+            }
           }
         }
       }
+
     }
 
   }
-  
+
   private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
     Map<String, Integer> ruleValues = new HashMap<>();
     String parameterString = parameters.get("ruleValues");
@@ -573,9 +666,9 @@ abstract class TextChecker {
     return ruleValues;
   }
 
-  private List<String> getUserDictWords(Long userId) {
+  private List<String> getUserDictWords(UserLimits limits, List<String> groups) {
     DatabaseAccess db = DatabaseAccess.getInstance();
-    return db.getUserDictWords(userId);
+    return db.getWordsFromDictionaries(limits, groups);
   }
 
   protected void checkParams(Map<String, String> parameters) {
@@ -867,6 +960,7 @@ abstract class TextChecker {
         .append("useQuerySettings", useQuerySettings)
         .append("allowIncompleteResults", allowIncompleteResults)
         .append("enableHiddenRules", enableHiddenRules)
+        .append("premium", premium)
         .append("enableTempOffRules", enableTempOffRules)
         .append("regressionTestMode", regressionTestMode)
         .append("mode", mode)
