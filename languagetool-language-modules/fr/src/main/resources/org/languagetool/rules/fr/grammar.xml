@@ -1815,6 +1815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>quand ces derniers violent Djamila</example>
                 <example>Quand es-tu devenu enseignante ?</example>
                 <example>Absent surprise du groupe de Manchester City le week-end dernier, Vince the Prince connaît "un problème médical".</example>
+                <example>comme contenue ou conduite permis</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->
@@ -1869,18 +1870,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>et a enlevé et séquestré Blanche</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs" default="temp_off">
+        <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs">
+            <antipattern case_sensitive="yes">
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
             <antipattern>
                 <!-- TODO: we need a way to find repeated lemmas! -->
-                <token inflected="yes">citoyen</token>
+                <token inflected="yes" regexp="yes">citoyen|ami</token>
                 <token postag="C coor"></token>
-                <token inflected="yes">citoyen</token>
+                <token inflected="yes" regexp="yes">citoyen|ami</token>
             </antipattern>
             <antipattern>
                 <token postag="C coor"></token>
                 <token>autres</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>comme</token>
+                    <token inflected="yes">tel</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ni|comme</token>
                     <unify negate="yes">
@@ -1892,7 +1901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token min="0">,</token>
                                 <token min="1" regexp="yes">et|ni|ou</token>
                             </unify-ignore>
-                            <token postag="J.*" postag_regexp="yes"/>
+                            <token postag="J.*" postag_regexp="yes"><exception postag="V ppr"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -1903,8 +1912,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/>\3 \4 <match no="5" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/></suggestion>
                 <example correction="pertinent, ni clair|pertinente, ni claire|pertinents, ni clairs|pertinentes, ni claires">Son intervention n'est ni <marker>pertinente, ni clair</marker>.</example>
                 <example correction="frauduleux et ennuyeux|frauduleuse et ennuyeuse|frauduleuses et ennuyeuses">Ce nombre a été rapporté comme <marker>frauduleuse et ennuyeux</marker>.</example>
+                <example>Elle n'avait ni ami ni amie.</example>
+                <example>phpBB n'est pas responsable de ce que nous acceptons ou n'acceptons pas comme contenu ou conduite permis.</example>
+                <example>Certaines personnes caricaturent les homosexuels masculins comme efféminés et parlant avec un zézaiement.</example>
+                <example>Mais l'Alien ne veut pas être reconnu comme tel et tue le médecin.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <unify negate="yes">
@@ -1932,7 +1945,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="culturel et social|culturelle et sociale|culturels et sociaux|culturelles et sociales"> en matière <marker>culturelle et sociales</marker></example>
                 <example correction="simple et économique|simples et économiques">une solution <marker>simple et économiques</marker> pour gérer leurs impayés !</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token regexp="yes">et|ou</token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token regexp="yes">et|ou</token>
+                    <token postag="J.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </antipattern>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <token>,</token>
@@ -1944,7 +1972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify-ignore>
                                 <token min="1" regexp="yes">et|ou</token>
                             </unify-ignore>
-                            <token postag="J.*" postag_regexp="yes"/>
+                            <token postag="J.*" postag_regexp="yes"><exception postag="V ppr"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -1955,8 +1983,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/> \4 <match no="5" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/></suggestion>
                 <example correction="simple et efficace|simples et efficaces">vous donnent les moyens, <marker>simples et efficace</marker>, de ne pas vous identifier.</example>
                 <example correction="spécifique et certifié|spécifique et certifiée|spécifiques et certifiés|spécifiques et certifiées">satisfaire tous vos attentes, <marker>spécifiques et certifié</marker>.</example>
+                <example>Charmeuse, rusée et aimant l'argent, elle a de bonnes relations avec Charles Frémont.</example>
+                <example>Biscuits, bouchées et petits gâteaux.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>faites</token>
+                </antipattern>
                 <!-- with no separator -->
                 <pattern>
                     <unify negate="yes">
@@ -1976,8 +2010,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/> <match no="2" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/></suggestion>
                 <example correction="méchant petit|méchante petite|méchants petits|méchantes petites">Il était accompagné de <marker>méchants petit</marker> brigands.</example>
                 <example>Ancienne petite amie et ancienne victime de Sydney Carlin.</example>
+                <example>Faites bon voyage !</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="D.* p" postag_regexp="yes"/>
                     <unify negate="yes">
@@ -55794,7 +55829,7 @@ though, and has since been slightly modified)-->
                         <token>
                             <exception>y</exception>
                         </token>
-                    <token postag_regexp="yes" postag="V avoir .*" regexp="yes" inflected="yes">avoir</token>
+                    <token postag_regexp="yes" postag="V avoir .*" inflected="yes">avoir</token>
                     <token>l'</token>
                     <token>air</token>
                     <marker>
@@ -55813,7 +55848,7 @@ though, and has since been slightly modified)-->
                         <token>
                             <exception>y</exception>
                         </token>
-                    <token postag_regexp="yes" postag="V .*" regexp="yes" inflected="yes">passer</token>
+                    <token postag_regexp="yes" postag="V .*" inflected="yes">passer</token>
                     <token>pour</token>
                     <marker>
                         <token regexp="yes">vites?</token>
@@ -55843,9 +55878,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag_regexp="yes" postag="R pers obj .*" min="0"/>
                     <token postag="V inf"/>
-                    <token>
-                        <exception postag="V ppa" regexp="yes"/>
-                    </token>
+                    <token><exception postag="V ppa" regexp="yes"/></token>
                 </pattern>
                 <message>La préposition 'pour' s'utilise lorsque le complément introduit est un nom.</message>
                 <suggestion>de</suggestion>
@@ -55858,7 +55891,7 @@ though, and has since been slightly modified)-->
             <rule id="LE_JOUR_DE_LA_SEMAINE" name="le lundi (lundi)" default="temp_off">
                 <pattern>
                     <marker>
-                        <token regexp="yes">le</token>
+                        <token>le</token>
                         <token regexp="yes">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
                     </marker>
                         <token>

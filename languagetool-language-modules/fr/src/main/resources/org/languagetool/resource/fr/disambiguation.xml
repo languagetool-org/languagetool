@@ -1692,6 +1692,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="CONDUITE" name="conduite (nom)">
+        <pattern>
+            <token><exception inflected="yes">avoir</exception></token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">conduite</token>
+            </marker>
+            <token postag="V ppa.*|J.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="D_AUCUNS" name="d'aucuns">
         <pattern>
             <marker>
