@@ -23,7 +23,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.Premium;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
@@ -306,7 +305,7 @@ public class RuleMatchesAsJsonSerializer {
     }
     writeCategory(g, rule.getCategory());
     if (Premium.isPremiumVersion()) {
-      g.writeBooleanField("isPremium", Premium.isPremiumRule(rule));
+      g.writeBooleanField("isPremium", Premium.get().isPremiumRule(rule));
     }
     if (rule.getTags().size() > 0) {
       g.writeArrayFieldStart("tags");

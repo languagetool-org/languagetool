@@ -5,11 +5,11 @@
         <!-- api_key is similar to using the password, but we don't need to care about Laravel's password hashing: -->
         SELECT id FROM users WHERE email = #{username} AND api_key = #{apiKey}
     </select>
-    <select id="selectWordList" resultType="org.languagetool.server.UserDictEntry">
-        SELECT id, ignore_word FROM ignore_words WHERE user_id = #{userId} ORDER BY id
+    <select id="selectWordList" resultType="String">
+        SELECT ignore_word FROM ignore_words WHERE user_id = #{userId} ORDER BY id
     </select>
-    <select id="selectWord" resultType="org.languagetool.server.UserDictEntry">
-        SELECT id, ignore_word FROM ignore_words WHERE user_id = #{userId} AND ignore_word = #{word}
+    <select id="selectWord" resultType="String">
+        SELECT ignore_word FROM ignore_words WHERE user_id = #{userId} AND ignore_word = #{word}
     </select>
     <insert id="addWord">
         INSERT INTO ignore_words (user_id, ignore_word, created_at, updated_at) VALUES (#{userId}, #{word},

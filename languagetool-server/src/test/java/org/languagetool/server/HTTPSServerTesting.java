@@ -53,7 +53,7 @@ public class HTTPSServerTesting {
   @Ignore("For interactive testing, thus ignored for unit tests")
   @Test
   public void interactiveHTTPServerTest() throws Exception {
-    HTTPTools.disableCertChecks();
+    HTTPTestTools.disableCertChecks();
     long startTime = System.currentTimeMillis();
     try {
       ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
@@ -123,7 +123,7 @@ public class HTTPSServerTesting {
     synchronized(this) {
       checkCount++;
     }
-    String result = HTTPTools.checkAtUrlByPost(url, data);
+    String result = HTTPTestTools.checkAtUrlByPost(url, data);
     System.out.println(checkCount + ". [" + threadNumber + "] Got " + url + " with data (" + data.length() + " bytes) " + startOfData
             + "...: " + (System.currentTimeMillis() - startTime) + "ms");
     return result;

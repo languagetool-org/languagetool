@@ -132,6 +132,9 @@ public final class Languages {
 
   private static Language createLanguageObjects(URL url, String className) {
     try {
+      if (Premium.isPremiumVersion() && hasPremium(className)) {
+        className = className + "Premium";
+      }
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
       return (Language) constructor.newInstance();
@@ -140,6 +143,10 @@ public final class Languages {
     } catch (Exception e) {
       throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not be created", e);
     }
+  }
+
+  private static boolean hasPremium(String className) {
+    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwisssGerman|Dutch|French|Spanish|English|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfrianEnglish)");
   }
 
   /**
