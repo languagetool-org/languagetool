@@ -116,7 +116,7 @@ public class TextToNumberFilter extends RuleFilter {
       if (patternTokens[posWord].getStartPos() >= match.getFromPos()
           && patternTokens[posWord].getEndPos() <= match.getToPos()) {
         String form = patternTokens[posWord].getToken().toLowerCase();
-        if (form.equals("ciento") && patternTokens[posWord - 1].getToken().toLowerCase().equals("por")) {
+        if (posWord > 0 && form.equals("ciento") && patternTokens[posWord - 1].getToken().toLowerCase().equals("por")) {
           percentage = true;
           break;
         }
