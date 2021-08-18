@@ -44,7 +44,7 @@ public class TextCheckerTest {
     params.put("text", "not used");
     params.put("language", "en");
     params.put("callback", "myCallback");
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     FakeHttpExchange httpExchange = new FakeHttpExchange();
     checker.checkText(new AnnotatedTextBuilder().addText("some random text").build(), httpExchange, params, null, null);
@@ -57,7 +57,7 @@ public class TextCheckerTest {
     Map<String, String> params = new HashMap<>();
     params.put("text", "not used");
     params.put("language", "en");
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     config1.setMaxTextLengthAnonymous(10);
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     try {
@@ -119,7 +119,7 @@ public class TextCheckerTest {
     Map<String, String> params = new HashMap<>();
     params.put("text", "not used");
     params.put("language", "en");
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     try {
       params.put("altLanguages", "en");

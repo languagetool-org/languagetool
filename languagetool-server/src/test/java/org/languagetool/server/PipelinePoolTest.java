@@ -46,7 +46,7 @@ public class PipelinePoolTest {
    * then tests if requests created new pipelines
    */
   public void testPipelinePrewarming() throws Exception {
-    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     config.setPipelineCaching(true);
     config.setPipelineExpireTime(Integer.MAX_VALUE);
     config.setPipelinePrewarming(true);
@@ -71,7 +71,7 @@ public class PipelinePoolTest {
     Map<String, String> params = new HashMap<>();
     params.put("text", "not used");
     params.put("language", "en-US");
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     config1.setPipelineCaching(true);
     config1.setPipelineExpireTime(10);
     config1.setMaxPipelinePoolSize(10);
@@ -104,7 +104,7 @@ public class PipelinePoolTest {
     Map<String, String> params2 = new HashMap<>();
     params2.put("text", "not used");
     params2.put("language", "de-DE");
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     config1.setPipelineCaching(true);
     config1.setPipelineExpireTime(10);
     config1.setMaxPipelinePoolSize(10);
@@ -158,7 +158,7 @@ public class PipelinePoolTest {
     Map<String, String> params2 = new HashMap<>();
     params2.put("text", "not used");
     params2.put("language", "de-DE");
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     config1.setPipelineCaching(true);
     config1.setPipelineExpireTime(10);
     config1.setMaxPipelinePoolSize(1);
@@ -208,7 +208,7 @@ public class PipelinePoolTest {
     params.put("text", "not used");
     params.put("language", "en-US");
     int expireTime = 1;
-    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
     config1.setPipelineCaching(true);
     config1.setPipelineExpireTime(expireTime);
     config1.setMaxPipelinePoolSize(10);
@@ -249,10 +249,10 @@ public class PipelinePoolTest {
       Map<String, String> paramsUser1 = new HashMap<>();
       paramsUser1.put("text", "not used");
       paramsUser1.put("language", "en-US");
-      paramsUser1.put("username", UserDictTest.USERNAME1);
-      paramsUser1.put("apiKey", UserDictTest.API_KEY1);
+      paramsUser1.put("username", HTTPTestTools.TestData.USERNAME1);
+      paramsUser1.put("apiKey", HTTPTestTools.TestData.API_KEY1);
       int expireTime = 1;
-      HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+      HTTPServerConfig config1 = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
       config1.setPipelineCaching(true);
       config1.setPipelineExpireTime(expireTime);
       config1.setMaxPipelinePoolSize(10);
@@ -266,7 +266,7 @@ public class PipelinePoolTest {
         new LinkedList<>(), new LinkedList<>(), false, false,
         false, false, Premium.isPremiumVersion(), false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
       UserConfig user1 = new UserConfig(Collections.emptyList(), Collections.emptyMap(), config.getMaxSpellingSuggestions(),
-        UserDictTest.USER_ID1, null, null, null);
+        HTTPTestTools.TestData.USER_ID1, null, null, null);
 
       PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
         null, queryParams1, gConfig, user1);
@@ -285,11 +285,11 @@ public class PipelinePoolTest {
       Map<String, String> paramsUser2 = new HashMap<>();
       paramsUser2.put("text", "not used");
       paramsUser2.put("language", "en-US");
-      paramsUser2.put("username", UserDictTest.USERNAME2);
-      paramsUser2.put("apiKey", UserDictTest.API_KEY2);
+      paramsUser2.put("username", HTTPTestTools.TestData.USERNAME2);
+      paramsUser2.put("apiKey", HTTPTestTools.TestData.API_KEY2);
 
       UserConfig user2 = new UserConfig(Collections.emptyList(), Collections.emptyMap(), config.getMaxSpellingSuggestions(),
-        UserDictTest.USER_ID2, null, null, null);
+        HTTPTestTools.TestData.USER_ID2, null, null, null);
       PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang1,
         null, queryParams1, gConfig, user2);
 
@@ -306,11 +306,11 @@ public class PipelinePoolTest {
 
       ApiV2 api = new ApiV2(checker, "*");
       Map<String, String> paramsUser1AddWord = new HashMap<>();
-      paramsUser1AddWord.put("username", UserDictTest.USERNAME1);
-      paramsUser1AddWord.put("apiKey", UserDictTest.API_KEY1);
+      paramsUser1AddWord.put("username", HTTPTestTools.TestData.USERNAME1);
+      paramsUser1AddWord.put("apiKey", HTTPTestTools.TestData.API_KEY1);
       paramsUser1AddWord.put("word", "test");
       api.handleRequest("words/add", new FakeHttpExchange("post"), paramsUser1AddWord, null, null, config);
-      UserConfig user1New = new UserConfig(Collections.singletonList("test"), Collections.emptyMap(), config.getMaxSpellingSuggestions(), UserDictTest.USER_ID1, null, null, null);
+      UserConfig user1New = new UserConfig(Collections.singletonList("test"), Collections.emptyMap(), config.getMaxSpellingSuggestions(), HTTPTestTools.TestData.USER_ID1, null, null, null);
       PipelinePool.PipelineSettings settings1New = new PipelinePool.PipelineSettings(lang1,
         null, queryParams1, gConfig, user1New);
 
@@ -330,7 +330,7 @@ public class PipelinePoolTest {
 
     @NotNull
     protected HTTPServerConfig getHttpServerConfig() {
-      HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+      HTTPServerConfig config = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
       config.setDatabaseDriver("org.hsqldb.jdbcDriver");
       config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
       config.setDatabaseUsername("");

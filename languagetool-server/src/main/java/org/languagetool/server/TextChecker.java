@@ -499,7 +499,7 @@ abstract class TextChecker {
       for (CheckResults result : res) {
         List<RuleMatch> filteredMatches = new ArrayList<>();
         for (RuleMatch match : result.getRuleMatches()) {
-          if (Premium.isPremiumRule(match.getRule())) {
+          if (Premium.get().isPremiumRule(match.getRule())) {
             premiumMatches.add(match);
           } else {
             // filter out premium matches
@@ -578,7 +578,7 @@ abstract class TextChecker {
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     List<String> premiumMatchRuleIds = res.stream().
             flatMap(r -> r.getRuleMatches().stream()).
-            filter(k -> Premium.isPremiumRule(k.getRule())).
+            filter(k -> Premium.get().isPremiumRule(k.getRule())).
             map(k -> k.getRule().getId()).
             collect(Collectors.toList());
     String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";

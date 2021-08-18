@@ -224,7 +224,7 @@ class PipelinePool {
 
       // temporary workaround: don't run into check timeout, causes limit enforcement;
       // extend timeout as long as possible instead
-      long timeout = Math.max(config.getMaxCheckTimeMillisPremium() - 1, 0);
+      long timeout = Math.max(config.getMaxCheckTimeMillisAnonymous() - 1, 0);
       rules = rules.stream().map(c -> {
         return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
           0, timeout, 0f,
@@ -248,7 +248,7 @@ class PipelinePool {
       int premiumEnabled = 0;
       int otherDisabled = 0;
       for (Rule rule : lt.getAllActiveRules()) {
-        if (Premium.isPremiumRule(rule)) {
+        if (Premium.get().isPremiumRule(rule)) {
           lt.enableRule(rule.getFullId());
           premiumEnabled++;
         } else {
@@ -259,7 +259,7 @@ class PipelinePool {
       //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
     } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
       for (Rule rule : lt.getAllActiveRules()) {
-        if (Premium.isPremiumRule(rule)) {
+        if (Premium.get().isPremiumRule(rule)) {
           lt.disableRule(rule.getFullId());
         }
       }

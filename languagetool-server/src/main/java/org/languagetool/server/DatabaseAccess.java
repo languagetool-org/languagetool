@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.cache.Cache;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -84,6 +85,7 @@ abstract class DatabaseAccess {
    */
   abstract void invalidateCaches();
 
+  abstract Cache<String, List<String>> getCache(Long userId, Long cacheSize);
   abstract List<String> getUserDictWords(Long userId, @Nullable Long dictCacheSize, List<String> groups);
   abstract List<String> getWordsFromDictionaries(UserLimits limits, List<String> groups);
 

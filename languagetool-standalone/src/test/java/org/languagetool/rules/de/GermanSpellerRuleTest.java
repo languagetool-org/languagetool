@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -36,7 +37,7 @@ import static org.junit.Assert.assertThat;
 
 public class GermanSpellerRuleTest {
 
-  private static final GermanyGerman GERMAN_DE = (GermanyGerman) Languages.getLanguageForShortCode("de-DE");
+  private static final German GERMAN_DE = (German) Languages.getLanguageForShortCode("de-DE");
 
   @Test
   public void testErrorLimitReached() throws IOException {

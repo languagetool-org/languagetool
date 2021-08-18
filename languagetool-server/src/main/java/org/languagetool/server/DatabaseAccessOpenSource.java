@@ -38,7 +38,6 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * Encapsulate database access. Will do nothing if database access is not configured.
@@ -47,11 +46,6 @@ import java.util.stream.Collectors;
 class DatabaseAccessOpenSource extends DatabaseAccess {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseAccessOpenSource.class);
-
-  private final Cache<Long, List<UserDictEntry>> userDictCache = CacheBuilder.newBuilder()
-          .maximumSize(1000)
-          .expireAfterWrite(24, TimeUnit.HOURS)
-          .build();
 
   private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
     .expireAfterAccess(1, TimeUnit.HOURS)
@@ -100,6 +94,11 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   @Override
+  Cache<String, List<String>> getCache(Long userId, Long cacheSize) {
+    throw new NotImplementedException();
+  }
+
+  @Override
   List<String> getUserDictWords(Long userId, @Nullable Long dictCacheSize, List<String> groups) {
     return getUserDictWords(userId);
   }
@@ -111,7 +110,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   List<String> getWords(Long userId, List<String> groupNames, int offset, int limit) {
-    return getWords(userId, offset, limit).stream().map(UserDictEntry::getWord).collect(Collectors.toList());
+    return getWords(userId, offset, limit);
   }
 
   @Override
@@ -178,38 +177,21 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   List<String> getUserDictWords(Long userId) {
-    List<String> dictEntries = new ArrayList<>();
     if (sqlSessionFactory == null) {
-      return dictEntries;
+      return Collections.emptyList();
     }
     try (SqlSession session = sqlSessionFactory.openSession()) {
       try {
-        List<UserDictEntry> dict = session.selectList("org.languagetool.server.UserDictMapper.selectWordList", userId);
-        for (UserDictEntry userDictEntry : dict) {
-          dictEntries.add(userDictEntry.getWord());
-        }
-        if (dict.size() <= 1000) {  // make sure users with huge dict don't blow up the cache
-          userDictCache.put(userId, dict);
-        } else {
-          logger.info("WARN: Large dict size " + dict.size() + " for user " + userId + " - will not put user's dict in cache");
-        }
+        List<String> dict = session.selectList("org.languagetool.server.UserDictMapper.selectWordList", userId);
+        return dict;
       } catch (Exception e) {
-        // try to be more robust when database is down, i.e. don't just crash but try to use cache:
-        List<UserDictEntry> cachedDictOrNull = userDictCache.getIfPresent(userId);
-        if (cachedDictOrNull != null) {
-          logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + ", will use cached version (" + cachedDictOrNull.size() + " items). Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
-          for (UserDictEntry userDictEntry : cachedDictOrNull) {
-            dictEntries.add(userDictEntry.getWord());
-          }
-        } else {
           logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
-        }
       }
     }
-    return dictEntries;
+    return Collections.emptyList();
   }
 
-  List<UserDictEntry> getWords(Long userId, int offset, int limit) {
+  List<String> getWords(Long userId, int offset, int limit) {
     if (sqlSessionFactory == null) {
       return new ArrayList<>();
     }
@@ -229,7 +211,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
       Map<Object, Object> map = new HashMap<>();
       map.put("word", word);
       map.put("userId", userId);
-      List<UserDictEntry> existingWords = session.selectList("org.languagetool.server.UserDictMapper.selectWord", map);
+      List<String> existingWords = session.selectList("org.languagetool.server.UserDictMapper.selectWord", map);
       if (existingWords.size() >= 1) {
         logger.info("Did not add '" + word + "' for user " + userId + " to list of ignored words, already exists");
         return false;

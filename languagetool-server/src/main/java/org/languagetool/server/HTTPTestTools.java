@@ -35,14 +35,15 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public final class HTTPTools {
+public final class HTTPTestTools {
 
-  private HTTPTools() {
+  private HTTPTestTools() {
   }
 
   /**
@@ -111,4 +112,24 @@ public final class HTTPTools {
     }
   }
 
+
+  static class TestData {
+
+    public static final String TOKEN_V2_1 = "4472b043ce935018e1a5bf5ef4b8a21b";
+    public static final Long USER_GROUP_1 = 1L;
+    public static final String NAME1 = "One";
+    protected static final String USERNAME1 = "test@test.de";
+    protected static final String API_KEY1 = "foo";
+    protected static final long USER_ID1 = 1;
+    protected static final Date PREMIUM_FROM1 = Date.valueOf("1970-01-01");
+    protected static final String NAME2 = "Two";
+    protected static final String USERNAME2 = "two@test.de";
+    protected static final String API_KEY2 = "foo-two";
+    protected static final Date PREMIUM_FROM2 = Date.valueOf("2000-01-01");
+    protected static final long USER_ID2 = 2;
+    protected static final String USERNAME3 = "free-account@example.com";
+    protected static final String NAME3 = "Three";
+    protected static final String PASSWORD3 = "password";
+    protected static final long USER_ID3 = 3;
+  }
 }
