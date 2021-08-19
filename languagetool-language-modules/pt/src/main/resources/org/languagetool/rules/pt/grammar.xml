@@ -2665,6 +2665,70 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
 	  <example correction="por os conflitos serem">Difere da guerra <marker>porque os conflitos são</marker> uma luta entre radicais.</example>
     </rule>
 
+	<!-- QUE SER/ESTAR PART_PASSADO part_passado -->
+    <rule id='QUE_SER_ESTAR_PARTPASSADO' name="Que + ser/estar + particípio passado → Particípio passado" type='style' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-19 (25-JUN-2021+)      -->
+	<!--
+A quantidade que é estimada denomina-se 'estimativa'. → A quantidade estimada denomina-se 'estimativa'.
+	-->
+<!-- 
+São os seus filhos que estão atrasados.
+-->
+      <antipattern>
+	    <token postag='DP.+' postag_regexp='yes'/>
+		<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
+		<token regexp='no'>que</token>
+		<token postag='VMIP.+' postag_regexp='yes'/>
+		<token postag='VMP.+' postag_regexp='yes'/>	
+      </antipattern>
+<!-- 
+Os pais ensinam aos filhos que é errado mentir.
+-->
+      <antipattern>
+	    <token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
+		<token regexp='no'>que</token>
+		<token postag='VMIP.+' postag_regexp='yes'/>
+		<token postag='VMP.+' postag_regexp='yes'/>	
+		<token postag='VMN0000' postag_regexp='no'/>
+      </antipattern>
+<!-- 
+O montante em fichas necessário para as apostas que serão feitas no decorrer do jogo.
+-->
+      <antipattern>
+	    <token postag='DA.+' postag_regexp='yes'/>
+		<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
+		<token regexp='no'>que</token>
+		<token postag='VMIF.+' postag_regexp='yes'/>
+		<token postag='VMP.+' postag_regexp='yes'/>	
+      </antipattern>
+      <pattern>
+		<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
+		<marker>
+			<token regexp='no'>que</token>
+			<and>
+				<token regexp='yes' inflected='yes'>ser|estar</token>
+				<token negate_pos="yes" postag='VMIP1.+|VMII3.+|VMIF3.+|VMSI3.+' postag_regexp='yes'/>
+			</and>
+			<token postag='VMP.+' postag_regexp='yes'/>			
+		</marker>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\4</suggestion>
+      <example correction="estimada">A quantidade <marker>que é estimada</marker> denomina-se 'estimativa'.</example>
+	  <example>A pauta é a seleção dos assuntos que serão abordados.</example>
+	  <example>Esta licença informará quais os direitos que o autor estará transferindo e quais as condições que serão aplicadas.</example>
+	  <example>Os pais têm prioridade de direito na escolha do tipo de educação que será ministrada a seus filhos.</example>
+	  <example>O estádio que será usado será o Estádio Nacional de Brasília, que no momento esta construção.</example>
+	  <example>Uma casa que será feita por um homem.</example>
+	  
+	  <example>São os seus filhos que estão atrasados.</example>
+	  
+	  <example>Os pais ensinam aos filhos que é errado mentir.</example>
+	  
+	  <example>O montante em fichas necessário para as apostas que serão feitas no decorrer do jogo.</example>
+    </rule>
+	
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
     <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18  (17-MAR-2021+)      -->
