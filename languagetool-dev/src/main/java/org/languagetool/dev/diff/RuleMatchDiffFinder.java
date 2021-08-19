@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.diff;
 
+import joptsimple.internal.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.tools.StringTools;
@@ -25,6 +26,7 @@ import org.languagetool.tools.StringTools;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Find diffs between runs of command-line LT. Matches with the same rule id, doc title, line, column
@@ -173,19 +175,22 @@ public class RuleMatchDiffFinder {
         iframeCount += printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, oldMatch, newMatch);
         if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
-          fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
+          fw.write("<td>");
+          fw.write(oldMatch.getSuggestions().stream().map(k -> showTrimSpace(k)).collect(Collectors.joining(", ")));
+          fw.write("</td>\n");
         } else {
-          fw.write("  <td>" +
-            "  <tt>old:</tt> " + showTrimSpace(oldMatch.getSuggestions()) + "<br>\n" +
-            "  <tt>new:</tt> " + showTrimSpace(newMatch.getSuggestions()) +
-            "</td>\n");
+          fw.write("<td>\n");
+          fw.write("  <tt>old: </tt>" + oldMatch.getSuggestions().stream().map(k -> showTrimSpace(k)).collect(Collectors.joining(", ")));
+          fw.write("  <br>");
+          fw.write("  <tt>new: </tt>" + newMatch.getSuggestions().stream().map(k -> showTrimSpace(k)).collect(Collectors.joining(", ")));
+          fw.write("</td>\n");
         }
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, null, match);
-        fw.write("  <td>" + match.getSuggestions() + "</td>\n");
+        fw.write("  <td>" + match.getSuggestions().stream().map(k -> showTrimSpace(k)).collect(Collectors.joining(", ")) + "</td>\n");
       }
       fw.write("</tr>\n");
     }
@@ -261,7 +266,7 @@ public class RuleMatchDiffFinder {
               "&rule_id=" + enc(oldMatch.getFullRuleId()) +
               "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
               "&message=" + enc(message, 300) +
-              "&suggestions=" + enc(oldMatch.getSuggestions(), 300) +
+              "&suggestions=" + enc(Strings.join(oldMatch.getSuggestions(), ", "), 300) +
               "&marker_from=" + markerFrom +
               "&marker_to=" + markerTo +
               "&language=" + enc(langCode) +

@@ -20,6 +20,7 @@ package org.languagetool.dev.diff;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,14 +37,14 @@ class LightRuleMatch {
   private final String category;
   private final String context;
   private final String coveredText;
-  private final String suggestions;
+  private final List<String> suggestions;
   private final String ruleSource;  // e.g. grammar.xml
   private final String title;
   private final Status status;
   private final List<String> tags;
 
   LightRuleMatch(int line, int column, String ruleId, String message, String category, String context, String coveredText,
-                 String suggestions, String ruleSource, String title, Status status, List<String> tags) {
+                 List<String> suggestions, String ruleSource, String title, Status status, List<String> tags) {
     this.line = line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
@@ -51,7 +52,7 @@ class LightRuleMatch {
     this.category = Objects.requireNonNull(category);
     this.context = Objects.requireNonNull(context);
     this.coveredText = Objects.requireNonNull(coveredText);
-    this.suggestions = suggestions == null ? "" : suggestions;
+    this.suggestions = suggestions == null ? Arrays.asList() : suggestions;
     this.ruleSource = ruleSource;
     this.title = title;
     this.status = Objects.requireNonNull(status);
@@ -95,7 +96,7 @@ class LightRuleMatch {
     return coveredText;
   }
 
-  String getSuggestions() {
+  List<String> getSuggestions() {
     return suggestions;
   }
 

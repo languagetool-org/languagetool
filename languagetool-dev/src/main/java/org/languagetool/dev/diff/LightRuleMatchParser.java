@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -105,7 +106,6 @@ class LightRuleMatchParser {
         }
       }
     }
-    String suggestions = String.join(", ", replacementList);
     String ruleSource = rule.get("sourceFile") != null ? rule.get("sourceFile").asText() : null;
     LightRuleMatch.Status status = LightRuleMatch.Status.on;
     if (rule.get("tempOff") != null && rule.get("tempOff").asBoolean()) {
@@ -118,7 +118,7 @@ class LightRuleMatchParser {
         tags.add(tag.asText());
       }
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, suggestions, ruleSource, title, status, tags);
+    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags);
   }
 
   List<LightRuleMatch> parseOutput(Reader reader) {
@@ -171,7 +171,7 @@ class LightRuleMatchParser {
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
         List<String> tags = new ArrayList<>();  // not supported yet...
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source, tags));
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, Arrays.asList(suggestion), context, coveredText, title, source, tags));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -195,7 +195,7 @@ class LightRuleMatchParser {
     return context;
   }
 
-  private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
+  private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, List<String> suggestions,
                                    String context, String coveredText, String title, String source, List<String> tags) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
     return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags);
