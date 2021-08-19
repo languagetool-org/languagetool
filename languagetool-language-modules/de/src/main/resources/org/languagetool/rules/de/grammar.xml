@@ -42309,7 +42309,11 @@ Andere Projekte</example>
             <pattern>
                 <token>Sehr</token>
                 <token regexp="yes">geehrter?</token>
-                <marker><token regexp="yes">\p{L}+</token></marker>
+                <marker>
+                    <token regexp="yes">\p{L}+
+                        <exception regexp="yes">Patientinnen|Patienten</exception>
+                    </token>
+                </marker>
             </pattern>
             <message>Fehlt evtl. eine Anrede wie <suggestion>Herr \3</suggestion> oder <suggestion>Frau \3</suggestion>?</message>
             <example correction='Herr Müller|Frau Müller'>Sehr geehrter <marker>Müller</marker>, wie geht es Ihnen?</example>
