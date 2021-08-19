@@ -1198,6 +1198,11 @@ public class AgreementRule extends Rule {
       token("anderen"),
       posRegex("ADJ.*"),
       posRegex("SUB.*")
+    ),
+    Arrays.asList( // dass jeder LanguageTool benutzen sollte
+      token("jeder"),
+      posRegex("SUB:(AKK|DAT).*"),
+      posRegex("VER.*")
     )
   );
 

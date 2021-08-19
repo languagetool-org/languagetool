@@ -506,6 +506,7 @@ public class AgreementRuleTest {
     assertGood("Soll das Freude machen?");
     assertGood("Die Trial ist ausgelaufen.");
     assertGood("Ein geworbener Neukunde interagiert zusätzlich mit dem Unternehmen.");
+    assertGood("Ich weiß, dass jeder LanguageTool benutzen sollte.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
