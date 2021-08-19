@@ -4593,6 +4593,20 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="VOS_VOUS" name="vos/vous" default="temp_off">
+            <antipattern>
+                <token>vos</token>
+                <token postag="[NJZ] .* s?p|V ppa . s?p" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <marker>
+                    <token>vos</token>
+                </marker>
+            </pattern>
+            <message>Le pronom personnel s'écrit <suggestion>vous</suggestion>. "Vos" est un possessif.</message>
+            <example correction="vous">À <marker>vos</marker> la garantie de trouver la visseuse.</example>
+        </rule>
         <rulegroup id="AIT_AIE_AIES_EST" name="ait ai aies est">
             <rule>
                 <pattern>
