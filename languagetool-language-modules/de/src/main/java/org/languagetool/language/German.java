@@ -281,10 +281,10 @@ public class German extends Language implements AutoCloseable {
     switch (id) {
       // Rule ids:
       case "DE_PROHIBITED_PHRASE": return 11;
-      case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;   // Premium
+      case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;
       case "OLD_SPELLING_INTERNAL": return 10;
-      case "ZUCCHINIS" : return 1;   // Premium: overwrite spell checker
-      case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // Premium: overwrite spell checker
+      case "ZUCCHINIS" : return 1;   // overwrite spell checker
+      case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "DE_COMPOUNDS": return 10;
       case "IRGEND_COMPOUND": return 10;
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
@@ -345,12 +345,12 @@ public class German extends Language implements AutoCloseable {
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
       case "GERMAN_WORD_REPEAT_RULE": return -3; // prefer other more specific rules
       case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
-      case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // Premium: overwrite spell checker
-      case "ANGLIZISMUS_INTERNAL" : return -2;   // Premium: overwrite spell checker
+      case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // overwrite spell checker
+      case "ANGLIZISMUS_INTERNAL" : return -2;   // overwrite spell checker
       case "DOPPELUNG_VER_MOD_AUX": return -2;
-      case "AERZTEN_INNEN": return -2;  // Premium: overwrite speller ("Ärzte/-innen")
-      case "ANGLIZISMEN" : return -2;   // Premium: overwrite spell checker
-      case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // Premium: overwrite spell checker
+      case "AERZTEN_INNEN": return -2;  // overwrite speller ("Ärzte/-innen")
+      case "ANGLIZISMEN" : return -2;   // overwrite spell checker
+      case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
