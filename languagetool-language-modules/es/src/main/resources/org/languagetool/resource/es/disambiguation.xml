@@ -5384,6 +5384,18 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>
             <pattern>
+                <token regexp="yes">.+o</token>
+                <token spacebefore="no">/</token>
+                <marker>
+                    <token spacebefore="no">a</token>    
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token spacebefore="no">.</token>
                     <token spacebefore="no" regexp="yes" case_sensitive="yes">es|ES</token>    
