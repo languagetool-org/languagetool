@@ -15718,6 +15718,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="AGREEMENT_SUBJECT_VERB_INTERROGATIVE" name="concordancias sujeto y verbo en interrogativas" default="temp_off">
             <rule>
                 <antipattern>
+                    <token postag="V...3S.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="D[^N]..S." postag_regexp="yes" skip="-1"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" regexp="yes">\p{P}</token>
+                    <token postag="PT.*" postag_regexp="yes">qué</token>
+                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V...3S.*" postag_regexp="yes"><exception>hay</exception></token>
+                    </marker>
+                    <token postag="D[^N]..P." postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="5" postag="(V...3)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="compran">¿Qué <marker>compra</marker> los niños?</example>
+                <example type="triggers_error">¿Qué causa las modificaciones en las rocas?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V...3P.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="D[^N]..P." postag_regexp="yes" skip="-1"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" regexp="yes">\p{P}</token>
+                    <token postag="PT.*" postag_regexp="yes">qué</token>
+                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V...3P.*" postag_regexp="yes"><exception>hay</exception></token>
+                    </marker>
+                    <token postag="D[^N]..S." postag_regexp="yes" skip="-1"/>
+                    <token>?</token>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="5" postag="(V...3)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="compra">¿Qué <marker>compran</marker> el niño?</example>
+            </rule>
+            <rule>
+                <antipattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="4" regexp="yes">\p{P}</token>
                     <token regexp="yes">qué|quién</token>
