@@ -4596,7 +4596,8 @@ though, and has since been slightly modified)-->
         <rule id="VOS_VOUS" name="vos/vous" default="temp_off">
             <antipattern>
                 <token>vos</token>
-                <token postag="[NJZ] .* s?p|V ppa . s?p" postag_regexp="yes"/>
+                <token min="0" regexp="yes">[(«"'‘“]</token>
+                <token postag="[NJZ].*|V ppa.*|K|Y|UNKNOWN" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="P.*" postag_regexp="yes"/>
@@ -4606,6 +4607,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>Le pronom personnel s'écrit <suggestion>vous</suggestion>. "Vos" est un possessif.</message>
             <example correction="vous">À <marker>vos</marker> la garantie de trouver la visseuse.</example>
+            <example>Bien heureuse pour vos 5 ans.</example>
         </rule>
         <rulegroup id="AIT_AIE_AIES_EST" name="ait ai aies est">
             <rule>
@@ -55982,7 +55984,7 @@ though, and has since been slightly modified)-->
                 <token postag_regexp="yes" postag="R pers obj .*" min="0"/>
                 <token postag="V inf"/>
                 <token>
-                    <exception postag="V ppa" regexp="yes"/></token>
+                    <exception postag="V ppa.*" postag_regexp="yes"/></token>
             </pattern>
             <message>La préposition 'pour' s'utilise lorsque le complément introduit est un nom.</message>
             <suggestion>de</suggestion>
