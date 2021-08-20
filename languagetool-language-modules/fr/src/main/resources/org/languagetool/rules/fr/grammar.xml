@@ -18227,9 +18227,14 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes">tout</token>
+                    <!-- tous (pronoun) -->
+                    <token inflected="yes" regexp="yes">tout|aucun</token>
                 </marker>
-                <token inflected="yes" regexp="yes">le|mon|ton|son|notre|votre|leur|ce</token>
+                <token inflected="yes" regexp="yes">le|mon|ton|son|notre|votre|leur|ce|un|quelque</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">un</token>
+                <token inflected="yes">tel</token>
             </antipattern>
             <antipattern>
                 <marker>
@@ -18246,7 +18251,8 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token postag="(P\+)?D .*" postag_regexp="yes">
                     <exception postag="N.*|K|Y" postag_regexp="yes"/>
-                    <exception inflected="yes">lequel</exception></token>
+                    <exception inflected="yes">lequel</exception>
+                    <exception>et</exception></token>
                 <token postag="D .*" postag_regexp="yes">
                     <exception postag="N.*|K|Y" postag_regexp="yes"/></token>
                 <token postag="[NZ] .*" postag_regexp="yes"/>
@@ -18255,6 +18261,7 @@ though, and has since been slightly modified)-->
             <message>Confusion probable : Il y a un déterminant en double.</message>
             <example correction="les fêtes|la fête"><marker>la les fêtes</marker></example>
             <example correction="une fête|des fêtes">d'<marker>un une fête</marker></example>
+            <example correction="un garçon|une garçonne|des garçons|des garçonnes">C'est <marker>un un garçon</marker> sensible.</example>
             <example>Tous leurs efforts furent vains.</example>
             <example>Pour profiter d'un accès illimité, un compte payant est requis.</example>
             <example>On se souviendra de cette série pendant longtemps.</example>
@@ -18278,6 +18285,15 @@ though, and has since been slightly modified)-->
             <example>L'estimation moyenne est de l'ordre de 2 x 10-7.</example>
             <example>C'est la raison pour laquelle l'information sur ce site est gratuite !</example>
             <example>On n'avance pas avec tous ces fainéants !</example>
+            <example>En ce cas tout le monde sera de mon avis.</example>
+            <example>Le droit est de mon côté.</example>
+            <example>en se posant mille et une questions</example>
+            <example>Ils ont tous une montée de sève.</example>
+            <example>Cette serrure est de toute beauté.</example>
+            <example>Il est de toute façon possible de le retrouver.</example>
+            <example>C'est de ma part.</example>
+            <example>Tous en ont le désir, mais aucun la puissance.</example>
+            <example>Quel son a le silence ?</example>
         </rule>
         <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
             <!-- <antipattern>
