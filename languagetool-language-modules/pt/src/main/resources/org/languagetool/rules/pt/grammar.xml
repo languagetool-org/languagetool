@@ -2666,8 +2666,8 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
     </rule>
 
 	<!-- QUE SER/ESTAR PART_PASSADO part_passado -->
-    <rule id='QUE_SER_ESTAR_PARTPASSADO' name="Que + ser/estar + particípio passado → Particípio passado" type='style' default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-19 (25-JUN-2021+)      -->
+    <rule id='QUE_SER_ESTAR_PARTPASSADO' name="Que + ser/estar + particípio passado → Particípio passado" type='style'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-19 + 2021-08-20 (25-JUN-2021+)      -->
 	<!--
 A quantidade que é estimada denomina-se 'estimativa'. → A quantidade estimada denomina-se 'estimativa'.
 	-->
@@ -2702,6 +2702,19 @@ O montante em fichas necessário para as apostas que serão feitas no decorrer d
 		<token postag='VMIF.+' postag_regexp='yes'/>
 		<token postag='VMP.+' postag_regexp='yes'/>	
       </antipattern>
+<!-- 
+Tom acha que está apaixonado.
+Isso evita que sejam produzidos erros gramaticais em certas línguas.
+-->
+      <antipattern>
+	    <token postag='NP.+|PD.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='DA0.+'/>
+		</token>
+		<token postag='VMIP3S0' postag_regexp='no'/>
+		<token regexp='no'>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='VMP.+' postag_regexp='yes'/>	
+      </antipattern>	  
       <pattern>
 		<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
 		<marker>
@@ -2727,6 +2740,9 @@ O montante em fichas necessário para as apostas que serão feitas no decorrer d
 	  <example>Os pais ensinam aos filhos que é errado mentir.</example>
 	  
 	  <example>O montante em fichas necessário para as apostas que serão feitas no decorrer do jogo.</example>
+	  
+	  <example>Tom acha que está apaixonado.</example>
+	  <example>Isso evita que sejam produzidos erros gramaticais em certas línguas.</example>
     </rule>
 	
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
