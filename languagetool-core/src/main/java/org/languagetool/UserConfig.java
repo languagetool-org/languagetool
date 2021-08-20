@@ -20,13 +20,10 @@ package org.languagetool;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * User-specific configuration. So far, this contains a list of words and a settings map.
@@ -111,6 +108,17 @@ public class UserConfig {
 
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
+  }
+
+  @NotNull
+  public Set<String> getAcceptedPhrases() {
+    HashSet<String> phrases = new HashSet<>();
+    for (String wordOrPhrase : userSpecificSpellerWords) {
+      if (wordOrPhrase.contains(" ")) {
+        phrases.add(wordOrPhrase);
+      }
+    }
+    return phrases;
   }
 
   public int getMaxSpellingSuggestions() {

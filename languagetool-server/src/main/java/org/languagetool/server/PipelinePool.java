@@ -30,6 +30,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.DictionaryMatchFilter;
+import org.languagetool.rules.DictionarySpellMatchFilter;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
@@ -240,6 +241,7 @@ class PipelinePool {
     if (userConfig.filterDictionaryMatches()) {
       lt.addMatchFilter(new DictionaryMatchFilter(userConfig));
     }
+    lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));
 
     if (config.isPremiumOnly()) {
       //System.out.println("Enabling ONLY premium rules.");

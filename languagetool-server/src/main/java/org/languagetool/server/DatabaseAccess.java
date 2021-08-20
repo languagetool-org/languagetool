@@ -285,7 +285,8 @@ class DatabaseAccess {
       throw new BadRequestException("Invalid word, cannot be empty or whitespace only");
     }
     if (word.matches(".*\\s.*")) {
-      throw new BadRequestException("Invalid word, you can only words that don't contain spaces: '" + word + "'");
+      // TODO: can be removed once DictionarySpellMatchFilter is ready
+      throw new BadRequestException("Invalid word, you can only add words that don't contain spaces: '" + word + "'");
     }
   }
 
