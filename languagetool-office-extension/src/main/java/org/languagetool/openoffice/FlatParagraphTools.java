@@ -63,6 +63,13 @@ public class FlatParagraphTools {
     xFlatParaIter = getXFlatParagraphIterator(xComponent);
     lastFlatPara = getCurrentFlatParagraph();
   }
+  
+  /**
+   * is valid initialization of FlatParagraphTools
+   */
+  boolean isValid() {
+    return xFlatParaIter != null;
+  }
 
   /**
    * Returns XFlatParagraphIterator 

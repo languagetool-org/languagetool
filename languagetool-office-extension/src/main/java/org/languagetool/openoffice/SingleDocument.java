@@ -256,7 +256,7 @@ class SingleDocument {
   }
   
   /** Set LanguageTool menu
-   */
+   *//*
   void setLtMenus(LanguageToolMenus ltMenus) {
     this.ltMenus = ltMenus;
   }
@@ -449,6 +449,9 @@ class SingleDocument {
   public FlatParagraphTools setFlatParagraphTools(XComponent xComponent) {
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xComponent);
+      if (!flatPara.isValid()) {
+        flatPara = null;
+      }
     } else {
       flatPara.init();
     }

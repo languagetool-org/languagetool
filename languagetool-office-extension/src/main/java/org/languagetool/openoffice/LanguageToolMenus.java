@@ -100,7 +100,7 @@ public class LanguageToolMenus {
   class LTHeadMenu implements XMenuListener {
     // If anything on the position of LT menu is changed the following has to be changed
     private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
-    private static final String WORD_COUNT_COMMAND = ".uno:WordCountDialog";  //  Command to open words count menu (LT menu is installed before)
+    private static final String SPELL_ONLINE_COMMAND = ".uno:SpellOnline";    //  Command to switch on/off online spelling (LT menu is installed after)
                                                       //  Command to Switch Off/On LT
     private static final String LT_SWITCH_OFF_COMMAND = "service:org.languagetool.openoffice.Main?switchOff";   
     private static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo:";
@@ -139,8 +139,8 @@ public class LanguageToolMenus {
       }
       for (short i = 0; i < toolsMenu.getItemCount(); i++) {
         String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
-        if (WORD_COUNT_COMMAND.equals(command)) {
-          ltId = toolsMenu.getItemId((short) (i - 1));
+        if (SPELL_ONLINE_COMMAND.equals(command)) {
+          ltId = toolsMenu.getItemId((short) (i + 1));
           ltMenu = toolsMenu.getPopupMenu(ltId);
           break;
         }
@@ -149,7 +149,7 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("LT Menu is null");
         return;
       }
-
+      
       for (short i = 0; i < ltMenu.getItemCount(); i++) {
         String command = ltMenu.getCommand(ltMenu.getItemId(i));
         if (LT_SWITCH_OFF_COMMAND.equals(command)) {

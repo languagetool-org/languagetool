@@ -642,6 +642,9 @@ public class MultiDocumentsHandler {
               textLevelQueue.interruptCheck(oldDocId);
               MessageHandler.printToLogFile("Interrupt done");
             }
+            if (goneContext != null && goneContext.equals(documents.get(i).getXComponent())) {
+              goneContext = null;
+            }
             return i;
           }
         }
@@ -658,12 +661,11 @@ public class MultiDocumentsHandler {
     testFootnotes(propertyValues);
     if (!testMode) {              //  xComponent == null for test cases 
       newDocument.setLanguage(docLanguage);
-      newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
     }
-    MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
-    if (goneContext != null ) {
+    if (goneContext != null) {
       removeDoc(docID);
     }
+    MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
     return documents.size() - 1;
   }
 
@@ -671,18 +673,24 @@ public class MultiDocumentsHandler {
    * Delete a document number and all internal space
    */
   private void removeDoc(String docID) {
-    for (int i = documents.size() - 1; i >= 0; i--) {
-      if (!docID.equals(documents.get(i).getDocID()) && documents.get(i).isDisposed()) {
-        if (goneContext != null) {
+    if (goneContext != null) {
+      for (int i = documents.size() - 1; i >= 0; i--) {
+        if (!docID.equals(documents.get(i).getDocID())) {
           XComponent xComponent = documents.get(i).getXComponent();
           if (xComponent != null && !xComponent.equals(goneContext)) {
+            if (useQueue && textLevelQueue != null) {
+              MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
+              textLevelQueue.interruptCheck(documents.get(i).getDocID());
+              MessageHandler.printToLogFile("Interrupt done");
+            }
+            goneContext.removeEventListener(xEventListener);
             goneContext = null;
+//          if (debugMode) {
+              MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
+//          }
+            documents.remove(i);
           }
         }
-//        if (debugMode) {
-          MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
-//        }
-        documents.remove(i);
       }
     }
   }
@@ -1532,7 +1540,6 @@ public class MultiDocumentsHandler {
       MessageHandler.printToLogFile("xComponent of closed document is null");
     } else {
       setContextOfClosedDoc(goneContext);
-      goneContext.removeEventListener(xEventListener);
     }
   }
   
