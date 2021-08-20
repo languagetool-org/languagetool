@@ -14936,7 +14936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token min="0">,</token>
                                 <token min="1" regexp="yes">y|o|ni|e|u</token>
                             </unify-ignore>
-                            <token postag="A.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -14946,6 +14946,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/>\3 \4 <match no="5" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/></suggestion>
                 <suggestion><match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/>\3 \4 <match no="5" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/></suggestion>
                 <example correction="pertinente, ni claro|pertinente, ni clara|pertinentes, ni claros|pertinentes, ni claras">Su intervención on es ni <marker>pertinente, ni claras</marker>.</example>
+                <example>Más de 30 mil jóvenes han salido de este programa como restauradores y otras profesiones.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14959,7 +14960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token min="0">,</token>
                                 <token min="1" regexp="yes">y|o|e|u|ni</token>
                             </unify-ignore>
-                            <token postag="A.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -14969,6 +14970,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/>\3 \4 <match no="5" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/></suggestion>
                 <suggestion><match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/>\3 \4 <match no="5" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/></suggestion>
                 <example correction="directo e indirecto|directa e indirecta|directos e indirectos|directas e indirectas">Debe asumir las consecuencias <marker>directas e indirectos</marker>.</example>
+                <example>su labor en entornos abiertos u otras viviendas</example>
+                <example>el polvo del medio ambiente y otros factores</example>
             </rule>
             <rule>
                 <antipattern>
@@ -14997,7 +15000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify-ignore>
                                 <token min="1" regexp="yes">y|o|e|u</token>
                             </unify-ignore>
-                            <token postag="A.*" postag_regexp="yes"> <exception postag="V ppr"/></token>
+                            <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -15007,6 +15010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/> \4 <match no="5" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/></suggestion>
                 <suggestion><match no="3" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/> \4 <match no="5" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/></suggestion>
                 <example correction="específico e individual|específica e individual|específicos e individuales|específicas e individuales">Satisfarán vuestras esperanza, <marker>específicas e individual</marker>.</example>
+                <example>Previamente se le entregó ropas hechas a medida, cubiertos, navajas, zapatos, botas y otros elementos.</example>
             </rule>
             <rule>
                 <!-- with no separator -->
@@ -15016,7 +15020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="genero"/>
                         <marker>
                             <token postag="A.*" postag_regexp="yes"/>
-                            <token postag="A.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes"><exception inflected="yes">otro</exception></token>
                         </marker>
                     </unify>
                     <token postag="N.*" postag_regexp="yes"/>
@@ -15027,8 +15031,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/> <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/></suggestion>
                 <suggestion><match no="1" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/> <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/></suggestion>
                 <example correction="malvado pequeño|malvada pequeña|malvados pequeños|malvadas pequeñas">Fue acompañado por <marker>malvados pequeño</marker> bribones.</example>
+                <example>Tengo problemas con mi oído izquierdo otra vez.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>y</token>
+                    <token regexp="yes">medio|media</token>
+                </antipattern>
                 <pattern>
                     <token postag="D...P." postag_regexp="yes"/>
                     <unify negate="yes">
@@ -15039,7 +15049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify-ignore>
                                 <token postag="CC"/>
                             </unify-ignore>
-                            <token postag="A.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -15047,6 +15057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/> \3 <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][PN]."/></suggestion>
                 <suggestion><match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/> \3 <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[FC][PN]."/></suggestion>
                 <example correction="nuevos o antiguos|nuevas o antiguas">Por los <marker>nuevos o antiguo</marker>.</example>
+                <example>Me despierto a las 6 y media de la madrugada.</example>
             </rule>
         </rulegroup>
     </category>
