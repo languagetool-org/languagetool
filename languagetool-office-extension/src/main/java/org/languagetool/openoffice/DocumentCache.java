@@ -277,6 +277,20 @@ public class DocumentCache implements Serializable {
   }
   
   /**
+   * set footnotes of Flat Paragraph by Index
+   */
+  public void setFlatParagraphFootnotes(int n, int[] footnotePos) {
+    footnotes.set(n, footnotePos);
+  }
+  
+  /**
+   * get footnotes of Text Paragraph by Index
+   */
+  public void setTextParagraphFootnotes(int n, int[] footnotePos) {
+    footnotes.set(toParaMapping.get(n), footnotePos);
+  }
+  
+  /**
    * is DocumentCache empty
    */
   public boolean isEmpty() {

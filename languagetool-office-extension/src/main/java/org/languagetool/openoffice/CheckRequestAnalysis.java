@@ -446,7 +446,7 @@ class CheckRequestAnalysis {
     int nTPara = docCache.getNumberOfTextParagraph(nPara); 
     if (proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
       if (nTPara < 0) {
-        return getPosFromChangedPara(chPara, locale, nPara);
+        return getPosFromChangedPara(chPara, locale, nPara, footnotePositions);
       }
     }
     String curFlatParaText = flatPara.getCurrentParaText();
@@ -480,7 +480,7 @@ class CheckRequestAnalysis {
     }
 
     // find position from changed paragraph
-    return getPosFromChangedPara(chPara, locale, nPara);
+    return getPosFromChangedPara(chPara, locale, nPara, footnotePositions);
   }
 
   /**
@@ -697,7 +697,7 @@ class CheckRequestAnalysis {
   /**
    * find position from changed paragraph
    */
-  private int getPosFromChangedPara(String chPara, Locale locale, int nPara) {
+  private int getPosFromChangedPara(String chPara, Locale locale, int nPara, int[] footnotePos) {
     if (docCache == null || nPara < 0) {
       return -1;
     }
@@ -709,6 +709,7 @@ class CheckRequestAnalysis {
                 + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
       }
       docCache.setFlatParagraph(nPara, chPara, locale);
+      docCache.setFlatParagraphFootnotes(nPara, footnotePos);
       if (useQueue) {
         for (int i = 0; i < minToCheckPara.size(); i++) {
           if (minToCheckPara.get(i) == 0) {
