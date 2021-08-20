@@ -4593,6 +4593,63 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rulegroup id="LEDIT" name="le dit/ledit" default="temp_off">
+            <antipattern>
+                <token regexp="yes">me|te|vous|nous</token>
+                <token>le</token>
+                <token>dit</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">le|du|au</token>
+                        <token>dit</token>
+                    </marker>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Ce déterminant est soudé</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="ledit">Avec <marker>le dit</marker> homme.</example>
+                <example>Je fais mon travail comme on me le dit chef.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token>dite</token>
+                    </marker>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Ce déterminant est soudé</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="ladite">Avec <marker>la dite</marker> femme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">les|des|aux</token>
+                        <token regexp="yes">dits|dites</token>
+                    </marker>
+                    <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Ce déterminant est soudé</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="lesdits">Avec <marker>les dits</marker> hommes.</example>
+                <example correction="lesdites">Avec <marker>les dites</marker> femmes.</example>
+            </rule>
+        </rulegroup>
+        <rule id="LAQUELLE" name="la quelle/laquelle" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>la</token>
+                    <token>quelle</token>
+                </marker>
+            </pattern>
+            <message>Confusion. Soudez les deux mots ou écrivez "là" si vous voulez dir "ici".</message>
+            <suggestion>laquelle</suggestion>
+            <suggestion>là quelle</suggestion>
+            <example correction="laquelle|là quelle">Ils constituent une ressource fondamentale sur <marker>la quelle</marker> sera bâti le programme.</example>
+        </rule>
         <rule id="VOS_VOUS" name="vos/vous" default="temp_off">
             <antipattern>
                 <token>vos</token>
@@ -18156,7 +18213,7 @@ though, and has since been slightly modified)-->
         <rule id="DUPLICATE_DETERMINER" name="déterminant en double (la la)" default="temp_off">
             <antipattern>
                 <marker>
-                    <token regexp="yes">de|d'</token>    
+                    <token regexp="yes">de|d'</token>
                 </marker>
                 <token regexp="yes" inflected="yes">le|un</token>
             </antipattern>
@@ -18168,25 +18225,26 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes">tout</token>    
+                    <token inflected="yes">tout</token>
                 </marker>
                 <token inflected="yes" regexp="yes">le|mon|ton|son|notre|votre|leur|ce</token>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes">le</token>    
+                    <token inflected="yes">le</token>
                 </marker>
                 <token postag="K|Y" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes">tel</token>    
+                    <token inflected="yes">tel</token>
                 </marker>
                 <token regexp="yes" inflected="yes">le|un</token>
             </antipattern>
             <pattern>
                 <token postag="(P\+)?D .*" postag_regexp="yes">
-                    <exception postag="N.*|K|Y" postag_regexp="yes"/><exception inflected="yes">lequel</exception></token>
+                    <exception postag="N.*|K|Y" postag_regexp="yes"/>
+                    <exception inflected="yes">lequel</exception></token>
                 <token postag="D .*" postag_regexp="yes">
                     <exception postag="N.*|K|Y" postag_regexp="yes"/></token>
                 <token postag="[NZ] .*" postag_regexp="yes"/>

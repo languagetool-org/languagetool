@@ -49,6 +49,11 @@ public class CompoundRule extends AbstractCompoundRule {
   public String getDescription() {
     return "Mots avec trait d’union";
   }
+  
+  @Override
+  public boolean isHyphenIgnored() {
+    return false;
+  }
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
