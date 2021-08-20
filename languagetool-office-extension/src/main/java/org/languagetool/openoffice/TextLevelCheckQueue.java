@@ -193,7 +193,7 @@ public class TextLevelCheckQueue {
    */
   public void interruptCheck(String docId) {
     if (debugMode) {
-      MessageHandler.printToLogFile("dispose queue");
+      MessageHandler.printToLogFile("interrupt queue");
     }
     if (!textRuleQueue.isEmpty()) {
       synchronized(textRuleQueue) {
@@ -216,6 +216,7 @@ public class TextLevelCheckQueue {
    */
   private void waitForInterrupt() {
     interruptCheck = true;
+    MessageHandler.printToLogFile("Interrupt initiated");
     wakeupQueue();
     int n = 0;
     while (interruptCheck && n < MAX_WAIT) {
@@ -487,6 +488,9 @@ public class TextLevelCheckQueue {
         }
         for (;;) {
           queueWaits = false;
+          if (interruptCheck) {
+            MessageHandler.printToLogFile("Interrupt ended");
+          }
           interruptCheck = false;
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {

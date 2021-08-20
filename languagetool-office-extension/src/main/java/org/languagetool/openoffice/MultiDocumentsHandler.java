@@ -677,14 +677,14 @@ public class MultiDocumentsHandler {
       for (int i = documents.size() - 1; i >= 0; i--) {
         if (!docID.equals(documents.get(i).getDocID())) {
           XComponent xComponent = documents.get(i).getXComponent();
-          if (xComponent != null && !xComponent.equals(goneContext)) {
+          if (xComponent != null && xComponent.equals(goneContext)) {
             if (useQueue && textLevelQueue != null) {
               MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
               textLevelQueue.interruptCheck(documents.get(i).getDocID());
               MessageHandler.printToLogFile("Interrupt done");
             }
-            goneContext.removeEventListener(xEventListener);
             goneContext = null;
+//            xComponent.removeEventListener(xEventListener);
 //          if (debugMode) {
               MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
 //          }
