@@ -32,6 +32,7 @@ public class GlobalConfig {
   private String grammalecteUser;
   private String grammalectePassword;
   private File beolingusFile;
+  private File externalNER;
 
   public void setGrammalecteServer(String serverUrl) {
     grammalecteServer = serverUrl;
@@ -43,6 +44,15 @@ public class GlobalConfig {
   
   public void setGrammalectePassword(String password) {
     grammalectePassword = password;
+  }
+
+  public void setBeolingusFile(File beolingusFile) {
+    this.beolingusFile = beolingusFile;
+  }
+
+  /** External named entity recognizer. A script that get started once and the gets fed each sentence. */
+  public void setExternalNER(File externalNER) {
+    this.externalNER = externalNER;
   }
 
   @Nullable
@@ -60,12 +70,13 @@ public class GlobalConfig {
     return grammalectePassword;
   }
 
-  public void setBeolingusFile(File beolingusFile) {
-    this.beolingusFile = beolingusFile;
-  }
-
   public File getBeolingusFile() {
     return beolingusFile;
+  }
+
+  @Nullable
+  public File getExternalNER() {
+    return externalNER;
   }
 
   @Override
@@ -73,11 +84,14 @@ public class GlobalConfig {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     GlobalConfig that = (GlobalConfig) o;
-    return Objects.equals(grammalecteServer, that.grammalecteServer);
+    return Objects.equals(grammalecteServer, that.grammalecteServer) &&
+      Objects.equals(grammalecteUser, that.grammalecteUser) &&
+      Objects.equals(grammalectePassword, that.grammalectePassword) &&
+      Objects.equals(beolingusFile, that.beolingusFile) && Objects.equals(externalNER, that.externalNER);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(grammalecteServer);
+    return Objects.hash(grammalecteServer, beolingusFile, externalNER);
   }
 }

@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +38,8 @@ import java.util.regex.Pattern;
  * @since 2.0
  */
 public class HTTPServerConfig {
+
+  private static final Logger logger = LoggerFactory.getLogger(HTTPServerConfig.class);
 
   enum Mode { LanguageTool }
 
@@ -130,7 +134,7 @@ public class HTTPServerConfig {
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "premiumAlways",
-    "redisPassword", "redisHost", "dbLogging", "premiumOnly");
+    "redisPassword", "redisHost", "dbLogging", "premiumOnly", "externalNER");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -349,6 +353,15 @@ public class HTTPServerConfig {
             globalConfig.setBeolingusFile(new File(beolingusFile));
           } else {
             throw new IllegalArgumentException("beolingusFile not found: " + beolingusFile);
+          }
+        }
+        String externalNER = getOptionalProperty(props, "externalNER", null);
+        if (externalNER != null) {
+          if (new File(externalNER).isFile()) {
+            globalConfig.setExternalNER(new File(externalNER));
+            logger.info("Using external NER: " + globalConfig.getExternalNER());
+          } else {
+            throw new IllegalArgumentException("externalNER not found or not a file: " + externalNER);
           }
         }
         for (Object o : props.keySet()) {

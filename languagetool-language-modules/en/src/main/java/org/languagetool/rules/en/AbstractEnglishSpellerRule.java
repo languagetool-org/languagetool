@@ -20,22 +20,23 @@ package org.languagetool.rules.en;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import opennlp.tools.util.Span;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-//import org.languagetool.ner.EnglishNamedEntityDetector;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
+import org.languagetool.tagging.ner.ExternalNERViaPipe;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,8 +46,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
-
-  //private final static EnglishNamedEntityDetector ner = new EnglishNamedEntityDetector();
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // words with 'NOSUGGEST' in en_US.dic:
@@ -95,19 +94,27 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   
   private final BeoLingusTranslator translator;
 
+  private static ExternalNERViaPipe nerPipe = null;
+  
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
   }
 
-  /*@Override
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     RuleMatch[] matches = super.match(sentence);
-    if (languageModel != null && languageModel instanceof BaseLanguageModel) {
+    if (languageModel != null && languageModel instanceof BaseLanguageModel && nerPipe != null) {
       String sentenceText = sentence.getText();
       try {
-        List<Span> namedEntities = ner.findNamedEntities(sentenceText);
-        //System.out.println("namedEntities: " + namedEntities);
+        long startTime = System.currentTimeMillis();
+        List<ExternalNERViaPipe.Span> namedEntities = nerPipe.runNER(sentenceText);
+        //System.out.println("namedEntities: " + namedEntities + ", matches before filter: " + matches.length);
         List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
+        if (filtered.size() < matches.length) {
+          long runTime = System.currentTimeMillis() - startTime;
+          //System.out.println("matches filtered by NER: " + matches.length + " -> " + filtered.size() + " ("+runTime+"ms)");
+        }
+        //System.out.println("matches after filter: " + filtered.size());
         matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
       } catch (Exception e) {
         logger.warn("Could not run NER test on '" + sentenceText + "'", e);
@@ -116,14 +123,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return matches;
   }
 
-  private List<RuleMatch> filter(RuleMatch[] matches, String sentenceText, List<Span> namedEntities, LanguageModel languageModel) {
+  private List<RuleMatch> filter(RuleMatch[] matches, String sentenceText, List<ExternalNERViaPipe.Span> namedEntities, LanguageModel languageModel) {
     BaseLanguageModel lm = (BaseLanguageModel) languageModel;
     Set<RuleMatch> toFilter = new HashSet<>();
-    for (Span neSpan : namedEntities) {
+    for (ExternalNERViaPipe.Span neSpan : namedEntities) {
       for (RuleMatch match : matches) {
         //System.out.println(neSpan.getStart() + " <= " + match.getFromPos() + " && " + neSpan.getEnd() + " >= " +  match.getToPos());
         if (neSpan.getStart() <= match.getFromPos() && neSpan.getEnd() >= match.getToPos()) {
           String covered = sentenceText.substring(match.getFromPos(), match.getToPos());
+          if (!StringTools.startsWithUppercase(covered)) {
+            continue;
+          }
           List<String> infos = new ArrayList<>();
           long textCount = lm.getCount(covered);
           infos.add(covered + "/" + textCount);
@@ -141,12 +151,15 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
               break;
             }
           }
-          //String msg = "Could skip: " + covered + " FOR " + sentenceText.substring(neSpan.getStart(), neSpan.getEnd());
           if (mostCommonRepl != null) {
-            //System.out.println(msg + "\n -> Would not skip, common repl: " + mostCommonRepl + ": " + infos);
-          } else {
-            //System.out.println(msg + "\n -> Would skip, " + infos);
-            toFilter.add(match);
+            Integer dist = new LevenshteinDistance().apply(mostCommonRepl, covered);
+            String msg = "Could skip: " + covered + " FOR " + sentenceText.substring(neSpan.getStart(), neSpan.getEnd()) + ", dist: " +dist;
+            if (dist <= 2) {
+              //System.out.println(msg + "\n -> Would not skip, common repl: " + mostCommonRepl + ": " + infos);
+            } else {
+              //System.out.println(msg + "\n -> Would skip, " + infos);
+              toFilter.add(match);
+            }
           }
         }
       }
@@ -159,7 +172,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     return filteredMatches;
   }
-  */
 
   /**
    * @since 4.4
@@ -212,6 +224,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     translator = BeoLingusTranslator.getInstance(globalConfig);
     topSuggestions = getTopSuggestions();
     topSuggestionsIgnoreCase = getTopSuggestionsIgnoreCase();
+    if (nerPipe == null && globalConfig != null && globalConfig.getExternalNER() != null) {
+      nerPipe = new ExternalNERViaPipe(globalConfig.getExternalNER());
+    }
   }
 
   @Override
