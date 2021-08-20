@@ -58782,13 +58782,14 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token>à</token>
+                    <token regexp="yes">à|a</token>
                     <token regexp="yes">[mts](es|on)|leurs?|[nv]os|[nv]otre</token>
                     <token regexp="yes">dépends?</token>
                 </pattern>
                 <message>« \1 \2 \3 » est une expression fautive.</message>
-                <suggestion>\1 \2 dépens</suggestion>
+                <suggestion>à \2 dépens</suggestion>
                 <example correction="à nos dépens">Il vit <marker>à nos dépends</marker>.</example>
+                <example correction="à nos dépens">Il vit <marker>a nos dépends</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="CHIFFRE_D_AFFAIRE" name="chiffre d’affaire">
