@@ -22108,6 +22108,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="DA" name="DA (Da)" default="temp_off">
+            <antipattern>
+                <!-- all-uppercase -->
+                <token case_sensitive="yes">DA</token>
+                <token case_sensitive="yes" regexp="yes">[A-ZÖÄÜ]+</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token case_sensitive="yes">DA</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Da</suggestion>?</message>
+            <example correction="Da"><marker>DA</marker> läuft es nicht run.</example>
+            <example><marker>DA</marker> KÖNNTE JA JEDER KOMMEN!</example>
+        </rule>
         <rule id="EXTRA" name="Extra als Adverb" default="temp_off">
             <antipattern>
                 <token postag=".*(NOM|DAT|AKK|GEN):SIN:NEU.*|UNKNOWN" postag_regexp="yes" regexp="yes">
