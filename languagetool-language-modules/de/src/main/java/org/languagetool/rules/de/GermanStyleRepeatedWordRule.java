@@ -130,6 +130,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
           && (!isFalsePair(testTokenText, tokenText, "lang", "klang"))
           && (!isFalsePair(testTokenText, tokenText, "lag", "schlag"))
+          && (!isFalsePair(testTokenText, tokenText, "lagen", "schlagen"))
           && (!isFalsePair(testTokenText, tokenText, "Art", "Artefakt"))
           && (!isFalsePair(testTokenText, tokenText, "kommen", "kommentier"))
           && (!isFalsePair(testTokenText, tokenText, "weit", "weiter"))
