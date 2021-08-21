@@ -179,6 +179,7 @@ public class AgreementRuleTest {
     assertGood("Ein Geschenk, das Maßstäbe setzt");
     assertGood("Einwohnerzahl stieg um das Zweieinhalbfache");
     assertGood("Die Müllers aus Hamburg.");
+    assertGood("Es ist noch unklar, wann und für wen Impfungen vorgenommen werden könnten.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");

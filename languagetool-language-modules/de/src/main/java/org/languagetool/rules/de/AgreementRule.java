@@ -87,6 +87,11 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("für"),  // "..., wann und für wen Impfungen vorgenommen werden könnten."
+      token("wen"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(
       token("ein"),  // "Das wolkige und ein bisschen kühle Wetter..."
       token("bisschen"),
       posRegex("ADJ:.*"),
