@@ -2432,12 +2432,24 @@ Chamaram-no de volta, em meio à sua viagem.
 	-->
 	<url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
 	  <rule>
+<!-- MARCOAGPINTO 2021-08-22 (25-JUN-2021+) *START* -->
+<!--
+Queremos o chamar de Marco.
+-->
+      <antipattern>
+		<token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>
+		<token>chamar</token>
+		<token>de</token>
+		<token min="0" max="1" regexp='yes'>["'’“«]</token>
+		<token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-08-22 (25-JUN-2021+) *END* -->		  
       <pattern>
 		<marker>
 			<token regexp='yes' inflected='yes'>chamar|denominar</token>
 			<token>de</token>
 		</marker>
-		<token min="0" max="1" regexp='yes'>['’“«]</token>
+		<token min="0" max="1" regexp='yes'>["'’“«]</token>
 		<token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'>
 			<exception regexp='yes'>regresso|volta</exception>
 		</token>
@@ -2448,7 +2460,7 @@ Chamaram-no de volta, em meio à sua viagem.
 	  <example>Ele foi chamado de volta, em meio à sua viagem.</example>
 	  </rule>
 	  
-	  <rule>
+	  <rule>  
       <pattern>
 		<marker>
 			<token regexp='yes' inflected='yes'>chamar|denominar</token>
@@ -2456,7 +2468,7 @@ Chamaram-no de volta, em meio à sua viagem.
 			<token regexp='yes' spacebefore='no'>as?|os?|las?|los?|lhas?|lhes?|nos?|me|se|te|vos</token>
 			<token>de</token>
 		</marker>
-		<token min="0" max="1" regexp='yes'>['’“«]</token>
+		<token min="0" max="1" regexp='yes'>["'’“«]</token>
 		<token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'>
 			<exception regexp='yes'>regresso|volta</exception>
 		</token>
