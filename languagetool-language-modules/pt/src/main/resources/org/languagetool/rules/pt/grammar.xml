@@ -2421,6 +2421,24 @@ Os que já vieram estão no salão.
       <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
     </rule>
 	
+	<!-- VIR A VERBO verbo -->
+    <rule id='VIR_A_VERBO_verbo' name="Vir + a + Verbo → Verbo" type='style' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
+	<!--
+O nosso estudo terá grande aplicabilidade caso esta ameaça se venha a concretizar. → O nosso estudo terá grande aplicabilidade caso esta ameaça se concretize.
+	-->
+      <pattern>
+		<marker>
+			<token postag_regexp='no' inflected='yes'>vir</token>
+			<token>a</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</marker>
+      </pattern>
+	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:1 postagSelect:V.*"/>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+      <example correction="concretize">O nosso estudo terá grande aplicabilidade caso esta ameaça se <marker>venha a concretizar</marker>.</example>
+    </rule>
+	
 	<!-- CHAMAR/DENOMINAR DE chamar/denominar -->
     <rulegroup id='CHAMAR_DENOMINAR_DE' name="Chamar/Denominar de → Chamar/Denominar" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-07 + 2021-07-08 + 2021-08-20 + 2021-08-21 (25-JUN-2021+)      -->
