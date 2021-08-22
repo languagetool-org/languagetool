@@ -47,21 +47,31 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
         if (parts[0].contains("/") || parts[1].contains("/")) {
           throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
         }
-        try {
-          String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));
-          if (forms.length == 0) {
-            throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
-          }
-          Set<String> formSet = new HashSet<>(Arrays.asList(forms));
-          for (String form : formSet) {
-            if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
-              // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
-              result.add(parts[0] + form);
+        if (parts[1].equals("in")) {
+          // special case for the common gender gap characters:
+          result.add(parts[0] + "_in");
+          result.add(parts[0] + "_innen");
+          result.add(parts[0] + "*in");
+          result.add(parts[0] + "*innen");
+          result.add(parts[0] + ":in");
+          result.add(parts[0] + ":innen");
+        } else {
+          try {
+            String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));
+            if (forms.length == 0) {
+              throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
             }
+            Set<String> formSet = new HashSet<>(Arrays.asList(forms));
+            for (String form : formSet) {
+              if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
+                // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+                result.add(parts[0] + form);
+              }
+            }
+            result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
+          } catch (IOException e) {
+            throw new RuntimeException(e);
           }
-          result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
-        } catch (IOException e) {
-          throw new RuntimeException(e);
         }
         return result;
       }
