@@ -143,6 +143,13 @@ public abstract class AbstractCompoundRule extends Rule {
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
           }
+          if (!isHyphenIgnored()) {
+            replacement = filterReplacements(replacement,
+                sentence.getText().substring(firstMatchToken.getStartPos(), atr.getEndPos()));
+          }
+          if (replacement.isEmpty()) {
+            break;
+          }
           RuleMatch ruleMatch = new RuleMatch(this, sentence, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
@@ -158,6 +165,17 @@ public abstract class AbstractCompoundRule extends Rule {
       addToQueue(token, prevTokens);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected List<String> filterReplacements(List<String> replacements, String original) {
+    List<String> newReplacements = new ArrayList<String>();
+    for (String replacement : replacements) {
+      String newReplacement = replacement.replaceAll("---", "-");
+      if (!newReplacement.equals(original)) {
+        newReplacements.add(newReplacement);
+      }
+    }
+    return newReplacements;
   }
 
   private Map<String, AnalyzedTokenReadings> getStringToTokenMap(Queue<AnalyzedTokenReadings> prevTokens,
