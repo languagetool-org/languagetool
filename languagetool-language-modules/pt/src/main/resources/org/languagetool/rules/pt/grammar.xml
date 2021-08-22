@@ -2421,8 +2421,36 @@ Os que já vieram estão no salão.
       <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
     </rule>
 	
+	
+	
+	<!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
+    <rule id='QUE_EM_NC_SER_VERBO_NUM' name="Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
+	<!--
+O Alexandre que em 2016 foi morto num ataque aéreo. → O Alexandre morto em 2016 num ataque aéreo.
+	-->
+      <pattern>
+		<token negate_pos="yes" postag='RG|SPS.+' postag_regexp='yes'/>
+		<marker>
+			<token>que</token>
+			<token regexp='yes'>em|n[ao]s?|nest[ae]s?|com|desde|durante</token>
+			<token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
+			<token postag_regexp='no' inflected='yes'>ser</token>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='SPS.+' postag_regexp='yes'/>
+		</marker>
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\6 \3 \4 \7</suggestion>
+      <example correction="morto em 2016 num">O Alexandre <marker>que em 2016 foi morto num</marker> ataque aéreo.</example>
+    </rule>
+	
+	
+	
+	
+	
 	<!-- VIR A VERBO verbo -->
-    <rule id='VIR_A_VERBO_verbo' name="Vir + a + Verbo → Verbo" type='style' default="temp_off">
+    <rule id='VIR_A_VERBO_verbo' name="Vir + a + Verbo → Verbo" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
 	<!--
 O nosso estudo terá grande aplicabilidade caso esta ameaça se venha a concretizar. → O nosso estudo terá grande aplicabilidade caso esta ameaça se concretize.
