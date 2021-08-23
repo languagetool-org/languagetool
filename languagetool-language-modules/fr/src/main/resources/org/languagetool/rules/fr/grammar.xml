@@ -4620,7 +4620,7 @@ though, and has since been slightly modified)-->
                         <exception postag="J.*|V ppa.*" postag_regexp="yes"/>
                         <exception>mal</exception></token>
                 </pattern>
-                <message>Ce déterminant est soudé</message>
+                <message>Ce déterminant est soudé.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="ledit">Avec <marker>le dit</marker> homme.</example>
                 <example>Je fais mon travail comme on me le dit chef.</example>
@@ -4637,7 +4637,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Ce déterminant est soudé</message>
+                <message>Ce déterminant est soudé.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="ladite">Avec <marker>la dite</marker> femme.</example>
             </rule>
@@ -4649,13 +4649,13 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Ce déterminant est soudé</message>
+                <message>Ce déterminant est soudé.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="lesdits">Avec <marker>les dits</marker> hommes.</example>
                 <example correction="lesdites">Avec <marker>les dites</marker> femmes.</example>
             </rule>
         </rulegroup>
-        <rule id="LAQUELLE" name="la quelle/laquelle" default="temp_off">
+        <rule id="LAQUELLE" name="la quelle/laquelle">
             <pattern>
                 <marker>
                     <token>la</token>
@@ -4667,7 +4667,7 @@ though, and has since been slightly modified)-->
             <suggestion>là quelle</suggestion>
             <example correction="laquelle|là quelle">Ils constituent une ressource fondamentale sur <marker>la quelle</marker> sera bâti le programme.</example>
         </rule>
-        <rule id="VOS_VOUS" name="vos/vous" default="temp_off">
+        <rule id="VOS_VOUS" name="vos/vous">
             <antipattern>
                 <token>vos</token>
                 <token min="0" regexp="yes">[(«"'‘“]</token>
@@ -4679,9 +4679,10 @@ though, and has since been slightly modified)-->
                     <token>vos</token>
                 </marker>
             </pattern>
-            <message>Le pronom personnel s'écrit <suggestion>vous</suggestion>. "Vos" est un possessif.</message>
+            <message>Le pronom personnel s'écrit <suggestion>vous</suggestion>. "Vos" est un possessif pluriel.</message>
             <example correction="vous">À <marker>vos</marker> la garantie de trouver la visseuse.</example>
             <example>Bien heureuse pour vos 5 ans.</example>
+            <example>Sur vos dix dernières publications.</example>
         </rule>
         <rulegroup id="AIT_AIE_AIES_EST" name="ait ai aies est">
             <rule>
