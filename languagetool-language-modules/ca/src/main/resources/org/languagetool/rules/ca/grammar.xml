@@ -28430,7 +28430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="astro$1"/></suggestion>
                 <example correction="astroturisme">La promoció de l'<marker>astro-turisme</marker>.</example>
             </rule>
-            <rule id="TIK_TOK" name="TikTok" default="temp_off">
+            <rule id="TIK_TOK" name="TikTok">
                 <pattern>
                     <token>tik</token>
                     <token min="0">-</token>
@@ -38069,6 +38069,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PRESA_DE_TERRA" name="presa de terra">
+            <pattern>
+                <token>toma</token>
+                <token min="0">de</token>
+                <token>terra</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>presa de terra</suggestion>
+            <suggestion>connexió a terra</suggestion>
+            <example correction="presa de terra|connexió a terra">Vaig instal·lar la <marker>toma de terra</marker>.</example>
+        </rule>
         <rule id="CARIOCA" name="carioca/brasiler">
             <pattern>
                 <token inflected="yes">selecció</token>
@@ -62369,7 +62380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Ens"><marker>Mos</marker> l'hem emportat a la platja.</example>
             <example>D'un mos trencà l'os</example>
         </rule>
-        <rule id="NOS_ENS" name="*nos/ens agrada" default="temp_off">
+        <rule id="NOS_ENS" name="*nos/ens agrada">
             <pattern>
                 <token><exception postag="SPS.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
                 <marker>
@@ -67297,7 +67308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pel que m'hi anava, em vaig espavilar.</example>
                 <example>Es va en romeria a l'ermita.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <and>
                         <token>haver</token>
@@ -67312,7 +67323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="haver-se'n anat|haver anat">Podria <marker>haver-se anat</marker> a casa.</example>
                 <example>Podria haver-se anat fent.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <and>
                         <token>haver</token>
