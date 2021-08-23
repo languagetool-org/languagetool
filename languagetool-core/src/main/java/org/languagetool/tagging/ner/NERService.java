@@ -19,55 +19,33 @@
 package org.languagetool.tagging.ner;
 
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.HTTPTools;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @since 5.5
  */
-public class ExternalNERViaPipe {
+public class NERService {
 
-  private static final Logger logger = LoggerFactory.getLogger(ExternalNERViaPipe.class);
+  private static final Logger logger = LoggerFactory.getLogger(NERService.class);
 
-  private final BufferedReader nerIn;
-  private final Writer nerOut;
+  private final String urlStr;
 
-  public ExternalNERViaPipe(File cmd) {
-    try {
-      Process nerProcess = new ProcessBuilder(cmd.getPath()).start();
-      nerIn = new BufferedReader(new InputStreamReader(nerProcess.getInputStream(), StandardCharsets.UTF_8));
-      nerOut = new OutputStreamWriter(nerProcess.getOutputStream(), StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  // unit tests only
-  ExternalNERViaPipe() {
-    nerIn = null;
-    nerOut = null;
+  public NERService(String urlStr) {
+    this.urlStr = urlStr;
   }
 
   public List<Span> runNER(String text) throws IOException {
     String joined = text.replace("\n", " ");
-    String line;
-    synchronized (this) {
-      nerOut.write(joined + System.lineSeparator());
-      nerOut.flush();
-      line = nerIn.readLine();
-      if (line == null) {
-        logger.warn("Got null from external NER, this should not happen; NER results might be mixed up");
-        return new ArrayList<>();
-      }
-      if (nerIn.ready()) {
-        logger.warn("More input to read from external NER, this should not happen; NER results might be mixed up");
-      }
-    }
-    return parseBuffer(line);
+    String result = HTTPTools.checkAtUrlByPost(Tools.getUrl(urlStr), "input=" + joined, new HashMap<>());
+    return parseBuffer(result);
   }
 
   @NotNull

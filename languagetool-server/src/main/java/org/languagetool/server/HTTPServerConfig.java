@@ -134,7 +134,7 @@ public class HTTPServerConfig {
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "premiumAlways",
-    "redisPassword", "redisHost", "dbLogging", "premiumOnly", "externalNER");
+    "redisPassword", "redisHost", "dbLogging", "premiumOnly", "nerUrl");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -355,14 +355,10 @@ public class HTTPServerConfig {
             throw new IllegalArgumentException("beolingusFile not found: " + beolingusFile);
           }
         }
-        String externalNER = getOptionalProperty(props, "externalNER", null);
-        if (externalNER != null) {
-          if (new File(externalNER).isFile()) {
-            globalConfig.setExternalNER(new File(externalNER));
-            logger.info("Using external NER: " + globalConfig.getExternalNER());
-          } else {
-            throw new IllegalArgumentException("externalNER not found or not a file: " + externalNER);
-          }
+        String nerUrl = getOptionalProperty(props, "nerUrl", null);
+        if (nerUrl != null) {
+          globalConfig.setNERUrl(nerUrl);
+          logger.info("Using NER service: " + globalConfig.getNerUrl());
         }
         for (Object o : props.keySet()) {
           String key = (String)o;

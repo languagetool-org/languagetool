@@ -23,6 +23,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.HTTPTools;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.*;

@@ -31,12 +31,11 @@ import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
-import org.languagetool.tagging.ner.ExternalNERViaPipe;
+import org.languagetool.tagging.ner.NERService;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -94,7 +93,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   
   private final BeoLingusTranslator translator;
 
-  private static ExternalNERViaPipe nerPipe = null;
+  private static NERService nerPipe = null;
   
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
@@ -107,7 +106,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       String sentenceText = sentence.getText();
       try {
         long startTime = System.currentTimeMillis();
-        List<ExternalNERViaPipe.Span> namedEntities = nerPipe.runNER(sentenceText);
+        List<NERService.Span> namedEntities = nerPipe.runNER(sentenceText);
         //System.out.println("namedEntities: " + namedEntities + ", matches before filter: " + matches.length);
         List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
         if (filtered.size() < matches.length) {
@@ -123,10 +122,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return matches;
   }
 
-  private List<RuleMatch> filter(RuleMatch[] matches, String sentenceText, List<ExternalNERViaPipe.Span> namedEntities, LanguageModel languageModel) {
+  private List<RuleMatch> filter(RuleMatch[] matches, String sentenceText, List<NERService.Span> namedEntities, LanguageModel languageModel) {
     BaseLanguageModel lm = (BaseLanguageModel) languageModel;
     Set<RuleMatch> toFilter = new HashSet<>();
-    for (ExternalNERViaPipe.Span neSpan : namedEntities) {
+    for (NERService.Span neSpan : namedEntities) {
       for (RuleMatch match : matches) {
         //System.out.println(neSpan.getStart() + " <= " + match.getFromPos() + " && " + neSpan.getEnd() + " >= " +  match.getToPos());
         if (neSpan.getStart() <= match.getFromPos() && neSpan.getEnd() >= match.getToPos()) {
@@ -224,8 +223,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     translator = BeoLingusTranslator.getInstance(globalConfig);
     topSuggestions = getTopSuggestions();
     topSuggestionsIgnoreCase = getTopSuggestionsIgnoreCase();
-    if (nerPipe == null && globalConfig != null && globalConfig.getExternalNER() != null) {
-      nerPipe = new ExternalNERViaPipe(globalConfig.getExternalNER());
+    if (nerPipe == null && globalConfig != null && globalConfig.getNerUrl() != null) {
+      nerPipe = new NERService(globalConfig.getNerUrl());
     }
   }
 

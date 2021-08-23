@@ -32,6 +32,7 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.HTTPTools;
 import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
