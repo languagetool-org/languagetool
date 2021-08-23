@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +45,7 @@ public class NERService {
 
   public List<Span> runNER(String text) throws IOException {
     String joined = text.replace("\n", " ");
-    String result = HTTPTools.checkAtUrlByPost(Tools.getUrl(urlStr), "input=" + joined, new HashMap<>());
+    String result = HTTPTools.checkAtUrlByPost(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>());
     return parseBuffer(result);
   }
 
