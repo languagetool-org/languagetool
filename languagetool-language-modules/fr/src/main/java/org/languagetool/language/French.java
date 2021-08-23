@@ -245,6 +245,7 @@ public class French extends Language implements AutoCloseable {
       case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
       case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
       case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
+      case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
       case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
@@ -280,7 +281,6 @@ public class French extends Language implements AutoCloseable {
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
-      case "MOTS_INCOMP": return -50; // greater than PRONSUJ_NONVERBE
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
       case "MAIS_SENT_START": return -151; // lower than grammalecte rules
