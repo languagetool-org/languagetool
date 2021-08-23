@@ -1872,6 +1872,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le rêve d'enfance de Sami est enfin devenu réalité.</example>
                 <example>et a enlevé et séquestré Blanche</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                  <token>nombreux</token>
+                  <marker>
+                      <token postag="N .* s" postag_regexp="yes">
+                          <exception postag="J e sp"/>
+                          <exception regexp="yes">.</exception>
+                          <exception inflected="yes" regexp="yes">appeler|baptiser|classer|intituler|dénommer|nommer|dire|appeller|surnommer|désigner</exception>
+                          <exception regexp="yes">ayant|restant|entrant</exception></token>
+                  </marker>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion><match no="2" postag="(N .*) s" postag_regexp="yes" postag_replace="$1 p"/></suggestion> (pluriel) ?</message>
+                <example correction="ouvrages">Il existe de nombreux <marker>ouvrage</marker> qui traitent de ces problématiques.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs">
             <antipattern case_sensitive="yes">
