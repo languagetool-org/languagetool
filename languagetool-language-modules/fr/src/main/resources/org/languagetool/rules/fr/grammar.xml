@@ -18013,6 +18013,24 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token regexp="yes">[ICVX]+[ᵉe]?</token>
             </antipattern>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">pour|tel(le)?s?</token>
+                    <token regexp="yes">[dljmnst]e|la|jusque|que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[dljmnst]e|la|jusque|que</token>
+                        <token case_sensitive="yes">a</token>
+                    </marker>
+                        <token postag="(R pers (suj|obj).*)|V (cond|sub|ppa).*" postag_regexp="yes"/>
+                </pattern>
+                <message>« \1 \2 » s'élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>'\2</suggestion>.</message>
+                <example correction="Qu'a"><marker>Que a</marker> dit votre ami ?</example>
+                <example correction="Qu'a"><marker>Que a</marker>-t-elle dit ?</example>
+                <example>Nous voyons bien que a = b</example>
+                <example>Soient a, b et c trois éléments de A tels que a divise bc.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <!-- probable error TRAIT_UNION_INVERSION -->
