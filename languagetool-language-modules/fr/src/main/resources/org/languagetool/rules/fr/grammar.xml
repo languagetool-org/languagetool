@@ -33594,6 +33594,37 @@ though, and has since been slightly modified)-->
                 <suggestion>\1\2<match no="3" regexp_match="'" regexp_replace="-"/></suggestion>
                 <example correction="mange-t-on">Que <marker>mange-t’on</marker> ?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="V etre.*3 s" postag_regexp="yes"/>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no">ce</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ce|qui</token>
+                    <token postag="V etre.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V etre.*3 s" postag_regexp="yes"/>
+                        <token min="0">-</token>
+                        <token skip="-1">ce</token>    
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Le sujet est lié au verbe par un trait d'union dans une phrase interrogative.</message>
+                <suggestion>\1-\3</suggestion>
+                <example correction="Est-ce"><marker>Est ce</marker> notre solution ?</example>
+                <example correction="Serait-ce"><marker>Serait- ce</marker> notre solution ?</example>
+                <example correction="Serait-ce"><marker>Serait - ce</marker> notre solution ?</example>
+                <example correction="Serait-ce"><marker>Serait ce</marker> notre solution ?</example>
+                <example correction="est-ce">Qu'<marker>est ce</marker> qui motive ce refus ?</example>
+                <example correction="Est-ce"><marker>Est ce</marker> que ce modèle t'irait ?</example>
+                <example correction="est-ce">Comment <marker>est - ce</marker> possible ?</example> 
+                <example>Ce fut ce dernier qui remporta ce match.</example>
+                <example>C'est ce que ce livre démontre.</example>
+                <example>Mais qui était ce Suiço? </example>
+            </rule>
         </rulegroup>
         <!-- Commented out due to non-consensus on the issue.
     <rule id="VA_T_EN" name="va-t-en → va-t’en">
