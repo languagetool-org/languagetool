@@ -1887,6 +1887,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Vouliez-vous dire <suggestion><match no="2" postag="(N .*) s" postag_regexp="yes" postag_replace="$1 p"/></suggestion> (pluriel) ?</message>
                 <example correction="ouvrages">Il existe de nombreux <marker>ouvrage</marker> qui traitent de ces problématiques.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">un|une</token>
+                    <marker>
+                        <token>de</token>
+                    </marker>
+                    <token postag="[NJ] . s?p" postag_regexp="yes"/>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion>des</suggestion>?</message>
+                <example correction="des">C’est un <marker>de</marker> premiers trucs qui m’a "choqué". </example>
+            </rule>
         </rulegroup>
         <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs">
             <antipattern case_sensitive="yes">
