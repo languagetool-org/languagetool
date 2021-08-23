@@ -18701,7 +18701,8 @@ though, and has since been slightly modified)-->
                 <example correction="Quelque"><marker>Quelques</marker> jolies qu'elles puissent être, ces robes sont tout de même trop chères.</example>
             </rule>
         </rulegroup>
-        <rule id="A_VERBE_INFINITIF" name="à verbe infinitif">
+        <rulegroup id="A_VERBE_INFINITIF" name="à verbe infinitif">
+            <rule>
             <antipattern>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token>quant</token>
@@ -18761,7 +18762,35 @@ though, and has since been slightly modified)-->
             <example>Cela suffit t'il à rendre mon argent ?</example>
             <example>Récits courts dans Elle à partir de 1994.</example>
             <example>Ceux-ci cherchaient d'après elle à rapprocher López.</example>
-        </rule>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token regexp="yes">cela|ça</token>
+                    <token>à</token>
+                    <token postag="V inf" regexp="yes">.*er$</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception regexp="yes" inflected="yes">falloir|préférer|esperer|aimer|apprécier|vouloir|penser|souhaiter|trouver|croire|dire|affirmer</exception>
+                    </token>
+                    <token>que</token>
+                    <token regexp="yes">cela|ça</token>
+                    <token>à</token>
+                    <token postag="V inf" regexp="yes">.*er$</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">cela|ça</token>
+                    <marker>
+                        <token>à</token>
+                    <token postag="V inf" regexp="yes">.*er$</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe ne semble pas être conjugué au passé composé.</message>
+                <suggestion>a <match no="3" regexp_match="(?iu)er" regexp_replace="é"/></suggestion>
+                <example correction="a joué">Je pense que cela <marker>à jouer</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PREFIXES_ACCORD" name="préfixes accord">
             <antipattern>
                 <token inflected="yes">avoir</token>
