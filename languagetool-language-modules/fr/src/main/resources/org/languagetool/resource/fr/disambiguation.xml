@@ -286,6 +286,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rulegroup id="SI_NOM" name="si (noun/not noun)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">si</token>    
+                </marker>
+                <token regexp="yes">majeur|mineur</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>    
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="D m s"/></token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" negate_pos="yes">si</token>    
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>    
+        </rule>
+    </rulegroup>
     <!-- CATEGORY: verb + pronoun-->
     <rule id="VERB_PRON" name="verb + pronoun">
         <pattern>

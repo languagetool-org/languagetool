@@ -4598,26 +4598,36 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rulegroup id="LEDIT" name="le dit/ledit" default="temp_off">
+        <rulegroup id="LEDIT" name="le dit/ledit">
             <antipattern>
                 <token regexp="yes">[mts]e|vous|nous|il|elle</token>
                 <token>le</token>
                 <token>dit</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>comme</token>
+                    <token>le</token>
+                    <token>dit</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">le|du|au</token>
                         <token>dit</token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes">
-                        <exception postag="J.*|V ppa.*" postag_regexp="yes"/></token>
+                        <exception postag="J.*|V ppa.*" postag_regexp="yes"/>
+                        <exception>mal</exception></token>
                 </pattern>
                 <message>Ce déterminant est soudé</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="ledit">Avec <marker>le dit</marker> homme.</example>
                 <example>Je fais mon travail comme on me le dit chef.</example>
                 <example>Il dit "allons-y", et il le dit conscient des enjeux.</example>
+                <example>Cette compétition reste encourageante car comme le dit Lolo cela reste régulier !</example>
+                <example>Et puis, comme le dit si bien un vieil adage "qui ne tente rien n'a rien".</example>
+                <example>Et souvent la seule personne qui dit du bien, le dit mal.</example>
             </rule>
             <rule>
                 <pattern>
