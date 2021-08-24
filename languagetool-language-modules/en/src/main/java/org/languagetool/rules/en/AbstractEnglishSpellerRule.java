@@ -108,11 +108,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         long startTime = System.currentTimeMillis();
         List<NERService.Span> namedEntities = nerPipe.runNER(sentenceText);
         //System.out.println("namedEntities: " + namedEntities + ", matches before filter: " + matches.length);
+        /*for (NERService.Span namedEntity : namedEntities) {
+          System.out.println(" -> " + sentenceText.substring(namedEntity.getStart(), namedEntity.getEnd()));
+        }*/
         List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
-        if (filtered.size() < matches.length) {
+        /*if (filtered.size() < matches.length) {
           long runTime = System.currentTimeMillis() - startTime;
-          //System.out.println("matches filtered by NER: " + matches.length + " -> " + filtered.size() + " ("+runTime+"ms)");
-        }
+          System.out.println("matches filtered by NER: " + matches.length + " -> " + filtered.size() + " ("+runTime+"ms)");
+        }*/
         //System.out.println("matches after filter: " + filtered.size());
         matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
       } catch (Exception e) {
@@ -135,12 +138,19 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           }
           List<String> infos = new ArrayList<>();
           long textCount = lm.getCount(covered);
+          //System.out.println(textCount + " for " + covered);
           infos.add(covered + "/" + textCount);
           String mostCommonRepl = null;
           long mostCommonReplCount = textCount;
           int i = 0;
+          int nonZeroReplacements = 0;
           for (String repl : match.getSuggestedReplacements()) {
-            long replCount = lm.getCount(repl);
+            List<String> replList = Arrays.asList(repl.split(" "));
+            long replCount = lm.getCount(replList);
+            if (replCount > 0) {
+              nonZeroReplacements++;
+            }
+            //System.out.println(replCount + " for " + repl + " [REPL]");
             if (replCount > mostCommonReplCount) {
               mostCommonRepl = repl;
               mostCommonReplCount = replCount;
@@ -150,9 +160,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
               break;
             }
           }
-          if (mostCommonRepl != null) {
+          //System.out.println("mostCommonRepl: "+  mostCommonRepl);
+          if (nonZeroReplacements == 0) {  // e.g. "Fastow", which only offers "Fa stow" and "Fast ow"
+            //System.out.println("Would skip, as no replacement was found with > 0 occurrences: " + covered + " " + match.getSuggestedReplacements());
+            toFilter.add(match);
+          } else if (mostCommonRepl != null) {
             Integer dist = new LevenshteinDistance().apply(mostCommonRepl, covered);
-            String msg = "Could skip: " + covered + " FOR " + sentenceText.substring(neSpan.getStart(), neSpan.getEnd()) + ", dist: " +dist;
+            String msg = "Could skip: " + mostCommonRepl + " FOR " + covered + ", dist: " + dist;
             if (dist <= 2) {
               //System.out.println(msg + "\n -> Would not skip, common repl: " + mostCommonRepl + ": " + infos);
             } else {

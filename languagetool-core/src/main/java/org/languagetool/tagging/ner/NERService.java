@@ -90,7 +90,7 @@ public class NERService {
   public static class Span {
     private final int fromPos;
     private final int toPos;
-    Span(int fromPos, int toPos) {
+    public Span(int fromPos, int toPos) {
       if (fromPos >= toPos) {
         throw new IllegalArgumentException("fromPos must be < toPos: fromPos: " + fromPos + ", toPos: " + toPos);
       }
