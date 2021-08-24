@@ -19,7 +19,6 @@
 package org.languagetool.server;
 
 import org.junit.Test;
-import org.languagetool.HTTPTools;
 
 import java.util.ArrayList;
 import java.util.List;

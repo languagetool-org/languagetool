@@ -21,7 +21,6 @@ package org.languagetool.server;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.HTTPTools;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.language.*;

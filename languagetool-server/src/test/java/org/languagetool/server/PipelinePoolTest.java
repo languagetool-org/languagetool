@@ -21,11 +21,12 @@
 
 package org.languagetool.server;
 
-import org.junit.Ignore;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.server.HTTPTestTools;
 
 import java.lang.reflect.Field;
 import java.util.*;
