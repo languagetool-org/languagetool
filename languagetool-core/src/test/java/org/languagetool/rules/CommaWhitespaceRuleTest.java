@@ -95,7 +95,13 @@ public class CommaWhitespaceRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("This , is a test sentence."));
     assertEquals(1, matches.length);
     assertEquals(",", matches[0].getSuggestedReplacements().get(0));
-    
+
+    matches = rule.match(lt.getAnalyzedSentence("You \" fixed\" it."));
+    assertEquals(1, matches.length);
+    assertEquals("\"", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("You \"fixed \" it."));
+    assertEquals(1, matches.length);
+    assertEquals("\"", matches[0].getSuggestedReplacements().get(0));
 
     assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
     assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);
