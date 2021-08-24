@@ -38,6 +38,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
   }
   
   private void runTests() throws IOException {
+    
     // correct sentences:
     check(0, "Eine tolle CD-ROM");
     check(0, "Eine tolle CD-ROM.");
@@ -53,7 +54,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Castrop-Rauxel");
     check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
     // incorrect sentences:
-//    check(1, "System Administrator", new String[]{"System-Administrator", "Systemadministrator"});
+    check(1, "System Administrator", new String[]{"System-Administrator", "Systemadministrator"});
     check(1, "bla bla bla bla bla System Administrator bla bla bla bla bla");
     check(1, "System Administrator blubb");
     check(1, "Der System Administrator");
@@ -106,7 +107,8 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Afghanistan Krieg", "Afghanistan-Krieg", "Afghanistankrieg");
     // "Aggregat-Zustand?"
     check(0, "Aggregatzustand");
-    check(0, "Aggregat-Zustand");
+    //check(0, "Aggregat-Zustand");
+    check(1, "Aggregat-Zustand", "Aggregatzustand");
     check(1, "Aggregat Zustand", "Aggregatzustand");
     check(1, "Billard Kugel", "Billardkugel");
   }

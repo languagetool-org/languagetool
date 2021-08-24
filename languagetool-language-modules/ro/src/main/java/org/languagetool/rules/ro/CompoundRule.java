@@ -42,11 +42,6 @@ public class CompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  public boolean isHyphenIgnored() {
-    return false;
-  }
-
-  @Override
   public String getId() {
     return "RO_COMPOUND";
   }

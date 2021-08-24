@@ -38,12 +38,13 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   @Test
   public void testRule() throws IOException {
     // correct:
-    check(0, "skit-bra");
+    //check(0, "skit-bra");
     check(0, "IP-Adress");
     check(0, "moll-tonart");
     check(0, "e-mail");
     // incorrect:
     check(1, "skit bra", "skitbra");
+    check(1, "skit-bra", "skitbra");
     check(1, "IP Adress", "IP-Adress");
     check(1, "moll tonart", "moll-tonart", "molltonart");
     check(1, "e mail", "e-mail");
