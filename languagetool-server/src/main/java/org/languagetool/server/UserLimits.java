@@ -53,13 +53,11 @@ class UserLimits {
   private final LimitEnforcementMode limitEnforcementMode;
 
   static UserLimits getDefaultLimits(HTTPServerConfig config) {
-    // PREMIUM ON PREMISE START
     if (config.premiumAlways) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisAnonymous(), 1L, true);
     } else {
       return new UserLimits(config.getMaxTextLengthAnonymous(), config.getMaxCheckTimeMillisAnonymous(), null, false);
     }
-    // PREMIUM ON PREMISE END
   }
 
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
@@ -106,7 +104,6 @@ class UserLimits {
     UserLimits userLimits = new UserLimits(maxTextLength, maxCheckTime, uidClaim.asLong(), hasPremium,
       (dictCacheSize == null || dictCacheSize <= 0) ? null : dictCacheSize,
       requestsPerDay, limitEnforcementMode);
-    // END PREMIUM MODIFICATIONS
     userLimits.skipLimits = decodedToken.getClaim("skipLimits").isNull() ? false : decodedToken.getClaim("skipLimits").asBoolean();
     return userLimits;
   }

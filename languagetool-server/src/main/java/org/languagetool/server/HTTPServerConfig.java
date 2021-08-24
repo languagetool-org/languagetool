@@ -102,7 +102,6 @@ public class HTTPServerConfig {
   protected boolean premiumAlways;
   protected boolean premiumOnly;
 
-  //PREMIUM
   public void setPremiumOnly(boolean premiumOnly) {
     this.premiumOnly = premiumOnly;
   }
@@ -125,7 +124,6 @@ public class HTTPServerConfig {
   }
   // NOTE: offer option to set this in configuration file; document for customers
   protected boolean restrictManagedAccounts = true;
-  //ENDPREMIUM
   protected String dbDriver = null;
   protected String dbUrl = null;
   protected String dbUsername = null;
@@ -142,7 +140,6 @@ public class HTTPServerConfig {
   protected List<String> disabledRuleIds = new ArrayList<>();
   protected boolean stoppable = false;
 
-  // PREMIUM
   /**
    * caching to avoid database hits for e.g. dictionaries
    * null -> disabled
@@ -164,7 +161,6 @@ public class HTTPServerConfig {
   protected int sentinelPort = 26379;
   protected String sentinelPassword;
   protected String sentinelMasterId;
-  // ENDPREMIUM
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -397,7 +393,6 @@ public class HTTPServerConfig {
           }
           System.out.println("*** Running in PREMIUM-ONLY mode");
         }
-        //PREMIUM
         anonymousAccessAllowed = Boolean.valueOf(getOptionalProperty(props, "anonymousAccessAllowed", "true").trim());
         if (!anonymousAccessAllowed) {
           System.out.println("*** Running in RESTRICTED-ACCESS mode");
@@ -422,7 +417,6 @@ public class HTTPServerConfig {
         sentinelMasterId = getOptionalProperty(props, "sentinelMasterId", null);
 
         gracefulDatabaseFailure = Boolean.parseBoolean(getOptionalProperty(props, "gracefulDatabaseFailure", "false").trim());
-        //ENDPREMIUM
         dbDriver = getOptionalProperty(props, "dbDriver", null);
         dbUrl = getOptionalProperty(props, "dbUrl", null);
         dbUsername = getOptionalProperty(props, "dbUsername", null);
@@ -1239,7 +1233,6 @@ public class HTTPServerConfig {
   }
 
 
-  // PREMIUM
   @Nullable
   public String getRedisHost() {
     return redisHost;
@@ -1269,7 +1262,6 @@ public class HTTPServerConfig {
     return redisTimeout;
   }
   // TODO could introduce 'expire after access' logic, i.e. refresh expire when reading
-  // ENDPREMIUM
 
   /**
    * @since 4.5
