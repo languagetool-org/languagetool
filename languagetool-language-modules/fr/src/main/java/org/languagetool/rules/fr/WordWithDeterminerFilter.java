@@ -172,7 +172,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());
     ruleMatch.setType(match.getType());
-
+    //add existing suggestion in the XML rule
+    replacements.addAll(0, match.getSuggestedReplacements());
     if (!replacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(replacements);
     }

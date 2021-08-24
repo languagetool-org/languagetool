@@ -1113,6 +1113,85 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error">Je vous souhaite à tous bonne chance.</example>
                 <example type="triggers_error">Coaprovel s'est révélé le droit de vente pour tous fictif</example>
             </rule>
+            <rule id="D_VPPA" name="Concordance du déterminant avec l’adjectif" default="temp_off">
+                <antipattern>
+                    <token postag="R.*" postag_regexp="yes">
+                        <exception regexp="yes">dont|tous</exception></token>
+                    <token>ses</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes">
+                        <exception postag="N.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <unify>
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="(P.)?D .*" postag_regexp="yes"/>
+                        <unify-ignore>
+                            <token>bon</token>
+                            <token>dieu</token>
+                            <token regexp="yes">de|d'|du|des</token>
+                        </unify-ignore>
+                        <token postag="[NJZ] .*" postag_regexp="yes"/>
+                    </unify>
+                </antipattern>
+                <antipattern>
+                    <!-- pers. = personne(s) -->
+                    <token regexp="yes">la|les|une|des</token>
+                    <token>pers</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="K"/>
+                    <token inflected="yes" regexp="yes">diviser|multiplier|élever</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R .*" postag_regexp="yes">
+                        <exception inflected="yes">un</exception></token>
+                    <token postag="V.* ind.*|V ppr" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">être</token>
+                    <token>plusieurs</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
+                    <token regexp="yes">1er|[123]?\d</token>
+                    <token postag="C coor"/>
+                    <token regexp="yes">1er|[123]?\d</token>
+                    <token regexp="yes">&mois_annee;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                    <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                    <token postag="J [me] (s|sp)|V ppa m s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="(P\+)?D [fe] (p|sp)" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                    <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                    <token postag="J [fe] (s|sp)|V ppa f s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token>grâce</token>
+                    <token regexp="yes">à|aux</token>
+                </antipattern>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="gender"/>
+                        <token postag="(P\+)?D .*" postag_regexp="yes">
+                            <exception postag="N.*" postag_regexp="yes"/></token>
+                        <token postag="V.* ppa .*" postag_regexp="yes">
+                            <exception postag="[NZ].*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
+                <message>'<match no="1" case_conversion="startupper"/>' et l'adjectif '\2' ne semblent pas bien accordés.</message>
+                <suggestion>\1 <match no="2" postag="V ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <example correction="les retourner|le retourné|la retournée|les retournés|les retournées">Je dirais même de <marker>les retourné</marker> contre les tireurs.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="D_A_J" name="Concordance det+adv+adj">
             <antipattern>
@@ -36607,6 +36686,7 @@ though, and has since been slightly modified)-->
                 <example correction="sort|sortie|sorte|sorts">Lors de sa <marker>sorti</marker>.</example>
                 <example correction="réserve|réserves|resserre">Elle décide de chercher au fond de sa <marker>réservé</marker> de plantes.</example>
                 <example correction="miss|mais|mise|mois|amis|min|maïs|mi|vis|mil">Dès sa <marker>mis</marker> en place, les critiques fusèrent.</example>
+                <example>Quel livre Harry Potter est ton préféré ?</example>
             </rule>
         </rulegroup>
         <rule id="QUELQUE" name="quelque invariable devant nombre">

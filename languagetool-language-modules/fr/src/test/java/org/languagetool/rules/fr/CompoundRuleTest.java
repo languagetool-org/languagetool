@@ -44,6 +44,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Jésus-Christ");
     check(0, "Congo-Brazzaville");
     check(0, "vidéo-clip");
+    check(0, "anglo-saxon");
 
     // incorrect sentences:
     check(1, "Jésus Christ");
