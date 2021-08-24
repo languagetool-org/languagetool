@@ -99,9 +99,13 @@ public class CommaWhitespaceRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("You \" fixed\" it."));
     assertEquals(1, matches.length);
     assertEquals("\"", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(4, matches[0].getFromPos());
+    assertEquals(6, matches[0].getToPos());
     matches = rule.match(lt.getAnalyzedSentence("You \"fixed \" it."));
     assertEquals(1, matches.length);
     assertEquals("\"", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(11, matches[0].getFromPos());
+    assertEquals(13, matches[0].getToPos());
 
     assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
     assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);
