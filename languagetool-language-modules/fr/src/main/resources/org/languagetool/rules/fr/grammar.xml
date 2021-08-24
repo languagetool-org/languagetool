@@ -24941,6 +24941,31 @@ though, and has since been slightly modified)-->
                 <example correction="élever"> la jument poussait sur ses postérieurs pour s'<marker>élevé</marker> au dessus.</example>
             </rule>
         </rulegroup>
+        <rule id="VOUS_VPPA_VINF" name="nous/vous infinitif" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">avoir|être</token>
+                <token regexp="yes">nous|vous</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 1 p" postag_regexp="yes"/>
+                <token>nous</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 2 p" postag_regexp="yes"/>
+                <token>vous</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">nous|vous</token>
+                <marker>
+                    <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
+                </marker>
+            </pattern>
+            <message>Un verbe à l'infinitif est généralement attendu après "\1".</message>
+            <suggestion><match no="3" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+            <example correction="préparer">Je dirais même de vous <marker>préparé</marker></example>
+            <example correction="préparer">Je dirais même de nous <marker>préparé</marker></example>
+            <example>En êtes vous transformé ?</example>
+        </rule>
         <rulegroup id="AUXILIAIRE_MANQUANT" name="auxiliaire manquant">
             <antipattern>
                 <token regexp="yes">[vn]ous</token>
