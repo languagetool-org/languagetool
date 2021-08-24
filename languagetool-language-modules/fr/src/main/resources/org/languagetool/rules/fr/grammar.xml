@@ -1874,7 +1874,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le rêve d'enfance de Sami est enfin devenu réalité.</example>
                 <example>et a enlevé et séquestré Blanche</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="D m s"/>
+                    <token>nombreux</token>
+                </antipattern>
                 <pattern>
                   <token>nombreux</token>
                   <marker>
@@ -1887,17 +1891,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Vouliez-vous dire <suggestion><match no="2" postag="(N .*) s" postag_regexp="yes" postag_replace="$1 p"/></suggestion> (pluriel) ?</message>
                 <example correction="ouvrages">Il existe de nombreux <marker>ouvrage</marker> qui traitent de ces problématiques.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token regexp="yes">un|une</token>
-                    <marker>
-                        <token>de</token>
-                    </marker>
-                    <token postag="[NJ] . s?p" postag_regexp="yes"/>
-                </pattern>
-                <message>Vouliez-vous dire <suggestion>des</suggestion>?</message>
-                <example correction="des">C’est un <marker>de</marker> premiers trucs qui m’a "choqué". </example>
+                <example correction="documents">Les cours sont denses, bien structurés et de nombreux <marker>document</marker>.</example>
+                <example>la vue de ce nombreux cortège</example>
+                <example>La marque allemande propose désormais de nombreux garde-temps à l'identité unique.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MULTI_ADJ" name="accord entre plusieurs adjectifs">
@@ -7652,6 +7648,22 @@ though, and has since been slightly modified)-->
                 <example correction="pêcheur">Un village de <marker>pécheur</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="UN_DE" name="un de/des">
+            <pattern>
+                <token regexp="yes">un|une</token>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>des</suggestion>?</message>
+            <example correction="des">C’est un <marker>de</marker> premiers trucs qui m’a "choqué". </example>
+            <example correction="des">Il passe pour l'un <marker>de</marker> meilleurs exécutants.</example>
+            <example correction="des">Je peux utiliser l'un <marker>de</marker> tiens ?</example>
+            <example>trois d'espace et une de temps</example>
+            <example>J'aimerai être suivi par quelqu'un de sérieux ?</example>
+            <example>Il y en ait pas une de sang-froid.</example>
+        </rule>
         <rulegroup id="DES_DES_ACCENT" name="Des, dès, dés">
             <rule>
                 <antipattern>
