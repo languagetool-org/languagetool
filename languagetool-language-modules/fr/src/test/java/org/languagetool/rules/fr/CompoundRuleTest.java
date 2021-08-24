@@ -43,6 +43,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     // correct sentences:
     check(0, "Jésus-Christ");
     check(0, "Congo-Brazzaville");
+    check(0, "vidéo-clip");
 
     // incorrect sentences:
     check(1, "Jésus Christ");

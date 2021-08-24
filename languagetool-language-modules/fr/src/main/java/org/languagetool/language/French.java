@@ -251,6 +251,7 @@ public class French extends Language implements AutoCloseable {
       case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
       case "CAT_HOMONYMES_PARONYMES": return 20;
       case "CAT_TOURS_CRITIQUES": return 20;
+      case "EST_CE_QUE": return 20; // greater than TRAIT_UNION_INVERSION
       case "CONFUSION_PARLEZ_PARLER": return 10; // greater than N_V
       case "AGREEMENT_TOUT_LE": return 10; // compare to TOUT_LES
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker

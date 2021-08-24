@@ -988,6 +988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>si tu leur verses du sel dessus</example>
                 <example>C'est un mes succulent.</example>
                 <example>Je peux tous les lire.</example>
+                <example>dans les cent cinquante derniers mètres</example>
                 <!-- TODO:  tirer le chasse
         qui la conduit à être jugée -->
             </rule>
@@ -36499,6 +36500,16 @@ though, and has since been slightly modified)-->
                 <example correction="C'est"><marker>Cette</marker> ma carte.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- IMP_PRON -->
+                    <token postag="SENT_START|C coor" postag_regexp="yes"/>          
+                    <token postag="V.* imp .*" postag_regexp="yes">
+                        <exception postag="Z.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">l[ea]</token>
+                    <token>
+                        <exception postag="[NJ] . sp?|V ppa.* sp?|V.* inf|Y" postag_regexp="yes"/>
+                        <exception regexp="yes">plus|moins|une?|même</exception></token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">l[ae]</token>
                     <token regexp="yes" case_sensitive="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
@@ -36508,6 +36519,8 @@ though, and has since been slightly modified)-->
                 <suggestion>\2</suggestion>
                 <example correction="la|cette">Pour tout dire, <marker>la cette</marker> langue va disparaitre.</example>
                 <example>Plusieurs de ces langues vont disparaitre.</example>
+                <!-- IMP_PRON -->
+                <example>Faites le nous savoir en nous donnant une note ci-dessous.</example>
             </rule>
             <rule>
                 <antipattern>
