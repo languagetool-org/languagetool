@@ -105,7 +105,7 @@ public class CommaWhitespaceRule extends Rule {
         }
       } else if (isWhitespace && isQuote(prevToken) && this.quotesWhitespaceCheck && prevPrevToken.equals(" ")) {
           msg = messages.getString("no_space_around_quotes");
-          suggestionText = "";
+          suggestionText = prevToken;
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && !isQuote(token)
           && !isHyphenOrComma(token)
