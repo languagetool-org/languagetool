@@ -17764,7 +17764,7 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token>eens</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>kunnen</token><token regexp="yes">wij|we|ze|zij</token><token>maar</token><token>het</token><token>beste</token></antipattern>
 				<antipattern><token>dat</token><token>door</token><token postag="ZNW.*" postag_regexp="yes"/><token>maar</token><token postag=".*ONV" postag_regexp="yes"/></antipattern>
-				<antipattern><token regexp="yes">daar|hier</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/><token regexp="yes">je|jij</token><token regexp="yes">je|hem|haar|mij|hen</token><token>maar</token><token regexp="yes">&DVW;</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token regexp="yes">daar|hier</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/><token regexp="yes">je|jij</token><token regexp="yes">je|hem|haar|mij|hen</token><token>maar</token><token min="0" max="1" regexp="yes">&DVW;</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token postag="WKW:TGW:INF"/><token postag_regexp="yes" postag=".*BEZ"/><token postag="ZNW.*" postag_regexp="yes"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>,</token><token postag="WKW:TGW:INF"/><token>maar</token><token>en</token></antipattern>
 				<antipattern><token>maar</token><token>niet</token><token postag="VRZ"/><token postag="SENT_END"/></antipattern>
@@ -17820,7 +17820,7 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token postag="VRZ"/><token postag_regexp="yes" postag="WKW.*"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>zelfs</token><token>maar</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/><token>ze</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
-				<antipattern><token>maar</token><token regexp="yes">&DVW;</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>maar</token><token min="0" max="1" regexp="yes">&DVW;</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token regexp="yes">zelfs|ook</token><token>maar</token><token postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW.*INF" postag_regexp="yes"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"/><token regexp="yes">ze|zij|hij|ie|u|men</token><token>maar</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>Dan</token><token>maar</token></antipattern>
@@ -41528,6 +41528,24 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="EEN_VAN_DE_MAN" name="is een van de bekendste man/mannen">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):[13]EP"/>
+					<token regexp="yes">een|één</token>
+					<token>van</token>
+					<token>de</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*:VRB"/>
+					<marker>
+						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV.*"/></token>
+					</marker>
+				</pattern>
+				<message>'Een van de' duidt meestal op een meervoud.</message>
+				<suggestion><match no="6" postag="ZNW:MRV:DE_"/></suggestion>
+				<example correction="geleerden">Hij is een van de grootste <marker>geleerde</marker> van deze tijd.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="LAATS" name="laats">
 			<rule>
 				<!-- 2014-08-19 TaalTik : regel werkt heel behoorlijk -->
@@ -41682,7 +41700,7 @@ steenwijk;Steenwijk
 				</marker>
 				<or>
 					<token min="1" max="3" postag_regexp="yes" postag=".*ONV|BYW"/>
-					<token regexp="yes">&DVW;</token>
+					<token min="0" max="1" regexp="yes">&DVW;</token>
 				</or>
 				&PUNT;
 			</pattern>
@@ -41855,4 +41873,5 @@ steenwijk;Steenwijk
 			<example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
 		</rule>
 	</category>
+
 </rules>
