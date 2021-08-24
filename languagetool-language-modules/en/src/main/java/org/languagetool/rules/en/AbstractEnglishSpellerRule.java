@@ -144,24 +144,28 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           long mostCommonReplCount = textCount;
           int i = 0;
           int nonZeroReplacements = 0;
+          int lookupFailures = 0;
           for (String repl : match.getSuggestedReplacements()) {
             List<String> replList = Arrays.asList(repl.split(" "));
-            long replCount = lm.getCount(replList);
-            if (replCount > 0) {
-              nonZeroReplacements++;
+            if (replList.size() <= 3) {  // hard-coding 3grams is not good, but a base LM doesn't know about ngrams...
+              long replCount = lm.getCount(replList);
+              if (replCount > 0) {
+                nonZeroReplacements++;
+              }
+              if (replCount > mostCommonReplCount) {
+                mostCommonRepl = repl;
+                mostCommonReplCount = replCount;
+              }
+              infos.add(repl + "/" + replCount);
+            } else {
+              lookupFailures++;
             }
-            //System.out.println(replCount + " for " + repl + " [REPL]");
-            if (replCount > mostCommonReplCount) {
-              mostCommonRepl = repl;
-              mostCommonReplCount = replCount;
-            }
-            infos.add(repl + "/" + replCount);
             if (i++ >= 4) {
               break;
             }
           }
           //System.out.println("mostCommonRepl: "+  mostCommonRepl);
-          if (nonZeroReplacements == 0) {  // e.g. "Fastow", which only offers "Fa stow" and "Fast ow"
+          if (nonZeroReplacements == 0 && lookupFailures == 0) {  // e.g. "Fastow", which only offers "Fa stow" and "Fast ow"
             //System.out.println("Would skip, as no replacement was found with > 0 occurrences: " + covered + " " + match.getSuggestedReplacements());
             toFilter.add(match);
           } else if (mostCommonRepl != null) {
