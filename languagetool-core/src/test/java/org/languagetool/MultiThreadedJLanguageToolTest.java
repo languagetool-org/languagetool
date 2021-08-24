@@ -102,7 +102,7 @@ public class MultiThreadedJLanguageToolTest {
 
       @Override
       public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
-        // less rules than processors (depending on the machine), should at least not crash
+        // fewer rules than processors (depending on the machine), should at least not crash
         return Arrays.asList(
                 new UppercaseSentenceStartRule(messages, this),
                 new MultipleWhitespaceRule(messages, this)
@@ -113,13 +113,4 @@ public class MultiThreadedJLanguageToolTest {
     lt.shutdown();
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testIllegalThreadPoolSize1() {
-    new MultiThreadedJLanguageTool(new Demo(), 0);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testIllegalThreadPoolSize2() {
-    new MultiThreadedJLanguageTool(new Demo(), null, 0, null);
-  }
 }

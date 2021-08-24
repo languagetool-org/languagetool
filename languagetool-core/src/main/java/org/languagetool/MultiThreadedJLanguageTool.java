@@ -53,7 +53,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
   /**
    * @see #shutdown()
-   * @param threadPoolSize the number of concurrent threads
+   * @param threadPoolSize the number of concurrent threads (use 0 or negative value for a default)
    * @since 2.9
    */
   public MultiThreadedJLanguageTool(Language language, int threadPoolSize) {
