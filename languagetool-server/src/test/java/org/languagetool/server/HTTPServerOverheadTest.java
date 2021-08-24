@@ -20,7 +20,6 @@ package org.languagetool.server;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.HTTPTools;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 

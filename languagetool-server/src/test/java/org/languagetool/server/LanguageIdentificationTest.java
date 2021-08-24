@@ -21,7 +21,6 @@ package org.languagetool.server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.HTTPTools;
 
 import java.io.IOException;
 import java.net.URL;

@@ -18,8 +18,11 @@
  */
 package org.languagetool.server;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,12 +33,8 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import org.languagetool.HTTPTestTools;
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class HTTPSServerTest {
 
