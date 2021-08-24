@@ -47,32 +47,23 @@ public class NERService {
     this.urlStr = urlStr;
   }
 
-
-  private static String checkAtUrlByPost(URL url, String postData, Map<String, String> properties) throws IOException {
-    String keepAlive = System.getProperty("http.keepAlive");
-    try {
-      System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
-      URLConnection connection = url.openConnection();
-      for (Map.Entry<String, String> entry : properties.entrySet()) {
-        connection.setRequestProperty(entry.getKey(), entry.getValue());
-      }
-      connection.setDoOutput(true);
-      try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
-        writer.write(postData);
-        writer.flush();
-        return StringTools.streamToString(connection.getInputStream(), "UTF-8");
-      }
-    } finally {
-      if (keepAlive != null) {
-        System.setProperty("http.keepAlive", keepAlive);
-      }
-    }
-  }
-
   public List<Span> runNER(String text) throws IOException {
     String joined = text.replace("\n", " ");
-    String result = checkAtUrlByPost(Tools.getUrl(urlStr), "input=" + joined, new HashMap<>());
+    String result = postTo(Tools.getUrl(urlStr), "input=" + joined, new HashMap<>());
     return parseBuffer(result);
+  }
+
+  private static String postTo(URL url, String postData, Map<String, String> properties) throws IOException {
+    URLConnection connection = url.openConnection();
+    for (Map.Entry<String, String> entry : properties.entrySet()) {
+      connection.setRequestProperty(entry.getKey(), entry.getValue());
+    }
+    connection.setDoOutput(true);
+    try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
+      writer.write(postData);
+      writer.flush();
+      return StringTools.streamToString(connection.getInputStream(), "UTF-8");
+    }
   }
 
   @NotNull
