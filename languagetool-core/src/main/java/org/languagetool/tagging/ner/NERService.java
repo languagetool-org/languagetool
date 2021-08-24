@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -40,6 +41,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class NERService {
 
   private static final Logger logger = LoggerFactory.getLogger(NERService.class);
+  private static final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+  private static final int TIMEOUT_MILLIS = 500;
 
   private final String urlStr;
 
@@ -53,16 +56,25 @@ public class NERService {
     return parseBuffer(result);
   }
 
-  private static String postTo(URL url, String postData, Map<String, String> properties) throws IOException {
-    URLConnection connection = url.openConnection();
-    for (Map.Entry<String, String> entry : properties.entrySet()) {
-      connection.setRequestProperty(entry.getKey(), entry.getValue());
-    }
-    connection.setDoOutput(true);
-    try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
-      writer.write(postData);
-      writer.flush();
-      return StringTools.streamToString(connection.getInputStream(), "UTF-8");
+  private static String postTo(URL url, String postData, Map<String, String> properties) {
+    try {
+      Future<?> future = executorService.submit(() -> {
+        URLConnection connection = url.openConnection();
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
+          connection.setRequestProperty(entry.getKey(), entry.getValue());
+        }
+        connection.setDoOutput(true);
+        try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
+          writer.write(postData);
+          writer.flush();
+          return StringTools.streamToString(connection.getInputStream(), "UTF-8");
+        }
+      });
+      return (String) future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+    } catch (TimeoutException e) {
+      throw new RuntimeException("Timeout (" + TIMEOUT_MILLIS + "ms) exhausted getting NER results", e);
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException(e);
     }
   }
 
