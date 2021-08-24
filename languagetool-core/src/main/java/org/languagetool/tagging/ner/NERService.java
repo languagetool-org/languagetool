@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +53,11 @@ public class NERService {
 
   public List<Span> runNER(String text) throws IOException {
     String joined = text.replace("\n", " ");
-    String result = postTo(Tools.getUrl(urlStr), "input=" + joined, new HashMap<>());
+    String result = postTo(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>());
     return parseBuffer(result);
   }
 
-  private static String postTo(URL url, String postData, Map<String, String> properties) {
+  private static String postTo(URL url, String encodedPostData, Map<String, String> properties) {
     try {
       Future<?> future = executorService.submit(() -> {
         URLConnection connection = url.openConnection();
@@ -65,7 +66,7 @@ public class NERService {
         }
         connection.setDoOutput(true);
         try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
-          writer.write(postData);
+          writer.write(encodedPostData);
           writer.flush();
           return StringTools.streamToString(connection.getInputStream(), "UTF-8");
         }
