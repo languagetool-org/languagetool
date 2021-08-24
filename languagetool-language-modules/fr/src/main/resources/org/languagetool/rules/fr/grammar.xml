@@ -10249,7 +10249,8 @@ though, and has since been slightly modified)-->
                     <token postag="V.* ppa.*|V.* inf" postag_regexp="yes">
                         <exception postag="[NR].*|V ppa [fe] sp?" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>m'a</suggestion> ?</message>
+                <message>Une apostrophe est nécessaire afin de séparer le  pronom et le verbe avoir.</message>
+                <suggestion>m'a</suggestion>
                 <example correction="m'a">Il <marker>ma</marker> répondu.</example>
                 <example correction="m'a">Il <marker>ma</marker> toujours affirmé qu'il travaillait tard.</example>
                 <example>C’est ma voiture.</example>
@@ -10268,6 +10269,37 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>me</suggestion> ?</message>
                 <example correction="me">Il <marker>ma</marker> répond.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token>cela</token>
+                    <token regexp="yes">(?-i)ma</token>
+                    <token postag="A" min="0" max="2"/>
+                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token>cela</token>
+                    <token regexp="yes">(?-i)ma</token>
+                    <token postag="A" min="0" max="2"/>
+                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="R pers suj.*|R dem.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(?-i)ma</token>
+                    </marker>
+                    <token postag="A" min="0" max="2">
+                        <exception>vie</exception></token>
+                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Une apostrophe est nécessaire afin de séparer le  pronom et le verbe avoir.</message>
+                <suggestion>m'a</suggestion>
+                <example correction="m'a">Il <marker>ma</marker> répondu.</example>
+                <example correction="m'a">Il <marker>ma</marker> toujours affirmé qu'il travaillait tard.</example>
+                <example correction="m'a">Et ça <marker>ma</marker> permis de finir mon livre.</example>
+                <example>Ne contredisez point en cela ma théorie.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SONT_SON" name="SONT au lieu de SON">
