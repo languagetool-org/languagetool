@@ -81,7 +81,7 @@ public class NERService {
       int slash2 = getLastSlashFrom(value, slash3-1);
       int slash1 = getLastSlashFrom(value, slash2-1);
       if (slash1 == -1 || slash2 == -1 || slash3 == -1) {
-        logger.warn("SLASH NOT FOUND: '" + value + "'");
+        logger.warn("NER: Slash not found: '" + value + "'");
         continue;
       }
       String tag = value.substring(slash1 + 1, slash2);

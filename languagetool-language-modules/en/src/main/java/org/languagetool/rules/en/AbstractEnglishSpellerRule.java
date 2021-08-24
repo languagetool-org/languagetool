@@ -119,7 +119,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         //System.out.println("matches after filter: " + filtered.size());
         matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
       } catch (Exception e) {
-        logger.warn("Could not run NER test on '" + sentenceText + "'", e);
+        logger.warn("Could not run NER test on '" + sentenceText + "', will assume there are no named entities", e);
       }
     }
     return matches;
