@@ -21,7 +21,6 @@ package org.languagetool.server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.HTTPTools;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,8 +64,8 @@ public class LanguageIdentificationTest {
   private String check(String text) throws IOException {
     String urlOptions = "/v2/check?language=auto";
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8");
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
-    return HTTPTools.checkAtUrl(url);
+    URL url = new URL("http://localhost:" + HTTPTestTools.getDefaultPort() + urlOptions);
+    return HTTPTestTools.checkAtUrl(url);
   }
 
 }

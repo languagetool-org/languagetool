@@ -143,6 +143,8 @@ final class ServerTools {
         return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apiKey"));
       } else if (params.get("password") != null) {
         return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
+      } else if (params.get("tokenV2") != null) {
+        return UserLimits.getLimitsByAddonToken(config, params.get("username"), params.get("tokenV2"));
       } else {
         throw new BadRequestException("With 'username' set, you also need to specify 'apiKey'");
       }
@@ -167,6 +169,9 @@ final class ServerTools {
       } else if ("allButTextLevelOnly".equals(modeParam)) {
         mode = JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY;
       } else if ("all".equals(modeParam)) {
+        mode = JLanguageTool.Mode.ALL;
+      } else if ("batch".equals(modeParam)) {
+        // used in undocumented API for /words/add, /words/delete; ignore
         mode = JLanguageTool.Mode.ALL;
       } else {
         throw new BadRequestException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");

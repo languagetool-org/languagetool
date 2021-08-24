@@ -83,6 +83,12 @@ class ApiV2 {
     //} else if (path.equals("rule/examples")) {
     //  // private (i.e. undocumented) API for our own use only
     //  handleRuleExamplesRequest(httpExchange, parameters);
+    } else if (path.equals("admin/refreshUser")) {
+      // private (i.e. undocumented) API for our own use only
+      handleRefreshUserInfoRequest(httpExchange, parameters, config);
+    } else if (path.equals("users/me")) {
+      // private (i.e. undocumented) API for our own use only
+      handleGetUserInfoRequest(httpExchange, config);
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
@@ -97,7 +103,7 @@ class ApiV2 {
   }
 
   private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
-    String response = Integer.toString(config.maxTextLength);
+    String response = Integer.toString(config.maxTextHardLength);
     ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -162,7 +168,17 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     int offset = params.get("offset") != null ? Integer.parseInt(params.get("offset")) : 0;
     int limit = params.get("limit") != null ? Integer.parseInt(params.get("limit")) : 10;
-    List<UserDictEntry> words = db.getWords(limits.getPremiumUid(), offset, limit);
+
+    if (params.containsKey("dict")) {
+      throw new IllegalArgumentException("Use parameter 'dicts', not 'dict' in GET /words API method.");
+    }
+
+    // optional parameter: groups in comma separated list
+    List<String> groups = null;
+    if (params.containsKey("dicts")) {
+      groups = Arrays.asList(params.get("dicts").split(","));
+    }
+    List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
     writeListResponse("words", words, httpExchange);
   }
   
@@ -170,16 +186,34 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/add");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
-    boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid());
-    writeResponse("added", added, httpExchange);
+    /*
+     *  experimental batch mode for adding words,
+     *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word paramater
+     */
+    if ("batch".equals(parameters.get("mode"))) {
+      List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
+      db.addWordBatch(words, limits.getPremiumUid(), parameters.get("dict"));
+      writeResponse("added", true, httpExchange);
+    } else {
+      boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      writeResponse("added", added, httpExchange);
+    }
   }
 
   private void handleWordDeleteRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
     ensurePostMethod(httpExchange, "/words/delete");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
-    boolean deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid());
-    writeResponse("deleted", deleted, httpExchange);
+    boolean deleted;
+    if("batch".equals(parameters.get("mode"))) { //Experimental
+      List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
+      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
+      writeResponse("deleted", deleted, httpExchange);
+    }
+    else {
+      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      writeResponse("deleted", deleted, httpExchange);
+    }
   }
 
   private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params) throws Exception {
@@ -238,6 +272,63 @@ class ApiV2 {
     sendJson(httpExchange, sw);
   }
 
+  /*
+   * Invalidate cached user information for this user, e.g. after a user has upgraded to premium
+   * -> for internal use
+   * Authentication avoids the concept of a admin account by requiring credentials for the affected user:
+   * -> api keys are available in plain text in database
+   */
+  private void handleRefreshUserInfoRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
+    ensurePostMethod(httpExchange, "/admin/refreshUser");
+    UserLimits limits = getUserLimits(params, config);
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    if (limits.getPremiumUid() != null) {
+      String user = params.get("username");
+      if (user != null) {
+        db.invalidateUserInfoCache(user);
+        writeResponse("success", true, httpExchange);
+      } else {
+        writeResponse("success", false, httpExchange);
+      }
+    } else {
+      writeResponse("success", false, httpExchange);
+    }
+  }
+
+  /*
+   * Provide information on user that requests this, e.g. for add-on to acquire token + other information
+   * Expects user + password via HTTP Basic Auth
+   */
+  private void handleGetUserInfoRequest(HttpExchange httpExchange, HTTPServerConfig config) throws Exception {
+    if (httpExchange.getRequestMethod().equalsIgnoreCase("options")) {
+      ServerTools.setAllowOrigin(httpExchange, allowOriginUrl);
+      httpExchange.getResponseHeaders().put("Access-Control-Allow-Methods", Collections.singletonList("GET, OPTIONS"));
+      List<String> requestHeaders = httpExchange.getRequestHeaders().get("Access-Control-Request-Headers");
+      if (requestHeaders != null) {
+        httpExchange.getResponseHeaders().put("Access-Control-Allow-Headers", Collections.singletonList(String.join(", ", requestHeaders)));
+      }
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NO_CONTENT, -1);
+      ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_NO_CONTENT);
+    } else {
+      ensureGetMethod(httpExchange, "/users/me");
+      if (!httpExchange.getRequestHeaders().containsKey("Authorization")) {
+        throw new AuthException("Expected Basic Authentication");
+      }
+      String authHeader = httpExchange.getRequestHeaders().getFirst("Authorization");
+      BasicAuthentication basicAuthentication = new BasicAuthentication(authHeader);
+      String user = basicAuthentication.getUser();
+      String password = basicAuthentication.getPassword();
+      UserInfoEntry userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);
+      if (userInfo != null) {
+        StringWriter sw = new StringWriter();
+        new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));
+        sendJson(httpExchange, sw);
+      } else {
+        throw new IllegalStateException("Could not fetch user information");
+      }
+    }
+  }
+
   private void ensureGetMethod(HttpExchange httpExchange, String url) {
     if (!httpExchange.getRequestMethod().equalsIgnoreCase("get")) {
       throw new BadRequestException(url + " needs to be called with GET");
@@ -269,13 +360,13 @@ class ApiV2 {
     sendJson(httpExchange, sw);
   }
   
-  private void writeListResponse(String fieldName, List<UserDictEntry> words, HttpExchange httpExchange) throws IOException {
+  private void writeListResponse(String fieldName, List<String> words, HttpExchange httpExchange) throws IOException {
     StringWriter sw = new StringWriter();
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartObject();
       g.writeArrayFieldStart(fieldName);
-      for (UserDictEntry word : words) {
-        g.writeString(word.getWord());
+      for (String word : words) {
+        g.writeString(word);
       }
       g.writeEndArray();
       g.writeEndObject();
@@ -395,7 +486,7 @@ class ApiV2 {
       g.writeEndObject();
       
       g.writeObjectFieldStart("parameter");
-      g.writeNumberField("maxTextLength", config.maxTextLength);
+      g.writeNumberField("maxTextLength", config.getMaxTextHardLength());
       g.writeEndObject();
 
       g.writeArrayFieldStart("rules");

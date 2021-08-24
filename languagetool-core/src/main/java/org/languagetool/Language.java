@@ -622,7 +622,7 @@ public abstract class Language {
    * directly extend {@link Language}, but a subclass of {@link Language}.
    * @since 1.8
    */
-  public final boolean isVariant() {
+  public boolean isVariant() {
     for (Language language : Languages.get()) {
       boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());
       if (!skip && language.getClass().isAssignableFrom(getClass())) {

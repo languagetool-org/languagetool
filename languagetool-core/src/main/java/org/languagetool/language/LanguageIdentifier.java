@@ -147,7 +147,9 @@ public class LanguageIdentifier {
         langCodes.add("zh-CN");
         langCodes.add("zh-TW");
       } else {
-        langCodes.add(langCode);
+        if (!langCodes.contains(langCode)) {
+          langCodes.add(langCode);
+        }
       }
     }
     return langCodes;

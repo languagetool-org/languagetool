@@ -19,7 +19,6 @@
 package org.languagetool.server;
 
 import org.junit.Test;
-import org.languagetool.HTTPTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
   @Override
   public void testHTTPServer() throws Exception {
     long startTime = System.currentTimeMillis();
-    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), true);
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTestTools.getDefaultPort(), true);
     HTTPServer server = new HTTPServer(config);
     assertFalse(server.isRunning());
     try {

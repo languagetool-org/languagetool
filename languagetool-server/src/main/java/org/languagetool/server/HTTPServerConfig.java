@@ -58,12 +58,14 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
 
   protected URI serverURL = null;
-  protected int maxTextLength = Integer.MAX_VALUE;
+  protected int maxTextLengthAnonymous = Integer.MAX_VALUE;
+  protected int maxTextLengthLoggedIn = Integer.MAX_VALUE;
+  protected int maxTextLengthPremium = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
-  protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
   protected String secretTokenKey = null;
-  protected long maxCheckTimeMillis = -1;
-  protected long maxCheckTimeWithApiKeyMillis = -1;
+  protected long maxCheckTimeMillisAnonymous = -1;
+  protected long maxCheckTimeMillisLoggedIn = -1;
+  protected long maxCheckTimeMillisPremium = -1;
   protected int maxCheckThreads = 10;
   protected Mode mode;
   protected File languageModelDir = null;
@@ -99,16 +101,66 @@ public class HTTPServerConfig {
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
   protected boolean premiumAlways;
   protected boolean premiumOnly;
+
+  public void setPremiumOnly(boolean premiumOnly) {
+    this.premiumOnly = premiumOnly;
+  }
+  boolean anonymousAccessAllowed = true;
+  public boolean isAnonymousAccessAllowed() {
+    return anonymousAccessAllowed;
+  }
+  protected boolean gracefulDatabaseFailure = false;
+
+  /**
+   * @since 4.9
+   * @return whether user creation should be restricted (e.g. according to subscriptions in cloud usage) or be unlimited (for self-hosted installations)
+   */
+  public boolean isRestrictManagedAccounts() {
+    return restrictManagedAccounts;
+  }
+
+  public void setRestrictManagedAccounts(boolean restrictManagedAccounts) {
+    this.restrictManagedAccounts = restrictManagedAccounts;
+  }
+  // NOTE: offer option to set this in configuration file; document for customers
+  protected boolean restrictManagedAccounts = true;
   protected String dbDriver = null;
   protected String dbUrl = null;
   protected String dbUsername = null;
   protected String dbPassword = null;
+  protected long dbTimeoutSeconds = 10;
+  protected int databaseTimeoutRateThreshold = 100;
+  protected int databaseErrorRateThreshold = 50;
+  protected int databaseDownIntervalSeconds = 10;
+
   protected boolean dbLogging;
   protected boolean prometheusMonitoring = false;
   protected int prometheusPort = 9301;
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
   protected boolean stoppable = false;
+
+  /**
+   * caching to avoid database hits for e.g. dictionaries
+   * null -> disabled
+   */
+  @Nullable
+  protected String redisHost = null;
+  protected int redisPort = 6379;
+  protected int redisDatabase = 0;
+  protected boolean redisUseSSL = true;
+  protected String redisCertificate;
+  protected String redisKey;
+  protected String redisKeyPassword;
+  @Nullable
+  protected String redisPassword = null;
+  protected long redisDictTTL = 600; // in seconds
+  protected long redisTimeout = 100; // in milliseconds
+  protected boolean redisUseSentinel = false;
+  protected String sentinelHost;
+  protected int sentinelPort = 26379;
+  protected String sentinelPassword;
+  protected String sentinelMasterId;
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -133,8 +185,13 @@ public class HTTPServerConfig {
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
+    "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
+    "redisUseSSL",
+    "anonymousAccessAllowed",
     "premiumAlways",
-    "redisPassword", "redisHost", "dbLogging", "premiumOnly", "nerUrl");
+    "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
+    "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
+    "dbLogging", "premiumOnly", "nerUrl");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -229,12 +286,18 @@ public class HTTPServerConfig {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
-        maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
-        maxTextLengthWithApiKey = Integer.parseInt(getOptionalProperty(props, "maxTextLengthWithApiKey", Integer.toString(Integer.MAX_VALUE)));
         maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
         secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
-        maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
-        maxCheckTimeWithApiKeyMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeWithApiKeyMillis", "-1"));
+
+        maxTextLengthAnonymous = maxTextLengthLoggedIn = maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+        maxTextLengthAnonymous = Integer.parseInt(getOptionalProperty(props, "maxTextLengthAnonymous", String.valueOf(maxTextLengthAnonymous)));
+        maxTextLengthLoggedIn = Integer.parseInt(getOptionalProperty(props, "maxTextLengthLoggedIn", String.valueOf(maxTextLengthLoggedIn)));
+        maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, "maxTextLengthPremium", String.valueOf(maxTextLengthPremium)));
+
+        maxCheckTimeMillisAnonymous = maxCheckTimeMillisLoggedIn = maxCheckTimeMillisPremium = Integer.parseInt(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        maxCheckTimeMillisAnonymous = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillisAnonymous", String.valueOf(maxCheckTimeMillisAnonymous)));
+        maxCheckTimeMillisLoggedIn = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillisLoggedIn", String.valueOf(maxCheckTimeMillisLoggedIn)));
+        maxCheckTimeMillisPremium = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillisPremium", String.valueOf(maxCheckTimeMillisPremium)));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
@@ -330,10 +393,38 @@ public class HTTPServerConfig {
           }
           System.out.println("*** Running in PREMIUM-ONLY mode");
         }
+        anonymousAccessAllowed = Boolean.valueOf(getOptionalProperty(props, "anonymousAccessAllowed", "true").trim());
+        if (!anonymousAccessAllowed) {
+          System.out.println("*** Running in RESTRICTED-ACCESS mode");
+        }
+
+        redisHost = getOptionalProperty(props, "redisHost", null);
+        redisPort = Integer.parseInt(getOptionalProperty(props, "redisPort", "6379"));
+        redisDatabase = Integer.parseInt(getOptionalProperty(props, "redisDatabase", "0"));
+        redisUseSSL = Boolean.valueOf(getOptionalProperty(props, "redisUseSSL", "true").trim());
+        redisPassword = getOptionalProperty(props, "redisPassword", null);
+        redisDictTTL = Integer.parseInt(getOptionalProperty(props, "redisDictTTLSeconds", "600"));
+        redisTimeout = Integer.parseInt(getOptionalProperty(props, "redisTimeoutMilliseconds", "100"));
+
+        redisCertificate = getOptionalProperty(props, "redisCertificate", null);
+        redisKey = getOptionalProperty(props, "redisKey", null);
+        redisKeyPassword = getOptionalProperty(props, "redisKeyPassword", null);
+
+        redisUseSentinel = Boolean.valueOf(getOptionalProperty(props, "redisUseSentinel", "false").trim());
+        sentinelHost = getOptionalProperty(props, "sentinelHost", null);
+        sentinelPort = Integer.parseInt(getOptionalProperty(props, "sentinelPort", "26379"));
+        sentinelPassword = getOptionalProperty(props, "sentinelPassword", null);
+        sentinelMasterId = getOptionalProperty(props, "sentinelMasterId", null);
+
+        gracefulDatabaseFailure = Boolean.parseBoolean(getOptionalProperty(props, "gracefulDatabaseFailure", "false").trim());
         dbDriver = getOptionalProperty(props, "dbDriver", null);
         dbUrl = getOptionalProperty(props, "dbUrl", null);
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
+        dbTimeoutSeconds = Integer.parseInt(getOptionalProperty(props, "dbTimeoutSeconds", "10"));
+        databaseErrorRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbErrorRateThreshold", "50"));
+        databaseTimeoutRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbTimeoutRateThreshold", "100"));
+        databaseDownIntervalSeconds = Integer.parseInt(getOptionalProperty(props, "dbDownIntervalSeconds", "10"));
         dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false").trim());
         prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false").trim());
         prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
@@ -440,7 +531,7 @@ public class HTTPServerConfig {
     }
   }
 
-  private void setFasttextPaths(String fasttextModelPath, String fasttextBinaryPath) {
+  void setFasttextPaths(String fasttextModelPath, String fasttextBinaryPath) {
     fasttextModel = new File(fasttextModelPath);
     fasttextBinary = new File(fasttextBinaryPath);
     if (!fasttextModel.exists() || fasttextModel.isDirectory()) {
@@ -514,8 +605,16 @@ public class HTTPServerConfig {
    *            will cause an exception when being checked, unless the user can provide
    *            a JWT 'token' parameter with a 'maxTextLength' claim          
    */
-  public void setMaxTextLength(int len) {
-    this.maxTextLength = len;
+  public void setMaxTextLengthAnonymous(int len) {
+    this.maxTextLengthAnonymous = len;
+  }
+
+  public void setMaxTextLengthLoggedIn(int len) {
+    this.maxTextLengthLoggedIn = len;
+  }
+
+  public void setMaxTextLengthPremium(int len) {
+    this.maxTextLengthPremium = len;
   }
 
   /**
@@ -527,16 +626,19 @@ public class HTTPServerConfig {
     this.maxTextHardLength = len;
   }
 
-  int getMaxTextLength() {
-    return maxTextLength;
+  int getMaxTextLengthAnonymous() {
+    return maxTextLengthAnonymous;
   }
 
   /**
-   * Maximum text length for users that can identify themselves with an API key.
-   * @since 4.2
+   * For users that have an account, but no premium subscription
    */
-  int getMaxTextLengthWithApiKey() {
-    return maxTextLengthWithApiKey;
+  int getMaxTextLengthLoggedIn() {
+    return maxTextLengthLoggedIn;
+  }
+
+  int getMaxTextLengthPremium() {
+    return maxTextLengthPremium;
   }
 
   /**
@@ -606,7 +708,11 @@ public class HTTPServerConfig {
     return requestLimitPeriodInSeconds;
   }
 
-  /** since 4.4 */
+  /** since 4.4
+   * @return
+   * if > 0: allow n more requests per IP if fingerprints differ
+   * if <= 0: disable fingerprinting, only rely on IP address
+   *  */
   int getIpFingerprintFactor() {
     return ipFingerprintFactor;
   }
@@ -614,20 +720,37 @@ public class HTTPServerConfig {
   /**
    * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
    *                      will stop with an exception. Use {@code -1} for no limit.
-   * @since 2.6
+   * @since 4.4
    */
-  void setMaxCheckTimeMillis(int maxCheckTimeMillis) {
-    this.maxCheckTimeMillis = maxCheckTimeMillis;
+  void setMaxCheckTimeMillisAnonymous(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillisAnonymous = maxCheckTimeMillis;
   }
 
-  /** @since 2.6 */
-  long getMaxCheckTimeMillis() {
-    return maxCheckTimeMillis;
+  /** @since 4.4 */
+  long getMaxCheckTimeMillisAnonymous() {
+    return maxCheckTimeMillisAnonymous;
   }
 
-  /** @since 4.2 */
-  long getMaxCheckTimeWithApiKeyMillis() {
-    return maxCheckTimeWithApiKeyMillis;
+
+  /** @since 4.4 */
+  void setMaxCheckTimeMillisLoggedIn(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillisLoggedIn = maxCheckTimeMillis;
+  }
+
+  /** @since 4.4 */
+  long getMaxCheckTimeMillisLoggedIn() {
+    return maxCheckTimeMillisLoggedIn;
+  }
+
+  /** @since 4.4 */
+  void setMaxCheckTimeMillisPremium(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillisPremium = maxCheckTimeMillis;
+  }
+
+  /** @since 4.4 */
+  @Experimental
+  long getMaxCheckTimeMillisPremium() {
+    return maxCheckTimeMillisPremium;
   }
 
   /**
@@ -865,6 +988,10 @@ public class HTTPServerConfig {
     return hiddenMatchesServer;
   }
 
+  /**
+   * @since 4.4
+   * @param hiddenMatchesServerTimeout
+   */
   @Experimental
   public void setHiddenMatchesServerTimeout(int hiddenMatchesServerTimeout) {
     this.hiddenMatchesServerTimeout = hiddenMatchesServerTimeout;
@@ -879,11 +1006,17 @@ public class HTTPServerConfig {
   }
 
 
+  /**
+   * @since 4.4
+   */
   @Experimental
   public void setHiddenMatchesServer(String hiddenMatchesServer) {
     this.hiddenMatchesServer = hiddenMatchesServer;
   }
 
+  /**
+   * @since 4.4
+   */
   @Experimental
   public void setHiddenMatchesLanguages(List<Language> hiddenMatchesLanguages) {
     this.hiddenMatchesLanguages = hiddenMatchesLanguages;
@@ -1013,6 +1146,79 @@ public class HTTPServerConfig {
 
 
   /**
+   * timeout for database requests (for now, only requests for credentials to log in)
+   * @since 4.7
+   */
+  public long getDbTimeoutSeconds() {
+    return dbTimeoutSeconds;
+  }
+
+  /**
+   * timeout for database requests (for now, only requests for credentials to log in)
+   * @since 4.7
+   */
+  public void setDbTimeoutSeconds(long dbTimeoutSeconds) {
+    this.dbTimeoutSeconds = dbTimeoutSeconds;
+  }
+
+
+  /**
+   * Rate in percent of requests (0-100) of timeouts during database queries until circuit breaker opens
+   * @since 5.5
+   */
+  public int getDatabaseTimeoutRateThreshold() {
+    return databaseTimeoutRateThreshold;
+  }
+
+  public void setDatabaseTimeoutRateThreshold(int databaseTimeoutRateThreshold) {
+    this.databaseTimeoutRateThreshold = databaseTimeoutRateThreshold;
+  }
+
+  /**
+   * Rate in percent of requests (0-100) of errors during database queries until circuit breaker opens
+   * @since 5.5
+   */
+  public int getDatabaseErrorRateThreshold() {
+    return databaseErrorRateThreshold;
+  }
+
+  public void setDatabaseErrorRateThreshold(int databaseErrorRateThreshold) {
+    this.databaseErrorRateThreshold = databaseErrorRateThreshold;
+  }
+
+  /**
+   * Number of seconds to skip database requests when a potential downtime has been detected
+   * @since 5.5
+   */
+  public int getDatabaseDownIntervalSeconds() {
+    return databaseDownIntervalSeconds;
+  }
+
+  public void setDatabaseDownIntervalSeconds(int databaseDownIntervalSeconds) {
+    this.databaseDownIntervalSeconds = databaseDownIntervalSeconds;
+  }
+
+
+  /**
+   * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
+   * throw an error
+   * @since 4.7
+   */
+  public boolean getGracefulDatabaseFailure() {
+    return gracefulDatabaseFailure;
+  }
+
+  /**
+   * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
+   * throw an error
+   * @since 4.7
+   */
+  public void setGracefulDatabaseFailure(boolean gracefulDatabaseFailure) {
+    this.gracefulDatabaseFailure = gracefulDatabaseFailure;
+  }
+
+
+  /**
    * @since 4.6
    */
   public boolean isPrometheusMonitoring() {
@@ -1025,6 +1231,37 @@ public class HTTPServerConfig {
   public int getPrometheusPort() {
     return prometheusPort;
   }
+
+
+  @Nullable
+  public String getRedisHost() {
+    return redisHost;
+  }
+
+  public int getRedisPort() {
+    return redisPort;
+  }
+
+  public int getRedisDatabase() {
+    return redisDatabase;
+  }
+
+  public boolean isRedisUseSSL() {
+    return redisUseSSL;
+  }
+  @Nullable
+  public String getRedisPassword() {
+    return redisPassword;
+  }
+
+  public long getRedisDictTTLSeconds() {
+    return redisDictTTL;
+  }
+
+  public long getRedisTimeoutMilliseconds() {
+    return redisTimeout;
+  }
+  // TODO could introduce 'expire after access' logic, i.e. refresh expire when reading
 
   /**
    * @since 4.5
@@ -1166,6 +1403,72 @@ public class HTTPServerConfig {
 
   public boolean isPremiumOnly() {
     return premiumOnly;
+  }
+
+  /**
+   * Allow using redis sentinel for automated failover */
+  public boolean isRedisUseSentinel() {
+    return redisUseSentinel;
+  }
+
+  public void setRedisUseSentinel(boolean redisUseSentinel) {
+    this.redisUseSentinel = redisUseSentinel;
+  }
+
+  public String getSentinelHost() {
+    return sentinelHost;
+  }
+
+  public void setSentinelHost(String sentinelHost) {
+    this.sentinelHost = sentinelHost;
+  }
+
+  public int getSentinelPort() {
+    return sentinelPort;
+  }
+
+  public void setSentinelPort(int sentinelPort) {
+    this.sentinelPort = sentinelPort;
+  }
+
+  public String getSentinelPassword() {
+    return sentinelPassword;
+  }
+
+  public void setSentinelPassword(String sentinelPassword) {
+    this.sentinelPassword = sentinelPassword;
+  }
+
+  public String getSentinelMasterId() {
+    return sentinelMasterId;
+  }
+
+  public void setSentinelMasterId(String sentinelMasterId) {
+    this.sentinelMasterId = sentinelMasterId;
+  }
+
+  public String getRedisCertificate() {
+    return redisCertificate;
+  }
+
+  public void setRedisCertificate(String redisCertificate) {
+    this.redisCertificate = redisCertificate;
+  }
+
+  public String getRedisKey() {
+    return redisKey;
+  }
+
+  public void setRedisKey(String redisKey) {
+    this.redisKey = redisKey;
+  }
+
+  public String getRedisKeyPassword() {
+    return redisKeyPassword;
+  }
+
+  public void setRedisKeyPassword(String redisKeyPassword) {
+    this.redisKeyPassword = redisKeyPassword;
   }
 
 }

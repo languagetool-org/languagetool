@@ -18,18 +18,54 @@
  */
 package org.languagetool;
 
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
+
+import java.lang.reflect.Constructor;
+import java.util.Set;
 
 /**
  * Information about premium-only rules.
  */
-public class Premium {
+public abstract class Premium {
+  
+  public static boolean isPremiumStatusCheck(AnnotatedText text) {
+    final String testRuleText = "languagetool testrule 8634756";
+    final String testRuleText2 = "The languagetool testrule 8634756.";
+    return testRuleText2.equals(text.getOriginalText()) || testRuleText.equals(text.getOriginalText());
+  }
+
+  public static Premium get() {
+    String className = "org.languagetool.PremiumOn";
+    try {
+      Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
+      Constructor<?> constructor = aClass.getConstructor();
+      return (Premium)constructor.newInstance();
+    } catch (ClassNotFoundException e) {
+      // 'PremiumOn' doesn't exist, thus this is the non-premium version
+      return new PremiumOff();
+    } catch (Exception e) {
+      throw new RuntimeException("Object for class '" + className + "' could not be created", e);
+    }
+  }
 
   public static boolean isPremiumVersion() {
-    return false;
+    String className = "org.languagetool.PremiumOn";
+    try {
+      Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
+      Constructor<?> constructor = aClass.getConstructor();
+      constructor.newInstance();
+      return true;
+    } catch (ClassNotFoundException e) {
+      // doesn't exist, thus this is the non-premium version
+      return false;
+    } catch (Exception e) {
+      throw new RuntimeException("Object for class '" + className + "' could not be created", e);
+    }
   }
 
-  public static boolean isPremiumRule(Rule rule) {
-    return false;
-  }
+  public abstract boolean isPremiumRule(Rule rule);
+
+  public abstract Set<String> getPremiumRuleIds();
+
 }
