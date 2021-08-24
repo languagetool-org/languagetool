@@ -290,20 +290,21 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes">si</token>    
+                    <token postag="N.*" postag_regexp="yes">si</token>
                 </marker>
                 <token regexp="yes">majeur|mineur</token>
             </pattern>
-            <disambig action="filter" postag="N.*"/>    
+            <disambig action="filter" postag="N.*"/>
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="D m s"/></token>
+                <token>
+                    <exception postag="D m s"/></token>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes">si</token>    
+                    <token postag="N.*" postag_regexp="yes" negate_pos="yes">si</token>
                 </marker>
             </pattern>
-            <disambig action="remove" postag="N.*"/>    
+            <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
     <!-- CATEGORY: verb + pronoun-->
@@ -1420,7 +1421,7 @@ RB => Règles Brutes
                 <token inflected="yes" regexp="yes">aucun|certain|plusieurs</token>
                 <marker>
                     <token postag="P.*" postag_regexp="yes" regexp="yes">de|du|d'|des</token>
-                </marker>    
+                </marker>
             </pattern>
             <disambig action="filter" postag="P.*"/>
         </rule>
@@ -1452,7 +1453,8 @@ RB => Règles Brutes
                     <marker>
                         <token postag="D.*" postag_regexp="yes" regexp="yes">de|du|d'|des</token>
                     </marker>
-                    <token postag="J.*" postag_regexp="yes"><exception inflected="yes">aucun</exception></token>
+                    <token postag="J.*" postag_regexp="yes">
+                        <exception inflected="yes">aucun</exception></token>
                     <token postag="N.*" postag_regexp="yes">
                         <exception regexp="yes">dans|envers|mais|plus|non|contre</exception>
                         <exception inflected="yes" regexp="yes">avoir|être</exception></token>
@@ -3235,7 +3237,7 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="R pers.*"/>
         </rule>
-        <rule>
+        <!-- <rule>
             <pattern>
                 <token regexp="yes">à|de</token>
                 <marker>
@@ -3243,7 +3245,7 @@ RB => Règles Brutes
                 </marker>
             </pattern>
             <disambig action="filter" postag="R.*"/>
-        </rule>
+        </rule>-->
     </rulegroup>
     <rule id="L_UN" name="l'un (pronom)">
         <pattern>

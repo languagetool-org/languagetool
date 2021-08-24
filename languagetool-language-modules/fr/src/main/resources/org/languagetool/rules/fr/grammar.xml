@@ -871,6 +871,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="des Bahamas">Le Parlement <marker>du Bahamas</marker>.</example>
                 <example correction="des permis|un permis">Disposez-vous d'<marker>une permis</marker> de pilotage ?</example>
                 <example correction="cette vidéo|ces vidéos">Merci de <marker>ce vidéo</marker>.</example>
+                <example correction="la cavité|les cavités">Elle a lieu au sein de <marker>le cavité</marker> sous-ombrellaire.</example>
+                <example correction="la glace|les glaces">Il se souvient de <marker>le glace</marker>.</example>
+                <example correction="la fille|les filles">C'est de <marker>le fille</marker> que je te parle.</example>
                 <example>Albert du Boys</example>
                 <example>au concours du CAPES</example>
                 <example>à la construction du Paris du baron Haussmann</example>
@@ -33734,15 +33737,19 @@ though, and has since been slightly modified)-->
                 <suggestion>\1\2<match no="3" regexp_match="'" regexp_replace="-"/></suggestion>
                 <example correction="mange-t-on">Que <marker>mange-t’on</marker> ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule id="EST_CE" name="trait d'union: est-ce" default="temp_off">
                 <antipattern>
                     <token postag="V etre.*3 s" postag_regexp="yes"/>
                     <token spacebefore="no">-</token>
                     <token spacebefore="no">ce</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">ce|qui|c'</token>
+                    <token regexp="yes">ce|qui|c'|quel|ne</token>
                     <token postag="V etre.*3 s" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>ce</token>
+                    <token postag="N m sp?" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -33760,11 +33767,16 @@ though, and has since been slightly modified)-->
                 <example correction="Serait-ce"><marker>Serait ce</marker> notre solution ?</example>
                 <example correction="est-ce">Qu'<marker>est ce</marker> qui motive ce refus ?</example>
                 <example correction="Est-ce"><marker>Est ce</marker> que ce modèle t'irait ?</example>
-                <example correction="est-ce">Comment <marker>est - ce</marker> possible ?</example> 
+                <example correction="est-ce">Comment <marker>est - ce</marker> possible ?</example>
+                <example correction="est-ce">Comment <marker>est ce</marker> possible d'avoir cette « mousseline de beurre »?</example>
                 <example>Ce fut ce dernier qui remporta ce match.</example>
                 <example>C'est ce que ce livre démontre.</example>
                 <example>Mais qui était ce Suiço? </example>
                 <example>C'est ce type ?</example>
+                <example>Quel est ce son horrible ?</example>
+                <example>Quel est ce type de voiture ?</example>
+                <example>Qu'est ce bruit ?</example>
+                <example>À quel propos est ce tohu-bohu ?</example>
             </rule>
         </rulegroup>
         <!-- Commented out due to non-consensus on the issue.
@@ -59299,11 +59311,11 @@ though, and has since been slightly modified)-->
             <example><marker>savoir gré</marker></example>
             <example>Le contrat est négocié de gré à gré.</example>
         </rule>
-        <rule id="ETRE_DE_VERBE" name="être de + verbe inf">
+        <rule id="ETRE_DE_VERBE" name="être de + verbe inf" default="temp_off">
             <pattern>
                 <token postag="V etre.*" postag_regexp="yes"/>
                 <token postag="P">de</token>
-                <token min="0" postag_regexp="yes" postag="R.*"/>
+                <token min="0" regexp="yes">me|te|le|la|vous|nous|les</token>
                 <marker>
                     <token postag="V ppa.*" postag_regexp="yes" inflected="yes" regexp="yes">.*er
                         <exception regexp="yes">rayés?|fait|mise|sortie|pointe</exception></token>
@@ -59314,6 +59326,7 @@ though, and has since been slightly modified)-->
             <example correction="désactiver">La solution est de le <marker>désactivé</marker></example>
             <example correction="désactiver">La solution est de <marker>désactivé</marker> le moteur</example>
             <example correction="désactiver">La solution, pour contourner le problème, est de <marker>désactivé</marker> le moteur.</example>
+            <example correction="solliciter">Notre devoir est de nous <marker>sollicité</marker> dès que vous vivez au quotidien.</example>
             <example>Il est de fait que le monde virtuel occupe déjà une part importante de la vie humaine.</example>
             <example>C'est de ce fait qu'il est toujours conseillé.</example>
             <example>Tout Paris est de sortie.</example>
