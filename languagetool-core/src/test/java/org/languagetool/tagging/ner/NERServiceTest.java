@@ -15,7 +15,7 @@ public class NERServiceTest {
   @Ignore("interactive testing only")
   public void testCommand() throws IOException {
     NERService pipe = new NERService("http://localhost:4567/ner/en");
-    List<NERService.Span> res = pipe.runNER("I am Peter Jones");
+    List<NERService.Span> res = pipe.runNER("This is a test with Peter Appleford.");
     System.out.println(res);
   }
 

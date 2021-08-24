@@ -279,6 +279,7 @@ public class JLanguageTool {
   public JLanguageTool(Language language, ResultCache cache, UserConfig userConfig) {
     this(language, null, cache, userConfig);
   }
+
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
                        GlobalConfig globalConfig, UserConfig userConfig) {
     this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true);

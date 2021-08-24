@@ -27,10 +27,12 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -40,6 +42,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class NERService {
 
   private static final Logger logger = LoggerFactory.getLogger(NERService.class);
+  private static final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+  private static final int TIMEOUT_MILLIS = 500;
 
   private final String urlStr;
 
@@ -47,32 +51,32 @@ public class NERService {
     this.urlStr = urlStr;
   }
 
-
-  private static String checkAtUrlByPost(URL url, String postData, Map<String, String> properties) throws IOException {
-    String keepAlive = System.getProperty("http.keepAlive");
-    try {
-      System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
-      URLConnection connection = url.openConnection();
-      for (Map.Entry<String, String> entry : properties.entrySet()) {
-        connection.setRequestProperty(entry.getKey(), entry.getValue());
-      }
-      connection.setDoOutput(true);
-      try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
-        writer.write(postData);
-        writer.flush();
-        return StringTools.streamToString(connection.getInputStream(), "UTF-8");
-      }
-    } finally {
-      if (keepAlive != null) {
-        System.setProperty("http.keepAlive", keepAlive);
-      }
-    }
-  }
-
   public List<Span> runNER(String text) throws IOException {
     String joined = text.replace("\n", " ");
-    String result = checkAtUrlByPost(Tools.getUrl(urlStr), "input=" + joined, new HashMap<>());
+    String result = postTo(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>());
     return parseBuffer(result);
+  }
+
+  private static String postTo(URL url, String encodedPostData, Map<String, String> properties) {
+    try {
+      Future<?> future = executorService.submit(() -> {
+        URLConnection connection = url.openConnection();
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
+          connection.setRequestProperty(entry.getKey(), entry.getValue());
+        }
+        connection.setDoOutput(true);
+        try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
+          writer.write(encodedPostData);
+          writer.flush();
+          return StringTools.streamToString(connection.getInputStream(), "UTF-8");
+        }
+      });
+      return (String) future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+    } catch (TimeoutException e) {
+      throw new RuntimeException("Timeout (" + TIMEOUT_MILLIS + "ms) exhausted getting NER results", e);
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @NotNull
@@ -90,7 +94,7 @@ public class NERService {
       int slash2 = getLastSlashFrom(value, slash3-1);
       int slash1 = getLastSlashFrom(value, slash2-1);
       if (slash1 == -1 || slash2 == -1 || slash3 == -1) {
-        logger.warn("SLASH NOT FOUND: '" + value + "'");
+        logger.warn("NER: Slash not found: '" + value + "'");
         continue;
       }
       String tag = value.substring(slash1 + 1, slash2);
@@ -116,7 +120,7 @@ public class NERService {
   public static class Span {
     private final int fromPos;
     private final int toPos;
-    Span(int fromPos, int toPos) {
+    public Span(int fromPos, int toPos) {
       if (fromPos >= toPos) {
         throw new IllegalArgumentException("fromPos must be < toPos: fromPos: " + fromPos + ", toPos: " + toPos);
       }

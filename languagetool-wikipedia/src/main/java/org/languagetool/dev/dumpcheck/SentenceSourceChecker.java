@@ -20,10 +20,7 @@ package org.languagetool.dev.dumpcheck;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.*;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -129,6 +126,8 @@ public class SentenceSourceChecker {
             .desc("Skip this many sentences from input before actually checking sentences").build());
     options.addOption(Option.builder().longOpt("print-duration")
             .desc("Print the duration of analysis in milliseconds").build());
+    options.addOption(Option.builder().longOpt("nerUrl").argName("url").hasArg()
+            .desc("URL of a named entity recognition service").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -159,7 +158,12 @@ public class SentenceSourceChecker {
     int sentencesToSkip = options.hasOption("skip") ? Integer.parseInt(options.getOptionValue("skip")) : 0;
     Language lang = Languages.getLanguageForShortCode(langCode);
     Language motherTongue = motherTongueCode != null ? Languages.getLanguageForShortCode(motherTongueCode) : null;
-    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang, motherTongue);
+    GlobalConfig globalConfig = new GlobalConfig();
+    if (options.hasOption("nerUrl")) {
+      System.out.println("Using NER service: " + options.getOptionValue("nerUrl"));
+      globalConfig.setNERUrl(options.getOptionValue("nerUrl"));
+    }
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang, motherTongue, -1, globalConfig, null);
     lt.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       lt.activateLanguageModelRules(languageModelDir);

@@ -77,16 +77,23 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   /**
    * @see #shutdown()
    * @param threadPoolSize the number of concurrent threads
-   * @since 2.9
-   * UserConfig added
    * @since 4.2
    */
   public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
       UserConfig userConfig) {
-    super(language, motherTongue, null, userConfig);
+    this(language, motherTongue, -1,null, userConfig);
+  }
 
-    this.threadPoolSize = threadPoolSize;
-    threadPool = new ForkJoinPool(threadPoolSize, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
+  /**
+   * @see #shutdown()
+   * @param threadPoolSize the number of concurrent threads
+   * @since 4.2
+   */
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
+                                    GlobalConfig globalConfig, UserConfig userConfig) {
+    super(language, Collections.emptyList(), motherTongue, null, globalConfig, userConfig);
+    this.threadPoolSize = threadPoolSize <= 0 ? getDefaultThreadCount() : threadPoolSize;
+    threadPool = new ForkJoinPool(this.threadPoolSize, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
   }
 
   /**
