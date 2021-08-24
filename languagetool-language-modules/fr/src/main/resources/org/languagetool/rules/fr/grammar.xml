@@ -5103,9 +5103,18 @@ though, and has since been slightly modified)-->
                     <token>en</token>
                     <token postag="V etre.*" postag_regexp="yes"/>
                     <token postag="A" min="0" max="3"/>
+                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
                     <token postag="V.* ppa.*" postag_regexp="yes"/>
                     <token>
-                        <exception postag="P"/></token>
+                        <exception>de</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>
+                        <exception postag="R pers.*|[NJ].*" postag_regexp="yes"/>
+                    </token>
+                    <token>s'</token>
+                    <token>en</token>
+                    <token>fut</token>
                 </antipattern>
                 <pattern>
                     <token>
@@ -5123,6 +5132,7 @@ though, and has since been slightly modified)-->
                 <example correction="C'"> <marker>S'</marker>en est fini de lui.</example>
                 <example>S'en est-elle allée ?</example>
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
+                <example>Il rassembla ses affaires et s'en fut.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -19950,7 +19960,7 @@ though, and has since been slightly modified)-->
                         <exception scope="next" regexp="yes">il|preuve|gaffe|rhum|plat|face|nom|car|-t-il</exception></token>
                 </pattern>
                 <message>Cette expression peut sembler familière dans un contexte formel, car le sujet semble être manquant.</message>
-                <suggestion>il faut</suggestion>
+                <suggestion>il \1</suggestion>
                 <example correction="il faut">Après tout, <marker>faut</marker> avoir de solides bases dans ce domaine pour réussir.</example>
                 <example>Loin s'en faut.</example>
                 <example>Parcequ'il nous faut revoter pour réélire deux administrateurs.</example>
@@ -35820,14 +35830,6 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">ne|n</token>
-                    <token postag="R pers obj.*" postag_regexp="yes"/>
-                    <token postag="R pers obj.*" postag_regexp="yes"/>
-                    <token postag="V.*" postag_regexp="yes"/>
-                    <token postag="A" min="0" max="2"/>
-                    <token regexp="yes">pas|jamais|guère|aucune?s?|personne</token>
-                </antipattern>
-                <antipattern>
                     <token regexp="yes">[^a-z].*</token>
                     <token>t'</token>
                     <token postag="V.*" postag_regexp="yes"/>
@@ -35840,7 +35842,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token>
-                        <exception postag="Z.*|R pers suj.*" postag_regexp="yes"/>
+                        <exception postag="Z.*|R pers.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">ne|n</exception> </token>
                     <marker>
                         <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*
@@ -35858,6 +35860,7 @@ though, and has since been slightly modified)-->
                 <example correction="ne nous">Les enfants <marker>nous</marker> attendaient pas à ce moment-là.</example>
                 <example correction="ne m'">Les enfants <marker>m'</marker>avais pas dit que tu étais arrivé.</example>
                 <example>Toi t'écoute pas le ClubPokerRadio !</example>
+                <example>Je ne me le rappelle même pas.</example>
                 <example>Ils ne me l'ont jamais vraiment dit.</example>
                 <example>Nous arrivons sur la place qui s'appelle Jamais.</example>
                 <example>C'est la meilleure mousse au chocolat que mes convives et moi-même ayons jamais mangée.</example>
@@ -36268,7 +36271,7 @@ though, and has since been slightly modified)-->
             <example correction="personne">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
             <example>Il n’y a personne pour m’aider.</example>
         </rule>
-        <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
+        <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre" default="temp_off">
             <rule>
                 <antipattern>
                     <token postag="V.* imp .*" postag_regexp="yes"/>
@@ -36298,7 +36301,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
                     <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
                 </pattern>
-                <message>Les mots « \1 \2 » ne peuvent pas se suivre. L'un des deux peut donc être supprimé.</message>
+                <message>Une faute de frappe ou une omission semble être possible, car les mots « \1 \2 » ne peuvent pas se suivre.</message>
                 <suggestion>\1</suggestion>
                 <suggestion>\2</suggestion>
                 <example correction="nos|cette">Pour tout dire, <marker>nos cette</marker> langue va disparaitre.</example>
@@ -36314,8 +36317,9 @@ though, and has since been slightly modified)-->
                 <message>Ce déterminant est généralement précédé d'une préposition.</message>
                 <suggestion>de \2</suggestion>
                 <suggestion>dès \2</suggestion>
-                <example correction="de sa|dès sa">Il le fait pour le reste <marker>des sa</marker> vie.</example>
-                <example correction="De mon|Dès mon"><marker>Des mon</marker> plus jeune âge, j'ai appris à jouer au cartes.</example>
+                <suggestion>des</suggestion>
+                <example correction="de sa|dès sa|des">Il le fait pour le reste <marker>des sa</marker> vie.</example>
+                <example correction="De mon|Dès mon|Des"><marker>Des mon</marker> plus jeune âge, j'ai appris à jouer au cartes.</example>
                 <example>Liste des guerres de la clique des Ma.</example>
             </rule>
             <rule>
@@ -36392,7 +36396,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">ch[èe]re?s?|autres?|sires?|madame|mesdames|monsieur|messieurs|ré</exception>
                         <exception postag="V.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Un déterminant doit être placé devant '\3'.</message>
+                <message>Une faute de frappe ou une omission semble être possible, car les mots « \2 \3 » ne peuvent pas se suivre.</message>
                 <suggestion>vos</suggestion>
                 <example correction="vos">Je vous remercie de <marker>vous</marker> impressions.</example>
                 <example>Liste des guerres de la clique des Ma.</example>
@@ -36499,11 +36503,17 @@ though, and has since been slightly modified)-->
                 <example correction="C'est"><marker>Cette</marker> ma carte.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START|C coor" postag_regexp="yes"/>
+                    <token postag="V.* imp .*" postag_regexp="yes"/>
+                    <token regexp="yes">l[ea]</token>
+                    <token regexp="yes">[vn]ous</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">l[ae]</token>
                     <token regexp="yes" case_sensitive="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
                 </pattern>
-                <message>Les mots « \1 \2 » ne peuvent pas se suivre. L'un des deux peut donc être supprimé.</message>
+                <message>Une faute de frappe ou une omission semble être possible, car les mots « \1 \2 » ne peuvent pas se suivre.</message>
                 <suggestion>\1</suggestion>
                 <suggestion>\2</suggestion>
                 <example correction="la|cette">Pour tout dire, <marker>la cette</marker> langue va disparaitre.</example>
@@ -36520,13 +36530,14 @@ though, and has since been slightly modified)-->
                     <token postag="V ppa m sp?" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
+                    <token postag="P.*" postag_regexp="yes"/>
                     <token regexp="yes" case_sensitive="yes">[cdlmst]es|[nv]os|cette|ce[st]|[ts]a|ton</token>
                     <marker>
                         <token postag="V ppa m sp?" postag_regexp="yes">
                             <exception postag="N.*|V (ind|sub|con).*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:N.*"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.*"/>
                 <message>Un déterminant précède généralement un nom.</message>
                 <example correction="traverse|travers|traversée|traverses">Lors de sa <marker>traversé</marker>.</example>
                 <example correction="lance|lancer|lancée|dance|lances|lande|rance|lange">Il continue sur sa <marker>lancé</marker>.</example>
@@ -55834,11 +55845,18 @@ though, and has since been slightly modified)-->
                     <token postag="A" min="0" max="2"/>
                     <token>rien</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="M nonfin"/>
+                    <token regexp="yes">[nv]ous</token>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="2"/>
+                    <token>rien</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="R pers obj.*" postag_regexp="yes">
                             <exception regexp="yes">[àâaêèéeiîoôòóöŌuœäy].*</exception>
-                            <exception scope="previous" regexp="yes">n|qui</exception></token>
+                            <exception scope="previous" regexp="yes">n|qui|ne|n'|[vn]ous</exception></token>
                     </marker>
                     <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
                         <exception scope="previous" postag="V.*" postag_regexp="yes"/>
@@ -55851,6 +55869,8 @@ though, and has since been slightly modified)-->
                 <suggestion>ne \1</suggestion>
                 <example correction="ne lui">Il <marker>lui</marker> dit rien.</example>
                 <example>T'as encore rien vu.</example>
+                <example>C'est la vie, bordel de merde, vous comprenez rien où vous le faites exprès...</example>
+                <example>Pourquoi ne vous nous avez rien dit au sujet de Tom ?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -55863,7 +55883,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <marker>
                         <token postag="R pers obj.*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|y
-                            <exception scope="previous" regexp="yes">n|qui</exception> </token>
+                            <exception scope="previous" regexp="yes">n|qui|ne|n'</exception> </token>
                     </marker>
                     <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
                         <exception scope="previous" postag="V.*" postag_regexp="yes"/>
