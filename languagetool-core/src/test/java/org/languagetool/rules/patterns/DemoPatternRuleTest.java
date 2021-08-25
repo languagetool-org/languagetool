@@ -70,11 +70,9 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     JLanguageTool lt = new JLanguageTool(language);
 
     pr = makePatternRule("one");
-    matches = pr
-            .match(lt.getAnalyzedSentence("A non-matching sentence."));
+    matches = pr.match(lt.getAnalyzedSentence("A non-matching sentence."));
     assertEquals(0, matches.length);
-    matches = pr.match(lt
-            .getAnalyzedSentence("A matching sentence with one match."));
+    matches = pr.match(lt.getAnalyzedSentence("A matching sentence with one match."));
     assertEquals(1, matches.length);
     assertEquals(25, matches[0].getFromPos());
     assertEquals(28, matches[0].getToPos());
@@ -83,8 +81,8 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals(-1, matches[0].getColumn());
     assertEquals(-1, matches[0].getLine());
     assertEquals("ID1", matches[0].getRule().getId());
-    assertTrue(matches[0].getMessage().equals("user visible message"));
-    assertTrue(matches[0].getShortMessage().equals("short comment"));
+    assertEquals("user visible message", matches[0].getMessage());
+    assertEquals("short comment", matches[0].getShortMessage());
     matches = pr.match(lt
             .getAnalyzedSentence("one one and one: three matches"));
     assertEquals(3, matches.length);
@@ -133,14 +131,12 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   @Test
   public void testFormatMultipleSynthesis() throws Exception {
     String[] suggestions1 = { "blah blah", "foo bar" };
-    assertEquals(
-            "This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
+    assertEquals("This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions1,
                     "This is how you should write: <suggestion>", "</suggestion>."));
 
     String[] suggestions2 = { "test", " " };
-    assertEquals(
-            "This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
+    assertEquals("This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions2,
                     "This is how you should write: <suggestion>", "</suggestion>."));
   }
