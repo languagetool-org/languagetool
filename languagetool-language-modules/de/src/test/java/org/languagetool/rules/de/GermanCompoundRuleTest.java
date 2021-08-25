@@ -38,7 +38,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
   }
   
   private void runTests() throws IOException {
-    
+
     // correct sentences:
     check(0, "Eine tolle CD-ROM");
     check(0, "Eine tolle CD-ROM.");
@@ -74,8 +74,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
 //    check(2, "Hals Wirbel Säule");
     check(1, "Und herum zu knobeln können.", "herumzuknobeln");
     check(1, "Castrop Rauxel", "Castrop-Rauxel");
-    //FIXME: suggestions / longest match
-    //check(1, "Roll on roll off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
+    check(1, "Roll on roll off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "Spin off");
     // no hyphen suggestion for some words:
     check(1, "Das ist Haar sträubend", "Haarsträubend");
@@ -108,8 +107,8 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     // "Aggregat-Zustand?"
     check(0, "Aggregatzustand");
     //check(0, "Aggregat-Zustand");
-    //check(1, "Aggregat-Zustand", "Aggregatzustand");
-    //check(1, "Aggregat Zustand", "Aggregatzustand");
+    check(1, "Aggregat-Zustand", "Aggregatzustand");
+    check(1, "Aggregat Zustand", "Aggregatzustand");
     check(1, "Billard Kugel", "Billardkugel");
   }
   

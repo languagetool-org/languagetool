@@ -98,7 +98,7 @@ public abstract class AbstractCompoundRule extends Rule {
 
     RuleMatch prevRuleMatch = null;
     ArrayDeque<AnalyzedTokenReadings> prevTokens = new ArrayDeque<>(MAX_TERMS);
-    for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
+    for (int i = 0; i < tokens.length + MAX_TERMS; i++) {
       AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length) {

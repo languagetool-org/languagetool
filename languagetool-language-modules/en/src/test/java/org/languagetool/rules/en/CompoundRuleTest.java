@@ -74,11 +74,11 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Night mare", "Nightmare");
     check(1, "semi automatic", "semi-automatic", "semiautomatic");
     check(1, "Semi automatic", "Semi-automatic", "Semiautomatic");
-    //check(1, "Dev-Ops", "DevOps");
-    //check(1, "Dev Ops", "DevOps");
+    check(1, "Dev-Ops", "DevOps");
+    check(1, "Dev Ops", "DevOps");
     check(1, "Night-mare", "Nightmare");
-    //check(1, "Play Station", "PlayStation");
-    //check(1, "Play-Station", "PlayStation");
+    check(1, "Play Station", "PlayStation");
+    check(1, "Play-Station", "PlayStation");
     
   }
  
