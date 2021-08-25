@@ -26771,7 +26771,7 @@ though, and has since been slightly modified)-->
         <rule id="A_LE" name="à le nom">
             <pattern>
                 <marker>
-                    <token>à</token>
+                    <token>à<exception scope="previous" regexp="yes">on|il|elle|ça|cela</exception></token>
                     <token regexp="yes">les?</token>
                 </marker>
                 <token>
@@ -26782,6 +26782,7 @@ though, and has since been slightly modified)-->
             <suggestion>aux</suggestion>
             <example correction="au|aux">Il a gagné <marker>à le</marker> championnat.</example>
             <example>Je n’arrive pas à le déplacer.</example>
+            <example>Quand on lit, on à le temps de s’arrêter.</example>
         </rule>
         <rulegroup id="DU_LE" name="du le">
             <rule>
@@ -36892,7 +36893,8 @@ though, and has since been slightly modified)-->
             <example correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
             <example>L’accident a fait au moins trois morts.</example>
         </rule>
-        <rule id="MISES_A_JOUR" name="mises à jours → mises à jour">
+        <rulegroup id="MISES_A_JOUR" name="mises à jours → mises à jour">
+        <rule>
             <pattern>
                 <token regexp="yes">mises?</token>
                 <token min="0" regexp="yes">[-‑‐]</token>
@@ -36905,6 +36907,19 @@ though, and has since been slightly modified)-->
             <example correction="mises à jour">Je reçois des <marker>mises à jours</marker> régulièrement.</example>
             <example>Je reçois des mises à jour régulièrement.</example>
         </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token inflected="yes">mettre<exception regexp="yes">mises?</exception></token>
+                <token min="0" regexp="yes">[-‑‐]</token>
+                <token regexp="yes">[aà]</token>
+                <token min="0" regexp="yes">[-‑‐]</token>
+                <token>jours</token>
+            </pattern>
+            <message>Cette expression est invariable.</message>
+            <suggestion>\1 à jour</suggestion>
+            <example correction="mis à jour">Il a <marker>mis à jours</marker> son ordinateur.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="TRES" name="très + adjectif/adverbe/participe passé">
             <rule>
                 <pattern>
