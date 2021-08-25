@@ -5197,6 +5197,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <token>
+                        <exception inflected="yes">ne</exception>
                         <exception postag="R pers.*|[NJ].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>s'</token>
@@ -5212,6 +5213,7 @@ though, and has since been slightly modified)-->
                 <example>S'en est-elle allée ?</example>
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
                 <example>Il rassembla ses affaires et s'en fut.</example>
+                <example>Il ne s'en est jamais vraiment remis.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -10324,7 +10326,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(?-i)ma</token>
+                        <token regexp="yes">(?-i)ma<exception scope="previous">tu</exception></token>
                     </marker>
                     <token postag="A" min="0" max="2">
                         <exception>vie</exception></token>
@@ -10338,6 +10340,7 @@ though, and has since been slightly modified)-->
                 <example>C’est ma voiture.</example>
                 <example>C’est ma préférée.</example>
                 <example>Depuis ma plus tendre enfance, j'ai toujours aimé faire du sport.</example>
+                <example>J'ai regardé les plans des écoles que tu ma envoyer.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10374,7 +10377,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="A" min="0" max="2">
                         <exception>vie</exception></token>
-                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"/>
+                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"><exception postag="N f s"/></token>
                 </pattern>
                 <message>Une apostrophe est nécessaire afin de séparer le pronom et le verbe avoir.</message>
                 <suggestion>m'a</suggestion>
@@ -10382,6 +10385,30 @@ though, and has since been slightly modified)-->
                 <example correction="m'a">Il <marker>ma</marker> toujours affirmé qu'il travaillait tard.</example>
                 <example correction="m'a">Et ça <marker>ma</marker> permis de finir mon livre.</example>
                 <example>Ne contredisez point en cela ma théorie.</example>
+                <example>Pourquoi battait-il ma mère si violemment ?</example>
+            </rule>
+             <rule>
+                <antipattern>
+                    <token regexp="yes">(?-i)ma</token>
+                    <token postag="A" min="0" max="2">
+                        <exception>vie</exception></token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                    <token postag="C coor|N.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>tu</token>
+                    <marker>
+                        <token regexp="yes">(?-i)ma</token>
+                    </marker>
+                    <token postag="A" min="0" max="2">
+                        <exception>vie</exception></token>
+                    <token postag="V.* ppa.*|V.* inf" postag_regexp="yes">
+                        <exception postag="[NR].*|V ppa [fe] sp?" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Une apostrophe est nécessaire afin de séparer le pronom et le verbe avoir.</message>
+                <suggestion>m'as</suggestion>
+                <example correction="m'as">Tu <marker>ma</marker> répondu.</example>
+                <example correction="m'as">Tu <marker>ma</marker> toujours affirmé qu'il travaillait tard.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SONT_SON" name="SONT au lieu de SON">
@@ -20087,7 +20114,7 @@ though, and has since been slightly modified)-->
                         <exception scope="next" regexp="yes">il|preuve|gaffe|rhum|plat|face|nom|car|-t-il</exception></token>
                 </pattern>
                 <message>Cette expression peut sembler familière dans un contexte formel, car le sujet semble être manquant.</message>
-                <suggestion>il \1</suggestion>
+                <suggestion>il <match no="1" case_conversion="startlower"/></suggestion>
                 <example correction="il faut">Après tout, <marker>faut</marker> avoir de solides bases dans ce domaine pour réussir.</example>
                 <example>Loin s'en faut.</example>
                 <example>Parcequ'il nous faut revoter pour réélire deux administrateurs.</example>
