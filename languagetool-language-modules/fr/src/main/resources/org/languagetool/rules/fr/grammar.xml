@@ -4704,6 +4704,30 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+		<rulegroup id="TOUS_TOUT" name="tous tout" default="temp_off">
+			<rule>
+                <pattern>
+                    <marker>
+                        <token>tout<exception scope="previous" regexp="yes">en|pour|malgré|le</exception></token>
+                    </marker>
+                    <token postag="K"/>
+                </pattern>
+                <message>Cette expression a pour sens 'tous les \2' donc cet adjectif est au pluriel.</message>
+                <suggestion>tous</suggestion>
+                <example correction="tous">Ils sont <marker>tout</marker> deux assis.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tous</token>
+                    </marker>
+                    <token>cela</token>
+                </pattern>
+                <message>Pour désigner un ensemble ou un tout, cet adjectif est invariable.</message>
+                <suggestion>tout</suggestion>
+                <example correction="Tout"><marker>Tous</marker> cela est très intéréssant.</example>
+            </rule>
+		</rulegroup>
         <rulegroup id="LEDIT" name="le dit/ledit">
             <antipattern>
                 <token regexp="yes">[mts]e|vous|nous|il|elle</token>
