@@ -1433,6 +1433,32 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 	   <disambig action="remove" postag="VNW:OND:EKV:HET"/>
 	</rule>
+	<rule id="WKWTGW1EP_WKWVLT1EP_" name="x">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag_regexp="yes" postag="ENM.*"/>
+				</and>
+			</marker>
+			<token postag="WKW:VLT:1EP"/>
+		</pattern>
+	   <disambig action="remove" postag="WKW:TGW:1EP"/>
+	</rule>
+	<rule id="ENM_CAPS" name="x">
+		<!-- gok op eigennaam als het ook een eigennaam kan zijn en hoofdletter heeft, maar niet aan begin -->
+		<antipattern><token postag="SENT_START"/><token/></antipattern>
+		<pattern>
+			<marker>
+				<and>
+					<token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token>
+					<token negate_pos="yes" postag_regexp="yes" postag="ENM.*"/>
+				</and>
+			</marker>
+		</pattern>
+	   <disambig action="remove" postag="[^E]"/>
+	</rule>
+
 
 
 </rules>

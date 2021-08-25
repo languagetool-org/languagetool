@@ -27340,35 +27340,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">De magistratuur, <marker>mitsgaders</marker> de kommiezen, maar naar huis is gegaan.</example>
 			</rule>
 		</rulegroup>
-		<!-- simpeler opgelost: alle aanvoegende wijs uit de speller gehaald
-		<rulegroup id="AANV_WIJS" name="aanvoegende wijs">
-			<antipattern><token>nota</token><token>bene</token></antipattern>
-			<antipattern><token>van</token><token>nature</token></antipattern>
-			<antipattern><token>ter</token><token>wille</token></antipattern>
-			<antipattern><token>te</token><token>rade</token></antipattern>
-			<antipattern><token>den</token><token>beginne</token></antipattern>
-			<antipattern><token>ter</token><token>plaatse</token></antipattern>
-			<antipattern><token>ter</token><token>plekke</token></antipattern>
-			<antipattern><token>ten</token><token>koste</token><token>van</token></antipattern>
-			<rule>
-				<pattern>
-					<token postag="WKW:AWS"><exception negate_pos="yes" postag="WKW:AWS"/><exception regexp="yes" case_sensitive="yes">welke|[A-Z].*</exception></token>
-				</pattern>
-				<message>Als dit geen typefout is (<suggestion>\1n</suggestion>), dan is een antieke vorm. Herschrijf het dan moderner.</message>
-				<example correction="stokken">Babystoel van <marker>stokke</marker>.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="MOGE" name="moge">
-			<rule>
-				<pattern>
-					<token>moge</token>
-				</pattern>
-				<message>&vlotter_mess; 'mag' of 'kan'.</message>
-				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect"><marker>Moge</marker> het nieuwe jaar voor U gelukkig en voorspoedig zijn.</example>
-			</rule>
-		</rulegroup>
-		-->
+
 		<rulegroup id="MOMENTEEL" name="momenteel" tags="picky">
 			<rule>
 				<pattern>
@@ -33731,6 +33703,16 @@ steenwijk;Steenwijk
 				<message>Bedoelt u <suggestion>nota bene</suggestion> of <suggestion><match no="1"/> benen</suggestion> of nog iets anders?</message>
 				<example correction="nota bene|de benen">Hij knelt tussen <marker>de bene</marker> het verhoogplankje waarop hij het vlechtwerk vervaardigt.</example>
 				<example correction="nota bene|de benen">Hij ontzet en geeft de bal zuiver af, zelfs als dit door <marker>de bene</marker> van de tegenspeler heen moet gebeuren.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NOGAL_WIEDES" name="nota bene">
+			<rule>
+				<pattern>
+					<token negate="yes">nogal</token>
+					<token case_sensitive="yes">wiedes</token>
+				</pattern>
+				<message>Bedoelt u <suggestion>nogal wiedes</suggestion>?</message>
+				<example correction="nogal wiedes">Het is <marker>niet wiedes</marker> dat het fout is.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DEN_LIJVE" name="aan den lijve">
@@ -41678,6 +41660,22 @@ steenwijk;Steenwijk
 				<example correction="maakte|maakten">Gisteren <marker>maak</marker> ik het weer.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="DAT_IK_HOUD_NIET_VAN" name="verkeerde woordvolgorde" default="temp_off">
+			<rule>
+				<pattern>
+					<token>dat</token>
+					<marker>
+						<token>ik</token>
+						<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"/>
+						<token postag="BYW"/>
+					</marker>
+					<token postag="VRZ"/>
+				</pattern>
+				<message>De woordvolgorde lijkt hier niet goed.</message>
+				<suggestion>\2 \4 \3</suggestion>
+				<example correction="ik niet houd">Het klopt dat <marker>ik houd niet</marker> van piepers.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZIEKTE_IN_MENSEN" name="Anglicisme" >
 			<rule>
 				<pattern>
@@ -41888,4 +41886,19 @@ steenwijk;Steenwijk
 			<example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
 		</rule>
 	</category>
+	<!--
+	<category id="VANG" name="vangen">
+		<rule id="VANG_BEZ" name="meervoud/bezittelijk" >
+			<pattern>
+				<marker>
+					<token regexp="yes" postag="ZNW:MRV:DE_">.*s</token>
+				</marker>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			</pattern>
+			<message>x.</message>
+			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
+			<example type="incorrect">Het is <marker>oma's</marker> auto.</example>
+		</rule>
+	</category>
+	-->
 </rules>
