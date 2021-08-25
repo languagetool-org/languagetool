@@ -55,7 +55,6 @@ public class NERService {
   private static final Duration waitDurationOpen = Duration.ofSeconds(60);
 
   private static final CircuitBreaker circuitBreaker;
-
   static {
     CircuitBreakerConfig config = CircuitBreakerConfig.custom()
       .slowCallDurationThreshold(slowDurationThreshold)
@@ -63,10 +62,8 @@ public class NERService {
       .failureRateThreshold(failureRateThreshold)
       .waitDurationInOpenState(waitDurationOpen)
       .build();
-
     circuitBreaker = CircuitBreakers.registry().circuitBreaker(NERService.class.getName(), config);
   }
-
 
   private final String urlStr;
 
@@ -80,7 +77,7 @@ public class NERService {
     try {
       result = circuitBreaker.executeCallable(() -> postTo(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>()));
     } catch (Exception e) {
-      logger.warn("Failed to run NER", e);
+      logger.warn("Failed to run NER, will continue with no named entities", e);
       return Collections.emptyList();
     }
     return parseBuffer(result);

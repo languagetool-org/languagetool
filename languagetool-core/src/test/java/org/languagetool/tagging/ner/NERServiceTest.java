@@ -17,6 +17,10 @@ public class NERServiceTest {
     NERService pipe = new NERService("http://localhost:4567/ner/en");
     List<NERService.Span> res = pipe.runNER("This is a test with Peter Appleford.");
     System.out.println(res);
+    /*for (int i = 0; i < 10; i++) {
+      List<NERService.Span> res = pipe.runNER("This is a test with Peter Appleford.");
+      System.out.println(res);
+    }*/
   }
 
   @Test
