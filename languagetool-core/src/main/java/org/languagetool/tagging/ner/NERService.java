@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.ner;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -42,7 +43,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class NERService {
 
   private static final Logger logger = LoggerFactory.getLogger(NERService.class);
-  private static final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+  private static final ExecutorService executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-ner-thread-%d").build());
   private static final int TIMEOUT_MILLIS = 500;
 
   private final String urlStr;
