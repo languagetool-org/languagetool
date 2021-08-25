@@ -30091,6 +30091,27 @@ though, and has since been slightly modified)-->
                 <example correction="fonctionne|fonctionna">Cela lui <marker>fonction</marker> très bien.</example>
                 <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça nous <marker>côte</marker> plutôt cher.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">tous|toutes
+                        <exception scope="previous" postag="V (avoir|etre).*" postag_regexp="yes"/>
+                        <exception scope="previous">à</exception></token>
+                    <token min="0" max="1">les</token>
+                    <token postag="R [fm] p" postag_regexp="yes"/>
+                        <marker>
+                            <token postag="V.*[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.*
+                                <exception regexp="yes">fait|dit</exception>
+                                <exception postag="V .* 3 p|V ppa .*|V.* ppr|N.*" postag_regexp="yes"/>
+                            </token>
+                        </marker>
+                </pattern>
+                <message>Après ce groupe nominal pluriel, le verbe doit être au pluriel.</message>
+                <suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+                <example correction="considèrent">Toutes deux <marker>considère</marker> l'histoire close.</example>
+                <example>Le voleur et la voleuse, à tous deux coupez la main.</example>
+                <example>Ils sont tous deux fait de béton renforcé par de l'acier.</example>
+                <example>Il le dit après que Kay et Royce aient toutes deux subit une augmentation mammaire.</example>
+			</rule>
         </rulegroup>
         <rulegroup id="NE_IMP_PAS" name="Ne + impératif + pas">
             <rule>
