@@ -19,20 +19,23 @@
 package org.languagetool.tagging.ner;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.tools.CircuitBreakers;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.util.*;
 import java.util.concurrent.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -46,6 +49,25 @@ public class NERService {
   private static final ExecutorService executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-ner-thread-%d").build());
   private static final int TIMEOUT_MILLIS = 500;
 
+  private static final Duration slowDurationThreshold = Duration.ofMillis(400);
+  private static final int slowRateThreshold = 80;
+  private static final int failureRateThreshold = 50;
+  private static final Duration waitDurationOpen = Duration.ofSeconds(60);
+
+  private static final CircuitBreaker circuitBreaker;
+
+  static {
+    CircuitBreakerConfig config = CircuitBreakerConfig.custom()
+      .slowCallDurationThreshold(slowDurationThreshold)
+      .slowCallRateThreshold(slowRateThreshold)
+      .failureRateThreshold(failureRateThreshold)
+      .waitDurationInOpenState(waitDurationOpen)
+      .build();
+
+    circuitBreaker = CircuitBreakers.registry().circuitBreaker(NERService.class.getName(), config);
+  }
+
+
   private final String urlStr;
 
   public NERService(String urlStr) {
@@ -54,7 +76,13 @@ public class NERService {
 
   public List<Span> runNER(String text) throws IOException {
     String joined = text.replace("\n", " ");
-    String result = postTo(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>());
+    String result;
+    try {
+      result = circuitBreaker.executeCallable(() -> postTo(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>()));
+    } catch (Exception e) {
+      logger.warn("Failed to run NER", e);
+      return Collections.emptyList();
+    }
     return parseBuffer(result);
   }
 
