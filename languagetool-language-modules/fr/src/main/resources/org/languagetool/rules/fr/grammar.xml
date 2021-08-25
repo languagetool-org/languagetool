@@ -32941,6 +32941,36 @@ though, and has since been slightly modified)-->
             <example>De quels sites parles -tu?</example>
             <example>Centre de Astrofísica et Technologies Accordes.</example>
         </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token postag="N . p" postag_regexp="yes"/>
+                <token postag="V ind pres 2 s" regexp="yes">.*es</token>
+                <token>-</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="N . p" postag_regexp="yes"/>
+                <token postag="V ind pres 2 s" regexp="yes">.*es</token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token postag="[ANJDP].*" postag_regexp="yes" min="0" max="6"/>
+                <token postag="C coor" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V ind pres 2 s" regexp="yes">(?-i)[a-z].*es
+                        <exception postag="[JN].*" postag_regexp="yes"/>
+                        <exception regexp="yes">muches|entres|patoises|magasines|sources|trévires|patches</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Le verbe devrait être au participe passé.</message>
+            <suggestion><match no="4" regexp_match="(?iu)es" regexp_replace="és"/></suggestion>
+            <example correction="identifiés">Les sites abrités du vent et <marker>identifies</marker> sont importants.</example>
+            <example>Départements et principales commues traversées.</example>
+            <example>De quels sites parles -tu?</example>
+            <example>Centre de Astrofísica et Technologies Accordes.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
