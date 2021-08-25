@@ -21430,6 +21430,133 @@ though, and has since been slightly modified)-->
                 <example>Les Deaflympics d'été de 1989 a 13 disciplines dont 9 individuelles et 4 en équipe.</example>
                 <example>La plus grosse a 6 m de haut.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+                <token postag="A" postag_regexp="yes" min="0" max="1"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>proprement</token>
+                <token>dit</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DP.*" postag_regexp="yes"/>
+                <token postag="[JN].*" postag_regexp="yes" min="0" max="2"/>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token postag="[JN].*" postag_regexp="yes"/>
+                <token>-</token>
+                <token postag="[JN].*" postag_regexp="yes"/>
+                <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token postag="[JN].*" postag_regexp="yes"/>
+                <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                <token postag="C coor"/>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token regexp="yes">[a-z]</token>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token regexp="yes">[a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <token regexp="yes">plus|moins</token>
+                <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tu|point</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Z.*" postag_regexp="yes"/>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="Z.*" postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START|C.*" postag_regexp="yes"/>
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <token>a</token>
+                <token postag="Y"/>
+                <token regexp="yes">jours?|ans?|mois</token>
+            </antipattern>
+            <pattern raw_pos="yes">
+                <and>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </and>
+                <marker>
+                    <token case_sensitive="yes">a<exception scope="next" postag="V.* ppa.*|UNKOWN|M fin.*|M nonfin" postag_regexp="yes"/>
+                        <exception scope="next" regexp="yes">lui-même|elle-même|contrario|fortiori|posteriori|priori|minima|cappella|-t-elle|-t-il|-t-on</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue après '\1'.</message>
+            <suggestion>à</suggestion>
+            <example correction="à">J’ai reçu des offres pour des produits étrangers, mais pas soumis <marker>a</marker> la vente.</example>
+            <example>Il a écrit un livre.</example>
+            <example>Le retable proprement dit a exactement la même largeur, et atteint de hauteur.</example>
+            <example>Célestin Lainé a lui-même fabriqué, puis placé la bombe.</example>
+            <example>Le Petit-duc maculé a tendance à fréquenter les zones proches de son nid.</example>
+            <example>La culture du maïs en milieu tempéré a également induit une sélection.</example>
+            <example>Clavé a 14 ans et travaille comme tourneur.</example>
+            <example>Pelé a lui-même accepté la comparaison.</example>
+            <example>La musique vocale non-accompagnée d'instruments est appelée a cappella.</example>
+            <example>Après quelques mois, Désirée a repris le cours de sa vie.</example>
+            <example>Le plus connu a pour nom variance.</example>
+            <example>L'édition revue et corrigée a un certificat 15.</example>
+            <example>Construisons pour ce faire un algorithme prenant comme entrées a et i et vérifions le résultat.</example>
+            <example>Sa sœur a remis une lettre à la duchesse de M. de Dillon qu’Honoré a reçu.</example>
+            <example>La récession qui en a résulté a ensuite touché les pays très étroitement liés économiquement avec les États-Unis.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
             <antipattern>
