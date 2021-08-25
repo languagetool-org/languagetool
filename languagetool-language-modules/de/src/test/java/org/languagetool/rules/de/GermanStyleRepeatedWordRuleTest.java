@@ -48,6 +48,9 @@ public class GermanStyleRepeatedWordRuleTest {
     assertEquals(0, lt.check("Er lehnte seinen Wanderstab gegen die Wand.").size());
     assertEquals(0, lt.check("Zweifel lagen in der Luft, ob es richtig war, diesen Weg einzuschlagen.").size());
     assertEquals(0, lt.check("Der Donnerhall verklang nur langsam in meinen Ohren. Das war mir in all den Jahren meines Lebens noch nicht passiert.").size());
+    assertEquals(3, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
+    assertEquals(2, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
+    assertEquals(2, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
   }
 
   private void setUpRule(JLanguageTool lt) {

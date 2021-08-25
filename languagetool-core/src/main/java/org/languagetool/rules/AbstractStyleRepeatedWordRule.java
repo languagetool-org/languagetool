@@ -31,10 +31,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
 
 /**
  * An abstract rule checks the appearance of same words in a sentence or in two consecutive sentences.
@@ -47,8 +43,8 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private static final int MAX_TOKEN_TO_CHECK = 5;
   
-  private final LinguServices linguServices;
-  private final Language lang;
+  protected final LinguServices linguServices;
+  protected final Language lang;
   
   protected int maxDistanceOfSentences = 1;
 
