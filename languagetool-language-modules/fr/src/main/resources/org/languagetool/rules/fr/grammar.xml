@@ -3902,6 +3902,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>J'applique les règles même si je ne suis pas d'accord avec toutes.</example>
             <example>Ces raisons semblent sur le coup tout à fait sensées à Harry.</example>
         </rule>
+        <rulegroup id="TOUS_LES_DEUX_VPPA" name="tous les deux v ppa" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">être|avoir</token>
+                <token postag="R pers suj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="A" min="0" max="3"/>
+                <token regexp="yes">tous|toutes</token>
+                <token>les</token>
+                <token postag="R [mf] p"  postag_regexp="yes"/>
+                <token postag="V ppa . s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">faire</token>
+                <token postag="R pers suj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="A" min="0" max="3"/>
+                <token regexp="yes">tous|toutes</token>
+                <token>les</token>
+                <token postag="R [mf] p"  postag_regexp="yes"/>
+                <token>partie</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*"  postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="A" min="0" max="3"/>
+                <token regexp="yes">tous|toutes</token>
+                <token>les</token>
+                <token postag="R [mf] p"  postag_regexp="yes"/>
+                <token postag="N.*"  postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+            <pattern>
+                <token>toutes</token>
+                <token>les</token>
+                <token postag="R [mf] p"  postag_regexp="yes"/>
+                <marker>
+                    <token postag="V ppa . s" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Vérifiez la concordance de '\4' avec le groupe nominal précédent.</message>
+            <suggestion>\4es</suggestion>
+            <example correction="arrivées">Toutes les deux <marker>arrivé</marker> tôt ont réussi à avoir le bus.</example>
+            <example>Ils faisaient tous les deux partie de la communauté créole de la ville.</example>
+            <example>Gkml et DonCamillo ont en outre tous les deux cherché à imposer une version.</example>
+            <example>N’ont-ils pas tous les deux démarré leur carrière comme peintre sur porcelaine ?</example>
+            <example>Les syndicats UNSA Police et Alternative Police CFDT déposent tous les deux plainte.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>tous</token>
+                <token>les</token>
+                <token postag="R [mf] p"  postag_regexp="yes"/>
+                <marker>
+                    <token postag="V ppa . s" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Vérifiez la concordance de '\4' avec le groupe nominal précédent.</message>
+            <suggestion>\4s</suggestion>
+            <example correction="arrivés">Tous les deux <marker>arrivé</marker> rapidement ont réussi à rentrer dans magasin.</example>
+            <example>Ils faisaient tous les deux partie de la communauté créole de la ville.</example>
+            <example>Gkml et DonCamillo ont en outre tous les deux cherché à imposer une version.</example>
+            <example>N’ont-ils pas tous les deux démarré leur carrière comme peintre sur porcelaine ?</example>
+            <example>Les syndicats UNSA Police et Alternative Police CFDT déposent tous les deux plainte.</example>
+        </rule>
+        </rulegroup>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style">
         <!--The following rules were created by Hugo Voisard
