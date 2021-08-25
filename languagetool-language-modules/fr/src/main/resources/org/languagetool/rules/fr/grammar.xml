@@ -34544,13 +34544,13 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token>ce</token>
-                    <token postag="N m sp?" postag_regexp="yes"/>
+                    <token postag="[JN] m sp?|V ppa m s" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="V etre.*3 s" postag_regexp="yes"/>
+                        <token postag="V etre.*3 s" postag_regexp="yes"><exception>soit</exception></token>
                         <token min="0">-</token>
-                        <token skip="-1">ce</token>    
+                        <token skip="-1">ce<exception scope="next" regexp="yes">[\(\);]</exception></token>    
                     </marker>
                     <token>?</token>
                 </pattern>
@@ -34572,6 +34572,8 @@ though, and has since been slightly modified)-->
                 <example>Quel est ce type de voiture ?</example>
                 <example>Qu'est ce bruit ?</example>
                 <example>À quel propos est ce tohu-bohu ?</example>
+                <example>Comment est ce nouveau travail ?</example>
+                <example>Prévoir ce qui va se passer avec le plus de précision possible est ce qui différencie un bon d'un mauvais économiste (vous êtes bien économiste non ?).</example>
             </rule>
         </rulegroup>
         <!-- Commented out due to non-consensus on the issue.
