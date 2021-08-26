@@ -4807,15 +4807,30 @@ though, and has since been slightly modified)-->
                 <example correction="tous">Ils sont <marker>tout</marker> deux assis.</example>
             </rule>
             <rule>
+				<antipattern>
+					<token postag="V.*" postag_regexp="yes"/>
+					<token postag="A" min="0" max="3"/>
+                    <token>tous</token>
+                    <token regexp="yes">ça|cela</token>
+				</antipattern>
+				<antipattern>
+					<token postag="P"/>
+                    <token>tous</token>
+                    <token regexp="yes">ça|cela</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+				</antipattern>
                 <pattern>
                     <marker>
                         <token>tous</token>
                     </marker>
-                    <token>cela</token>
+                    <token regexp="yes">ça|cela</token>
                 </pattern>
                 <message>Pour désigner un ensemble ou un tout, cet adjectif est invariable.</message>
                 <suggestion>tout</suggestion>
-                <example correction="Tout"><marker>Tous</marker> cela est très intéréssant.</example>
+                <example correction="Tout"><marker>Tous</marker> ça est très intéréssant.</example>
+                <example>Ils font tous ça.</example>
+                <example>Si on s'y met tous ça fonctionnera.</example>
             </rule>
 		</rulegroup>
         <rulegroup id="LEDIT" name="le dit/ledit">
