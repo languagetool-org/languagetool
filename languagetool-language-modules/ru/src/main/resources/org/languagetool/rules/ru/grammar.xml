@@ -9481,7 +9481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
+        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -10874,7 +10874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Рассматривались трёхслойные частицы из заранее выбранных материалов при рассмотрении</marker> поглощения света наночастицами.</example>
             </rule>
         </rulegroup>
-        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="off"  tags="picky">
+        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="on"  tags="picky">
             <antipattern>
                 <token regexp="yes" skip="-1">«|что</token>
                 <token>же</token>
@@ -10963,7 +10963,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Загруженность местоимениями</short>
             <example type="incorrect"><marker>Он её не любил, она его не любила, они многое</marker> знали.</example>
         </rule>
-        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off"  tags="picky">
+        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="on"  tags="picky">
             <rule> 
                 <pattern>
                     <token>по</token>                  
@@ -10989,7 +10989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" могу">Я<marker>, возможно ошибаясь, могу</marker> предложить способ решения.</example>
             </rule>
         </rulegroup> 
-        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off"  tags="picky">
+        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="on"  tags="picky">
             <rule> 
                 <pattern>
                     <token>,</token>
@@ -11003,7 +11003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" свое">Каждый напиток имеет<marker>, так сказать, свое</marker> значение.</example>
             </rule>
         </rulegroup>                         
-        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="off"  tags="picky">
+        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="on"  tags="picky">
             <rule> 
                 <pattern>
                     <token>как<exception scope="previous" regexp="yes">,|и|то</exception></token>                  
@@ -11849,7 +11849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>      
         </rule>
         
-        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST"  tags="picky">
+        <rulegroup default="on" name="Благозвучность" id="BLAGOZVUCHNOST"  tags="picky">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*([йцкнгшщзхфвпрлджчсмтб]{2,2})</token>
@@ -12110,7 +12110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Строчная буква</short>
             <example correction=", слушай">Привет, мамочка<marker>, Слушай</marker> меня</example>
         </rule>
-        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ"  tags="picky">
+        <rulegroup default="on" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ"  tags="picky">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
