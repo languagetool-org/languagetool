@@ -5624,7 +5624,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes">freuen</token>
                     <token regexp="yes">uns|mich</token>
-                    <token>auf</token>
+                    <token regexp="yes">(dar)?auf</token>
                     <marker>
                         <token>sich</token>
                     </marker>
@@ -5662,10 +5662,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>dich</token>
                     </marker>
                     <token>beruhen</token>
+                    <token postag="ZUS" min="0" />
                     <token>lassen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>sich</suggestion>?</message>
                 <example correction="sich">Wir sollten es auf <marker>dich</marker> beruhen lassen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="EIG:.*|PRO:PER:NOM:SIN:(FEM|MAS)" postag_regexp="yes" />
+                    <token>freut</token>
+                    <marker>
+                        <token skip="3">dich</token>
+                    </marker>
+                    <token regexp="yes">(dar)?auf</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>sich</suggestion>?</message>
+                <example correction="sich">Christopher freut <marker>dich</marker> schon darauf.</example>
+                <example correction="sich">Er freut <marker>dich</marker> schon darauf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WIDER_WIEDER" name="wider vs wieder">
@@ -22108,21 +22122,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="GEBRAUCH_MACHEN" name="gebrauch (Gebrauch) machen" default="temp_off">
+            <pattern>
+                <token regexp="yes" skip="-1">(da)?von</token>
+                <marker>
+                    <token case_sensitive="yes">gebrauch</token>
+                </marker>
+                <token postag="ZUS" min="0" />
+                <token inflected="yes">machen</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Gebrauch</suggestion> wird großgeschrieben.</message>
+            <example correction="Gebrauch">Er hat von seinem Recht <marker>gebrauch</marker> gemacht</example>
+        </rule>
         <rule id="DA" name="DA (Da)">
             <antipattern>
                 <!-- all-uppercase -->
                 <token case_sensitive="yes">DA</token>
                 <token case_sensitive="yes" regexp="yes">[A-ZÖÄÜ]+</token>
             </antipattern>
+            <antipattern>
+                <token>DA</token>
+                <token regexp="yes">Direkts?</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
-                <token case_sensitive="yes">DA</token>
+                <marker>
+                    <token case_sensitive="yes">DA</token>
+                </marker>
             </pattern>
             <message>Meinten Sie <suggestion>Da</suggestion>?</message>
             <example correction="Da"><marker>DA</marker> läuft es nicht run.</example>
             <example><marker>DA</marker> KÖNNTE JA JEDER KOMMEN!</example>
         </rule>
-        <rule id="EXTRA" name="Extra als Adverb" default="temp_off">
+        <rule id="EXTRA" name="Extra als Adverb">
             <antipattern>
                 <token postag=".*(NOM|DAT|AKK|GEN):SIN:NEU.*|UNKNOWN" postag_regexp="yes" regexp="yes">
                     .*[a-z].*
@@ -22152,6 +22184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>weite</token>
                 </marker>
+                <token postag="ZUS" min="0" />
                 <token inflected="yes">suchen</token>
             </pattern>
             <message>In dieser Wendung wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> in der Regel großgeschrieben.</message>
@@ -22229,7 +22262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="2">von</token>
                     <token regexp="yes">((un)?gekannt|(un)?vorstellbar|alarmierend|apokalyptisch|beängstigend|bedrohlich|beträchtlich|biblisch|dramatisch|epidemisch|erschreckend|gewaltig|gigantisch|katastrophal|unbekannt|ungeahnt|ungeheur)en</token>
                     <marker>
-                        <token case_sensitive="yes">ausmaßen</token>
+                        <token case_sensitive="yes" regexp="yes">ausma(ß|ss)en</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -42354,14 +42387,16 @@ Andere Projekte</example>
         <rule id="IN_DER_PLU" name="in der + Plural-Nomen + sein">
             <pattern>
                 <token>in</token>
-                <token>der</token>
                 <marker>
+                    <token>der</token>
                     <token postag_regexp="yes" postag="SUB:.+:PLU:.+"><exception postag_regexp="yes" postag="SUB:.+:SIN:.+"/></token>
                 </marker>
                 <token inflected="yes">sein</token>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="3" postag_regexp="yes" postag="SUB:(.+):PLU:(.+)" postag_replace="SUB:$1:SIN:$2" /></suggestion>?</message>
-            <example correction="Zeit">In der <marker>Zeiten</marker> sind 112,5 Liter pro Quadratmeter gemessen worden.</example>
+            <message>Hier scheint die Form des Nomens oder des Artikels nicht korrekt zu sein.</message>
+            <suggestion>den \3</suggestion>
+            <suggestion suppress_misspelled="yes">\2 <match no="3" postag_regexp="yes" postag="SUB:(.+):PLU:(.+)" postag_replace="SUB:$1:SIN:$2" /></suggestion>
+            <example correction="den Zeiten|der Zeit">In <marker>der Zeiten</marker> sind 112,5 Liter pro Quadratmeter gemessen worden.</example>
             <example>In der Schmiede war es angenehm warm.</example>
         </rule>
         <rulegroup id="ALS_SOLCHES" name="'dem Haus als solches (solchem)' etc.">
