@@ -145,15 +145,19 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           int i = 0;
           int nonZeroReplacements = 0;
           int lookupFailures = 0;
-          for (String repl : match.getSuggestedReplacements()) {
-            List<String> replList = Arrays.asList(repl.split(" "));
+          int translations = 0;
+          for (SuggestedReplacement repl : match.getSuggestedReplacementObjects()) {
+            if (repl.getType() == SuggestedReplacement.SuggestionType.Translation) {
+              translations++;
+            }
+            List<String> replList = Arrays.asList(repl.getReplacement().split(" "));
             if (replList.size() <= 3) {  // hard-coding 3grams is not good, but a base LM doesn't know about ngrams...
               long replCount = lm.getCount(replList);
               if (replCount > 0) {
                 nonZeroReplacements++;
               }
               if (replCount > mostCommonReplCount) {
-                mostCommonRepl = repl;
+                mostCommonRepl = repl.getReplacement();
                 mostCommonReplCount = replCount;
               }
               infos.add(repl + "/" + replCount);
@@ -165,10 +169,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
             }
           }
           //System.out.println("mostCommonRepl: "+  mostCommonRepl);
-          if (nonZeroReplacements == 0 && lookupFailures == 0) {  // e.g. "Fastow", which only offers "Fa stow" and "Fast ow"
+          if (translations == 0 && nonZeroReplacements == 0 && lookupFailures == 0) {  // e.g. "Fastow", which only offers "Fa stow" and "Fast ow"
             //System.out.println("Would skip, as no replacement was found with > 0 occurrences: " + covered + " " + match.getSuggestedReplacements());
             toFilter.add(match);
-          } else if (mostCommonRepl != null) {
+          } else if (translations == 0 && mostCommonRepl != null) {
             Integer dist = new LevenshteinDistance().apply(mostCommonRepl, covered);
             String msg = "Could skip: " + mostCommonRepl + " FOR " + covered + ", dist: " + dist;
             if (dist <= 2) {
