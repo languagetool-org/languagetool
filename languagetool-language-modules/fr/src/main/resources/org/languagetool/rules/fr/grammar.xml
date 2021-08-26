@@ -9105,6 +9105,69 @@ though, and has since been slightly modified)-->
                     <token postag="[DNZJ].*|V ppa.*|P.*" postag_regexp="yes" min="1" max="4"/>
                     <token>a</token>
                 </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">que|où</token>
+                    <token postag="R pers.*|[DJN].*" postag_regexp="yes" min="1" max="3"/>
+                    <token postag="V (avoir|etre) .*" postag_regexp="yes"/>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[JN].*" postag_regexp="yes"/>
+                    <token regexp="yes">que|où</token>
+                    <token postag="R pers.*|[DJN].*" postag_regexp="yes" min="1" max="3"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token>qui</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes" skip="1"/>
+                    <token>a</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V (avoir|etre) .*" postag_regexp="yes"/>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token>est</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="V.* (ind|sub|con).*" postag_regexp="yes" skip="1"/>
+                    <token>a</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"/>
+                    <token>a</token>
+                    <token postag="UNKNOWN"/>
+                </antipattern>
+                <antipattern>
+                    <token>have</token>
+                    <token>a</token>
+                    <token postag="UNKNOWN"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|C coor" postag_regexp="yes"/>
+                    <token regexp="yes">celui|celle|ceux</token>
+                    <token skip="-1">qui</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|C coor" postag_regexp="yes"/>
+                    <token>qui</token>
+                    <token inflected="yes">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1"><exception regexp="yes">quand|comment</exception></token>
                     <token postag="V.*" postag_regexp="yes">
@@ -9116,7 +9179,7 @@ though, and has since been slightly modified)-->
                     <token postag="[DN].*" postag_regexp="yes" min="0" max="2"/>
                     <marker>
                         <token case_sensitive="yes">a
-                            <exception scope="previous" regexp="yes">les|for|about|feeling|un|(?-i)Office</exception></token>
+                            <exception scope="previous" regexp="yes">les|for|about|feeling|un|(?-i)Office|ont</exception></token>
                     </marker>
                     <token>
                         <exception regexp="yes">(-t)?elle|(-t)?-il|(-t)?-on|lieu|les|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception></token>
@@ -9125,6 +9188,17 @@ though, and has since been slightly modified)-->
                 <example correction="à">Il rattachent Simon <marker>a</marker> son père.</example>
                 <example correction="à">Je participe très rarement <marker>a</marker> des concours.</example>
                 <example correction="à">J'ai découvert que la case verte est <marker>a</marker> un endroit qui n’existe pas dans mon école.</example>
+                <example>Celui qui a semé a récolté.</example>
+                <example>They could have told us or have a sign there.</example>
+                <example>Celui qui ne perd pas sa place a de la constance.</example>
+                <example>Qui n'aime point les vers a l'esprit sec et lourd.</example>
+                <example>Le nombre d'étudiants qui vont Outre-mer a augmenté.</example>
+                <example>L'endroit où l'on se trouve a un intérêt particulier.</example>
+                <example>C'est ce qui restera dans les annales ou l’ont a vue différent pilotes monter.</example>
+                <example>Il est marié est a trois enfants.</example>
+                <example>La voiture que je vous ai louée a un problème.</example>
+                <example>L'horloge que tu m'as donnée a un comportement étrange.</example>
+                <example>Celui qui ne combat pas a déjà perdu.</example>
                 <example>Je ne sais pas quand le mari a appelé.</example>
                 <example>Personne ne sait comment l'incendie a commencé.</example>
                 <example>Terra Naomi a deux frères.</example>
