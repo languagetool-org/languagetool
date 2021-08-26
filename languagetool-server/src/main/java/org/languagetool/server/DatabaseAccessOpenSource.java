@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 class DatabaseAccessOpenSource extends DatabaseAccess {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseAccessOpenSource.class);
+  private static final String NON_PREMIUM_MSG = "This server does not support username/password";
 
   private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
     .expireAfterAccess(1, TimeUnit.HOURS)
@@ -95,7 +96,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   Cache<String, List<String>> getCache(Long userId, Long cacheSize) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   @Override
@@ -141,17 +142,17 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   UserInfoEntry getUserInfoWithPassword(String username, String password) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   @Override
   ExtendedUserInfo getExtendedUserInfo(String user) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   @Override
   ExtendedUserInfo getExtendedUserInfo(long userId) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   @Override
@@ -163,12 +164,12 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   UserInfoEntry getUserInfoWithAddonToken(String username, String apiKey) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   @Override
   void invalidateUserInfoCache(String user) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   @Override
@@ -339,7 +340,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   Long getOrCreateDictGroup(Long userId, String groupName) {
-    throw new NotImplementedException();
+    throw new NotImplementedException(NON_PREMIUM_MSG);
   }
 
   private void validateWord(String word) {
