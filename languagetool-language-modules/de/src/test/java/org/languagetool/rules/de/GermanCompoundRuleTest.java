@@ -44,7 +44,6 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Eine tolle CD-ROM.");
     check(0, "Ein toller CD-ROM-Test.");
     check(0, "Systemadministrator");
-    check(0, "System-Administrator");
     check(0, "Eine Million Dollar");
     check(0, "Das System des Administrators");
     check(0, "Nur im Stand-by-Betrieb");
@@ -54,7 +53,8 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Castrop-Rauxel");
     check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
     // incorrect sentences:
-    check(1, "System Administrator", new String[]{"System-Administrator", "Systemadministrator"});
+    check(1, "System Administrator", new String[]{"Systemadministrator"});
+    check(1, "System-Administrator");
     check(1, "bla bla bla bla bla System Administrator bla bla bla bla bla");
     check(1, "System Administrator blubb");
     check(1, "Der System Administrator");
