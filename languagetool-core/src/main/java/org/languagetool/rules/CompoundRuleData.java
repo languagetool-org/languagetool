@@ -78,6 +78,7 @@ public class CompoundRuleData {
       if (line.isEmpty() || line.startsWith("#")) {
         continue;     // ignore comments
       }
+      line = line.replaceFirst("#.*$", "").trim();
       List<String> expandedLines = new ArrayList<>();
       if (expander != null) {
         expandedLines = expander.expandLine(line);
