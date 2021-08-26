@@ -12261,6 +12261,7 @@ onwaarschijnlijk
 		<rulegroup id="VREEMD_VRZ_HIJ" name="Vreemd voorzetsel">
 			<rule>
 				<antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
+				<antipattern><token>Wat</token><token>er</token><token>ook</token><token>van</token><token>zij</token></antipattern>
 				<pattern>
 					<token postag="VRZ"><exception regexp="yes">behalve|tot|naar|voor|sinds|vóór|gezien</exception></token>
 					<token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
@@ -19007,7 +19008,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token><exception postag="SENT_START"/></token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte</exception></token>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte|eenendertig</exception></token>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM.*"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
 					</marker>
 				</pattern>
@@ -41517,7 +41518,7 @@ steenwijk;Steenwijk
 					<token>van</token>
 					<token>de</token>
 					<marker>
-						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV.*"/></token>
+						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV.*|.*VRB"/></token>
 					</marker>
 				</pattern>
 				<message>'Een van de' duidt meestal op een meervoud.</message>
@@ -41664,7 +41665,7 @@ steenwijk;Steenwijk
 					<token>dat</token>
 					<marker>
 						<token>ik</token>
-						<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"/>
+						<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"><exception postag="BYW"/></token>
 						<token postag="BYW"/>
 					</marker>
 					<token postag="VRZ"/>
