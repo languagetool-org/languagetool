@@ -21993,6 +21993,73 @@ though, and has since been slightly modified)-->
             <example>Sa sœur a remis une lettre à la duchesse de M. de Dillon qu’Honoré a reçu.</example>
             <example>La récession qui en a résulté a ensuite touché les pays très étroitement liés économiquement avec les États-Unis.</example>
         </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token postag="V inf" regexp="yes">(?-i)[A-Z].*</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V inf"/>
+                <token>a</token>
+                <token postag="C coor|P|M nonfin" postag_regexp="yes"/>
+                <token regexp="yes">[a-z]|conséquences?|but</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V inf"/>
+                <token>a</token>
+                <token>le</token>
+                <token regexp="yes">droit|devoir</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V inf"/>
+                <token>a</token>
+                <token regexp="yes">lieu|tendance|juridiction</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V inf"/>
+                <token>a</token>
+                <token postag="M nonfin" min="0" max="3"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="M nonfin" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="D.*|R dem.*" postag_regexp="yes"/>
+                <token postag="V inf"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">terme|verbe|mot</token>
+                <token postag="V inf"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="V inf"/>
+                <token skip="-1">a</token>
+            <token skip="-1"><exception postag="V.*" postag_regexp="yes"/></token>
+            <token postag="SENT_END"/>
+        </antipattern>
+        <pattern>
+            <token postag="V inf"><exception postag="[NZJ].*" postag_regexp="yes"/></token>
+            <marker>
+                <token case_sensitive="yes">a
+                    <exception scope="next" regexp="yes">lui-même|elle-même|contrario|fortiori|posteriori|priori|minima|cap?pella|-t-elle|-t-il|-t-on</exception>
+                    <exception scope="next" postag="V.* ppa.*|M fin|M nonfin|UNKNOWN" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue après un verbe à l'infinitif.</message>
+        <example correction="à">Il faut m'intéresser <marker>a</marker> la poterie.</example>
+        <example>L'avenir a commencé.</example>
+        <example>Je ne sais pas ce que ce user a à me wikitraquer et à m'agresser ainsi.</example>
+        <example>Une journée sans écrire a toujours été pour moi une journée qui n'a pas existé.</example>
+        <example>Badger a écrit:</example>
+        <example>Tout électeur ayant le droit de voter a le droit de contester les résultats électoraux.</example>
+        <example>Le verbe verrouiller a plusieurs sens.</example>
+        <example>Palmer a, par la suite, révisé son scénario.</example>
+        <example>Pour remplacer a par j, b par k, c par m et d par n.</example>
+    </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
             <antipattern>
