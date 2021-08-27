@@ -5668,7 +5668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>sich</suggestion>?</message>
                 <example correction="sich">Wir sollten es auf <marker>dich</marker> beruhen lassen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="EIG:.*|PRO:PER:NOM:SIN:(FEM|MAS)" postag_regexp="yes" />
                     <token>freut</token>
@@ -22122,18 +22122,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="GEBRAUCH_MACHEN" name="gebrauch (Gebrauch) machen" default="temp_off">
-            <pattern>
-                <token regexp="yes" skip="-1">(da)?von</token>
-                <marker>
-                    <token case_sensitive="yes">gebrauch</token>
-                </marker>
-                <token postag="ZUS" min="0" />
-                <token inflected="yes">machen</token>
-            </pattern>
-            <message>Das Nomen <suggestion>Gebrauch</suggestion> wird großgeschrieben.</message>
-            <example correction="Gebrauch">Er hat von seinem Recht <marker>gebrauch</marker> gemacht</example>
-        </rule>
+        <rulegroup id="GEBRAUCH_MACHEN" name="gebrauch (Gebrauch) machen">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="-1">(da)?von</token>
+                    <marker>
+                        <token case_sensitive="yes">gebrauch</token>
+                    </marker>
+                    <token postag="ZUS" min="0" />
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Gebrauch</suggestion> wird großgeschrieben.</message>
+                <example correction="Gebrauch">Er hat von seinem Recht <marker>gebrauch</marker> gemacht</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">vor|nach|bei</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">gebrauch</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Gebrauch</suggestion> wird großgeschrieben.</message>
+                <example correction="Gebrauch">Vor dem <marker>gebrauch</marker> bitte gut schütteln.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">im|in|beim</token>
+                    <marker>
+                        <token case_sensitive="yes">gebrauch</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Gebrauch</suggestion> wird großgeschrieben.</message>
+                <example correction="Gebrauch">Ich nehme es in <marker>gebrauch</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="DA" name="DA (Da)">
             <antipattern>
                 <!-- all-uppercase -->
@@ -50932,7 +50955,7 @@ Andere Projekte</example>
                 <suggestion>“</suggestion>
                 <example correction="“">„Hallo<marker>"</marker>, sagte er zur Begrüßung.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SENT_START" />
                     <token postag="SENT_END" />
@@ -53475,6 +53498,11 @@ Andere Projekte</example>
                     <token skip="2">oder</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">wenn|falls</token>
+                    <token regexp="yes">ja|doch|nein|nicht</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -53482,7 +53510,7 @@ Andere Projekte</example>
                     <marker>
                         <token>,</token>
                         <token>
-                            <exception regexp="yes">als|bevor|bis|da(mit|ss?)?|de([mnr]|nn|[nr]en|ssen)|die|falls|indem|nachdem|ob(gleich|wohl)?|seitdem|so(bald|dass|fern|lange)?|während|was|we(il|lche[mrs]?|nn|r|ssen)|wie|wo(her|hin|mit|rum|von)?|siehe</exception>
+                            <exception regexp="yes">als|bevor|bis|da(mit|ss?)?|de([mnr]|nn|[nr]en|ssen)|die|falls|indem|nachdem|ob(gleich|wohl)?|seitdem|so(bald|dass|fern|lange)?|während|was|we(il|lche[mrs]?|nn|r|ssen)|wie|wo(her|hin|mit|rum|von)?|wieso|siehe</exception>
                             <exception postag="ABK:.+|UNKNOWN" postag_regexp="yes"/>
                         </token>
                     </marker>
@@ -53511,6 +53539,7 @@ Andere Projekte</example>
                 <example>Laut dem Thomas nicht, vergleiche das Haus dort mal mit der Villa.</example>
                 <example>Laut Büchern nicht, vergleiche es dort mal mit "Jeans".</example>
                 <example>Von mir aus jetzt, hab aber eigentlich nur kurz Zeit.</example>
+                <example>Und wenn ja, wieso werden beide offenbar immer abwechselnd benutzt?</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
