@@ -1401,6 +1401,13 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="RESPONSABLE" name="responsable (noun)">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">responsable|directeur</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <!-- END: appositions -->
     <!-- CATEGORY: prepositions -->
     <rule id="AU_COURS_DE" name="au cours de">
@@ -1876,7 +1883,7 @@ RB => Règles Brutes
     <rule id="N_SUIVI_NP" name="N + NP">
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">allée|produit|avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise|sortie</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">allée|produit|avenue|cathédrale|commun|directeur|lauréat|maître|musée|traité|entreprise|sortie|responsable</token>
             </marker>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
