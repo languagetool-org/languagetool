@@ -321,7 +321,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   protected void testGrammarRulesFromXML(List<AbstractPatternRule> rules, JLanguageTool allRulesLt, Language lang) {
-    System.out.println("Checking example sentences of " + rules.size() + " rules for " + lang + "...");
+    if (System.getProperty("skipRules") != null) {
+      System.out.println("SKIPPING: Checking example sentences of " + rules.size() + " rules for " + lang + "...");
+      return;
+    } else {
+      System.out.println("Checking example sentences of " + rules.size() + " rules for " + lang + "...");
+    }
 
     int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors() / 2);
     ExecutorService executor = Executors.newFixedThreadPool(threadCount);
