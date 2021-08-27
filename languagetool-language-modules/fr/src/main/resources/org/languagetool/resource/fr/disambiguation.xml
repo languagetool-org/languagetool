@@ -286,6 +286,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rule id="ADJ_NOT_NOUN" name="adjective, not noun">
+        <pattern>
+            <token><exception postag="D.*" postag_regexp="yes"/></token>
+            <marker>
+                <token postag="J.*|V ppa.*" postag_regexp="yes" inflected="yes">engager</token>    
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"></disambig>
+    </rule>
     <rulegroup id="SI_NOM" name="si (noun/not noun)">
         <rule>
             <pattern>
