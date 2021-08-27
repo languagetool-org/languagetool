@@ -17,11 +17,6 @@
  * USA
  */
 package org.languagetool.rules.de;
-/**
- * A rule that detect redundant modal and auxiliary verbs.
- * @author Fred Kruse
- * @since 5.5
- */
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +31,11 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
+/**
+ * A rule that detects redundant modal and auxiliary verbs.
+ * @author Fred Kruse
+ * @since 5.5
+ */
 public class RedundantModalOrAuxiliaryVerb extends Rule {
 
   private static final String VERB_TEXT = " scheint redundant zu sein. Prüfen Sie, ob es gelöscht oder der Satz umformuliert werden kann.";
@@ -49,7 +49,7 @@ public class RedundantModalOrAuxiliaryVerb extends Rule {
     setDefaultOff();
   }
 
-    @Override
+  @Override
   public String getId() {
     return "REDUNDANT_MODAL_VERB";
   }
@@ -87,7 +87,7 @@ public class RedundantModalOrAuxiliaryVerb extends Rule {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int nt;
     int nVerb;
-    boolean doBreak = false;
+    boolean doBreak;
     for (nt = 2; nt < tokens.length; nt++) {
       boolean isModVerb = tokens[nt].hasPosTagStartingWith("VER:MOD");
       if ((isModVerb || tokens[nt].hasPosTagStartingWith("VER:AUX")) 
