@@ -17632,9 +17632,24 @@ steenwijk;Steenwijk
 		
 		<rulegroup id="SPATIE_NA" name="spatie na ; of :">
 			<rule>
+				<antipattern><token>:</token><token spacebefore="no" regexp="yes">[0-9].*</token></antipattern>
+				<antipattern><token postag="SENT_END" spacebefore="no">:</token></antipattern>
+				<!-- smileys -->
+				<antipattern><token spacebefore="no">:</token><token spacebefore="no">NL</token><token spacebefore="no">:</token></antipattern>
+				<antipattern><token regexp="yes">[:;]</token><token spacebefore="no" regexp="yes">[D)(p-]</token></antipattern>
+				<antipattern><token>;</token><token spacebefore="no" regexp="yes">[D)p-]</token></antipattern>
+				<antipattern> <!-- e.g. 15:00 -->
+					<token regexp="yes">[0-9]{1,2}</token>
+					<token spacebefore="no">:</token>
+					<token spacebefore="no" regexp="yes">[0-9]{1,50}</token>
+				</antipattern>
+				<antipattern>  <!-- e.g. &nbsp; -->
+					<token regexp="yes">&amp;[a-zA-Z#0-9]+</token>
+					<token spacebefore="no">;</token>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">[:;]</token>
-					<token spacebefore="no" regexp="yes">[a-zA-Z].*</token>
+					<token spacebefore="no"/>
 				</pattern>
 				<message>Na een puntkomma of een dubbelepunt hoort een spatie: <suggestion>\1 \2</suggestion>.</message>
 				<example correction=": ik">Er waren er twee<marker>:ik</marker> en hij.</example>
@@ -17642,8 +17657,10 @@ steenwijk;Steenwijk
 				<example>De code voor een spatie is niet <marker>&amp;nbsp;</marker>.</example>
 				<example>09:30-11:00, 12:00-13:00 of 14:00-15:00 uur.</example>
 				<example>Psalm 105:27 - 137:6b (10 bladen) zijn verloren gegaan.</example>
+				<example>Opsomming:</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="SPATIE_VOOR_BELETSELTEKEN" name="spatie voor beletselteken" tags="picky">
 			<rule>
 				<!-- common in some sources -->
