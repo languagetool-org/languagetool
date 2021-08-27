@@ -20,8 +20,8 @@ package org.languagetool.rules.en;
 
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -32,6 +32,8 @@ import java.util.*;
  * Checks that compounds (if in the list) are not written as separate words.
  */
 public class CompoundRule extends AbstractCompoundRule {
+  
+  private static MorfologikAmericanSpellerRule englishSpellerRule;
 
   // static to make sure this gets loaded only once:
   private static volatile CompoundRuleData compoundData;
@@ -106,6 +108,9 @@ public class CompoundRule extends AbstractCompoundRule {
             "Compound");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
+    if (englishSpellerRule == null) {
+      englishSpellerRule = new MorfologikAmericanSpellerRule(messages, new AmericanEnglish());
+    }
   }
 
   @Override
@@ -119,7 +124,7 @@ public class CompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (CompoundRule.class) {
@@ -136,5 +141,10 @@ public class CompoundRule extends AbstractCompoundRule {
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return ANTI_PATTERNS;
+  }
+  
+  @Override
+  public boolean isMisspelled(String word) throws IOException {
+    return englishSpellerRule.isMisspelled(word);
   }
 }

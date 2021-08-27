@@ -52,7 +52,7 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (PreReformPortugueseCompoundRule.class) {

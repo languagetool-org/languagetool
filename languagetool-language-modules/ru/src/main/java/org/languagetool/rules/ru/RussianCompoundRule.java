@@ -59,7 +59,7 @@ public class RussianCompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (RussianCompoundRule.class) {

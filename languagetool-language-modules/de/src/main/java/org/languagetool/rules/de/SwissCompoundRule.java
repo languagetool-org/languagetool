@@ -41,7 +41,7 @@ public class SwissCompoundRule extends GermanCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (SwissCompoundRule.class) {

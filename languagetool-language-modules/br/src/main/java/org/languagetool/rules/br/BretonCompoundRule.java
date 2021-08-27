@@ -69,7 +69,7 @@ public class BretonCompoundRule extends AbstractCompoundRule {
 */
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (BretonCompoundRule.class) {

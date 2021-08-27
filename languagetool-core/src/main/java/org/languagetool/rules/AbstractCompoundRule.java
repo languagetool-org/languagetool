@@ -56,7 +56,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   /** @since 3.0 */
-  protected abstract CompoundRuleData getCompoundRuleData();
+  public abstract CompoundRuleData getCompoundRuleData();
 
   /**
    * @since 3.0
@@ -80,19 +80,8 @@ public abstract class AbstractCompoundRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
-  /**
-   * Flag to indicate if the hyphen is ignored in the text entered by the user.
-   * Set this to false if you want the rule to offer suggestions for words 
-   * like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
-   * This is only available for languages with hyphen as a word separator (ie: not 
-   * available for English, available for Romanian). See Language.getWordTokenizer()
-   */
-//  public boolean isHyphenIgnored() {
-//    return true;
-//  }
-
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
 
@@ -169,11 +158,11 @@ public abstract class AbstractCompoundRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  protected List<String> filterReplacements(List<String> replacements, String original) {
+  protected List<String> filterReplacements(List<String> replacements, String original) throws IOException {
     List<String> newReplacements = new ArrayList<String>();
     for (String replacement : replacements) {
       String newReplacement = replacement.replaceAll("\\-\\-+", "-");
-      if (!newReplacement.equals(original)) {
+      if (!newReplacement.equals(original) && !isMisspelled(newReplacement)) {
         newReplacements.add(newReplacement);
       }
     }
@@ -230,7 +219,7 @@ public abstract class AbstractCompoundRule extends Rule {
     return true;
   }
 
-  private String mergeCompound(String str, boolean uncapitalizeMidWords) {
+  public String mergeCompound(String str, boolean uncapitalizeMidWords) {
     String[] stringParts = str.replaceAll("-", " ").split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {  
@@ -248,6 +237,10 @@ public abstract class AbstractCompoundRule extends Rule {
       prevTokens.poll();
     }
     prevTokens.offer(token);
+  }
+  
+  public boolean isMisspelled(String word) throws IOException {
+    return false;
   }
 
 }

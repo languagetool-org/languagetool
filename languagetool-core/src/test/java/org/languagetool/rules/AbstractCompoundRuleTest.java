@@ -18,7 +18,10 @@
  */
 package org.languagetool.rules;
 
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -71,6 +74,28 @@ public abstract class AbstractCompoundRuleTest {
         i++;
       }
     }
+  }
+  
+  public void testAllCompounds() throws IOException {
+    for (String compound : rule.getCompoundRuleData().getIncorrectCompounds()) {
+      String suggestion ="";
+      if (rule.getCompoundRuleData().getDashSuggestion().contains(compound)) {
+        suggestion = compound.replace(" ", "-");
+        if (rule.isMisspelled(suggestion)) {
+          printWarning(suggestion);
+        }
+      }
+      if (rule.getCompoundRuleData().getJoinedSuggestion().contains(compound)) {
+        suggestion = rule.mergeCompound(compound, rule.getCompoundRuleData().getJoinedLowerCaseSuggestion().contains(compound));
+        if (rule.isMisspelled(suggestion)) {
+          printWarning(suggestion);
+        }
+      }
+    }
+  }
+  
+  private void printWarning(String suggestion) {
+    System.err.println("WARNING: Suggested compound word is possibly misspelled: "+suggestion);
   }
   
 }

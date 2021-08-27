@@ -49,7 +49,7 @@ public class CompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (CompoundRule.class) {

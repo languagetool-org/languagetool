@@ -56,19 +56,19 @@ public class CompoundRuleData {
     }
   }
 
-  Set<String> getIncorrectCompounds() {
+  public Set<String> getIncorrectCompounds() {
     return Collections.unmodifiableSet(incorrectCompounds);
   }
 
-  Set<String> getJoinedSuggestion() {
+  public Set<String> getJoinedSuggestion() {
     return Collections.unmodifiableSet(joinedSuggestion);
   }
 
-  Set<String> getDashSuggestion() {
+  public Set<String> getDashSuggestion() {
     return Collections.unmodifiableSet(dashSuggestion);
   }
 
-  Set<String> getJoinedLowerCaseSuggestion() {
+  public Set<String> getJoinedLowerCaseSuggestion() {
 	return Collections.unmodifiableSet(joinedLowerCaseSuggestion);
   }
 

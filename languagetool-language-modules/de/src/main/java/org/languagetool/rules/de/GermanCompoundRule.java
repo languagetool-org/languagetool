@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -32,6 +33,8 @@ import java.util.ResourceBundle;
 public class GermanCompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
+  
+  private static GermanSpellerRule germanSpellerRule;
  
   public GermanCompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
@@ -42,6 +45,9 @@ public class GermanCompoundRule extends AbstractCompoundRule {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     addExamplePair(Example.wrong("Wenn es schlimmer wird, solltest Du zum <marker>HNO Arzt</marker> gehen."),
                    Example.fixed("Wenn es schlimmer wird, solltest Du zum <marker>HNO-Arzt</marker> gehen."));
+    if (germanSpellerRule == null) {
+      germanSpellerRule = new GermanSpellerRule(messages, new GermanyGerman());
+    }
   }
 
   @Override
@@ -55,7 +61,7 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (GermanCompoundRule.class) {
@@ -67,5 +73,10 @@ public class GermanCompoundRule extends AbstractCompoundRule {
     }
 
     return data;
+  }
+  
+  @Override
+  public boolean isMisspelled(String word) {
+    return germanSpellerRule.isMisspelled(word);
   }
 }
