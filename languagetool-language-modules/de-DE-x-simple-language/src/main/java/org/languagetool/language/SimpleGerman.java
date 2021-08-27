@@ -41,6 +41,11 @@ import java.util.ResourceBundle;
 public class SimpleGerman extends GermanyGerman {
 
   @Override
+  public boolean isVariant() {
+    return true;
+  }
+
+  @Override
   public String getName() {
     return "Simple German";
   }

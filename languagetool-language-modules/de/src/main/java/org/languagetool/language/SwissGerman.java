@@ -65,4 +65,9 @@ public class SwissGerman extends German {
     return rules;
   }
 
+  @Override
+  public boolean isVariant() {
+    return true;
+  }
+
 }
