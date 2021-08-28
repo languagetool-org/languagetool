@@ -948,11 +948,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[hH]udd[yi]", "Hoodie");
     put("Treibel", "Tribal");
     put("vorort", "vor Ort");
+    put("Brotwürfelcro[uû]tons", "Croûtons");
     putRepl("Mauntenbikes?", "Maunten", "Mountain");
     putRepl("[nN]euhichkeit(en)?", "[nN]euhich", "Neuig");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
     putRepl("[Gg]ilst", "ilst", "iltst");
-    putRepl("[vV]ollrichtung(en)?", "oll", "er");
+    putRepl("[vV]ollrichtung(en)?", "[vV]oll", "Ver");
     putRepl("[vV]ollrichtest", "oll", "er");
     putRepl("[vV]ollrichten?", "oll", "er");
     putRepl("[vV]ollrichtet(e([mnrs])?)?", "oll", "er");
