@@ -61,10 +61,21 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
           return true;
         }
       }
-    } else if (tokens[num].hasLemma("haben") || tokens[num].hasLemma("sein")) {
-      for (int i = 1; i < tokens.length; i++) {
-        if (tokens[i].hasPosTagStartingWith("PA2") || tokens[i].hasPosTagStartingWith("VER:PA2") || isUnknownWord(tokens[i])) {
-          return true;
+    } else {
+      boolean isHaben = tokens[num].hasLemma("haben");
+      if (isHaben) {
+        for (int i = 1; i < tokens.length; i++) {
+          String sToken = tokens[i].getToken();
+          if (sToken.equals("Glück") || sToken.equals("Angst") || sToken.equals("Recht") || sToken.equals("recht")) {
+            return true;
+          }
+        }
+      }  
+      if (isHaben || tokens[num].hasLemma("sein")) {
+        for (int i = 1; i < tokens.length; i++) {
+          if (tokens[i].hasPosTagStartingWith("PA2") || tokens[i].hasPosTagStartingWith("VER:PA2") || isUnknownWord(tokens[i])) {
+            return true;
+          }
         }
       }
     }
