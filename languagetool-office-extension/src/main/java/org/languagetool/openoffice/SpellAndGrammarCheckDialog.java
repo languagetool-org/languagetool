@@ -1050,7 +1050,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setSize(dialogWidth, dialogHeight);
       dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
-      defaultForeground = dialog.getForeground();
+      defaultForeground = dialog.getForeground() == null ? Color.BLACK : dialog.getForeground();
 
       languageLabel = new JLabel(labelLanguage);
       Font dialogFont = languageLabel.getFont().deriveFont((float) 12);
