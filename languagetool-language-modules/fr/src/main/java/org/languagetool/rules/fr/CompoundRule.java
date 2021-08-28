@@ -18,9 +18,13 @@
  */
 package org.languagetool.rules.fr;
 
+import org.languagetool.language.French;
 import org.languagetool.rules.*;
+import org.languagetool.tagging.fr.FrenchTagger;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 /**
@@ -61,8 +65,12 @@ public class CompoundRule extends AbstractCompoundRule {
         }
       }
     }
-
     return data;
+  }
+  
+  @Override
+  public boolean isMisspelled (String word) throws IOException {
+    return !FrenchTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
   }
 
 }

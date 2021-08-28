@@ -36,10 +36,12 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   public void setUp() throws Exception {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("fr"));
     rule = new CompoundRule(TestTools.getMessages("fr"));
+    testAllCompounds();
   }
 
   @Test
   public void testRule() throws IOException {
+
     // correct sentences:
     check(0, "Jésus-Christ");
     check(0, "Congo-Brazzaville");
