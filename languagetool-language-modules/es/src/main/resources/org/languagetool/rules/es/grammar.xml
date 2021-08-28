@@ -81,29 +81,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
         <equivalence type="S">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*|SP:DA" postag_regexp="yes"/>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*|SP:DA|P[P0]..[SN0].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="P">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*" postag_regexp="yes"/>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*|P[P0]..[PN0].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="genero">
         <equivalence type="M">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..|SP:DA*" postag_regexp="yes"/>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..|SP:DA*|P[P0].[MC].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="F">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*" postag_regexp="yes"/>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*|P[P0].[FC].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="persona">
         <equivalence type="primera">
-            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"/>
+            <token postag="(P.|V.{3})[10].*|P[P0]1.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="segunda">
-            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"/>
+            <token postag="(P.|V.{3})[20].*|P[P0]2.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="tercera">
-            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
+            <token postag="(P.|V.{3})[30].*|P[P0]3.*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <phrases>
@@ -10305,6 +10305,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="CONCORDANCIA_PRONOMBRE" name="concordancia pronombres" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <feature id="persona"/>
+                            <token postag="PP.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">no</token>
+                            </unify-ignore>
+                            <token postag="P[P0].*" postag_regexp="yes"/>
+                        </unify>
+                    </marker>
+                    <token postag="V...[123].." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <example correction="">A <marker>mí no te</marker> gusta esto.</example>
+                <example correction="">A <marker>él te</marker> gusta esto.</example>
+                <example correction="">A <marker>ellos le</marker> gusta esto.</example>
+                <example correction="">A <marker>nosotros os</marker> gusta esto.</example>
+                <example correction="">A <marker>vosotros nos</marker> gusta esto.</example>
+                <example correction="">A <marker>ella les</marker> gusta esto.</example>
+                <example correction="">A <marker>nosotras me</marker> gusta esto.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PERMITIR_QUE_A" name="permitir que/a">
             <antipattern>
                 <token>que</token>
