@@ -946,6 +946,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Krankenheit", "Krankheit");
     put("Krankenheiten", "Krankheiten");
     put("[hH]udd[yi]", "Hoodie");
+    put("Treibel", "Tribal");
+    put("vorort", "vor Ort");
+    putRepl("Mauntenbikes?", "Maunten", "Mountain");
+    putRepl("[nN]euhichkeit(en)?", "[nN]euhich", "Neuig");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
     putRepl("[Gg]ilst", "ilst", "iltst");
     putRepl("[vV]ollrichtung(en)?", "oll", "er");
