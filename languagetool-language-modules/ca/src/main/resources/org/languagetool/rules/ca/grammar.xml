@@ -62757,6 +62757,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SYNTAX" name="Sintaxi" type="grammar">
+        <rulegroup id="CONCORDANCA_PRONOMS" name="concordança entre pronoms" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="nombre"/>
+                            <feature id="genere"/>
+                            <feature id="persona"/>
+                            <token postag="PP.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token min="0">no</token>
+                            </unify-ignore>
+                            <token postag="P[P0].*" postag_regexp="yes"/>
+                        </unify>
+                    </marker>
+                    <token postag="V...[123]..." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <example correction="">A <marker>mi no t'</marker>agrada això.</example>
+                <example correction="">A <marker>ell t'</marker>agrada això.</example>
+                <example correction="">A <marker>ells li</marker> agrada això.</example>
+                <example correction="">A <marker>nosaltres us</marker> agrada això.</example>
+                <example correction="">A <marker>vosaltres ens</marker> agrada això.</example>
+                <example correction="">A <marker>ella els</marker> agrada això.</example>
+                <example correction="">A <marker>nosaltres m'</marker>agrada això.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EXEMPLE_NES" name="un exemple n'és/n'és un exemple">
             <rule>
                 <pattern>
