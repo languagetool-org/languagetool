@@ -62758,9 +62758,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="SYNTAX" name="Sintaxi" type="grammar">
         <rulegroup id="CONCORDANCA_PRONOMS" name="concordança entre pronoms" default="temp_off">
+            <antipattern>
+                <token postag="V.[PN],*|V...[123]..." postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">per|cap</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token skip="10">a</token>
+                <token>a</token>
+                <token>mi</token>
+                <token min="0">no</token>
+                <token>ens</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token>a</token>
+                    <token>a<exception postag="LOC_PREP"/></token>
                     <marker>
                         <unify negate="yes">
                             <feature id="nombre"/>
@@ -62770,7 +62785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify-ignore>
                                 <token min="0">no</token>
                             </unify-ignore>
-                            <token postag="P[P0].*" postag_regexp="yes"/>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">es|hi|ho</exception><exception regexp="yes">el|la|l'|les</exception></token>
                         </unify>
                     </marker>
                     <token postag="V...[123]..." postag_regexp="yes"/>
@@ -62783,6 +62798,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">A <marker>vosaltres ens</marker> agrada això.</example>
                 <example correction="">A <marker>ella els</marker> agrada això.</example>
                 <example correction="">A <marker>nosaltres m'</marker>agrada això.</example>
+                <example>Gràcies a ell es publicaren les cartes.</example>
+                <example>A ell es deu el descobriment.</example>
+                <example>A ells es deuen el descobriment.</example>
+                <example>Per a nosaltres no hi ha cosa més certa.</example>
+                <example>m'havia estalviat a mi l'impacte</example>
+                <example>Al Pere i a mi ens van ficar dins la barca.</example>
+                <example>Ni a ella ni a mi no ens venia de gust.</example>
+                <example>Tot el que et passa a tu em passa a mi.</example>
+                <example type="triggers_error">A ell ens devem.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EXEMPLE_NES" name="un exemple n'és/n'és un exemple">
