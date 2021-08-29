@@ -92,6 +92,12 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*PLU.*")
     ),
     Arrays.asList(
+      token("der"),  // "der fließend Englisch sprechende Mitarbeiter"
+      token("fließend"),
+      tokenRegex(".*"),
+      token("sprechende")
+    ),
+    Arrays.asList(
       token("ein"),  // "Das wolkige und ein bisschen kühle Wetter..."
       token("bisschen"),
       posRegex("ADJ:.*"),

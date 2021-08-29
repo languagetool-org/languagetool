@@ -534,6 +534,7 @@ public class AgreementRuleTest {
     assertGood("Hier geht's zur Sonne.");
     assertGood("Hier geht's zum Schrank.");
     assertGood("Niereninsuffizienz führt zu Störungen des Wasserhaushalts.");
+    assertGood("Das hat der fließend Englisch sprechende Mitarbeiter veranlasst.");
   }
 
   @Test
