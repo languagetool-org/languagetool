@@ -722,7 +722,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Kamelarten", // vs. Kabelarten
           "Bayern-Präsident", // vs Bauernpräsident
           "Bayern-Präsidenten", // vs Bauernpräsident
-          "Bundessprechern" // vs Bundessprecherin
+          "Bundessprechern", // vs Bundessprecherin
+          "Netzsuche" // vs Netztuche (?)
   ));
 
   // have per-class static list of these and reference that in instance
