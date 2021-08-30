@@ -41697,6 +41697,26 @@ steenwijk;Steenwijk
 				<example correction="Dit|Dat"><marker>Deze</marker> wasmiddel stinkt.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" default="temp_off">
+			<!-- veel uitzonderingen nodig!, zoals voor 'een groot man' etc. -->
+			<rule>
+				<antipattern>
+					<token regexp="yes">groot|geweldig|economisch|erkend|gerenommeerd|kundig|succesvol|geheim|speciaal|onafhankelijk|behandelend|volleerd|intern</token>
+					<token regexp="yes">man|geleerde|agent|adviseur|aanklager|ander|architect|arts|ballerina|begeleider</token>
+				</antipattern>
+				<antipattern><token>vurig</token><token regexp="yes">.*aanhanger</token></antipattern>
+				<pattern>
+					<token regexp="yes">een|deze|de</token>
+					<marker>
+						<token postag_regexp="yes" postag=".*ONV"><exception postag_regexp="yes" postag=".*VRB"/><exception regexp="yes">veel|naar|paar|heel|totaal</exception></token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|GET.*MRV|.*VRB"/></token>
+				</pattern>
+				<message>\3 is een de-woord. Daar hoor meestal de verbogen vorm van \2 voor, maar er zijn (veel) uitzonderingen. Zo kan iemand een groot kampioen zijn. Daar slaat groot niet echt op de persoon, maar op de prestatie.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="(^.+):ONV" postag_replace="$1:VRB"/></suggestion>
+				<example correction="lichte">Er hangt een <marker>licht</marker> amandelgeur.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZIEKTE_IN_MENSEN" name="Anglicisme" >
 			<rule>
 				<pattern>
