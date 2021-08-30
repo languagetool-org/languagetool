@@ -91,27 +91,23 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("anglo saxon"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("anglosaxon", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo- saxon"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("anglosaxon", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo -saxon"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("anglosaxon", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo - saxon"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("anglosaxon", matches[0].getSuggestedReplacements().get(1));
 
   }
 
