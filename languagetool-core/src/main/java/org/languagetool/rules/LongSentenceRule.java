@@ -125,5 +125,33 @@ public class LongSentenceRule extends TextLevelRule {
   public int minToCheckParagraph() {
     return 0;
   }
+  
+// next functions give the user the possibility to configure the function
+  @Override
+  public int getDefaultValue() {
+    return maxWords;
+  }
+
+  @Override
+  public boolean hasConfigurableValue() {
+    return true;
+  }
+
+  @Override
+  public int getMinConfigurableValue() {
+    return 5;
+  }
+
+  @Override
+  public int getMaxConfigurableValue() {
+    return 100;
+  }
+
+  @Override
+  public String getConfigureText() {
+    return messages.getString("guiLongSentencesText");
+  }
+
+
 
 }
