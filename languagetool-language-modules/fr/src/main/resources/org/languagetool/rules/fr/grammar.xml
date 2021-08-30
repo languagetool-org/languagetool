@@ -4061,7 +4061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V ppa m s" regexp="yes">.*é</token>
             </antipattern>
             <antipattern>
-                <token postag="N m ." postag_regexp="yes"/>
+                <token postag="[ZN] m ." postag_regexp="yes"/>
                 <token postag="P.*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes" min="0" max="1"/>
                 <token postag="P.*" postag_regexp="yes" min="0" max="1"/>
@@ -22191,7 +22191,7 @@ though, and has since been slightly modified)-->
             <example>Sa sœur a remis une lettre à la duchesse de M. de Dillon qu’Honoré a reçu.</example>
             <example>La récession qui en a résulté a ensuite touché les pays très étroitement liés économiquement avec les États-Unis.</example>
         </rule>
-        <rule default="temp_off">
+		                <rule default="temp_off">
             <antipattern>
                 <token><exception postag="SENT_START"/></token>
                 <token postag="V inf" regexp="yes">(?-i)[A-Z].*</token>
@@ -22239,6 +22239,17 @@ though, and has since been slightly modified)-->
             <token skip="-1"><exception postag="V.*" postag_regexp="yes"/></token>
             <token postag="SENT_END"/>
         </antipattern>
+        <antipattern>
+            <token>qui</token>
+            <token inflected="yes" min="0" max="1">ne</token>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
+            <token postag="A" min="0" max="3"/>
+			<token postag="R.*" postag_regexp="yes" min="0" max="3"/>
+            <token postag="V inf"/>
+            <token>a</token>
+            <token min="0" max="5"></token>
+            <token postag="SENT_END"/>
+        </antipattern>
         <pattern>
             <token postag="V inf"><exception postag="[NZJ].*" postag_regexp="yes"/></token>
             <marker>
@@ -22250,6 +22261,8 @@ though, and has since been slightly modified)-->
             <message>La préposition <suggestion>à</suggestion> est attendue après un verbe à l'infinitif.</message>
         <example correction="à">Il faut m'intéresser <marker>a</marker> la poterie.</example>
         <example>L'avenir a commencé.</example>
+        <example>Qui ne peut rien prétendre a droit d'abandonner.</example>
+        <example>Et qui sait les ramasser a une fortune.</example>
         <example>Je ne sais pas ce que ce user a à me wikitraquer et à m'agresser ainsi.</example>
         <example>Une journée sans écrire a toujours été pour moi une journée qui n'a pas existé.</example>
         <example>Badger a écrit:</example>
