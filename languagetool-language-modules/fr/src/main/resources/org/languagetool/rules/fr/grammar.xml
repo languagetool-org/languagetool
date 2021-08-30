@@ -22456,6 +22456,35 @@ though, and has since been slightly modified)-->
         <example>Palmer a, par la suite, révisé son scénario.</example>
         <example>Pour remplacer a par j, b par k, c par m et d par n.</example>
     </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>qu'</token>
+                <token>a</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>qu'</token>
+                <token>a</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="[PJN].*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="P.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>qu'</token>
+                <marker>
+                    <token>a<exception scope="next" regexp="yes">-t-elle|-t-il|-t-on</exception></token>
+                </marker>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue après cette conjonction.</message>
+            <example correction="à">C'est sûr que s'il pouvait s'entrainer en côte plutôt qu'<marker>a</marker> plat, ça serait mieux.</example>
+            <example>La capacité essentielle qu’a le régime au pouvoir de rendre l’administration.</example>
+            <example>la faculté qu’a l’Homme de comprendre </example>
+            <example>Qu'a-t-elle répondu ?</example>
+            <example>Concrètement qu’a le droit de faire l’opérateur avec ces données ?</example>
+            <example>Il témoigne aussi de l’influence qu’a le dessin de presse à l’époque.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
             <antipattern>
