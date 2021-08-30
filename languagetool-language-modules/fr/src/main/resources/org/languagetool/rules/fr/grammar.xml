@@ -25733,6 +25733,17 @@ though, and has since been slightly modified)-->
                 <example>Je compte les <marker>invités</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="VOIR_INFINITIF" name="voir + participe passé -> infinitif" default="temp_off">
+            <!-- simplified version of FAIRE_VPPA2 -->
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">voir</token>
+                <marker>
+                    <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire  <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion> (infinitif)?</message>
+            <example correction="passer">J’ai refusé des sponsors avant de les voir <marker>passé</marker>.</example>
+        </rule>
         <rulegroup id="VERBE_PREP_INFINITIF" name="verbe + preposition + ppa -> inf">
             <rule>
                 <pattern>
