@@ -18581,6 +18581,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Los ejes principales X e Y.</example>
                 <example>Se escribe con e mayúscula.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Asegúrese de que el carácter 'e' es correcto y no es un error de escritura.</message>
+                <suggestion>en</suggestion>
+                <suggestion>de</suggestion>
+                <suggestion>es</suggestion>
+                <suggestion>y</suggestion>
+                <example correction="en|de|es|y">Mi casa <marker>e</marker> su casa.</example>
+            </rule>
         </rulegroup>
         <rule id="ESTO_ESTE" name="esto/este">
             <antipattern>
