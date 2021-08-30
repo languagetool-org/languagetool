@@ -105,19 +105,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (languageModel != null && languageModel instanceof BaseLanguageModel && nerPipe != null) {
       String sentenceText = sentence.getText();
       try {
-        long startTime = System.currentTimeMillis();
-        List<NERService.Span> namedEntities = nerPipe.runNER(sentenceText);
-        //System.out.println("namedEntities: " + namedEntities + ", matches before filter: " + matches.length);
-        /*for (NERService.Span namedEntity : namedEntities) {
-          System.out.println(" -> " + sentenceText.substring(namedEntity.getStart(), namedEntity.getEnd()));
-        }*/
-        List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
-        /*if (filtered.size() < matches.length) {
-          long runTime = System.currentTimeMillis() - startTime;
-          System.out.println("matches filtered by NER: " + matches.length + " -> " + filtered.size() + " ("+runTime+"ms)");
-        }*/
-        //System.out.println("matches after filter: " + filtered.size());
-        matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
+        //long startTime = System.currentTimeMillis();
+        if (sentenceText.length() <= 250) {
+          List<NERService.Span> namedEntities = nerPipe.runNER(sentenceText);
+          //System.out.println("namedEntities: " + namedEntities + ", matches before filter: " + matches.length);
+          List<RuleMatch> filtered = filter(matches, sentenceText, namedEntities, languageModel);
+          //System.out.println("matches after filter: " + filtered.size());
+          matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);
+        }
       } catch (Exception e) {
         logger.warn("Could not run NER test on '" + sentenceText + "', will assume there are no named entities", e);
       }
