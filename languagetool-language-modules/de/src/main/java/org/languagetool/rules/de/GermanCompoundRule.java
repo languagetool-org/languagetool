@@ -20,8 +20,10 @@ package org.languagetool.rules.de;
 
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.*;
+import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -76,7 +78,8 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   }
   
   @Override
-  public boolean isMisspelled(String word) {
+  public boolean isMisspelled(String word) throws IOException {
+    //return !GermanTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
     return germanSpellerRule.isMisspelled(word);
   }
 }

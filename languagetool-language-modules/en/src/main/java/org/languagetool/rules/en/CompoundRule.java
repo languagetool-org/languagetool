@@ -24,6 +24,7 @@ import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tagging.en.EnglishTagger;
 
 import java.io.IOException;
 import java.util.*;
@@ -145,6 +146,7 @@ public class CompoundRule extends AbstractCompoundRule {
   
   @Override
   public boolean isMisspelled(String word) throws IOException {
+    //return !EnglishTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
     return englishSpellerRule.isMisspelled(word);
   }
 }
