@@ -63045,6 +63045,33 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category name="majuscules" id="CASING">
+        <rulegroup id="PROCHE_ORIENT" name="Proche-Orient, proche-oriental" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">proche|moyen|extrême</token>
+                    <token min="0">-</token>
+                    <token>orient</token>
+                </pattern>
+                <message>Il s'écrit <suggestion><match no="1" case_conversion="startupper"/>-<match no="3" case_conversion="startupper"></match></suggestion>.</message>
+                <example correction="Proche-Orient">Le <marker>proche orient</marker>.</example>
+                <example correction="Proche-Orient">Le <marker>proche-orient</marker>.</example>
+                <example correction="Proche-Orient">Le <marker>Proche-orient</marker>.</example>
+                <example correction="Proche-Orient">Le <marker>Proche Orient</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">proche|moyen|extrême</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">oriental</token>
+                </pattern>
+                <message>Il s'écrit <suggestion><match no="1" case_conversion="alllower"/>-<match no="3" case_conversion="alllower"></match></suggestion>.</message>
+                <example correction="proche-oriental">Il est <marker>proche oriental</marker>.</example>
+                <example correction="proche-oriental">Il est <marker>Proche-Oriental</marker>.</example>
+                <example correction="proche-oriental">Il est <marker>Proche Oriental</marker>.</example>
+                <example correction="proche-orientaux">Ils sont <marker>proche-Orientaux</marker>.</example>
+                <!--<example correction="proche-oriental">Il est <marker>Proche-oriental</marker>.</example>-->
+            </rule>
+        </rulegroup>
         <rulegroup id="PRONOMS_PERSONNELS_MINUSCULE" name="pronoms personnels en minuscule">
             <antipattern>
                 <token postag="SENT_START"/>
