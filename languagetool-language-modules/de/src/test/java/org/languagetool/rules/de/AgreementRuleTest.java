@@ -508,6 +508,7 @@ public class AgreementRuleTest {
     assertGood("Die Trial ist ausgelaufen.");
     assertGood("Ein geworbener Neukunde interagiert zusätzlich mit dem Unternehmen.");
     assertGood("Ich weiß, dass jeder LanguageTool benutzen sollte.");
+    assertGood("1992 übernahm die damalige Ernst Klett Schulbuchverlag GmbH, Stuttgart, den reprivatisierten Verlag Haack Gotha");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

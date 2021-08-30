@@ -22261,7 +22261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -22387,7 +22387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -22426,7 +22426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -22470,7 +22470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="SCHMERZEN_SUBST" name="die schmerzen (Schmerzen)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -22490,7 +22490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GEBÜHREN_SUBST" name="die gebühren (Gebühren)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -22508,32 +22508,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Gebühren">Wir müssen keine <marker>gebühren</marker> zahlen.</example>
             <example correction="Gebühren">Welche <marker>gebühren</marker> müssen wir zahlen?</example>
         </rule>
-        <rule id="LINK_SUBST" name="der link (Link)">
+        <rulegroup id="LINK_SUBST" name="der link (Link)">
             <antipattern>
                 <token>links</token>
                 <token>liegen</token>
                 <token regexp="yes">gelassen|lassen</token>
             </antipattern>
-            <pattern>
-                <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
-                </token>
-                <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
-                    [a-zöäü].*
-                    <exception postag="ADV:MOD" />
-                </token>
-                <marker>
-                    <token case_sensitive="yes" regexp="yes">links?</token>
-                </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="VER:.+" postag_regexp="yes">
-                    <exception regexp="yes">m?einen?</exception>
-                </token>
-            </pattern>
-            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
-            <example correction="Link">Der <marker>link</marker> funktioniert nicht.</example>
-            <example>Allmählich wächst mein Verständnis für die Wähler, die uns links liegen lassen!</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes">
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                    </token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">links?</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Link">Der <marker>link</marker> funktioniert nicht.</example>
+                <example>Allmählich wächst mein Verständnis für die Wähler, die uns links liegen lassen!</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>link</token>
+                    <token>ich</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ein(en)?|den|diesen</token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">link</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Link">Schicken Sie uns dann einen <marker>link</marker>?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes">
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                    </token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">links?</token>
+                    </marker>
+                    <token regexp="yes">aufs?|zu[rm]?</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Link">Ich packe einfach einen neuen <marker>link</marker> auf die Startseite.</example>
+                <example>Dort biegt man links auf den Waldweg ab, der Richtung Norden führt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IHR_EUCH" name="Ihr euch (Euch)">
             <rule>
                 <pattern case_sensitive="yes">
@@ -22656,7 +22694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="RUF_SUBST" name="sein ruf (Ruf)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -22695,7 +22733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="WELLEN_SUBST" name="Alle wellen (Wellen)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
-                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                 </token>
                 <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                     [a-zöäü].*
@@ -23486,7 +23524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -27150,7 +27188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -27256,7 +27294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*
@@ -35261,7 +35299,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
-                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich</exception>
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
                     </token>
                     <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
                         [a-zöäü].*

@@ -560,12 +560,39 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // Die Präsent AG ("Theater AG" is found via DE_COMPOUNDS)
       csRegex("[A-ZÄÖÜ].+"),
-      csRegex("AG|GmbH")
+      csRegex("AG|GmbH|SE")
     ),
     Arrays.asList( // Die Otto Christ AG 
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
-      csRegex("AG|GmbH")
+      csRegex("AG|GmbH|SE")
+    ),
+    Arrays.asList(// Die Ernst Klett Schulbuch AG 
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("AG|GmbH|SE")
+    ),
+    Arrays.asList( // Die damalige Klett AG 
+      token("die"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:FEM.*").csTokenRegex("[a-zäöü].+").min(0).build(),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("AG|GmbH|SE")
+    ),
+    Arrays.asList( // Die damalige Ernst Klett AG 
+      token("die"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:FEM.*").csTokenRegex("[a-zäöü].+").min(0).build(),
+      csRegex("[A-ZÄÖÜ].*"),
+      csRegex("[A-ZÄÖÜ].*"),
+      csRegex("AG|GmbH|SE")
+    ),
+    Arrays.asList( // Die damalige Ernst Klett Schulbuch AG
+      token("die"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:FEM.*").csTokenRegex("[a-zäöü].+").min(0).build(),
+      csRegex("[A-ZÄÖÜ].*"),
+      csRegex("[A-ZÄÖÜ].*"),
+      csRegex("[A-ZÄÖÜ].*"),
+      csRegex("AG|GmbH|SE")
     ),
     Arrays.asList(
       // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
