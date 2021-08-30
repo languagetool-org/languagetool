@@ -20248,7 +20248,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token>ten</token>
-					<token regexp="yes" case_sensitive="yes">dode|gehore|geleide|geschenke|grave|gronde|gunste|hove|kantore|kwade|nadele|name|nutte|onrechte|overvloede|paleize|parkette|pleziere|principale|rechte|verderve|vervolge|verzoeke|voordele|gronde|gerieve</token>
+					<token regexp="yes" case_sensitive="yes">dode|gehore|geleide|geschenke|grave|gronde|gunste|hove|kantore|kwade|nadele|name|nutte|onrechte|overvloede|paleize|parkette|pleziere|principale|rechte|verderve|vervolge|verzoeke|voordele|gerieve</token>
 				</pattern>
 				<message>Ouderwets. Bedenk iets moderners.</message>
 				<example type="incorrect">Hij is <marker>ten dode</marker> opgeschreven.</example>
@@ -41681,6 +41681,20 @@ steenwijk;Steenwijk
 				<message>De woordvolgorde lijkt hier niet goed.</message>
 				<suggestion>\2 \4 \3</suggestion>
 				<example correction="ik niet houd">Het klopt dat <marker>ik houd niet</marker> van piepers.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DEZE_WASMIDDEL" name="deze/dit" >
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token regexp="yes">deze|die</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*HET"><exception postag_regexp="yes" postag="ZNW.*DE_|WKW.*|BNW.*"/></token>
+					<token><exception postag_regexp="yes" postag="ZNW.*DE_"/></token><!-- spatiefout -->
+				</pattern>
+				<message>\3 is een het-woord. Daarom moet er geen \2 staan, maar <suggestion>dit</suggestion> of <suggestion>dat</suggestion>.</message>
+				<example correction="Dit|Dat"><marker>Deze</marker> wasmiddel stinkt.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ZIEKTE_IN_MENSEN" name="Anglicisme" >
