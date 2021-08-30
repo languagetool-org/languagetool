@@ -9813,6 +9813,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="A.*|V.P.*|DP.*"/>
             <example type="untouched">Són massivament admiradors seus.</example>
         </rule>
+        <rule id="aa4b" name="aa1">
+            <pattern>
+                <token regexp="yes" inflected="yes">ser|estar|parèixer|semblar|quedar</token>
+                <marker>
+                    <token postag="RG.*" postag_regexp="yes" regexp="yes">molt|poc|tant|tan|força|massa|tot|més|també</token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="V.[NMIS].*|_GV_|RG" postag_regexp="yes"/><exception inflected="yes" regexp="yes">estat|part</exception><exception>nou</exception></token>
+                </marker>
+                <token><exception regexp="yes">seus?|de|d'</exception></token>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="untouched">Són massivament admiradors seus.</example>
+        </rule>
         <rule id="aa4a" name="aa1">
             <!--  res de més inútil que-->
             <pattern>
