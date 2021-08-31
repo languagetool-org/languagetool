@@ -6429,9 +6429,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <example correction="">Això és de <marker>meu</marker> avi.</example>
-                <example correction="">són coneguts per <marker>seua</marker> força</example>
-                <example correction="">Ell <marker>meu</marker> germà.</example>
+                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="el meu">Això és de <marker>meu</marker> avi.</example>
+                <example correction="la seua">són coneguts per <marker>seua</marker> força</example>
+                <example correction="el meu">Ell <marker>meu</marker> germà.</example>
                 <example>Això és del meu avi.</example>
                 <example>en la seva majoria</example>
                 <example>La mort i resurrecció de Nostre Senyor Jesucrist.</example>
@@ -6451,7 +6452,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"><exception postag="A..[FC].*|V.P00.F" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <example correction="">Això és de <marker>seu</marker> avi.</example>
+                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="el seu">Això és de <marker>seu</marker> avi.</example>
                 <example>com a seu oficial dels Jocs</example>
                 <example>es prosternarà davant seu gent de totes les nacions</example>
                 <example>Dels altres seus treballs a la catedral.</example>
@@ -6466,7 +6468,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <example correction="">desplaçant <marker>seus</marker> anteriors alfabets</example>
+                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="els seus">desplaçant <marker>seus</marker> anteriors alfabets</example>
                 <example>desplaçant els seus anteriors alfabets</example>
                 <example>Considera com a seves diverses illes</example>
                 <example>Publica la Passió de Nostre Senyor Jesucrist.</example>
@@ -6480,8 +6483,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare|Dona|Mare)</exception></token>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <example correction="">Això és de <marker>nostre</marker> pare.</example>
-                <example correction="">semblant a <marker>nostre</marker> terme actual.</example>
+                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="el nostre">Això és de <marker>nostre</marker> pare.</example>
+                <example correction="el nostre">semblant a <marker>nostre</marker> terme actual.</example>
                 <example>Això és del nostre pare.</example>
                 <example>La mort i resurrecció de Nostre Pare.</example>
                 <example>Santuari de Nostra Dona del Tura</example>
@@ -6496,7 +6500,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare|Dona|Mare)</exception></token>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <example correction="">Això és de <marker>nostre</marker> estimat avi.</example>
+                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="el nostre">Això és de <marker>nostre</marker> estimat avi.</example>
                 <example>La mort i resurrecció de Nostre Senyor Jesucrist.</example>
             </rule>
         </rulegroup>
