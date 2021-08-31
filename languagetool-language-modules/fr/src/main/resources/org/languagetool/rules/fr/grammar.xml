@@ -10057,9 +10057,37 @@ though, and has since been slightly modified)-->
                 <token>bien</token>
             </antipattern>
             <antipattern>
+                <token skip="-1" regexp="yes">si|soit</token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[AVN].*" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
                 <token postag="SENT_START" skip="4"/>
                 <token inflected="yes" min="0" max="1">ne</token>
-                <token postag="V imp.*" postag_regexp="yes" skip="-1"/>
+                <token postag="V.* imp.*" postag_regexp="yes" skip="-1"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* imp.*|UNKNOWN" postag_regexp="yes" skip="-1"/>
                 <token>ou</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
@@ -10077,13 +10105,13 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token postag="SENT_START|UNKNOWN" postag_regexp="yes"/>
-                <token postag="[DJNAV].*|UNKNOWN" postag_regexp="yes" min="1" max="3"/>
+                <token postag="[DJNAVP].*|UNKNOWN" postag_regexp="yes" min="1" max="3"/>
                 <token>ou</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="V.*" postag_regexp="yes"/>
-                <token postag="[DJN].*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="[DJN].*|V.* inf" postag_regexp="yes" min="0" max="3"/>
                 <token postag="SENT_END"/>
             </antipattern>
             <antipattern>
@@ -10102,15 +10130,16 @@ though, and has since been slightly modified)-->
             </antipattern>
              <antipattern>
                 <token postag="SENT_START"/>
-                <token postag="D.*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="A" min="0" max="1"/>
+                <token postag="[DP].*" postag_regexp="yes" min="1" max="3"/>
                 <token postag="N.*" postag_regexp="yes" min="1" max="2"/>
-                <token postag="[JAV].*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="[JAV].*" postag_regexp="yes" min="0" max="3"/>
                 <token>ou</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="V.*" postag_regexp="yes"/>
-                <token postag="[DJN].*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="[DJN].*|V.* inf" postag_regexp="yes" min="0" max="3"/>
                 <token postag="SENT_END"/>
             </antipattern>
             <antipattern>
@@ -10153,9 +10182,44 @@ though, and has since been slightly modified)-->
             </unify>
             </antipattern>
             <antipattern>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="A" min="0" max="1"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+				<token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
             <unify>
-                <feature id="number"/>
                 <feature id="person"/>
+                <feature id="number"/>
+            <unify-ignore>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1" regexp="yes">ne|en</token>
+            </unify-ignore>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+            <unify-ignore>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+            </unify-ignore>
+                <token postag="V.*" postag_regexp="yes"/>
+            </unify>
+            </antipattern>
+            <antipattern>
+            <unify>
+                <feature id="person"/>
+                <feature id="number"/>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
             <unify-ignore>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
@@ -10163,11 +10227,25 @@ though, and has since been slightly modified)-->
             </unify-ignore>
                 <token postag="V.*" postag_regexp="yes" skip="-1"/>
             <unify-ignore>
-                <token postag="[AVN].*" postag_regexp="yes"/>
                 <token>ou</token>
             </unify-ignore>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
+                <unify-ignore>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+            </unify-ignore>
+                <token postag="V.*" postag_regexp="yes"/>
+            </unify>
+            </antipattern>
+            <antipattern>
+            <unify>
+                <feature id="person"/>
+                <feature id="number"/>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
             <unify-ignore>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token inflected="yes" min="0" max="1">ne</token>
             </unify-ignore>
@@ -10182,12 +10260,20 @@ though, and has since been slightly modified)-->
                 <token>sais</token>
                 <token>quoi</token>
             </antipattern>
+            <antipattern>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token>ou</token>
+                <token regexp="yes">[nv]ous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="[AVN].*" postag_regexp="yes"/>
                 <marker>
                     <token>ou</token>
                 </marker>
-                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                <exception regexp="yes">.*-mêmes?</exception>
+                </token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="V.*" postag_regexp="yes"/>
@@ -10199,6 +10285,23 @@ though, and has since been slightly modified)-->
             <example>Est-ce normal ou j'ai fait une erreur ?</example>
             <example>Évitez ces billets ou vous serez trompés.</example>
             <example>Attention ou j'annule tout.</example>
+            <example>Si certains éléments de votre toit ou lui-même paraissent imparfaits.</example>
+            <example>Parfois, on dit ou on écrit, avec insouciance.</example>
+            <example>Va vite à l'eau ou nous allons nous faire mouiller.</example>
+            <example>Si ce numéro de téléphone vous a appelé ou vous avez reçu des messages sms.</example>
+            <example>Merci de vous connecter ci-dessous ou vous inscrire.</example>
+            <example>Je vous écrirai ou vous téléphonerai la semaine prochaine.</example>
+            <example>Tom ferait mieux de se dépêcher ou il ratera le bus.</example>
+            <example>Il faut définir des directives post mortem ou vous adresser à une autorité compétente.</example>
+            <example>Soit que vous faites leur travail ou je vous licencierai demain matin.</example>
+            <example>Configurer votre navigateur pour bloquer ou vous alerter sur ces cookies.</example>
+            <example>Ne me regarde pas ainsi ou je tomberai encore plus amoureuse de toi.</example>
+            <example>Sois prudent en conduisant ou tu auras des problèmes.</example>
+            <example>Du calme ou tu te fais sortir !</example>
+            <example>J'ai déjà donné ou je ne suis pas intéressé.</example>
+            <example>Pas un geste ou je tire !</example>
+            <example>Elle fera l’objet d’une autorisation préalable ou elle sera passible de poursuites.</example>
+            <example>Vous devez prendre Le Nuage rouge que votre liste de lecture ou vous serez regretter parce que vous ne l'avez pas lu encore dans votre vie.</example>
             <example>On en fait des confitures ou on les mange telles quelles.</example>
             <example>Elle est citée ou elle apparaît dans plusieurs romans.</example>
             <example>Par ailleurs, il a existé ou il existe encore des CIRA au Brésil.</example>
