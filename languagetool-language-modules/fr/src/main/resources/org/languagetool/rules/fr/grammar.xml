@@ -38334,9 +38334,9 @@ though, and has since been slightly modified)-->
             <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
             <example correction="arrivent">Deux d'entre eux <marker>arrive</marker> aujourd'hui.</example>
         </rule>
-        <rule id="V_SUB_V_IND" name="il voie (il voit)" default="temp_off">
+        <rulegroup id="V_SUB_V_IND" name="il voie (il voit)" default="temp_off">
             <antipattern>
-                <token inflected="yes" skip="-1" regexp="yes">qu[ei]|quoique|après|soit</token>
+                <token skip="-1" regexp="yes">qui|quoique|après|soit|que|qu'|quoiqu'|auxquelles</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
@@ -38364,18 +38364,55 @@ though, and has since been slightly modified)-->
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <token postag="V sub.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>au</token>
+                <token>cas</token>
+                <token regexp="yes">o[uù]</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V sub.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token regexp="yes">-t-ils?|-t-elles?|-je|-tu|[nv]ous|-t-on|-ils?|-elles?|-on</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V sub.*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
             <pattern>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <marker>
-                    <token postag="V sub.*" postag_regexp="yes"><exception postag="V ind.*" postag_regexp="yes"/></token>
+                    <token postag="V sub.*" postag_regexp="yes"><exception postag="V ind.*|V sub impa" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\4'.</message>
             <suggestion><match no="4" postag="(V) (sub) (.*)" postag_regexp="yes" postag_replace="$1 ind $3"/></suggestion>
             <example correction="vois|voit">Je ne la <marker>voie</marker> pas.</example>
+            <example>Que Dieu nous fasse grâce et nous bénisse.</example>
+            <example>Je laisse mon numéro de téléphone au cas ou tu veuilles m'appeler.</example>
+            <example>Le doute est-il la voie vers la grandeur ?</example>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token postag="V sub impa.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\4'.</message>
+                <suggestion><match no="5" postag="(V) (sub) (impa) ([123]) ([sp])" postag_regexp="yes" postag_replace="$1 ind psim $4 $5"/></suggestion>
+            <example correction="vint">Il ne <marker>vînt</marker> que le soir.</example>
+            <example>Que Dieu nous fasse grâce et nous bénisse.</example>
+            <example>Je laisse mon numéro de téléphone au cas ou tu veuilles m'appeler.</example>
+            <example>Le doute est-il la voie vers la grandeur ?</example>
+        </rule>
+        </rulegroup>
     </category>
     <category id="CAT_REGIONALISMES" name="Régionalismes" type="style">
         <rule id="CI-ATTACHE" name="ci-attaché">
