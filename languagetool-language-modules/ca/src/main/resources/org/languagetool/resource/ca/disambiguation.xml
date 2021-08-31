@@ -2253,17 +2253,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="NC.*"/>
     </rule>
-    <rule id="CURT" name="curt no adverbi">
-        <pattern>
-            <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
-            <marker>
-                <token>curt</token>
-            </marker>
-        </pattern>
-        <disambig action="remove">
-            <wd pos="RG"/>
-        </disambig>
-    </rule>
+    <rulegroup id="CURT" name="curt no adverbi">
+        <rule>
+            <pattern>
+                <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+                <marker>
+                    <token>curt</token>
+                </marker>
+            </pattern>
+            <disambig action="remove">
+                <wd pos="RG"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="D.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token inflected="yes">curt</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="darrera" name="permet 'darrera' en alguns casos">
         <rule>
             <pattern>
