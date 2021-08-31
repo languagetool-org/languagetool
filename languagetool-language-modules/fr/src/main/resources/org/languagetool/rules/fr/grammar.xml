@@ -38451,8 +38451,26 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rule id="DEUX_D_ENTRE_EUX" name="deux d'entre eux" default="temp_off">
+        <antipattern>
+            <token>le</token>
+            <token skip="-1">plus</token>
+            <token>d'</token>
+            <token>entre</token>
+            <token>eux</token>
+            <token postag="R pers obj.*|A" min="0" max="1" postag_regexp="yes"/>
+            <token postag="V.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D . s" postag_regexp="yes"/>
+            <token postag="N . s" postag_regexp="yes"/>
+            <token>d'</token>
+            <token>entre</token>
+            <token>eux</token>
+            <token postag="R pers obj.*|A" min="0" max="1" postag_regexp="yes"/>
+            <token postag="V.*" postag_regexp="yes"/>
+        </antipattern>
             <pattern>
-                <token>d'<exception scope="previous" postag="R dem . s|R . s" postag_regexp="yes"/></token>
+                <token>d'<exception scope="previous" postag="R dem . s|R . s|R rel . s" postag_regexp="yes"/></token>
                 <token>entre</token>
                 <token>eux</token>
                 <token postag="R pers obj.*|A" min="0" max="1" postag_regexp="yes"/>
@@ -38465,6 +38483,9 @@ though, and has since been slightly modified)-->
             <message>Le verbe « \5 » devrait être à la 3ᵉ personne du pluriel.</message>
             <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
             <example correction="arrivent">Deux d'entre eux <marker>arrive</marker> aujourd'hui.</example>
+            <example>La majorité d'entre eux ne connaît que l'anglais.</example>
+            <example>Le plus prolixe d'entre eux est le Français Deychamps.</example>
+            <example>Lequel d'entre eux est ton frère ?</example>
         </rule>
         <rule id="V_SUB_V_IND" name="il voie (il voit)" default="temp_off">
             <antipattern>
