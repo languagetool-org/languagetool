@@ -13581,6 +13581,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ACHTMALVIER" name="'acht mal (achtmal)' etc.">
             <url>https://www.duden.de/rechtschreibung/mal_zu_irgendeiner_Zeit</url>
             <rule>
+                <antipattern>
+                    <token postag="ZAL"/>
+                    <token regexp="yes">bis|oder</token>
+                    <token postag="ZAL"/>
+                    <token>mal</token>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">nur|schon|bereits</exception></token><!-- Hinweis auf Betonung -->
                     <marker>
@@ -13593,6 +13599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="achtmal">Wir haben es <marker>acht mal</marker> versucht.</example>
                 <example>Das haben wir doch schon <marker>drei Mal</marker> besprochen!</example>
+                <example>Wir treffen uns vier bis <marker>fünf Mal</marker> pro Woche.</example>
             </rule>
             <rule>
                 <pattern>
