@@ -25906,6 +25906,30 @@ though, and has since been slightly modified)-->
             <example>Elle vit retirée à Jouy-en-Josas jusqu'à la mort de Biais en 1926.</example>
             <example>Zilov se voit obligé de l'accepter.</example>
         </rule>
+        <rule id="VOIR_INFINITIF2" name="voir + participe passé -> infinitif" default="temp_off">
+            <!-- simplified version of FAIRE_VPPA2 -->
+            <antipattern>
+                <token><exception inflected="yes">avoir</exception></token>
+                <token postag="V.* ppa.*" postag_regexp="yes" inflected="yes">voir</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">voir<exception inflected="yes">vivre</exception></token>
+                <marker>
+                    <and>
+                        <token  postag="V.* ppa m s" postag_regexp="yes" regexp="yes">.*[éi]</token>
+                        <token regexp="yes" inflected="yes">accorder|adjoindre|apparaître|appliquer|arriver|assigner|attribuer|briller|confier|conférer|danser|disparaître|donner|doter|débarquer|décerner|défiler|entrer|faire|fleurir|grandir|imposer|infliger|interdire|jouer|monter|mourir|naître|octroyer|offrir|opposer|paraître|partir|passer|poindre|prendre|proposer|reconnaître|refuser|remettre|reprocher|retirer|revenir|réapparaître|sortir|surgir|tomber|venir|voir|éclore|émerger|évoluer|être</token>
+                        <!-- removed: obliger -->
+                    </and>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire  <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion> (infinitif)?</message>
+            <example correction="passer">J’ai refusé des sponsors avant de les voir <marker>passé</marker>.</example>
+            <example correction="arriver">Je les ai vu <marker>arrivé</marker>.</example>
+            <example>Voies créées ou existantes.</example>
+            <example>Voir sortie au Cervin entrée.</example>
+            <example>Elle vit retirée à Jouy-en-Josas jusqu'à la mort de Biais en 1926.</example>
+            <example>Zilov se voit obligé de l'accepter.</example>
+        </rule>
         <rulegroup id="VERBE_PREP_INFINITIF" name="verbe + preposition + ppa -> inf">
             <rule>
                 <pattern>
