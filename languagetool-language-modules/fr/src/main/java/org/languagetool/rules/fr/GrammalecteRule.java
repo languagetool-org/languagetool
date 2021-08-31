@@ -417,7 +417,8 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b3_a1_1",
     "g2__conf_a_à_verbe__b4_a1_1",
     "g2__conf_a_à_verbe__b7_a1_1",
-    "g2__conf_a_à_verbe__b8_a1_1"
+    "g2__conf_a_à_verbe__b8_a1_1",
+    "g3__gn_la_3m__b1_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
