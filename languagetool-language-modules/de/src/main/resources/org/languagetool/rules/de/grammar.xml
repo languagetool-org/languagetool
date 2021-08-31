@@ -22543,7 +22543,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Link">Der <marker>link</marker> funktioniert nicht.</example>
                 <example>Allmählich wächst mein Verständnis für die Wähler, die uns links liegen lassen!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>link</token>
                     <token>ich</token>
@@ -22561,7 +22561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Link">Schicken Sie uns dann einen <marker>link</marker>?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="(PRO|ART):.+" postag_regexp="yes">
                         <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
@@ -25639,7 +25639,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Links</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">abbiegen|blicken|drehen|gehen|gucken|kommen|laufen|schauen|schreiben|[Nn]ach</token>
+                    <token postag="ZUS" min="0" />
+                    <token regexp="yes" inflected="yes">abbiegen|fahren|orientieren|abfahren|driften|abdriften|blicken|drehen|gehen|gucken|kommen|laufen|schauen|schreiben|[Nn]ach|kippen|swipen|ausscheren|rutschen|abrutschen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion>&advende;</message>
                 <short>&prgk;.</short>
@@ -25650,7 +25651,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" inflected="yes">abbiegen|blicken|drehen|gehen|gucken|kommen|laufen|schauen|schreiben</token>
+                    <token regexp="yes" inflected="yes">abbiegen|blicken|drehen|gehen|gucken|kommen|laufen|schauen|schreiben|fahren|rutschen</token>
                     <token regexp="yes">[Mm]it|[Nn]ach</token>
                     <marker>
                         <token>Links</token>
@@ -25672,6 +25673,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="links">An dieser Kreuzung gilt rechts vor <marker>Links</marker>.</example>
                 <example correction="links">An dieser Kreuzung gilt Rechts vor <marker>Links</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[a-z].*</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Links|Rechts</token>
+                    </marker>
+                    <token inflected="yes">abbiegen</token>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="links">Hier müssen wir <marker>Links</marker> abbiegen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RECHTS_ADV" name="'Rechts (rechts)'">
