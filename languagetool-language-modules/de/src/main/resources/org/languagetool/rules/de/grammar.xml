@@ -16197,7 +16197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="HOCH_ZUSAMMENSCHREIBUNG" name="'hoch + bestimmte Verben, Partizipien (und Adjektive, die nicht erkannt werden)' zusammenschreiben">
             <antipattern>
-                <token>wie</token>
+                <token regexp="yes">.*meter|meilen|Stockwerke|Etagen|wie</token>
                 <token>hoch</token>
             </antipattern>
             <pattern case_sensitive="yes">
@@ -16207,6 +16207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Prüfen Sie, ob <suggestion><match no="1"/><match no="2"/></suggestion> zusammengeschrieben werden soll - das ist der Fall, wenn die Betonung auf 'hoch' liegt.</message>
             <example correction="hochgegangen">Die Bombe ist <marker>hoch gegangen</marker>.</example>
             <example>Wie hoch kannst Du springen?</example>
+            <example>Maximal 60 Meter hoch dürfe ein Gebäude an diesem Standort werden.</example>
         </rule>
         <rulegroup id="SCHWERFAELLIG" name="schwer fällig (schwerfällig)">
             <rule>
