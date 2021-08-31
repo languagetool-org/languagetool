@@ -1480,12 +1480,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <or>
-                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavegada" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavegada" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
+                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavez" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavez" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
                         <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
                     </or>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavez" postag_regexp="yes" scope="next"/></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:[AN].*"/>
@@ -1498,13 +1498,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <or>
-                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavegada" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavegada" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
+                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavez" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavez" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
                         <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavez" postag_regexp="yes" scope="next"/><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception></token>
                     </marker>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><!--<exception scope="previous"
+                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><!--<exception scope="previous"
                         postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>--></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:[AN].*"/>
@@ -16102,6 +16102,138 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me han gustado el de manzana y el de pera.</example>
                 <example>Me han gustado mucho los batidos.</example>
                 <example>Me han gustado mucho más los batidos.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONCORDANCIAS_ATRIBUTO" name="Concordancias entre sujeto y atribuo en frases copulativas" default="temp_off">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">resto|mayoría|vez|&dias_semana;|&meses_ano;|&unidades_tiempo;|&expresiones_tiempo;|\d{3,4}</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>derecho</token>
+                    <token regexp="yes">a|de</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>mayor</token>
+                    <token>parte</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">término|palabra|denominación</token>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
+                    <token regexp="yes">obvio|evidente|claro|posible|probable</token>
+                    <token>que</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="_GN_.S" postag_regexp="yes"/>
+                    <token postag="_GN_.P" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
+                            <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <message>Posible error de concordancia.</message>
+                <example correction="bonita">La casa es <marker>bonito</marker>.</example>
+                <example correction="bonita">La casa no es <marker>bonitos</marker>.</example>
+                <example correction="alta">La calidad parecía <marker>altos</marker>.</example>
+                <example correction="casada">Su madre no estaba <marker>casado</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
+                            <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
+                            <token postag="RG_before"><exception>algo</exception></token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <message>Posible error de concordancia.</message>
+                <example correction="bonita">La casa es muy <marker>bonito</marker>.</example>
+                <example correction="bonita">La casa no es demasiado <marker>bonitos</marker>.</example>
+                <example correction="alta">La calidad parecía muy <marker>altos</marker>.</example>
+                <example correction="casada">Su madre estaba felizmente <marker>casado</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
+                            <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <message>Posible error de concordancia.</message>
+                <example correction="bonita">África es <marker>bonito</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
+                            <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
+                            <token postag="RG_before"><exception>algo</exception></token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <message>Posible error de concordancia.</message>
+                <example correction="bonita">Gambia no es muy <marker>bonito</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_SUBJECT_VERB" name="accord sujet/verbe" default="temp_off">
