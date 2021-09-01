@@ -1053,7 +1053,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       defaultForeground = dialog.getForeground() == null ? Color.BLACK : dialog.getForeground();
 
       languageLabel = new JLabel(labelLanguage);
-      Font dialogFont = languageLabel.getFont().deriveFont((float) 12);
+//    Font dialogFont = languageLabel.getFont().deriveFont((float) 12);
+      Font dialogFont = languageLabel.getFont();
       languageLabel.setBounds(begFirstCol, disFirstCol, 180, 30);
       languageLabel.setFont(dialogFont);
       dialog.add(languageLabel);
