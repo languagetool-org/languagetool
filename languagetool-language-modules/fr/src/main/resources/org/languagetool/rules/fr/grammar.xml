@@ -10261,6 +10261,22 @@ though, and has since been slightly modified)-->
                 <token postag="V.*" postag_regexp="yes" skip="-1"/>
             <unify-ignore>
                 <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token skip="3"><exception regexp="yes">dans|que</exception></token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+            </unify-ignore>
+                <token postag="V.*" postag_regexp="yes"/>
+            </unify>
+            </antipattern>
+            <antipattern>
+            <unify>
+                <feature id="person"/>
+                <feature id="number"/>
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+            <unify-ignore>
+                <token postag="V.* inf" postag_regexp="yes"/>
                 <token>ou</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
@@ -10298,6 +10314,7 @@ though, and has since been slightly modified)-->
             <message>L'adverbe de lieu comporte un accent.</message>
             <suggestion>où</suggestion>
             <example correction="où">Les annales <marker>ou</marker> on a vue différents pilotes.</example>
+            <example correction="où">C’est peut-être la seule fois <marker>ou</marker> il a pu passer devant le Maître.</example>
             <example correction="où">Nous vivons des temps <marker>ou</marker> il n’est pas inutile de pointer souvent que tout n’est pas à avaler tout cru.</example>
             <example>Est-ce normal ou j'ai fait une erreur ?</example>
             <example>Évitez ces billets ou vous serez trompés.</example>
