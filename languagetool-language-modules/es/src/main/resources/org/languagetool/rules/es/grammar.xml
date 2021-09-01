@@ -18806,6 +18806,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>A esto debe usted oponerse.</example>
             <example>Cuando digo esto pienso sobre todo en los intereses.</example>
         </rule>
+        <rule id="ESO_ESE" name="eso/ese" default="temp_off">
+            <antipattern>
+                <token skip="-1">eso</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token skip="6">no</token>
+                <token inflected="yes" regexp="yes">ser|parecer|considerar</token>
+                <token>eso</token>
+            </antipattern>
+            <antipattern>
+                <token>todo</token>
+                <token>eso</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>eso</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>eso</token>
+                <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>eso</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">.+lo</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START|_PUNCT.*|CC" postag_regexp="yes"/>
+                <token regexp="yes">con|por|en</token>
+                <token>eso</token>
+                <token regexp="yes">apoyo|deseo|cierro|cuento|pienso|recuerdo</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>eso</token>
+                <token postag="AQ.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>eso</token>
+                </marker>
+                <token postag="NCMS000"><exception regexp="yes">deje|pienso|justo|injusto|claro|paso|bien|rápido|seguro|vale|cumple</exception></token>
+                <!--<exception postag="V.[SI].*" postag_regexp="yes"/>-->
+            </pattern>
+            <message>¿Quería decir <suggestion>ese</suggestion>?</message>
+            <example correction="ese">En <marker>eso</marker> ámbito es el mejor.</example>
+            <example correction="ese">En <marker>eso</marker> campo es el mejor.</example>
+            <example correction="ese">Estoy viviendo en <marker>eso</marker> momento en Rusia</example>
+            <example correction="ese">Es con <marker>eso</marker> deseo que lo solicito.</example>
+            <example correction="ese">En <marker>eso</marker> momento no puedo responderle.</example>
+            <example correction="ese">Por <marker>eso</marker> motivo, las ciudades se encuentran en declive.</example>
+            <example>En eso suelo ser el primero.</example>
+            <example>¿Es eso intrusismo?</example>
+            <example>Eso pasó en el año 2000.</example>
+            <example>Tendré todo eso preparadao a las ocho.</example>
+            <example>Tendré eso preparadao a las ocho.</example>
+            <example>Lo haré para evitar que eso pase.</example>
+            <example>Con eso seguro que se paliará el dolor.</example>
+            <example>Hay que dejar eso hecho.</example>
+            <example>Eso logro detectarlo.</example>
+            <example>¿Sabría decirme en qué idioma está eso escrito?</example>
+            <example>Quiero que deje eso claro.</example>
+            <example>Es importante tener eso presente.</example>
+            <example>que de verdad permita hacer eso efectivo</example>
+            <example>y con eso deseo acabar mi intervención</example>
+            <example>Eso debe ahora aplicarse.</example>
+            <example>No ha de ser eso motivo para no agradecerle su inmenso trabajo.</example>
+            <example>A eso debe usted oponerse.</example>
+            <example>Cuando digo eso pienso sobre todo en los intereses.</example>
+        </rule>
+        <rule id="ESO_ESOS" name="confusión eso/esos" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">eso|esto</token>
+                </marker>
+                <token postag="NC[MC]P.*" postag_regexp="yes"><exception postag="LOC_.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion><match no="1"/>s</suggestion>, en concordancia con "\2"?</message>
+            <example correction="esos">Porque <marker>eso</marker> puntos son válidos.</example>
+            <example>Y todo esto gracias al ojo de Pedro.</example>
+        </rule>
         <rulegroup id="WRONG_IMPERATIVE" name="imperativo incorrecto">
             <rule>
                 <pattern>
