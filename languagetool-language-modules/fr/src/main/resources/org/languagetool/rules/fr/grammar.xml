@@ -38155,6 +38155,39 @@ though, and has since been slightly modified)-->
                 <example>\3s</example>
                 <example correction="côtés|côtes|cotes|cottes">Il faut tremper un des <marker>coté</marker>.</example>
             </rule>
+			<rule>
+            <antipattern>
+                <token>qui</token>
+                <token>est</token>
+                <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>est</token>
+                <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token>qui</token>
+            </antipattern>
+            <antipattern>
+                <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ce<exception scope="previous">sur</exception></token>
+                </marker>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Une faute de frappe ou une omission semble être possible, car les mots « \1 \2 » ne peuvent pas se suivre.</message>
+            <suggestion>ce que</suggestion>
+            <suggestion>cela</suggestion>
+            <example correction="ce que|cela">Voici <marker>ce</marker> je fais.</example>
+            <example correction="ce que|cela">Malgré <marker>ce</marker> il est exploitable.</example>
+            <example>Nous ne chercherons donc pas Tiens, mais qui est ce nous ?</example>
+            <example>Est ce vous qui nous avez indiqué la descente par les pentes Ouest ?</example>
+            <example>Sur ce je disparais.</example>
+            <example>Mais quel est ce Je mystérieux qui transite ainsi d’un état de moi-même à un autre ?</example>
+        </rule>
         </rulegroup>
         <rule id="QUELQUE" name="quelque invariable devant nombre">
             <pattern>
