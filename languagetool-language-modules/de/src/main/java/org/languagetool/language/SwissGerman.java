@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.SwissCompoundRule;
 import org.languagetool.rules.de.SwissGermanSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.SwissGermanTagger;
 
@@ -55,6 +56,11 @@ public class SwissGerman extends German {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new SwissCompoundRule(messages));
     return rules;
+  }
+
+  @Override
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new SwissGermanSpellerRule(messages, this);
   }
 
   @Override

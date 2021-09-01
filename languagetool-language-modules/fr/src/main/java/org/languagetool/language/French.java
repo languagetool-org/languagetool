@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -91,6 +92,12 @@ public class French extends Language implements AutoCloseable {
     return new Contributor[] {
         Contributors.DOMINIQUE_PELLE
     };
+  }
+
+
+  @Override
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikFrenchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
   @Override

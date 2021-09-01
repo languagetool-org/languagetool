@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21,6 +21,7 @@ package org.languagetool.language;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,6 +34,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
 import org.languagetool.rules.en.NewZealandReplaceRule;
 import org.languagetool.rules.en.UnitConversionRuleImperial;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public class NewZealandEnglish extends English {
 
@@ -44,6 +46,11 @@ public class NewZealandEnglish extends English {
   @Override
   public String getName() {
     return "English (New Zealand)";
+  }
+
+  @Override
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikNewZealandSpellerRule(messages, this, null, Collections.emptyList());
   }
 
   @Override

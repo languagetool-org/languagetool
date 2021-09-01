@@ -29,6 +29,7 @@ import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -259,6 +260,17 @@ public abstract class Language {
    */
   public List<Rule> getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
+  }
+
+  /**
+   * Get the default spelling rule of this language
+   * Useful for rules to implement supression of misspelled suggestions
+   * @since 5.5
+   *
+   */
+  @Nullable
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return null;
   }
 
   /**

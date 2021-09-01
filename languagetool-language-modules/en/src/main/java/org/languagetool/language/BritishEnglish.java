@@ -21,6 +21,7 @@ package org.languagetool.language;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,6 +34,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.BritishReplaceRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 import org.languagetool.rules.en.UnitConversionRuleImperial;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public class BritishEnglish extends English {
 
@@ -53,6 +55,11 @@ public class BritishEnglish extends English {
     rules.add(new BritishReplaceRule(messages, "/en/en-GB/replace.txt"));
     rules.add(new UnitConversionRuleImperial(messages));
     return rules;
+  }
+
+  @Override
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikBritishSpellerRule(messages, this, null, Collections.emptyList());
   }
 
   @Override
