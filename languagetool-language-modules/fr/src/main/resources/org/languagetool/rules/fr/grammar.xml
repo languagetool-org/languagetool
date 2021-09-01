@@ -9310,6 +9310,59 @@ though, and has since been slightly modified)-->
                 <example>Soit mon frère est tombé du lit, soit le chat a fait un vol plané.</example>
                 <example>Soit mon frère est tombé du lit, soit le chat de mon ami a fait un vol plané.</example>
             </rule>
+			<rule default="temp_off">
+            <antipattern>
+                <token regexp="yes" skip="-1">qui|que|qu'|où</token>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R rel.*" postag_regexp="yes" skip="-1"/>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">quan[dt]</token>
+                <token>a</token>
+                <token>lui</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token postag="A" min="1" max="3"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token case_sensitive="yes">a</token>
+            </antipattern>
+            <pattern>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"><exception case_sensitive="yes">A</exception></token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token case_sensitive="yes">a
+                        <exception scope="next" regexp="yes">contrario|fortiori|posteriori|priori|minima|cap?pella</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
+            <example correction="à">Elle est partie <marker>a</marker> la poste.</example>
+            <example>Le A cerclé a l’avantage d’être plus facilement exécutable.</example>
+            <example>la journaliste a encore frappé a écrit le rédacteur.</example>
+            <example>Ce j’ai le plus aimé a simplement été l’audace.</example>
+            <example>Le traité des Pyrénées quand a lui a connu un pic atteignant 2000 visites.</example>
+            <example>Un étage sous comble est aménagé a minima.</example>
+            <example>Le groupe de jeunes pionniers à l'école où elle a enseigné a également été renommé en sa mémoire.</example>
+        </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
             <pattern>
