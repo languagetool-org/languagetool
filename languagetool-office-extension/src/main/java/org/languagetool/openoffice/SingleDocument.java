@@ -549,7 +549,7 @@ class SingleDocument {
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
-    if (flatPara != null && docCache.isFinished()) {
+    if (flatPara != null && docCache.isFinished() && nStart < docCache.textSize()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, nEnd == nStart + 1, override, false, hasFootnotes);
     }
