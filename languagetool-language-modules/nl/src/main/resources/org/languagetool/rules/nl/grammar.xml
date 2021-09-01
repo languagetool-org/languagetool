@@ -41737,6 +41737,19 @@ steenwijk;Steenwijk
 				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> gevaccineerden.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HET_BELANGRIJKSTE_MISSCHIEN_IS" name="Volgorde vreemd" default="temp_off">
+			<rule>
+				<pattern>
+					<token>het</token>
+					<token postag_regexp="yes" postag=".*VRB"/>
+					<token postag_regexp="yes" postag="BYW.*"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+				</pattern>
+				<message>Deze woordvolgorde is ongebruikelijk.</message>
+				<suggestion>\1 \2 \4 \3</suggestion>
+				<example correction="Het belangrijkste is misschien"><marker>Het belangrijkste misschien is</marker> resultaat.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="TEST" name="test">
 		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
