@@ -28495,6 +28495,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="TikTok"><marker>Tik tok</marker> és una xarxa social que permet compartir vídeos curts.</example>
                 <example correction="TikTok"><marker>Tik-tok</marker> és una xarxa social que permet compartir vídeos curts.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">corona|adeno</token>
+                    <token min="0">-</token>
+                    <token>virus</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>\1virus</suggestion>
+                <example correction="coronavirus">El <marker>corona virus</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <antipattern>
