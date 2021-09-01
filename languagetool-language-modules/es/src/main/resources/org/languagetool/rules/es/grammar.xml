@@ -16106,50 +16106,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCIAS_ATRIBUTO" name="Concordancias entre sujeto y atribuo en frases copulativas" default="temp_off">
             <antipattern>
-                <marker>
-                    <token regexp="yes" inflected="yes">resto|mayoría|vez|&dias_semana;|&meses_ano;|&unidades_tiempo;|&expresiones_tiempo;|\d{3,4}</token>
-                </marker>
+                <token regexp="yes" inflected="yes">resto|mayoría|vez|&dias_semana;|&meses_ano;|&unidades_tiempo;|&expresiones_tiempo;|\d{3,4}</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>derecho</token>
-                    <token regexp="yes">a|de</token>
-                </marker>
+                <token>derecho</token>
+                <token regexp="yes">a|de</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>mayor</token>
-                    <token>parte</token>
-                </marker>
+                <token regexp="yes">mayor|gran|buena</token>
+                <token>parte</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes" inflected="yes">término|palabra|denominación</token>
-                    <token postag="N.*|A.*" postag_regexp="yes"/>
-                </marker>
+                <token regexp="yes" inflected="yes">término|palabra|denominación</token>
+                <token postag="N.*|A.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
-                    <token regexp="yes">obvio|evidente|claro|posible|probable</token>
-                    <token>que</token>
-                </marker>
+                <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
+                <token regexp="yes">obvio|evidente|claro|posible|probable</token>
+                <token>que</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="SENT_START"/>
-                    <token postag="V.P.*" postag_regexp="yes"/>
-                </marker>
+                <token postag="SENT_START"/>
+                <token postag="V.P.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="_GN_.S" postag_regexp="yes"/>
-                    <token postag="_GN_.P" postag_regexp="yes"/>
-                </marker>
+                <token postag="_GN_.S" postag_regexp="yes"/>
+                <token postag="_GN_.P" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- only: tener que -->
+                <token><exception inflected="yes">tener</exception></token>
+                <token>que</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
@@ -16173,7 +16164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
@@ -16197,7 +16188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
@@ -16214,10 +16205,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..\b1\b2."/>
                 <message>Posible error de concordancia.</message>
                 <example correction="bonita">África es <marker>bonito</marker>.</example>
+                <example>Mira que es raro.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START.*|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START.*" postag_regexp="yes"/>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
@@ -18666,7 +18658,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>e</token>
                 <token regexp="yes">mayúscula|minúscula</token>
             </antipattern>
-            <antipattern><!-- "i.e" or "sola/o/e" -->
+            <antipattern>
+                <!-- "i.e" or "sola/o/e" -->
                 <token regexp="yes">[./\-=]</token>
                 <token spacebefore="no">e</token>
             </antipattern>
