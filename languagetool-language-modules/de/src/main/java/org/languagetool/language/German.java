@@ -327,7 +327,6 @@ public class German extends Language implements AutoCloseable {
       case "VER_INF_VER_INF": return -1; // prefer case rules
       case "BEI_VERB": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
-      case "VERB_FEM_SUBST": return -1; // prefer Comma rules
       case "GEFEATURED": return -1; // prefer over spell checker
       case "NUMBER_SUB": return -1; // prefer over spell checker
       case "VER123_VERAUXMOD": return -1; // prefer casing rules
@@ -358,8 +357,8 @@ public class German extends Language implements AutoCloseable {
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
       case "SUBJUNKTION_KOMMA_2": return -11; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
       case "TOO_LONG_PARAGRAPH": return -15;
@@ -371,6 +370,8 @@ public class German extends Language implements AutoCloseable {
       case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -52;
+      case "VERB_FEM_SUBST": return -53; // prefer comma rules (including AI)
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;

@@ -6741,6 +6741,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die Stoßstange ist vorne rechts lädiert.</example>
                 <example>Die Stoßstange ist vorne recht stark beschädigt.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">siehe|öffnen?|klicken?</token>
+                        <token min="0" postag="SUB:.*|EIG.*|UNKNOWN" postag_regexp="yes" />
+                        <token case_sensitive="yes">link</token>
+                    </marker>
+                    <token regexp="yes">oben|über|unte[rn]|am|neben</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>\1 den \2 Link</suggestion> oder die Richtung <suggestion>\1 \2 links</suggestion>?</message>
+                <example correction="Siehe den Link|Siehe links"><marker>Siehe link</marker> unten.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token />
@@ -6774,13 +6786,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">und|oder</token>
                     <token>links</token>
                 </antipattern>
+                <antipattern>
+                    <token>rechts</token>
+                    <token regexp="yes">und|oder</token>
+                    <token>rechts</token>
+                </antipattern>
+                <antipattern>
+                    <token>links</token>
+                    <token regexp="yes">und|oder</token>
+                    <token>links</token>
+                </antipattern>
                 <pattern>
-                        <token regexp="yes">links?|rechts?</token>
-                        <token regexp="yes">und|oder</token>
-                        <token regexp="yes">links?|rechts?</token>
+                    <token regexp="yes">links?|rechts?</token>
+                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">links?|rechts?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>\1s</suggestion>?</message>
-                <example correction="links">Schaue erst nach <marker>link und rechts</marker>, bevor du die Straße überquerst.</example>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)(link|recht)$" regexp_replace="$1s" /> \2 <match no="3" regexp_match="(?i)(link|recht)$" regexp_replace="$2s" /></suggestion>?</message>
+                <example correction="links und rechts">Schaue erst nach <marker>link und rechts</marker>, bevor du die Straße überquerst.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BREIT_BEREIT" name="b(e)reit">
@@ -25782,10 +25804,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag_regexp="yes" postag="PRO:REF:.+" skip="1"/>
                     <token case_sensitive="yes" regexp="yes">scheiße|scheisse</token>
-                    <token inflected="yes" regexp="yes">fühlen|gehen|finden</token>
+                    <token inflected="yes" regexp="yes">fühlen|gehen|finden|aussehen|behandeln|bauen</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">fühlen|gehen|finden</token>
+                    <token inflected="yes" regexp="yes">fühlen|gehen|finden|bauen</token>
                     <token postag_regexp="yes" postag="PRO:REF:.+"/>
                     <token case_sensitive="yes" regexp="yes">scheiße|scheisse</token>
                 </antipattern>
@@ -25811,6 +25833,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">richtig|Arm|Bett</token>
                     <token>liege</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.*Kekse|.*Kuchen|.*Plätzchen|.*Brot</token>
+                    <token regexp="yes">backen?</token>
                 </antipattern>
                 <antipattern>
                     <token>sucht</token>
@@ -25854,6 +25880,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>tat</token>
                     <token>überrascht</token>
+                </antipattern>
+                <antipattern>
+                    <token>nach</token>
+                    <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes" />
+                    <token regexp="yes">reisen?|fliegen?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">auf|unter</token>
+                    <token regexp="yes">dir|ih[mr]</token>
+                    <token regexp="yes">liegen?</token>
+                </antipattern>
+                <antipattern>
+                    <token>sucht</token>
+                    <token>gezielt</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
@@ -28966,12 +29006,13 @@ Andere Projekte</example>
                     <marker>
                         <token case_sensitive="yes">übel</token>
                     </marker>
-                    <token><exception postag="PA2.+" postag_regexp="yes"/></token>
+                    <token><exception postag="PA[12].+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Übel">Das ist leider ein notwendiges <marker>übel</marker>.</example>
                 <example>Das ist ein <marker>übel</marker> zugerichteter Briefkasten.</example>
+                <example>Das ist ein <marker>übel</marker> riechendes Steak!</example>
             </rule>
         </rulegroup>
         <rulegroup id="SINNE_SUBST" name="'mir schwinden die sinne (Sinne)' etc.">
