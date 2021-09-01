@@ -6025,19 +6025,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>major</token>
+                    <token regexp="yes">major|gran|bona</token>
                     <token>part</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" inflected="yes">terme|paraula|mot</token>
+                    <token regexp="yes" inflected="yes">terme|paraula|mot|denominació</token>
                     <token postag="N.*|A.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
+                    <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer|quedar</token>
                     <token regexp="yes">obvi|evident|clar|possible|probable</token>
                     <token>que</token>
                 </marker>
@@ -6053,6 +6053,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_.S" postag_regexp="yes"/>
                     <token postag="_GN_.P" postag_regexp="yes"/>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token regexp="yes">preparats?</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -6098,7 +6102,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els meridians són corbes.</example>
                 <example>Carles V fou reconegut per Sardenya.</example>
                 <example>Les tres epístoles pastorals són escrits disciplinaris.</example>
-                <example>Les víctimes poden ser individus</example>
+                <example>Les víctimes poden ser individus.</example>
+                <example>Les vacunes són preparats que estimulen la formació d'anticossos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6407,6 +6412,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="POSSESSIVES" name="Possessius" type="grammar">
         <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
             <antipattern>
+                <token>vostra</token>
+                <token regexp="yes">santedat|altesa|excel·lència</token>
+            </antipattern>
+            <antipattern>
                 <marker>
                     <token>com</token>
                     <token>a</token>
@@ -6424,7 +6433,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception postag="D[DAIN].*|N.*|PP3MSA00|PP3CP000" postag_regexp="yes"/><exception inflected="yes">fer</exception><exception>tan</exception></token>
                     <marker>
-                        <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/><exception regexp="yes">seus?|nostr(e|a)</exception></token>
+                        <token regexp="yes">[nv]ostres<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/><exception regexp="yes">seus?|nostr(e|a)</exception></token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hi falta un article.</message>
+                <suggestion><match no="3" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="els nostres">Això és de <marker>nostres</marker> germans.</example>
+                <example correction="les nostres">Això és de <marker>nostres</marker> germanes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[DAIN].*|N.*|PP3MSA00|PP3CP000" postag_regexp="yes"/><exception inflected="yes">fer</exception><exception>tan</exception></token>
+                    <marker>
+                        <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|e)<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/><exception regexp="yes">seus?|nostr(e|a)</exception></token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </pattern>
@@ -6462,7 +6484,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception postag="D[DAIN].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)<exception postag="LOC_ADV|ignore_concordance" postag_regexp="yes"/><exception regexp="yes">nostr(e|a)</exception></token>
+                        <token regexp="yes">[nv]ostres<exception postag="LOC_ADV|ignore_concordance" postag_regexp="yes"/><exception regexp="yes">nostr(e|a)</exception></token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hi falta un article.</message>
+                <suggestion><match no="4" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <example correction="les nostres">Això és de <marker>nostres</marker> estimades germanes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[DAIN].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|e)<exception postag="LOC_ADV|ignore_concordance" postag_regexp="yes"/><exception regexp="yes">nostr(e|a)</exception></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
@@ -6483,9 +6518,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare|Dona|Mare)</exception></token>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <suggestion><match no="2" postag="(PX.|DP.)(..).*" postag_regexp="yes" postag_replace="DA.$2.">el</match> \2</suggestion>
                 <example correction="el nostre">Això és de <marker>nostre</marker> pare.</example>
                 <example correction="el nostre">semblant a <marker>nostre</marker> terme actual.</example>
+                <example correction="la nostra">l'acceptació de <marker>nostra</marker> política de cookies</example>
                 <example>Això és del nostre pare.</example>
                 <example>La mort i resurrecció de Nostre Pare.</example>
                 <example>Santuari de Nostra Dona del Tura</example>
@@ -6500,7 +6536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare|Dona|Mare)</exception></token>
                 </pattern>
                 <message>Hi falta un article.</message>
-                <suggestion><match no="2" postag="PX.(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> \2</suggestion>
+                <suggestion><match no="2" postag="(PX.|DP.)(..).*" postag_regexp="yes" postag_replace="DA.$2.">el</match> \2</suggestion>
                 <example correction="el nostre">Això és de <marker>nostre</marker> estimat avi.</example>
                 <example>La mort i resurrecció de Nostre Senyor Jesucrist.</example>
             </rule>
@@ -60519,7 +60555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>acostuma a acabar amb un fort plaer</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ACABAR_AMB_ELL" name="acabar amb" default="temp_off">
+        <rulegroup id="ACABAR_AMB_ELL" name="acabar amb">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=acabar+amb&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13622&amp;idHit=13622&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=acabar+amb&amp;tematica=&amp;tipusCerca=cerca.tot</url>
             <rule>
                 <pattern>
