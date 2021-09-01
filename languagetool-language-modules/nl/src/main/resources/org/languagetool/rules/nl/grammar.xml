@@ -41936,25 +41936,46 @@ steenwijk;Steenwijk
 			<example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
 		</rule>
 
-		<rule id="PART_SENTENCE_001" name="verkeerde werkwoordvorm">
-			<pattern>
-				&START;
-				<token regexp="yes">Als|indien|wanneer|omdat|toen</token>
-				<token regexp="yes">je|hij|ie|zij|ze|u|men|ge|gij</token>
-				<token regexp="yes">de|die|deze</token>
-				<token postag_regexp="yes" postag=".*DE_"/>
-				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
-				<marker>
-					<token postag="WKW:TGW:3EP"/>
-				</marker>
-				<token regexp="yes">je|jij|ik</token>
-				<token postag="WKW:VTD:ONV"/>
-			</pattern>
-			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
-			<suggestion><match no="7" postag_regexp="yes" postag="WKW:TGW:1EP"/></suggestion>
-			<example correction="word">Als je de sleeve verwijdert <marker>wordt</marker> je getrakteerd op een doos met zegel en magnetische sluiting.</example>
-		</rule>
-
+		<rulegroup id="PART_SENTENCE_001" name="verkeerde werkwoordvorm" default="temp_off">
+			<rule>
+				<pattern>
+					&START;
+					<token regexp="yes">Als|indien|wanneer|omdat|toen</token>
+					<token regexp="yes">je|hij|ie|zij|ze|u|men|ge|gij</token>
+					<token regexp="yes">de|die|deze</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token postag_regexp="yes" postag=".*DE_"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
+					<marker>
+						<token postag="WKW:TGW:3EP"/>
+					</marker>
+					<token regexp="yes">je|jij|ik</token>
+					<token postag="WKW:VTD:ONV"/>
+				</pattern>
+				<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+				<suggestion><match no="8" postag_regexp="yes" postag="WKW:TGW:1EP"/></suggestion>
+				<example correction="word">Als je de sleeve verwijdert <marker>wordt</marker> je getrakteerd op een doos met zegel en magnetische sluiting.</example>
+			</rule>
+			<rule>
+				<pattern>
+					&START;
+					<token regexp="yes">Als|indien|wanneer|omdat|toen</token>
+					<token regexp="yes">je|hij|ie|zij|ze|u|men|ge|gij</token>
+					<token regexp="yes">het|dit|dat</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token postag_regexp="yes" postag=".*HET"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
+					<marker>
+						<token postag="WKW:TGW:3EP"/>
+					</marker>
+					<token regexp="yes">je|jij|ik</token>
+					<token postag="WKW:VTD:ONV"/>
+				</pattern>
+				<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+				<suggestion><match no="8" postag_regexp="yes" postag="WKW:TGW:1EP"/></suggestion>
+				<example correction="word">Als je het kind verwijdert <marker>wordt</marker> je getrakteerd op gejank.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<!--
 	<category id="VANG" name="vangen">
