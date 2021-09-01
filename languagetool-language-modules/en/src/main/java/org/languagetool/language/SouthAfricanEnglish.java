@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21,6 +21,7 @@ package org.languagetool.language;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,6 +32,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikSouthAfricanSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public class SouthAfricanEnglish extends English {
 
@@ -42,6 +44,11 @@ public class SouthAfricanEnglish extends English {
   @Override
   public String getName() {
     return "English (South African)";
+  }
+
+  @Override
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikSouthAfricanSpellerRule(messages, this, null, Collections.emptyList());
   }
 
   @Override

@@ -144,6 +144,15 @@ public class RemoteRuleConfig {
     return timeoutLimitTotalMilliseconds != null ? timeoutLimitTotalMilliseconds : DEFAULT_TIMEOUT_LIMIT_TOTAL;
   }
 
+  /**
+   *  miscellaneous options for remote rules
+   *  allows implementing additional behavior in subclasses
+   *  some options defined in {@link RemoteRule}:
+   *  fixOffets: boolean - adjust offsets of matches because of discrepancies in string length for some unicode characters between Java and Python
+   *  filterMatches: boolean - enable anti-patterns from remote-rule-filters.xml
+   *  suppressMisspelledMatch: regex - filter out matches with matching rule IDs that have misspelled suggestions
+   *  suppressMisspelledSuggestions: regex - filter out misspelled suggestions from matches with matching rule IDs
+   *  */
   public Map<String, String> getOptions() {
     return options;
   }

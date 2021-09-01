@@ -25,6 +25,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,10 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 
 /**
  * @since 4.9
@@ -61,6 +66,8 @@ public abstract class RemoteRule extends Rule {
   protected final boolean filterMatches;
   protected final boolean fixOffsets;
   protected final Language ruleLanguage;
+  protected final Pattern suppressMisspelledMatch;
+  protected final Pattern suppressMisspelledSuggestions;
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
@@ -72,6 +79,24 @@ public abstract class RemoteRule extends Rule {
     }
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
+    try {
+      if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
+        suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledMatch"));
+      } else {
+        suppressMisspelledMatch = null;
+      }
+    } catch(PatternSyntaxException e) {
+      throw new IllegalArgumentException("suppressMisspelledMatch must be a valid regex", e);
+    }
+    try {
+      if (serviceConfiguration.getOptions().containsKey("suppressMisspelledSuggestions")) {
+        suppressMisspelledSuggestions = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledSuggestions"));
+      } else {
+        suppressMisspelledSuggestions = null;
+      }
+    } catch(PatternSyntaxException e) {
+      throw new IllegalArgumentException("suppressMisspelledSuggestions must be a valid regex", e);
+    }
     lastFailure.putIfAbsent(ruleId, 0L);
     timeoutIntervalStart.putIfAbsent(ruleId, 0L);
     timeoutTotal.putIfAbsent(ruleId, new AtomicLong());
@@ -200,6 +225,16 @@ public abstract class RemoteRule extends Rule {
             result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
           }
 
+          List<RuleMatch> filteredMatches = new ArrayList<>();
+          for (AnalyzedSentence sentence : sentences) {
+              List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
+              if (sentenceMatches != null) {
+                List<RuleMatch> filteredSentenceMatches = suppressMisspelled(sentence, sentenceMatches);
+                filteredMatches.addAll(filteredSentenceMatches);
+              }
+          }
+          result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+
           return result;
         } catch (Exception e) {
           RemoteRuleMetrics.RequestResult status;
@@ -236,6 +271,39 @@ public abstract class RemoteRule extends Rule {
       result = fallbackResults(req);
       return result;
     });
+  }
+
+  private List<RuleMatch> suppressMisspelled(AnalyzedSentence sentence, List<RuleMatch> sentenceMatches) throws IOException {
+    List<RuleMatch> result = new ArrayList<>();
+    SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule(messages);
+    Predicate<SuggestedReplacement> spelled = (s) -> {
+     try {
+       return !speller.isMisspelled(s.getReplacement());
+     } catch(IOException e) {
+       throw new RuntimeException(e);
+     }
+    };
+    if (speller == null && (suppressMisspelledMatch != null || suppressMisspelledSuggestions != null)) {
+      logger.warn("Cannot activate suppression of misspelled matches for rule {}, no spelling rule found for language {}.",
+                  getId(), ruleLanguage.getShortCodeWithCountryAndVariant());
+      return sentenceMatches;
+    }
+
+    for (RuleMatch m : sentenceMatches) {
+        String id = m.getRule().getId();
+        if (suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches()) {
+          if (!m.getSuggestedReplacementObjects().stream().allMatch(spelled)) {
+            continue;
+          }
+        }
+        if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
+          List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
+            .filter(spelled).collect(Collectors.toList());
+          m.setSuggestedReplacementObjects(suggestedReplacements);
+        }
+        result.add(m);
+    }
+    return result;
   }
 
   @Override

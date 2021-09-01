@@ -26,6 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.GermanCompoundRule;
 import org.languagetool.rules.de.GermanSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +53,11 @@ public class GermanyGerman extends German {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new GermanCompoundRule(messages));
     return rules;
+  }
+
+  @Override
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new GermanSpellerRule(messages, this);
   }
 
   @Override
