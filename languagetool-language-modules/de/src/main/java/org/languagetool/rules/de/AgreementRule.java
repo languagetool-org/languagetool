@@ -1241,18 +1241,6 @@ public class AgreementRule extends Rule {
       token("jeder"),
       posRegex("SUB:(AKK|DAT).*"),
       posRegex("VER.*")
-    ),
-    Arrays.asList( // der fließend Französisch sprechende Trudeau
-      posRegex("(ART|PRO:DEM).*"),
-      posRegex("ADJ:PRD:GRU|PA[12]:PRD:GRU:VER"),
-      posRegex("SUB.*"),
-      posRegex("PA[12].*")
-    ),
-    Arrays.asList( // Spricht dieser fließend Französisch
-      posRegex("VER.*[123].*"),
-      posRegex("(ART|PRO:DEM).*"),
-      posRegex("ADJ:PRD:GRU|PA[12]:PRD:GRU:VER"),
-      posRegex("SUB.*")
     )
   );
 
