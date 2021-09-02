@@ -218,6 +218,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
       }
+      if (rule.getId().contains("[") || rule.getId().contains("]")) {
+        fail("Rule ID must not contain '[...]': " + rule.getId());
+      }
       if (rule.getId().length() > 79) {  // limit needed so the Grafana import script works
         fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
       }
