@@ -22152,6 +22152,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="EFFIZIENTES_ARBEITEN" name="effizientes arbeiten (Arbeiten)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="ADJ:(NOM|AKK):SIN:NEU:GRU.*" postag_regexp="yes" regexp="yes">.*s</token>
+                <marker>
+                    <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">\p{Ll}.*</token>
+                </marker>
+                <token postag="VER.*[123].*" postag_regexp="yes"><exception postag="VER:INF.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Wenn es sich hier um ein nominalisiertes Verb ('das <match no="3" case_conversion="startupper"/>') handelt, muss dieses großgeschrieben werden.</message>
+            <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+            <example correction="Arbeiten">Effizientes <marker>arbeiten</marker> ist essenziell.</example>
+            <example>Häufiges Reinigen ist nicht notwendig.</example><!-- different rule needed for those cases -->
+        </rule>
+
         <rulegroup id="GEBRAUCH_MACHEN" name="gebrauch (Gebrauch) machen">
             <rule>
                 <pattern>
