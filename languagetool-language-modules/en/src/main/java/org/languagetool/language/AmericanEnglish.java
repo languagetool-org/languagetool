@@ -34,7 +34,6 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -60,7 +59,7 @@ public class AmericanEnglish extends English {
   }
 
   @Override
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
       return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());
   }
 

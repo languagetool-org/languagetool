@@ -49,7 +49,7 @@ public class NewZealandEnglish extends English {
   }
 
   @Override
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new MorfologikNewZealandSpellerRule(messages, this, null, Collections.emptyList());
   }
 

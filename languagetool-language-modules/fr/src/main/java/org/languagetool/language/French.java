@@ -96,7 +96,7 @@ public class French extends Language implements AutoCloseable {
 
 
   @Override
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new MorfologikFrenchSpellerRule(messages, this, null, Collections.emptyList());
   }
 

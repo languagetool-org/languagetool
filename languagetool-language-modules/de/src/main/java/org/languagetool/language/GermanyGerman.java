@@ -56,7 +56,7 @@ public class GermanyGerman extends German {
   }
 
   @Override
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new GermanSpellerRule(messages, this);
   }
 

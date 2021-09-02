@@ -48,7 +48,7 @@ public class CanadianEnglish extends English {
   }
 
   @Override
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new MorfologikCanadianSpellerRule(messages, this, null, Collections.emptyList());
   }
 

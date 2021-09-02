@@ -229,7 +229,7 @@ public abstract class RemoteRule extends Rule {
           for (AnalyzedSentence sentence : sentences) {
               List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
               if (sentenceMatches != null) {
-                List<RuleMatch> filteredSentenceMatches = suppressMisspelled(sentence, sentenceMatches);
+                List<RuleMatch> filteredSentenceMatches = suppressMisspelled(sentenceMatches);
                 filteredMatches.addAll(filteredSentenceMatches);
               }
           }
@@ -273,7 +273,7 @@ public abstract class RemoteRule extends Rule {
     });
   }
 
-  private List<RuleMatch> suppressMisspelled(AnalyzedSentence sentence, List<RuleMatch> sentenceMatches) throws IOException {
+  private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
     List<RuleMatch> result = new ArrayList<>();
     SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule(messages);
     Predicate<SuggestedReplacement> spelled = (s) -> {
@@ -283,9 +283,11 @@ public abstract class RemoteRule extends Rule {
        throw new RuntimeException(e);
      }
     };
-    if (speller == null && (suppressMisspelledMatch != null || suppressMisspelledSuggestions != null)) {
-      logger.warn("Cannot activate suppression of misspelled matches for rule {}, no spelling rule found for language {}.",
-                  getId(), ruleLanguage.getShortCodeWithCountryAndVariant());
+    if (speller == null) {
+      if (suppressMisspelledMatch != null || suppressMisspelledSuggestions != null) {
+        logger.warn("Cannot activate suppression of misspelled matches for rule {}, no spelling rule found for language {}.",
+          getId(), ruleLanguage.getShortCodeWithCountryAndVariant());
+      }
       return sentenceMatches;
     }
 

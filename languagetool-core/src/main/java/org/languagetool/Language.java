@@ -36,9 +36,12 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -56,6 +59,7 @@ import java.util.regex.Pattern;
  * This improves start up time for the LanguageTool stand-alone version.
  */
 public abstract class Language {
+  private static final Logger logger = LoggerFactory.getLogger(Language.class);
 
   private static final Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
   private static final Tagger DEMO_TAGGER = new DemoTagger();
@@ -263,14 +267,31 @@ public abstract class Language {
   }
 
   /**
-   * Get the default spelling rule of this language
-   * Useful for rules to implement supression of misspelled suggestions
+   * Create an instance of the default spelling rule of this language
+   * Accessed (with caching) via getDefaultSpellingRule
    * @since 5.5
-   *
+   */
+  private static final Map<Class<? extends Language>, SpellingCheckRule> spellingRules = new ConcurrentHashMap<>();
+  @Nullable
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return null;
+  }
+
+  /**
+   * Retrieve default spelling rule for this language
+   * Useful for rules to implement suppression of misspelled suggestions
+   * @since 5.5
    */
   @Nullable
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) throws IOException {
-    return null;
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
+    return spellingRules.computeIfAbsent(this.getClass(), c -> {
+      try {
+        return createDefaultSpellingRule(messages);
+      } catch (IOException e) {
+        logger.warn("Failed to create default spelling rule", e);
+        return null;
+      }
+    }) ;
   }
 
   /**
