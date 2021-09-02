@@ -38185,6 +38185,11 @@ though, and has since been slightly modified)-->
                 <token postag="R pers suj.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token>sur</token>
+                <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>est</token>
                 <token>ce</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
@@ -38192,15 +38197,26 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">il|elle|on</exception></token>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ce</token>
+                <token postag="R pers suj.*" postag_regexp="yes" skip="1"/>
+                <token>c'</token>
+                <token postag="V etre.* 3 s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ce</token>
                 <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
             </antipattern>
             <pattern>
                 <marker>
-                    <token>ce<exception scope="previous">sur</exception></token>
+                    <token case_sensitive="yes">ce</token>
                 </marker>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
             </pattern>
-            <message>Une faute de frappe ou une omission semble être possible, car les mots « \1 \2 » ne peuvent pas se suivre.</message>
+            <message>Envisagez une suppresion ou une révision, car les mots « \1 \2 » ne peuvent pas se suivre.</message>
             <suggestion>ce que</suggestion>
             <suggestion>cela</suggestion>
             <example correction="ce que|cela">Voici <marker>ce</marker> je fais.</example>
@@ -38208,6 +38224,8 @@ though, and has since been slightly modified)-->
             <example>Nous ne chercherons donc pas Tiens, mais qui est ce nous ?</example>
             <example>Est ce vous qui nous avez indiqué la descente par les pentes Ouest ?</example>
             <example>Sur ce je disparais.</example>
+            <example>Ce nous désigne les Afrikaners.</example>
+            <example>Mais enfin Twowings, ce vous, c'est vous.</example>
             <example>Mais quel est ce Je mystérieux qui transite ainsi d’un état de moi-même à un autre ?</example>
         </rule>
         </rulegroup>
