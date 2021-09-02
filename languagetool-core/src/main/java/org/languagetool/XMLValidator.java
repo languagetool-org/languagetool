@@ -132,7 +132,6 @@ public final class XMLValidator {
     }
   }
 
-
   private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream) throws Exception {
     DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
     domFactory.setIgnoringComments(true);

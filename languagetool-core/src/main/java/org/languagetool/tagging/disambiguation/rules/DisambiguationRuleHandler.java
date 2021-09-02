@@ -373,7 +373,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         inRuleGroup = false;
         break;
       case UNIFICATION:
-        if (inUnificationDef){
+        if (inUnificationDef) {
           inUnificationDef = false;
           tokenCounter = 0;
         }
