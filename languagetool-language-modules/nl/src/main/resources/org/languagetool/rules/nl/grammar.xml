@@ -41737,6 +41737,19 @@ steenwijk;Steenwijk
 				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> gevaccineerden.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HET_BELANGRIJKSTE_MISSCHIEN_IS" name="Volgorde vreemd" default="temp_off">
+			<rule>
+				<pattern>
+					<token>het</token>
+					<token postag_regexp="yes" postag=".*VRB"/>
+					<token postag_regexp="yes" postag="BYW.*"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+				</pattern>
+				<message>Deze woordvolgorde is ongebruikelijk.</message>
+				<suggestion>\1 \2 \4 \3</suggestion>
+				<example correction="Het belangrijkste is misschien"><marker>Het belangrijkste misschien is</marker> resultaat.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="TEST" name="test">
 		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
@@ -41922,6 +41935,28 @@ steenwijk;Steenwijk
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
 			<example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
 		</rule>
+
+		<rulegroup id="PART_SENTENCE_001" name="verkeerde werkwoordvorm" default="temp_off">
+			<rule>
+				<pattern>
+					&START;
+					<token regexp="yes">Als|indien|wanneer|omdat|toen</token>
+					<token regexp="yes">je|hij|ie|zij|ze|u|men|ge|gij</token>
+					<token regexp="yes">de|die|deze</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token postag_regexp="yes" postag=".*(HET|DE_)"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
+					<marker>
+						<token postag="WKW:TGW:3EP"/>
+					</marker>
+					<token regexp="yes">je|jij|ik</token>
+					<token postag="WKW:VTD:ONV"/>
+				</pattern>
+				<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
+				<suggestion><match no="8" postag_regexp="yes" postag="WKW:TGW:1EP"/></suggestion>
+				<example correction="word">Als je de sleeve verwijdert <marker>wordt</marker> je getrakteerd op een doos met zegel en magnetische sluiting.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<!--
 	<category id="VANG" name="vangen">
