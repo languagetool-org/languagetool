@@ -61642,38 +61642,64 @@ though, and has since been slightly modified)-->
             <example correction="par acquit de conscience"><marker>par acquis de conscience</marker></example>
             <example><marker>par acquit de conscience</marker>.</example>
         </rule>
-        <rule id="FAIRE_PARTI" name="faire/tirer parti">
+       <rule id="FAIRE_PARTI" name="faire/tirer parti">
+            <antipattern>
+                <token>de</token>
+                <token>fait</token>
+                <token>parti</token>
+            </antipattern>
             <pattern>
-                <token inflected="yes" skip="1">faire</token>
+                <token inflected="yes">faire</token>
+                <token postag="A|M nonfin" postag_regexp="yes" min="0" max="2"/>
+                <token postag="R.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="A|M nonfin" postag_regexp="yes" min="0" max="2"/>
                 <marker>
                     <token>parti</token>
                 </marker>
             </pattern>
-            <message>« Faire parti » est une expression fautive (impropriété).</message>
+            <message>L'expression 'faire parti' signifie 'être une partie d'un tout'.</message>
             <suggestion>partie</suggestion>
-            <example correction="partie">Tu fais <marker>parti</marker> ma vie.</example>
+            <example correction="partie">Tu fais toujours réellement <marker>parti</marker> ma vie.</example>
+            <example correction="partie">Ils font eux aussi <marker>parti</marker> de ma vie.</example>
             <example><marker>faire partie de</marker></example>
+            <example>Il devient de fait parti unique.</example>
         </rule>
-        <rule id="TIRER_PARTIE" name="tirer partie">
+        <rule id="TIRER_PARTI" name="faire/tirer parti">
+            <antipattern>
+                <token>en</token>
+                <token>grande</token>
+                <token>partie</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">tirer</token>
+                <token postag="A|M nonfin" postag_regexp="yes" min="0" max="2"/>
+                <token postag="R.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="A|M nonfin" postag_regexp="yes" min="0" max="2"/>
                 <marker>
                     <token>partie</token>
                 </marker>
             </pattern>
-            <message>« Tirer partie » est une expression fautive (impropriété).</message>
+            <message>L'expression 'tirer partie' signifie 'profiter de' et a pour racine 'le parti'.</message>
             <suggestion>parti</suggestion>
-            <example correction="parti">tirer <marker>partie</marker></example>
-            <example><marker>tirer parti</marker></example>
+            <example correction="parti">Tu tires toujours réellement <marker>partie</marker> de lui.</example>
+            <example>Cet article est tiré en grande partie de cette expérience.</example>
         </rule>
         <rule id="PRENDRE_PARTIE" name="prendre partie">
+            <antipattern>
+                <token>en</token>
+                <token>grande</token>
+                <token>partie</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">prendre</token>
+                <token postag="A|M nonfin" postag_regexp="yes" min="0" max="2"/>
+                <token postag="R.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="A|M nonfin" postag_regexp="yes" min="0" max="2"/>
                 <marker>
                     <token>partie</token>
                 </marker>
             </pattern>
-            <message>« Prendre partie pour » est une expression fautive (impropriété).</message>
+            <message>L'expression 'prendre partie' pour 'indiquer une prise de position' a pour racine 'le parti'.</message>
             <suggestion>parti</suggestion>
             <example correction="parti">prendre <marker>partie</marker></example>
             <example><marker>prendre parti</marker></example>
@@ -61693,6 +61719,18 @@ though, and has since been slightly modified)-->
             <example correction="en partie">Le site a été <marker>en parti</marker> traduit.</example>
             <example>Le site a été en partie traduit.</example>
             <example>Il s’est transformé <marker>en parti</marker> politique.</example>
+        </rule>
+        <rule id="PRENDRE_A_PARTIE" name="prendre partie" default="temp_off">
+            <pattern>
+                <token inflected="yes" skip="-1">prendre</token>
+                <token>à</token>
+                <marker>
+                    <token>parti</token>
+                </marker>
+            </pattern>
+            <message>L'expression 'Prendre quelqu'un à partie' a pour racine 'la partie'.</message>
+            <suggestion>partie</suggestion>
+            <example correction="partie">Il prend à <marker>parti</marker> son frère.</example>
         </rule>
         <rule id="EN_GENERALE" name="en générale">
             <pattern>
