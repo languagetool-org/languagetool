@@ -24,6 +24,7 @@ package org.languagetool.rules;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.slf4j.Logger;
@@ -66,6 +67,7 @@ public abstract class RemoteRule extends Rule {
   protected final boolean filterMatches;
   protected final boolean fixOffsets;
   protected final Language ruleLanguage;
+  protected final JLanguageTool lt;
   protected final Pattern suppressMisspelledMatch;
   protected final Pattern suppressMisspelledSuggestions;
 
@@ -73,6 +75,7 @@ public abstract class RemoteRule extends Rule {
     super(messages);
     serviceConfiguration = config;
     this.ruleLanguage = language;
+    this.lt = new JLanguageTool(ruleLanguage);
     this.inputLogging = inputLogging;
     if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
       ruleId = getId();
@@ -276,9 +279,11 @@ public abstract class RemoteRule extends Rule {
   private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
     List<RuleMatch> result = new ArrayList<>();
     SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule(messages);
-    Predicate<SuggestedReplacement> spelled = (s) -> {
+    Predicate<SuggestedReplacement> checkSpelling = (s) -> {
      try {
-       return !speller.isMisspelled(s.getReplacement());
+       AnalyzedSentence sentence = lt.getRawAnalyzedSentence(s.getReplacement());
+       RuleMatch[] matches = speller.match(sentence);
+       return matches.length == 0;
      } catch(IOException e) {
        throw new RuntimeException(e);
      }
@@ -294,13 +299,13 @@ public abstract class RemoteRule extends Rule {
     for (RuleMatch m : sentenceMatches) {
         String id = m.getRule().getId();
         if (suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches()) {
-          if (!m.getSuggestedReplacementObjects().stream().allMatch(spelled)) {
+          if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
             continue;
           }
         }
         if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
           List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
-            .filter(spelled).collect(Collectors.toList());
+            .filter(checkSpelling).collect(Collectors.toList());
           m.setSuggestedReplacementObjects(suggestedReplacements);
         }
         result.add(m);
