@@ -2846,7 +2846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes"><match no="1" postag="D.*" postag_regexp="yes" postag_replace="D f s"/> grande</suggestion>
                 <example correction="Une grande"><marker>Un grand</marker> soif</example>
             </rule>
-			<rule default="temp_off">
+			<rule>
             <antipattern>
                 <token postag="P.*" postag_regexp="yes"/>
                 <token postag="[DJ].*"  postag_regexp="yes" min="0" max="1"/>
@@ -3954,7 +3954,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="engagée">L'expérience journalistique <marker>engagé</marker> est très particulière.</example>
             <example>En espérant que notre article modèle CV responsable logistique gratuit vous ai aidé dans vos recherches.</example>
         </rule>
-        <rulegroup id="TOUS_LES_DEUX_VPPA" name="tous les deux v ppa" default="temp_off">
+        <rulegroup id="TOUS_LES_DEUX_VPPA" name="tous les deux v ppa">
             <antipattern>
                 <token inflected="yes" regexp="yes">être|avoir</token>
                 <token postag="R pers suj.*" postag_regexp="yes" min="0" max="1"/>
@@ -4866,7 +4866,7 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-		<rulegroup id="TOUS_TOUT" name="tous tout" default="temp_off">
+		<rulegroup id="TOUS_TOUT" name="tous tout">
 			<rule>
                 <pattern>
                     <marker>
@@ -31221,7 +31221,7 @@ though, and has since been slightly modified)-->
                 <example correction="fonctionne|fonctionna">Cela lui <marker>fonction</marker> très bien.</example>
                 <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça nous <marker>côte</marker> plutôt cher.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>que</token>
                     <token regexp="yes">tous|toutes</token>
@@ -37873,7 +37873,7 @@ though, and has since been slightly modified)-->
             <example correction="personne">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
             <example>Il n’y a personne pour m’aider.</example>
         </rule>
-        <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre" default="temp_off">
+        <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
             <rule>
                 <antipattern>
                     <token postag="V.* imp .*" postag_regexp="yes"/>
@@ -38228,6 +38228,38 @@ though, and has since been slightly modified)-->
             <example>Mais enfin Twowings, ce vous, c'est vous.</example>
             <example>Mais quel est ce Je mystérieux qui transite ainsi d’un état de moi-même à un autre ?</example>
         </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>est</token>
+                <marker>
+                    <token regexp="yes">ce|-ce</token>
+                </marker>
+                <token regexp="yes">ça|cela</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Envisagez une suppresion ou une révision, car les mots « \2 \3 » ne peuvent pas se suivre.</message>
+            <suggestion>ce que</suggestion>
+            <example correction="ce que">Est<marker>-ce</marker> ça fonctionne ?</example>
+		</rule>
+		<rule default="temp_off">
+			<antipattern>
+                <token postag="V etre.*" postag_regexp="yes"/>
+                <token>ce</token>
+                <token regexp="yes">cela|ça</token>
+			</antipattern>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A|R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                <token>ce</token>
+                <token regexp="yes" case_sensitive="yes">ça|cela|la|cette|ces|mon|[mts]es|[mts]a|leur</token>
+                </marker>
+            </pattern>
+            <message>Envisagez une suppresion ou une révision, car les mots « \2 \3 » ne peuvent pas se suivre.</message>
+            <suggestion>de \4</suggestion>
+            <example correction="de cela">Il ne faut pas parler <marker>ce cela</marker>.</example>
+		</rule>
         </rulegroup>
         <rule id="QUELQUE" name="quelque invariable devant nombre">
             <pattern>
@@ -38370,7 +38402,7 @@ though, and has since been slightly modified)-->
             <example correction="mises à jour">Je reçois des <marker>mises à jours</marker> régulièrement.</example>
             <example>Je reçois des mises à jour régulièrement.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token inflected="yes">mettre<exception regexp="yes">mises?</exception></token>
                 <token min="0" regexp="yes">[-‑‐]</token>
@@ -38648,7 +38680,7 @@ though, and has since been slightly modified)-->
                 <example correction="Tout avait commencé"><marker>Tout avait commencer</marker> ce matin.</example>
             </rule>
         </rulegroup>
-        <rule id="DEUX_D_ENTRE_EUX" name="deux d'entre eux" default="temp_off">
+        <rule id="DEUX_D_ENTRE_EUX" name="deux d'entre eux">
         <antipattern>
             <token>le</token>
             <token skip="-1">plus</token>
@@ -38685,7 +38717,7 @@ though, and has since been slightly modified)-->
             <example>Le plus prolixe d'entre eux est le Français Deychamps.</example>
             <example>Lequel d'entre eux est ton frère ?</example>
         </rule>
-        <rulegroup id="V_SUB_V_IND" name="il voie (il voit)" default="temp_off">
+        <rulegroup id="V_SUB_V_IND" name="il voie (il voit)">
             <antipattern>
                 <token skip="-1" regexp="yes">qui|quoique|après|soit|que|qu'|quoiqu'|auxquelles</token>
                 <token postag="R pers suj.*" postag_regexp="yes"/>
@@ -55687,7 +55719,7 @@ though, and has since been slightly modified)-->
                 <message>L'expression <suggestion>\1 \3</suggestion> s'écrit sans trait d'union.</message>
                 <example correction="petit ami">Elle a un <marker>petit-ami</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes" skip="1">systèmes?|moteurs|premières?|accidents?|pistes?|bo[iî]tes?|crédits?|sièges?|cote|assurances?|mandataires?</token>
                     <token>auto</token>
