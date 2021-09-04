@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * Extend results by adding rules matches from a different API server.
+ * Extend results by adding rules matches as hidden matches.
  * @since 4.0
  */
 class ResultExtender {

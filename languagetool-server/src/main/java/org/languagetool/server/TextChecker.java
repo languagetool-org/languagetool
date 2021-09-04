@@ -504,22 +504,6 @@ abstract class TextChecker {
       hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
     }
 
-    if (!limits.hasPremium() && enableHiddenRules) {
-      // move premium matches to hiddenMatches
-      List<CheckResults> cleanRes = new ArrayList<>();
-      for (CheckResults checkRes : res) {
-        List<RuleMatch> cleanedMatches = new ArrayList<>();
-        for (RuleMatch ruleMatch : checkRes.getRuleMatches()) {
-          if (Premium.get().isPremiumRule(ruleMatch.getRule())) {
-            hiddenMatches.add(ruleMatch);
-          } else {
-            cleanedMatches.add(ruleMatch);
-          }
-        }
-        cleanRes.add(new CheckResults(cleanedMatches, checkRes.getIgnoredRanges()));
-      }
-      res = cleanRes;
-    }
     int compactMode = Integer.parseInt(parameters.getOrDefault("c", "0"));
     String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode, limits.getPremiumUid() == null);
     if (params.callback != null) {
