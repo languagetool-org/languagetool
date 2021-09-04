@@ -49,6 +49,7 @@ public class UserConfig {
   private final LinguServices linguServices;
   // needs to be in UserConfig so it is considered both in ResultCache and in PipelinePool
   private final boolean filterDictionaryMatches;
+  private final boolean hidePremiumMatches;
 
   // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
   // provided to rules only for A/B tests
@@ -72,31 +73,21 @@ public class UserConfig {
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
-    this(userSpecificSpellerWords, ruleValues, 0);
-  }
-
-  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null, null, null, null);
+    this(userSpecificSpellerWords, ruleValues, 0, null, null, null, null);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, false);
-  }
-
-  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
-                    int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
-                    LinguServices linguServices, boolean filterDictionaryMatches) {
     this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      filterDictionaryMatches, null, null);
+      false, null, null, false);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable String abTest, @Nullable Long textSessionId) {
+                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
@@ -109,6 +100,7 @@ public class UserConfig {
     this.filterDictionaryMatches = filterDictionaryMatches;
     this.abTest = abTest;
     this.textSessionId = textSessionId;
+    this.hidePremiumMatches = hidePremiumMatches;
   }
 
   public List<String> getAcceptedWords() {
@@ -197,6 +189,7 @@ public class UserConfig {
       // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
       // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
+      .append(hidePremiumMatches, other.hidePremiumMatches)
       .isEquals();
   }
 
@@ -211,6 +204,7 @@ public class UserConfig {
       .append(configurableRuleValues)
       .append(abTest)
       .append(filterDictionaryMatches)
+      .append(hidePremiumMatches)
       .toHashCode();
   }
 
@@ -224,6 +218,7 @@ public class UserConfig {
       ", linguServices=" + linguServices +
       ", filterDictionaryMatches=" + filterDictionaryMatches +
       ", textSessionId=" + textSessionId +
+      ", hidePremiumMatches=" + hidePremiumMatches +
       ", abTest='" + abTest + '\'' +
       '}';
   }
@@ -238,5 +233,10 @@ public class UserConfig {
 
   public boolean filterDictionaryMatches() {
     return filterDictionaryMatches;
+  }
+
+  /** @since 5.5 */
+  public boolean getHidePremiumMatches() {
+    return hidePremiumMatches;
   }
 }
