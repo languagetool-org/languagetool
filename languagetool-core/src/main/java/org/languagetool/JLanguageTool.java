@@ -993,7 +993,7 @@ public class JLanguageTool {
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
-      ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
+      ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
 

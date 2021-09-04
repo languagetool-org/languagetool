@@ -30,10 +30,7 @@ import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.DictionaryMatchFilter;
-import org.languagetool.rules.RemoteRule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.tools.Tools;
@@ -324,8 +321,13 @@ abstract class TextChecker {
       }
     }
 
+    boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
+    if (limits.hasPremium()) {
+      enableHiddenRules = false;
+    }
     UserConfig userConfig = new UserConfig(dictWords, getRuleValues(parameters), config.getMaxSpellingSuggestions(),
-      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId);
+      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId,
+      !limits.hasPremium() && enableHiddenRules);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
@@ -400,10 +402,6 @@ abstract class TextChecker {
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
             enabledCategories.size() > 0 || disabledCategories.size() > 0 || enableTempOffRules;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
-    boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
-    if (limits.hasPremium()) {
-      enableHiddenRules = false;
-    }
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     JLanguageTool.Level level = ServerTools.getLevel(parameters);
     String callback = parameters.get("callback");
@@ -550,6 +548,22 @@ abstract class TextChecker {
           }
         }
       }
+    }
+    if (!limits.hasPremium() && enableHiddenRules) {
+      // move premium matches to hiddenMatches
+      List<CheckResults> cleanRes = new ArrayList<>();
+      for (CheckResults checkRes : res) {
+        List<RuleMatch> cleanedMatches = new ArrayList<>();
+        for (RuleMatch ruleMatch : checkRes.getRuleMatches()) {
+          if (Premium.get().isPremiumRule(ruleMatch.getRule())) {
+            hiddenMatches.add(ruleMatch);
+          } else {
+            cleanedMatches.add(ruleMatch);
+          }
+        }
+        cleanRes.add(new CheckResults(cleanedMatches, checkRes.getIgnoredRanges()));
+      }
+      res = cleanRes;
     }
     int compactMode = Integer.parseInt(parameters.getOrDefault("c", "0"));
     String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode, limits.getPremiumUid() == null);
