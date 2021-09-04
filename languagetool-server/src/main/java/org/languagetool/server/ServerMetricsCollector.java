@@ -31,7 +31,6 @@ import org.languagetool.Language;
 import org.languagetool.Premium;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class ServerMetricsCollector {
@@ -106,17 +105,6 @@ public class ServerMetricsCollector {
   private final Counter failedHealthcheckCounter = Counter
     .build("languagetool_failed_healthchecks_total", "Failed healthchecks").register();
 
-  private final Gauge hiddenMatchesServerEnabled = Gauge
-    .build("languagetool_hidden_matches_server_enabled", "Configuration of hidden matches server").register();
-  private final Gauge hiddenMatchesServerStatus = Gauge
-    .build("languagetool_hidden_matches_server_up", "Status of hidden matches server").register();
-  private final Counter hiddenMatchesServerRequests = Counter
-    .build("languagetool_hidden_matches_server_requests_total", "Number of hidden server requests by status")
-    .labelNames("status").register();
-  private final Counter hiddenMatchesServerMatches = Counter
-    .build("languagetool_hidden_matches_server_matches_total", "Number of matches returned by hidden matches server")
-    .labelNames("language").register();
-
   private final Info buildInfo = Info
     .build("languagetool_build", "Build information").register();
 
@@ -143,26 +131,6 @@ public class ServerMetricsCollector {
 
   public void monitorCache(String name, Cache cache) {
     cacheMetrics.addCache(name, cache);
-  }
-
-  public void logHiddenServerConfiguration(boolean enabled) {
-    hiddenMatchesServerEnabled.set(enabled ? 1.0 : 0.0);
-  }
-
-  public void logHiddenServerStatus(boolean up) {
-    hiddenMatchesServerStatus.set(up ? 1.0 : 0.0);
-  }
-
-  public void logHiddenServerRequest(boolean success, Language language, int matches) {
-    if (hiddenMatchesServerStatus.get() == 0.0) {
-      hiddenMatchesServerRequests.labels("down").inc();
-    } else if (success) {
-      hiddenMatchesServerRequests.labels("success").inc();
-      String langLabel = language != null ? language.getShortCode() : UNKNOWN;
-      hiddenMatchesServerMatches.labels(langLabel).inc(matches);
-    } else {
-      hiddenMatchesServerRequests.labels("failure").inc();
-    }
   }
 
   public void logCheck(Language language, long milliseconds, int textSize, int matchCount,
