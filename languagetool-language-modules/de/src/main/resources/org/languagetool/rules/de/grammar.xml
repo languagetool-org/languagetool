@@ -6741,7 +6741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die Stoßstange ist vorne rechts lädiert.</example>
                 <example>Die Stoßstange ist vorne recht stark beschädigt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">siehe|öffnen?|klicken?</token>
@@ -22168,6 +22168,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Höfliches ausreden lassen wird als Zeichen der Schwäche empfunden.</example><!-- different rule needed for those cases -->
         </rule>
 
+        <rule id="TAT_SUBST" name="die tat (Tat)" default="temp_off">
+            <pattern>
+                <token postag="(PRO|ART):.+" postag_regexp="yes">
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                </token>
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">tat(en)?</token>
+                </marker>
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?</exception>
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Tat">Die <marker>tat</marker> muss vollzogen werden.</example>
+        </rule>
         <rulegroup id="GEBRAUCH_MACHEN" name="gebrauch (Gebrauch) machen">
             <rule>
                 <pattern>
@@ -25872,7 +25892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">tragen?</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">Leute|Mitarbeiter|Angestellte|Menschen|Entwickler|Experten</token>
+                    <token regexp="yes">Leute|Mitarbeiter|Angestellte|Menschen|Entwickler|Experten|Spa(ß|ss)</token>
                     <token>sucht</token>
                 </antipattern>
                 <antipattern>
@@ -25883,6 +25903,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>sucht</token>
                     <token>verzweifelt</token>
+                </antipattern>
+                <antipattern>
+                    <token>sucht</token>
+                    <token regexp="yes">spa(ß|ss)</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">Augen?|Mund</token>
@@ -25910,6 +25934,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>sucht</token>
                     <token>gezielt</token>
+                </antipattern>
+                <antipattern>
+                    <token>wolle</token>
+                    <token regexp="yes">ge.+</token>
+                    <token>haben</token>
+                </antipattern>
+                <antipattern><!-- was ich mich nun frage -->
+                    <token>ich</token>
+                    <token>mich</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>frage</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
@@ -25957,6 +25992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tim sagte, er backe anscheinend auch andere Dinge außer Brötchen.</example>
                 <example>Und das tat verdammt gut.</example>
                 <example>Der dort gelagerte Müll tat sein Übriges.</example>
+                <example>Was ich mich allerdings frage ist, warum du mit der Familienplanung weiter voranschreiten möchtest, wenn du noch keinen Plan hast, wie du euren Lebensunterhalt absichern wirst.</example>
             </rule>
             <rule>
                 <antipattern>
