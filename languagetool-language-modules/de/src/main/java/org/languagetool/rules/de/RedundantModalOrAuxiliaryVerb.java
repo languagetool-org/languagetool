@@ -147,14 +147,15 @@ public class RedundantModalOrAuxiliaryVerb extends Rule {
                     ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt + 1].getEndPos(), msg);
                   }
                 } else {
-                  if (tokens[nt - 1].hasPosTagStartingWith("PRO:PER") || tokens[nt + 1].hasPosTagStartingWith("PRO:PER") 
+                  if (tokens[nt - 1].hasPosTagStartingWith("PRO:PER")  
                       || tokens[nt - 1].getToken().equals("da") || tokens[nt - 1].getToken().equals("zu")
-                      || tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())
-                      || tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())
-                      || tokens[nVerb - 1].getToken().equals(tokens[nt + 1].getToken())
                       || tokens[nVerb + 1].getToken().equals(tokens[nt - 1].getToken())
-                      || (tokens[nVerb + 1].hasPosTagStartingWith("VER:MOD") && tokens[nt + 1].hasPosTagStartingWith("VER:MOD"))
-                      || (nVerb == nConjunction - 1 && nt + 1 < tokens.length && !isBreakToken(tokens[nt + 1].getToken()))
+                      || nt + 1 < tokens.length && (tokens[nt + 1].hasPosTagStartingWith("PRO:PER")
+                          || tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())
+                          || tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())
+                          || tokens[nVerb - 1].getToken().equals(tokens[nt + 1].getToken())
+                          || (tokens[nVerb + 1].hasPosTagStartingWith("VER:MOD") && tokens[nt + 1].hasPosTagStartingWith("VER:MOD"))
+                          || (nVerb == nConjunction - 1 && !isBreakToken(tokens[nt + 1].getToken())))
                       || (nVerb < nConjunction - 1 && (nt + 1 == tokens.length || isBreakToken(tokens[nt + 1].getToken()))) ) {
                     break;
                   }
