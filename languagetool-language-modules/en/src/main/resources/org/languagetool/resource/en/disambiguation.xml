@@ -3051,6 +3051,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk="I-VP">have</token>
                 <token chunk_re=".-VP" postag="VBN"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">are|is|was|been</token>
+                <token postag="VBP" chunk_re=".-VP" />
+            </antipattern>
             <pattern>
                 <token regexp="yes">are|is|was|been</token><!-- MFU 2020-02-21 Why doesn't this also have 'were'? -->
                 <marker>
@@ -3091,6 +3095,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Since there was no reply, no action was take.</example><!-- Premium #1416 -->
             <example type="untouched">All tests were led by managers; no test was <marker>lead</marker> by the technicians.</example><!-- Premium #1416. Incorrect grammar, should be 'led'. -->
             <example type="untouched">I was hope you could help me.</example><!-- #3016 -->
+            <example type="untouched">Incorrect grammar: We are find this useful.</example>
             <example type="untouched">The widely-discussed incentives for inefficiency that are know to exist in all government bureaucracies.</example>
             <example type="untouched">We are have split the entire Risk team into two groups.</example><!-- #4883. Incorrect grammar -->
             <example type="untouched">...signs have the advantages that they are have been well tested for strength, stability...</example><!-- #4883. Incorrect grammar -->
@@ -8602,6 +8607,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>let</token>
             <token>'s</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
+            <token postag="VBP" postag_regexp="yes" chunk_re=".-VP" />
+            <token postag="NN.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
             <marker>
@@ -8614,6 +8624,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="VB.*"/>
         <example type="untouched">The advert for bicycles is to <marker>be run</marker> in local newspapers from March to August.</example>
+        <example type="untouched">Incorrect grammar: I'm <marker>find</marker> macro focus stacking hard.</example>
         <example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
         <example type="ambiguous" inputform="weeds[weed/NNS,weed/VBZ]" outputform="weeds[weed/NNS]">Although they are often considered to be <marker>weeds</marker> in gardens, this viewpoint is not always...</example>
     </rule>

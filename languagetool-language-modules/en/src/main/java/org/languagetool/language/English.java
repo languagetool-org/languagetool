@@ -402,7 +402,8 @@ public class English extends Language implements AutoCloseable {
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
       case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
       case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB, NON3PRS_VERB
-      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB
+      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB and I_AM_VB
+      case "CONFUSION_GONG_GOING":      return 1;   // prefer over I_AM_VB
       case "SEEN_SEEM":                 return 1;   // prefer over PRP_PAST_PART
       case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
       case "THE_THEM":                  return 1;   // prefer over TO_TWO
