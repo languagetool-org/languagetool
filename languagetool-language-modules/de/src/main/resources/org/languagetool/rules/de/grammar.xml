@@ -22168,7 +22168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Höfliches ausreden lassen wird als Zeichen der Schwäche empfunden.</example><!-- different rule needed for those cases -->
         </rule>
 
-        <rule id="TAT_SUBST" name="die tat (Tat)" default="temp_off">
+        <rule id="TAT_SUBST" name="die tat (Tat)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
                     <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
@@ -22365,7 +22365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" skip="1">von|in</token>
                     <token regexp="yes">((un)?gekannt|(un)?vorstellbar|alarmierend|apokalyptisch|beängstigend|bedrohlich|beträchtlich|biblisch|dramatisch|epidemisch|erschreckend|gewaltig|gigantisch|katastrophal|unbekannt|ungeahnt|ungeheur)em</token>
                     <marker>
-                        <token case_sensitive="yes">ausmaß</token>
+                        <token case_sensitive="yes" regexp="yes">ausma(ß|ss)</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -25946,13 +25946,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token>frage</token>
                 </antipattern>
+                <antipattern><!-- wenn ich parallel ein Privatstudium an einer privaten Schule leiste bin ich von den -->
+                    <token regexp="yes">wenn|falls|sobald</token>
+                    <token skip="8">
+                        ich
+                        <exception scope="next" postag="VER:.*" postag_regexp="yes" />
+                    </token>
+                    <token case_sensitive="yes" regexp="yes">leiste|suche</token>
+                    <token postag="VER:.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">ab(fahrt|frage|fuhr|reise|sage)|an(fahrt|frage|klage|rede|reise|richte|sage|zeige)|asche|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|beichte|beize|beule|beute|binde|blase|bombe|bräune|brause|braut|bremse|buche|bucht|bürde|bürste|creme|decke|delle|dichte|durchfahrt|durchreiche|durchreise|durchsage|dusche|düse|ehre|eiche|eile|einbrenne|einfahrt|einreise|erde|fahrt|falle|falte|feier|feile|flamme|flaute|fliege|fliese|flöte|flucht|folge|frage|fräse|fresse|fülle|furche|geige|gemeinde|glotze|gnade|grenze|grille|großtat|grosstat|gurke|hacke|halle|harke|härte|haut|hecke|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|initiative|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klampfe|klappe|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kotze|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|last|lauge|lehne|lehre|leier|leiste|leuchte|liege|linse|locke|lüge|lymphe|menge|messe|miete|mühe|münze|nachfolge|nachfrage|nähe|naht|nässe|pappe|pauke|pause|pelle|perle|pfeife|pflanze|pisse|plane|posaune|predigt|presse|probe|prostituierte|pumpe|quelle|ramme|ranke|rassel|rast|rate|ratsche|raute|rede|reibe|reihe|reise|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|sause|salbe|schabe|schanze|scharte|schau|schaufel|schaukel|scheide|scheiße|scheisse|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schliesse|schlinge|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwitze|sehne|seife|senke|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spritze|spucke|spule|spüle|stärke|stelle|stiege|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taufe|trage|träne|tränke|trommel|trompete|tröte|tunke|tüte|unke|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|wacht|walze|wand|wärme|warte|weide|weile|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wohltat|wolle|würze|zeche|zicke|zufuhr|zusage|zwinge</token>
                     </marker>
                     <token postag="VER:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">^[a-zäöü].+
-                        <exception regexp="yes">ein(en?)?|sein|deutschen?|klaren?|bitte|schnell|sicher|gleich|dringend|anscheinend|andauernd|anschlie(ß|ss)end|zunehmend</exception>
+                        <exception regexp="yes">ein(en?)?|sein|deutschen?|klaren?|bitte|schnell|sicher|gleich|dringend|anscheinend|andauernd|anschlie(ß|ss)end|zunehmend|überwiegend</exception>
                         <exception postag="ADV:MOD" />
                     </token>
                 </pattern>
@@ -25993,6 +26002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Und das tat verdammt gut.</example>
                 <example>Der dort gelagerte Müll tat sein Übriges.</example>
                 <example>Was ich mich allerdings frage ist, warum du mit der Familienplanung weiter voranschreiten möchtest, wenn du noch keinen Plan hast, wie du euren Lebensunterhalt absichern wirst.</example>
+                <example>Heißt dass, wenn ich parallel ein Privatstudium an einer privaten Schule leiste bin ich von den Gebühren befreit?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -26005,7 +26015,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:3:SIN:KJ1:NON" regexp="yes" case_sensitive="yes">[a-zäöüß].+e
                             <exception postag="ADJ:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">bitte|nehme|kenne|werde</exception>
+                            <exception regexp="yes">bitte|nehme|kenne|werde|entscheide|gehe|habe|erhalte|(be)?komme|übernehme|gelte</exception>
                         </token>
                     </marker>
                     <token postag="VER:.+|SENT_END" postag_regexp="yes">
@@ -26019,6 +26029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich nehme die heiße.</example>
                 <example>Da recherchiere ich lieber nochmal, bevor ich die nehme.</example>
                 <example>Die werde sicher auch kontaktiert werden.</example>
+                <example>Diese habe ergeben, dass die Wahl rückgängig gemacht werden müsse.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HUELLE_UND_FUELLE" name="'in hülle (Hülle) und fülle (Fülle)'">
