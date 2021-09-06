@@ -32390,6 +32390,128 @@ though, and has since been slightly modified)-->
                 <example correction="entendue">L'avez-vous <marker>entendues</marker> parler français ?</example>
                 <example correction="demandée">T'a-t-il <marker>demandées</marker> en mariage ?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">avoir</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="-1" regexp="yes">que|où|dont</token>
+                    <token inflected="yes">de</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token inflected="yes">avoir</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">que|où|dont</token>
+                    <token postag="D.*" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token inflected="yes">avoir</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">que|où|dont</token>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token inflected="yes">avoir</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>vue</token>
+				</antipattern>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">préposition|(?-i)[A-Z].*</exception></token>
+                    <token inflected="yes">avoir<exception regexp="yes">avions|(?-i)A</exception></token>
+                    <marker>
+                        <token postag="V.* ppa.*" postag_regexp="yes">
+                            <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Le participe « \5 » devrait être au masculin singulier.</message>
+                <suggestion><match no="4" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+                <example correction="terminé">Les élèves ont <marker>terminés</marker> leurs devoirs.</example>
+                <example correction="terminé">Les élèves ont <marker>terminée</marker> leurs devoirs.</example>
+                <example correction="terminé">Les élèves ont <marker>terminées</marker> leurs devoirs.</example>
+                <example>La préposition a placée devant un infinitif produit un même effet d'insistance.</example>
+                <example>C'est peut-être une superbe photo que tout le monde a oubliée là.</example>
+                <example>Je suis personnellement favorable à la supression des auto-promo a vue.</example>
+                <example>Guy XV rétablit à Laval la chambre des comptes que, pendant son séjour à Châteaubriant, son père avait transportée dans cette ville.</example>
+                <example>Le roi lui confirme, à son avènement au trône, tous les privilèges que les rois ses prédécesseurs ont accordés aux sires de Laval.</example>
+                <example>Une de ses actrices favorites est Victoria Abril que certains de ses films ont imposée comme actrice majeure en France.</example>
+            </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">avoir</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">que|où|dont</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">de</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">avoir</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">que|où|dont</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">avoir</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">que|où|dont</token>
+                <token skip="-1">,</token>
+                <token>,</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">avoir</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">que|où|dont</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes">avoir</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>vue</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">de</token>
+                <token postag="N.*|V inf" postag_regexp="yes"><exception>préposition</exception></token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"><exception regexp="yes">les|l'|l[ea]</exception></token>
+                <token inflected="yes">avoir<exception regexp="yes">avions|(?-i)A</exception></token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token postag="V.* ppa.*" postag_regexp="yes">
+                        <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Le participe « \5 » devrait être au masculin singulier.</message>
+            <suggestion><match no="7" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+            <example correction="terminé">Les élèves de première ont <marker>terminés</marker> leurs devoirs.</example>
+            <example correction="terminé">Les élèves de première ont <marker>terminée</marker> leurs devoirs.</example>
+            <example correction="terminé">Les élèves de première ont <marker>terminées</marker> leurs devoirs.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
             <antipattern>
