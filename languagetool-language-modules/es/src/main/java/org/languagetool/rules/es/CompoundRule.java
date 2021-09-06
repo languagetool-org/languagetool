@@ -16,10 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.fr;
+package org.languagetool.rules.es;
 
 import org.languagetool.rules.*;
-import org.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.tagging.es.SpanishTagger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,22 +34,22 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
-            "Écrivez avec un trait d’union.",
-            "Écrivez avec un mot seul sans espace ni trait d’union.",
-            "Écrivez avec un mot seul ou avec trait d’union.",
-            "Erreur de trait d’union");
-    addExamplePair(Example.wrong("Le <marker>Haut Rhin</marker>."),
-                   Example.fixed("Le <marker>Haut-Rhin</marker>."));
+            "Se escribe con un guion.",
+            "Se escribe junto sin espacio ni guion.",
+            "Se escribe junto o con un guion.",
+            "Error de palabra compuesta");
+    addExamplePair(Example.wrong("<marker>Guinea Conakri</marker>."),
+                   Example.fixed("<marker>Guinea-Conakri</marker>."));
   }
 
   @Override
   public String getId() {
-    return "FR_COMPOUNDS";
+    return "ES_COMPOUNDS";
   }
 
   @Override
   public String getDescription() {
-    return "Mots avec trait d’union";
+    return "Palabras compuestas con guion";
   }
 
   @Override
@@ -59,7 +59,7 @@ public class CompoundRule extends AbstractCompoundRule {
       synchronized (CompoundRule.class) {
         data = compoundData;
         if (data == null) {
-          compoundData = data = new CompoundRuleData("/fr/compounds.txt");
+          compoundData = data = new CompoundRuleData("/es/compounds.txt");
         }
       }
     }
@@ -68,7 +68,7 @@ public class CompoundRule extends AbstractCompoundRule {
   
   @Override
   public boolean isMisspelled (String word) throws IOException {
-    return !FrenchTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
+    return !SpanishTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
   }
 
 }
