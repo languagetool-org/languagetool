@@ -43,6 +43,7 @@ import java.util.function.Supplier;
  * @since 4.4
  */
 public class CompoundInfinitivRule extends Rule {
+
   private final LinguServices linguServices;
   private final Language lang;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
@@ -104,7 +105,6 @@ public class CompoundInfinitivRule extends Rule {
     }
     setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
     antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
-
   }
 
   @Override
@@ -175,7 +175,7 @@ public class CompoundInfinitivRule extends Rule {
       return true;
     }
     String verb = null;
-    for (int i = n - 2; i > 0 && !isPunctuation(tokens[i].getToken()) && verb == null; i--) {
+    for (int i = n - 2; i > 0 && !isPunctuation(tokens[i].getToken()); i--) {
       if (tokens[i].hasPosTagStartingWith("VER:IMP")) {
         verb = StringUtils.lowerCase(getLemma(tokens[i]));
       } else if (tokens[i].hasPosTagStartingWith("VER")) {
