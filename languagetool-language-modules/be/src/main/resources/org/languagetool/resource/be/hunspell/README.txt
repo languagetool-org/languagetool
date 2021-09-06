@@ -1,2 +1,4 @@
-Spellchecker dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html 
-under Creative Commons Attribution/Share-Alike 3.0.
+Spellchecker dictionary is based on Belarusian Grammar Database (https://bnkorpus.info/grammar.html)
+by Aleś Bułojčyk <alex73mail@gmail.com>, Uładzimir Koščanka <koshul@gmail.com>
+
+This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
