@@ -19103,7 +19103,7 @@ though, and has since been slightly modified)-->
         <rulegroup id="ELISION" name="Élision de le, la…">
             <antipattern>
                 <token>la</token>
-                <token>une</token>
+                <token regexp="yes">une|alors</token>
             </antipattern>
             <antipattern>
                 <token>hells</token>
@@ -19360,6 +19360,52 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rulegroup id="PPA_ACCORD_INFINITIF_IMPLICITE" name="j'ai donné tous les conseils que j'ai pues (pu)" default="temp_off">
+        <rule>
+            <pattern>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes" skip="-1"/>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(?:cru|pu|voulu|du)(?:es?|e?s)</token>
+                    </marker>
+            </pattern>
+            <message>Lorsque le complément se rapporte à un infinitif implicite, il est invariable.</message>
+            <suggestion><match no="5" regexp_match="e?s?$" regexp_replace=""/></suggestion>
+            <example correction="pu">Je lui ai donné tous les conseils que j'ai <marker>pus</marker>.</example>
+		</rule>
+		<rule>
+            <pattern>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="V avoir.*" postag_regexp="yes"><exception scope="previous">l'</exception></token>
+                    <marker>
+                        <token postag="V ppa f [sp]|V ppa m p" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes" inflected="yes">à|de</token>
+                                    <token postag="V.* inf" postag_regexp="yes"/>
+                                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="V (ind|con|sub).*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Lorsque le complément se rapporte à un infinitif, il est invariable.</message>
+            <example correction="">Les exercices que j'ai <marker>réussis</marker> à faire étaient en fait pour hier.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="V avoir.*" postag_regexp="yes"><exception scope="previous">l'</exception></token>
+                    <marker>
+                        <token postag="V ppa f [sp]|V ppa m p" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes" inflected="yes">à|de</token>
+                    <token postag="V.* inf" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                    <token postag="A" min="0" max="3"/>
+                    <token postag="SENT_END"/>
+            </pattern>
+            <message>Lorsque le complément se rapporte à un infinitif, il est invariable.</message>
+            <example correction="">Les exercices que j'ai <marker>réussis</marker> à faire.</example>
+		</rule>
+		</rulegroup>
         <rule id="DETERMINER_SENT_END" name="déterminant à la fin de la phrase" default="temp_off">
             <pattern>
                 <token postag="D.*" postag_regexp="yes">
@@ -19385,6 +19431,16 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token regexp="yes">le|la|les|un|une</token>
             </antipattern>
+            <antipattern>
+                    <token postag="P|V.*" postag_regexp="yes"/>
+                    <token>sa</token>
+                    <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
+                </antipattern>
+                 <antipattern>
+                    <token>sa</token>
+                    <token>ma</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
             <antipattern>
                 <token postag="V etre.*3 s" postag_regexp="yes"/>
                 <token>ce</token>
@@ -19433,6 +19489,8 @@ though, and has since been slightly modified)-->
             <example correction="une fête|des fêtes">d'<marker>un une fête</marker></example>
             <example correction="un garçon|une garçonne|des garçons|des garçonnes">C'est <marker>un un garçon</marker> sensible.</example>
             <example>Tous leurs efforts furent vains.</example>
+            <example>On appelle les personnes qui font sa des lâches !</example>
+            <example>Ce qui est bien cest que je suis rester a la maison et sa ma permis de lire mon shonen Jump !</example>
             <example>Pour profiter d'un accès illimité, un compte payant est requis.</example>
             <example>On se souviendra de cette série pendant longtemps.</example>
             <example>Pourquoi as-tu prêté de l'argent à quelqu'un comme elle ?</example>
@@ -32519,6 +32577,32 @@ though, and has since been slightly modified)-->
                 <token>fait</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="V avoir.*" postag_regexp="yes"><exception scope="previous">l'</exception></token>
+                <token postag="V ppa f [sp]|V ppa m p" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">à|de</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="V (ind|con|sub).*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="V avoir.*" postag_regexp="yes"><exception scope="previous">l'</exception></token>
+                <token postag="V ppa f [sp]|V ppa m p" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">à|de</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes" skip="-1"/>
+                <token inflected="yes" skip="-1">que</token>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+		        <token regexp="yes">cru|pu|voulu|dû</token>
+            </antipattern>
             <rule name="m p suivi par . s">
                 <antipattern>
                     <token regexp="yes">voulu|souhaité</token>
@@ -38424,8 +38508,8 @@ though, and has since been slightly modified)-->
                 <message>Une faute de frappe ou une omission semble être possible, car les mots « \1 \2 » ne peuvent pas se suivre.</message>
                 <suggestion>\1</suggestion>
                 <suggestion>\2</suggestion>
-                <suggestion>là \2</suggestion>
-                <example correction="la|cette|là cette">Pour tout dire, <marker>la cette</marker> langue va disparaitre.</example>
+                <suggestion>là, \2</suggestion>
+                <example correction="la|cette|là, cette">Pour tout dire, <marker>la cette</marker> langue va disparaitre.</example>
                 <example>Plusieurs de ces langues vont disparaitre.</example>
                 <!-- IMP_PRON -->
                 <example>Faites le nous savoir en nous donnant une note ci-dessous.</example>
@@ -38571,7 +38655,7 @@ though, and has since been slightly modified)-->
                 <token>mois</token>
                 <token>le</token>
                 <token regexp="yes">plus|moins</token>
-                <token>chaud|froid</token>
+                <token regexp="yes">chaud|froid</token>
 			</antipattern>
             <pattern>
             <marker>
@@ -38982,7 +39066,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <marker>
-                    <token postag="V sub impa.*" postag_regexp="yes"><exception postag="V ind.*" postag_regexp="yes"/></token>
+                    <token postag="V sub impa.*" postag_regexp="yes"><exception postag="V ind.*|V sub pres.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Vérifiez l’accord entre le pronom '\1' et le verbe '\4'.</message>
