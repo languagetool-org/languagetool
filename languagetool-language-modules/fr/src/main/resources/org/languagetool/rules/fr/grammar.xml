@@ -11961,6 +11961,67 @@ though, and has since been slightly modified)-->
                 <example correction="ont|a">Les fleurs ont de l'eau, <marker>on</marker> besoin de soleil et ont beaucoup de terre.</example>
                 <example>A t'on besoin de crampons ?</example>
             </rule>
+			<rule default="temp_off">
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token>on</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token>on</token>
+                <token>à</token>
+                <token regexp="yes">[^a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token>on</token>
+                <token>peu</token>
+                <token postag="A" min="0" max="3"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* inf|UNKNOWN" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token>on</token>
+                <token>l'</token>
+                <token>on</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token>on</token>
+                <token>ce</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token skip="2">on</token>
+                <token>fou</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <token>on</token>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">soif|obligation|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|raison|accès|lieu</exception></token>
+            </antipattern>
+            <pattern>
+                <token postag="[NJ] . p" postag_regexp="yes"/>
+                <marker>
+                    <token>on</token>
+                </marker>
+                <token><exception postag="UNKNOWN"/>
+                    <exception regexp="yes">the|les|ne|n|n'|t|on</exception></token>
+            </pattern>
+            <message>Un verbe est attendu avant le sujet '\1'.</message>
+            <suggestion>ont</suggestion>
+            <example correction="ont">Les vaches <marker>on</marker> du lait.</example>
+            <example>Alors, dans les bibliothèques on à :</example>
+            <example>Des fois on ce demande à quoi sert wikinews...</example>
+            <example>Ou avec des Bots on peu se debrouiiler ?</example>
+            <example>Bon après les cotes on s'en fou!</example>
+            <example>Il existe des modèles à trous, plus stables on jonglerie plein air.</example>
+        </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
             <pattern>
