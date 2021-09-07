@@ -41,6 +41,7 @@ import org.languagetool.rules.ca.CatalanWordRepeatBeginningRule;
 import org.languagetool.rules.ca.CatalanWordRepeatRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.CheckCaseRule;
+import org.languagetool.rules.ca.CompoundRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.PronomFebleDuplicateRule;
 import org.languagetool.rules.ca.ReplaceOperationNamesRule;
@@ -103,6 +104,7 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
             new CheckCaseRule(messages, this),
+            new CompoundRule(messages),
             // Valencian DNV
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
