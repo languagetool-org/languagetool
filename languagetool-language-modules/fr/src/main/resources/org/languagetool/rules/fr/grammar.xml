@@ -5607,7 +5607,8 @@ though, and has since been slightly modified)-->
             <example>Au vaste monde, ailleurs qu’en elle, Pas de place pour toi.</example>
             <example>Je voulais lire un peu ce qu'en on pensait les précédents camptocampistes.</example>
         </rule>
-        <rule id="NOUS_SOMMES" name="nous somme->sommes">
+        <rulegroup id="NOUS_SOMMES" name="nous somme->sommes">
+        <rule>
             <pattern>
                 <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
                 <marker>
@@ -5619,6 +5620,31 @@ though, and has since been slightly modified)-->
             <suggestion>nous sommes</suggestion>
             <example correction="Nous sommes"><marker>Nous somme</marker> ensemble.</example>
         </rule>
+        <rule>
+             <antipattern>
+                <token postag="R pers suj 3 . s|[NJ] . s" postag_regexp="yes"/>
+                <token>nous</token>
+                <token>somme</token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers suj 3 . s|[NJ] . s" postag_regexp="yes"/>
+                <token>nous</token>
+                <token>somme</token>
+                <token postag="A" min="0" max="1"/>
+                <token inflected="yes">de</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>nous</token>
+                    <token>somme</token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire « sommes » (du verbe 'être')?</message>
+            <suggestion>nous sommes</suggestion>
+            <example correction="nous sommes">Lorsque <marker>nous somme</marker> venus, il n'y avait personne.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="SIL_VOUS_PLAIT" name="s'il vous plait">
             <antipattern>
                 <token>s'</token>
