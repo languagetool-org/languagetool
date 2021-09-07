@@ -5009,7 +5009,7 @@ though, and has since been slightly modified)-->
                     <token min="0" inflected="yes">ne</token>
                     <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
                     <marker>
-                        <token>est</token>
+                        <token regexp="yes">est?</token>
                     </marker>
                 </pattern>
                 <message>Le verbe avoir à la première personne du singulier est attendu.</message>
@@ -30433,10 +30433,10 @@ though, and has since been slightly modified)-->
             </antipattern>
             <rule name="je + token + verbe">
                 <antipattern>
-                    <token>j'</token>
+                    <token postag="R pers suj 1 s"/>
                     <token min="0" inflected="yes">ne</token>
                     <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                    <token>est</token>
+                    <token regexp="yes">est?</token>
                 </antipattern>
                 <pattern>
                     <token postag="R pers suj 1 s">
@@ -38546,7 +38546,8 @@ though, and has since been slightly modified)-->
             <example>Monsieur, vous y arriverez vous-même.</example>
             <example>Le meilleur en nous-même.</example>
         </rule>
-        <rule id="AU_MOIS_AU_MOINS" name="au mois → au moins">
+        <rulegroup id="AU_MOIS_AU_MOINS" name="au mois → au moins">
+            <rule>
             <pattern>
                 <token>au</token>
                 <marker>
@@ -38559,6 +38560,31 @@ though, and has since been slightly modified)-->
             <example correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
             <example>L’accident a fait au moins trois morts.</example>
         </rule>
+		<rule default="temp_off">
+			<antipattern>
+                <token regexp="yes" inflected="yes" skip="-1">abonner|abonnement|semaine</token>
+                <token>au</token>
+                <token>mois</token>
+			</antipattern>
+			<antipattern>
+				<token>au</token>
+                <token>mois</token>
+                <token>le</token>
+                <token regexp="yes">plus|moins</token>
+                <token>chaud|froid</token>
+			</antipattern>
+            <pattern>
+            <marker>
+                <token>au</token>
+                <token>mois</token>
+            </marker>
+                <token postag="[RD].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Une lettre doit être ajoutée afin de former l'adverbe <suggestion>au moins</suggestion>.</message>
+            <example correction="au moins">Peut-être, mais <marker>au mois</marker> cette salle est propre.</example>
+            <example>Mais en réalité il est nécessaire de s'abonner à l'année (et au mois c'est impossible).</example>
+		</rule>
+		</rulegroup>
         <rulegroup id="MISES_A_JOUR" name="mises à jours → mises à jour">
         <rule>
             <pattern>
