@@ -507,6 +507,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("trumpian", Arrays.asList("Trumpist"));
     s.put("trumpians", Arrays.asList("Trumpists"));
     s.put("UberEats", Arrays.asList("Uber Eats"));
+    s.put("KWH", Arrays.asList("kWh"));
+    s.put("MWH", Arrays.asList("MWh"));
     return s;
   }
 

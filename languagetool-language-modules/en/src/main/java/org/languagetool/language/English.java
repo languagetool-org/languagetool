@@ -439,7 +439,6 @@ public class English extends Language implements AutoCloseable {
       case "NON_ANTI_PRE_JJ":           return -1;  // prefer other more specific rules
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
-      case "HAVE_PART_AGREEMENT":       return -1;  // prefer other more specific rules
       case "PREPOSITION_VERB":          return -1;  // prefer other more specific rules
       case "EN_A_VS_AN":                return -1;  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
       case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
@@ -463,7 +462,6 @@ public class English extends Language implements AutoCloseable {
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
       case "BE_VBP_IN":                 return -2;  // prefer over BEEN_PART_AGREEMENT
-      case "BEEN_PART_AGREEMENT":       return -3;  // prefer other more specific rules (e.g. VARY_VERY, VB_NN)
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
       case "HE_VERB_AGR":               return -3;  // prefer other more specific rules (e.g. PRP_VBG)
       case "PRP_JJ":                    return -3;  // prefer other rules (e.g. PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
@@ -484,6 +482,8 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "HAVE_PART_AGREEMENT":       return -12;  // prefer HYDRA_LEO
+      case "BEEN_PART_AGREEMENT":       return -12;  // prefer HYDRA_LEO
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
