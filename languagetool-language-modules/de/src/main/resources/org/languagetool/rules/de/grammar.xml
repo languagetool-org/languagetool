@@ -22152,6 +22152,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="KFZ_CASE" name="KFZ -> Kfz" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">KFZ-(Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
+            </pattern>
+            <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
+            <suggestion><match no="1" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
+            <url>https://de.wiktionary.org/wiki/Kfz</url>
+            <example correction="Kfz-Kennzeichen">Mein <marker>KFZ-Kennzeichen</marker> ist bereits abgelaufen.</example>
+        </rule>
         <rule id="EFFIZIENTES_ARBEITEN" name="effizientes arbeiten (Arbeiten)">
             <pattern>
                 <token postag="SENT_START"/>
@@ -50810,6 +50819,29 @@ Andere Projekte</example>
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
+        <rule id="WRONG_UPPER_QUOTE" name="Schließendes Anführungszeichen" default="temp_off">
+            <antipattern>
+                <token spacebefore="no" regexp="yes">.*[a-z].*</token>
+                <token spacebefore="no">„</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">"</token>
+                <token>"</token>
+            </antipattern>
+            <pattern>
+                <token>„</token>
+                <token spacebefore="no" regexp="yes" skip="-1">
+                    .*[a-z].*
+                    <exception scope="next">“</exception>
+                </token>
+                <marker>
+                    <token spacebefore="no">"</token>
+                </marker>
+            </pattern>
+            <message>Möchten Sie das typografisch korrekte schließende Anführungszeichen verwenden?</message>
+            <suggestion>“</suggestion>
+            <example correction="“">Das ist wertvoller „Content<marker>"</marker>.</example>
+        </rule>
         <rulegroup id="TYPOGRAPHIC_QUOTES" name="Anführungszeichen: “xyz” -> „xyz“" default="temp_off"><!--DO NOTE ACTIVATE: needs new Google Docs and browser add-on release first-->
             <rule>
                 <!-- wird auch von UNPAIRED_BRACKETS gefunden, aber hier mit besserer suggestion -->
