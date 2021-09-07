@@ -195,6 +195,7 @@ public class Spanish extends Language implements AutoCloseable {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
+      case "ES_COMPOUNDS": return 50;
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS
       case "LOS_MAPUCHE": return 50;
       case "TE_TILDE": return 50;
