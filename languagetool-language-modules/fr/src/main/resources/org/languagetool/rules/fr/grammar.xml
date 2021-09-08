@@ -11321,7 +11321,7 @@ though, and has since been slightly modified)-->
                 <message>Voulez-vous écrire <suggestion>me</suggestion> ?</message>
                 <example correction="me">Il <marker>ma</marker> répond.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes"/>
                     <token>cela</token>
@@ -11343,7 +11343,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="A" min="0" max="2">
                         <exception>vie</exception></token>
-                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"><exception postag="N f s"/></token>
+                    <token postag="N.*|V.* ppa.*" postag_regexp="yes"><exception postag="N [fe] sp?" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Une apostrophe est nécessaire afin de séparer le pronom et le verbe avoir.</message>
                 <suggestion>m'a</suggestion>
@@ -11352,6 +11352,7 @@ though, and has since been slightly modified)-->
                 <example correction="m'a">Et ça <marker>ma</marker> permis de finir mon livre.</example>
                 <example>Ne contredisez point en cela ma théorie.</example>
                 <example>Pourquoi battait-il ma mère si violemment ?</example>
+                <example>Vois-tu ma rose ?</example>
             </rule>
              <rule>
                 <antipattern>
