@@ -8158,6 +8158,150 @@ though, and has since been slightly modified)-->
                 <example>Au cours des trois ans précédents.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="A_A_ACCENT2" name="a -> à" default="temp_off">
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">less|for|about|feeling|(?-i)Office|ont</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">have|has</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">(-t)?-elle|(-t)?-il|(-t)?-on|lieu|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">soit</token>
+                <token>soit</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag="C coor"></token>
+                <token>b</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*[123] ." postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception postag="V.* imp pres 2 p" postag_regexp="yes"/></token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token postag="(P.)?R rel.*|A inte|C sub" postag_regexp="yes" skip="-1"/>
+                    <token postag="V.*[123] ." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">quel|si</token>
+                    <token postag="V.*[123] ." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="V.*[123] ." postag_regexp="yes"/>
+                    <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4"><exception postag_regexp="yes" postag="C.*"/><exception>a</exception></token>
+                    <marker>
+                        <token case_sensitive="yes">a</token>    
+                    </marker>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
+                <example correction="à">Il rattachent Simon <marker>a</marker> son père.</example>
+                <example correction="à">Je participe très rarement <marker>a</marker> des concours.</example>
+                <example correction="à">Pensez <marker>a</marker> le dépasser.</example>
+                <example correction="à">Cet endroit est trop <marker>a</marker> découvert.</example>
+                <example correction="à">Il ne s'affiche pas <marker>a</marker> les autres.</example>
+                <example>Le stade auquel un embryon devient un fœtus a apparemment été choisi arbitrairement.</example>
+                <example>Celui qui a semé a récolté.</example>
+                <example>They could have told us or have a sign there.</example>
+                <example>Celui qui ne perd pas sa place a de la constance.</example>
+                <example>Qui n'aime point les vers a l'esprit sec et lourd.</example>
+                <example>Le nombre d'étudiants qui vont Outre-mer a augmenté.</example>
+                <example>L'endroit où l'on se trouve a un intérêt particulier.</example>
+                <example>La voiture que je vous ai louée a un problème.</example>
+                <example>L'horloge que tu m'as donnée a un comportement étrange.</example>
+                <example>Celui qui ne combat pas a déjà perdu.</example>
+                <example>Je ne sais pas quand le mari a appelé.</example>
+                <example>Personne ne sait comment l'incendie a commencé.</example>
+                <example>Terra Naomi a deux frères.</example>
+                <example>C'est pourquoi l'avocat a encore protesté.</example>
+                <example>La trappe a liquidité a-t-elle fonctionné au Japon ?</example>
+                <example>La trappe à liquidité a-t-elle fonctionné au Japon ?</example>
+                <example>Je ne sais pas quel âge a Tom.</example>
+                <example>Je me demande où Tom a bien pu acheter ça.</example>
+                <example>Je me demande où ma montre a encore bien pu passer.</example>
+                <example>On se demande parfois si la vie a un sens.</example>
+                <example>Comme je le pensais a réussi à susciter l'intérêt de Kaido.</example>
+                <example>Cet objet mystérieux qu’est le miroir a toujours été lié à la magie.</example>
+                <example>Soit mon frère est tombé du lit, soit le chat a fait un vol plané.</example>
+                <example>L'avocat sentant un piège a décidé de se sacrifier.</example>
+                <example>Clinton Mata a été terrible.</example>
+                <example>Le trou d'Ira a pour coordonnées.</example>
+                <example>Nous savons ce que cela a d’utile.</example>
+                <example>La maison désigne a minima une famille.</example>
+                <example>C'est le cadre dans lequel la France évolue a été profondément bouleversé.</example>
+                <example>C'est donc A qui a gagné.</example>
+                <example>Il y a a de beaux draps.</example>
+                <example>Selon moi, l'être humain a tellement de mal à admettre sa finitude.</example>
+                <example>Il a a travaillé pour la fédération française de handball.</example>
+                <example>Il n'y en a a pas beaucoup des comme ça autour.</example>
+                <example>La tour Est a disparu.</example>
+                <example>Miss A a commencé hier.</example>
+                <example>Muselle a nié toute implication.</example>
+                <example>Je veux a et b en vert.</example>
+                <example>La scène où Kev meurt a été tournée à deux semaines d'écart.</example>
+                <example>Je ne pouvais pas le croire a priori.</example>
+                <example>La grève généralisée a paralysé tout le pays.</example>
+                <example>Fumer a nui à sa santé.</example>
+                <example>Ce que tu dis a l’air correct.</example>
+                <example>Puis a jailli un jeune homme.</example>
+                <example>Il chante <marker>a</marker> cappella.</example>
+                <example>Il est né à Vitré.</example>
+                <example>Si b est VRAI, l'expression vaut FAUX, sinon elle vaut a.</example>
+                <example>Tout ce dont il se souvient a trait à l'espéranto.</example>
+                <example>Tout le monde a ses forces et ses faiblesses.</example>
+                <example>Cela lui a pris trois mois.</example>
+                <example>L'orange a laissé un goût étrange dans ma bouche.</example>
+                <example>La crème a été brûlée avant d’être mise au frais.</example>
+                <example>Soit A une primitive de la fonction a.</example>
+                <example>Pave a écrit :</example>
+                <example>De quel côté tu es n'a pas d'importance.</example>
+                <example>Ce qu'il raconte n'a ni queue ni tête.</example>
+                <example>La verdure qu'il éveille <marker>a</marker> besoin de temps pour germer.</example>
+                <example>La LACE a pour but de protéger des personnes.</example>
+                <example>Soit mon frère est tombé du lit, soit le chat a fait un vol plané.</example>
+                <example>Soit mon frère est tombé du lit, soit le chat de mon ami a fait un vol plané.</example>
+                <example>Armas a en outre décidé de venger les assassins de son père.</example>
+                <example>Il est marié et a trois enfants.</example>
+                <example type="triggers_error" reason="other errors in sentence">Il est marié est a trois enfants.</example>
+                <example>C'est ce qui restera dans les annales où l’on a vu différents pilotes monter.</example>
+                <example type="triggers_error" reason="other errors in sentence">C'est ce qui restera dans les annales ou l’ont a vue différent pilotes monter.</example>
+                <example>Son assignation à résidence a finalement été levée le 13 février 2010.</example>
+                <example type="triggers_error" reason="other errors in sentence">Son assignation a résidence a finalement été levée le 13 février 2010.</example>
+                <example>Or un coinceur à cames a tendance à bouger par lui-meme sous les secousses.</example>
+                <example type="triggers_error" reason="other errors in sentence">Or un coinceur a cames a tendance a bouger par lui-meme sous les secousses.</example>
+                <example>En tout cas la boite à ski a l'air d'avoir un paquet de T4 ou similaires en destockage a vendre.</example>
+                <example type="triggers_error" reason="other errors in sentence">En tout cas la boite a ski a l'air d'avoir un paquet de T4 ou similaires en destockage a vendre.</example>
+                <example>Ils ont juste la flemme de faire des intégrations.</example>
+                <example type="triggers_error" reason="other errors in sentence">Ils ont juste a flemme de faire des intégrations.</example>
+                <example>La septième Documenta a rassemblé 182 artistes.</example>
+                <example type="triggers_error" reason="other errors in sentence">La septième documenta a rassemblé 182 artistes.</example>
+                <example type="triggers_error" reason="other errors in sentence">Elle prend plus a le ventre bien rebondi et dort bien.</example>
+                <example correction="à">Elle est partie <marker>a</marker> la poste.</example>
+                <example>Le A cerclé a l’avantage d’être plus facilement exécutable.</example>
+                <example>la journaliste a encore frappé a écrit le rédacteur.</example>
+                <example>Ce que j’ai le plus aimé a simplement été l’audace.</example>
+                <example type="triggers_error" reason="other errors in sentence">Ce j’ai le plus aimé a simplement été l’audace.</example>
+                <example>Le traité des Pyrénées quand a lui a connu un pic atteignant 2000 visites.</example>
+                <example>Un étage sous comble est aménagé a minima.</example>
+                <example>Le groupe de jeunes pionniers à l'école où elle a enseigné a également été renommé en sa mémoire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
+                    <token postag="[ZANJD].*" postag_regexp="yes" min="0" max="4"><exception postag_regexp="yes" postag="C.*"/><exception>a</exception></token>
+                    <marker>
+                        <token case_sensitive="yes">a</token>    
+                    </marker>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
+                <example correction="à">J'ai découvert que la case verte est <marker>a</marker> un endroit qui n’existe pas dans mon école.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_A_ACCENT" name="'A' au lieu de 'À'">
             <antipattern>
                 <token>a</token>
@@ -22168,7 +22312,7 @@ though, and has since been slightly modified)-->
                 <suggestion>à</suggestion>
                 <example correction="à">Nous pouvons mettre au point des projets complexes dû <marker>a</marker> nos connaissances et expériences.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>à</token>
                     <token regexp="yes">c[oô]té</token>

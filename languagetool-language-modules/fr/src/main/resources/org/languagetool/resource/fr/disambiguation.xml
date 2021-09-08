@@ -1739,6 +1739,20 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="STARTSENT_NOUN" name="sentence start + noun">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="V.* [123] ." postag_regexp="yes"/>
+                </and> 
+            </marker>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="V.* [123] ."/>
+    </rule>
     <rule id="LES_QUELQUES" name="les quelques">
         <pattern>
             <token postag="(P.)?D e p" postag_regexp="yes"/>
