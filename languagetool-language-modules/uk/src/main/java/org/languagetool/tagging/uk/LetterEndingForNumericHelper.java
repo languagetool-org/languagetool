@@ -57,6 +57,7 @@ class LetterEndingForNumericHelper {
     map2.put("ме", Arrays.asList(RegexToCaseList.always(":n:v_naz", ":n:v_zna"))); // 7-те
     map2.put("і", Arrays.asList(RegexToCaseList.always(":p:v_naz", ":p:v_zna:rinanim")));
     map2.put("ті", Arrays.asList(RegexToCaseList.always(":p:v_naz", ":p:v_zna:rinanim")));
+    map2.put("ні", Arrays.asList(RegexToCaseList.always(":p:v_naz", ":p:v_zna:rinanim")));
     map2.put("х", Arrays.asList(RegexToCaseList.always(":p:v_rod", ":p:v_zna:ranim", ":p:v_mis"))); // 5-х
     map2.put("их", Arrays.asList(RegexToCaseList.always(":p:v_rod", ":p:v_zna:ranim", ":p:v_mis"))); // 5-их
     //TODO: частіше вживають іменником: у 7-ми томах

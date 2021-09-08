@@ -459,7 +459,7 @@ public class UkrainianHybridDisambiguationTest {
       "/[null]SENT_START"
       +  " 1/[1]number"
       + "  /[null]null"
-      + " ст./[ст.]adj:f:v_dav:nv:abbr|ст./[ст.]adj:f:v_naz:nv:abbr|ст./[ст.]adj:f:v_oru:nv:abbr|ст./[ст.]adj:f:v_rod:nv:abbr|ст./[ст.]adj:f:v_zna:nv:abbr|ст./[ст.]adj:p:v_dav:nv:abbr|ст./[ст.]adj:p:v_naz:nv:abbr|ст./[ст.]adj:p:v_oru:nv:abbr|ст./[ст.]adj:p:v_rod:nv:abbr|ст./[ст.]adj:p:v_zna:nv:abbr"
+      + " ст./[ст.]adj:f:v_dav:nv:abbr|ст./[ст.]adj:f:v_naz:nv:abbr|ст./[ст.]adj:f:v_oru:nv:abbr|ст./[ст.]adj:f:v_rod:nv:abbr|ст./[ст.]adj:f:v_zna:nv:abbr|ст./[ст.]adj:p:v_dav:nv:abbr|ст./[ст.]adj:p:v_naz:nv:abbr|ст./[ст.]adj:p:v_oru:nv:abbr|ст./[ст.]adj:p:v_rod:nv:abbr|ст./[ст.]adj:p:v_zna:ranim:nv:abbr|ст./[ст.]adj:p:v_zna:rinanim:nv:abbr"
       + "  /[null]null ложка/[ложка]noun:inanim:f:v_naz",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -467,7 +467,7 @@ public class UkrainianHybridDisambiguationTest {
       "/[null]SENT_START"
       +  " 1/[1]number"
       + "  /[null]null"
-      + " ст./[ст.]adj:m:v_dav:nv:abbr|ст./[ст.]adj:m:v_naz:nv:abbr|ст./[ст.]adj:m:v_oru:nv:abbr|ст./[ст.]adj:m:v_rod:nv:abbr|ст./[ст.]adj:m:v_zna:nv:abbr"
+      + " ст./[ст.]adj:m:v_dav:nv:abbr|ст./[ст.]adj:m:v_naz:nv:abbr|ст./[ст.]adj:m:v_oru:nv:abbr|ст./[ст.]adj:m:v_rod:nv:abbr|ст./[ст.]adj:m:v_zna:ranim:nv:abbr|ст./[ст.]adj:m:v_zna:rinanim:nv:abbr"
       + "  /[null]null сержант/[сержант]noun:anim:m:v_naz",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
