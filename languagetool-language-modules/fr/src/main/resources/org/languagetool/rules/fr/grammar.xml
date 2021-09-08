@@ -10092,7 +10092,7 @@ though, and has since been slightly modified)-->
                     <token>
                         <exception regexp="yes">à|avec|contre|dans|derrière|dessous|devant|en|pour|sous|sur</exception></token>
                 </pattern>
-                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction “ou” signale une alternative.</message>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="Où"><marker>Ou</marker> sont mes affaires ?</example>
                 <example>Où sont mes affaires ?</example>
                 <example>Manger ou être mangé, c’est la loi de la nature.</example>
@@ -10101,12 +10101,12 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">de</token>
+                    <token inflected="yes">de|vers|par</token>
                     <marker>
                         <token>ou</token>
                     </marker>
                 </pattern>
-                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction “ou” signale une alternative.</message>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="où">D’<marker>ou</marker> viens-tu ?</example>
             </rule>
             <rule>
@@ -10117,9 +10117,33 @@ though, and has since been slightly modified)-->
                         <token>ou</token>
                     </marker>
                 </pattern>
-                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction “ou” signale une alternative.</message>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="où">Au moment <marker>ou</marker> elle est sortie</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>instant</token>
+                    <marker>
+                        <token>ou</token>
+                    </marker>
+                </pattern>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
+                <example correction="où">Au moment <marker>ou</marker> elle est sortie</example>
+            </rule>
+            <!--<rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>ou</token>
+                    </marker>
+                    <token regexp="yes" skip="3">que|qu'</token>
+                    <token postag="V sub pres.*" postag_regexp="yes" inflected="yes" regexp="yes">aller|être</token>
+                </pattern>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
+                <example correction="Où"><marker>Ou</marker> que vous alliez, conformez-vous aux mœurs du pays.</example>
+                <example correction="où">Puisse-t-il y être heureux <marker>ou</marker> qu’il soit !</example>
+            </rule>-->
             <rule>
                 <pattern>
                     <token inflected="yes">savoir</token>
@@ -10128,7 +10152,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="V inf"/>
                 </pattern>
-                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction “ou” signale une alternative.</message>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="où">Je sais <marker>ou</marker> aller.</example>
             </rule>
             <rule>
@@ -10140,7 +10164,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token postag="V inf"/>
                 </pattern>
-                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction “ou” signale une alternative.</message>
+                <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="où">Je ne sais pas <marker>ou</marker> aller.</example>
             </rule>
             <rule>
@@ -10412,7 +10436,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction “ou” signale une alternative.</message>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
             <suggestion>où</suggestion>
             <example correction="où">Les annales <marker>ou</marker> on a vue différents pilotes.</example>
             <example correction="où">C’est peut-être la seule fois <marker>ou</marker> il a pu passer devant le Maître.</example>
