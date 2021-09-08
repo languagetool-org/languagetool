@@ -288,12 +288,13 @@ RB => Règles Brutes
     </rule>
     <rule id="ADJ_NOT_NOUN" name="adjective, not noun">
         <pattern>
-            <token><exception postag="D.*" postag_regexp="yes"/></token>
+            <token>
+                <exception postag="D.*" postag_regexp="yes"/></token>
             <marker>
-                <token postag="J.*|V ppa.*" postag_regexp="yes" inflected="yes">engager</token>    
+                <token postag="J.*|V ppa.*" postag_regexp="yes" inflected="yes">engager</token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="N.*"></disambig>
+        <disambig action="remove" postag="N.*"/>
     </rule>
     <rulegroup id="SI_NOM" name="si (noun/not noun)">
         <rule>
@@ -1747,7 +1748,7 @@ RB => Règles Brutes
                 <and>
                     <token postag="N.*" postag_regexp="yes"/>
                     <token postag="V.* [123] ." postag_regexp="yes"/>
-                </and> 
+                </and>
             </marker>
             <token postag="V.* 3 s" postag_regexp="yes"/>
         </pattern>
