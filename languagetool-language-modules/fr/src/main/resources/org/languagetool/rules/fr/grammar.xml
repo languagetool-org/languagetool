@@ -5445,25 +5445,58 @@ though, and has since been slightly modified)-->
                 <example>Ce que je sens est une bonne façon de voir.</example>
             </rule>
         </rulegroup>
-        <rule id="SI_CI_1" name="cette fois si (ci)" default="temp_off">
-            <antipattern>
-                <token>si</token>
-                <token postag_regexp="yes" postag="Z|N.*" skip="2"/>
-                <token postag_regexp="yes" postag="V.*"/>
-                <token>si</token>
-            </antipattern>
-            <pattern>
-                <token>cette</token>
-                <marker>
-                    <token>fois</token>
+        <rulegroup id="SI_CI" name="si joint → ci-joint (etc.)" default="temp_off">
+            <!-- identical to rule CI, but with "si" -->
+            <rule>
+                <pattern>
                     <token>si</token>
-                </marker>
-            </pattern>
-            <message>La conjonction 'si' induit une condition.</message>
-            <suggestion>fois-ci</suggestion>
-            <example correction="fois-ci">Malheureusement, encore une énième rechute, qui je crois cette <marker>fois si</marker> sonnera le glas de la fin de carrière de Jesse</example>
-            <example>Mais cette fois, si tu y penses</example>
-        </rule>
+                    <token regexp="yes">annexé|après|contre|devant|derrière|joint|inclus|desso?us|gît|celui|celles?|ceux|par</token>
+                    <!--de|-->
+                </pattern>
+                <message>Un trait d'union est nécessaire pour former ce mot.</message>
+                <suggestion>ci-\2</suggestion>
+                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
+                <example correction="ci-joint">Voici <marker>si joint</marker> la photo.</example>
+                <example>à ce moment-ci de la journée.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">celui|celles?|ceux</token>
+                    <token>si</token>
+                </pattern>
+                <message>Un trait d'union est nécessaire pour former ce mot.</message>
+                <suggestion>\1-ci</suggestion>
+                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
+                <example correction="Celui-ci"><marker>Celui si</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cette|ce[st]?</token>
+                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token>si</token>
+                    </marker>
+                </pattern>
+                <message>Un trait d'union est nécessaire pour joindre ces deux mots.</message>
+                <suggestion>\3-ci</suggestion>
+                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
+                <example correction="arbre-ci">Cet <marker>arbre si</marker>.</example>
+                <example correction="voiture-ci">Cette <marker>voiture si</marker>.</example>
+                <example correction="voiture-ci">Cette belle <marker>voiture si</marker>.</example>
+                <example correction="fois-ci">Malheureusement, encore une énième rechute, qui je crois cette <marker>fois si</marker> sonnera le glas de la fin de carrière de Jesse</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>comme</token>
+                    <token regexp="yes">[-‑‐]</token>
+                    <token>si</token>
+                </pattern>
+                <message>Cette expression s'écrit sans trait d’union.</message>
+                <suggestion>\1 ci</suggestion>
+                <example correction="comme ci">Faites <marker>comme-si</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="POLE_2" name="pôle">
             <antipattern>
                 <token postag="D f s"/>
@@ -10102,7 +10135,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">de|vers|par</token>
+                    <token inflected="yes" regexp="yes">de|vers|par</token>
                     <marker>
                         <token>ou</token>
                     </marker>
@@ -10131,7 +10164,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
-                <example correction="où">Au moment <marker>ou</marker> elle est sortie</example>
+                <example correction="où">A l'instant <marker>ou</marker> elle est sortie</example>
             </rule>
             <!--<rule default="temp_off">
                 <pattern>
