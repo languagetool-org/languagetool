@@ -120,6 +120,8 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Fahrerkanzel",  // vs Führerkanzel
+          "Wehrchef",  // vs Lehrchef
           "Lichtkunstwerk",  // vs Dichtkunstwerk
           "Infektionslage",  // vs Infektionstage
           "Teilspiegel",  // vs Heilspiegel
