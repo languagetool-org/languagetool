@@ -296,7 +296,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("від наступних пари")).length);
 
     assertEmptyMatch("Північний Рейн-Вестфалія");
-
+    
+    //TODO: too many FN with this exception
+//    assertEmptyMatch("тепер хоч по Підвальній трамваї можуть пройти");
   }
   
   @Test
