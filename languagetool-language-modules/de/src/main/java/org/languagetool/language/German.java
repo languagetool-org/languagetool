@@ -288,6 +288,7 @@ public class German extends Language implements AutoCloseable {
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "DE_COMPOUNDS": return 10;
       case "IRGEND_COMPOUND": return 10;
+      case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_QUOTES
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
       case "ZULANGE": return 1;  // better suggestion than SAGT_RUFT
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
