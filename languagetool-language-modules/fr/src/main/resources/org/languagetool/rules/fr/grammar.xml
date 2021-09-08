@@ -23128,7 +23128,7 @@ though, and has since been slightly modified)-->
             <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
         </rule>
         <!-- End of additions -->
-        <rule id="PRES_DE" name="prés/près" default="temp_off">
+        <rule id="PRES_DE" name="prés/près">
             <antipattern>
                 <token postag="(P\+)?D [em] (s|sp)" postag_regexp="yes"/>
                 <token>pré</token>
@@ -23157,7 +23157,8 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">d[eu']</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="2">bois|prairies?|forêts?|champs?|colines?|roseaux</token>
+                <token regexp="yes">bois|prairies?|forêts?|champs?|colines?|roseaux</token>
+                <token regexp="yes">et|ou|du|des</token>
                 <token regexp="yes">prés?</token>
                 <token regexp="yes">d[eu']</token>
             </antipattern>
@@ -23189,7 +23190,7 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token regexp="yes">d[eu']</token>
             </pattern>
-            <message>L'adverbe <suggestion>près</suggestion> apporte une indication de lieu.</message>
+            <message>Voliez-vous dire <suggestion>près</suggestion> (adverbe de lieu ou de temps)? Un "pré" est un champ.</message>
             <example correction="près">sur une colline <marker>prés</marker> de Paris.</example>
             <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
             <example correction="près">et sur <marker>prés</marker> de 200 km de parcours</example>
@@ -32581,7 +32582,7 @@ though, and has since been slightly modified)-->
                             <exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>Le participe « \5 » devrait être au masculin singulier.</message>
+                <message>Le participe « \4 » devrait être au masculin singulier.</message>
                 <suggestion><match no="4" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
                 <example correction="terminé">Les élèves ont <marker>terminés</marker> leurs devoirs.</example>
                 <example correction="terminé">Les élèves ont <marker>terminée</marker> leurs devoirs.</example>
