@@ -4866,6 +4866,39 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+          <rule id="TORD_TORT" name="confusion tord/tort" default="temp_off">
+            <antipattern>
+                <token>tord</token>
+                <token>boyau</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers.*|UNKNOWN" postag_regexp="yes"/>
+                <token>tord</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* 3 s" postag_regexp="yes" skip="5"/>
+                <token postag="C coor|M nonfin" postag_regexp="yes"/>
+                <token>tord</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D . s" postag_regexp="yes"/>
+                <token postag="N . s" postag_regexp="yes"/>
+                <token>tord</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">tord
+                    <exception scope="next" postag="D.*" postag_regexp="yes"/>
+                    <exception scope="previous" regexp="yes">qui|ça|cela|bois|[\(«\["]|ne</exception></token>
+            </pattern>
+            <message>Le nom 'tort' semble être confondu avec le verbe tordre.</message>
+            <suggestion>tort</suggestion>
+            <example correction="tort">Il n'a pas <marker>tord</marker>.</example>
+            <example>Tord boyau à Canaille.</example>
+            <example>Le ver se tord.</example>
+            <example>La Carcasse et le Tord Cou.</example>
+            <example>Rijkaard arrive alors et tord l'oreille de Völler, avant de lui cracher dessus.</example>
+            <example>Mais la manœuvre tord fréquemment les tuyaux.</example>
+        </rule>
 		<rulegroup id="TOUS_TOUT" name="tous tout">
 			<rule>
                 <pattern>
