@@ -11460,7 +11460,7 @@ though, and has since been slightly modified)-->
             <rule default="temp_off">
                 <pattern>
                     <token>sont</token>
-                    <token postag="J . s|V ppa . s" postag_regexp="yes"/>
+                    <token postag="J . s" postag_regexp="yes"><exception postag="V ppa .*|J . s?p" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Le mot singulier "\2" n’est pas accordé en nombre avec le verbe "sont".</message>
                 <suggestion>sont <match no="2" postag="(V ppa|J) ([mfe]) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
@@ -11468,6 +11468,8 @@ though, and has since been slightly modified)-->
                 <example correction="sont gratuits|son gratuit">Il faut voir que si les services que nous utilisons majoritairement aujourd'hui <marker>sont gratuit</marker>.</example>
                 <example>Mika Häkkinen et Gerhard Berger sont quatrième et cinquième.</example>
                 <example>Les couleurs du drapeau américain sont rouge, blanc et bleu.</example>
+                <example>Ils se sont acheté un camion d'occasion.</example>
+                <example>Ses chaussures sont marron.</example>
             </rule>
             <rule>
                 <antipattern>
