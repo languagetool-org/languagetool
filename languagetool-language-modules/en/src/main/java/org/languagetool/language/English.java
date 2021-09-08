@@ -476,14 +476,14 @@ public class English extends Language implements AutoCloseable {
       case "Y_ALL":                     return -4;  // prefer over spelling rules
       case "GIMME":                     return -4;  // prefer over spelling rules
       case "LEMME":                     return -4;  // prefer over spelling rules
+      case "HAVE_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
+      case "BEEN_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "HAVE_PART_AGREEMENT":       return -12;  // prefer HYDRA_LEO
-      case "BEEN_PART_AGREEMENT":       return -12;  // prefer HYDRA_LEO
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
@@ -509,6 +509,9 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_HYDRA_LEO_CP_YOUR_YOURE")) {
         return 1;
+      }
+      if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
+        return -8; // higher prio than BEEN_PART_AGREEMENT and HAVE_BEEN_AGREEMENT
       }
       return -11;
     }
