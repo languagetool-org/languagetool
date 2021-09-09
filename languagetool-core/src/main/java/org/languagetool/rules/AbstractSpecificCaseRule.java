@@ -105,7 +105,7 @@ public abstract class AbstractSpecificCaseRule extends Rule {
   /**
    * Initializes the <code>lcToProperSpelling</code> Map
    */
-  private void initializeLcToProperSpellingMap() {
+  synchronized private void initializeLcToProperSpellingMap() {
     for (String phrase : phrases) {
       lcToProperSpelling.put(phrase.toLowerCase(), phrase);
     }
