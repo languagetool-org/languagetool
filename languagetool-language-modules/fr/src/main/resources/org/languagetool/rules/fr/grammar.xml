@@ -38674,7 +38674,7 @@ though, and has since been slightly modified)-->
                 <example correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
                 <example>L’accident a fait au moins trois morts.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes" inflected="yes" skip="-1">abonner|abonnement|semaine</token>
                     <token>au</token>
@@ -38687,6 +38687,12 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">plus|moins</token>
                     <token regexp="yes">chaud|froid</token>
                 </antipattern>
+                <antipattern>
+                    <token>au</token>
+                    <token>mois</token>
+                    <token>le</token>
+                    <token>mois</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>au</token>
@@ -38697,6 +38703,7 @@ though, and has since been slightly modified)-->
                 <message>Une lettre doit être ajoutée afin de former l'adverbe <suggestion>au moins</suggestion>.</message>
                 <example correction="au moins">Peut-être, mais <marker>au mois</marker> cette salle est propre.</example>
                 <example>Mais en réalité il est nécessaire de s'abonner à l'année (et au mois c'est impossible).</example>
+                <example>Il vit au mois le mois.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MISES_A_JOUR" name="mises à jours → mises à jour">
