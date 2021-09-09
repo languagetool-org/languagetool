@@ -170,6 +170,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="à propos des|au sujet des|concernant les|quant aux|relativement aux"><marker>en ce qui concerne les</marker> chemins.</example>
             <example correction="à propos de l'|au sujet de l'|concernant l'|quant à l'|relativement à l'"><marker>en ce qui concerne l'</marker>homme.</example>
         </rule>
+        <rule id="PAST_FUTURE_AGREEMENT" name="il disait qu'il viendra" default="temp_off">
+            <pattern>
+                    <token postag="V ind (impa|psim) .*" postag_regexp="yes" skip="2"/>
+                    <token regexp="yes" skip="5">qu[e']</token>
+                <marker>
+                    <token postag="V ind futu .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Lorsque le temps de la phrase principale est au passé, il convient que le temps de la subordonnée le soit aussi.</message>
+            <suggestion><match no="3" postag="V ind futu (.*)" postag_regexp="yes" postag_replace="V con pres $1"/></suggestion>
+            <suggestion><match no="3" postag="V ind futu (.*)" postag_regexp="yes" postag_replace="V sub impa $1"/></suggestion>
+            <url>https://www.academie-francaise.fr/il-disait-quil-viendra</url>
+            <example correction="arriverait|arrivât">Par ce message, il nous informait qu'il <marker>arrivera</marker> jeudi prochain</example>
+        </rule>
         <!-- TODO:
             - det + adv + adj: le plus belle
         -->
