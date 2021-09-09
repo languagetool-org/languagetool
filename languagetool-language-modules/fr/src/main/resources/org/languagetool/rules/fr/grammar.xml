@@ -19835,7 +19835,7 @@ though, and has since been slightly modified)-->
                         <token postag="V inf"/>
                     </marker>
                 </pattern>
-                <message>Le verbe ne semble pas être conjugué au passé composé.</message>
+                <message>Ici le passé composé semble nécessaire.</message>
                 <suggestion>a <match no="3" postag="V inf" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
                 <example correction="a regardé">On <marker>à regarder</marker> un film.</example>
                 <example>Elle a commencé à prendre confiance en elle à partir de la demi-finale.</example>
@@ -19849,7 +19849,7 @@ though, and has since been slightly modified)-->
                 <example>Récits courts dans Elle à partir de 1994.</example>
                 <example>Ceux-ci cherchaient d'après elle à rapprocher López.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token regexp="yes">cela|ça</token>
@@ -19862,17 +19862,17 @@ though, and has since been slightly modified)-->
                     <token>que</token>
                     <token regexp="yes">cela|ça</token>
                     <token>à</token>
-                    <token postag="V inf" regexp="yes">.*er$</token>
+                    <token postag="V inf" regexp="yes">.*er</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">cela|ça</token>
                     <marker>
                         <token>à</token>
-                        <token postag="V inf" regexp="yes">.*er$</token>
+                        <token postag="V inf" regexp="yes">.*er</token>
                     </marker>
                 </pattern>
-                <message>Le verbe ne semble pas être conjugué au passé composé.</message>
-                <suggestion>a <match no="3" regexp_match="(?iu)er" regexp_replace="é"/></suggestion>
+                <message>Ici le passé composé semble nécessaire.</message>
+                <suggestion>a <match no="3" regexp_match="(?iu)er" regexp_replace="é" case_conversion="preserve"/></suggestion>
                 <example correction="a joué">Je pense que cela <marker>à jouer</marker>.</example>
             </rule>
         </rulegroup>
