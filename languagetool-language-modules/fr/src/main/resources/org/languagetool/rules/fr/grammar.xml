@@ -61955,7 +61955,15 @@ though, and has since been slightly modified)-->
             <example><marker>savoir gré</marker></example>
             <example>Le contrat est négocié de gré à gré.</example>
         </rule>
-        <rule id="ETRE_DE_VERBE" name="être de + verbe inf" default="temp_off">
+        <rule id="ETRE_DE_VERBE" name="être de + verbe inf">
+            <antipattern>
+                <token>la</token>
+                <token postag="N f sp?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>les</token>
+                <token postag="N . s?p" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="V etre.*" postag_regexp="yes"/>
                 <token postag="P">de</token>
@@ -61976,6 +61984,7 @@ though, and has since been slightly modified)-->
             <example>Tout Paris est de sortie.</example>
             <example>Toutes tes paroles sont de sacrés mensonges.</example>
             <example>Nous sommes de fieffés bandits, tous.</example>
+            <example>Le givre est de la rosée gelée.</example>
         </rule>
         <rulegroup id="PIRE_ALLER" name="pire(-)aller">
             <rule>
