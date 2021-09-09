@@ -16823,6 +16823,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="QUES" name="quès" default="temp_off">
+            <antipattern>
+                <token>els</token>
+                <token>quès</token>
+                <token postag="CC"/>
+                <token>els</token>
+            </antipattern>
+            <pattern>
+                <token>quès</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>què</suggestion>? "Quès" és possible (rarament) com a plural del substantiu "què".</message>
+            <example correction="què">Les qüestions en <marker>quès</marker> jo pensava.</example>
+            <example>Els quès i els perquès de la qüestió.</example>
+        </rule>
         <rule id="DATA_OCTUBRE_10" name="data d'octubre 10/1-O">
             <pattern>
                 <token regexp="yes">d'|l'</token>
