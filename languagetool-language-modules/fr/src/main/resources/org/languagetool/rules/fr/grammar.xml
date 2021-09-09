@@ -19742,6 +19742,20 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+        <rule id="PAST_FUTURE_AGREEMENT" name="il disait qu'il viendra" default="temp_off">
+            <pattern>
+                <token postag="V ind (impa|psim) .*" postag_regexp="yes" skip="2"/>
+                <token regexp="yes" skip="5">qu[e']</token>
+                <marker>
+                    <token postag="V ind futu .*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Lorsque le temps de la phrase principale est au passé, il convient que le temps de la subordonnée le soit aussi.</message>
+            <suggestion><match no="3" postag="V ind futu (.*)" postag_regexp="yes" postag_replace="V con pres $1"/></suggestion>
+            <suggestion><match no="3" postag="V ind futu (.*)" postag_regexp="yes" postag_replace="V sub impa $1"/></suggestion>
+            <url>https://www.academie-francaise.fr/il-disait-quil-viendra</url>
+            <example correction="arriverait|arrivât">Par ce message, il nous informait qu'il <marker>arrivera</marker> jeudi prochain</example>
+        </rule>
         <rulegroup id="PPA_ACCORD_INFINITIF_IMPLICITE" name="j'ai donné tous les conseils que j'ai pues (pu)" default="temp_off">
             <rule>
                 <pattern>
