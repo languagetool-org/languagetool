@@ -4848,6 +4848,16 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="POURVOIR_POUVOIR" name="confusion pourvoir -> pouvoir" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes">pourvoir</token>
+                </marker>
+                <token postag="V inf"/>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pouvoir</match></suggestion></message>
+            <example correction="pouvoir">Il permet aussi à d'autres personnes de <marker>pourvoir</marker> transmettre des documents</example>
+        </rule>
         <rule id="TORD_TORT" name="confusion tord/tort">
             <antipattern>
                 <token>tord</token>
@@ -19446,7 +19456,7 @@ though, and has since been slightly modified)-->
             <example>Il y a deux jours, je suis tombée sur le billet de mon ami blogueur.</example>
             <example>Nous sommes devenus, depuis deux ou trois ans, des fournisseurs de systèmes intégrés.</example>
         </rule>
-        <rulegroup id="INFINITIFS_DE_SUITE" name="deux/trois infinitifs de suite" default="temp_off">
+        <rulegroup id="INFINITIFS_DE_SUITE" name="deux/trois infinitifs de suite">
             <rule>
                 <antipattern>
                     <token regexp="yes">&infinitif_suivi_dinfinitif;</token>
@@ -19470,10 +19480,16 @@ though, and has since been slightly modified)-->
                 <example>L'erreur en vogue est de croire pouvoir donner, par l'éducation de quelqu'un, quelque chose dont on ne dispose pas.</example>
                 <example>Tu es sûre de vouloir retourner vivre avec Thomas ?</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token regexp="yes">&infinitif_suivi_dinfinitif;</token>
                     <token postag="V inf"/>
+                </antipattern>
+                <antipattern>
+                    <token>sans</token>
+                    <token postag="R.*" postag_regexp="yes" min="0"/>
+                    <token postag="V inf" skip="-1"/>
+                    <token>?</token>
                 </antipattern>
                 <pattern>
                     <token postag="V inf"/>
@@ -19491,6 +19507,7 @@ though, and has since been slightly modified)-->
                 <example>Faire bouillir les olives pour les dessaler.</example>
                 <example>J'adore vous écouter chanter.</example>
                 <example>Il n'est pas rare à cette époque de le voir commencer un concert avec deux heures de retard !</example>
+                <example>Puis-je sans me tromper reconnaître mes amis ?</example>
             </rule>
         </rulegroup>
         <rule id="FAIT_LAISSE_INF" name="fait/laissé + inf -> invariable">
