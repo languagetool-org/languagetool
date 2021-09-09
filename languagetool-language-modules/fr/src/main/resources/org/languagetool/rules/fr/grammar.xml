@@ -8162,13 +8162,13 @@ though, and has since been slightly modified)-->
                 <example>Au cours des trois ans précédents.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="A_A_ACCENT2" name="a -> à" default="temp_off">
+        <rulegroup id="A_A_ACCENT2" name="verbe conjugué + a → à">
             <antipattern>
                 <token>a</token>
                 <token regexp="yes">less|for|about|feeling|(?-i)Office|ont</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">have|has</token>
+                <token regexp="yes">have|has|for|and|as|n'|like|in</token>
                 <token>a</token>
             </antipattern>
             <antipattern>
@@ -8188,6 +8188,13 @@ though, and has since been slightly modified)-->
                 <token postag="V.*[123] ." postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Lu}.*
                     <exception postag="V.* imp pres 2 p" postag_regexp="yes"/></token>
             </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token>y</token>
+                <token>a</token>
+                <token postag="K|Y" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&unites_temps;</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token postag="(P.)?R rel.*|A inte|C sub" postag_regexp="yes" skip="-1"/>
@@ -8198,34 +8205,25 @@ though, and has since been slightly modified)-->
                     <token postag="V.*[123] ." postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="V.*[123] ." postag_regexp="yes"><exception postag="V etre.*" postag_regexp="yes"/></token>
+                    <token postag="V.*[123] ." postag_regexp="yes"><exception inflected="yes">être</exception></token>
                     <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4"/>
                     <token case_sensitive="yes">a</token>
-                    <token postag="[AP]" postag_regexp="yes" min="0" max="4"/>
-                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token postag="V ppa [me] sp?" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="V.*[123] ." postag_regexp="yes"/>
                     <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4"/>
                     <token case_sensitive="yes">a</token>
-                    <token>d'</token>
-                    <token>utile</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="[NJ].*" postag_regexp="yes"><exception>est</exception></token>
-                    <token case_sensitive="yes">a</token>
+                    <token postag="A" postag_regexp="yes" min="0" max="4"/>
+                    <token>été</token>
                 </antipattern>
                 <pattern>
-                    <token postag="V.*[123] ." postag_regexp="yes"><exception postag="V.* ppa.*" postag_regexp="yes"/></token>
+                    <token postag="V.*[123] ." postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4">
                         <exception postag_regexp="yes" postag="C.*"/>
                         <exception>a</exception></token>
                     <marker>
-                        <token case_sensitive="yes">a<exception scope="previous" regexp="yes">for|and|as|n'|like|in</exception></token>
+                        <token case_sensitive="yes">a</token>
                     </marker>
                 </pattern>
                 <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
@@ -8238,7 +8236,7 @@ though, and has since been slightly modified)-->
                 <example>Sa suppression apparente a aussi pour but de répartir différemment.</example>
                 <example>Un texte écrit a des lignes et une linéarité.</example>
                 <example>La nouvelle carrosserie arrière a désormais une forme différente.</example>
-                <example>Il nous sentons beaucoup a d’utile.</example>
+                <example type="triggers_error" reason="other errors in sentence">Il nous sentons beaucoup a d’utile.</example>
                 <example>Le centre politique a de plus en plus perdu son sens.</example>
                 <example>La police secrète a le bras long.</example>
                 <example>Le stade auquel un embryon devient un fœtus a apparemment été choisi arbitrairement.</example>
@@ -8306,7 +8304,7 @@ though, and has since been slightly modified)-->
                 <example type="triggers_error" reason="other errors in sentence">Il est marié est a trois enfants.</example>
                 <example>C'est ce qui restera dans les annales où l’on a vu différents pilotes monter.</example>
                 <example>Son assignation à résidence a finalement été levée le 13 février 2010.</example>
-                <example type="triggers_error" reason="other errors in sentence">Son assignation a résidence a finalement été levée le 13 février 2010.</example>
+                <example>Son assignation a résidence a finalement été levée le 13 février 2010.</example>
                 <example>Or un coinceur à cames a tendance à bouger par lui-meme sous les secousses.</example>
                 <example type="triggers_error" reason="other errors in sentence">Or un coinceur a cames a tendance a bouger par lui-meme sous les secousses.</example>
                 <example>En tout cas la boite à ski a l'air d'avoir un paquet de T4 ou similaires en destockage a vendre.</example>
@@ -8319,39 +8317,14 @@ though, and has since been slightly modified)-->
                 <example>Le A cerclé a l’avantage d’être plus facilement exécutable.</example>
                 <example>la journaliste a encore frappé a écrit le rédacteur.</example>
                 <example>Ce que j’ai le plus aimé a simplement été l’audace.</example>
-                <example type="triggers_error" reason="other errors in sentence">Ce j’ai le plus aimé a simplement été l’audace.</example>
+                <example>Ce j’ai le plus aimé a simplement été l’audace.</example>
                 <example>Le traité des Pyrénées quand a lui a connu un pic atteignant 2000 visites.</example>
                 <example>Un étage sous comble est aménagé a minima.</example>
                 <example>Le groupe de jeunes pionniers à l'école où elle a enseigné a également été renommé en sa mémoire.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
-                    <token postag="[ZANJD].*" postag_regexp="yes" min="0" max="4"/>
-                    <token case_sensitive="yes">a</token>
-                    <token postag="A" min="0" max="3"/>
-                    <token postag="V.* ppa.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">celui|celles?|ceux</token>
-                    <token>qui</token>
-                    <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
-                    <token postag="[ZANJD].*" postag_regexp="yes" min="0" max="4"/>
-                    <token case_sensitive="yes">a</token>
-                </antipattern>
-                <antipattern>
-                    <token>le</token>
-                    <token>fait</token>
-                    <token inflected="yes" skip="-1">que</token>
-                    <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
-                    <token postag="[ZANJD].*" postag_regexp="yes" min="0" max="4"/>
-                    <token case_sensitive="yes">a</token>
-                </antipattern>
                 <pattern>
                     <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
-                    <token postag="[ZANJD].*" postag_regexp="yes" min="0" max="4">
-                        <exception postag_regexp="yes" postag="C.*"/>
-                        <exception>a</exception></token>
                     <marker>
                         <token case_sensitive="yes">a<exception scope="previous">n'</exception></token>
                     </marker>
