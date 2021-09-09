@@ -129,12 +129,12 @@ to
 			  — https://en.wikipedia.org/wiki/List_of_state_and_union_territory_capitals_in_India		  
 2019-11-01
 to
-2021-06-01 — Added thousands of possessives and plurals.
+2021-09-01 — Added thousands of possessives and plurals.
 		   — Improved flags: "3", "N", "O", "W".
 -------
 
 MARCO A.G.PINTO:
-Since the dictionary wasn't updated for many years, I forked it to add new words and fixes.
+Since the dictionary wasn't updated for many years, I forked it in 2013 to add new words and fixes.
 
 I grabbed Mozilla's version since it wasn't obfuscated. Alexandro Colorado and I
 tried to unmunch the OpenOffice version but all we got was rubbish.
