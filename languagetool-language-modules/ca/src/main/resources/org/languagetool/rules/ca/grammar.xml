@@ -13298,6 +13298,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la Colònia del Cap el 1788</example>
                 <example>Va marcar de cap el 4-0</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>cap</token>
+                    </marker>
+                    <token postag="_GN_.P|NC.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>cap a</suggestion> (preposició)?</message>
+                <example correction="cap a">S'enfoca <marker>cap</marker> aspectes cognitius.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
@@ -37628,7 +37638,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">ls|els|anys</token>
                     <marker>
                         <token regexp="yes">\d*0</token>
-                        <token>'</token>
+                        <token regexp="yes">[’']</token>
                         <token>s</token>
                     </marker>
                 </pattern>
