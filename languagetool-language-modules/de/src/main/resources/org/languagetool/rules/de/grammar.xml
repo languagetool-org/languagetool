@@ -22164,6 +22164,149 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="GROEBSTEN" name="mit dem gröbsten (Gröbsten) durch" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>durch</token>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">gröbste</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöüß].*|\.|\,|\!|:|;|&anf;</token>
+                </pattern>
+                <message>Wenn dieses Adjektiv als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+                <suggestion><match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Gröbste">Wir sind durch das <marker>gröbste</marker> durch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">gröbsten</token>
+                    </marker>
+                    <token regexp="yes">durch|fertig|\.|:|\?|\!</token>
+                </pattern>
+                <message>Wenn dieses Adjektiv als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+                <suggestion><match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Gröbsten">Wir sind mit dem <marker>gröbsten</marker> durch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">gröbste</token>
+                    </marker>
+                    <token postag="ZUS|ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes" inflected="yes">erledigen|zusammentragen|durchstehen|schaffen|überleben|überstehen|machen|prüfen|fertigstellen</token>
+                </pattern>
+                <message>Wenn dieses Adjektiv als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Gröbste">Wir haben das <marker>gröbste</marker> überstanden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">gröbste</token>
+                    </marker>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">hinter|durch|vor</token>
+                </pattern>
+                <message>Wenn dieses Adjektiv als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Gröbste">Wir haben das <marker>gröbste</marker> hinter uns.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SCHLIMMSTE_HINTER_UNS" name="das schlimmste (Schlimmste) hinter sich" default="temp_off">
+            <pattern>
+                <token>das</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">schlimmste|schönste|beste|gröbste</token>
+                </marker>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">vor|hinter</token>
+                <token regexp="yes">uns|ih[rmn]|mir|sie|euch|[ms]ich</token>
+            </pattern>
+            <message>Wenn dieses Adjektiv als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Schlimmste">Er hat das <marker>schlimmste</marker> noch vor sich.</example>
+        </rule>
+        <rule id="EINE_MENGE_GUTES" name="Eine Menge gutes (Gutes)" default="temp_off">
+            <pattern>
+                <token>eine</token>
+                <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                <token>Menge</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">gutes|schlechtes|tolles|böses|schlimmes</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[a-zäöüß].*|\.|\,|\!|:|;|&anf;</token>
+            </pattern>
+            <message>Wenn dieses Adjektiv als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+            <suggestion><match no="4" case_conversion="startupper" /></suggestion>
+            <example correction="Gutes">Ich habe eine Menge <marker>gutes</marker> über dich gehört.</example>
+        </rule>
+        <rulegroup id="DIE_GRUENEN_WAEHLEN" name="Die grünen (Grünen) wählen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>die</token>
+                    <marker>
+                        <token case_sensitive="yes">grünen</token>
+                    </marker>
+                    <token postag="ZUS" min="0" />
+                    <token inflected="yes" regexp="yes">wählen|abwählen|unterstützen</token>
+                </pattern>
+                <message>Wenn Sie die politische Partei "Die Grünen" meinen, muss das Wort großgeschrieben werden.</message>
+                <suggestion>Grünen</suggestion>
+                <example correction="Grünen">Ich werde die <marker>grünen</marker> wählen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">wählen|unterstützen</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>die</token>
+                    <marker>
+                        <token case_sensitive="yes">grünen</token>
+                    </marker>
+                    <token>
+                        <exception postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Wenn Sie die politische Partei "Die Grünen" meinen, muss das Wort großgeschrieben werden.</message>
+                <suggestion>Grünen</suggestion>
+                <example correction="Grünen">Ich wähle die <marker>grünen</marker> bei der nächsten Wahl.</example>
+                <example>Ich wähle die grünen Äpfel.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(Zweit)?Stimmen?</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>den</token>
+                    <marker>
+                        <token case_sensitive="yes">grünen</token>
+                    </marker>
+                    <token>
+                        <exception postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Wenn Sie die politische Partei "Die Grünen" meinen, muss das Wort großgeschrieben werden.</message>
+                <suggestion>Grünen</suggestion>
+                <example correction="Grünen">Ich gebe meine Stimme den <marker>grünen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>den</token>
+                    <marker>
+                        <token case_sensitive="yes">grünen</token>
+                    </marker>
+                    <token regexp="yes">[dms]?eine|ihre|unse?re|eure</token>
+                    <token regexp="yes">(Zweit)?Stimmen?</token>
+                </pattern>
+                <message>Wenn Sie die politische Partei "Die Grünen" meinen, muss das Wort großgeschrieben werden.</message>
+                <suggestion>Grünen</suggestion>
+                <example correction="Grünen">Wir werden den <marker>grünen</marker> unsere Stimme geben.</example>
+            </rule>
+        </rulegroup>
         <rule id="KFZ_CASE" name="KFZ -> Kfz">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">KFZ-(Haltern?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>

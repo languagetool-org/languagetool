@@ -924,6 +924,14 @@ public class CaseRule extends Rule {
         csToken("Stück")
     ),
     Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Schritt für Schritt ...""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Schritt"),
+        csToken("für"),
+        csToken("Schritt")
+    ),
+    Arrays.asList(
         // "Der Platz auf dem die Ahnungslosen Arm in Arm ...""
         posRegex("ART:.*|PRO:POS:.*"),
         new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
@@ -967,6 +975,12 @@ public class CaseRule extends Rule {
       csToken("denken"),
       new PatternTokenBuilder().posRegex("ADV:.+").min(0).build(),
       csRegex("viele|manche|die|[dms]eine|ihre|eure|diese|jene|wenige")
+    ),
+    Arrays.asList(
+      // Ich habe eine Menge Schlechtes über dich gehört
+      csToken("Menge"),
+      csRegex("Gutes|Schlechtes|Tolles|Böses|Schlimmes"),
+      csRegex("[a-zäöüß].*|\\.|\\,|\\!|:|;")
     )
   );
 
