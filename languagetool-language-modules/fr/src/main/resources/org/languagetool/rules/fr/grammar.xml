@@ -62463,14 +62463,19 @@ though, and has since been slightly modified)-->
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2888</url>
             <example correction="comme|pareil à"><marker>pareil comme</marker></example>
         </rule>
-        <rule id="PAREIL_QUE" name="pareil que">
+        <rule id="PAREIL_QUE" name="pareil que" default="temp_off">
             <pattern>
-                <token inflected="yes">pareil</token>
-                <token>que</token>
+                <marker>
+                    <token regexp="yes">pareil(le)?s?</token>
+                    <token regexp="yes">qu[e']</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </marker>
             </pattern>
-            <message>« Pareil que » est une expression fautive.</message>
-            <suggestion>pareil à</suggestion>
-            <example correction="pareil à"><marker>pareil que</marker></example>
+            <filter class="org.languagetool.rules.fr.MakeContractionsFilter" args="nokey:novalue"/>
+            <message>'Pareil que' est incorrect, on préfèrera 'pareil à'.</message>
+            <suggestion>\1 à \3</suggestion>
+            <url>https://www.academie-francaise.fr/pareil-que-pour-pareil</url>
+            <example correction="pareil au">Le nouveau chef est <marker>pareil que le</marker> précédent</example>
         </rule>
         <rule id="TACHER_MOYEN" name="tâcher moyen de/que">
             <pattern>
