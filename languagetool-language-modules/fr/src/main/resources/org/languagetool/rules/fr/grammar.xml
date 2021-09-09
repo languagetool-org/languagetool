@@ -58088,9 +58088,9 @@ though, and has since been slightly modified)-->
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
         <rulegroup id="SI_CI_SY" name="confusions si_ci_s'y" default="temp_off">
             <antipattern>
-                <token regexp="yes">de|pa[rs]|-|comme</token>
+                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s</token>
                 <token skip="1">ci</token>
-                <token regexp="yes">de|pa[rs]|-|comme</token>
+                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s</token>
                 <token regexp="yes">là|ça</token>
             </antipattern>
             <antipattern>
@@ -58150,7 +58150,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">celui|celles?|ceux</token>
+                    <token regexp="yes">celui|celles?|ceux|de|par</token>
                     <token>ci</token>
                 </pattern>
                 <message>Un trait d'union est nécessaire pour former ce mot.</message>
@@ -58160,7 +58160,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">celui|celles?|ceux</token>
+                        <token regexp="yes">celui|celles?|ceux|de|par</token>
                         <token min="0">-</token>
                         <token>si</token>
                     </marker>
@@ -58186,7 +58186,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token>comme</token>
+                    <token regexp="yes">comme|pas|fai(te)?s</token>
                     <token regexp="yes">[-‑‐]</token>
                     <token regexp="yes">(?:ci|ça)</token>
                 </pattern>
