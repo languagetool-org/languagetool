@@ -19372,13 +19372,20 @@ though, and has since been slightly modified)-->
             <example>Quel son a le silence ?</example>
             <example>Tu n'as pas à me faire des leçons de morale avec ce ton arrogant.</example>
         </rule>
-        <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
+        <rule id="PUIS_QUE" name="puisque / puis que">
             <!-- <antipattern>
                 <token>puis</token>
                 <token regexp="yes" skip="2">que|qu'</token>
                 <token inflected="yes">être</token>
                 <token postag="V ppa.*" postag_regexp="yes"/>
             </antipattern>-->
+            <antipattern>
+                <token postag="V.*[123] ." postag_regexp="yes"/>
+                <token regexp="yes" skip="-1">que|qu'</token>
+                <token>et</token>
+                <token>puis</token>
+                <token regexp="yes">que|qu'</token>
+            </antipattern>
             <antipattern>
                 <token>ne</token>
                 <token>puis</token>
@@ -19393,8 +19400,8 @@ though, and has since been slightly modified)-->
             <example correction="puisque">Pour la source, c'est de moi, <marker>puis que</marker> j'en suis le créateur</example>
             <example correction="puisqu'">Autant dire que tu ne verras pas grand chose <marker>puis qu'</marker>il faut au moins 3 pixels pour identifier un élément.</example>
             <example correction="puisqu'">Comment on peut les décoder <marker>puis qu'</marker>ils sont déjà aléatoires?</example>
-            <!--<example>Il m'a dit qu'il était parti tôt hier puis qu'il était allé en ville.</example>
-            <example>Je suggère que nous mangions juste un peu maintenant et puis que nous sortions plus tard.</example>-->
+            <!--<example>Il m'a dit qu'il était parti tôt hier puis qu'il était allé en ville.</example>-->
+            <example>Je suggère que nous mangions juste un peu maintenant et puis que nous sortions plus tard.</example>
             <example>Je ne puis que recommander à chacun de s'octroyer trois jours pour apprendre le toki pona.</example>
         </rule>
         <rule id="WRONG_ETRE_VPPA" name="nous (sommes)->avons dansés" default="temp_off">
