@@ -58150,7 +58150,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">celui|celles?|ceux|pa[rs]|comme</token>
+                    <token regexp="yes">celui|celles?|ceux</token>
                     <token>ci</token>
                 </pattern>
                 <message>Un trait d'union est nécessaire pour former ce mot.</message>
@@ -58171,18 +58171,28 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">cette|ce[st]?</token>
+                    <token regexp="yes">cette|ce[st]?</token>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <token postag="N.*" postag_regexp="yes"/>
                         <token>ci</token>
                     </marker>
                 </pattern>
                 <message>Un trait d'union est nécessaire pour joindre ces deux mots.</message>
-                <suggestion>\2-\3</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
+                <suggestion>\3-\4</suggestion>
                 <example correction="arbre-ci">Cet <marker>arbre ci</marker>.</example>
                 <example correction="voiture-ci">Cette <marker>voiture ci</marker>.</example>
                 <example correction="voiture-ci">Cette belle <marker>voiture ci</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>comme</token>
+                    <token regexp="yes">[-‑‐]</token>
+                    <token regexp="yes">(?:ci|ça)</token>
+                </pattern>
+                <message>Cette expression s'écrit sans trait d’union.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="comme ci">Faites <marker>comme-ci</marker>.</example>
             </rule>
             <rule>
                 <pattern>
