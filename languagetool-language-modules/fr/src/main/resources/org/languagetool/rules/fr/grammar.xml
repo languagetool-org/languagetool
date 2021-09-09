@@ -11633,6 +11633,157 @@ though, and has since been slightly modified)-->
                 <example>Il existe des modèles à trous, plus stables on jonglerie plein air.</example>
                 <example>It was one of the most wanted Livres on 2020.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token>on</token>
+                <token>si</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>plus</token>
+                <token>ou</token>
+                <token>moins</token>
+            </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token skip="1">peut-être</token>
+                <token postag="J.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token>là</token>
+                <token postag="V.* inf|V.* ppa.*|UNKNOWN" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">(?-i)On</token>
+                <token postag="A"/>
+            </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token>moins</token>
+                <token postag="D.*|R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token><exception inflected="yes">ne</exception></token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token>on</token>
+                <token>pas</token>
+            </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token postag="A"/>
+                <token postag="V (ind|sub|con).*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>on
+                        <exception scope="previous" regexp="yes">-t|t'|t|si</exception>
+                        <exception scope="previous" postag="V.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="A"><exception regexp="yes">ne|n'|peu|en|(?-i)[A-Z].*|sui|post|ré|anti</exception></token>
+            </pattern>
+            <message>Le pronom personnel sujet semble inapproprié.</message>
+            <suggestion>ont</suggestion>
+            <suggestion>on a</suggestion>
+            <suggestion>en</suggestion>
+            <suggestion>ou</suggestion>
+            <suggestion>où</suggestion>
+            <example correction="ont|on a|en|ou|où">Il y a des gens qui <marker>on</marker> beaucoup d'esprit</example>
+            <example correction="Ont|On a|En|Ou|Où"><marker>On</marker> ainsi pu identifier les causes de ce sinistre.</example>
+            <example correction="Ont|On a|En|Ou|Où"><marker>On</marker> même temps que l'on refit les contreforts au sud, l'on perça un petit portail dans la troisième travée.</example>
+            <example correction="ont|on a|en|ou|où">Il faut préciser si le corps est commutatif <marker>on</marker> non.</example>
+            <example>On si retrouve plus facilement.</example>
+            <example>J'ai rajouté le Portail, on moins on sait où l'on est.</example>
+            <example>On peut-être plus circonspect.</example>
+            <example>On y dort lorsqu'on pas de toit.</example>
+            <example>On aussi trouve des plantes.</example>
+            <example>C'est comme cela qu'on là reparer.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>on</token>
+                <token>si</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">(?-i)On</token>
+                <token postag="A"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token>on</token>
+                <token regexp="yes">pas|jamais|aucune?s?</token>
+            </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token postag="A"/>
+                <token postag="V (ind|sub|con).*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>qu'</token>
+                <token>on</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>on
+                        <exception scope="previous" regexp="yes">-t|t'|t|si|'</exception>
+                        <exception scope="previous" postag="V.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes">pas|jamais|aucune?s?</token>
+            </pattern>
+            <message>Un adverbe de négation doit être associé avec le verbe avoir.</message>
+            <suggestion>on n'a</suggestion>
+            <suggestion>on n'est</suggestion>
+            <example correction="On n'a|On n'est"><marker>On</marker> pas pu identifier les causes de ce sinistre.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">(?-i)On</token>
+                <token postag="A"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>qu'</token>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">pas|jamais|aucune?s?</token>
+            </pattern>
+            <message>Un adverbe de négation doit être associé avec le verbe avoir.</message>
+            <suggestion>qui n'ont</suggestion>
+            <example correction="qui n'ont">Il y en a <marker>qu'ont</marker> pas pu identifier les causes de ce sinistre.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <token>qui</token>
+                <token>on</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token>est</token>
+                <token>qui</token>
+                <token>on</token>
+            </antipattern>
+            <pattern>
+                <token>qui<exception scope="previous" postag="P"/></token>
+                <marker>
+                    <token>on<exception scope="next" postag="UNKNOWN" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Le verbe avoir est attendu après 'qui'.</message>
+            <suggestion>ont</suggestion>
+            <example correction="ont">Je remercie les personnes qui <marker>on</marker> dit ça.</example>
+            <example>J'aimerais savoir qui était ce dénommé TANGUAY à qui on à donné ce nom.</example>
+            <example>C'est qui on ?</example>
+        </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
             <pattern>
