@@ -387,6 +387,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" s") &&
                    !k.getReplacement().endsWith(" r") &&
                    !k.getReplacement().endsWith(" um") &&
+                   !k.getReplacement().endsWith(" er") &&
                    !k.getReplacement().endsWith(" na") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());

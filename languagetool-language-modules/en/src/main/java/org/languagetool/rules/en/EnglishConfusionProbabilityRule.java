@@ -468,6 +468,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "in month four", // vs for
       "s day four", // vs for
       "is day four", // vs for
+      "bean soup", // vs been
+      "bean soups", // vs been
+      "bean bag", // vs been
+      "bean bags", // vs been
       "the powers that be" // vs we
     );
 
