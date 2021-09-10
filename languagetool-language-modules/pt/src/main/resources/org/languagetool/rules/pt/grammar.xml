@@ -5023,8 +5023,8 @@ Estas instruções basearam-se nas várias a que tive acesso.
   </rulegroup>
 
 	<!-- AS BLUSAS VIOLETAS as blusas violeta -->
-    <rulegroup id='SUBSTANTIVOS_USADOS_COMO_ADJETIVOS_INVARIAVEIS' name="Substantivos usados como adjetivos invariáveis" type='style' default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-07 + 2021-09-08 (25-JUN-2021+)      -->
+    <rulegroup id='SUBSTANTIVOS_USADOS_COMO_ADJETIVOS_INVARIAVEIS_V2' name="Substantivos usados como adjetivos invariáveis" type='style' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-07 + 2021-09-08 + 2021-09-10 (25-JUN-2021+)      -->
 	<!-- Thanks to hmslima (GitHub) -->
 	<!--
 As blusas violetas. → As blusas violeta.
@@ -5032,6 +5032,21 @@ As paredes gelos. → As paredes gelo.
 As calças vinhos. → As calças vinho.
 As cortinas cremes. → As cortinas creme.
 	-->	
+<!--	
+Foram lançadas novas rendas.
+É preciso produzir bons vinhos.
+-->
+      <antipattern>
+		<token postag='NC.P.+|AQ0.P.+|V.+' postag_regexp='yes'/>
+		<and>
+			<token negate="yes" regexp="yes" inflected="yes">&cores_invariaveis;</token>
+			<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		</and>
+		<and>
+			<token regexp="yes" inflected="yes">&cores_invariaveis;</token>
+			<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		</and>
+      </antipattern>
 	<rule>
       <pattern>
 		<token negate_pos="yes" postag='SPS.+|DI.+|DP.+|CC|PP.+' postag_regexp='yes'/>
@@ -5063,6 +5078,8 @@ As cortinas cremes. → As cortinas creme.
 	  <example>Os babilónios usavam nas suas construções tijolos de barro cozido.</example>
 	  <example>Já o arco-íris, nas cores lilás e laranja, representavam o acordo oferecido aos que quisessem unir os seus destinos aos de Pernambuco.</example>	  
 	  <example>No seu interior existem dobras chamadas conchas nasais.</example>
+	  <example>Foram lançadas novas rendas.</example>
+	  <example>É preciso produzir bons vinhos.</example>
 	</rule>
 	
 	<rule>
@@ -5096,6 +5113,8 @@ As cortinas cremes. → As cortinas creme.
 	  <example>Os babilónios usavam nas suas construções tijolos de barro cozido.</example>
 	  <example>Já o arco-íris, nas cores lilás e laranja, representavam o acordo oferecido aos que quisessem unir os seus destinos aos de Pernambuco.</example>
 	  <example>No seu interior existem dobras chamadas conchas nasais.</example>
+	  <example>Foram lançadas novas rendas.</example>
+	  <example>É preciso produzir bons vinhos.</example>
     </rule>	  
     </rulegroup>
 
