@@ -8312,6 +8312,11 @@ though, and has since been slightly modified)-->
                 <example>Le groupe de jeunes pionniers à l'école où elle a enseigné a également été renommé en sa mémoire.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="1">que</token>
+                    <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
+                    <token case_sensitive="yes">a</token>
+                </antipattern>
                 <pattern>
                     <token postag="V.*[123] ." postag_regexp="yes" inflected="yes">être</token>
                     <marker>
@@ -8322,6 +8327,7 @@ though, and has since been slightly modified)-->
                 <example correction="à">J'ai découvert que la case verte est <marker>a</marker> un endroit qui n’existe pas dans mon école.</example>
                 <example>Le fait que nous soyons un petit groupe a grandement facilité les apprentissages.</example>
                 <example>De quel côté on est n'a pas d'importance.</example>
+                <example>L'homme que je suis a déjà entendu ses propos.</example>
                 <example>Mais celui qui est étudiant a un devoir parce qu'il est plus à même de comprendre.</example>
             </rule>
         </rulegroup>
@@ -11759,7 +11765,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <marker>
                     <token>qu'</token>
-                    <token postag="V avoir.*" postag_regexp="yes"/>
+                    <token>ont</token>
                 </marker>
                 <token regexp="yes">pas|jamais|aucune?s?</token>
             </pattern>
@@ -11769,8 +11775,8 @@ though, and has since been slightly modified)-->
         </rule>
         <rule default="temp_off">
             <antipattern>
-                <token postag="V.*" postag_regexp="yes"/>
-                <token postag="A" min="0" max="3"/>
+                <token postag="SENT_START|C coor|M nonfin" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" skip="3"/>
                 <token>qui</token>
                 <token>on</token>
                 <token inflected="yes" min="0" max="1">ne</token>
@@ -11794,6 +11800,7 @@ though, and has since been slightly modified)-->
             <example correction="ont">Je remercie les personnes qui <marker>on</marker> dit ça.</example>
             <example>J'aimerais savoir qui était ce dénommé TANGUAY à qui on à donné ce nom.</example>
             <example>C'est qui on ?</example>
+            <example>Demande à papa qui on appelait « Sissi ».</example>
         </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
@@ -19383,7 +19390,7 @@ though, and has since been slightly modified)-->
             <example>Quel son a le silence ?</example>
             <example>Tu n'as pas à me faire des leçons de morale avec ce ton arrogant.</example>
         </rule>
-        <rule id="PUIS_QUE" name="puisque / puis que">
+        <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
             <!-- <antipattern>
                 <token>puis</token>
                 <token regexp="yes" skip="2">que|qu'</token>
