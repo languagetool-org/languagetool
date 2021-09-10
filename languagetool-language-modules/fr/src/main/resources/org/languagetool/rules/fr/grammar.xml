@@ -9601,25 +9601,55 @@ though, and has since been slightly modified)-->
                         <exception>être</exception></token>
                     <token regexp="yes" spacebefore="no">-.*</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">m|mme|mlle|mm</token>
+                    <token>.</token>
+                    <token>ou</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">qui</token>
+                    <token>ou</token>
+                    <token inflected="yes">être</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>ou</token>
+                    <token inflected="yes">être</token>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                    <token min="0" max="1" regexp="yes">[\(,]</token>
+                    <token>ou</token>
+                    <token inflected="yes">être</token>
+                    <token><match no="0"/></token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>ou</token>
+                        <token>ou<exception scope="previous" inflected="yes">être</exception></token>
                     </marker>
                     <token inflected="yes">être
-                        <exception>être</exception></token>
+                        <exception regexp="yes">soit|être</exception></token>
                     <token>
-                        <exception regexp="yes">à|avec|contre|dans|derrière|dessous|devant|en|pour|sous|sur</exception></token>
+                        <exception regexp="yes">un|à|avec|contre|dans|derrière|dessous|devant|en|pour|sous|sur</exception></token>
                 </pattern>
                 <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="Où"><marker>Ou</marker> sont mes affaires ?</example>
+                <example>Si elle est ou était desservie par un collège.</example>
                 <example>Où sont mes affaires ?</example>
+                <example>Il a des coins soudés ou est fixé avec des vis.</example>
+                <example>Pour ceux qui ont par exemple mal à la gorge, ou sont stressés, utilisez ce médicament.</example>
                 <example>Manger ou être mangé, c’est la loi de la nature.</example>
+                <example>Pour ceux qui choisiront ( ou seront choisis).</example>
+                <example>On le faisait soit vieillir ou soit on le coupait avec de l'eau.</example>
                 <example>Ils ont été <marker>ou</marker> sont pour l’implantation de la centrale nucléaire.</example>
                 <example>Est-ce que tu manges à la maison ou est-ce que tu manges dehors ?</example>
+                <example>(Ou est un terme qui convient mieux à Café de Gestion des Droits (CRM)?)</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">de|vers|par</token>
+                    <token regexp="yes">d'|vers|par</token>
                     <marker>
                         <token>ou</token>
                     </marker>
@@ -9674,6 +9704,13 @@ though, and has since been slightly modified)-->
                 <example correction="où">Je sais <marker>ou</marker> aller.</example>
             </rule>
             <rule>
+                <antipattern>
+                <token>en</token>
+                <token>savoir</token>
+                <token>plus</token>
+                <token>ou</token>
+                <token postag="V inf"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">savoir</token>
                     <token regexp="yes">pas|plus|guère|bien</token>
@@ -9684,6 +9721,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
                 <example correction="où">Je ne sais pas <marker>ou</marker> aller.</example>
+                <example>Voulez-vous en savoir plus ou retirer votre accord ?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -9755,6 +9793,15 @@ though, and has since been slightly modified)-->
                     <token postag="V.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+					<token regexp="yes">[,)\[";\]\|:(\…'«“]+</token>
+                    <token postag="V.* imp.*|UNKNOWN" postag_regexp="yes" skip="-1"/>
+                    <token>ou</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token postag="SENT_START"/>
                     <token postag="[AVN].*" postag_regexp="yes"/>
                     <token>ou</token>
@@ -9804,10 +9851,7 @@ though, and has since been slightly modified)-->
                 </antipattern>
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes" skip="-1"/>
-                    <token>ou</token>
-                    <token postag="R pers suj.*" postag_regexp="yes"/>
-                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
-                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token skip="-1">ou</token>
                     <token><match no="0"/></token>
                 </antipattern>
                 <antipattern>
@@ -9883,8 +9927,8 @@ though, and has since been slightly modified)-->
                         <feature id="number"/>
                         <token postag="R pers suj.*" postag_regexp="yes"/>
                         <unify-ignore>
-                            <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                             <token inflected="yes" min="0" max="1" regexp="yes">ne|en</token>
+                            <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                         </unify-ignore>
                         <token postag="V.*" postag_regexp="yes" skip="-1"/>
                         <unify-ignore>
@@ -9942,6 +9986,8 @@ though, and has since been slightly modified)-->
                     <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
                     <token>ou</token>
                     <token regexp="yes">[nv]ous</token>
+                    <token postag="V.* [12] p" postag_regexp="yes"  min="0" max="1"/>
+                    <token postag="P|R pers obj.*" postag_regexp="yes" min="0" max="1"/>
                     <token postag="V.* inf" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -9949,6 +9995,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>ou</token>
                     </marker>
+                    <token min="0" max="1">l'</token>
                     <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
                         <exception regexp="yes">.*-mêmes?</exception> </token>
                     <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
@@ -9963,6 +10010,7 @@ though, and has since been slightly modified)-->
                 <example>Est-ce normal ou j'ai fait une erreur ?</example>
                 <example>Évitez ces billets ou vous serez trompés.</example>
                 <example>Attention ou j'annule tout.</example>
+                <example>Nous pouvons passer votre commande ou vous pouvez le faire vous-même.</example>
                 <example>Si certains éléments de votre toit ou lui-même paraissent imparfaits.</example>
                 <example>Parfois, on dit ou on écrit, avec insouciance.</example>
                 <example>Va vite à l'eau ou nous allons nous faire mouiller.</example>
@@ -9970,6 +10018,8 @@ though, and has since been slightly modified)-->
                 <example>Merci de vous connecter ci-dessous ou vous inscrire.</example>
                 <example>Je vous écrirai ou vous téléphonerai la semaine prochaine.</example>
                 <example>Tom ferait mieux de se dépêcher ou il ratera le bus.</example>
+                <example>L'une dit : "Va vite à l'eau ou nous allons nous faire mouiller".</example>
+                <example>Pour autant , je n’y ai rien appris ou j’ai tout oublié.</example>
                 <example>Il faut définir des directives post mortem ou vous adresser à une autorité compétente.</example>
                 <example>Soit que vous faites leur travail ou je vous licencierai demain matin.</example>
                 <example>Configurer votre navigateur pour bloquer ou vous alerter sur ces cookies.</example>
@@ -9991,6 +10041,51 @@ though, and has since been slightly modified)-->
                 <example>Le Juge Thorne fait sa loi ou Tu seras Jugé () est un film américain.</example>
                 <example>Tu as perdu un ski en montagne ou il a été incendié ?</example>
             </rule>
+                  <rule>
+            <antipattern>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token>ou</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">soit|ou</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token regexp="yes">soit|ou</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token regexp="yes">soit|ou</token>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token regexp="yes">soit|ou</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V (avoir|etre).*" postag_regexp="yes" skip="3"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="V inf" regexp="yes">.*er</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">maintenir</token>
+                <token>ou</token>
+                <token>pouvoir</token>
+            </antipattern>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"><exception postag="[NJ].*" postag_regexp="yes"/></token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token>ou</token>
+                </marker>
+                <token postag="V inf"/>
+            </pattern>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>. La conjonction "ou" signale une alternative.</message>
+            <example correction="où">Je ne vois pas <marker>ou</marker> aller.</example>
+            <example>Pratiquer des coupes biaises ou recouvrir ces surfaces.</example>
+            <example>Voilà j'espere que j'ai répondu ou apporter des éclairages à vos interrogations.</example>
+            <example>Quelqu'un a t'il déjà entendu ou parler d'interférences ?</example>
+            <example>La dynastie Yuan ne se maintient ou pouvoir que sur la courte durée de 97 ans.</example>
+            <example>Plusieurs personnages naïfs ou douteux auraient pu être dupés ou vouloir devenir les complices.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
