@@ -2584,10 +2584,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </pattern>
                 <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma.</message>
+                <suggestion>\1, \2</suggestion>
                 <suggestion>\1</suggestion>
                 <suggestion>\2</suggestion>
-                <suggestion>\1, \2</suggestion>
-                <example correction="sagt|ruft|sagt, ruft">Sie <marker>sagt ruft</marker> laut.</example>
+                <example correction="sagt, ruft|sagt|ruft">Sie <marker>sagt ruft</marker> laut.</example>
                 <example>Dort, wo es <marker>erkauft wird</marker>.</example>
                 <example>Ob sie dahin <marker>gelangen können</marker>?</example>
                 <example>Das wie <marker>folgt funktioniert</marker>:</example>
@@ -2609,11 +2609,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">w[ai]rst|wird|w[eü]rden?t?</token>
                 </pattern>
                 <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma.</message>
+                <suggestion>\1, \2</suggestion>
                 <suggestion>\1</suggestion>
                 <suggestion>\2</suggestion>
-                <suggestion>\1, \2</suggestion>
-                <example correction="hat|wird|hat, wird">Weil die Abfrage „false“ als Ergebnis <marker>hat wird</marker> die Schleife nicht erneut durchlaufen.</example>
-                <example correction="ist|wird|ist, wird">Da die Bedingung erfüllt <marker>ist wird</marker> die Schleife erneut durchlaufen.</example>
+                <example correction="hat, wird|hat|wird">Weil die Abfrage „false“ als Ergebnis <marker>hat wird</marker> die Schleife nicht erneut durchlaufen.</example>
+                <example correction="ist, wird|ist|wird">Da die Bedingung erfüllt <marker>ist wird</marker> die Schleife erneut durchlaufen.</example>
                 <example>Wann mein Wunsch erfüllt <marker>sein wird</marker>, weiß ich nicht.</example>
             </rule>
         </rulegroup>
@@ -24811,7 +24811,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>ein</token>
-                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben|anderer|weit</exception></token>
+                <token postag_regexp="yes" postag="ADJ:.*" min="0">
+                    <exception regexp="yes">wenig|sieben|andere[sr]|weit|eigene[rs]|weitere[sr]</exception>
+                </token>
                 <marker>
                     <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+<exception regexp="yes">einen|machen</exception></token>
                 </marker>
@@ -24822,6 +24824,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ein sieben Jahre alter Junge.</example>
             <example>Lass mich dir ein neues kaufen!</example>
             <example>Sie sollten ein neues kaufen.</example>
+            <example>Wollen wir ein eigenes ausarbeiten oder warten wir auf den Vorschlag?</example>
+            <example>Könnten Sie mir noch ein weiteres zeigen?</example>
             <example>Was ein Mensch erfinden kann, kann ein anderer entdecken.</example>
             <example>Der Notdienst kann das Schloss durch ein neues austauschen und auch den Schlüssel nachmachen.</example>
             <example>In der echten Welt hat niemand damit gerechnet, dass man aus einem Element ein anderes machen kann.</example>
