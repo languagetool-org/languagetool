@@ -9232,6 +9232,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quien caza dos liebres al mismo tiempo, no caza ninguna.</example>
                 <example>La caza es muy sabrosa.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..M..|SP:DA|SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <marker>
+                        <token>sobre</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">usos?</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente se escribe junto.</message>
+                <suggestion><match no="4" regexp_match="(?iu)u(.+)" regexp_replace="sobreú$1" case_conversion="preserve"/></suggestion>
+                <example correction="sobreúso">Era un problema de <marker>sobre uso</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
@@ -18844,7 +18857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>eso</token>
                 <token postag="AQ.*" postag_regexp="yes"/>
             </antipattern>
-           <!-- <antipattern>
+            <!-- <antipattern>
                 <token postag="SPS00|LOC_PREP" regexp="yes"/>
                 <token>eso</token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
