@@ -22164,7 +22164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="GROEBSTEN" name="mit dem gröbsten (Gröbsten) durch" default="temp_off">
+        <rulegroup id="GROEBSTEN" name="mit dem gröbsten (Gröbsten) durch">
             <rule>
                 <pattern>
                     <token>durch</token>
@@ -22218,7 +22218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gröbste">Wir haben das <marker>gröbste</marker> hinter uns.</example>
             </rule>
         </rulegroup>
-        <rule id="SCHLIMMSTE_HINTER_UNS" name="das schlimmste (Schlimmste) hinter sich" default="temp_off">
+        <rule id="SCHLIMMSTE_HINTER_UNS" name="das schlimmste (Schlimmste) hinter sich">
             <pattern>
                 <token>das</token>
                 <marker>
@@ -22232,7 +22232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2" case_conversion="startupper" /></suggestion>
             <example correction="Schlimmste">Er hat das <marker>schlimmste</marker> noch vor sich.</example>
         </rule>
-        <rule id="EINE_MENGE_GUTES" name="Eine Menge gutes (Gutes)" default="temp_off">
+        <rule id="EINE_MENGE_GUTES" name="Eine Menge gutes (Gutes)">
             <pattern>
                 <token>eine</token>
                 <token postag="ADJ.*" postag_regexp="yes" min="0" />
@@ -22246,7 +22246,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="4" case_conversion="startupper" /></suggestion>
             <example correction="Gutes">Ich habe eine Menge <marker>gutes</marker> über dich gehört.</example>
         </rule>
-        <rulegroup id="DIE_GRUENEN_WAEHLEN" name="Die grünen (Grünen) wählen" default="temp_off">
+        <rulegroup id="SICH_SELBST_DER_NAECHSTE" name="sich selbst der nächste (Nächste)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">nächsten?</token>
+                <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token skip="2">sich</token>
+                    <token>selbst</token>
+                    <token>der</token>
+                    <marker>
+                        <token case_sensitive="yes">nächste</token>
+                    </marker>
+                </pattern>
+                <message>In dieser Redensart wird <suggestion>Nächste</suggestion> großgeschrieben.</message>
+                <example correction="Nächste">Jeder ist am Ende sich selbst der <marker>nächste</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>für</token>
+                    <token>seine</token>
+                    <marker>
+                        <token case_sensitive="yes">nächsten</token>
+                    </marker>
+                    <token postag="ADV.*|ZUS" postag_regexp="yes" min="0" />
+                    <token postag="VER:.*|PKT" postag_regexp="yes" />
+                </pattern>
+                <message>In dieser Redensart wird <suggestion>Nächsten</suggestion> großgeschrieben.</message>
+                <example correction="Nächsten">Er hat sein Lebenswerk für seine <marker>nächsten</marker> bewahrt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DIE_GRUENEN_WAEHLEN" name="Die grünen (Grünen) wählen">
             <rule>
                 <pattern>
                     <token>die</token>
@@ -22307,15 +22338,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Grünen">Wir werden den <marker>grünen</marker> unsere Stimme geben.</example>
             </rule>
         </rulegroup>
-        <rule id="KFZ_CASE" name="KFZ -> Kfz">
-            <pattern>
-                <token case_sensitive="yes" regexp="yes">KFZ-(Haltern?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
-            </pattern>
-            <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
-            <suggestion><match no="1" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
-            <url>https://de.wiktionary.org/wiki/Kfz</url>
-            <example correction="Kfz-Kennzeichen">Mein <marker>KFZ-Kennzeichen</marker> ist bereits abgelaufen.</example>
-        </rule>
+        <rulegroup id="KFZ_CASE" name="KFZ -> Kfz">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Vergleich(e?[ns]?)|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
+                </pattern>
+                <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
+                <suggestion><match no="1" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
+                <url>https://de.wiktionary.org/wiki/Kfz</url>
+                <example correction="Kfz-Kennzeichen">Mein <marker>KFZ-Kennzeichen</marker> ist bereits abgelaufen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">das|dieses|jenes|(irgend)?ein|ihr|[smd]ein|euer|unser</token>
+                    <token postag="ADJ.*NEU.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">KFZ</token>
+                    </marker>
+                </pattern>
+                <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
+                <suggestion><match no="3" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
+                <example correction="Kfz">Das <marker>KFZ</marker> sollte ordnungsgemäß geparkt werden.</example>
+            </rule>
+        </rulegroup>
         <rule id="EFFIZIENTES_ARBEITEN" name="effizientes arbeiten (Arbeiten)">
             <pattern>
                 <token postag="SENT_START"/>
