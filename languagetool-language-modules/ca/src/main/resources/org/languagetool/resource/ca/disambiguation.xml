@@ -16352,13 +16352,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
+    <rule id="QUES" name="quès">
+        <pattern>
+            <token regexp="yes">els|ls</token>
+            <marker>
+                <token>quès</token>
+            </marker>
+            <token postag="CC"/>
+            <token regexp="yes">els|perquès|coms|quans</token>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="què" pos="NCMP000"/>
+        </disambig>
+    </rule>
     <rulegroup id="allowed_repetitions" name="repeticions permeses">
         <!-- girar el cap cap a l’altra persona -->
         <rule>
             <pattern>
                 <marker>
                     <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes" case_sensitive="yes">es|ES</token>    
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">es|ES</token>
                 </marker>
                 <token>es</token>
             </pattern>
