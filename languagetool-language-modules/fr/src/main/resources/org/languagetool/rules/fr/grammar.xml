@@ -4848,7 +4848,7 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-        <rule id="POURVOIR_POUVOIR" name="confusion pourvoir -> pouvoir" default="temp_off">
+        <rule id="POURVOIR_POUVOIR" name="confusion pourvoir -> pouvoir">
             <pattern>
                 <marker>
                     <token inflected="yes">pourvoir</token>
@@ -25887,6 +25887,15 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="FAIRE_VPPA2" name="verbe ppa -> inf" default="temp_off">
             <!-- with a new list of verbs -->
+            <antipattern>
+                <token regexp="yes">se|te|me|nous|vous</token>
+                <token inflected="yes">voir</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">s'|t'|m'|nous|vous</token>
+                <token inflected="yes">avoir</token>
+                <token postag="V ppa.*" postag_regexp="yes" inflected="yes">avoir</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token inflected="yes">venir</token>
@@ -25922,6 +25931,9 @@ though, and has since been slightly modified)-->
                 <example>Elles sont bien <marker>entendu placées</marker> en hauteur.</example>
                 <example>rendu seulement par des pensées inspirées</example>
                 <example>Compte fermé.</example>
+                <example>Le mot de passe se voit attribué le contenu fixe de la chaîne.</example>
+                <example>Si le colis n'arrive pas d'ici trois jours, je me verrai forcé d'annuler ma commande.</example>
+                <example>Le joueur ayant l'expérience la plus élevée se verra récompensé par un prix. </example>
             </rule>
             <rule>
                 <pattern>
