@@ -8896,6 +8896,104 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> se place après '\1'.</message>
                 <example correction="à">Il était toujours là sauf <marker>a</marker> l'arrivée.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="3">ne</token>
+                <token>a</token>
+                <token>point</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">il|elle|on|en</token>
+                <token>a</token>
+                <token>point</token>
+            </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token>y</token>
+                <token>a</token>
+                <token>part</token>
+            </antipattern>
+            <pattern>
+            <marker>
+                <token>a</token>
+            </marker>
+                <token regexp="yes" case_sensitive="yes">haut|bas|bloc|destination|dessein|temps|terme|parts?|ravir|outrance|gogo|nouveau|verse|régime|rendement|pot|volume|gosier|point
+                    <exception scope="next">of|the|and|for</exception></token>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue.</message>
+            <example correction="à">Il est <marker>a</marker> bloc.</example>
+            <example>Ce genre de côte ressemble tout à fait à ce qu'il y a part chez moi.</example>
+            <example>Elle ne l'a point dit.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+            <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+            <token inflected="yes">ne</token>
+            <token>a</token>
+                <token>l'</token>
+                <token regexp="yes" case_sensitive="yes">origine|abri|extrémité|extrême|insu|abandon|aide|affût</token>
+            </antipattern>
+            <pattern>
+            <marker>
+                <token>a</token>
+            </marker>
+                <token>l'</token>
+                <token regexp="yes" case_sensitive="yes">origine|abri|extrémité|extrême|insu|abandon|aide|affût
+                    <exception scope="next">of|the|and|for</exception></token>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue.</message>
+            <example correction="à">Il appelle <marker>a</marker> l'aide.</example>
+            <example>Ce genre de côte ressemble tout à fait à ce qu'il y a part chez moi.</example>
+            <example>Elle ne l'a point dit.</example>
+		</rule>
+		<rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token>ce</token>
+                <token case_sensitive="yes">moment
+                    <exception scope="next">of|the|and|for</exception></token>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue.</message>
+            <example correction="à">Ainsi, <marker>a</marker> ce moment précis de la journée, il n'est pas disponible.</example>
+            <example>Ce genre de côte ressemble tout à fait à ce qu'il y a part chez moi.</example>
+            <example>Elle ne l'a point dit.</example>
+		</rule>
+		<rule default="temp_off">
+            <pattern>
+                <token>par</token>
+                <token>rapport</token>
+                <marker>
+                <token>a</token>
+                </marker>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue.</message>
+            <example correction="à">Il est très important par rapport <marker>a</marker> toi.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token regexp="yes">inférieure?s?|supérieure?s?</token>
+                <token>a</token>
+                <token min="0" max="3" postag="A"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="[DNJ].*" postag_regexp="yes"/>
+                <token min="0" max="3" postag="A"/>
+                <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="C coor" min="0" max="1"/>
+                <token regexp="yes">inférieure?s?|supérieure?s?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">inférieure?s?|supérieure?s?<exception scope="previous" postag="[DNA].*" postag_regexp="yes"/></token>
+                <token>a</token>
+            </pattern>
+            <message>La préposition <suggestion>\1 à</suggestion> est attendue.</message>
+            <example correction="inférieur à">Enfin, <marker>inférieur a</marker> ce nombre, se trouve les nombres décimaux.</example>
+            <example>L'agrégation du supérieur a également existé dans d'autres disciplines.</example>
+            <example>Le dentelé postérieur et inférieur a un rôle de muscle expirateur accessoire.</example>
+        </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
             <pattern>
@@ -11670,7 +11768,7 @@ though, and has since been slightly modified)-->
                     <token postag="[NJ] . p" postag_regexp="yes"/>
                     <token>on</token>
                     <token postag="N.*" postag_regexp="yes">
-                        <exception regexp="yes">soif|obligation|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|raison|accès|lieu</exception></token>
+                        <exception regexp="yes">obligation|raison|soif|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|accès|lieu</exception></token>
                 </antipattern>
                 <antipattern>
                     <token postag="UNKNOWN" min="3" skip="-1"/>
@@ -22659,6 +22757,34 @@ though, and has since been slightly modified)-->
                 <example>Concrètement qu’a le droit de faire l’opérateur avec ces données ?</example>
                 <example>Il témoigne aussi de l’influence qu’a le dessin de presse à l’époque.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token>a</token>
+                <token>durée</token>
+                <token><exception postag="J.*" postag_regexp="yes"/></token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </and>
+                <token postag="D.*|R dem.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">(-t)?-elle|(-t)?-il|(-t)?-on|tendance|chaud|froid|droit|[ts]on|vocation|lieu|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|soif|obligation|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|raison|accès</token>
+            </antipattern>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">[a-z]</exception></token>
+                <token case_sensitive="yes">a</token>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">[a-z]</exception></token>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> entre ces deux noms.</message>
+            <example correction="à">C'est de la <marker>peinture a base</marker> de laque.</example>
+            <example>Cette relation a durée approximativement 1 an.</example>
+            <example>Recherche a donne ça.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
             <antipattern>
