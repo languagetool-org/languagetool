@@ -58088,9 +58088,9 @@ though, and has since been slightly modified)-->
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
         <rulegroup id="SI_CI_SY" name="confusions si_ci_s'y" default="temp_off">
             <antipattern>
-                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s</token>
+                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s|pour</token>
                 <token skip="1">ci</token>
-                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s</token>
+                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s|pour</token>
                 <token regexp="yes">là|ça</token>
             </antipattern>
             <antipattern>
@@ -58278,7 +58278,22 @@ though, and has since been slightly modified)-->
                 <message>Dans ce contexte, on utilisera 'ci'.</message>
                 <suggestion>ci</suggestion>
                 <example correction="ci">Dans l'expectative, elle va de <marker>s'y</marker> de là, glâner des informations.</example>
-                <example>Pas s'y loin de là s'étirait le fleuve Zio.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*|A|P" postag_regexp="yes">
+                        <exception regexp="yes">de|par|en</exception>
+                        <exception postag="V ppa .*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token>ci
+                            <exception scope="next" regexp="yes">-|,|et|annexé|après|contre|devant|derrière|jointe?s?|inclus|desso?us|gît</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Dans ce contexte, on utilisera 'ci'.</message>
+                <suggestion>si</suggestion>
+                <example correction="si">Je ne sais pas <marker>ci</marker> c'est possible.</example>
             </rule>
         </rulegroup>
         <rule id="REMERCIER_POUR" name="remercier pour (de)">
