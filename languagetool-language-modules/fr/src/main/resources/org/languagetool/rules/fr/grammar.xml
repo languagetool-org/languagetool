@@ -5470,58 +5470,6 @@ though, and has since been slightly modified)-->
                 <example>Ce que je sens est une bonne façon de voir.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SI_CI" name="si joint → ci-joint (etc.)" default="temp_off">
-            <!-- identical to rule CI, but with "si" -->
-            <rule>
-                <pattern>
-                    <token>si</token>
-                    <token regexp="yes">annexé|après|contre|devant|derrière|joint|inclus|desso?us|gît|celui|celles?|ceux|par</token>
-                    <!--de|-->
-                </pattern>
-                <message>Un trait d'union est nécessaire pour former ce mot.</message>
-                <suggestion>ci-\2</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
-                <example correction="ci-joint">Voici <marker>si joint</marker> la photo.</example>
-                <example>à ce moment-ci de la journée.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">celui|celles?|ceux</token>
-                    <token>si</token>
-                </pattern>
-                <message>Un trait d'union est nécessaire pour former ce mot.</message>
-                <suggestion>\1-ci</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
-                <example correction="Celui-ci"><marker>Celui si</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">cette|ce[st]?</token>
-                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
-                    <marker>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <token>si</token>
-                    </marker>
-                </pattern>
-                <message>Un trait d'union est nécessaire pour joindre ces deux mots.</message>
-                <suggestion>\3-ci</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
-                <example correction="arbre-ci">Cet <marker>arbre si</marker>.</example>
-                <example correction="voiture-ci">Cette <marker>voiture si</marker>.</example>
-                <example correction="voiture-ci">Cette belle <marker>voiture si</marker>.</example>
-                <example correction="fois-ci">Malheureusement, encore une énième rechute, qui je crois cette <marker>fois si</marker> sonnera le glas de la fin de carrière de Jesse</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>comme</token>
-                    <token regexp="yes">[-‑‐]</token>
-                    <token>si</token>
-                </pattern>
-                <message>Cette expression s'écrit sans trait d’union.</message>
-                <suggestion>\1 ci</suggestion>
-                <example correction="comme ci">Faites <marker>comme-si</marker>.</example>
-            </rule>
-        </rulegroup>
         <rule id="POLE" name="pole -> pôle">
             <antipattern>
                 <token postag="D f s"/>
@@ -35549,56 +35497,6 @@ though, and has since been slightly modified)-->
             <example correction="y avait">Qui <marker>y-avait</marker>-il cette nuit-là ?</example>
             <example correction="y a">Combien <marker>y-a</marker>-t-il de zoos en Australie?</example>
         </rule>
-        <rulegroup id="CI" name="ci joint → ci-joint (etc.)">
-            <rule>
-                <pattern>
-                    <token>ci</token>
-                    <token regexp="yes">annexé|après|contre|devant|derrière|joint|inclus|desso?us|gît|celui|celles?|ceux|par</token>
-                    <!--de|-->
-                </pattern>
-                <message>Un trait d'union est nécessaire pour former ce mot.</message>
-                <suggestion>\1-\2</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
-                <example correction="ci-joint">Voici <marker>ci joint</marker> la photo.</example>
-                <example>à ce moment-ci de la journée.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">celui|celles?|ceux</token>
-                    <token>ci</token>
-                </pattern>
-                <message>Un trait d'union est nécessaire pour former ce mot.</message>
-                <suggestion>\1-\2</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
-                <example correction="Celui-ci"><marker>Celui ci</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">cette|ce[st]?</token>
-                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
-                    <marker>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <token>ci</token>
-                    </marker>
-                </pattern>
-                <message>Un trait d'union est nécessaire pour joindre ces deux mots.</message>
-                <suggestion>\3-\4</suggestion>
-                <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
-                <example correction="arbre-ci">Cet <marker>arbre ci</marker>.</example>
-                <example correction="voiture-ci">Cette <marker>voiture ci</marker>.</example>
-                <example correction="voiture-ci">Cette belle <marker>voiture ci</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>comme</token>
-                    <token regexp="yes">[-‑‐]</token>
-                    <token regexp="yes">(?:ci|ça)</token>
-                </pattern>
-                <message>Cette expression s'écrit sans trait d’union.</message>
-                <suggestion>\1 \3</suggestion>
-                <example correction="comme ci">Faites <marker>comme-ci</marker>.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="LA_LA" name="la → là">
             <antipattern>
                 <!-- rule IMP_PRON-->
@@ -58021,9 +57919,9 @@ though, and has since been slightly modified)-->
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
         <rulegroup id="SI_CI_SY" name="confusions si_ci_s'y" default="temp_off">
             <antipattern>
-                <token regexp="yes">de|pa[rs]|-|comme</token>
+                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s|pour</token>
                 <token skip="1">ci</token>
-                <token regexp="yes">de|pa[rs]|-|comme</token>
+                <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s|pour</token>
                 <token regexp="yes">là|ça</token>
             </antipattern>
             <antipattern>
@@ -58031,10 +57929,12 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token>ci</token>
-                <token regexp="yes">-|desso?us|devant|derrière|jointe?s?|après</token>
+                <token>-</token>
+                <token regexp="yes">annexé|après|contre|devant|derrière|jointe?s?|inclus|desso?us|gît</token>
             </antipattern>
             <antipattern>
                 <token postag="(N|J|R).*" postag_regexp="yes"/>
+                <token>-</token>
                 <token>ci</token>
             </antipattern>
             <antipattern>
@@ -58048,8 +57948,89 @@ though, and has since been slightly modified)-->
             </antipattern>
             <rule>
                 <pattern>
+                    <token>ci</token>
+                    <token regexp="yes">annexé|après|contre|devant|derrière|jointe?s?|incluse?s?|desso?us|gît</token>
+                </pattern>
+                <message>Un trait d'union est nécessaire pour former ce mot.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="ci-joint">Voici <marker>ci joint</marker> la photo.</example>
+                <example>à ce moment-ci de la journée.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <token>-</token>
+                    <token regexp="yes">annexé|après|contre|devant|derrière|jointe?s?|incluse?s?|desso?us|gît</token>
+                </pattern>
+                <message>'si' exprime une condition, on utilise l'adverbe 'ci' pour former ce mot.</message>
+                <suggestion>ci-\3</suggestion>
+                <example correction="ci-joint">Voici <marker>si-joint</marker> la photo.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
+                        <token>si</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">annexé|après|contre|devant|derrière|jointe?s?|incluse?s?|desso?us|gît</token>
+                    </marker>
+                    <token regexp="yes">\.|:|;|,|!|\?</token>
+                </pattern>
+                <message>'si' exprime une condition, on utilise l'adverbe 'ci' pour former ce mot.</message>
+                <suggestion>ci-\3</suggestion>
+                <example correction="ci-dessous">Voir le document <marker>si dessous</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">celui|celles?|ceux|de|par</token>
+                    <token>ci</token>
+                </pattern>
+                <message>Un trait d'union est nécessaire pour former ce mot.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="celui-ci">Veux-tu parler de <marker>celui ci</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">celui|celles?|ceux|de|par</token>
+                        <token min="0">-</token>
+                        <token>si</token>
+                    </marker>
+                </pattern>
+                <message>'si' exprime une condition, on utilise l'adverbe 'ci' pour former ce mot.</message>
+                <suggestion>\1-ci</suggestion>
+                <example correction="celui-ci">Veux-tu parler de <marker>celui si</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cette|ce[st]?</token>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
                         <token>ci</token>
+                    </marker>
+                </pattern>
+                <message>Un trait d'union est nécessaire pour joindre ces deux mots.</message>
+                <suggestion>\3-\4</suggestion>
+                <example correction="arbre-ci">Cet <marker>arbre ci</marker>.</example>
+                <example correction="voiture-ci">Cette <marker>voiture ci</marker>.</example>
+                <example correction="voiture-ci">Cette belle <marker>voiture ci</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">comme|pas|fai(te)?s</token>
+                    <token regexp="yes">[-‑‐]</token>
+                    <token regexp="yes">(?:ci|ça)</token>
+                </pattern>
+                <message>Cette expression s'écrit sans trait d’union.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="comme ci">Faites <marker>comme-ci</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ci
+                            <exception scope="previous">-</exception>
+                        </token>
                     </marker>
                     <token postag="(R pers|J|N) .*|A|Z" postag_regexp="yes"/>
                 </pattern>
@@ -58058,6 +58039,7 @@ though, and has since been slightly modified)-->
                 <example correction="si">Elle supposait que depuis le temps qu'ils se supportaient, <marker>ci</marker> il était dérangé, Lew le lui dirait.</example>
                 <example correction="si">Il la trouvait <marker>ci</marker> passionnante qu'il l'aurait écoutée pendant des heures.</example>
                 <example correction="si">Il venait <marker>ci</marker> souvent que nous ne le remarquions plus.</example>
+                <example>Cette fois-ci vous n'avez pas de raison de vous mettre en colère.</example>
             </rule>
             <rule>
                 <pattern>
@@ -58083,18 +58065,6 @@ though, and has since been slightly modified)-->
                 <example correction="si">Elle supposait que depuis le temps qu'ils se supportaient, <marker>s'y</marker> il était dérangé, Lew le lui dirait.</example>
                 <example correction="si">Il la trouvait <marker>s'y</marker> passionnante qu'il l'aurait écoutée pendant des heures.</example>
                 <example correction="si">Il venait <marker>s'y</marker> souvent que nous ne le remarquions plus.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>,</token>
-                    <marker>
-                        <token>s'</token>
-                        <token>y</token>
-                    </marker>
-                </pattern>
-                <message>'\1\2' est un adverbe, on utilisera ici la conjonction 'si'.</message>
-                <suggestion>si</suggestion>
-                <example correction="si">Elle supposait que depuis le temps qu'ils se supportaient, <marker>s'y</marker> quelque chose dérangeait Lew, il le lui dirait.</example>
             </rule>
             <rule>
                 <pattern>
@@ -58127,28 +58097,6 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token>-</token>
-                    <marker>
-                        <token>si</token>
-                    </marker>
-                </pattern>
-                <message>Dans ce contexte, on utilisera 'ci'.</message>
-                <suggestion>ci</suggestion>
-                <example correction="ci">Cette fois-<marker>si</marker>, ça ne se passera pas de la même façon.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>si</token>
-                    </marker>
-                    <token regexp="yes">-|\.</token>
-                </pattern>
-                <message>Dans ce contexte, on utilisera 'ci'.</message>
-                <suggestion>ci</suggestion>
-                <example correction="ci">Cela ne se passera pas de la même façon cette fois <marker>si</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token regexp="yes">de|pa[rs]|-|comme</token>
                     <marker>
                         <token>s'</token>
@@ -58161,19 +58109,22 @@ though, and has since been slightly modified)-->
                 <message>Dans ce contexte, on utilisera 'ci'.</message>
                 <suggestion>ci</suggestion>
                 <example correction="ci">Dans l'expectative, elle va de <marker>s'y</marker> de là, glâner des informations.</example>
-                <example>Pas s'y loin de là s'étirait le fleuve Zio.</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="V.*|A|P" postag_regexp="yes">
+                        <exception regexp="yes">de|par|en</exception>
+                        <exception postag="V ppa .*" postag_regexp="yes"/>
+                    </token>
                     <marker>
-                        <token>s'</token>
-                        <token>y</token>
+                        <token>ci
+                            <exception scope="next" regexp="yes">-|,|et|annexé|après|contre|devant|derrière|jointe?s?|inclus|desso?us|gît</exception>
+                        </token>
                     </marker>
-                    <token regexp="yes">-|\.</token>
                 </pattern>
                 <message>Dans ce contexte, on utilisera 'ci'.</message>
-                <suggestion>ci</suggestion>
-                <example correction="ci">Cela ne se passera pas de la même façon cette fois <marker>s'y</marker>.</example>
+                <suggestion>si</suggestion>
+                <example correction="si">Je ne sais pas <marker>ci</marker> c'est possible.</example>
             </rule>
         </rulegroup>
         <rule id="REMERCIER_POUR" name="remercier pour (de)">
