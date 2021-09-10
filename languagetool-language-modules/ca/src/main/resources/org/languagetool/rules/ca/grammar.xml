@@ -13300,13 +13300,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
+                    <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>cap</token>
+                        <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="_GN_.P|NC.P.*" postag_regexp="yes"/>
+                    <token postag="NC.P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>cap a</suggestion> (preposició)?</message>
                 <example correction="cap a">S'enfoca <marker>cap</marker> aspectes cognitius.</example>
+                <example>Sembla mentida però fa just una setmana que treien el cap les fulles!</example>
             </rule>
         </rulegroup>
         <rulegroup id="DACI_A" name="d'ací a">
