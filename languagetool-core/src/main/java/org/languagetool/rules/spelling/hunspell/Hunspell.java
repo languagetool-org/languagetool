@@ -9,14 +9,10 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-public class Hunspell implements Closeable {
-  private final Pointer<HunspellLibrary.Hunhandle> handle;
-  private final Charset charset;
-  
-  private static final Map<LanguageAndPath, Hunspell> map = new HashMap<>();
-  
+public final class Hunspell {
   static class LanguageAndPath {
     private final Path dictionary;
     private final Path affix;
@@ -30,7 +26,7 @@ public class Hunspell implements Closeable {
       if (o == null || getClass() != o.getClass()) return false;
       LanguageAndPath that = (LanguageAndPath) o;
       return Objects.equals(dictionary, that.dictionary) &&
-        Objects.equals(affix, that.affix);
+          Objects.equals(affix, that.affix);
     }
     @Override
     public int hashCode() {
@@ -38,33 +34,25 @@ public class Hunspell implements Closeable {
     }
   }
 
-  public Hunspell(Path dictionary, Path affix) {
-    try {
-      Pointer<Byte> aff = Pointer.pointerToCString(affix.toString());
-      Pointer<Byte> dic = Pointer.pointerToCString(dictionary.toString());
-      handle = HunspellLibrary.Hunspell_create(aff, dic);
-      charset = Charset.forName(HunspellLibrary.Hunspell_get_dic_encoding(handle).getCString());
-      if (this.handle == null) {
-        throw new RuntimeException("Unable to create Hunspell instance");
-      }
-    } catch (UnsatisfiedLinkError e) {
-      throw new RuntimeException("Could not create hunspell instance. Please note that LanguageTool supports only 64-bit platforms " +
-        "(Linux, Windows, Mac) and that it requires a 64-bit JVM (Java).", e);
-    }
+  private static final Map<LanguageAndPath, HunspellDictionary> map = new HashMap<>();
+  private static BiFunction<Path, Path, HunspellDictionary> hunspellDictionaryFactory = DumontsHunspellDictionary::new;
+
+  public static void setHunspellDictionaryFactory(BiFunction<Path, Path, HunspellDictionary> factory) {
+    hunspellDictionaryFactory = factory;
   }
-  
-  public static synchronized Hunspell getInstance(Path dictionary, Path affix) {
+
+  public static synchronized HunspellDictionary getDictionary(Path dictionary, Path affix) {
     LanguageAndPath key = new LanguageAndPath(dictionary, affix);
-    Hunspell hunspell = map.get(key);
+    HunspellDictionary hunspell = map.get(key);
     if (hunspell != null) {
       return hunspell;
     }
-    Hunspell newHunspell = new Hunspell(dictionary, affix);
+    HunspellDictionary newHunspell = hunspellDictionaryFactory.apply(dictionary, affix);
     map.put(key, newHunspell);
     return newHunspell;
   }
 
-  public static Hunspell forDictionaryInResources(String language, String resourcePath) {
+  public static HunspellDictionary forDictionaryInResources(String language, String resourcePath) {
     try {
       ResourceDataBroker broker = JLanguageTool.getDataBroker();
       InputStream dictionaryStream = broker.getAsStream(resourcePath + language + ".dic");
@@ -76,60 +64,13 @@ public class Hunspell implements Closeable {
       Path affix = Files.createTempFile(language, ".aff");
       Files.copy(dictionaryStream, dictionary, StandardCopyOption.REPLACE_EXISTING);
       Files.copy(affixStream, affix, StandardCopyOption.REPLACE_EXISTING);
-      return new Hunspell(dictionary, affix);
+      return hunspellDictionaryFactory.apply(dictionary, affix);
     } catch (IOException e) {
       throw new RuntimeException("Could not create temporary dictionaries for language \"" + language + "\"", e);
     }
   }
 
-  public static Hunspell forDictionaryInResources(String language) {
+  public static HunspellDictionary forDictionaryInResources(String language) {
     return forDictionaryInResources(language, "");
-  }
-
-  public boolean spell(String word) {
-    if (handle == null) {
-      throw new RuntimeException("Attempt to use hunspell instance after closing");
-    }
-    @SuppressWarnings("unchecked")
-    Pointer<Byte> str = (Pointer<Byte>) Pointer.pointerToString(word, Pointer.StringType.C, charset);
-    int result = HunspellLibrary.Hunspell_spell(handle, str);
-    return result != 0;
-  }
-
-  public void add(String word) {
-    if (handle == null) {
-      throw new RuntimeException("Attempt to use hunspell instance after closing");
-    }
-    @SuppressWarnings("unchecked")
-    Pointer<Byte> str = (Pointer<Byte>) Pointer.pointerToString(word, Pointer.StringType.C, charset);
-    HunspellLibrary.Hunspell_add(handle, str);
-  }
-
-  public List<String> suggest(String word) {
-    // Create pointer to native string
-    @SuppressWarnings("unchecked")
-    Pointer<Byte> str = (Pointer<Byte>) Pointer.pointerToString(word, Pointer.StringType.C, charset);
-    // Create pointer to native string array
-    Pointer<Pointer<Pointer<Byte>>> nativeSuggestionArray = Pointer.allocatePointerPointer(Byte.class);
-    // Hunspell will allocate the array and fill it with suggestions
-    int suggestionCount = HunspellLibrary.Hunspell_suggest(handle, nativeSuggestionArray, str);
-    if (suggestionCount == 0) {
-      // Return early and don't try to free the array
-      return new ArrayList<>();
-    }
-    // Ask bridj for a `java.util.List` that wraps `nativeSuggestionArray`
-    List<Pointer<Byte>> nativeSuggestionList = nativeSuggestionArray.get().validElements(suggestionCount).asList();
-    // Convert C Strings to java strings
-    List<String> suggestions = nativeSuggestionList.stream().map(p -> p.getStringAtOffset(0, Pointer.StringType.C, charset)).collect(Collectors.toList());
-
-    // We can free the underlying buffer now because Java's `String` owns it's own memory
-    HunspellLibrary.Hunspell_free_list(handle, nativeSuggestionArray, suggestionCount);
-    return suggestions;
-  }
-
-  public void close() {
-    if (handle != null) {
-      HunspellLibrary.Hunspell_destroy(handle);
-    }
   }
 }

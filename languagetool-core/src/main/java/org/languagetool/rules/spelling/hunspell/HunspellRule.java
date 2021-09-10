@@ -61,7 +61,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected static final String FILE_EXTENSION = ".dic";
 
   private volatile boolean needsInit = true;
-  protected volatile Hunspell hunspell = null;
+  protected volatile HunspellDictionary hunspell = null;
 
   private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
@@ -484,13 +484,13 @@ public class HunspellRule extends SpellingCheckRule {
         hunspell = null;
       } else {
         affPath = Paths.get(path + ".aff");
-        hunspell = Hunspell.getInstance(Paths.get(path + ".dic"), affPath);
+        hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
         addIgnoreWords();
       }
     } else if (new File(shortDicPath + ".dic").exists()) {
       // for dynamic languages
       affPath = Paths.get(shortDicPath + ".aff");
-      hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
+      hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
     }
     if (affPath != null) {
       try(Scanner sc = new Scanner(affPath)){
