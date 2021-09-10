@@ -59,7 +59,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbestransitifsindirects_gpe1 "abuser|accéder|accepter|accoucher|achopper|acquiescer|adhérer|agréer|aider|ajouter|appeler|approcher|arguer|aspirer|attenter|badigeonner|bénéficier|bidonner|céder|cesser|changer|chicaner|cligner|cogner|coller|collaborer|commander|commencer|comploter|conférer|confiner|conseiller|conspirer|continuer|contribuer|coopérer|couper|coûter|décider|découler|dédaigner|déférer|délibérer|démissionner|dériver|déroger|disposer|disputer|douer|douter|échapper|épiloguer|éviter|exciper|gloser|goûter|grogner|hériter|importer|imputer|incomber|infliger|insulter|intégrer|juger|justifier|manquer|méjuger|mériter|mésuser|obtempérer|obvier|parer|parler|participer|penser|porter|prédominer|préjuger|préluder|préméditer|présider|présumer|procéder|profiter|protester|raffoler|raisonner|rechigner|recoller|redoubler|référer|regarder|relever|remédier|remontrer|renoncer|repugner|résister|ressembler|retâter|retéléphoner|retoucher|retravailler|rêver|songer|sonner|statuer|succéder|succomber|suppléer|tabler|tâcher|tarder|tâter|téléphoner|témoigner|tinter|tirer|toucher|trafiquer|traiter|travailler|triompher|user|vaquer|veiller|virer|viser|zoomer">
     <!ENTITY verbestransitifsindirects_gpe2 "aboutir|applaudir|compatir|désobéir|fournir|gravir|jouir|obéir|réagir|réfléchir|réussir">
     <!ENTITY verbestransitifsindirects_gpe3 "accroître|appartenir|atteindre|battre|combattre|complaire|conclure|concourir|condescendre|consentir|contrevenir|convenir|correspondre|croire|démordre|dépendre|déplaire|disconvenir|écrire|entendre|équivaloir|forfaire|médire|mentir|mordre|nuire|parvenir|plaire|pourvoir|prétendre|recourir|redire|renaître|répondre|ressortir|satisfaire|servir|sourire|souscrire|subvenir|suffire|surseoir|survivre|tenir|tendre|voir|vouloir">
-    <!ENTITY infinitif_suivi_dinfinitif "adorer|aimer|aller|apprécier|choisir|commencer|compter|considérer|courir|croire|descendre|devoir|dire|désirer|détester|emmener|entendre|entrer|envisager|envoyer|espérer|faillir|faire|falloir|imaginer|laisser|mener|monter|nier|observer|oser|paraître|partir|penser|pouvoir|préférer|prétendre|recompter|redescendre|redevoir|redésirer|redétester|refaillir|refaire|refalloir|regarder|remonter|repartir|repenser|repréférer|resouhaiter|rester|retourner|revenir|revouloir|réespérer|savoir|sortir|souhaiter|tenter|venir|voir|vouloir|écouter">
+    <!ENTITY infinitif_suivi_dinfinitif "adorer|aimer|aller|apprécier|choisir|commencer|compter|considérer|courir|croire|descendre|devoir|dire|désirer|détester|emmener|entendre|entrer|envisager|envoyer|espérer|faillir|faire|falloir|imaginer|laisser|mener|monter|nier|observer|oser|paraître|partir|penser|permettre|pouvoir|préférer|prétendre|recompter|redescendre|redevoir|redésirer|redétester|refaillir|refaire|refalloir|regarder|remonter|repartir|repenser|repréférer|resouhaiter|rester|retourner|revenir|revouloir|réespérer|savoir|sortir|souhaiter|tenter|venir|voir|vouloir|écouter">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
@@ -8262,6 +8262,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <antipattern>
                     <token case_sensitive="yes">a</token>
+                    <token postag="A" postag_regexp="yes" min="0" max="4"/>
                     <token postag="V ppa [me] sp?" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -19552,10 +19553,15 @@ though, and has since been slightly modified)-->
                     <token postag="V inf" skip="-1"/>
                     <token>?</token>
                 </antipattern>
+                <antipattern>
+                    <token>machine</token>
+                    <token>à</token>
+                    <token postag="V inf"/>
+                </antipattern>
                 <pattern>
                     <token postag="V inf"/>
                     <token postag="V inf">
-                        <exception postag="[NJZ].*" postag_regexp="yes"/></token>
+                        <exception postag="[NJZ].*" postag_regexp="yes"/><exception case_sensitive="yes" regexp="yes">\p{Lu}.*</exception></token>
                 </pattern>
                 <message>Confusion probable : deux infinitifs de suite.</message>
                 <suggestion>\1, \2</suggestion>
@@ -19569,6 +19575,8 @@ though, and has since been slightly modified)-->
                 <example>J'adore vous écouter chanter.</example>
                 <example>Il n'est pas rare à cette époque de le voir commencer un concert avec deux heures de retard !</example>
                 <example>Puis-je sans me tromper reconnaître mes amis ?</example>
+                <example>Quelle machine à coudre choisir ?</example>
+                <example>La mesure devrait aussi permettre lutter contre la concurrence déloyale.</example>
             </rule>
         </rulegroup>
         <rule id="FAIT_LAISSE_INF" name="fait/laissé + inf -> invariable">
@@ -22473,6 +22481,10 @@ though, and has since been slightly modified)-->
                         <exception postag="V.* (ind|sub|con).*" postag_regexp="yes"/></token>
                     <token postag="SENT_END"/>
                 </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>été</token>
+                </antipattern>
                 <pattern raw_pos="yes">
                     <and>
                         <token postag="J.*" postag_regexp="yes"/>
@@ -22519,6 +22531,7 @@ though, and has since been slightly modified)-->
                 <example>Construisons pour ce faire un algorithme prenant comme entrées a et i et vérifions le résultat.</example>
                 <example>Sa sœur a remis une lettre à la duchesse de M. de Dillon qu’Honoré a reçu.</example>
                 <example>La récession qui en a résulté a ensuite touché les pays très étroitement liés économiquement avec les États-Unis.</example>
+                <example>La mauvaise conduite a été responsable de l'accident.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
