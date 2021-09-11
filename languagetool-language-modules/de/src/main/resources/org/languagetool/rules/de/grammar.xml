@@ -22164,6 +22164,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="IN_GRENZEN" name="in grenzen (Grenzen)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">halten</token>
+                    <token>in</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">ma(ß|ss)en|grenzen</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Grenzen">Meine Freude hält sich in <marker>grenzen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">ma(ß|ss)en|grenzen</token>
+                    </marker>
+                    <token postag="ZUS" min="0" />
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Grenzen">Wir werden es in <marker>grenzen</marker> halten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GROEBSTEN" name="mit dem gröbsten (Gröbsten) durch">
             <rule>
                 <pattern>
@@ -22246,7 +22271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="4" case_conversion="startupper" /></suggestion>
             <example correction="Gutes">Ich habe eine Menge <marker>gutes</marker> über dich gehört.</example>
         </rule>
-        <rulegroup id="SICH_SELBST_DER_NAECHSTE" name="sich selbst der nächste (Nächste)" default="temp_off">
+        <rulegroup id="SICH_SELBST_DER_NAECHSTE" name="sich selbst der nächste (Nächste)">
             <antipattern>
                 <token regexp="yes">nächsten?</token>
                 <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
@@ -22341,14 +22366,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KFZ_CASE" name="KFZ -> Kfz">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Vergleich(e?[ns]?)|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
+                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Vergleich(e?[ns]?)|Anmeldestellen?|Versicherungsvergleich(e?[sn]?)?|Anmeldeservices?|Anmeldung(en)?|Abmeldung(en)?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Zulassung(en)?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
                 </pattern>
                 <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
                 <suggestion><match no="1" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
                 <url>https://de.wiktionary.org/wiki/Kfz</url>
                 <example correction="Kfz-Kennzeichen">Mein <marker>KFZ-Kennzeichen</marker> ist bereits abgelaufen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">das|dieses|jenes|(irgend)?ein|ihr|[smd]ein|euer|unser</token>
                     <token postag="ADJ.*NEU.*" postag_regexp="yes" min="0" />
@@ -22359,6 +22384,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
                 <suggestion><match no="3" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
                 <example correction="Kfz">Das <marker>KFZ</marker> sollte ordnungsgemäß geparkt werden.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">des|ihres|(irgend)?eines|eures|[smd]eines|unseres</token>
+                    <token postag="ADJ.*NEU.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">KFZs?</token>
+                    </marker>
+                </pattern>
+                <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
+                <suggestion>Kfz</suggestion>
+                <example correction="Kfz">Das Licht ihres <marker>KFZs</marker> funktioniert nicht korrekt.</example>
             </rule>
         </rulegroup>
         <rule id="EFFIZIENTES_ARBEITEN" name="effizientes arbeiten (Arbeiten)">
@@ -22476,19 +22513,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="extra">Ich werde es <marker>Extra</marker> schnell machen!</example>
             <example correction="extra">Den Support müssten die <marker>Extra</marker> einkaufen.</example>
         </rule>
-        <rule id="DAS_WEITE" name="das weite (Weite) suchen">
-            <pattern case_sensitive="yes">
-                <token>das</token>
-                <marker>
-                    <token>weite</token>
-                </marker>
-                <token postag="ZUS" min="0" />
-                <token inflected="yes">suchen</token>
-            </pattern>
-            <message>In dieser Wendung wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> in der Regel großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example correction="Weite">Ich habe gleich das <marker>weite</marker> gesucht.</example>
-        </rule>
+        <rulegroup id="DAS_WEITE" name="das weite (Weite) suchen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>das</token>
+                    <marker>
+                        <token>weite</token>
+                    </marker>
+                    <token postag="ZUS" min="0" />
+                    <token inflected="yes">suchen</token>
+                </pattern>
+                <message>In dieser Wendung wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> in der Regel großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Weite">Ich habe gleich das <marker>weite</marker> gesucht.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" skip="4">suchen</token>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">weite</token>
+                    </marker>
+                </pattern>
+                <message>In dieser Wendung wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in der Regel großgeschrieben.</message>
+                <example correction="Weite">Er suchte das <marker>weite</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_DER_MACHE" name="in der mache (Mache)">
             <pattern case_sensitive="yes">
                 <token regexp="yes">noch|schon|bereits</token>
@@ -22505,6 +22555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DIE_HECHTE" name="barsche (Barsche) etc. fangen">
             <pattern case_sensitive="yes">
                 <marker><token regexp="yes">barsche|hechte|fische|schlangen</token></marker>
+                <token postag="ZUS" min="0" />
                 <token inflected="yes" regexp="yes">fangen|angeln|fischen</token>
             </pattern>
             <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -24029,6 +24080,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>wir</token>
                     <token>mal</token>
                 </antipattern>
+                <antipattern>
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[vV]or|[bB]ei|[Ff]ür|[Ii]n</token>
                     <marker>
@@ -24043,6 +24099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich stehe bei <marker>jungen</marker> Erwachsenen.</example>
                 <example correction="Grenzen">Die Begeisterung hielt sich in <marker>grenzen</marker>.</example>
                 <example>Wir können da auch gerne Geld für ausgeben.</example>
+                <example>Nach wie vor erscheinen FAZ-Bücher im so genannten FAZ-Institut.</example>
                 <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
             </rule>
         </rulegroup>
@@ -38590,7 +38647,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
-                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total</token>
+                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -38604,6 +38661,26 @@ Andere Projekte</example>
                 <example correction="Passendes">Da findet sich wenig wirklich <marker>passendes</marker>.</example>
                 <example correction="Leckeres">Das ist etwas ganz <marker>leckeres</marker>.</example>
                 <example correction="Banales">Vermutlich übersehe ich was total <marker>banales</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es</token>
+                    <token regexp="yes" min="0">&anf;</token>
+                    <token postag="SUB:NOM:SIN:NEU|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">[eE]in</exception></token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token>ganz</token>
+                    <token>schön</token>
+                    <marker>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="5" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example>Beiträge, die etwas sehr <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
+                <example correction="Wichtiges">Beiträge, die etwas ganz schön <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -38620,9 +38697,9 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(et)?was|viel</token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|viel</token>
                     <token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
-                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">und|oder|&amp;</token>
                     <marker><token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
                     <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -38630,6 +38707,20 @@ Andere Projekte</example>
                 <suggestion><match no="4" case_conversion="startupper"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Schönes">Ich kaufte etwas teures und <marker>schönes</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">irgend(et)?was|(et)?was|viel</token>
+                    <token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
+                    <token regexp="yes">bzw|beziehungsweise</token>
+                    <token min="0">.</token>
+                    <marker><token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
+                    <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Das Wort '\5' scheint hier als Nomen verwendet zu werden und ist deshalb großzuschreiben.</message>
+                <suggestion><match no="5" case_conversion="startupper"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Schönes">Ich kaufte etwas teures bzw. <marker>schönes</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38646,7 +38737,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
-                    <token regexp="yes" min="0">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total</token>
+                    <token regexp="yes" min="0">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich</token>
                     <marker>
                         <token postag="ADJ:DAT:SIN:.*" postag_regexp="yes" regexp="yes">[a-zäöü].+em<exception>anderem</exception></token>
                     </marker>
