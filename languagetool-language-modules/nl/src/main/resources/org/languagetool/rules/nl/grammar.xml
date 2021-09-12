@@ -17570,6 +17570,19 @@ steenwijk;Steenwijk
 		</rule>
 		-->
 
+		<rulegroup id="KOMMA_APO" name="oma,s/oma's">
+			<rule>
+				<pattern>
+
+					<token regexp="yes">.*[aeiouy]</token>
+					<token spacebefore="no">,</token>
+					<token spacebefore="no">s</token>
+				</pattern>
+				<message>Hier moet vast een apostrof in plaats van een komma.</message>
+				<suggestion>\1'\3</suggestion>
+				<example correction="oma's">Het zijn onze <marker>oma,s</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="BULLET_SPATIE" name="Na een bullet hoort een spatie">
 			<rule>
 				<pattern>
