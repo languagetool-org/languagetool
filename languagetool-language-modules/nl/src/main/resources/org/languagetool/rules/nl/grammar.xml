@@ -41740,6 +41740,17 @@ steenwijk;Steenwijk
 				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> gevaccineerden.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="ZEER_GROTERE" name="Zeer grotere/grote" >
+			<rule>
+				<pattern>
+					<token regexp="yes">zeer|erg</token>
+					<token postag="BNW:VGR:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW:STL.*"/></token>
+				</pattern>
+				<message>Dit is nogal ongebruikelijk.</message>
+				<suggestion>\1 <match no="2" postag_regexp="yes" postag="(BNW:VGR:)(.*)" postag_replace="BNW:STL:$2"/></suggestion>
+				<example correction="zeer grote">Het is een <marker>zeer grotere</marker> fout.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="TEST" name="test">
 		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
