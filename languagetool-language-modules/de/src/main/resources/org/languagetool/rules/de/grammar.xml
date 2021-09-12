@@ -10834,6 +10834,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="DREI_METER_BRETT" name="3-Meter-Brett" default="temp_off">
+            <pattern>
+                <token regexp="yes">das|vom|dem|des</token>
+                <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token regexp="yes">1|3|5|10|ein|drei|fünf|zehn</token>
+                    <token>Meter</token>
+                    <token regexp="yes">Bretts?</token>
+                </marker>
+            </pattern>
+            <message>Dieses Nomen sollte mit Bindestrichen zusammgeschrieben werden.</message>
+            <suggestion><match no="3" case_conversion="startupper" />-Meter-<match no="5" case_conversion="startupper" /></suggestion>
+            <example correction="Drei-Meter-Brett">Er traute sich vom <marker>Drei Meter Brett</marker> zu springen.</example>
+        </rule>
         <rule id="MEINET_WEGEN" name="Meinet wegen (meinetwegen)">
             <pattern>
                 <token regexp="yes">[dms]einet|euret|ihret|unse?ret|unsert|derent</token>
@@ -11210,7 +11224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>durch</token>
                 <!-- many verbs missing -->
-                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln</token>
+                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|impfen</token>
             </pattern>
             <message>Das Verb <suggestion>durch<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
             <example correction="durchschaut">Er hat mich <marker>durch schaut</marker>!</example>
@@ -22164,7 +22178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="IN_GRENZEN" name="in grenzen (Grenzen)" default="temp_off">
+        <rulegroup id="IN_GRENZEN" name="in grenzen (Grenzen)">
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">halten</token>
@@ -22385,7 +22399,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
                 <example correction="Kfz">Das <marker>KFZ</marker> sollte ordnungsgemäß geparkt werden.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">des|ihres|(irgend)?eines|eures|[smd]eines|unseres</token>
                     <token postag="ADJ.*NEU.*" postag_regexp="yes" min="0" />
@@ -22527,7 +22541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Weite">Ich habe gleich das <marker>weite</marker> gesucht.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" skip="4">suchen</token>
                     <token>das</token>
@@ -38662,7 +38676,7 @@ Andere Projekte</example>
                 <example correction="Leckeres">Das ist etwas ganz <marker>leckeres</marker>.</example>
                 <example correction="Banales">Vermutlich übersehe ich was total <marker>banales</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es</token>
                     <token regexp="yes" min="0">&anf;</token>
@@ -38708,7 +38722,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Schönes">Ich kaufte etwas teures und <marker>schönes</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">irgend(et)?was|(et)?was|viel</token>
                     <token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
@@ -40524,6 +40538,23 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="SPREU_VOM_WEIZEN" name="Spreu von (vom) Weizen" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Spreu|SPREU</token>
+                <token regexp="yes">vom|VOM</token>
+                <token regexp="yes">Weizen|WEIZEN</token>
+            </antipattern>
+            <pattern>
+                <token>die</token>
+                <marker>
+                    <token>spreu</token>
+                    <token regexp="yes">vo[mn]</token>
+                    <token>weizen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Spreu vom Weizen</suggestion> (= Teil einer Redewendung)?</message>
+            <example correction="Spreu vom Weizen">In diesem Vorgang trennt sich die <marker>Spreu von Weizen</marker>.</example>
+        </rule>
         <rule id="RESPONSIV_DESIGN" name="responsiv (Responsive) Design">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Responsive|RESPONSIVE</token>
@@ -54238,7 +54269,7 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes">Bibliographische[ns]?</token>
-                <token regexp="yes">Institute?s?</token>
+                <token regexp="yes">Institute?s?|Archive?s?</token>
             </antipattern>
             <antipattern>
                 <token>the</token>
