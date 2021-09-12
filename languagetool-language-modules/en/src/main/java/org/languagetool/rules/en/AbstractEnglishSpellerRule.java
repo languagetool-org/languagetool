@@ -325,6 +325,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("micro ") &&
                    !k.getReplacement().toLowerCase().startsWith("counter ") &&
                    !k.getReplacement().toLowerCase().startsWith("cyber ") &&
+                   !k.getReplacement().toLowerCase().startsWith("hydro ") &&
                    !k.getReplacement().toLowerCase().startsWith("ergo ") &&
                    !k.getReplacement().toLowerCase().startsWith("fore ") &&
                    !k.getReplacement().toLowerCase().startsWith("geo ") &&

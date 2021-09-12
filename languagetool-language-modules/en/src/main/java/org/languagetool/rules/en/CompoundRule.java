@@ -98,6 +98,11 @@ public class CompoundRule extends AbstractCompoundRule {
       Arrays.asList( // Serie A team (A-Team)
         new PatternTokenBuilder().tokenRegex("series?").build(),
         new PatternTokenBuilder().tokenRegex("a").build()
+      ),
+      Arrays.asList( // They had a hard time sharing their ... 
+        new PatternTokenBuilder().token("hard").build(),
+        new PatternTokenBuilder().token("time").build(),
+        new PatternTokenBuilder().pos("VBG").build()
       )
   ), AMERICAN_ENGLISH);
 
