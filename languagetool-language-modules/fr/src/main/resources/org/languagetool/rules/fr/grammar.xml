@@ -28753,12 +28753,17 @@ though, and has since been slightly modified)-->
                 <example correction="élève|relève|enlève|lève|éleva">Elle ne m'<marker>eleve</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ON_VERBE" name="on + verbe" default="temp_off">
+        <rulegroup id="ON_VERBE" name="on + verbe">
             <!-- TODO: exceptions for anglicisms -->
             <antipattern>
                 <token regexp="yes">t|t'</token>
                 <token min="0">-</token>
                 <token>on</token>
+            </antipattern>
+            <antipattern>
+                <!-- English -->
+                <token>on</token>
+                <token>the|this|time|to|what|with|your|workplace|so|sreen|our|my|memory|it|its|how|each</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -28774,6 +28779,11 @@ though, and has since been slightly modified)-->
                 <example correction="s'aperçoit|aperçoit">On <marker>saperçoit</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">eux|elles</token>
+                    <!--ont-->
+                    <token>on</token> 
+                </antipattern>
                 <pattern>
                     <token>on</token>
                     <token postag="[AR].*" postag_regexp="yes"/>
