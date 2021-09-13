@@ -10152,6 +10152,265 @@ though, and has since been slightly modified)-->
             <example>La dynastie Yuan ne se maintient ou pouvoir que sur la courte durée de 97 ans.</example>
             <example>Plusieurs personnages naïfs ou douteux auraient pu être dupés ou vouloir devenir les complices.</example>
         </rule>
+        <rule default="temp_off">
+            <pattern>
+                <marker>
+                    <token>ou</token>
+                </marker>
+                <token>?</token>
+            </pattern>
+            <message>Commencer une phrase par la conjonction 'ou' peut sembler inapproprié. Employez <suggestion>où</suggestion> pour indiquer un lieu. Le cas échéant, employez <suggestion>ou bien</suggestion> pour indiquer une alternative.</message>
+            <example correction="où|ou bien">Ils partent <marker>ou</marker> ?</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>ou</token>
+                <token>est</token>
+                <token regexp="yes">ce|-ce</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START|C coor" postag_regexp="yes"><exception scope="previous">?</exception></token>
+                <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token>ou</token>
+                </marker>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.*" postag_regexp="yes" skip="-1">
+                <exception inflected="yes" regexp="yes">devoir|falloir|valoir</exception>
+                <exception postag="V.* ppa.*|V.* con.*" postag_regexp="yes"/></token>
+                <token>?</token>
+            </pattern>
+            <message>Commencer une phrase par la conjonction 'ou' peut sembler inapproprié. Employez <suggestion>où</suggestion> pour indiquer un lieu. Le cas échéant, employez <suggestion>ou bien</suggestion> pour indiquer une alternative.</message>
+            <example correction="où|ou bien">Et <marker>ou</marker> est le métro ?</example>
+            <example>Ou serait-ce l'inverse : un dragon avale un dragon qui avale un dragon ?</example>
+            <example>Ou vaut-il mieux s'entrainer avec un ami ?</example>
+            <example>Ou est ce que vous avez du tout amener de France ?</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token regexp="yes">voilà|voici</token>
+                <marker>
+                <token>ou<exception scope="next" regexp="yes">(?-i)[A-Z].*|gala</exception>
+                    <exception scope="next" postag="[ZA].*" postag_regexp="yes"/>
+                </token>
+                </marker>
+            </pattern>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion></message>
+            <example correction="où">Et voilà <marker>ou</marker> le cinéma se trouve.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token regexp="yes">parce|fois</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ou</token>
+                <token>je</token>
+                <token>ne</token>
+                <token regexp="yes">sai.</token>
+                <token>quoi</token>
+            </antipattern>
+            <antipattern>
+                <token>il</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>ou</token>
+                <token>elle</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">pouvoir</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">être</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>comme</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">que
+                    <exception scope="previous" postag="[AP]" postag_regexp="yes"/></token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes">ou</token>
+                </marker>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+            </pattern>
+			<message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion>.</message>
+            <example correction="où">Qu'ils restent <marker>ou</marker> ils sont.</example>
+            <example>Le vol est compris dans le prix que tu annonces ou il y a un supplément ?</example>
+            <example> Si mon pc s'appelle "x" et que je clique ou je surfe sur site web.</example>
+            <example>Son inspiration pour les personnages peut venir de vraies personnes qu’il connaît ou il peut aussi les créer.</example>
+        </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token>ou</token>
+                <token>je</token>
+                <token regexp="yes">ne|tue</token>
+                <token regexp="yes">sais|le</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">laisser</token>
+                <token postag="V.* inf" postag_regexp="yes"></token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">soit</token>
+                <token postag="V.* inf" postag_regexp="yes"></token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[nv]ous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>ou</token>
+                <token regexp="yes">[nv]ous</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">ou|si</token>
+                <token postag="V.* inf" postag_regexp="yes"></token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>pour</token>
+                <token postag="V.* inf" postag_regexp="yes"></token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="R pers suj.*" postag_regexp="yes" skip="-1"/>
+                <token postag="V.* inf" postag_regexp="yes"></token>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ne</token>
+                <token regexp="yes" skip="-1">pas|plus|jamais</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* imp.*" postag_regexp="yes" skip="-1"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token skip="-1">encore</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token postag="V etre.* 3 s" postag_regexp="yes" skip="-1"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">aller</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+                <token>ou</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token inflected="yes">aller</token>
+            </antipattern>
+            <pattern>
+                <token postag="V.* inf" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                    <exception regexp="yes">aider|rider</exception></token>
+                <marker>
+                    <token>ou</token>
+                </marker>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
+                    <exception scope="next" inflected="yes">pouvoir</exception>
+                    <exception scope="next" postag="UNKNOWN"/></token>
+            </pattern>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion></message>
+            <example correction="où">Après, tu peux aller <marker>ou</marker> tu veux.</example>
+            <example>Un ou des admins pourraient-ils intervenir, commenter ou je ne sais quoi ici ?</example>
+            <example>C'est la joie de me revoir ou tu as un train dans ta poche ?</example>
+            <example>Il se laisse faire ou il rechigne ?</example>
+            <example>Tu vas voler ou tu vas tomber ?</example>
+            <example>Il a réussi à s'échapper ou il a été relâché.</example>
+            <example>Il a réussi à s'échapper ou il a été relâché.</example>
+            <example>Celui-ci a soit démissionner ou il est décédé en cours de mandat.</example>
+            <example>Encore un lien rouge à bleuir ou on a déjà ça ailleurs ?</example>
+            <example>Ou bien sur un sujet qui vous tient à cœur et que vous aimeriez développer ou nous faire partager.</example>
+            <example>Vous pouvez évidemment vous retirer ou vous rajouter.</example>
+            <example>Dois-je débloquer pour rebloquer ou on laisse couler ?</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="N.*" postag_regexp="yes"><exception>son</exception></token>
+                <marker>
+                    <token>ou<exception scope="next" postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="V.*" postag_regexp="yes"><exception postag="V.* pp.*|J.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion></message>
+            <example correction="où">Pays <marker>ou</marker> le temps est agréable.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="N.*" postag_regexp="yes"><exception>attention</exception></token>
+                <marker>
+                    <token>ou<exception scope="next" postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion></message>
+            <example correction="où">Pays <marker>ou</marker> il fait bon vivre.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token regexp="yes" inflected="yes">savoir|dire|montrer<exception postag="[NJ].*" postag_regexp="yes"/></token>
+                <token postag="R pers.*" postag_regexp="yes"/>
+                <marker>
+                    <token>ou</token>
+                </marker>
+                <token postag="R pers suj.*|D.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Pour évoquer un lieu, un temps ou une situation, écrivez <suggestion>où</suggestion></message>
+            <example correction="où">Montre-moi <marker>ou</marker> il est.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
