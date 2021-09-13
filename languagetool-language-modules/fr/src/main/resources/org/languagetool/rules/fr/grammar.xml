@@ -4848,6 +4848,14 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="CAMERA" name="camera/caméra" default="temp_off">
+            <pattern>
+                <token>camera<exception scope="previous">se</exception></token>
+            </pattern>
+            <message>Vouliez-vous écrire <suggestion>caméra</suggestion>? "Camera" est un forme du verb 'se camer'.</message>
+            <example correction="caméra">Le <marker>camera</marker>.</example>
+            <example>Il se camera.</example>
+        </rule>
         <rule id="POURVOIR_POUVOIR" name="confusion pourvoir -> pouvoir">
             <pattern>
                 <marker>
@@ -8131,6 +8139,11 @@ though, and has since been slightly modified)-->
                 <token>a</token>
                 <token postag="K|Y" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">&unites_temps;</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>pour</token>
+                <token regexp="yes">mission|bout</token>
             </antipattern>
             <rule>
                 <antipattern>
