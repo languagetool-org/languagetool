@@ -57477,14 +57477,6 @@ though, and has since been slightly modified)-->
                 <message>Un trait d'union lie ces deux termes afin de former le mot <suggestion>\1-\2</suggestion>.</message>
                 <example correction="afro-américains">Ils sont <marker>afro américains</marker>.</example>
             </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token case_sensitive="yes">auto</token>
-                    <token regexp="yes">tamponneuses?</token>
-                </pattern>
-                <message>Un trait d'union lie ces deux termes afin de former le mot <suggestion>\1-\2</suggestion>.</message>
-                <example correction="auto-tamponneuses">Les <marker>auto tamponneuses</marker> ne peuvent pas aller sur la route.</example>
-            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes" skip="1">systèmes?|moteurs|premières?|accidents?|pistes?|bo[iî]tes?|semi|moto</token>
@@ -59230,15 +59222,19 @@ though, and has since been slightly modified)-->
             <pattern>
                 <marker>
                     <token>c'</token>
-                    <token skip="2">est</token>
+                    <token skip="2">est<exception scope="next" postag_regexp="yes" postag=".* sp?|P"></exception></token>
                 </marker>
-                <token postag_regexp="yes" postag=".* p|sp .*"/>
+                <token postag_regexp="yes" postag=".* s?p"/>
             </pattern>
             <message>'C'est' suivi d'un pluriel devient 'ce sont'. Dans la langue parlée, on admet 'c'est' suivi par 'ceux/celles' ou 'eux|elles'.</message>
             <suggestion>ce sont</suggestion>
             <example correction="Ce sont"><marker>C'est</marker> des barbares qui ont fait ça.</example>
             <example>C'est eux qui ont eu l'idée.</example>
             <example>C'est ceux qui ont eu l'idée.</example>
+            <example>C'est un site excellent pour apprendre le finnois.</example>
+            <example>C'est dans ces modestes bureaux de banlieue qu'a eu lieu la genèse de cette multinationale.</example>
+            <example>C'est la tendance des vingt dernières années.</example>
+            <example>C'est juste à dix minutes de marche d'ici.</example>
         </rule>
         <rule id="SE_BAFRER" name="se bâfrer">
             <pattern>
@@ -62717,7 +62713,7 @@ though, and has since been slightly modified)-->
             <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2888</url>
             <example correction="comme|pareil à"><marker>pareil comme</marker></example>
         </rule>
-        <rule id="PAREIL_QUE" name="pareil que" default="temp_off">
+        <rule id="PAREIL_QUE" name="pareil que">
             <pattern>
                 <marker>
                     <token regexp="yes">pareil(le)?s?</token>
@@ -63045,7 +63041,7 @@ though, and has since been slightly modified)-->
             <example>Le site a été en partie traduit.</example>
             <example>Il s’est transformé <marker>en parti</marker> politique.</example>
         </rule>
-        <rule id="PRENDRE_A_PARTIE" name="prendre partie" default="temp_off">
+        <rule id="PRENDRE_A_PARTIE" name="prendre partie">
             <pattern>
                 <token inflected="yes" skip="-1">prendre</token>
                 <token>à</token>
@@ -63053,7 +63049,7 @@ though, and has since been slightly modified)-->
                     <token>parti</token>
                 </marker>
             </pattern>
-            <message>L'expression 'Prendre quelqu'un à partie' a pour racine 'la partie'.</message>
+            <message>L'expression "prendre à partie" a pour racine "la partie".</message>
             <suggestion>partie</suggestion>
             <example correction="partie">Il prend à <marker>parti</marker> son frère.</example>
         </rule>
