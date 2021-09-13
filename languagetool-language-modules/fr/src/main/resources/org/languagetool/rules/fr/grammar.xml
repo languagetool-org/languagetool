@@ -21016,6 +21016,24 @@ though, and has since been slightly modified)-->
                 <example>Il acquit biens et domaines dans les villages des alentours.</example>
                 <example>Les biens de Mayeul deviennent biens de l'église lors de son entrée à Cluny.</example>
             </rule>
+            <rule default="temp_off">
+				<antipattern>
+                    <token postag="[DJ] . p" postag_regexp="yes"/>
+					<token>tops</token>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">(?-i)Tops|(?-i)TOPS</token>
+				</antipattern>
+                <pattern>
+                    <token postag="N . p" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">extras|tops</token>
+                    </marker>
+                </pattern>
+                <message>Cet adjectif est invariable.</message>
+                <suggestion><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
+                <example correction="extra">Ce sont des filles <marker>extras</marker>.</example>
+			</rule>
         </rulegroup>
         <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA">
             <rule>
