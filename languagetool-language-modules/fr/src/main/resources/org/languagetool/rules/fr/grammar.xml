@@ -11941,7 +11941,7 @@ though, and has since been slightly modified)-->
             <suggestion>qui n'ont</suggestion>
             <example correction="qui n'ont">Il y en a <marker>qu'ont</marker> pas pu identifier les causes de ce sinistre.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token postag="SENT_START|C coor|M nonfin" postag_regexp="yes"/>
                 <token postag="V.*" postag_regexp="yes" skip="3"/>
@@ -11964,6 +11964,10 @@ though, and has since been slightly modified)-->
                 <exception regexp="yes">fait|dit</exception>
                 <exception postag="V.* ppa.*" postag_regexp="yes"/></token>
             </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token>est</token>
+            </antipattern>
             <pattern>
                 <token>qui<exception scope="previous" postag="P"/></token>
                 <marker>
@@ -11976,6 +11980,8 @@ though, and has since been slightly modified)-->
             <example>J'aimerais savoir qui était ce dénommé TANGUAY à qui on à donné ce nom.</example>
             <example>C'est qui on ?</example>
             <example>Demande à papa qui on appelait « Sissi ».</example>
+            <example>On sait qui on est.</example>
+            <example>quand on se rend compte qui on est réellement</example>
         </rule>
         </rulegroup>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
