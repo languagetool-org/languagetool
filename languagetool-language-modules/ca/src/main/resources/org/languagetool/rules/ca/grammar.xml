@@ -16826,6 +16826,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="TORNEMHI" name="*torne-m'hi/tornem-hi" default="temp_off">
+            <pattern>
+                <token postag="VMM03S0V" regexp="yes">.*e</token>
+                <token regexp="yes">['-]m</token>
+                <token regexp="yes">[-'](hi|ho)</token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion><match no="1" postag="VMM03S0V" postag_regexp="yes" postag_replace="VMM01P0."/><match no="3" regexp_match=".(hi|ho)" regexp_replace="-$1"></match></suggestion>
+            <example correction="tornem-hi">Sant <marker>torne-m'hi</marker></example>
+            <example correction="Pensem-ho"><marker>Pense'm-ho</marker>.</example>
+        </rule>
         <rule id="PAREDES" name="paredes">
             <pattern>
                 <token>paredes</token>
