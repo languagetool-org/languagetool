@@ -8099,13 +8099,13 @@ though, and has since been slightly modified)-->
                 <example>Au cours des trois ans précédents.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="A_A_ACCENT2" name="verbe conjugué + a → à">
+        <rulegroup id="A_A_ACCENT2" name="verbe conjugué + a → à" default="temp_off">
             <antipattern>
                 <token>a</token>
-                <token regexp="yes">less|for|about|feeling|(?-i)Office|ont</token>
+                <token regexp="yes">less|for|about|feeling|(?-i)Office|ont|be|little</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">have|has|for|and|as|n'|like|in</token>
+                <token regexp="yes">have|has|for|and|as|n'|like|in|but</token>
                 <token>a</token>
             </antipattern>
             <antipattern>
@@ -8145,6 +8145,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.*[123] ." postag_regexp="yes"><exception inflected="yes">être</exception></token>
                     <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4"/>
                     <token case_sensitive="yes">a</token>
+                    <token postag="A" postag_regexp="yes" min="0" max="3"/>
                     <token postag="V ppa [me] sp?" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -8169,6 +8170,7 @@ though, and has since been slightly modified)-->
                 <example correction="à">Pensez <marker>a</marker> le dépasser.</example>
                 <example correction="à">Cet endroit est trop <marker>a</marker> découvert.</example>
                 <example correction="à">Il ne s'affiche pas <marker>a</marker> les autres.</example>
+                <example>Une salle à mi-parcours a certainement permis à certains de continuer.</example>
                 <example>Il y a trois jours Paul a dit que tu viendrais demain.</example>
                 <example>Sa suppression apparente a aussi pour but de répartir différemment.</example>
                 <example>Un texte écrit a des lignes et une linéarité.</example>
@@ -8896,7 +8898,7 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> se place après '\1'.</message>
                 <example correction="à">Il était toujours là sauf <marker>a</marker> l'arrivée.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
             <antipattern>
                 <token inflected="yes" skip="3">ne</token>
                 <token>a</token>
@@ -8925,7 +8927,7 @@ though, and has since been slightly modified)-->
             <example>Ce genre de côte ressemble tout à fait à ce qu'il y a part chez moi.</example>
             <example>Elle ne l'a point dit.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
             <token postag="R pers suj 3 . s" postag_regexp="yes"/>
             <token inflected="yes">ne</token>
@@ -8946,7 +8948,7 @@ though, and has since been slightly modified)-->
             <example>Ce genre de côte ressemble tout à fait à ce qu'il y a part chez moi.</example>
             <example>Elle ne l'a point dit.</example>
 		</rule>
-		<rule default="temp_off">
+		<rule>
             <pattern>
                 <marker>
                     <token>a</token>
@@ -8960,7 +8962,7 @@ though, and has since been slightly modified)-->
             <example>Ce genre de côte ressemble tout à fait à ce qu'il y a part chez moi.</example>
             <example>Elle ne l'a point dit.</example>
 		</rule>
-		<rule default="temp_off">
+		<rule>
             <pattern>
                 <token>par</token>
                 <token>rapport</token>
@@ -8971,7 +8973,7 @@ though, and has since been slightly modified)-->
             <message>La préposition <suggestion>à</suggestion> est attendue.</message>
             <example correction="à">Il est très important par rapport <marker>a</marker> toi.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token regexp="yes">inférieure?s?|supérieure?s?</token>
                 <token>a</token>
@@ -11083,7 +11085,7 @@ though, and has since been slightly modified)-->
                 <example correction="m'as">Tu <marker>ma</marker> répondu.</example>
                 <example correction="m'as">Tu <marker>ma</marker> toujours affirmé qu'il travaillait tard.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">(?-i)ma
@@ -11794,7 +11796,7 @@ though, and has since been slightly modified)-->
                 <example>Il existe des modèles à trous, plus stables on jonglerie plein air.</example>
                 <example>It was one of the most wanted Livres on 2020.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
             <antipattern>
                 <token>on</token>
                 <token>si</token>
@@ -11861,7 +11863,7 @@ though, and has since been slightly modified)-->
             <example>On aussi trouve des plantes.</example>
             <example>C'est comme cela qu'on là reparer.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token>on</token>
                 <token>si</token>
@@ -11900,7 +11902,7 @@ though, and has since been slightly modified)-->
             <suggestion>on n'est</suggestion>
             <example correction="On n'a|On n'est"><marker>On</marker> pas pu identifier les causes de ce sinistre.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token><exception postag="SENT_START"/></token>
                 <token regexp="yes">(?-i)On</token>
@@ -11932,6 +11934,13 @@ though, and has since been slightly modified)-->
                 <token>est</token>
                 <token>qui</token>
                 <token>on</token>
+            </antipattern>
+            <antipattern>
+                <token>qui</token>
+                <token>on</token>
+                <token postag="V.*" postag_regexp="yes">
+                <exception regexp="yes">fait|dit</exception>
+                <exception postag="V.* ppa.*" postag_regexp="yes"/></token>
             </antipattern>
             <pattern>
                 <token>qui<exception scope="previous" postag="P"/></token>
@@ -22772,11 +22781,43 @@ though, and has since been slightly modified)-->
                 <token postag="D.*|R dem.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
                 <token>a</token>
-                <token regexp="yes">(-t)?-elle|(-t)?-il|(-t)?-on|tendance|chaud|froid|droit|[ts]on|vocation|lieu|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|soif|obligation|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|raison|accès</token>
+                <token regexp="yes">(?-i)[A-Z].*</token>
+            </antipattern>
+            <antipattern>
+                <token postag="A inte"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">quels?|quelles?</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+                <token>pignon</token>
+                <token>sur</token>
+                <token>rue</token>
+            </antipattern>
+            <antipattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="P" skip="3"/>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">affaire|beau|trip|priorité|must|(-t)?-elle|(-t)?-il|(-t)?-on|tendance|chaud|froid|droit|[ts]on|vocation|lieu|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|soif|obligation|horreur|intérêt|confiance|peine|foi|recours|faim|peur|honte|sommeil|envie|besoin|tor[td]|raison|accès</token>
             </antipattern>
             <pattern>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">[a-z]</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">[a-z]|as|for|of|but|like|or</exception></token>
                 <token case_sensitive="yes">a</token>
                 <token postag="N.*" postag_regexp="yes"><exception regexp="yes">[a-z]</exception></token>
             </pattern>
@@ -22784,6 +22825,11 @@ though, and has since been slightly modified)-->
             <example correction="à">C'est de la <marker>peinture a base</marker> de laque.</example>
             <example>Cette relation a durée approximativement 1 an.</example>
             <example>Recherche a donne ça.</example>
+            <example>La nature des choses a coutume de se dissimuler.</example>
+            <example>Sur Internet, la connerie a pignon sur rue.</example>
+            <example>On peut se demander si l'humanité a avantage à connaître les secrets de la nature.</example>
+            <example>Au mois de mars, c'est ensuite I Am a Rock qui sort en single.</example>
+            <example>Sais-tu quel âge a madame Nakano ?</example>
         </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
@@ -55409,6 +55455,12 @@ though, and has since been slightly modified)-->
                     </and>
 					<token regexp="yes">[vn]ous</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="R pers suj.*|R pers obj [12] p" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes">
                         <exception regexp="yes">(?-i)PS|[a-z]|(?-i)[A-Z]</exception>
@@ -55426,6 +55478,7 @@ though, and has since been slightly modified)-->
                 <example correction=", nous">Ces photos<marker> nous</marker> les aimons beaucoup.</example>
                 <example correction=", elle">Quand elle veut quelque chose<marker> elle</marker> met en marche la machine à pleurs.</example>
                 <example>Aimes-tu une autre femme à part elle ?</example>
+                <example>Avec une scie nous scions, avec un outil tranchant nous tranchons.</example>
                 <example>Que de choses il faut ignorer pour agir !</example>
                 <example>On nous montre que tout le monde il est content.</example>
                 <example>Ainsi dans son refus il demeure obstiné ; /</example>
