@@ -759,17 +759,17 @@ public class CaseRule extends Rule {
       // Straßenname: "Am Wasserturm 6"
       csToken("Am"),
       posRegex("(EIG|SUB|UNKNOWN).*"),
-      csRegex("\\d+[a-hA-H]?")
+      csRegex("\\d+[a-hA-H]?|in")
     ),
     Arrays.asList(
       // Straßenname: "Neue Kantstraße 6"
-      csToken("Neue"),
+      csRegex("Neuen?|Gro(ß|ss)en?|Alten?"),
       csRegex("[A-Z].+stra(ss|ß)e"),
-      csRegex("\\d{1,3}[a-hA-H]?")
+      csRegex("\\d{1,3}[a-hA-H]?|in")
     ),
     Arrays.asList(
       // Straßenname: "Neue Kantstr. 6"
-      csToken("Neue"),
+      csRegex("Neuen?|Gro(ß|ss)en?|Alten?"),
       csRegex("[A-Z].+str"),
       token("."),
       csRegex("\\d{1,3}[a-hA-H]?")
@@ -981,6 +981,19 @@ public class CaseRule extends Rule {
       csToken("Menge"),
       csRegex("Gutes|Schlechtes|Tolles|Böses|Schlimmes"),
       csRegex("[a-zäöüß].*|\\.|\\,|\\!|:|;")
+    ),
+    Arrays.asList(
+      // Während 208 der Befragten Frau Baerbock bevorzugten, ...
+      csRegex("\\d+%?|meisten|viele|Gro(ß|ss)teil"),
+      csToken("der"),
+      new PatternTokenBuilder().posRegex("SUB:GEN:PLU.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+      new PatternTokenBuilder().posRegex("SUB:.*").csTokenRegex("[A-ZÖÜÄ].+").build()
+    ),
+    Arrays.asList(
+      // Dabei trauten die Befragten Frau Baerbock mehr zu.
+      csToken("die"),
+      new PatternTokenBuilder().posRegex("SUB:NOM:PLU.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+      new PatternTokenBuilder().posRegex("SUB:.*:SIN").csTokenRegex("[A-ZÖÜÄ].+").build()
     )
   );
 

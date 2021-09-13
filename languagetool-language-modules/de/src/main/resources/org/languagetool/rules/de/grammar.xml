@@ -10834,7 +10834,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="DREI_METER_BRETT" name="3-Meter-Brett" default="temp_off">
+        <rule id="WERT_SCHAETZEN" name="wert schätzen (wertschätzen)" default="temp_off">
+            <!-- TODO: wertmindern|werthaltig -->
+            <antipattern>
+                <token>den</token>
+                <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                <token>wert</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">wert</token>
+                <token min="0">zu</token>
+                <token inflected="yes">schätzen</token>
+            </pattern>
+            <message>Das Verb <suggestion>wert<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="wertgeschätzt">Sie hat meine Arbeit nicht <marker>wert geschätzt</marker>.</example>
+            <example>Er hat den Wert geschätzt.</example>
+        </rule>
+        <rule id="PUBLIC_PRIVATE_PARTNERSHIP" name="Public-private-Partnership" default="temp_off">
+            <pattern>
+                <token>Public</token>
+                <token>Private</token>
+                <token regexp="yes">Partnerships?</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Public-private-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen zusammengeschrieben.</message>
+            <suggestion>Öffentlich-private-Partnerschaft</suggestion>
+            <url>https://de.wikipedia.org/wiki/%C3%96ffentlich-private_Partnerschaft</url>
+            <example correction="Public-private-Partnership|Öffentlich-private-Partnerschaft">Eine <marker>Public Private Partnership</marker> ist eine vertraglich geregelte Zusammenarbeit zwischen öffentlicher Hand und Unternehmen.</example>
+        </rule>
+        <rule id="SAVE_THE_DATE_KARTEN" name="Save-the-Date-Karten" default="temp_off">
+            <pattern>
+                <token regexp="yes">Sa[fv]e</token>
+                <token>the</token>
+                <token>Date</token>
+                <token regexp="yes">Karten?</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Save-the-Date-<match no="4" case_conversion="startupper" /></suggestion> wird mit Bindestrichen zusammengeschrieben.</message>
+            <example correction="Save-the-Date-Karten">Wir müssen für unsere Hochzeit noch die <marker>Save the Date Karten</marker> rausschicken.</example>
+        </rule>
+        <rule id="DREI_METER_BRETT" name="3-Meter-Brett">
             <pattern>
                 <token regexp="yes">das|vom|dem|des</token>
                 <token postag="ADJ.*" postag_regexp="yes" min="0" />
@@ -40538,7 +40575,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="SPREU_VOM_WEIZEN" name="Spreu von (vom) Weizen" default="temp_off">
+        <rule id="SPREU_VOM_WEIZEN" name="Spreu von (vom) Weizen" >
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Spreu|SPREU</token>
                 <token regexp="yes">vom|VOM</token>
