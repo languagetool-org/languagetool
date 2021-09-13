@@ -56772,9 +56772,9 @@ though, and has since been slightly modified)-->
                 <example>Il se lance alors dans la création d'une nouvelle auto adaptée à ces règles.</example>
                 <example>En 1972, Mogogné était accessible à partir d'une piste auto reliant Kossa à Balla Plata.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">[mts]e</token>
+                    <token regexp="yes" inflected="yes">[mts]e|nous|vous</token>
                     <marker>
                         <token case_sensitive="yes">auto</token>
                         <token min="0">-</token>
@@ -56783,8 +56783,10 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le préfixe 'auto' est attaché au verbe qui le suit.</message>
+                <!-- TODO: add to the message: "even if it is not in the dictionary" (i.e. it causes a spelling error)?-->
                 <suggestion>\2\4</suggestion>
                 <example correction="autocensurer">Ils ont choisi de ne pas s'<marker>auto censurer</marker>.</example>
+                <example correction="autocensurez">Vous vous <marker>auto censurez</marker>.</example>
             </rule>
             <rule>
                 <pattern>
