@@ -38176,6 +38176,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="TRAURE_A_RELLUIR" name="*treure a relluir">
+            <pattern>
+                <token inflected="yes">treure</token>
+                <token>a</token>
+                <token>relluir</token>
+            </pattern>
+            <message>Val més fer servir una altra expressió</message>
+            <suggestion>\1 a col·lació</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" case_conversion="preserve">posar</match> sobre la taula</suggestion>
+            <suggestion><match no="1" regexp_match="^.*$" regexp_replace="re" case_conversion="preserve"/><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="Tragueren a col·lació|Posaren sobre la taula|Retragueren"><marker>Tragueren a relluir</marker> les discrepàncies.</example>
+        </rule>
         <rule id="DE_SOBAQUILLO" name="de sobaquillo">
             <pattern>
                 <token>de</token>
