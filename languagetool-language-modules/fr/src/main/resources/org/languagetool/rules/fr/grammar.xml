@@ -58383,12 +58383,16 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">celui|celles?|ceux|de|par</token>
                         <token min="0">-</token>
-                        <token>si</token>
+                        <token>si
+                            <exception postag="A" scope="next"/>
+                        </token>
                     </marker>
                 </pattern>
                 <message>'si' exprime une condition, on utilise l'adverbe 'ci' pour former ce mot.</message>
                 <suggestion>\1-ci</suggestion>
                 <example correction="celui-ci">Veux-tu parler de <marker>celui si</marker>?</example>
+                <example>On ne le reverra pas de si tôt.</example>
+                <example>Il ne se contentera pas de si peu.</example>
             </rule>
             <rule>
                 <pattern>
