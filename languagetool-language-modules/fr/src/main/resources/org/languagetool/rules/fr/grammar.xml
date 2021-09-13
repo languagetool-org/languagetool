@@ -26752,7 +26752,7 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="VOUS_VPPA_VINF" name="nous/vous infinitif">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>ne</token>
                     <token regexp="yes">nous|vous</token>
@@ -26763,7 +26763,8 @@ though, and has since been slightly modified)-->
                 <message>Ce verbe ne devrait pas être un participe passé.</message>
                 <!-- TODO: other suggestions -->
                 <suggestion><match no="3" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V ind pres 2 p"/></suggestion>
-                <example correction="culpabilisez">Ne vous <marker>culpabilisé</marker></example>
+                <suggestion><match no="3" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+                <example correction="culpabilisez|culpabiliser">Ne vous <marker>culpabilisé</marker></example>
             </rule>
             <rule>
                 <antipattern>
