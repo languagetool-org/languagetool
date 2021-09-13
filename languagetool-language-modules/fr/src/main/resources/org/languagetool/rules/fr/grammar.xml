@@ -2942,7 +2942,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond|tabac</token>
-                <token regexp="yes">dense|clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine|chiné|verdâtre</token>
+                <token min="0">-</token>
+                <token regexp="yes">dense|clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine|chiné|verdâtre|vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond|tabac</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">maximum|minimum|anti-.*|top|sport|western</token>
@@ -8143,7 +8144,7 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token>a</token>
                 <token>pour</token>
-                <token regexp="yes">mission|bout</token>
+                <token regexp="yes">mission|bout|objectif|objet</token>
             </antipattern>
             <rule>
                 <antipattern>
@@ -11138,7 +11139,12 @@ though, and has since been slightly modified)-->
                 <token>et</token>
                 <token postag="J.*" postag_regexp="yes"/>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond|tabac</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">dense|clair|foncé|vernissé|pâle|paille|pétrole|sang|vif|vive|marine|chiné|verdâtre|vert|bleu|noir|brun|gris|beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille|blanc|blond|tabac</token>
+                </antipattern>
                 <pattern>
                     <token>sont</token>
                     <token postag="J . s" postag_regexp="yes">
@@ -11152,6 +11158,7 @@ though, and has since been slightly modified)-->
                 <example>Les couleurs du drapeau américain sont rouge, blanc et bleu.</example>
                 <example>Ils se sont acheté un camion d'occasion.</example>
                 <example>Ses chaussures sont marron.</example>
+                <example>Une myrtille est une variété d'airelle des montagnes d'Europe dont les baies, comestibles, sont bleu-noir.</example>
             </rule>
             <rule>
                 <antipattern>
