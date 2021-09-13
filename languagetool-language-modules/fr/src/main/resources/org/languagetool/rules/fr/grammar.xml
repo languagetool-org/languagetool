@@ -31676,8 +31676,12 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">ça|cela</token>
                     <token postag="(?!PARA_END)[CKNJ].*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>cela</token>
+                    <token>seul</token>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
                     <token regexp="yes" min="0" max="3">\p{P}</token>
                     <token postag="C coor" min="0"/>
                     <token regexp="yes">ça|cela</token>
@@ -31689,7 +31693,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.*(ind|sub).*3.s"/>
-                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \4 ».</message>
                 <example correction="sort|sorte">Cela <marker>sorts</marker> ce soir.</example>
                 <example correction="envoie">Et ça <marker>envoi</marker>.</example>
                 <example correction="envoie">"Et ça <marker>envoi</marker>".</example>
@@ -31764,8 +31768,15 @@ though, and has since been slightly modified)-->
                 <example correction="fonctionne|fonctionna">Cela ne lui <marker>fonction</marker> très bien.</example>
                 <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça ne leur <marker>côte</marker> rien.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>cela</token>
+                    <token>seul</token>
+                </antipattern>
                 <pattern>
+                    <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
+                    <token postag="C coor" min="0"/>
                     <token regexp="yes">ça|cela</token>
                     <token min="1" max="3" regexp="yes">[mts]e|[mts]'|lui|leur|[nv]ous</token>
                     <marker>
@@ -31774,8 +31785,8 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">donne|ne</exception> </token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
-                <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.*(ind|sub).*3.s"/>
+                <message>Un verbe conjugué est généralement attendu après le sujet « \4 ».</message>
                 <example correction="fonctionne|fonctionna">Cela lui <marker>fonction</marker> très bien.</example>
                 <example correction="cote|quotte|quitte|code|note|vote|cite|conte|quête|coûte">Et ça nous <marker>côte</marker> plutôt cher.</example>
             </rule>
