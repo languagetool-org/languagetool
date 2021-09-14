@@ -19704,7 +19704,7 @@ though, and has since been slightly modified)-->
             <url>https://www.academie-francaise.fr/il-disait-quil-viendra</url>
             <example correction="arriverait|arrivât">Par ce message, il nous informait qu'il <marker>arrivera</marker> jeudi prochain</example>
         </rule>
-        <rulegroup id="PPA_ACCORD_INFINITIF_IMPLICITE" name="j'ai donné tous les conseils que j'ai pues (pu)" default="temp_off">
+        <rulegroup id="PPA_ACCORD_INFINITIF_IMPLICITE" name="j'ai donné tous les conseils que j'ai pues (pu)">
             <rule>
                 <pattern>
                     <token postag="V avoir.*" postag_regexp="yes"/>
@@ -19734,7 +19734,8 @@ though, and has since been slightly modified)-->
                         <exception postag="N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Lorsque le complément se rapporte à un infinitif, il est invariable.</message>
-                <example correction="">Les exercices que j'ai <marker>réussis</marker> à faire étaient en fait pour hier.</example>
+                <suggestion><match no="3" postag="V ppa.*" postag_regexp="yes" postag_replace="V ppa [me] sp?"/></suggestion>
+                <example correction="réussi">Les exercices que j'ai <marker>réussis</marker> à faire étaient en fait pour hier.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19752,7 +19753,9 @@ though, and has since been slightly modified)-->
                         <exception postag="M fin inte"/></token>
                 </pattern>
                 <message>Lorsque le complément se rapporte à un infinitif, il est invariable.</message>
-                <example correction="">Les exercices que j'ai <marker>réussis</marker> à faire.</example>
+                <suggestion><match no="3" postag="V ppa.*" postag_regexp="yes" postag_replace="V ppa [me] sp?"/></suggestion>
+                <example correction="réussi">Les exercices que j'ai <marker>réussis</marker> à faire.</example>
+                <example correction="donné">N'oublie pas, s'il te plait, de timbrer les lettres que je t'ai <marker>données</marker> à poster.</example>
                 <example>Qu'est-ce qui les a empêchés de travailler ?</example>
             </rule>
         </rulegroup>
