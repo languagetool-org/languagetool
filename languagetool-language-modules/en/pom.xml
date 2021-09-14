@@ -35,18 +35,6 @@
     </developers>
     
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>org/languagetool/resource/en/partlycountable.txt</exclude>
-                    <exclude>org/languagetool/resource/en/uncountable.txt</exclude>
-                    <exclude>org/languagetool/resource/en/filter*.txt</exclude>
-                    <exclude>org/languagetool/resource/en/*.awk</exclude>
-                    <exclude>org/languagetool/resource/en/numbers.txt</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -61,6 +49,11 @@
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-core</artifactId>
+            <version>${languagetool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-en-resources</artifactId>
             <version>${languagetool.version}</version>
         </dependency>
 
