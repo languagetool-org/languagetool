@@ -51,6 +51,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "age-old");
     check(0, "able-bodied");
     check(0, "non-scientific");
+    check(0, "This is the first ever green bond by a municipality.");
     check(0, "Semi Automatic"); // desired?
     check(0, "Night Mare"); // desired?
     

@@ -6801,7 +6801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">und|oder</token>
                     <token regexp="yes">links?|rechts?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)(link|recht)$" regexp_replace="$1s" /> \2 <match no="3" regexp_match="(?i)(link|recht)$" regexp_replace="$2s" /></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)(link|recht)$" regexp_replace="$1s" /> \2 <match no="3" regexp_match="(?i)(link|recht)$" regexp_replace="$1s" /></suggestion>?</message>
                 <example correction="links und rechts">Schaue erst nach <marker>link und rechts</marker>, bevor du die Straße überquerst.</example>
             </rule>
         </rulegroup>
@@ -10834,7 +10834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="WERT_SCHAETZEN" name="wert schätzen (wertschätzen)" default="temp_off">
+        <rule id="WERT_SCHAETZEN" name="wert schätzen (wertschätzen)">
             <!-- TODO: wertmindern|werthaltig -->
             <antipattern>
                 <token>den</token>
@@ -10850,7 +10850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="wertgeschätzt">Sie hat meine Arbeit nicht <marker>wert geschätzt</marker>.</example>
             <example>Er hat den Wert geschätzt.</example>
         </rule>
-        <rule id="PUBLIC_PRIVATE_PARTNERSHIP" name="Public-private-Partnership" default="temp_off">
+        <rule id="PUBLIC_PRIVATE_PARTNERSHIP" name="Public-private-Partnership">
             <pattern>
                 <token>Public</token>
                 <token>Private</token>
@@ -10861,7 +10861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/%C3%96ffentlich-private_Partnerschaft</url>
             <example correction="Public-private-Partnership|Öffentlich-private-Partnerschaft">Eine <marker>Public Private Partnership</marker> ist eine vertraglich geregelte Zusammenarbeit zwischen öffentlicher Hand und Unternehmen.</example>
         </rule>
-        <rule id="SAVE_THE_DATE_KARTEN" name="Save-the-Date-Karten" default="temp_off">
+        <rule id="SAVE_THE_DATE_KARTEN" name="Save-the-Date-Karten">
             <pattern>
                 <token regexp="yes">Sa[fv]e</token>
                 <token>the</token>
@@ -38664,7 +38664,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -38697,7 +38697,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
                     <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
@@ -38721,7 +38721,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
                     <token>ganz</token>
                     <token>schön</token>
                     <marker>
@@ -38787,7 +38787,7 @@ Andere Projekte</example>
                     <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
                     <token regexp="yes" min="0">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich</token>
                     <marker>
                         <token postag="ADJ:DAT:SIN:.*" postag_regexp="yes" regexp="yes">[a-zäöü].+em<exception>anderem</exception></token>
@@ -50430,6 +50430,7 @@ Andere Projekte</example>
                         <token regexp="yes" skip="-1">
                             dass|weil|obwohl|obgleich|sodass|wenn
                             <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception>
+                            <exception scope="previous" regexp="yes">[Uu]nd|[Oo]der</exception>
                         </token>
                     </marker>
                     <token postag=".*VER.*" postag_regexp="yes" skip="-1">
@@ -50456,6 +50457,8 @@ Andere Projekte</example>
                 <example>Das Rauchen ist hier streng verboten bei großer Dürre oder wenn der Föhn weht.</example>
                 <example>Das Rauchen ist hier streng verboten, wenn der Föhn weht oder bei großer Dürre.</example>
                 <example>Der Plan ist viel zu kompliziert, als dass wir ihn ausführen könnten.</example>
+                <example>Oder weil wir nach mehr Akzeptanz suchen?</example>
+                <example>Ich bin hier, weil ich an die Sache glaube und weil ich meine Freundin beeindrucken möchte.</example>
             </rule>
         </rulegroup>
         <rule id="SUBJUNKTION_KOMMA_2" name="Fehlendes Komma bei Subjunktion">
@@ -53584,7 +53587,7 @@ Andere Projekte</example>
                         <token regexp="yes" case_sensitive="yes">weil|ob(gleich|wohl)?|so(dass|bald)|dass|indem|wenn|falls|sofern|nachdem</token>
                     </marker>
                     <token>
-                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|und|oder</exception>
+                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\]|\(|und|oder</exception>
                     </token>
                 </pattern>
                 <message>Hier sollte ein Komma eingefügt werden, wenn es sich um einen Haupt- und Nebensatz oder zwei Hauptsätze handelt.</message>
