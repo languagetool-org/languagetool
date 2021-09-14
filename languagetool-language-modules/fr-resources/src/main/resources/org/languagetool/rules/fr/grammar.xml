@@ -19874,7 +19874,7 @@ though, and has since been slightly modified)-->
             <example>Quel son a le silence ?</example>
             <example>Tu n'as pas à me faire des leçons de morale avec ce ton arrogant.</example>
         </rule>
-        <rule id="PUIS_QUE" name="puisque / puis que" default="temp_off">
+        <rule id="PUIS_QUE" name="puisque / puis que">
             <!-- <antipattern>
                 <token>puis</token>
                 <token regexp="yes" skip="2">que|qu'</token>
@@ -21062,7 +21062,7 @@ though, and has since been slightly modified)-->
                 <example>Il acquit biens et domaines dans les villages des alentours.</example>
                 <example>Les biens de Mayeul deviennent biens de l'église lors de son entrée à Cluny.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="[DJ] . p" postag_regexp="yes"/>
                     <token>tops</token>
@@ -21073,12 +21073,12 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="N . p" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">extras|tops</token>
+                        <token>tops</token>
                     </marker>
                 </pattern>
                 <message>Cet adjectif est invariable.</message>
-                <suggestion><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
-                <example correction="extra">Ce sont des filles <marker>extras</marker>.</example>
+                <suggestion><match no="2" regexp_match="(?iu)s" regexp_replace="" case_conversion="preserve"/></suggestion>
+                <example correction="top">Ce sont des filles <marker>tops</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA">
@@ -23823,12 +23823,11 @@ though, and has since been slightly modified)-->
          </rule>
       </rulegroup>
       -->
-        <rule id="SONT_SOMMES" name="sont au lieu de sommes" default="temp_off">
+        <rule id="SONT_SOMMES" name="sont au lieu de sommes">
             <pattern>
-                <token postag_regexp="yes" postag="R.*"/>
+                <token regexp="yes">tu|il|elle|nous|vous|eux|elles</token>
                 <token>et</token>
-                <token postag_regexp="yes" postag="R.*1.*">
-                    <exception>m</exception>
+                <token>moi
                     <exception case_sensitive="yes">Moi</exception></token>
                 <token min="0">ne</token>
                 <marker>
