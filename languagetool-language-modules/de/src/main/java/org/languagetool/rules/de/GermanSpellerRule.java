@@ -1172,6 +1172,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Sachs?en-Anhal?t", "Sachsen-Anhalt");
     put("[Ss]chalgen", "schlagen");
     put("[Ss]chalge", "schlage");
+    put("Deutschsprache", "deutsche Sprache");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {

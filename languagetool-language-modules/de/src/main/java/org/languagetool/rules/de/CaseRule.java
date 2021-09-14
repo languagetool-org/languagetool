@@ -759,7 +759,7 @@ public class CaseRule extends Rule {
       // Straßenname: "Am Wasserturm 6"
       csToken("Am"),
       posRegex("(EIG|SUB|UNKNOWN).*"),
-      csRegex("\\d+[a-hA-H]?|in")
+      csRegex("\\d+[a-hA-H]?")
     ),
     Arrays.asList(
       // Straßenname: "Neue Kantstraße 6"
@@ -772,7 +772,7 @@ public class CaseRule extends Rule {
       csRegex("Neuen?|Gro(ß|ss)en?|Alten?"),
       csRegex("[A-Z].+str"),
       token("."),
-      csRegex("\\d{1,3}[a-hA-H]?")
+      csRegex("\\d{1,3}[a-hA-H]?|in")
     ),
     Arrays.asList(
       SENT_START,
@@ -984,9 +984,9 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Während 208 der Befragten Frau Baerbock bevorzugten, ...
-      csRegex("\\d+%?|meisten|viele|Gro(ß|ss)teil"),
+      csRegex("\\d+%?|meisten|wenige|einige|viele|Gro(ß|ss)teil"),
       csToken("der"),
-      new PatternTokenBuilder().posRegex("SUB:GEN:PLU.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+      csRegex("Befragten|Teilnehmenden"),
       new PatternTokenBuilder().posRegex("SUB:.*").csTokenRegex("[A-ZÖÜÄ].+").build()
     ),
     Arrays.asList(
@@ -1009,7 +1009,7 @@ public class CaseRule extends Rule {
 
   private static final String[] sentenceStartExceptions = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
 
-  private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "wenig", "allerlei"};
+  private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "nix", "wenig", "allerlei"};
 
   private static final String[] INTERROGATIVE_PARTICLES = {"was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"};
 
