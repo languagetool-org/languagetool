@@ -8301,6 +8301,56 @@ though, and has since been slightly modified)-->
                 <example>L'homme que je suis a déjà entendu ses propos.</example>
                 <example>Mais celui qui est étudiant a un devoir parce qu'il est plus à même de comprendre.</example>
             </rule>
+            <rule default="temp_off">
+                <!-- Similar to [1] with verb (+pronom) + infitive -->
+                <antipattern>
+                    <token postag="(P.)?R rel.*|A inte|C sub" postag_regexp="yes" skip="-1"/>
+                    <token postag="V.*[123] ." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">quel|si</token>
+                    <token postag="V.*[123] ." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*[123] ." postag_regexp="yes">
+                        <exception inflected="yes">être</exception></token>
+                    <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4"/>
+                    <token case_sensitive="yes">a</token>
+                    <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V ppa [me] sp?" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*[123] ." postag_regexp="yes"/>
+                    <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4"/>
+                    <token case_sensitive="yes">a</token>
+                    <token postag="A" postag_regexp="yes" min="0" max="4"/>
+                    <token>été</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.*[123] ." postag_regexp="yes">
+                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="R.*" postag_regexp="yes" min="0"/>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                    <token postag="[ZANJD].*|V.* ppa.*" postag_regexp="yes" min="0" max="4">
+                        <exception postag_regexp="yes" postag="C.*"/>
+                        <exception>a</exception></token>
+                    <marker>
+                        <token case_sensitive="yes">a</token>
+                    </marker>
+                </pattern>
+                <message>La préposition <suggestion>à</suggestion> est généralement attendue après un verbe conjugué.</message>
+                <example correction="à">Il faut m'intéresser <marker>a</marker> la poterie.</example>
+                <example>L'avenir a commencé.</example>
+                <example>Qui ne peut rien prétendre a droit d'abandonner.</example>
+                <example>Et qui sait les ramasser a une fortune.</example>
+                <example>Je ne sais pas ce que ce user a à me wikitraquer et à m'agresser ainsi.</example>
+                <example>Une journée sans écrire a toujours été pour moi une journée qui n'a pas existé.</example>
+                <example>Badger a écrit:</example>
+                <example>Tout électeur ayant le droit de voter a le droit de contester les résultats électoraux.</example>
+                <example>Le verbe verrouiller a plusieurs sens.</example>
+                <example>Palmer a, par la suite, révisé son scénario.</example>
+                <example>Pour remplacer a par j, b par k, c par m et d par n.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="A_A_ACCENT" name="'A' au lieu de 'À'">
             <antipattern>
@@ -23007,7 +23057,7 @@ though, and has since been slightly modified)-->
                 <example>La récession qui en a résulté a ensuite touché les pays très étroitement liés économiquement avec les États-Unis.</example>
                 <example>La mauvaise conduite a été responsable de l'accident.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <antipattern>
                     <token>
                         <exception postag="SENT_START"/></token>
@@ -23090,7 +23140,7 @@ though, and has since been slightly modified)-->
                 <example>Palmer a, par la suite, révisé son scénario.</example>
                 <example>Pour remplacer a par j, b par k, c par m et d par n.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>qu'</token>
                     <token>a</token>
