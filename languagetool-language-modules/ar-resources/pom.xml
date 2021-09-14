@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.languagetool</groupId>
+        <artifactId>languagetool-parent</artifactId>
+        <version>5.5-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>language-ar-resources</artifactId>
+    <url>https://www.languagetool.org</url>
+    <name>Arabic module for LanguageTool</name>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
+            <distribution>repo</distribution>
+            <comments>The license refers to the source code, resources may be under different licenses</comments>
+        </license>
+    </licenses>
+
+    <packaging>jar</packaging>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>org/languagetool/resource/ar/grammar_csv2xml.py</exclude>
+                    <exclude>org/languagetool/resource/ar/rules.csv</exclude>
+                    <exclude>org/languagetool/resource/ar/wordlist.txt</exclude>
+                    <exclude>org/languagetool/resource/ar/arabic.dump</exclude>
+                    <exclude>org/languagetool/resource/ar/candidat-rules.xml</exclude>
+                    <exclude>org/languagetool/resource/ar/example.txt</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
