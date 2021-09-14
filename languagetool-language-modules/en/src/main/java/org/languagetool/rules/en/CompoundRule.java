@@ -103,6 +103,11 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().token("hard").build(),
         new PatternTokenBuilder().token("time").build(),
         new PatternTokenBuilder().pos("VBG").build()
+      ),
+      Arrays.asList( // the first ever green bond by a municipality
+        new PatternTokenBuilder().token("first").build(),
+        new PatternTokenBuilder().tokenRegex("ever").build(),
+        new PatternTokenBuilder().tokenRegex("green").build()
       )
   ), AMERICAN_ENGLISH);
 
