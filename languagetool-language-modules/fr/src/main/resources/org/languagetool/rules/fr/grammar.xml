@@ -28814,7 +28814,7 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <!-- English -->
                 <token>on</token>
-                <token regexp="yes">the|this|time|to|what|with|your|workplace|so|sreen|our|my|memory|it|its|how|each|upload</token>
+                <token regexp="yes">the|this|time|to|what|with|your|workplace|so|sreen|our|his|her|their|my|memory|it|its|how|each|upload</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -59594,7 +59594,9 @@ though, and has since been slightly modified)-->
                     <token skip="2">est
                         <exception scope="next" postag_regexp="yes" postag=".* sp?|P"/></token>
                 </marker>
-                <token postag_regexp="yes" postag=".* s?p"/>
+                <token postag="A" min="0" max="3"/>
+                <token regexp="yes">des|les</token>
+                <!--<token postag_regexp="yes" postag=".* s?p"/>-->
             </pattern>
             <message>'C'est' suivi d'un pluriel devient 'ce sont'. Dans la langue parlée, on admet 'c'est' suivi par 'ceux/celles' ou 'eux|elles'.</message>
             <suggestion>ce sont</suggestion>
