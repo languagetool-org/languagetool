@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
         <version>5.5-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    
-    <artifactId>language-uk</artifactId>
+
+    <artifactId>language-uk-resources</artifactId>
     <url>https://www.languagetool.org</url>
     <name>Ukrainian module for LanguageTool</name>
 
@@ -20,7 +20,7 @@
             <comments>The license refers to the source code, resources may be under different licenses</comments>
         </license>
     </licenses>
-    
+
     <packaging>jar</packaging>
 
     <developers>
@@ -41,8 +41,17 @@
             <roles><role>Maintainer</role></roles>
         </developer>
     </developers>
-    
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>org/languagetool/resource/uk/src/**/*</exclude>
+                    <exclude>org/languagetool/rules/uk/src/**/*</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -52,51 +61,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool-core</artifactId>
-            <version>${languagetool.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>language-uk-resources</artifactId>
-            <version>${languagetool.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ua.net.nlp</groupId>
-            <artifactId>morfologik-ukrainian-lt</artifactId>
-            <version>5.4.0</version>
-        </dependency>
-
-        <dependency>
-            <!-- see http://stackoverflow.com/questions/174560/sharing-test-code-in-maven#174670 -->
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool-core</artifactId>
-            <version>${languagetool.version}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
 
 </project>
