@@ -19970,7 +19970,7 @@ though, and has since been slightly modified)-->
             <example>Je ne comprends pas que les enfants veuillent grandir immédiatement et puis qu'ils désirent ensuite être à nouveau des enfants.</example>
             <example>Et les conseils de Papy Péronne, qui dit d'attendre la fin de l'étude, puis de la suivante, et puis que sais-je encore, je me les mets là où ils méritent d'être !</example>
         </rule>
-        <rule id="WRONG_ETRE_VPPA" name="nous (sommes)->avons dansés" default="temp_off">
+        <rule id="WRONG_ETRE_VPPA" name="nous (sommes)->avons dansés" default="off">
             <antipattern>
                 <token postag_regexp="yes" postag="V avoir .*" skip="2"/>
                 <token postag_regexp="yes" postag="V etre ppa .*"/>
@@ -20201,7 +20201,7 @@ though, and has since been slightly modified)-->
                 <example>Pour qui se prennent ils aussi?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HEURES_DEPASSEES" name="heures dépassées" default="temp_off">
+        <rulegroup id="HEURES_DEPASSEES" name="heures dépassées">
             <rule>
                 <pattern>
                     <token postag="N f p" regexp="yes" inflected="yes">&unites_temps;</token>
@@ -27474,7 +27474,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*2.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sortes|sortis|sors">Tu <marker>sorts</marker> ce soir.</example>
                 <example correction="vis">La zone géographique dans laquelle tu <marker>vie</marker>.</example>
@@ -27499,7 +27499,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sortes|sortis|sors">Tu la <marker>sorts</marker> ce soir.</example>
                 <example correction="abandonnais|abandonnes">Tu l’<marker>abandonné</marker>.</example>
@@ -27522,7 +27522,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sortes|sortis|sors">Tu m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -27544,7 +27544,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sortes|sortis|sors">Tu ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonnes">Tu ne l’<marker>abandonner</marker> pas.</example>
@@ -27563,7 +27563,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*2.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*2.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sortes|sortis|sors">Tu ne t'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
@@ -27579,7 +27579,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <suggestion>a \2</suggestion>
                 <!--<suggestion>avait \2</suggestion>
@@ -27601,7 +27601,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sort|sorte">Il <marker>sorts</marker> ce soir.</example>
                 <example correction="vit|voie|vide|vise|lie|vive|nie|oie|vire|fie">La zone géographique dans laquelle il <marker>vie</marker>.</example>
@@ -27641,7 +27641,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sort|sorte">Il la <marker>sorts</marker> ce soir.</example>
                 <!-- TODO:
@@ -27669,7 +27669,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sort|sorte">Elle m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -27691,7 +27691,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sort|sorte">Elle ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="abandonne|abandonnera">Il ne l’<marker>abandonner</marker> pas.</example>
@@ -27711,7 +27711,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="sort|sorte">Elle ne s'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
@@ -27744,7 +27744,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*1.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Nous la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Nous ne <marker>sorts</marker> pas ce soir.</example>
@@ -27779,7 +27779,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Nous m'en <marker>sorts</marker>.</example>
             </rule>
@@ -27795,7 +27795,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*1.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Nous ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Nous ne l’<marker>abandonner</marker> pas.</example>
@@ -27813,7 +27813,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*1.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*1.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Nous ne s'en <marker>sorts</marker> pas.</example>
             </rule>
@@ -27844,7 +27844,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*2.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Vous la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Vous ne <marker>sorts</marker> pas ce soir.</example>
@@ -27868,7 +27868,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Vous m'en <marker>sorts</marker>.</example>
             </rule>
@@ -27884,7 +27884,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*2.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="pensez">Tom est beaucoup plus intelligent que vous ne le <marker>penser</marker>.</example>
                 <example correction="trompez">pour que vous ne vous <marker>trompé</marker> pas</example>
@@ -27904,7 +27904,7 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*2.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*2.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Vous ne s'en <marker>sorts</marker> pas.</example>
             </rule>
@@ -27926,7 +27926,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">soussignée?|ou|ne|n'|en</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.P removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Ils <marker>sorts</marker> ce soir.</example>
                 <example correction="">La zone géographique dans laquelle ils <marker>vie</marker>.</example>
@@ -27955,7 +27955,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Ils la <marker>sorts</marker> ce soir.</example>
                 <example correction="">Ils ne <marker>sorts</marker> pas ce soir.</example>
@@ -27979,7 +27979,7 @@ though, and has since been slightly modified)-->
                             <exception postag="R pers obj.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Elles m'en <marker>sorts</marker>.</example>
                 <example>Je l’<marker>abandonne</marker>.</example>
@@ -28002,7 +28002,7 @@ though, and has since been slightly modified)-->
                             <exception regexp="yes">a|as</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*(ind|sub).*3.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Elles ne la <marker>sorts</marker> pas ce soir.</example>
                 <example correction="">Ils ne l’<marker>abandonner</marker> pas.</example>
@@ -28021,13 +28021,13 @@ though, and has since been slightly modified)-->
                             <exception>est</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*3.p removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:5 desiredPostag:V.*(ind|sub).*3.p"/>
                 <message>Un verbe conjugué est généralement attendu après le pronom personnel sujet « \1 ».</message>
                 <example correction="">Elles ne s'en <marker>sorts</marker> pas.</example>
                 <example>Je ne l’<marker>abandonne</marker> pas.</example>
                 <example>Je parie qu'il ne s'en est pas sorti.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>tant</token>
                     <token>que</token>
@@ -28042,7 +28042,7 @@ though, and has since been slightly modified)-->
                             <exception scope="next" postag="M nonfin|P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
                 <suggestion>a \3</suggestion>
                 <suggestion>{suggestion}</suggestion>
@@ -28051,7 +28051,7 @@ though, and has since been slightly modified)-->
                 <example>Cela réalisé, la nouvelle était annoncée aux vivants et aux morts, dans une exultation commune.</example>
                 <example>Cela a couté cent euros, même plus que ça comparé à mon vélo !</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SENT_START|M nonfin|C sub" postag_regexp="yes"/>
                     <token>ça</token>
@@ -28070,7 +28070,7 @@ though, and has since been slightly modified)-->
                             <exception scope="next" postag="M nonfin|P.*" postag_regexp="yes"/> </token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s removeSuggestionsRegexp:^.*[éè]$"/>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(ind|sub).*3.s"/>
                 <message>Un verbe conjugué est généralement attendu après le sujet « \1 ».</message>
                 <suggestion>a \3</suggestion>
                 <example correction="a applaudi|applaudit|applaudît">Cela <marker>applaudi</marker> beaucoup au fond de la salle.</example>
@@ -32592,7 +32592,7 @@ though, and has since been slightly modified)-->
                 <example>Des copains plus vieux que vous qui me dérangeaient.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AUX_AVOIR" name="auxiliaire avoir">
+        <rulegroup id="AUX_AVOIR" name="concordance du participe après le verbe avoir">
             <rule>
                 <pattern>
                     <token postag="SENT_START|C coor" postag_regexp="yes"/>
@@ -33020,7 +33020,7 @@ though, and has since been slightly modified)-->
                 <example correction="entendue">L'avez-vous <marker>entendues</marker> parler français ?</example>
                 <example correction="demandée">T'a-t-il <marker>demandées</marker> en mariage ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="D.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
@@ -33080,7 +33080,7 @@ though, and has since been slightly modified)-->
                 <example>Le roi lui confirme, à son avènement au trône, tous les privilèges que les rois ses prédécesseurs ont accordés aux sires de Laval.</example>
                 <example>Une de ses actrices favorites est Victoria Abril que certains de ses films ont imposée comme actrice majeure en France.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="D.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
@@ -59755,7 +59755,8 @@ though, and has since been slightly modified)-->
             <example>À partir de ce moment, Mukhtar livre un combat sans merci pour sauver son honneur</example>
             <example>Merci pour le dîner.</example>
         </rule>
-        <rule id="LE_JOUR_DE_LA_SEMAINE" name="le lundi (lundi)" default="temp_off">
+        <rule id="LE_JOUR_DE_LA_SEMAINE" name="le lundi (lundi)" default="off">
+            <!-- TODO: analyze particular patterns: https://www.sofi64.com/fr/les-jours-de-la-semaine/ -->
             <pattern>
                 <marker>
                     <token>le</token>
