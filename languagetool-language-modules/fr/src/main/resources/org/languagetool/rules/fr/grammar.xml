@@ -19742,7 +19742,7 @@ though, and has since been slightly modified)-->
     <category id="CAT_GRAMMAIRE" name="Grammaire">
         <rule id="PAST_FUTURE_AGREEMENT" name="il disait qu'il viendra" default="temp_off">
             <pattern>
-                <token postag="V ind (impa|psim) .*" postag_regexp="yes" skip="2"/>
+                <token postag="V ind (impa|psim) .*" postag_regexp="yes" skip="2"><exception postag="V (ind|imp) pres .*" postag_regexp="yes"/></token>
                 <token regexp="yes" skip="5">qu[e']</token>
                 <marker>
                     <token postag="V ind futu .*" postag_regexp="yes"/>
@@ -19753,6 +19753,9 @@ though, and has since been slightly modified)-->
             <suggestion><match no="3" postag="V ind futu (.*)" postag_regexp="yes" postag_replace="V sub impa $1"/></suggestion>
             <url>https://www.academie-francaise.fr/il-disait-quil-viendra</url>
             <example correction="arriverait|arrivât">Par ce message, il nous informait qu'il <marker>arrivera</marker> jeudi prochain</example>
+            <example>On dit que la guerre s'achèvera bientôt.</example>
+            <example>Dis à Tom que je le récupérerai sur le chemin.</example>
+            <example>Je parle vraiment sérieusement quand je dis que je t'épouserai lorsque tu apprendras à cuisiner.</example>
         </rule>
         <rulegroup id="PPA_ACCORD_INFINITIF_IMPLICITE" name="j'ai donné tous les conseils que j'ai pues (pu)">
             <rule>
