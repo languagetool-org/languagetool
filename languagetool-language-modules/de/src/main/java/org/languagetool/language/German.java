@@ -378,6 +378,9 @@ public class German extends Language implements AutoCloseable {
       return -1;
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_HYDRA_LEO_CP_DAS")) {
+        return 2;
+      }
       return -11;
     }
     return super.getPriorityForId(id);
