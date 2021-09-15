@@ -19740,6 +19740,21 @@ though, and has since been slightly modified)-->
         </rulegroup>
     </category>
     <category id="CAT_GRAMMAIRE" name="Grammaire">
+    <rule id="RESTER_VPPA" name="rester + participe passé" default="temp_off">
+    <pattern>
+        <token inflected="yes">rester</token>
+        <marker>
+        <token postag="V.* inf" postag_regexp="yes" regexp="yes">.*er
+            <exception postag="[NJ].*" postag_regexp="yes"/>
+            <exception regexp="yes">séjourner|répéter|camper|évoluer|enseigner|étudier|crocher|témoigner|veiller|prêcher|assister|grimper|végéter|travailler|hiverner|manger|jouer|manager|nidifier|siéger|habiter|bivouaquer|trainer|bosser|soigner</exception></token>
+        </marker>
+        <token postag="P.*" postag_regexp="yes"><exception>des</exception></token>
+    </pattern>
+    <message>Un participe passé doit suivre se verbe.</message>
+    <suggestion><match no="2" regexp_match="(?iu)er" regexp_replace="é"/></suggestion>
+    <example correction="concentré">Il doit rester <marker>concentrer</marker> sur ce sujet.</example>
+    <example>Il n'a pas aimé le commentaire et désire rester manager de SmackDown.</example>
+	</rule>
         <rule id="PAST_FUTURE_AGREEMENT" name="il disait qu'il viendra" default="temp_off">
             <pattern>
                 <token postag="V ind (impa|psim) .*" postag_regexp="yes" skip="2"><exception postag="V (ind|imp) pres .*" postag_regexp="yes"/></token>
