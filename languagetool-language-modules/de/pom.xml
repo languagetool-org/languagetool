@@ -43,16 +43,6 @@
     </developers>
     
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>org/languagetool/resource/de/words-incorrect.txt</exclude>
-                    <exclude>org/languagetool/resource/de/words-correct.txt</exclude>
-                    <exclude>org/languagetool/resource/de/words-similar.txt</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -69,6 +59,12 @@
             <artifactId>languagetool-core</artifactId>
             <version>${languagetool.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-de-resources</artifactId>
+            <version>${languagetool.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>de.danielnaber</groupId>
             <artifactId>german-pos-dict</artifactId>

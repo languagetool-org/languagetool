@@ -1,0 +1,54 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.languagetool</groupId>
+        <artifactId>languagetool-parent</artifactId>
+        <version>4.5-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>language-sr-resources</artifactId>
+    <url>https://www.languagetool.org</url>
+    <name>Resources for Serbian LanguageTool module</name>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
+            <distribution>repo</distribution>
+            <comments>The license refers to the source code, resources may be under different licenses</comments>
+        </license>
+    </licenses>
+
+    <packaging>jar</packaging>
+
+    <developers>
+        <developer>
+            <name>Zoltán Csala</name>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>org/languagetool/resource/sr/*.awk</exclude>
+                    <exclude>org/languagetool/resource/sr/*.py</exclude>
+                    <exclude>org/languagetool/resource/sr/*.sh</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
