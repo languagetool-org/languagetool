@@ -41867,18 +41867,27 @@ though, and has since been slightly modified)-->
             <example correction="ouvrent la voie|ouvrent la porte|préparent le terrain">Ces lois <marker>pavent la voie</marker> de la liberté.</example>
             <example><marker>ouvrir la voie</marker></example>
         </rule>
-        <rule id="FAMILIER_AVEC" name="familier avec" default="temp_off">
+        <rule id="FAMILIER_AVEC" name="familier avec">
             <pattern>
-                <token regexp="yes">famili[èe]re?s?
-                    <exception scope="previous" postag="N.*" postag_regexp="yes"/></token>
-                <token>avec</token>
+                <marker>
+                    <token regexp="yes">famili[èe]re?s?
+                        <exception scope="previous" postag="N.*" postag_regexp="yes"/></token>
+                    <token>avec</token>    
+                </marker>
+                <token postag="[DJ].*" postag_regexp="yes" min="0" max="2"><exception regexp="yes" inflected="yes">endroit|situation|mécanique|sujet|idée|thème|motif|exercice|programme|logiciel|software|système|méthode|logique|procédé|règle|moyen</exception></token>
+                <!-- restricted to some words: to expand -->
+                <token regexp="yes" inflected="yes">endroit|situation|mécanique|sujet|idée|thème|motif|exercice|programme|logiciel|software|système|méthode|logique|procédé|règle|moyen</token>
             </pattern>
             <message>L'expression « \1 \2 » peut être considérée comme un anglicisme (familiar with).</message>
             <suggestion><match no="1" regexp_match="famili[èe]r(?iu)" regexp_replace="habitué"/> à</suggestion>
             <suggestion>au courant de</suggestion>
+            <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4443</url>
             <example correction="habitué à|au courant de">Il est <marker>familier avec</marker> ce sujet fort intéressant.</example>
+            <example correction="habituée à|au courant de">je suis plus <marker>familière avec</marker> cet exercice»</example>
             <example><marker>familier à</marker></example>
             <example>Il notait le ton familier avec lequel cet homme s'adressait aux grands personnages.</example>
+            <example>Vous devenez trop familier avec vos supérieurs.</example>
+            <example>Mon fils est parfois familier avec des gens qu’il connaît peu.</example>
         </rule>
         <rule id="EMISSION_DUN_DIPLOME" name="émission d’un diplôme">
             <pattern>
