@@ -39003,10 +39003,10 @@ though, and has since been slightly modified)-->
                 <example>Mais enfin Twowings, ce vous, c'est vous.</example>
                 <example>Mais quel est ce Je mystérieux qui transite ainsi d’un état de moi-même à un autre ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token>est</token>
                     <marker>
+                        <token>est</token>
                         <token regexp="yes">ce|-ce</token>
                     </marker>
                     <token regexp="yes">ça|cela</token>
@@ -39014,10 +39014,10 @@ though, and has since been slightly modified)-->
                     <token postag="V.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Envisagez une suppression ou une révision, car les mots « \2 \3 » ne peuvent pas se suivre.</message>
-                <suggestion>ce que</suggestion>
-                <example correction="ce que">Est<marker>-ce</marker> ça fonctionne ?</example>
+                <suggestion>est-ce que</suggestion>
+                <example correction="Est-ce que"><marker>Est-ce</marker> ça fonctionne ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="V etre.*" postag_regexp="yes"/>
                     <token>ce</token>
@@ -39036,7 +39036,7 @@ though, and has since been slightly modified)-->
                 <example correction="de cela">Il ne faut pas parler <marker>ce cela</marker>.</example>
                 <example>Peut-être est ce la conséquence d'avoir trahi l'expression populaire du référendum de 2005 ?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <!-- IMP_PRON -->
                     <token postag="SENT_START|C coor" postag_regexp="yes"/>
