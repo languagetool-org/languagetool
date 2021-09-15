@@ -59622,7 +59622,8 @@ though, and has since been slightly modified)-->
         <rule id="CEST_CE_SONT" name="c'est (ce sont)" default="temp_off">
             <antipattern>
                 <token>c'</token>
-                <token skip="2">est</token>
+                <token>est</token>
+                <token min="0" regexp="yes">pas|plus</token>
                 <token postag_regexp="yes" postag="R (pers|dem) .*"/>
             </antipattern>
             <pattern>
@@ -59638,6 +59639,7 @@ though, and has since been slightly modified)-->
             <message>'C'est' suivi d'un pluriel devient 'ce sont'. Dans la langue parlée, on admet 'c'est' suivi par 'ceux/celles' ou 'eux|elles'.</message>
             <suggestion>ce sont</suggestion>
             <example correction="Ce sont"><marker>C'est</marker> des barbares qui ont fait ça.</example>
+            <example correction="Ce sont"><marker>C'est</marker> pas les yeux qu'il faut ouvrir, </example>
             <example>C'est eux qui ont eu l'idée.</example>
             <example>C'est ceux qui ont eu l'idée.</example>
             <example>C'est un site excellent pour apprendre le finnois.</example>
