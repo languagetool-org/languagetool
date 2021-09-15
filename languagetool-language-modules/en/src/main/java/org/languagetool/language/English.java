@@ -507,7 +507,10 @@ public class English extends Language implements AutoCloseable {
       return -20;
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_HYDRA_LEO_CP_YOUR_YOURE")) {
+      if (id.startsWith("AI_HYDRA_LEO_CP_DAS")) {
+        return 2;
+      }
+      if (id.startsWith("AI_HYDRA_LEO_CP_YOU")) {
         return 1;
       }
       if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
