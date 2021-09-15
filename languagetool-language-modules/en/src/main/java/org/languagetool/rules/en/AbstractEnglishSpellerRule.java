@@ -336,6 +336,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("ans ") &&
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("infra ") &&
+                   !k.getReplacement().toLowerCase().startsWith("hypo ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
@@ -511,6 +512,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("UberEats", Arrays.asList("Uber Eats"));
     s.put("KWH", Arrays.asList("kWh"));
     s.put("MWH", Arrays.asList("MWh"));
+    s.put("xray", Arrays.asList("X-ray"));
+    s.put("xrays", Arrays.asList("X-rays"));
     return s;
   }
 
