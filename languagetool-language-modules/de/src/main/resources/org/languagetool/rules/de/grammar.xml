@@ -10834,10 +10834,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="FUENF_PROZENT_HUERDE" name="5-Prozent-Hürde" default="temp_off">
+            <pattern>
+                <token regexp="yes">5|fünf|10|zehn|15|fünfzehn|20|zwanzig|25|30|40|50|75|100</token>
+                <token regexp="yes">%|Prozent</token>
+                <token regexp="yes">Hürden?|Marken?|Klausel</token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" />-Prozent-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen zusammengeschrieben.</message>
+            <example correction="5-Prozent-Hürde">Die Partei ist an der <marker>5 Prozent Hürde</marker> gescheitert.</example>
+        </rule>
         <rule id="WERT_SCHAETZEN" name="wert schätzen (wertschätzen)">
             <!-- TODO: wertmindern|werthaltig -->
             <antipattern>
-                <token>den</token>
+                <token regexp="yes">den|diesen|unse?ren|ihren|euren|[dms]?einen</token>
                 <token postag="ADJ.*" postag_regexp="yes" min="0" />
                 <token>wert</token>
             </antipattern>
