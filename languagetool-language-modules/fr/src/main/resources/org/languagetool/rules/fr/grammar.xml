@@ -41657,18 +41657,19 @@ though, and has since been slightly modified)-->
         <rulegroup id="TITRES_EN_ANGLAIS" name="titres en anglais" default="temp_off">
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">[12]\d\d\d</token>
+                    <!--<token regexp="yes" skip="-1">[12]\d\d\d</token>-->
                     <marker>
                         <token>the
                             <exception scope="previous" postag="UNKNOWN|F" regexp="yes">[a-z].*</exception>
-                            <exception scope="previous" regexp="yes">after|in</exception> </token>
+                            <exception scope="previous" regexp="yes">after|in</exception></token>
                         <token regexp="yes">(?-i)[a-z].*
                             <exception scope="next" postag="UNKNOWN|F" regexp="yes">[a-z].*</exception> </token>
                     </marker>
                 </pattern>
                 <message>Les mots principaux des titres en anglais commencent par une majuscule.</message>
-                <suggestion>The <match no="3" case_conversion="startupper"/></suggestion>
+                <suggestion>The <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="The Book">2017 : <marker>the book</marker> of Henry est le film de cette année, à voir absolument.</example>
+                <example correction="The Moonshiners">Elle apparaît dans le film <marker>The moonshiners</marker> de Roscoe Arbuckle.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -41685,7 +41686,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">brothers|stones</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" skip="-1">[12]\d\d\d</token>
+                    <!--<token regexp="yes" skip="-1">[12]\d\d\d</token>-->
                     <marker>
                         <token>of</token>
                         <token regexp="yes">(?-i)A|(?-i)The
@@ -41693,13 +41694,13 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Seuls les mots principaux des titres en anglais commencent par une majuscule.</message>
-                <suggestion>of <match no="3" case_conversion="startlower"/></suggestion>
+                <suggestion>of <match no="2" case_conversion="startlower"/></suggestion>
                 <example correction="of the">1981 : The Book <marker>of The</marker> Dead est un document historique.</example>
                 <example>1981 : Best of The Blues Brothers (Atlantic Records).</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">[12]\d\d\d</token>
+                    <!--<token regexp="yes" skip="-1">[12]\d\d\d</token>-->
                     <marker>
                         <token regexp="yes">(?-i)Of
                             <exception scope="previous" regexp="yes">-|best|making</exception></token>
