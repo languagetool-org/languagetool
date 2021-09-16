@@ -210,6 +210,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("choo", tokens, position)) {
       return true;
+    } else if (repetitionOf("miu", tokens, position)) {
+      return true;
     } else if (repetitionOf("tuk", tokens, position)) {
       return true;
     } else if (repetitionOf("yadda", tokens, position)) {

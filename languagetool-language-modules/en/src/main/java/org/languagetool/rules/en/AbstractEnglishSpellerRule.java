@@ -364,6 +364,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" st") &&
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ability") && // interruptability
+                   !k.getReplacement().endsWith(" ware") && // drinkware
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
                    !k.getReplacement().endsWith(" ions") && // sealions
@@ -520,6 +521,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("se", Arrays.asList("see"));
+    s.put("Fundrace", Arrays.asList("Fundraise"));
+    s.put("Fundraces", Arrays.asList("Fundraises"));
+    s.put("Fundracing", Arrays.asList("Fundraising"));
+    s.put("Fundraced", Arrays.asList("Fundraised"));
+    s.put("tonite", Arrays.asList("tonight"));
+    s.put("Tonite", Arrays.asList("Tonight"));
+    s.put("nite", Arrays.asList("night"));
+    s.put("Nite", Arrays.asList("Night"));
+    s.put("nites", Arrays.asList("nights"));
+    s.put("Nites", Arrays.asList("Nights"));
     s.put("upto", Arrays.asList("up to", "unto"));
     s.put("Upto", Arrays.asList("Up to", "Unto"));
     s.put("prolly", Arrays.asList("probably"));
