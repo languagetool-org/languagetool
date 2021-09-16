@@ -5559,13 +5559,14 @@ though, and has since been slightly modified)-->
             <message><match no="1" regexp_match="(anoma(l(es?)?|aux))" regexp_replace="$1"/> est généralement utilisé en sciences et grammaire 'Qui présente un caractère d'irrégularité par rapport à un type, une norme.(Technique)' Vouliez-vous dire <suggestion><match no="1" regexp_match="(ano)(ma(l(es?)?|aux))" regexp_replace="$1r$2"/></suggestion> 'Contraire à la norme, insolite, inhabituel.(Courant)'</message>
             <example correction="anormal">Cet évènement peut paraitre comme <marker>anomal</marker> au vu des statistiques habituelles.</example>
         </rule>
-        <rule id="ES_TU" name="es-tu">
+        <rulegroup id="ES_TU" name="es-tu">
+        <rule>
             <antipattern>
                 <token>s'</token>
                 <token>est</token>
             </antipattern>
             <pattern>
-                <token>est</token>
+                <token regexp="yes">est|ait|aies</token>
                 <token regexp="yes">-?tu</token>
             </pattern>
             <message>« Est » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
@@ -5575,6 +5576,27 @@ though, and has since been slightly modified)-->
             <example>Il s'est tu, il a baissé ses yeux.</example>
             <example>C'est toi qui l'as fait.</example>
         </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token>n'</token>
+				<marker>
+                    <token regexp="yes">est?</token>
+				</marker>
+            </pattern>
+            <message>Le verbe avoir est attendu à l'impératif.</message>
+            <suggestion>aie</suggestion>
+            <example correction="aie">N'<marker>es</marker> pas peur.</example>
+		</rule>
+		<rule default="temp_off">
+            <pattern>
+                <token regexp="yes">ait|aies|es</token>
+                <token regexp="yes">-il|-elle|-on|-ce</token>
+            </pattern>
+            <message>Le verbe être est attendu dans cette question.</message>
+			<suggestion>est</suggestion>
+            <example correction="est">Ainsi, <marker>ait-il</marker> vraiment content ?</example>
+		</rule>
+		</rulegroup>
         <rule id="MEDIA" name="media/média">
             <antipattern>
                 <token regexp="yes">mass|social</token>
