@@ -156,7 +156,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
-    System.out.println("Running pattern rule tests for " + lang.getName() + "... ");
+    System.out.println("Running pattern rule tests for " + lang.getName() + " (" + lang.getClass().getName() + ")... ");
     MultiThreadedJLanguageTool lt = createToolForTesting(lang);
     MultiThreadedJLanguageTool allRulesLt = new MultiThreadedJLanguageTool(lang);
     validateRuleIds(lang, allRulesLt);
@@ -345,7 +345,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         String sourceFile = rule.getSourceFile();
         if (lang.isVariant() && sourceFile != null &&
                 sourceFile.matches("/org/languagetool/rules/" + lang.getShortCode() + "/grammar.*\\.xml") &&
-                !sourceFile.contains("-l2-") && !lang.getShortCodeWithCountryAndVariant().equals("de-DE-x-simple-language")) {
+                !sourceFile.contains("-l2-") && !lang.getShortCodeWithCountryAndVariant().equals("de-DE-x-simple-language") &&
+                !lang.getClass().getName().contains("PremiumOnly")) {
           //System.out.println("Skipping " + rule.getFullId() + " in " + sourceFile + " because we're checking a variant");
           skipCount++;
           continue;
