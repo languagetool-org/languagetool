@@ -58803,6 +58803,213 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="NEGATION_PERSONNE" name="je parle à personne (je ne parle)" default="temp_off">
+            <rule>
+            <antipattern>
+                <token inflected="yes" skip="3">ne</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="V (avoir|etre) .*" postag_regexp="yes"/>
+                <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token>c'</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="3">faire</token>
+                <token>confiance</token>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                    <exception regexp="yes">[àâaêèéeiîoôòóöŌuœä].*</exception>
+                    <exception postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+                <token>à</token>
+                <token>personne</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>ne \1</suggestion>
+            <example correction="ne parle">Il <marker>parle</marker> à personne.</example>
+            <example>un peu d'humour n'a jamais nuis à personne</example>
+            <example>J'en parlais à personne.</example>
+            <example>Steve ne fera à la base confiance à personne.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token inflected="yes" skip="3">ne</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="V (avoir|etre) .*" postag_regexp="yes"/>
+                <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*
+                    <exception postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+                <token>à</token>
+                <token>personne</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>n'\1</suggestion>
+            <example correction="n'est">Il <marker>est</marker> à personne.</example>
+            <example>un peu d'humour n'a jamais nuis à personne</example>
+            <example>J'en parlais à personne.</example>
+            <example>Steve ne fera à la base confiance à personne.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token inflected="yes" skip="3">ne</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="V (avoir|etre) .*" postag_regexp="yes"/>
+                <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token>j'</token>
+                <token>en</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"><exception postag="[NJ].*" postag_regexp="yes"/></token>
+                <token>à</token>
+                <token>personne</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>ne \1</suggestion>
+            <example correction="ne le">Il <marker>le</marker> dit à personne.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>j'</token>
+                    <token>en</token>
+                </marker>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>je n'en</suggestion>
+            <example correction="je n'en">Alors, <marker>j'en</marker> parlerai à personne.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">plus|que|,<exception scope="previous" regexp="yes">sans|mieux|tant</exception></token>
+                <token case_sensitive="yes">personne<exception scope="previous" postag="[DPJ].*" postag_regexp="yes"/></token>
+                <marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*<exception postag="[NJ].*" postag_regexp="yes"/></token>
+            </marker>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>n'\3</suggestion>
+            <example correction="n'a">Plus personne <marker>a</marker> de question, alors on continue le cours.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">plus|que|,<exception scope="previous" regexp="yes">sans|mieux|tant</exception></token>
+                <token case_sensitive="yes">personne<exception scope="previous" postag="[DPJ].*" postag_regexp="yes"/></token>
+                <marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                <exception regexp="yes">[àâaêèéeiîoôòóöŌuœä].*</exception>
+                <exception postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>ne \3</suggestion>
+            <example correction="ne parle">Que plus personne <marker>parle</marker> !</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token>personne</token>
+                <token skip="1">est</token>
+                <token regexp="yes">mot|terme|expression|caractère</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>personne</token>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*
+                    <exception postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>n'\3</suggestion>
+            <example correction="n'arrive">Personne <marker>arrive</marker>.</example>
+            <example>Personne est un terme théologique qui est synonyme d'hypostase.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token>personne</token>
+                <token skip="1">est</token>
+                <token regexp="yes">mot|terme|expression|caractère</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>personne</token>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                    <exception regexp="yes">[àâaêèéeiîoôòóöŌuœä].*</exception>
+                    <exception postag="[NJ].*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>ne \3</suggestion>
+            <example correction="ne vient">Personne <marker>vient</marker>.</example>
+            <example>Personne est un terme théologique qui est synonyme d'hypostase.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>sans</token>
+                <token skip="3">que</token>
+                <marker>
+                <token inflected="yes">ne</token>
+                <token></token>
+                </marker>
+            </pattern>
+            <message>L'expression 'sans que' exprime déjà la négation, celle-ci semble donc être redondante.</message>
+            <suggestion>\4</suggestion>
+            <example correction="vienne">Il attend plusieurs jours sans que personne <marker>ne vienne</marker>.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="SI_CI_SY" name="confusions si_ci_s'y" default="temp_off">
             <antipattern>
                 <token regexp="yes">de|pa[rs]|-|comme|fai(te)?s|pour</token>
