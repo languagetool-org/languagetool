@@ -45683,12 +45683,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate="yes">a</token>
                     <marker>
-                        <token regexp="yes">correcuita|cuitacorrents|correcorrents</token>
+                        <token regexp="yes">correcuita|cuitacorrents|correcorrents|mansalva|matadegolla|pleret|posteriori|priori|rajaploma|rapis|reculons|rodolons|rossegons|tentipotenti|tornajornals|trencajunts|trompons|ultrança|betzef|bocons|borbollons|collbotet|collibè|contracor|contrafil|contrapel|contrapèl|cremadent|destemps|dojo|dretcient|forfollons|gatameus|granel|gratcient</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a <match no="2"/></suggestion>?</message>
                 <example correction="a correcorrents">se'n va anar <marker>correcorrents</marker></example>
                 <example correction="a correcuita">se'n va anar <marker>correcuita</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes">a</token>
+                    <marker>
+                        <token>la</token>
+                        <token regexp="yes">babalà|biorxa|doba|gatzoneta|par|raseta|xirinxina|xisclera</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a \2 \3</suggestion>?</message>
+                <example correction="a la babalà">Es va comportar <marker>la babalà</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes">a</token>
+                    <marker>
+                        <token>les</token>
+                        <token regexp="yes">envistes|palpentes|talúries</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a \2 \3</suggestion>?</message>
+                <example correction="a les palpentes">Es va moure <marker>les palpentes</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes">a</token>
+                    <marker>
+                        <token>l'</token>
+                        <token regexp="yes">empel|empèl|engròs</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a \2\3</suggestion>?</message>
+                <example correction="a l'engròs">Es va vendre <marker>l'engròs</marker></example>
             </rule>
         </rulegroup>
         <rule id="DIMMEDIAT" name="d'immediat">
