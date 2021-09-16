@@ -60,7 +60,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbestransitifsindirects_gpe2 "aboutir|applaudir|compatir|désobéir|fournir|gravir|jouir|obéir|réagir|réfléchir|réussir">
     <!ENTITY verbestransitifsindirects_gpe3 "accroître|appartenir|atteindre|battre|combattre|complaire|conclure|concourir|condescendre|consentir|contrevenir|convenir|correspondre|croire|démordre|dépendre|déplaire|disconvenir|écrire|entendre|équivaloir|forfaire|médire|mentir|mordre|nuire|parvenir|plaire|pourvoir|prétendre|recourir|redire|renaître|répondre|ressortir|satisfaire|servir|sourire|souscrire|subvenir|suffire|surseoir|survivre|tenir|tendre|voir|vouloir">
     <!ENTITY infinitif_suivi_dinfinitif "adorer|aimer|aller|apprécier|choisir|commencer|compter|considérer|courir|croire|descendre|devoir|dire|désirer|détester|emmener|entendre|entrer|envisager|envoyer|espérer|faillir|faire|falloir|imaginer|laisser|mener|monter|nier|observer|oser|paraître|partir|passer|penser|pouvoir|préférer|prétendre|recompter|redescendre|redevoir|redésirer|redétester|refaillir|refaire|refalloir|regarder|remonter|repartir|repenser|repréférer|resouhaiter|retourner|revenir|revouloir|réespérer|savoir|sortir|souhaiter|tenter|venir|voir|vouloir|écouter"> <!--rester|-->
-]>
+	<!ENTITY couleur_invariable "fuschia|feu|framboise|fraise|coquelicot|cassis|piment|géranium|bordeaux|basque|intense|mangue|ocre|brique|vanille|ambré|miel|cognac|pastel|pomme|pistache|romarin|anis|chiné|verdâtre|profond|tropical|marin|indien|lagon|turquoise|émeraude|jade|canard|ardoise|indigo|nuit|prune|myrtille|lavande|tendance|tendre|écru|crème|cassé|doré|brillant|rosé|bonbon|pâle|paille|pétrole|sang|vif|vive|marine|ciel|citron|tomate|cerise|perle|saumon|bouteille|métallique|lumineux|absinthe|albâtre|amande|amarante|ambre|améthyste|argile|asperge|auburn|aurore|avocat|bitume|bourgogne|café|capucine|carotte|chair|denim|magenta|menthe|puce|acier|plastique|kakis|lilas|tilleul|abricot|acajou|anthracite|argent|aubergine|azur|bistre|bronze|cachou|caramel|carmin|chocolat|corail|cuivre|ébène|garance|grenat|isabelle|ivoire|marron|moutarde|n[âa]cre|noisette|olive|or|orange|outremer|pervenche|pie|pivoine|rouille|sable|safran|sépia|tabac|taupe|vermillon">
+    <!ENTITY couleur_variable "vermeil|incarnat|fauve|alezan|aubère|bai|basané|rose|beige|mauve|violet(?:te)|pourpre|écarlate|bigarré|bis|blafard|blême|bleu|blond|brun|châtain|cramoisi|doré|écru|glauque|livide|louvet(?:te)?|mat|mordoré|opalin|perse|vernisé|rousse|vairon|zain|zinzolin">
+    <!ENTITY couleur "vert|bleu|noir|brun|gris|jaune|rouge|blanche|blanc">
+    ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
         <equivalence type="sg">
@@ -23207,7 +23210,7 @@ though, and has since been slightly modified)-->
                 <example>Concrètement qu’a le droit de faire l’opérateur avec ces données ?</example>
                 <example>Il témoigne aussi de l’influence qu’a le dessin de presse à l’époque.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>a</token>
                     <token>durée</token>
@@ -26018,14 +26021,14 @@ though, and has since been slightly modified)-->
             <example>Numéro de série de votre imprimante.</example>
             <example>Ce personnage est issu de la série de bande dessinée du même nom</example>
         </rule>
-        <rulegroup id="ACCORD_COULEUR" name="accord couleur">
+		<rulegroup id="ACCORD_COULEUR" name="accord couleur">
             <rule>
                 <pattern>
                     <token postag="D . s?p" postag_regexp="yes"/>
                     <token postag="N . p" postag_regexp="yes">
                         <exception regexp="yes">grosses|dernières|premières|petits</exception></token>
                     <marker>
-                        <token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token>
+                        <token regexp="yes">Absinthe|Albâtre|Amande|Amarante|Ambre|Améthyste|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Bitume|Bourgogne|Bronze|Café|Capucine|Carotte|Cassis|Chair|Denim|Magenta|Marine|Menthe|Pistache|Prune|Puce|sang|acier|plastique|kakis|lilas|tilleuls|abricots|acajous|ardoise|argents|aubergines|azurs|bistres|cachous|caramels|carmins|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|n[âa]cres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token>
                     </marker>
                 </pattern>
                 <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur, car il s’agit de tours elliptique (de la couleur de).</message>
@@ -26097,8 +26100,8 @@ though, and has since been slightly modified)-->
                     <token postag="N . p" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">(vert|bleu|noir|brun|gris)(e?s)|(beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille)s|blancs</token>
-                        <token regexp="yes">(clair|foncé|vernissé)(e?s?)?|(fuschia|feu|framboise|fraise|coquelicot|cassis|piment|géranium|bordeaux|basque|intense|mangue|corail|ocre|brique|vanille|ambré|miel|cognac|pastel|pomme|pistache|romarin|anis|profond|tropical|marin|indien|lagon|turquoise|émeraude|jade|canard|ardoise|indigo|nuit|prune|myrtille|lavande|tendance|tendre|anthracite|écru|crème|ébène|cassé|doré|brillant|rosé|bonbon|pâle|paille|pétrole|sang|vif|vive|marine|ciel|citron|tomate|cerise|perle|saumon|bouteille|métallique|lumineux)s?</token>
-                    </marker>
+                        <token regexp="yes">(clair|foncé|vernissé)(e?s?)?|&couleur_invariable;</token>
+                        </marker>
                 </pattern>
                 <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
                 <suggestion><match no="3" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="4" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/></suggestion>
@@ -26141,23 +26144,23 @@ though, and has since been slightly modified)-->
 					<token><match no="0"/></token>
 				</antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">(bleu|noir|vert|jaune|rouge|orange|violet|blanc|gris)(e?s?)$</token>
-                    <token regexp="yes" case_sensitive="yes">(bleu|noir|vert|jaune|rouge|orange|violet|blanc|gris)(e?s?)</token>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">bleue?s?|noire?s?|verte?s?|jaunes?|rouges?|oranges?|violet(te)?s?|blanc(he)?s?|grise?s?|bleus</token>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">bleue?s?|noire?s?|verte?s?|jaunes?|rouges?|oranges?|violet(te)?s?|blanc(he)?s?|grise?s?|noirs</token>
                 </pattern>
-                <message>Lorsque deux adjectifs de couleur forment une nouvelle couleur, ils sont unis par un trait d'union et invariables.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(e?s?)$" regexp_replace=""/>-<match no="2" regexp_match="(?iu)(e?s?)$" regexp_replace=""/></suggestion>
+                <message>Lorsque deux adjectifs de couleur forment une nouvelle couleur, ils sont unient pas un trait d'union et invariables.</message>
+                <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J m s"/>-<match no="2" postag="J.*" postag_regexp="yes" postag_replace="J m s"/></suggestion>
                 <suggestion>\1, \2</suggestion>
                 <example correction="bleu-noir|bleus, noirs">Ils portaient des habits <marker>bleus noirs</marker>.</example>
                 <example>L'association bovénienne « Bleu Blanc Vert » est créée le 8 mai 2008.</example>
 			</rule>
 			<rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">(bleu|noir|vert|jaune|rouge|orange|violet|blanc|gris)(e?s?)$</token>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">mauves?|pourpres?|châtains?|écarlates?|vermeilles?|blonde?s?|brune?s?|bleue?s?|noire?s?|verte?s?|jaunes?|rouges?|oranges?|violet(te)?s?|blanc(he)?s?|grise?s?</token>
                     <token>-</token>
-                    <token regexp="yes">(clair|foncé)(e?s?)</token>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes">denses?|claire?s?|foncée?s?|vernissée?s?|pétroles?|vifs?|vives?|marines?|chinée?s?|verdâtres?|châtains?|écarlates?|vermeilles?|blonde?s?</token>
                 </pattern>
                 <message>Ces adjectifs ne sont pas liés par un trait d'union.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(e?s?)$" regexp_replace=""/> <match no="3" regexp_match="(?iu)(e?s?)$" regexp_replace=""/></suggestion>
+                <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J m s"/> <match no="3" postag="J.*" postag_regexp="yes" postag_replace="J m s"/></suggestion>
                 <example correction="bleu foncé">La couleur dominante de ce tableau est le <marker>bleu-foncé</marker>.</example>
 			</rule>
 			<rule default="temp_off">
