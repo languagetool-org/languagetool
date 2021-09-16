@@ -4858,6 +4858,55 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+    <rulegroup id="PAR_PARS_PART" name="par pars part" default="temp_off">
+         <rule>
+            <antipattern>
+                <token postag="[DPV].*" postag_regexp="yes"/>
+                <token case_sensitive="yes">Pars</token>
+            </antipattern>
+            <antipattern>
+                <token postag="K"/>
+                <token>pars</token>
+                <token postag="K"/>
+            </antipattern>
+            <pattern>
+                <token postag="[DP].*" postag_regexp="yes"/>
+                <marker>
+                <token>pars</token>
+                </marker>
+            </pattern>
+            <message>Un verbe conjugué ne peut pas être placé ici.</message>
+            <suggestion>part</suggestion>
+            <example correction="part">Mis à <marker>pars</marker> ça, comment vas-tu ?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="K"/>
+                <marker>
+                <token>pars</token>
+                </marker>
+                <token postag="K"/>
+            </pattern>
+            <message>La préposition 'par' semble plus probable que le verbe partir.</message>
+            <suggestion>par</suggestion>
+            <example correction="par">Il faut diviser deux <marker>pars</marker> trois.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token postag="[DPV].*" postag_regexp="yes"/>
+                <token case_sensitive="yes">Pars</token>
+            </antipattern>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"><exception regexp="yes">puis|prima</exception></token>
+                <marker>
+                <token>pars</token>
+                </marker>
+            </pattern>
+            <message>La préposition 'par' semble plus probable que le verbe partir.</message>
+            <suggestion>par</suggestion>
+            <example correction="par">Ce conte est illustré <marker>pars</marker> un dessinateur célèbre.</example>
+        </rule>
+    </rulegroup>
         <rule id="CAMERA" name="camera/caméra">
             <pattern>
                 <token>camera
