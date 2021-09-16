@@ -4769,6 +4769,23 @@ As cortinas creme.
 		</token>
       </antipattern>
 <!-- MARCOAGPINTO 2021-09-07 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-09-16 (25-JUN-2021+) *START* -->
+<!--
+A morte do corpo é que as mata.
+As flores são amareladas, com um cheiro distinto, o que as torna úteis em perfumaria.
+Estas florestas, muitas vezes apresentam uma concentração tão densa que as torna quase de impossível penetração.
+As crianças se aquietam mais frequentemente quando a gente as deita.
+-->
+      <antipattern>
+		<token postag='V.+|AQ0.+|NC.+|DA0.S.+|PI.+' postag_regexp='yes'/>
+		<token postag='CS|AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+		<token postag='DA0.P.+' postag_regexp='yes'/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='NP.+'/>
+		</token>
+		<token negate_pos="yes" postag='V.+|AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-09-16 (25-JUN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -4840,6 +4857,11 @@ As cortinas creme.
 	  <example>As paredes gelo.</example>
 	  <example>As calças vinho.</example>
 	  <example>As cortinas creme.</example>
+	  
+	  <example>A morte do corpo é que as mata.</example>
+	  <example>As flores são amareladas, com um cheiro distinto, o que as torna úteis em perfumaria.</example>
+	  <example>Estas florestas, muitas vezes apresentam uma concentração tão densa que as torna quase de impossível penetração.</example>
+	  <example>As crianças se aquietam mais frequentemente quando a gente as deita.</example>	  
     </rule>
     <rule>
       <antipattern>
