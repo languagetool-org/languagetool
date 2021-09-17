@@ -16826,6 +16826,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="VORA" name="bora/vora" default="temp_off">
+            <pattern>
+                <token regexp="yes">bora|bores<exception postag="NPFSG00"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)b" regexp_replace="v" case_conversion="preserve"/></suggestion> (cantó, extrem)? "Bora" té altres sentits molt més infreqüents.</message>
+            <example correction="vora">El vaig veure <marker>bora</marker> el riu.</example>
+            <example correction="vores">Duia les <marker>bores</marker> del vestit brutes.</example>
+            <example type="triggers_error">El bora és un vent fred de muntanya que bufa violentament del nord o el nord-est a la costa adriàtica o dàlmata.</example>
+            <example>Bora Bora és una illa de la Polinèsia francesa.</example>
+        </rule>
         <rule id="TORNEMHI" name="*torne-m'hi/tornem-hi">
             <pattern>
                 <token postag="VMM03S0V" regexp="yes">.*e</token>
@@ -16833,7 +16843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[-'](hi|ho)</token>
             </pattern>
             <message>Possible confusió.</message>
-            <suggestion><match no="1" postag="VMM03S0V" postag_regexp="yes" postag_replace="VMM01P0."/><match no="3" regexp_match=".(hi|ho)" regexp_replace="-$1"></match></suggestion>
+            <suggestion><match no="1" postag="VMM03S0V" postag_regexp="yes" postag_replace="VMM01P0."/><match no="3" regexp_match=".(hi|ho)" regexp_replace="-$1"/></suggestion>
             <example correction="tornem-hi">Sant <marker>torne-m'hi</marker></example>
             <example correction="Pensem-ho"><marker>Pense'm-ho</marker>.</example>
         </rule>
@@ -55897,6 +55907,98 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="FRASE_INFINITIU" name="frase que comença per infinitiu" default="temp_off">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="V...[123]..." postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"><exception scope="previous">per</exception></token>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>Aquesta de construcció d'infinitiu sense un verb principal és inadequada.</message>
+            <suggestion>cal \2</suggestion>
+            <suggestion><match no="2" postag_regexp="yes" postag="V.N.*" postag_replace="VMM01P00"/></suggestion>
+            <suggestion>voldria \2</suggestion>
+            <url>https://esadir.cat/gramatica/sintaxi/introinf</url>
+            <example correction="cal assenyalar|assenyalem|voldria assenyalar">Finalment, <marker>assenyalar</marker> que aquest era l'objectiu.</example>
+            <example correction="cal dir|diguem|voldria dir">Per acabar, <marker>dir</marker> que demà no hi ha classe.</example>
+        </rule>
+        <rulegroup id="REPETICIO_VERB_NOM" name="repeticions verb/nom" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1">observació</token>
+                    <marker>
+                        <token inflected="yes">observar</token>
+                    </marker>
+                </pattern>
+                <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">percebre</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">notar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">remarcar</match></suggestion>
+                <example correction="veure|percebre|notar|remarcar">Esta observació me la hizo <marker>observar</marker> él</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="-1">observar</token>
+                    </marker>
+                    <token inflected="yes">observació</token>
+                </pattern>
+                <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">percebre</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">notar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">remarcar</match></suggestion>
+                <example correction="veure|percebre|notar|remarcar">Em va fer <marker>observar</marker> aquesta observació.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1">explicació</token>
+                    <marker>
+                        <token inflected="yes">explicar</token>
+                    </marker>
+                </pattern>
+                <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">contar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
+                <example correction="contà|digué">Aquestes explicacions me les <marker>explicà</marker> ell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="-1">explicar</token>
+                    </marker>
+                    <token inflected="yes">explicació</token>
+                </pattern>
+                <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">contar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
+                <example correction="contà|digué">Me <marker>explicà</marker> aquesta explicació.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1">marca</token>
+                    <marker>
+                        <token inflected="yes">marcar<exception inflected="yes">marca</exception></token>
+                    </marker>
+                </pattern>
+                <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">indicar</match></suggestion>
+                <example correction="indicà">Aquesta marca me la <marker>marcà</marker> Josep.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="-1">marcar<exception inflected="yes">marca</exception></token>
+                    </marker>
+                    <token inflected="yes">marca<exception inflected="yes">marcar</exception></token>
+                </pattern>
+                <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">indicar</match></suggestion>
+                <example correction="indicar">Per a <marker>marcar</marker>-ho es fan servir aqueixes marques.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TORRO" name="torró fort/fluix">
             <url>https://termcat.blog.gencat.cat/2014/12/18/quines-son-les-formes-catalanes-que-es-refereixen-a-la-duresa-dels-torrons/</url>
             <rule>
