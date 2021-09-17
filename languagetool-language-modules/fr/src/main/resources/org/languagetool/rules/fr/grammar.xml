@@ -62179,23 +62179,28 @@ though, and has since been slightly modified)-->
                 <example correction="qu'est-ce que c'est">Dis-moi <marker>c'est quoi</marker> déjà ?</example>
             </rule>
         </rulegroup>
-        <rule id="QU_EST_CE_QUE" name="qu’est-ce que">
+        <rule id="QU_EST_CE_QUE" name="J'ignore qu'est-ce que (ce que) c'est">
             <antipattern>
-                <token regexp="yes">qu(&apostrophe;)</token>
+                <token regexp="yes">qu'</token>
                 <token>est</token>
                 <token>-ce</token>
-                <token regexp="yes" skip="-1">qu[ie]?|qu(&apostrophe;)</token>
-                <token postag="M fin inte"/>
+                <token regexp="yes" skip="-1">qu[ie]?|qu'</token>
+                <token postag="SENT_END" regexp="yes">\?|.*[^\p{P}].*</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">qu(&apostrophe;)</token>
+                <token regexp="yes">qu'
+                    <exception scope="previous" postag="SENT_START"/>
+                    </token>
                 <token>est</token>
                 <token>-ce</token>
-                <token regexp="yes">qu(&apostrophe;)|que</token>
+                <token inflected="yes">que</token>
             </pattern>
-            <message>Dans le langage courant, la syntaxe de cette question indirecte peut être considérée comme incorrecte. Nous vous conseillons de l'introduire par <suggestion>ce \4</suggestion>.</message>
+            <message>S'il s'agit d'une question indirecte, cette syntaxe peut être considérée comme incorrecte. Nous vous conseillons de l'introduire par <suggestion>ce \4</suggestion>.</message>
             <example correction="ce qu'"> Je me demande <marker>qu'est-ce qu'</marker>il pense.</example>
             <example correction="ce que"> Dis-moi <marker>qu'est-ce que</marker> tu en penses.</example>
+            <example>Qu'est-ce qu'elle veut encore !</example>
+            <example>Entreprises : Qu'est-ce qu'un COO</example><!-- headline -->
+            <example>Entreprises, qu'est-ce qu'un COO</example><!-- headline -->
         </rule>
         <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style">
             <antipattern>
