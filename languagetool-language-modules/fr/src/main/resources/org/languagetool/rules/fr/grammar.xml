@@ -60,8 +60,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbestransitifsindirects_gpe2 "aboutir|applaudir|compatir|désobéir|fournir|gravir|jouir|obéir|réagir|réfléchir|réussir">
     <!ENTITY verbestransitifsindirects_gpe3 "accroître|appartenir|atteindre|battre|combattre|complaire|conclure|concourir|condescendre|consentir|contrevenir|convenir|correspondre|croire|démordre|dépendre|déplaire|disconvenir|écrire|entendre|équivaloir|forfaire|médire|mentir|mordre|nuire|parvenir|plaire|pourvoir|prétendre|recourir|redire|renaître|répondre|ressortir|satisfaire|servir|sourire|souscrire|subvenir|suffire|surseoir|survivre|tenir|tendre|voir|vouloir">
     <!ENTITY infinitif_suivi_dinfinitif "adorer|aimer|aller|apprécier|choisir|commencer|compter|considérer|courir|croire|descendre|devoir|dire|désirer|détester|emmener|entendre|entrer|envisager|envoyer|espérer|faillir|faire|falloir|imaginer|laisser|mener|monter|nier|observer|oser|paraître|partir|passer|penser|pouvoir|préférer|prétendre|recompter|redescendre|redevoir|redésirer|redétester|refaillir|refaire|refalloir|regarder|remonter|repartir|repenser|repréférer|resouhaiter|retourner|revenir|revouloir|réespérer|savoir|sortir|souhaiter|tenter|venir|voir|vouloir|écouter"> <!--rester|-->
-	<!ENTITY couleur_invariable "abricot|absinthe|acajou|acier|aigue-marine|albâtre|amadou|amande|amarante|ambre|améthyste|andrinople|anis|anthracite|ardoise|argent|argile|asperge|aubergine|auburn|aurore|avocat|azur|banane|basane|basque|bistre|bitume|bonbon|bordeaux|bourgogne|bouteille|brique|bronze|bulle|cacao|cachou|café|canard|canari|cannelle|capucine|caramel|carmin|carmélite|carotte|cassis|cassé|cerise|chair|chamois|champagne|chaudron|chocolat|châtaigne|ciel|citron|cognac|coquelicot|corail|crevette|crème|cuivre|cyclamen|céladon|denim|ébène|émeraude|étain|feu|filasse|fraise|framboise|fuchsia|garance|grenat|groseille|géranium|havane|indien|indigo|isabelle|ivoire|jade|jonquille|kaki|klein|lagon|lavande|lie-de-vin|lilas|magenta|mangue|marengo|marron|mastic|maïs|melon|menthe|miel|moutarde|muscade|myrtille|n[âa]cre|nacarat|nacre|noisette|noyer|nuit|ocre|olive|or|orange|outremer|paille|pastel|pastèque|perle|pervenche|pie|piment|pistache|pivoine|plastique|pomme|ponceau|porto|prune|puce|pétrole|pêche|romarin|rouille|sable|safran|sang|saumon|sépia|tabac|taupe|tendance|tendre|tilleul|tomate|turquoise|vanille|verdâtre|vermillon">
-	<!-- special case: marine -->
+	<!ENTITY couleur_invariable "abricot|absinthe|acajou|acier|aigue-marine|albâtre|amadou|amande|amarante|ambre|améthyste|andrinople|anis|anthracite|ardoise|argent|argile|asperge|aubergine|auburn|aurore|avocat|azur|banane|basane|basque|bistre|bitume|bonbon|bordeaux|bourgogne|bouteille|brique|bronze|bulle|cacao|cachou|café|canari|cannelle|capucine|caramel|carmin|carmélite|carotte|cassis|cassé|cerise|chair|chamois|champagne|chaudron|chocolat|châtaigne|ciel|citron|cognac|coquelicot|corail|crevette|crème|cuivre|cyclamen|céladon|denim|ébène|émeraude|étain|feu|filasse|fraise|framboise|fuchsia|garance|grenat|groseille|géranium|havane|indigo|isabelle|ivoire|jade|jonquille|kaki|klein|lagon|lavande|lie-de-vin|lilas|magenta|mangue|marengo|marron|mastic|maïs|melon|menthe|miel|moutarde|muscade|myrtille|n[âa]cre|nacarat|nacre|noisette|nuit|ocre|olive|or|orange|outremer|paille|pastel|pastèque|perle|pervenche|pie|piment|pistache|pivoine|pomme|ponceau|porto|prune|puce|pétrole|pêche|romarin|rouille|sable|safran|sang|saumon|sépia|tabac|taupe|tilleul|tomate|turquoise|vanille|verdâtre|vermillon">
+	<!-- |tendance ?? -->
+	<!ENTITY couleur_invariable2 "marine|indien|plastique|tendre|noyer|canard">
     <!ENTITY couleur_variable "alezan|ambré|aubère|bai|baillet|basané|beige|bigarré|bis|blafard|blond|blême|brillant|châtain|chiné|clair|cramoisi|dense|doré|écarlate|écru|fauve|foncé|glauque|incarnat|intense|livide|louvet|lumineux|mat|mauve|métallique|mordoré|opalin|orangé|pâle|perse|pourpre|profond|rosé|rose|rouan|rousse|roux|tourdille|tropical|vairon|vermeil|vernissé|vif|violet|zain|zinzolin">
     <!ENTITY couleur "blanc|bleu|brun|gris|jaune|noir|rouge|vert">
     ]>
@@ -23328,12 +23329,14 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="N.*" postag_regexp="yes">
                         <exception regexp="yes">[a-z]|as|for|of|but|like|or</exception></token>
-                    <token case_sensitive="yes">a</token>
+                    <marker>
+                        <token case_sensitive="yes">a</token>    
+                    </marker>
                     <token postag="N.*" postag_regexp="yes">
-                        <exception regexp="yes">[a-z]</exception></token>
+                        <exception regexp="yes">[a-z]|goût</exception></token>
                 </pattern>
-                <message>La préposition <suggestion>à</suggestion> entre ces deux noms.</message>
-                <example correction="à">C'est de la <marker>peinture a base</marker> de laque.</example>
+                <message>La préposition <suggestion>à</suggestion> est attendue entre ces deux noms.</message>
+                <example correction="à">C'est de la peinture <marker>a</marker> base de laque.</example>
                 <example>Cette relation a durée approximativement 1 an.</example>
                 <example>Recherche a donne ça.</example>
                 <example>La nature des choses a coutume de se dissimuler.</example>
@@ -23341,6 +23344,7 @@ though, and has since been slightly modified)-->
                 <example>On peut se demander si l'humanité a avantage à connaître les secrets de la nature.</example>
                 <example>Au mois de mars, c'est ensuite I Am a Rock qui sort en single.</example>
                 <example>Sais-tu quel âge a madame Nakano ?</example>
+                <example>Ce café a goût de brûlé.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
@@ -26106,43 +26110,50 @@ though, and has since been slightly modified)-->
                 <example>Des meilleures crèmes.</example>
             </rule>
 		    <rule default="temp_off">
-		        <antipattern>
+		        <!--<antipattern>
 		            <token>les</token>
 		            <token postag="N m p" regexp="yes" inflected="yes">&couleur;</token>
 		            <token postag="J m p" regexp="yes" inflected="yes">&couleur_variable;</token>
-		        </antipattern>
+		        </antipattern>-->
 		        <antipattern>
 		            <token regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
 		            <token regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
 		        </antipattern>
 		        <pattern>
-		            <token inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
-		            <token postag="N m .|J.*" postag_regexp="yes" inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
+		            <token postag="N.*" postag_regexp="yes"/>
+		            <marker>
+		                <token inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
+		                <token postag="N m .|J.*" postag_regexp="yes" inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>    
+		            </marker>
 		        </pattern>
 		        <message>Quand la couleur est exprimée par un adjectif composé, il est invariable.</message>
-		        <suggestion><match no="1" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="2" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/></suggestion>
+		        <suggestion><match no="2" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="3" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m sp?"/></suggestion>
 		        <example correction="vert clair">Des yeux <marker>verts clairs</marker>.</example>
 		        <example correction="bleu foncé">Une jupe <marker>bleue foncée</marker>.</example>
+		        <example correction="bronze lumineux">une belle robe <marker>bronze lumineuse</marker></example>
 		        <example>Une jupe bleu foncé.</example>
 		        <example>Des yeux <marker>vert clair</marker>.</example>
 		        <example>Les verds clairs.</example>
 		    </rule>
 		    <rule default="temp_off">
-		        <antipattern>
+		       <!-- <antipattern>
 		            <token>les</token>
 		            <token postag="N m p" regexp="yes" inflected="yes">&couleur;</token>
 		            <token postag="J m p" regexp="yes" inflected="yes">&couleur_variable;</token>
-		        </antipattern>
+		        </antipattern>-->
 		        <antipattern>
 		            <token regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
 		            <token regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
 		        </antipattern>
 		        <pattern>
-		            <token inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
-		            <token postag="N f .*" postag_regexp="yes" inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
+		            <token postag="N.*" postag_regexp="yes"/>
+		            <marker>
+		                <token inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
+		                <token postag="N f .*" postag_regexp="yes" inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>    
+		            </marker>
 		        </pattern>
 		        <message>Quand la couleur est exprimée par un adjectif composé, il est invariable.</message>
-		        <suggestion><match no="1" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="2" postag="N f .*" postag_regexp="yes" postag_replace="N f sp?"/></suggestion>
+		        <suggestion><match no="2" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="3" postag="N f .*" postag_regexp="yes" postag_replace="N f sp?"/></suggestion>
 		        <example correction="vert améthyste">Des yeux <marker>verts améthystes</marker>.</example>
 		        <example correction="bleu améthyste">Une jupe <marker>bleue améthyste</marker>.</example>
 		    </rule>
@@ -26200,7 +26211,7 @@ though, and has since been slightly modified)-->
                     <token postag="J.*" postag_regexp="yes" regexp="yes" case_sensitive="yes" inflected="yes">&couleur;<exception regexp="yes" case_sensitive="yes">\p{Lu}.*</exception></token>
                 </pattern>
                 <message>Lorsque deux adjectifs de couleur forment une nouvelle couleur, ils sont unient pas un trait d'union et invariables.</message>
-                <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J m s"/>-<match no="2" postag="J.*" postag_regexp="yes" postag_replace="J m s"/></suggestion>
+                <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J m s"/>-<match no="2" postag="J.*" postag_regexp="yes" postag_replace="J m sp?"/></suggestion>
                 <suggestion>\1, \2</suggestion>
                 <example correction="bleu-noir|bleus, noirs">Ils portaient des habits <marker>bleus noirs</marker>.</example>
                 <example correction="bleu-noir|bleu, noirs">Ils portaient des habits <marker>bleu noirs</marker>.</example>
@@ -26214,7 +26225,7 @@ though, and has since been slightly modified)-->
                     <token postag="J.*" postag_regexp="yes" regexp="yes" inflected="yes">&couleur_variable;|&couleur_invariable;</token>
                 </pattern>
                 <message>Ces adjectifs ne sont pas liés par un trait d'union.</message>
-                <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J m s"/> <match no="3" postag="J.*" postag_regexp="yes" postag_replace="J m s"/></suggestion>
+			    <suggestion><match no="1" postag="J.*" postag_regexp="yes" postag_replace="J [me] sp?"/> <match no="3" postag="J.*" postag_regexp="yes" postag_replace="J [me] sp?"/></suggestion>
                 <example correction="bleu foncé">La couleur dominante de ce tableau est le <marker>bleu-foncé</marker>.</example>
 			    <example>Des habits bleu-noir.</example>
 			</rule>
