@@ -352,7 +352,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("h ") &&
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
+                   !k.getReplacement().toLowerCase().startsWith("s ") &&
+                   !k.getReplacement().toLowerCase().startsWith("t ") &&
                    !k.getReplacement().toLowerCase().startsWith("um ") &&
+                   !k.getReplacement().toLowerCase().startsWith("oft ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
@@ -525,6 +528,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Fundraces", Arrays.asList("Fundraises"));
     s.put("Fundracing", Arrays.asList("Fundraising"));
     s.put("Fundraced", Arrays.asList("Fundraised"));
+    s.put("hollyday", Arrays.asList("holiday"));
+    s.put("Hollyday", Arrays.asList("Holiday"));
+    s.put("hollydays", Arrays.asList("holidays"));
+    s.put("Hollydays", Arrays.asList("Holidays"));
+    s.put("overnite", Arrays.asList("overnight"));
+    s.put("Overnite", Arrays.asList("Overnight"));
     s.put("tonite", Arrays.asList("tonight"));
     s.put("Tonite", Arrays.asList("Tonight"));
     s.put("nite", Arrays.asList("night"));
