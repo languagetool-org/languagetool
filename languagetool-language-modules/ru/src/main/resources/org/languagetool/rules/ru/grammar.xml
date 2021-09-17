@@ -3092,7 +3092,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="1" regexp="yes">&pnct;</token>
                     <marker>
                         <token>Привет</token>
-                        <token negate="yes" regexp="yes">&pnct;<exception>и</exception><exception postag="PREP|NN:.*:D" postag_regexp="yes"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;<exception>и</exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\3, \4</suggestion>.</message>
@@ -3100,8 +3100,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пропущена запятая</short>
                 <example correction="Привет, я"><marker>Привет я</marker> новенький.</example>
                 <example>Привет и пока!</example>
-                <example>Привет из Москвы!</example>
-                <example>Привет зайцу.</example>
             </rule>
         </rulegroup>
         
@@ -3833,7 +3831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Видишь ли, эта"><marker>Видишь ли эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="KAK_VVODNOE" name="Слова, которые могут выступать в роли вводных: «к счастью», ..." tags="picky" >
+        <rulegroup default="off" id="KAK_VVODNOE" name="Слова, которые могут выступать в роли вводных: «к счастью», ...">
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
@@ -7153,7 +7151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     <unify negate="yes">
                         <feature id="number"/>          
-                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception></token>
+                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception><exception scope="previous" postag_regexp="yes" postag="NumD_P|NumC:Nom"></exception></token>
                         <token  postag="VB:(Past|Real):.*"  postag_regexp="yes">
                             <exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" />
                             <exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*|VB:(Past|Real):bezl:IMPFV" />
@@ -7181,6 +7179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Какие строки можешь выделить?</example>  <!-- Пропущено подлежащее -->
                 <example>Матч отменили из-за дождя.</example> <!-- Пропущено слово, управление  -->
                 <example>Империи удалось многое узнать.</example>
+                <example>100 лет называются веком.</example>
                 <example>В 1448 году упоминаются городские волнения против строительства замка.</example>
                 <example correction=""><marker>Блюдо готовились</marker> на сковородке.</example>
                 <example correction=""><marker>Коты грелся</marker> на солнышке.</example>
@@ -9481,7 +9480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -9519,7 +9518,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">и|или</token>
                 <token postag="VB:INF:.*" postag_regexp="yes"></token>    
             </antipattern>
-		
             <pattern>
                 <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
@@ -10875,7 +10873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Рассматривались трёхслойные частицы из заранее выбранных материалов при рассмотрении</marker> поглощения света наночастицами.</example>
             </rule>
         </rulegroup>
-        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="on"  tags="picky">
+        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="off"  tags="picky">
             <antipattern>
                 <token regexp="yes" skip="-1">«|что</token>
                 <token>же</token>
@@ -10915,7 +10913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
             <example>С днём рождения!</example>
         </rule>
-        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="on"   tags="picky">
+        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="off"   tags="picky">
             <pattern>
                 <token>,</token>
                 <marker>
@@ -10964,7 +10962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Загруженность местоимениями</short>
             <example type="incorrect"><marker>Он её не любил, она его не любила, они многое</marker> знали.</example>
         </rule>
-        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="on"  tags="picky">
+        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off"  tags="picky">
             <rule> 
                 <pattern>
                     <token>по</token>                  
@@ -10990,7 +10988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" могу">Я<marker>, возможно ошибаясь, могу</marker> предложить способ решения.</example>
             </rule>
         </rulegroup> 
-        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="on"  tags="picky">
+        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off"  tags="picky">
             <rule> 
                 <pattern>
                     <token>,</token>
@@ -11004,7 +11002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" свое">Каждый напиток имеет<marker>, так сказать, свое</marker> значение.</example>
             </rule>
         </rulegroup>                         
-        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="on"  tags="picky">
+        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="off"  tags="picky">
             <rule> 
                 <pattern>
                     <token>как<exception scope="previous" regexp="yes">,|и|то</exception></token>                  
@@ -11126,7 +11124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
       
-        <rulegroup id="O_tom_chto" name="Связка слов: «о том, что»"  tags="picky" default="on">    
+        <rulegroup default="off" id="O_tom_chto" name="Связка слов: «о том, что»"  tags="picky">    
             <rule>
                 <!-- о том, что
                 -->
@@ -11850,7 +11848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>      
         </rule>
         
-        <rulegroup default="on" name="Благозвучность" id="BLAGOZVUCHNOST"  tags="picky">
+        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST"  tags="picky">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*([йцкнгшщзхфвпрлджчсмтб]{2,2})</token>
@@ -12105,13 +12103,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Lower_Letters_after_comma" name="Строчная буква после запятой">
             <pattern case_sensitive="yes">
                 <token>,</token>
-                <token spacebefore="yes" regexp="yes" postag="VB:.*|DPT:.*" postag_regexp="yes">[А-Я][а-я]*<exception postag="VB:.*|DPT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
-	    </pattern>
+                <token spacebefore="yes" regexp="yes" postag="VB:.*" postag_regexp="yes">[А-Я][а-я]*<exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>
             <message>После запятой требуется строчная буква: <suggestion>, <match no="2" case_conversion="alllower"></match></suggestion></message>
             <short>Строчная буква</short>
             <example correction=", слушай">Привет, мамочка<marker>, Слушай</marker> меня</example>
         </rule>
-        <rulegroup default="on" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ"  tags="picky">
+        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ"  tags="picky">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
