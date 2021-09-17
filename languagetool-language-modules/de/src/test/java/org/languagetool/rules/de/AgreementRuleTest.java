@@ -71,6 +71,10 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
+    assertGood("Der fließend Französisch sprechende Präsident dankt stilvoll ab.");
+    assertGood("Spricht der fließend Französisch?");
+    assertGood("Spricht dieser fließend Französisch, muss er viel Geld verdienen.");
+    assertGood("Der letzte Woche beschlossene Etat ist unwirksam.");
     assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
