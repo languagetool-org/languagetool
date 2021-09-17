@@ -45680,22 +45680,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a correcuita">se'n va anar <marker>corre cuita</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>tota</token>
+                    <token>ultrança</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">empentes|espentes</token>
+                    <token>i</token>
+                    <token regexp="yes">redolons|rodolons</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">a</token>
                     <marker>
-                        <token regexp="yes">correcuita|cuitacorrents|correcorrents|mansalva|matadegolla|pleret|posteriori|priori|rajaploma|rapis|reculons|rodolons|rossegons|tentipotenti|tornajornals|trencajunts|trompons|ultrança|betzef|bocons|borbollons|collbotet|collibè|contracor|contrafil|contrapel|contrapèl|cremadent|destemps|dojo|dretcient|forfollons|gatameus|granel|gratcient</token>
+                        <token regexp="yes">correcuita|cuitacorrents|correcorrents|mansalva|matadegolla|pleret|posteriori|priori|rajaploma|rapis|reculons|rodolons|rossegons|tentipotenti|tornajornals|trencajunts|trompons|ultrança|betzef|bocons|borbollons|collbotet|collibè|contracor|contrafil|contrapel|contrapèl|cremadent|destemps|dojo|dretcient|forfollons|gatameus|granel|gratcient<exception case_sensitive="yes">Dojo</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a <match no="2"/></suggestion>?</message>
                 <example correction="a correcorrents">se'n va anar <marker>correcorrents</marker></example>
                 <example correction="a correcuita">se'n va anar <marker>correcuita</marker></example>
+                <example>El Shogi Dojo Barcelona.</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes">a</token>
                     <marker>
                         <token>la</token>
-                        <token regexp="yes">babalà|biorxa|doba|gatzoneta|par|raseta|xirinxina|xisclera</token>
+                        <token regexp="yes" case_sensitive="yes">babalà|biorxa|doba|gatzoneta|par|raseta|xirinxina|xisclera</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a \2 \3</suggestion>?</message>
@@ -45706,7 +45718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">a</token>
                     <marker>
                         <token>les</token>
-                        <token regexp="yes">envistes|palpentes|talúries</token>
+                        <token regexp="yes" case_sensitive="yes">envistes|palpentes|talúries</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a \2 \3</suggestion>?</message>
