@@ -10834,7 +10834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="FUENF_PROZENT_HUERDE" name="5-Prozent-Hürde" default="temp_off">
+        <rule id="FUENF_PROZENT_HUERDE" name="5-Prozent-Hürde">
             <pattern>
                 <token regexp="yes">5|fünf|10|zehn|15|fünfzehn|20|zwanzig|25|30|40|50|75|100</token>
                 <token regexp="yes">%|Prozent</token>
@@ -12438,6 +12438,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Landing-Page|Landingpage">Sie hat, dank Werbung, viele Besucher auf ihrer <marker>Landing Page</marker>.</example>
         </rule>
         <rule id="ONLINE_MARKETING" name="Online-Marketing">
+            <antipattern>
+                <token>online</token>
+                <token>marketing</token>
+                <token>rockstars</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">Online|Offline|Guerilla</token>
                 <token regexp="yes">Marketings?</token>

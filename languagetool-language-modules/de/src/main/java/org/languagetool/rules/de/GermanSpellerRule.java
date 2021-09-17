@@ -1173,6 +1173,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[Ss]chalgen", "schlagen");
     put("[Ss]chalge", "schlage");
     put("Deutschsprache", "deutsche Sprache");
+    put("eigl", "eigtl");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
