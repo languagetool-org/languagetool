@@ -27,6 +27,50 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOUR" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                        <token regexp="yes">a?re</token>
+                </pattern>
+                <example correction="">Be true to who <marker>you</marker> are and what you believe in.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOURE" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token regexp="yes">a?re</token>
+                </pattern>
+                <example correction="">Be true to who <marker>you</marker> are and what you believe in.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_TO_THE" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token>the</token>
+                </pattern>
+                <example correction="">We are going <marker>to</marker> the zoo to eat some giraffes.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_THE_TO" name="">
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <marker>
+                        <token>the</token>
+                    </marker>
+                </pattern>
+                <example correction="">We are going to <marker>the</marker> zoo to eat the rhinos.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_THE" name="">
             <rule>
                 <pattern>
