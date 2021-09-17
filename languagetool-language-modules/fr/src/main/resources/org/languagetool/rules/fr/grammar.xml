@@ -26145,7 +26145,7 @@ though, and has since been slightly modified)-->
 		            <token postag="N.*" postag_regexp="yes"/>
 		            <marker>
 		                <token inflected="yes" regexp="yes">&couleur;|&couleur_invariable;|&couleur_variable;</token>
-		                <token postag="N m p" postag_regexp="yes" inflected="yes" regexp="yes">&couleur_invariable_m;</token>    
+		                <token postag="N m p" inflected="yes" regexp="yes">&couleur_invariable_m;</token>    
 		            </marker>
 		        </pattern>
 		        <message>Quand la couleur est exprimée par un adjectif composé, il est invariable.</message>
@@ -32051,6 +32051,34 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="NE_IMP_PAS" name="Ne + impératif + pas">
+            <rule default="temp_off">
+                <antipattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>n'</token>
+                    <token>est</token>
+                    <token skip="10">pas</token>
+                    <token>qui</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token inflected="yes">ne</token>
+                        <token postag_regexp="yes" postag="V etre.*">est</token>
+                    </marker>
+                    <token regexp="yes">pas|plus|jamais|rien</token>
+                </pattern>
+                <message>Cette expression peut être considérée comme familière.</message>
+                <suggestion>ce n'est</suggestion>
+                <!--<suggestion><match no="4" postag="V (avoir )?(etre )?(inf|ind|con|sub) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2imp $4 2 $6"/></suggestion>
+                <example correction="sois">Ne <marker>soit</marker> pas en retard !</example>-->
+                <example correction="Ce n'est"><marker>N'est</marker> pas une montre de plongée.</example>
+                <example>N'est pas gourmand qui veut.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>.</token>
@@ -32063,7 +32091,8 @@ though, and has since been slightly modified)-->
                     <token min="0" max="1" regexp="yes">[lmt][e']|[nv]ous|les|la|leur|lui</token>
                     <marker>
                         <token postag_regexp="yes" postag="V.*">
-                            <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/></token>
+                            <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+                            <exception>est</exception></token>
                     </marker>
                     <token regexp="yes">pas|plus|jamais|rien</token>
                 </pattern>
@@ -32080,6 +32109,7 @@ though, and has since been slightly modified)-->
                 <example>N’<marker>apporte</marker> pas de cadeaux.</example>
                 <example>Ne craignez pas de faire des fautes en parlant anglais.</example>
                 <example>Ne me traite pas d'idiot !</example>
+                <example>N'est pas gourmand qui veut.</example>
             </rule>
             <rule>
                 <antipattern>
