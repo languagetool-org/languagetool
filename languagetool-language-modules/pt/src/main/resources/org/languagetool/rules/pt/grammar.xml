@@ -12109,19 +12109,24 @@ Eu comprei-a quando fui à loja.
       <example correction="dar os bons-dias">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
     </rule>
 
-    <rule id='DE_CERTO' name="Decerto">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-16 (Enhanced) (25-JUN-2021+)      -->
+    <rule id='DE_CERTO' name="Confusão: De certo/Decerto">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-16 + 2021-09-17 (Enhanced) (25-JUN-2021+)      -->
       <pattern>
         <marker>
           <token>de</token>
           <token>certo</token>
         </marker>
-		<token postag='V.+' postag_regexp='yes'>
+		<token postag='V.+|_PUNCT|PE.+|PR.+|PT.+|SPS.+' postag_regexp='yes'>
 			<exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
 		</token>
       </pattern>
       <message>'De certo' equivale a 'de determinado'. Se pretende indicar certeza utilize <suggestion>decerto</suggestion>.</message>
       <example correction="decerto">Isso irá <marker>de certo</marker> lesar os trabalhadores.</example>
+	  <example>Ele decerto que está certo.</example>
+	  <example>Ver Espanha enfraquecida face à hegemonia da França, decerto correspondia aos objetivos de Luís XIV.</example>
+	  <example>Decerto, o cão primitivo só se diferencia do seu ancestral por alguns detalhes pouco fiáveis.</example>
+	  <example>Depois destas exposições o mundo havia, decerto, mudado.</example>
+	  <example>Ela deu decerto com a casa.</example>
     </rule>
 
     <rule id='DE_CIMA-ALTO_ABAIXO' name="De cima/alto a baixo">
