@@ -62,7 +62,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
 <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
 <!-- definieer macro voor gespelde afkortingen als cd -->
-<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km">
+<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km|mm|cm|soa|bbl">
 <!ENTITY apostrof "[`'‘’]">
 <!ENTITY quote "[&quot;“]">
 
@@ -13294,11 +13294,13 @@ onwaarschijnlijk
 				<antipattern><token postag="ENM.*|UNKNOWN" postag_regexp="yes"/></antipattern>
 				<antipattern><token regexp="yes">^.-</token></antipattern>
 				<antipattern><token regexp="yes">-.$</token></antipattern>
-				<antipattern><token regexp="yes">^(&gespeld;)-</token></antipattern>
-				<antipattern><token regexp="yes">-(&gespeld;)$</token></antipattern>
-				<antipattern><token regexp="yes">-(&gespeld;)-</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token regexp="yes">(?i)^(&gespeld;)-.*</token></antipattern>
+				<antipattern><token regexp="yes">^(&gespeld;)-.*</token></antipattern>
+				<antipattern><token regexp="yes">.*-(&gespeld;)$</token></antipattern>
+				<antipattern><token regexp="yes">.*-(&gespeld;)-.*</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
-				<pattern raw_pos="yes"> 
+				<antipattern><token regexp="yes">all-in|avant-garde|(back-up|amateur|interim|ex|oud|chef|meester|leerling|niet)-.*</token></antipattern>
+				<pattern>
 					<marker>
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
 					</marker>
@@ -13307,6 +13309,8 @@ onwaarschijnlijk
 				<example type="incorrect">De <marker>muziek-industrie</marker> is overspannen.</example>
 				<example type="correct">De <marker>muziekindustrie</marker> is overspannen.</example>
 				<example type="correct">Het <marker>auto-onderdeel</marker> is kapot.</example>
+				<example type="correct">Het <marker>sms-bericht</marker> is kapot.</example>
+				<example type="correct"><marker>Sms-berichten</marker> gaan kapot.</example>
 			</rule>
 		</rulegroup>
 	</category>
