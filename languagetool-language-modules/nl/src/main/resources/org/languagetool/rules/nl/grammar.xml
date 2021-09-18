@@ -17689,8 +17689,9 @@ steenwijk;Steenwijk
 			<rule>
 				<!-- common in some sources -->
 				<antipattern><token>[</token><token spacebefore="no">…</token><token spacebefore="no">]</token></antipattern>
+				<antipattern><token regexp="yes">[^a-z]+</token><token spacebefore="no">…</token></antipattern>
 				<pattern>
-					<token><exception>(</exception></token>
+					<token/>
 					<token spacebefore="no">…</token>
 				</pattern>
 				<message>Voor '\2' hoort een spatie: <suggestion>\1 \2</suggestion>.</message>
@@ -19027,7 +19028,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="KOMMA_ONTBR" name="Komma vergeten?" default="temp_off">
+		<rulegroup id="KOMMA_ONTBR" name="Komma vergeten?" >
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
 				<antipattern><token regexp="yes">de|g?een|het</token><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
