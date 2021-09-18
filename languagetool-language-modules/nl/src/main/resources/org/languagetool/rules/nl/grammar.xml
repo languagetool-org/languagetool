@@ -16268,40 +16268,39 @@ steenwijk;Steenwijk
                     <example correction="ic-patronen">Lithografie of het ‘printen’ van <marker>IC-patronen</marker> op siliciumschijfjes (wafers) is één van de meest cruciale processen bij de fabricage van chips.</example>
                 </rule>
             </rulegroup>
-            <rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling">
-                <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
-			<rule>
-				<antipattern case_sensitive="yes"><token>Landbouw</token><token>,</token><token>Natuur</token><token>en</token><token>Voedselkwaliteit</token></antipattern>
-				<antipattern case_sensitive="yes"><token>Transport</token><token>,</token><token>Communicatie</token><token>en</token><token>Toerisme</token></antipattern>
-				<antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
-				<antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan|park|talige?)</token></antipattern>
-				<antipattern>
-					<!-- taal -->
-					<token regexp="yes">[,;]</token>
-					<and>
-						<token regexp="yes" postag="ZNW:EKV:HET">[A-Z][a-z].*</token>
-						<token regexp="yes" postag="BNW:STL:ONV">[A-Z][a-z].*</token>
-					</and>
-				</antipattern>
-				<pattern case_sensitive="yes">
-					<token regexp="yes">[,;]</token>
-					<marker>
-						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
-					</marker>
-				</pattern>
-				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
-				<suggestion suppress_misspelled="yes"><match no="2" case_conversion="startlower"/></suggestion>
-				<example correction="is">Dit, <marker>Is</marker> een fout.</example>
-				<example>Dit <marker>is</marker> wel goed.</example>
-			</rule>
-		</rulegroup>
+            <rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling" tags="picky">
+				<rule>
+					<antipattern case_sensitive="yes"><token>Landbouw</token><token>,</token><token>Natuur</token><token>en</token><token>Voedselkwaliteit</token></antipattern>
+					<antipattern case_sensitive="yes"><token>Transport</token><token>,</token><token>Communicatie</token><token>en</token><token>Toerisme</token></antipattern>
+					<antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
+					<antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
+					<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan|park|talige?)</token></antipattern>
+					<antipattern>
+						<!-- taal -->
+						<token regexp="yes">[,;]</token>
+						<and>
+							<token regexp="yes" postag="ZNW:EKV:HET">[A-Z][a-z].*</token>
+							<token regexp="yes" postag="BNW:STL:ONV">[A-Z][a-z].*</token>
+						</and>
+					</antipattern>
+					<pattern case_sensitive="yes">
+						<token regexp="yes">[,;]</token>
+						<marker>
+							<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
+						</marker>
+					</pattern>
+					<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
+					<suggestion suppress_misspelled="yes"><match no="2" case_conversion="startlower"/></suggestion>
+					<example correction="is">Dit, <marker>Is</marker> een fout.</example>
+					<example>Dit <marker>is</marker> wel goed.</example>
+				</rule>
+			</rulegroup>
 		<rulegroup id="DUBBELOP" name="Voorlopig concept" tags="picky">
 			<rule>
 				<pattern><token>voorlopig</token><token>concept</token></pattern>
@@ -19797,7 +19796,7 @@ steenwijk;Steenwijk
 		-->
 		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" default="temp_off">
 			<rule>
-				<antipattern><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW:.*DE_"/></antipattern>
+				<antipattern><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag="ZNW.*|BNW.*"/><token postag_regexp="yes" postag="ZNW:.*DE_"/></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes">de|deze</token>
