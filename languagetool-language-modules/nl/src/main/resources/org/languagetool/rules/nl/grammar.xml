@@ -276,6 +276,10 @@ regexp case-insensitive maken : (?i)
 	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
 		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 			<rule>
+				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token postag_regexp="yes" postag="MEH.*"/></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">&abbrevMonths;</token></antipattern>
+				<antipattern><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token><token regexp="yes">[0-9]+</token></antipattern>
 				<antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
 				<antipattern><token regexp="yes">[^a-z]+</token><token regexp="yes">[0-9]+</token><token regexp="yes">[^a-z]+</token></antipattern>
 				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
@@ -290,7 +294,7 @@ regexp case-insensitive maken : (?i)
 					</marker>
 					<token/>
 				</pattern>
-				<message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven.</message>
+				<message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven in lopende tekst.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>
 				<short>Uitschrijven</short>
 				<example type="incorrect">Er was <marker>100</marker> man aanwezig.</example>
@@ -13266,6 +13270,7 @@ onwaarschijnlijk
 	<category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style">
 		<rulegroup id="NADRUKTEKENS" name= "optionele accenten" tags="picky">
 			<rule>
+				<antipattern><token negate_pos="yes" postag="SENT_START"/><token regexp="yes" case_sensitive="yes">^[A-Z].*</token></antipattern>
 				<pattern>
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
 				</pattern>
@@ -17695,7 +17700,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_HOEWEL" name=", hoewel" default="temp_off">
 			<rule>
-				<antipattern><token>(</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
+				<antipattern><token regexp="yes">[^a-z]*</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<antipattern><token skip="2">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<antipattern><token regexp="yes">["']</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<pattern>
