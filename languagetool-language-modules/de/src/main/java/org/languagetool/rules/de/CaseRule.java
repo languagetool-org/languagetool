@@ -994,6 +994,11 @@ public class CaseRule extends Rule {
       csToken("die"),
       new PatternTokenBuilder().posRegex("SUB:NOM:PLU.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
       new PatternTokenBuilder().posRegex("SUB:.*:SIN").csTokenRegex("[A-ZÖÜÄ].+").build()
+    ),
+    Arrays.asList(
+      // Sie starrt ständig ins Nichts. 
+      csRegex("vorm|ins"),
+      csToken("Nichts")
     )
   );
 

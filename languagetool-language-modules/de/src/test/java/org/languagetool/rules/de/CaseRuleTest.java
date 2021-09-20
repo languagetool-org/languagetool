@@ -407,6 +407,7 @@ public class CaseRuleTest {
     assertGood("Der Platz auf dem die Ahnungslosen Kopf an Kopf stehen.");
     assertGood("4.)   Bei Beschäftigung von Hilfskräften: Schadenfälle durch Hilfskräfte");
     assertGood("Es besteht aus Schülern, Arbeitstätigen und Studenten.");
+    assertGood("Sie starrt ständig ins Nichts.");
   }
 
   private void assertGood(String input) throws IOException {

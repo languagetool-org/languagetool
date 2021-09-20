@@ -22229,6 +22229,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="AUS_DEM_NICHTS" name="aus dem nichts (Nichts)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>nichts</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>zu</token>
+                    <token postag="VER:.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">vor|aus</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">nichts</token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieses Wort als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+                <suggestion>Nichts</suggestion>
+                <example correction="Nichts">Er kam aus dem <marker>nichts</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">im|ins|vorm</token>
+                    <marker>
+                        <token case_sensitive="yes">nichts</token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieses Wort als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+                <suggestion>Nichts</suggestion>
+                <example correction="Nichts">Er verschwand im <marker>nichts</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_GRENZEN" name="in grenzen (Grenzen)">
             <rule>
                 <pattern>
@@ -47822,7 +47853,7 @@ Andere Projekte</example>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example correction="mahlt">Wer zuerst kommt, <marker>malt</marker> zuerst.</example>
         </rule>
-        <rule id="AUS_DEM_NICHTS" name="'aus der Luft gegriffen' etc.">
+        <rule id="AUS_DER_LUFT_ENTSTANDEN" name="'aus der Luft gegriffen' etc.">
             <regexp>aus der Luft (entstanden|gesaugt)</regexp>
             <message>Meinten Sie <suggestion>aus dem Nichts entstanden</suggestion> oder <suggestion>aus der Luft gegriffen</suggestion>?</message>
             <short>Möglicherweise falsch verwendete Redewendung</short>
