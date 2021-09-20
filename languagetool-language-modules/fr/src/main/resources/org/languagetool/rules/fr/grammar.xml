@@ -5686,7 +5686,8 @@ though, and has since been slightly modified)-->
             <example>C'est toi qui l'as fait.</example>
             <example>Y a-t-il quelque chose que tu m'aies tu ?</example>
         </rule>
-		<rule id="ES_EST" name="es/ait/aies -> est" default="temp_off">
+		<rulegroup id="ES_EST" name="es/ait/aies -> est" default="temp_off">
+		<rule>
             <pattern>
                 <token regexp="yes">ait|aies|es</token>
                 <token regexp="yes">-il|-elle|-on|-ce</token>
@@ -5696,6 +5697,19 @@ though, and has since been slightly modified)-->
             <example correction="est-il">Ainsi, <marker>ait-il</marker> vraiment content ?</example>
 		    <example correction="Est-ce"><marker>Es-ce</marker> que tu te sens bien seul ?</example>
 		</rule>
+		<rule>
+            <pattern>
+                <token>ce</token>
+                <token>n'</token>
+                <marker>
+                <token regexp="yes">ai|aies|es</token>
+                </marker>
+            </pattern>
+            <message>Le verbe être est attendu après le sujet 'ce'.</message>
+			<suggestion>est</suggestion>
+            <example correction="est">Ce n'<marker>ai</marker> pas ça.</example>
+		</rule>
+		</rulegroup>
         <rule id="MEDIA" name="media/média">
             <antipattern>
                 <token regexp="yes">mass|social</token>
@@ -59126,6 +59140,88 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+        <rulegroup id="NEGATION_NULLE_PART" name="négation nulle part" default="temp_off">
+             <rule>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*|V.*" postag_regexp="yes"></token>
+                <token postag="V.*" postag_regexp="yes"></token>
+                <token>nulle</token>
+                <token>part</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">fonction</token>
+                <token>nulle</token>
+                <token>part</token>
+            </antipattern>
+            <antipattern>
+                <token>nulle</token>
+                <token skip="-1">part</token>
+                <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="Y"/>
+                <token skip="-1">:</token>
+                <token>nulle</token>
+                <token>part</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token postag="R pers suj.*|[NJ].*" postag_regexp="yes"/>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"></token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                </marker>
+                <token case_sensitive="yes">nulle</token>
+                <token case_sensitive="yes">part</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>\1 \2 ne \3</suggestion>
+            <example correction="Je ne vais"><marker>Je vais</marker> nulle part.</example>
+            <example>Pourquoi n'en trouve-t-on trace nulle part ?</example>
+            <example>1998 : On va nulle part et c'est très bien.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*|V.*" postag_regexp="yes"></token>
+                <token postag="V.*" postag_regexp="yes"></token>
+                <token>nulle</token>
+                <token>part</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">fonction</token>
+                <token>nulle</token>
+                <token>part</token>
+            </antipattern>
+            <antipattern>
+                <token>nulle</token>
+                <token skip="-1">part</token>
+                <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="Y"/>
+                <token skip="-1">:</token>
+                <token>nulle</token>
+                <token>part</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token regexp="yes">qui|ce</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"></token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                </marker>
+                <token case_sensitive="yes">nulle</token>
+                <token case_sensitive="yes">part</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>\1 \2 ne \3</suggestion>
+            <example correction="qui ne va">Ne me dis pas que j'ai pris un train <marker>qui va</marker> nulle part !</example>
+            <example>Pourquoi n'en trouve-t-on trace nulle part ?</example>
+            <example>1998 : On va nulle part et c'est très bien.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="NEGATION_PERSONNE" name="je parle à personne (je ne parle)" default="temp_off">
             <rule>
             <antipattern>
