@@ -2035,6 +2035,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mais l'Alien ne veut pas être reconnu comme tel et tue le médecin.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes">par|sur</token>
+                </antipattern>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes"/>
                     <unify negate="yes">
@@ -2061,6 +2065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="culturel et musical|culturelle et musicale|culturels et musicaux|culturelles et musicales">sa réputation de carrefour <marker>culturelle et musical</marker> d'Afrique de l'Ouest</example>
                 <example correction="culturel et social|culturelle et sociale|culturels et sociaux|culturelles et sociales"> en matière <marker>culturelle et sociales</marker></example>
                 <example correction="simple et économique|simples et économiques">une solution <marker>simple et économiques</marker> pour gérer leurs impayés !</example>
+                <example>par de faibles doses d'acide acétylsalicylique ou traités par d'autres médicaments</example>
             </rule>
             <rule>
                 <antipattern>
@@ -2131,6 +2136,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Faites bon voyage !</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                    <token regexp="yes">par|sur</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">avoir</token>
+                    <token skip="6" postag="V ppa.*" postag_regexp="yes"/>
+                    <token postag="C coor"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="D.* p" postag_regexp="yes"/>
                     <unify negate="yes">
@@ -2141,7 +2156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify-ignore>
                                 <token postag="C coor"/>
                             </unify-ignore>
-                            <token postag="J.*" postag_regexp="yes"/>
+                            <token postag="J.*" postag_regexp="yes"><exception postag="V ppr"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -2151,6 +2166,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="J.*" postag_regexp="yes" postag_replace="J [me] s?p"/> \3 <match no="4" postag="J.*" postag_regexp="yes" postag_replace="J [me] s?p"/></suggestion>
                 <suggestion><match no="2" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/> \3 <match no="4" postag="J.*" postag_regexp="yes" postag_replace="J [fe] s?p"/></suggestion>
                 <example correction="handicapés ou traumatisés|handicapées ou traumatisées">pour les <marker>handicapés ou traumatisée</marker> suite à des accidents divers.</example>
+                <example>Une première mi-temps dominée par les locaux et concrétisée par Ruiss</example>
+                <example>Ils ont exécuté les généraux et pillé la ville avant de repartir.</example>
+                <example>Son ambition est d'exercer un contrôle reconnu par les citoyens et constituant une référence internationale.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MULTI_ADJ_" name="accord entre plusieurs adjectifs" default="off">
