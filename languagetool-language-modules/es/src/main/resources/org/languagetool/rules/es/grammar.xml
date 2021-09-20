@@ -18637,6 +18637,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="A ver"><marker>Haber</marker> por qué tiene que ser así.</example>
                 <example>¡Tiene que haber quién lo diga!</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>haber</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>haber</token>
+                    <token min="0" postag="SPS00"/>
+                    <token inflected="yes" regexp="yes">quién|qué|cuánto|cuándo|cómo|cuál</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>haber</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
+                <example correction="A ver"><marker>Haber</marker> señor presidente.</example>
+                <example>Lo que más me molestó fue haber sido engañado.</example>
+                <example>su éxito fue haber seguido al pie de la letra una estrategia</example>
+                <example>¡Tiene que haber quién lo diga!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PUDE_PUEDE" name="pude/puede">
             <rule>
