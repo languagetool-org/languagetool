@@ -28823,24 +28823,78 @@ though, and has since been slightly modified)-->
             <example correction="parce que|parce qu'">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
             <example>Je suis en retard parce que j’ai raté mon bus.</example>
         </rule>
-        <rule id="A_LE" name="à le nom">
-            <pattern>
-                <marker>
-                    <token>à
-                        <exception scope="previous" regexp="yes">on|il|elle|ça|cela</exception></token>
-                    <token regexp="yes">les?</token>
-                </marker>
-                <token>
-                    <exception postag="V.* inf|UNKNOWN" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Incohérence : « à \2 » ne peut se trouver que devant un infinitif.</message>
-            <suggestion>au</suggestion>
-            <suggestion>aux</suggestion>
-            <example correction="au|aux">Il a gagné <marker>à le</marker> championnat.</example>
-            <example>Je n’arrive pas à le déplacer.</example>
-            <example>Quand on lit, on à le temps de s’arrêter.</example>
-            <example>Vous êtes les premiers à les avoir.</example>
-        </rule>
+              <rulegroup id="A_LE" name="à le nom">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>à
+                            <exception scope="previous" regexp="yes">on|il|elle|ça|cela</exception></token>
+                        <token>le</token>
+                    </marker>
+                    <token>
+                        <exception postag="V.* inf|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si il n'est pas placé devant un infinitif, 'à le' doit être contracté en 'au'.</message>
+                <suggestion>au</suggestion>
+                <example correction="au">Il a gagné <marker>à le</marker> Loto.</example>
+                <example correction="au">Il doit prendre le train <marker>à Le</marker> Havre.</example>
+                <example>Je n’arrive pas à le déplacer.</example>
+                <example>Quand on lit, on à le temps de s’arrêter.</example>
+                <example>Vous êtes les premiers à le voir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>à
+                            <exception scope="previous" regexp="yes">on|il|elle|ça|cela</exception></token>
+                        <token>les</token>
+                    </marker>
+                    <token>
+                        <exception postag="V.* inf|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si il n'est pas placé devant un infinitif, 'à les' doit être contracté en 'aux'.</message>
+                <suggestion>aux</suggestion>
+                <example correction="aux">Il a gagné <marker>à les</marker> Loto.</example>
+                <example correction="aux">Il doit prendre le train <marker>à Les</marker> Sables-d'Olonne.</example>
+                <example>Je n’arrive pas à les déplacer.</example>
+                <example>Quand on lit, on à les occasions de s’arrêter.</example>
+                <example>Vous êtes les premiers à les voir.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DE_LE" name="de le">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token>le</token>
+                    </marker>
+                    <token>
+                        <exception postag="V.* inf|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si il n'est pas placé devant un infinitif, 'de le' doit être contracté en 'du'.</message>
+                <suggestion>du</suggestion>
+                <example correction="du">Il a mangé <marker>de le</marker> jambon.</example>
+                <example correction="du">Il est candidat à la mairie <marker>de Le</marker> Havre.</example>
+                <example>Je te demande de le déplacer.</example>
+                <example>Vous avez la chance de le voir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token>les</token>
+                    </marker>
+                    <token>
+                        <exception postag="V.* inf|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si il n'est pas placé devant un infinitif, 'de les' doit être contracté en 'des'.</message>
+                <suggestion>des</suggestion>
+                <example correction="des">Il a mangé <marker>de les</marker> chips.</example>
+                <example correction="des">Il est candidat à la mairie <marker>de Les</marker> Sables-d'Olonne.</example>
+                <example>Je te demande de les déplacer.</example>
+                <example>Vous avez la chance de les voir.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DU_LE" name="du le">
             <rule>
                 <pattern>
