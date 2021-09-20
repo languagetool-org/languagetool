@@ -4194,6 +4194,26 @@ though, and has since been slightly modified)-->
                 <suggestion>\1 \2 \3</suggestion>
                 <example correction="dans laquelle elle">Je n'ai pas regardé la série <marker>dans laquelle elle y</marker> joue.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">ne|n'</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>seulement</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" skip="3">ne|n'</token>
+                    <marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>seulement</token>
+                    <token>que</token>
+                    </marker>
+                </pattern>
+                <message>La construction de cette phrase peut sembler inappropriée, car '\2 \3' et '\1 \2 \4' ont le même sens.</message>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>\2 \4</suggestion>
+                <example correction="trouve seulement|trouve que">Il ne se <marker>trouve seulement que</marker> dans cette ville.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PLUS_MAUVAIS" name="plus mauvais">
             <rule>
@@ -38844,11 +38864,12 @@ though, and has since been slightly modified)-->
         <rule id="DOUBLE_NEG" name="Double négation">
             <pattern>
                 <token>pas</token>
-                <token regexp="yes">personne|rien|aucune?|jamais</token>
+                <token regexp="yes">personne|rien|aucune?|jamais<exception scope="next" inflected="yes">ne</exception></token>
             </pattern>
             <message>La négation est double. Le terme <suggestion>\2</suggestion> semble être préférable.</message>
             <example correction="personne">Il n’y a <marker>pas personne</marker> pour m’aider.</example>
             <example>Il n’y a personne pour m’aider.</example>
+            <example>Dieu existe ou n'existe pas personne ne peut rien prouver.</example>
         </rule>
         <rulegroup id="MOTS_INCOMP" name="Mots qui ne peuvent pas se suivre">
             <rule>
@@ -59207,6 +59228,61 @@ though, and has since been slightly modified)-->
             <message>L'expression 'sans que' exprime déjà la négation, celle-ci semble donc être redondante.</message>
             <suggestion>\4</suggestion>
             <example correction="vienne">Il attend plusieurs jours sans que personne <marker>ne vienne</marker>.</example>
+        </rule>
+		<rule>
+            <pattern>
+                <token>pas</token>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+                <token min="0" max="1">à</token>
+                <token>personne</token>
+            </pattern>
+            <message>L'expression 'ne... personne' exprime déjà la négation, l'adverbe 'pas' est donc facultatif.</message>
+            <suggestion>\2 \3 \4</suggestion>
+            <example correction="vu personne">Il n'a <marker>pas vu personne</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                <token>pas</token>
+                <token min="0" max="1">à</token>
+                <token>personne<exception scope="next" postag="J.*" postag_regexp="yes"/>
+                    <exception scope="next" inflected="yes">ne</exception>
+                </token>
+                </marker>
+            </pattern>
+            <message>L'expression 'ne... personne' exprime déjà la négation, l'adverbe 'pas' est donc facultatif.</message>
+            <suggestion>\3 \4</suggestion>
+            <example correction="à personne">Il ne parle <marker>pas à personne</marker>.</example>
+            <example>Dieu existe ou n'existe pas personne ne peut rien prouver.</example>
+            <example>La ville n'est pas personne morale.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token postag="[DP].*|UNKNOWN" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                <token>personne</token>
+                <token inflected="yes" regexp="yes">ne|n</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>pas</token>
+            </antipattern>
+            <pattern>
+                <token>personne<exception scope="previous" regexp="yes">[("]</exception>
+                    <exception scope="next" regexp="yes">qui|,</exception>
+                </token>
+                <token inflected="yes" regexp="yes">ne|n</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V.* ppr" postag_regexp="yes"/></token>
+                    <token>pas<exception scope="next">même</exception></token>
+                </marker>
+            </pattern>
+            <message>L'expression 'personne ne' exprime déjà la négation, l'adverbe 'pas' est donc facultatif.</message>
+            <suggestion>\3</suggestion>
+            <example correction="est">Personne n'<marker>est pas</marker> parfait.</example>
+            <example>Il n'est pas permis de tuer un katagi (personne ne faisant pas partie de la pègre).</example>
+            <example>Malheureusement personne ne me comprend pas même wikipedia.</example>
+            <example>Personne ne connaissant pas les différentes bases accidentologie.</example>
+            <example>Pour renvoyer à un possesseur troisième personne qui n'est pas sujet de la proposition concernée.</example>
         </rule>
         </rulegroup>
         <rulegroup id="SI_CI_SY" name="confusions si_ci_s'y" default="temp_off">
