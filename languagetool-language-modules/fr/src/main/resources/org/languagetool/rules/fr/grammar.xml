@@ -59160,7 +59160,7 @@ though, and has since been slightly modified)-->
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <token postag="R pers obj.*" postag_regexp="yes"><exception>en</exception></token>
                 </marker>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes"><exception postag="[NJ].*" postag_regexp="yes"/></token>
                 <token>à</token>
@@ -59169,6 +59169,7 @@ though, and has since been slightly modified)-->
             <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
             <suggestion>ne \1</suggestion>
             <example correction="ne le">Il <marker>le</marker> dit à personne.</example>
+            <example>On en parlera à personne.</example>
         </rule>
         <rule>
             <pattern>
@@ -59186,7 +59187,7 @@ though, and has since been slightly modified)-->
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">plus|que|,<exception scope="previous" regexp="yes">sans|mieux|tant</exception></token>
+                <token regexp="yes">plus|que|,<exception scope="previous" regexp="yes">sans|mieux|tant|non</exception></token>
                 <token case_sensitive="yes">personne<exception scope="previous" postag="[DPJ].*" postag_regexp="yes"/></token>
                 <marker>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[àâaêèéeiîoôòóöŌuœä].*<exception postag="[NJ].*" postag_regexp="yes"/></token>
@@ -59195,6 +59196,7 @@ though, and has since been slightly modified)-->
             <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
             <suggestion>n'\3</suggestion>
             <example correction="n'a">Plus personne <marker>a</marker> de question, alors on continue le cours.</example>
+            <example>Non que personne ait vu le Père, sinon celui qui vient d'auprès de Dieu : celui-là a vu le Père.</example>
         </rule>
         <rule>
             <pattern>
@@ -59258,9 +59260,36 @@ though, and has since been slightly modified)-->
                 <token></token>
                 </marker>
             </pattern>
-            <message>L'expression 'sans que' exprime déjà la négation, celle-ci semble donc être redondante.</message>
+            <message>L'expression 'sans que' exprime déjà la négation, celle-ci pourrait sembler redondante.</message>
             <suggestion>\4</suggestion>
             <example correction="vienne">Il attend plusieurs jours sans que personne <marker>ne vienne</marker>.</example>
+        </rule>
+        <rule>
+            <antipattern>
+                <token inflected="yes" skip="3">ne</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="V (avoir|etre) .*" postag_regexp="yes"/>
+                <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>à</token>
+                <token>personne</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>en<exception scope="previous">j'</exception></token>
+                </marker>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"><exception postag="[NJ].*" postag_regexp="yes"/></token>
+                <token>à</token>
+                <token>personne</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>n'\1</suggestion>
+            <example correction="n'en">On <marker>en</marker> parlera à personne.</example>
         </rule>
         </rulegroup>
         <rulegroup id="SI_CI_SY" name="confusions si_ci_s'y" default="temp_off">
