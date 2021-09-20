@@ -60922,27 +60922,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes"><marker>cara dura</marker></example>
             <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes">Tenia una <marker>cara molt dura</marker></example>
         </rule>
-        <rule id="MAJOR_MES_GRAN" name="major/més gran">
-            <pattern>
-                <marker>
-                    <unify>
-                        <feature id="nombre"/>
-                        <feature id="genere"/>
-                        <token postag="DA.*" postag_regexp="yes"/>
-                        <token postag="_GN_.*" postag_regexp="yes">major</token>
-                        <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">part|glòria</exception></token>
-                    </unify>
-                </marker>
-                <!-- <token><exception postag="_GN_.*" postag_regexp="yes"/></token> -->
-            </pattern>
-            <message>Expressió preferible.</message>
-            <suggestion><match no="1"/> <match no="3" include_skipped="all"/> més gran</suggestion>
-            <suggestion><match no="1"/> <match no="3" include_skipped="all"/> més <match no="2" postag="_GN_(..)" postag_regexp="yes" postag_replace="AQ0$10">gros</match></suggestion>
-            <example correction="el problema més gran|el problema més gros"><marker>el major problema</marker> que tenim</example>
+        <rulegroup id="MAJOR_MES_GRAN" name="major/més gran">
             <!-- <example correction="el problema sectorial més gran|el problema sectorial més gros"><marker>el major problema sectorial</marker> que tenim</example> -->
-            <example>la major part dels ciutadans</example>
-            <example>per a la major glòria de Déu</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify>
+                            <feature id="nombre"/>
+                            <feature id="genere"/>
+                            <token postag="DA.*" postag_regexp="yes"/>
+                            <token postag="_GN_MS">major</token>
+                            <token postag="NC.*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion>l'<match no="3" include_skipped="all"/> més gran</suggestion>
+                <suggestion>l'<match no="3" include_skipped="all"/> més <match no="2" postag="_GN_(MS)" postag_regexp="yes" postag_replace="AQ0$10">gros</match></suggestion>
+                <example correction="l'error més gran|l'error més gros"><marker>el major error</marker> que vam cometre</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify>
+                            <feature id="nombre"/>
+                            <feature id="genere"/>
+                            <token postag="DA.*" postag_regexp="yes"/>
+                            <token postag="_GN_FS">major</token>
+                            <token postag="NC.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI|11a<exception regexp="yes">ouija|host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion>l'<match no="3" include_skipped="all"/> més gran</suggestion>
+                <suggestion>l'<match no="3" include_skipped="all"/> més <match no="2" postag="_GN_(FS)" postag_regexp="yes" postag_replace="AQ0$10">gros</match></suggestion>
+                <example correction="l'errada més gran|l'errada més grossa"><marker>la major errada</marker> que vam cometre</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify>
+                            <feature id="nombre"/>
+                            <feature id="genere"/>
+                            <token postag="DA.*" postag_regexp="yes"/>
+                            <token postag="_GN_MS">major</token>
+                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">part|glòria</exception></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion><match no="1"/> <match no="3" include_skipped="all"/> més gran</suggestion>
+                <suggestion><match no="1"/> <match no="3" include_skipped="all"/> més <match no="2" postag="_GN_(MS)" postag_regexp="yes" postag_replace="AQ0$10">gros</match></suggestion>
+                <example correction="el problema més gran|el problema més gros"><marker>el major problema</marker> que tenim</example>
+                <example>la major part dels ciutadans</example>
+                <example>per a la major glòria de Déu</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify>
+                            <feature id="nombre"/>
+                            <feature id="genere"/>
+                            <token postag="DA.*" postag_regexp="yes"/>
+                            <token postag="_GN_FS">major</token>
+                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">part|glòria</exception></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion><match no="1"/> <match no="3" include_skipped="all"/> més gran</suggestion>
+                <suggestion><match no="1"/> <match no="3" include_skipped="all"/> més <match no="2" postag="_GN_(FS)" postag_regexp="yes" postag_replace="AQ0$10">gros</match></suggestion>
+                <example correction="la influència més gran|la influència més grossa"><marker>la major influència</marker> que tenim</example>
+                <example>la major part dels ciutadans</example>
+                <example>per a la major glòria de Déu</example>
+            </rule>
+        </rulegroup>
         <rule id="TOTS_ELS_DIES" name="tots els dies/cada dia">
             <antipattern>
                 <token postag="NCMP000"/>
@@ -66257,7 +66311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Casas Bajas</suggestion>
                 <example correction="Casas Bajas"><marker>Cases Baixes</marker></example>
             </rule>
-           <!-- <rule>
+            <!-- <rule>
                 <pattern>
                     <token>Castelló</token>
                     <token>de</token>
