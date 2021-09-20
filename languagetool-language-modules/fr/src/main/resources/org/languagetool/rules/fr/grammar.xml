@@ -9195,11 +9195,12 @@ though, and has since been slightly modified)-->
                 <token>
                     <exception regexp="yes">pour|contrario|fortiori|posteriori|priori|minima</exception>
                     <exception spacebefore="no">)</exception>
-                    <exception postag="V.* ppa.*" postag_regexp="yes"/></token>
+                    <exception postag="V.* ppa.*|UNKNOWN" postag_regexp="yes"/></token>
             </pattern>
             <message>La préposition <suggestion>À</suggestion> est attendue.</message>
             <example correction="À">(<marker>A</marker> la fin.)</example>
             <example>« A possède x »</example>
+            <example>« A Desperate Man » : Neil en cavale.</example>
         </rule>
             <rule default="temp_off">
             <antipattern>
@@ -9212,6 +9213,15 @@ though, and has since been slightly modified)-->
                 <token skip="-1">,</token>
                 <token>,</token>
                 <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token>qui</token>
+                <token skip="-1">a</token>
+                <token>,</token>
+                <token>a</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">[,.]</token>
             </antipattern>
             <pattern>
                 <token>,</token>
@@ -9226,6 +9236,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>La préposition <suggestion>à</suggestion> est attendue.</message>
             <example correction="à">À la vie, <marker>a</marker> la mort.</example>
+            <example>Qui a la volonté, a la force.</example>
         </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
