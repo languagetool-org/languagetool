@@ -33892,6 +33892,15 @@ Isto foi criado em 27-JAN-2021.
     </rule>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <rule>
+<!-- MARCOAGPINTO 2021-09-20 (25-JUN-2021+) *START* -->
+<!--
+As forças estão organizadas numa hierarquia C2.
+-->
+      <antipattern>
+		  <token regexp='yes'>hierarquias?|hierárquicas?</token>
+		  <token case_sensitive='yes'>C2</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-09-20 (25-JUN-2021+) *END* -->
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
             <exception regexp='yes'>(?:I[CP]|U|PS)2</exception></token>
@@ -33901,6 +33910,8 @@ Isto foi criado em 27-JAN-2021.
       <example correction='O₂'><marker>O2</marker></example>
       <example correction='4H₂O'><marker>4H2O</marker></example>
       <example>U2</example>
+	  
+	  <example>As forças estão organizadas numa hierarquia C2.</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
