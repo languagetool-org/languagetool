@@ -24829,6 +24829,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SUB:.+:INF" postag_regexp="yes" regexp="yes" case_sensitive='yes'>[A-Z].+en</token>
                 <token regexp="yes">ge(gang|h)en</token>
             </antipattern>
+            <antipattern><!-- "Essen gehen wir immer hier." -->
+                <token postag="SENT_START|PKT" postag_regexp="yes"/>
+                <token regexp="yes">&anf;</token>
+                <token spacebefore="no" postag="SUB:.+:INF" postag_regexp="yes" regexp="yes" case_sensitive='yes'>[A-Z].+en</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="ART:.+|PRP:.+|PRO:POS:DAT:.+" postag_regexp="yes"/></token>
                 <marker>
@@ -24856,6 +24861,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Diese beiden Essen gehen auf mich!</example>
             <example>Dabei dürfte es nicht mehr um Tausende Stellen gehen.</example>
             <example>Tom ist vor drei Tagen gegangen.</example>
+            <example>"Essen gehen wir nur noch einmal im Monat."</example>
+            <example>Er sagte: "Essen gehen wir nie."</example>
         </rule>
         <rulegroup id="ZU_ESSEN" name="zu Essen (essen) geben / haben / bekommen">
             <rule>
