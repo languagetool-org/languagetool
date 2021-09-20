@@ -59246,6 +59246,61 @@ though, and has since been slightly modified)-->
             <example>1998 : On va nulle part et c'est très bien.</example>
         </rule>
         </rulegroup>
+		 <rulegroup id="NEGATION_QUE" name="négation que" default="temp_off">
+            <antipattern>
+                <token>que</token>
+                <token min="0" max="1">l'</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token>d'</token>
+                <token>elles</token>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token>quand</token>
+                <token>on</token>
+                <token>a</token>
+                <token>que</token>
+                <token>l'</token>
+                <token>amour</token>
+            </antipattern>
+            <rule>
+            <pattern>
+                <token postag="R pers suj.*" postag_regexp="yes"><exception>eux</exception>
+                    <exception scope="previous" regexp="yes">entre|contre</exception></token>
+                <marker>
+                    <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+             <suggestion>n'\2</suggestion>
+            <example correction="n'est">Finalement, on <marker>est</marker> que dix aujourd"hui.</example>
+            <example>Le besoin que l'on avait que les forces pacifient le pays était trop pressant.</example>
+            <example>L'une d'elles est que l'arbre symbolise le savoir illimité qui n'appartient qu'à Dieu.</example>
+            <example>Épisode 9 : Quand on a que l'amour de Jake</example>
+        </rule>
+        <rule>
+             <pattern>
+                <token postag="R pers suj.*" postag_regexp="yes"><exception>eux</exception>
+                    <exception scope="previous" regexp="yes">entre|contre</exception></token>
+                <marker>
+                    <token postag="V etre ind pres [13] p|V etre ind (psim|futu).*|V etre sub (pres|impa).*|V etre con pres.*" postag_regexp="yes"/>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>ne \2</suggestion>
+            <example correction="ne sont">Ils <marker>sont</marker> que des garçons.</example>
+            <example>Le besoin que l'on avait que les forces pacifient le pays était trop pressant.</example>
+            <example>L'une d'elles est que l'arbre symbolise le savoir illimité qui n'appartient qu'à Dieu.</example>
+            <example>Épisode 9 : Quand on a que l'amour de Jake</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="NEGATION_PERSONNE" name="je parle à personne (je ne parle)" default="temp_off">
             <rule>
             <antipattern>
@@ -62507,7 +62562,8 @@ though, and has since been slightly modified)-->
                 <example correction="qu'est-ce que c'est">Dis-moi <marker>c'est quoi</marker> déjà ?</example>
             </rule>
         </rulegroup>
-        <rule id="QU_EST_CE_QUE" name="J'ignore qu'est-ce que (ce que) c'est">
+        <rulegroup id="QU_EST_CE_QUE" name="J'ignore qu'est-ce que (ce que) c'est">
+        <rule>
             <antipattern>
                 <token>qu'</token>
                 <token>est</token>
@@ -62529,6 +62585,136 @@ though, and has since been slightly modified)-->
             <example>Entreprises : Qu'est-ce qu'un COO</example><!-- headline -->
             <example>Entreprises, qu'est-ce qu'un COO</example><!-- headline -->
         </rule>
+         <rule default="temp_off">
+            <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token regexp="yes" skip="-1">qu[ie]?|qu'</token>
+                <token postag="SENT_END" regexp="yes">\?|.*[^\p{P}].*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[«"-—…]|mais|et</token>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes" skip="3">que</token>
+            </antipattern>
+             <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token>qu'</token>
+                <token>il</token>
+                <token>y</token>
+                <token>a</token>
+            </antipattern>
+             <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token>que</token>
+                <token>tu</token>
+                <token>veux</token>
+            </antipattern>
+            <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes" skip="4">que</token>
+                <token postag="M fin inte|M nonfin" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes">que</token>
+                <token>ce</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes">que</token>
+            </antipattern>
+            <pattern>
+                <token>qu'
+                    <exception scope="previous" postag="SENT_START"/></token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes">que</token>
+            </pattern>
+            <message>S'il s'agit d'une question indirecte, cette syntaxe peut être considérée comme incorrecte. Nous vous conseillons de l'introduire par <suggestion>ce \4</suggestion>.</message>
+            <example correction="ce qu'"> Je me demande <marker>qu'est-ce qu'</marker>il pense.</example>
+            <example correction="ce que"> Dis-moi <marker>qu'est-ce que</marker> tu en penses.</example>
+            <example>Qu'est-ce qu'elle veut encore !</example>
+            <example>Entreprises : Qu'est-ce qu'un COO</example><!-- headline -->
+            <example>Entreprises, qu'est-ce qu'un COO</example><!-- headline -->
+            <example>« Qu’est-ce qu’on va faire si Tom ne vient pas ? »</example>
+            <example>Alors, qu'est-ce qu'on fait ?</example>
+            <example>Mais alors, qu’est-ce qu’un vrai lieu de drague ?</example>
+            <example>Qu'est-ce que c'est que ce bordel !</example>
+        </rule>
+        <rule default="temp_off">
+        <antipattern>
+         <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token>y</token>
+                <token inflected="yes">pouvoir</token>
+        </antipattern>
+        <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes" skip="4">que</token>
+                <token postag="M fin inte"/>
+            </antipattern>
+             <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes" skip="2">que</token>
+                <token postag="V etre.* 3 s" postag_regexp="yes"/>
+                <token postag="[DN].*" postag_regexp="yes" min="2" skip="2"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+             <antipattern>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes" skip="4">que</token>
+                <token>c'</token>
+                <token postag="V etre.* 3 s" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+            <token skip="1">attention</token>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes" skip="2">que</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+        <pattern>
+                <token>,</token>
+                <marker>
+                <token>qu'</token>
+                <token>est</token>
+                <token>-ce</token>
+                <token inflected="yes">que</token>
+                </marker>
+            </pattern>
+            <message>S'il s'agit d'une question indirecte, cette syntaxe peut être considérée comme incorrecte. Nous vous conseillons de l'introduire par <suggestion>comme</suggestion>.</message>
+            <example correction="comme">Cela faisait un moment que j'étais pas passé, <marker>qu'est-ce que</marker> ça bouge maintenant sur Tatoeba !</example>
+            <example>C'est à la mode d'être grognon et pas content, qu'est-ce qu'on y peut...</example>
+            <example>Attention, qu'est-ce que tu fais !</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style">
             <antipattern>
                 <token>histoire</token>
