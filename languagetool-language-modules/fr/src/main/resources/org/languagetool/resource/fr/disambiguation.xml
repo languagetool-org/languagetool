@@ -6661,4 +6661,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
+        <rule><!-- lowercase word + abbreviation with no vowels -->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">.*[a-záàâ].*</token>
+                <token min="0">(</token>
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!-- abbreviation with no vowels + lowercase word -->
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+                <token min="0">)</token>
+                <token regexp="yes">.*[a-záàâ].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
