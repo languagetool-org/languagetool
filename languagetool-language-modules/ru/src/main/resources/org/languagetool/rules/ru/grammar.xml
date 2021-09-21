@@ -6428,7 +6428,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Тосковать по дому"><marker>Тосковать по доме</marker>.</example>
             <example>Тосковать по дому.</example>
            </rule>
-        </rulegroup>      
+        </rulegroup>
+        <rule id="grammar_poshel_k" name="Грамматика: «Пошёл» + ...">  <!-- issue #1073 -->
+            <pattern>
+                <token regexp="yes">пошёл|пошел</token>
+                <token postag="NN:.*:.*:Sin:D" postag_regexp="yes"></token>
+            </pattern>
+            <message>Возможно пропущен предлог или существительное стоит в неправильном падеже.</message>
+            <short>Пропущен предлог</short>
+            <example correction="">Я <marker>пошёл речке</marker>.</example>
+            <example>Я пошёл к речке.</example>
+        </rule>
+        <rule id="grammar_po_sravneniju_s" name="Грамматика: «по сравнению» + ..."> <!-- issue #1073 -->
+            <pattern>
+                <token>по</token>
+                <token>сравнению</token>
+                <token><exception regexp="yes">с|со|в|,|;</exception></token>
+            </pattern>
+            <message>Пропущен предлог.</message>
+            <short>Пропущен предлог</short>
+            <example correction="">Дело в том, что функции Риккати-Бесселя могут быть записаны в виде обратной рекуррентной последовательности с хорошей сходимостью для более широкого диапазона аргументов <marker>по сравнению сферическими</marker> функциями Бесселя следующим образом:</example>
+            <example>Дело в том, что функции Риккати-Бесселя могут быть записаны в виде обратной рекуррентной последовательности с хорошей сходимостью для более широкого диапазона аргументов по сравнению со сферическими функциями Бесселя следующим образом:</example>
+        </rule>      
         <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного (местоимения) с существительным по падежу">
             <!-- TODO remove свой + все формы from exception -->       
             <antipattern>
