@@ -36872,6 +36872,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error ortotipogràfic</short>
                 <example correction="1989">És del <marker>1.989</marker> d. C.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">de|a|fins</token>
+                    <marker>
+                        <token regexp="yes">[12]\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Si és un any, s'escriu sense punt.</message>
+                <suggestion><match no="2" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <short>Error ortotipogràfic</short>
+                <example correction="1989">Ell és de <marker>1.989</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">pàgina|pàginesp|p[àa]gs?|p|pp|cp</token>
