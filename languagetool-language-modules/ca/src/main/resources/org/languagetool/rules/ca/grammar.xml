@@ -88,7 +88,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA|Imma|UCI|UCE|ISO|UVI">
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|husky|Utah">
     <!ENTITY mots_HAC_ASPIRADA "hip|herderi.*|Hangouts|Hayes|hostings?|Hal|hajj|Hermann|Hannah|Hertzsprung|Hotmail|Homrani|Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh |Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|European|OneDrive|(?-i)Hagen|Hamada">
-    <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
+    <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge|control">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]|11\.[0-5]\d|(?-i)XI|1O">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre|dotzena|desena|centena|centenar|miler">
@@ -12035,6 +12035,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sota la direcció">Tocaren <marker>baix la direcció</marker> del mestre.</example>
             <example>Sota la direcció del mestre.</example>
         </rule>
+        <rule id="BAIX_SOTA2" name="*baix/sota la direcció" default="temp_off">
+            <pattern>
+                <token>baix</token>
+                <token regexp="yes" inflected="yes">&mots_SOTA;</token>
+            </pattern>
+            <message>Preposició inadequada.</message>
+            <suggestion>sota \2</suggestion>
+            <example correction="sota control">Estava tot <marker>baix control</marker>.</example>
+            <example>Sota la direcció del mestre.</example>
+        </rule>
         <rulegroup id="DAVALL_SOTA" name="davall/sota (sentit figurat)">
             <rule>
                 <pattern>
@@ -16827,6 +16837,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="ESTRES" name="estres/estrés" default="temp_off">
+            <pattern>
+                <token>estres</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>estrès</suggestion>? "Estres" (infreqüent) és el plural de "estre" (estímul, inspiració).</message>
+            <suggestion>estrés</suggestion>
+            <example correction="estrès|estrés">Tenia símptomes d'<marker>estres</marker>.</example>
+        </rule>
         <rule id="VORA" name="bora/vora">
             <pattern>
                 <token regexp="yes">bora|bores<exception postag="NPFSG00"/></token>
@@ -34762,6 +34780,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="QUATRE_PUNTS" name=" més de tres punts suspensius">
+            <antipattern>
+                <token spacebefore="no" min="7">.</token>
+            </antipattern>
             <pattern>
                 <token>.</token>
                 <token>.</token>
@@ -34772,6 +34793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>...</suggestion>
             <suggestion>…</suggestion>
             <example correction="...|…">Són<marker>....</marker></example>
+            <example>.......</example>
         </rule>
         <rulegroup id="CA_INITIAL_QUESTION_MARK" name="Signes de exclamació/interrogació sense parella">
             <antipattern>
