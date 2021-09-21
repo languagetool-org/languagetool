@@ -3555,13 +3555,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>или</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
-                    <token>или</token>
+                    <token regexp="yes" negate="yes" min="1" max="2">,<exception regexp="yes">[)(«–—-]</exception></token>
+                    <token>или<exception scope="previous" regexp="yes">[)(«–—-]</exception></token>
                     <token regexp="yes" negate="yes">,</token>
                 </pattern>
               <message>Пропущена запятая: <suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
               <short>Пропущена запятая</short>
-              <example>Он готов был поверить, что приехал сюда не вовремя — или слишком поздно, или рано.</example>
+              <example>Это может быть оружие ближнего боя (меч или копьё) или оружие дальнего боя (дротик или лук).</example>
+	      <example>Он готов был поверить, что приехал сюда не вовремя — или слишком поздно, или рано.</example>	      
               <example correction="или слишком поздно, или рано">Он готов был поверить, что приехал сюда не вовремя — <marker>или слишком поздно или рано</marker>.</example>
             </rule>
         </rulegroup>
@@ -4937,12 +4938,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>скорее</token>  
                     <token skip="-1"><exception>,</exception></token>
-                    <token  regexp="yes">чем|нежели<exception scope="previous">,</exception></token>
+                    <token  regexp="yes">чем|нежели<exception scope="previous">,</exception><exception scope="previous">прежде</exception></token>
                 </marker>
             </pattern>
             <message>Запятая нужна: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3"/></suggestion>.</message>
             <short>Запятая</short>
             <example>В их семье мужчины скорее знали об хороших манерах, нежели владели ими.</example>
+            <example>Ну, пройдёт скорее даже три года, прежде чем нам разрешат читать.</example>	    
             <example correction="скорее знали об изысканных манерах, нежели">В их семье мужчины <marker>скорее знали об изысканных манерах нежели</marker> владели ими.</example>
         </rule>
                 
