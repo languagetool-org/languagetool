@@ -5525,6 +5525,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="GUENTER_GUENTHER" name="Günther vs Günter" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>Günter</token>
+                    <token regexp="yes">Jauchs?|Oettingers?|Anders|Becksteins?|Klums?</token>
+                </pattern>
+                <message>Meinten Sie den Prominenten <suggestion>Günther <match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Günther Jauch">Er hat 64.000 bei <marker>Günter Jauch</marker> gewonnen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Günther</token>
+                    <token regexp="yes">Grass|Wallraffs?|Netzers?|Schabowskis?</token>
+                </pattern>
+                <message>Meinten Sie den Prominenten <suggestion>Günter <match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Günter Netzer"><marker>Günther Netzer</marker> ist ein Fußballspieler.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHACH_SCHACHT" name="In Schacht (Schach) halten">
             <rule>
                 <pattern>
@@ -14764,7 +14782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token case_sensitive="yes">Hände</token>
+                        <token case_sensitive="yes" regexp="yes">Hände|Wäsche</token>
                         <token>waschen</token>
                     </marker>
                 </pattern>
@@ -14785,6 +14803,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="Selbermachen">Schöne Sachen zum <marker>Selber machen</marker>.</example>
                 <example correction="Selbermachen">Schöne Sachen zum <marker>selber Machen</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
+                    <marker>
+                        <token>Probe</token>
+                        <token>fahren</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
+                <short>&getrennt;.</short>
+                <example correction="Probefahren">Beim <marker>Probe fahren</marker> habe ich einen Unfall gebaut.</example>
             </rule>
         </rulegroup>
         <rule id="EINST_WEILEN" name="'einst weilen (einstweilen)'">
@@ -21168,6 +21198,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="DADRAUS" name="dadraus">
+            <pattern>
+                <token>dadraus</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>daraus</suggestion>
+            <suggestion>hieraus</suggestion>
+            <example correction="daraus|hieraus">Was machen wir jetzt <marker>dadraus</marker>?</example>
+        </rule>
+        <rule id="DADRAUF" name="dadrauf">
+            <pattern>
+                <token>dadrauf</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darauf</suggestion>
+            <suggestion>dort hinauf</suggestion>
+            <example correction="darauf|dort hinauf">Er ist von alleine <marker>dadrauf</marker> gekommen.</example>
+        </rule>
+        <rule id="DADRINNEN" name="dadrinnen">
+            <pattern>
+                <token>dadrinnen</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darin</suggestion>
+            <suggestion>dort drinnen</suggestion>
+            <example correction="darin|dort drinnen">Er ist <marker>dadrinnen</marker> gefangen.</example>
+        </rule>
+        <rule id="DADRIN" name="dadrin">
+            <pattern>
+                <token>dadrin</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darin</suggestion>
+            <suggestion>dort drinnen</suggestion>
+            <example correction="darin|dort drinnen">Er ist <marker>dadrin</marker> gefangen.</example>
+        </rule>
+        <rule id="DADRUNTER" name="dadrunter">
+            <pattern>
+                <token>dadrunter</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darunter</suggestion>
+            <suggestion>dort drunter</suggestion>
+            <suggestion>dort hinunter</suggestion>
+            <example correction="darunter|dort drunter|dort hinunter">Ich werde mal <marker>dadrunter</marker> gucken.</example>
+        </rule>
+        <rule id="DADRUEBER" name="dadrüber">
+            <pattern>
+                <token>dadrüber</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darüber</suggestion>
+            <suggestion>dort drüber</suggestion>
+            <example correction="darüber|dort drüber">Ich werde mal <marker>dadrüber</marker> gucken.</example>
+        </rule>
+        <rule id="DADRUM" name="dadrum">
+            <pattern>
+                <token>dadrum</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangsprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darum</suggestion>
+            <suggestion>dort drum</suggestion>
+            <example correction="darum|dort drum">Wir sollten es <marker>dadrum</marker> anders lösen.</example>
+        </rule>
         <rule id="MEHR_LIEB_ALS" name="mehr lieb -> lieber">
             <antipattern>
                 <token>mehr</token>
@@ -22229,14 +22323,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="AUS_DEM_NICHTS" name="aus dem nichts (Nichts)" default="temp_off">
+        <rulegroup id="AUS_DEM_NICHTS" name="aus dem nichts (Nichts)">
             <rule>
-                <antipattern>
-                    <token>nichts</token>
-                    <token postag="ADV.*" postag_regexp="yes" min="0" />
-                    <token>zu</token>
-                    <token postag="VER:.*" postag_regexp="yes" />
-                </antipattern>
                 <pattern>
                     <token regexp="yes">vor|aus</token>
                     <token>dem</token>
@@ -22247,6 +22335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Wenn dieses Wort als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
                 <suggestion>Nichts</suggestion>
                 <example correction="Nichts">Er kam aus dem <marker>nichts</marker>.</example>
+                <example>Sie hatte mit all dem nichts zu tun.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32106,6 +32195,25 @@ Andere Projekte</example>
                 <example correction="Französisch">Können wir <marker>französisch</marker> reden?</example>
                 <example correction="Deutsch">Ich versuche <marker>deutsch</marker> zu lernen.</example>
                 <example correction="Italienisch">Am Anfang des Gesprächs versucht der Däne <marker>italienisch</marker> zu sprechen.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">&sprachadj1;</token>
+                    <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&sprachadj1;</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <pattern>
+                    <token>für</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von '\1e Sprache')?</message>
+                <example correction="Spanisch">Ich brauche das Lernmaterial für <marker>spanisch</marker>.</example>
+                <example>Das C in der Nomenklatur steht für englisch concrete (deutsch: Beton).</example>
             </rule>
         </rulegroup>
         <rulegroup id="GROSSSCHREIBUNG_MEHRTEILIGE_NAMEN" name="Mehrteilige Namen 'französische (Französische) Revolution etc.'">
@@ -42977,6 +43085,18 @@ Andere Projekte</example>
             <example>Sehr geehrter Hotelmanager,</example>
         </rule>
         <rule id="ZUM_FEM_NOMEN" name="zum + fem. Nomen">
+            <antipattern>
+                <token>zum</token>
+                <token postag='ADJ.*' postag_regexp="yes" min="0"/>
+                <token postag='SUB:.*:SIN:FEM' postag_regexp='yes' />
+                <token postag="UNKNOWN|SUB.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+            </antipattern>
+            <antipattern>
+                <token>zum</token>
+                <token postag='ADJ.*' postag_regexp="yes" min="0"/>
+                <token postag='SUB:.*:SIN:FEM' postag_regexp='yes' />
+                <token postag="VER:INF:(NON|SFT)" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <marker>
                     <token>zum</token>
@@ -42989,6 +43109,11 @@ Andere Projekte</example>
             <message>Meinten Sie <suggestion>zur</suggestion>?</message>
             <example correction='zur'>Wann kommst Du <marker>zum</marker> Prüfung?</example>
             <example correction='zur'>Wann kommst Du <marker>zum</marker> nächsten Prüfung?</example>
+            <example correction="zur">Willkommen <marker>zum</marker> Podcast-Helden-Konferenz 2019.</example>
+            <example>Wir fahren zum Eurovision Song Contest.</example>
+            <example>Der Dom, 1978 zum ersten UNESCO Weltkulturerbe in Deutschland ernannt, und das Rathaus bilden den Mittelpunkt der Stadt.</example>
+            <example>1838 wurde begonnen, den Clinton-Kalamazoo-Kanal zum Lake St. Clair zu bauen, der jedoch nie fertiggestellt wurde.</example>
+            <example>15 l zum Wäsche waschen</example>
         </rule>
         <rule id="IN_DER_PLU" name="in der + Plural-Nomen + sein">
             <pattern>
@@ -46482,7 +46607,7 @@ Andere Projekte</example>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|US-Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma</exception>
+                            <exception regexp="yes">Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|D-?Mark|Reichsmark|Rentenmark|Pfund|Dollar|US-Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+|UNKNOWN" postag_regexp="yes"/></token>
@@ -54300,7 +54425,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]ezapped|[[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
