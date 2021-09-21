@@ -619,7 +619,10 @@ public class MultiDocumentsHandler {
           }
         }
         if (goneContext != null ) {
-          removeDoc(docID);
+          int n = removeDoc(docID);
+          if (n >= 0 && n < i) {
+            return i - 1;
+          }
         }
         return i;
       }
@@ -672,7 +675,7 @@ public class MultiDocumentsHandler {
   /**
    * Delete a document number and all internal space
    */
-  private void removeDoc(String docID) {
+  private int removeDoc(String docID) {
     if (goneContext != null) {
       for (int i = documents.size() - 1; i >= 0; i--) {
         if (!docID.equals(documents.get(i).getDocID())) {
@@ -689,10 +692,12 @@ public class MultiDocumentsHandler {
               MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
 //          }
             documents.remove(i);
+            return (i);
           }
         }
       }
     }
+    return (-1);
   }
   
   /**

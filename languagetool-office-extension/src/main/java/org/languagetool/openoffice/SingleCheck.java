@@ -709,7 +709,9 @@ class SingleCheck {
       return cleanFootnotes(paraText);
     }
     for (int i = footnotes.length - 1; i >= 0; i--) {
-      paraText = paraText.substring(0, footnotes[i]) + paraText.substring(footnotes[i] + 1);
+      if (footnotes[i] < paraText.length()) {
+        paraText = paraText.substring(0, footnotes[i]) + paraText.substring(footnotes[i] + 1);
+      }
     }
     return paraText;
   }
