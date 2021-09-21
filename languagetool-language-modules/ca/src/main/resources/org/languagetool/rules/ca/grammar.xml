@@ -17,6 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY verbs_infinitiu "aclarir|aconsellar|admetre|afegir|afirmar|apuntar|assegurar|assenyalar|asseverar|avisar|bramar|clamar|comentar|compartir|comptar|comunicar|concretar|confessar|confirmar|considerar|contestar|cridar|declarar|demanar|demandar|descriure|destacar|dir|emfatitzar|enraonar|escriure|esmentar|especificar|exclamar|explicar|exposar|expressar|implorar|increpar|indicar|informar|insinuar|insistir|interrogar|lamentar|manifestar|matisar|murmurar|mussitar|narrar|negar|notificar|objectar|opinar|precisar|pregonar|preguntar|proclamar|proposar|protestar|puntualitzar|queixar|ratificar|recalcar|recomanar|reconèixer|reiterar|remarcar|remugar|replicar|reprendre|respondre|revelar|riure|sermonejar|sostenir|subratllar|suggerir|suplicar|suposar|transmetre|xisclar|xiuxiuejar">
     <!ENTITY exceptions_unitatstemps_adj "futur|pròxim|proper|següent|vinent|venidor|anterior|precedent|subsegüent|propvinent|proppassat|passat|previ|últim|darrer|primer"> 
     <!ENTITY carrecs "governador|delegat|president|ministre|fiscal|jutge|director|secretari|vicepresident|viceministre|vicesecretari|conseller|síndic|portaveu|alcalde|alcaldessa|batl?le|batl?lessa|regidor|rector|vicerector|diputat|senador|eurodiputat|bisbe|arquebisbe|lletrat|magistrat|comte|mossèn|sor|fra|professor|registrador|notari|tresorer|tinent"> <!-- senyor, rei -->
     <!ENTITY expressio_DOS_NOMS "aliatge|antagonisme|associació|binomi|cicle|concordança|connexió|contraposició|corpus|correcció|corrector|debat|diccionari|dualitat|eix|figura|interpretació|paral·lel|parell|parella|raó|relació|ràtio|taula|traducció|traductor">
@@ -55942,22 +55943,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rule id="FRASE_INFINITIU" name="frase que comença per infinitiu" default="temp_off">
-            <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag="V...[123]..." postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="V.N.*" postag_regexp="yes"><exception scope="previous">per</exception></token>
-                </marker>
-                <token>que</token>
-            </pattern>
-            <message>Aquesta de construcció d'infinitiu sense un verb principal és inadequada.</message>
-            <suggestion>cal \2</suggestion>
-            <suggestion><match no="2" postag_regexp="yes" postag="V.N.*" postag_replace="VMM01P00"/></suggestion>
-            <suggestion>voldria \2</suggestion>
+        <rulegroup id="FRASE_INFINITIU" name="frase que comença per infinitiu" default="temp_off">
             <url>https://esadir.cat/gramatica/sintaxi/introinf</url>
-            <example correction="cal assenyalar|assenyalem|voldria assenyalar">Finalment, <marker>assenyalar</marker> que aquest era l'objectiu.</example>
-            <example correction="cal dir|diguem|voldria dir">Per acabar, <marker>dir</marker> que demà no hi ha classe.</example>
-        </rule>
+            <antipattern>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">&verbs_infinitiu;</token>
+                <token skip="-1">que</token>
+                <token skip="-1" postag="V...[123].." postag_regexp="yes"/>
+                <token postag="V...3..." postag_regexp="yes" regexp="yes" inflected="yes">ser|semblar|esdevenir|convertir|parèixer</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">&verbs_infinitiu;</token>
+                <token skip="-1">que</token>
+                <token skip="-1" postag="V...[123]..." postag_regexp="yes"/>
+                <token postag="V...3..." postag_regexp="yes" inflected="yes">haver</token>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">ser|semblar|esdevenir|convertir|parèixer</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="V.N.*" postag_regexp="yes" regexp="yes">&verbs_infinitiu;</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>Aquesta construcció d'infinitiu sense un verb principal és inadequada.</message>
+                <suggestion>cal <match no="2" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="V.N.*" postag_replace="VMM01P00"/></suggestion>
+                <suggestion>voldria <match no="2" case_conversion="alllower"/></suggestion>
+                <example correction="Cal assenyalar|Assenyalem|Voldria assenyalar"><marker>Assenyalar</marker> que aquest era l'objectiu.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token regexp="yes" min="0">l|l'</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">&verbs_infinitiu;</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="4" postag="RG|S.*|[AND].*|V.P.*|_PUNCT_CONT|V.N.*" postag_regexp="yes"><exception postag="V...[123]..." postag_regexp="yes"/><exception regexp="yes" >&verbs_infinitiu;</exception></token>
+                    <marker>
+                        <token postag="V.N.*" postag_regexp="yes" regexp="yes">&verbs_infinitiu;</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>Aquesta construcció d'infinitiu sense un verb principal és inadequada.</message>
+                <suggestion>cal \3</suggestion>
+                <suggestion><match no="3" postag_regexp="yes" postag="V.N.*" postag_replace="VMM01P00"/></suggestion>
+                <suggestion>voldria \3</suggestion>
+                <example correction="cal assenyalar|assenyalem|voldria assenyalar">Finalment, <marker>assenyalar</marker> que aquest era l'objectiu.</example>
+                <example correction="cal dir|diguem|voldria dir">Per acabar, <marker>dir</marker> que demà no hi ha classe.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="REPETICIO_VERB_NOM" name="repeticions verb/nom">
             <rule>
                 <pattern>
