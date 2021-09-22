@@ -62091,6 +62091,12 @@ though, and has since been slightly modified)-->
                 <token>est</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
+             <antipattern>
+                <token skip="-1">que</token>
+                <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                <token>est</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
                 <token postag="A inte" skip="-1"/>
@@ -62118,7 +62124,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
                 <marker>
-                    <token>est<exception scope="previous" regexp="yes">cela|c'|même|'</exception></token>
+                    <token>est<exception scope="previous" regexp="yes">cela|c'|même|'|ne|n'</exception></token>
                 </marker>
                 <token postag="V.* inf" postag_regexp="yes"><exception postag="[NJ].*" postag_regexp="yes"/></token>
             </pattern>
@@ -62128,6 +62134,7 @@ though, and has since been slightly modified)-->
             <example correction=", c'est| et">Bref, ça m’a fait découvrir ce monde<marker> est</marker> devenir plus attentif.</example>
             <example>Il ne devrait pas faire office de licence (puisque rien n'y est préciser).</example>
             <example>Me contacter si la PàS est juger plus adéquate.</example>
+            <example>La première chose que tu as à faire est prendre un bain.</example>
             <example>Au l' Italie la formule pour se gîter c' est louer app.</example>
             <example>Pouvez-vous nous dire pourquoi dans votre projet le texte est considérer faible ?</example>
             <example>River demande ensuite à Amy qui est River Song.</example>
@@ -62135,7 +62142,7 @@ though, and has since been slightly modified)-->
             <example>Mon doigt à craquer et la douleur est arriver jusqu'au coude.</example>
             <example>Pour pallier le retard pris dans son développement, le développement du jeu est précipiter.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token>est</token>
                 <token>n'</token>
@@ -62200,7 +62207,9 @@ though, and has since been slightly modified)-->
                 <token postag="N.*" postag_regexp="yes"><exception>a</exception></token>
             </antipattern>
             <pattern>
-                <token postag="V.* ppa.*|J.*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*|J.*" postag_regexp="yes">
+                    <exception scope="previous" postag="[DP].*" postag_regexp="yes"/>
+                    </token>
                 <marker>
                     <token>est<exception scope="next" regexp="yes">est|soit</exception></token>
                 </marker>
@@ -62210,6 +62219,7 @@ though, and has since been slightly modified)-->
             <message>Le verbe être semble inapproprié et peut donc être remplacé par la conjonction <suggestion>et</suggestion>.</message>
             <example correction="et">Il est marié <marker>est</marker> a trois enfants.</example>
             <example>La partie est fut construite en 1554.</example>
+            <example>Entre-temps l'entreprise est devient une entreprise de classe moyenne.</example>
             <example>De plus l'information qui a été écrites est a titre informatif.</example>
         </rule>
         <rule default="temp_off">
@@ -62229,6 +62239,16 @@ though, and has since been slightly modified)-->
 				<token>est</token>
                 <token postag="V.* (ind|con-sub).*" postag_regexp="yes"/>
 			</antipattern>
+			<antipattern>
+				<token postag="V.* (ind|con-sub).*" postag_regexp="yes"/>
+                <token postag="A" postag_regexp="yes" min="0" max="3"/>
+                <token case_sensitive="yes">est</token>
+                <and>
+                <token postag="V.* (ind|con-sub).*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                </and>
+                <token>de</token>
+			</antipattern>
             <pattern>
                 <token postag="V.* (ind|con-sub).*" postag_regexp="yes"/>
                 <token postag="A" postag_regexp="yes" min="0" max="3"/>
@@ -62240,6 +62260,7 @@ though, and has since been slightly modified)-->
             <message>Le verbe être semble inapproprié et peut donc être remplacé par la conjonction <suggestion>et</suggestion>.</message>
             <example correction="et">Ils arrivent <marker>est</marker> repartent rapidement.</example>
             <example>L'arrête est est splendide et sauvage sur 4-6 jours.</example>
+            <example>La manière dont elle se comporte est signe de son orgueil.</example>
             <example>La délimitation de ce qui est médecine et de ce qui ne l'est pas est source de débat.</example>
         </rule>
           <rule default="temp_off">
@@ -62269,7 +62290,7 @@ though, and has since been slightly modified)-->
                 <token>3D</token>
             </antipattern>
             <antipattern>
-                <token>fraude</token>
+                <token regexp="yes">soit|fraude</token>
                 <token postag="J.*|V ppa.*" postag_regexp="yes"/>
                 <token>est</token>
                 <token postag="J.*|V ppa.*" postag_regexp="yes"/>
@@ -62299,6 +62320,7 @@ though, and has since been slightly modified)-->
             <example>C'est vrai que l'article fraude fiscale est super light.</example>
             <example>Le fut carré est creux et il est surmonté d'une croix.</example>
             <example>Ainsi tout ce qui est rationnel est réel.</example>
+            <example>La probabilité pour que Tom soit puni est infime.</example>
             <example>La question qui vous est posée est simple.</example>
             <example>Les charges auxquelles le système est soumis est donné par le cahier des charges.</example>
             <example>Il est à noter que la chanson Rien n'est impossible est reprise en 2003.</example>
