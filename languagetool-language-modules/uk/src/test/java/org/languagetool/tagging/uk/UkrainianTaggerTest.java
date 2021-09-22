@@ -178,7 +178,7 @@ public class UkrainianTaggerTest {
     // noun-numr
     TestTools.myAssert("абзац-два", "абзац-два/[абзац-два]noun:inanim:m:v_naz|абзац-два/[абзац-два]noun:inanim:m:v_zna|абзац-два/[абзац-два]noun:inanim:p:v_naz|абзац-два/[абзац-два]noun:inanim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("сотні-дві", "сотні-дві/[сотня-два]noun:inanim:p:v_naz|сотні-дві/[сотня-два]noun:inanim:p:v_zna", tokenizer, tagger);
-    TestTools.myAssert("тисячею-трьома", "тисячею-трьома/[тисяча-три]noun:inanim:f:v_oru:&&numr|тисячею-трьома/[тисяча-три]noun:inanim:p:v_oru:&&numr|тисячею-трьома/[тисяча-троє]noun:inanim:f:v_oru:&&numr|тисячею-трьома/[тисяча-троє]noun:inanim:p:v_oru:&&numr", tokenizer, tagger);
+    TestTools.myAssert("тисячею-трьома", "тисячею-трьома/[тисяча-три]noun:inanim:f:v_oru:&numr|тисячею-трьома/[тисяча-три]noun:inanim:p:v_oru:&numr|тисячею-трьома/[тисяча-троє]noun:inanim:f:v_oru:&numr|тисячею-трьома/[тисяча-троє]noun:inanim:p:v_oru:&numr", tokenizer, tagger);
 
     TestTools.myAssert("друге-третє", "друге-третє/[другий-третій]adj:n:v_kly:&numr|друге-третє/[другий-третій]adj:n:v_naz:&numr|друге-третє/[другий-третій]adj:n:v_zna:&numr", tokenizer, tagger);
   }
@@ -219,7 +219,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Євро-2014", "Євро-2014/[Євро-2014]noun:inanim:m:v_dav:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_mis:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_naz:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_oru:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_rod:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_zna:nv:prop", tokenizer, tagger);
     TestTools.myAssert("Ігри-2014", "Ігри-2014/[Гра-2014]noun:inanim:p:v_naz:prop|Ігри-2014/[Гра-2014]noun:inanim:p:v_zna:prop", tokenizer, tagger);
     TestTools.myAssert("ЧЄ-2014", "ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_dav:nv:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_mis:nv:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_naz:nv:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_oru:nv:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_rod:nv:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_zna:nv:prop:abbr", tokenizer, tagger);
-    TestTools.myAssert("Лондон-2014", "Лондон-2014/[Лондон-2014]noun:inanim:m:v_naz:prop:xp2|Лондон-2014/[Лондон-2014]noun:inanim:m:v_zna:prop:xp2", tokenizer, tagger);
+    TestTools.myAssert("Лондон-2014", "Лондон-2014/[Лондон-2014]noun:inanim:m:v_naz:prop|Лондон-2014/[Лондон-2014]noun:inanim:m:v_zna:prop", tokenizer, tagger);
     TestTools.myAssert("Афіни-2014", "Афіни-2014/[Афіни-2014]noun:inanim:p:v_naz:ns:prop|Афіни-2014/[Афіни-2014]noun:inanim:p:v_zna:ns:prop", tokenizer, tagger);
     TestTools.myAssert("Замок-2002", "Замок-2002/[Замок-2002]noun:inanim:m:v_naz:prop|Замок-2002/[Замок-2002]noun:inanim:m:v_zna:prop", tokenizer, tagger);
     TestTools.myAssert("вибори-2002", "вибори-2002/[вибори-2002]noun:inanim:p:v_naz:ns|вибори-2002/[вибори-2002]noun:inanim:p:v_zna:ns", tokenizer, tagger);
@@ -545,6 +545,7 @@ public class UkrainianTaggerTest {
   @Test
   public void testDynamicTaggingAdvPre() throws IOException {
     TestTools.myAssert("гірко-прегірко", "гірко-прегірко/[гірко-прегірко]adv", tokenizer, tagger);
+    TestTools.myAssert("круглий-прекруглий", "круглий-прекруглий/[круглий-прекруглий]adj:m:v_kly|круглий-прекруглий/[круглий-прекруглий]adj:m:v_naz|круглий-прекруглий/[круглий-прекруглий]adj:m:v_zna:rinanim", tokenizer, tagger);
   }
   
   

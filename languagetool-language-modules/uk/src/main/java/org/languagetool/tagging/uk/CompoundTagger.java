@@ -319,16 +319,27 @@ class CompoundTagger {
       }
     }
 
+    Pattern TAGS_TO_REMOVE = Pattern.compile(":comp.|:&predic|:&insert");
+    
     // гірко-прегірко
-    if( rightWord.startsWith("пре")
-        && leftWord.toLowerCase().equals(rightWord.substring(3).toLowerCase())
-        && PosTagHelper.hasPosTagStart2(leftWdList, "adv") ) {
+    if( rightWord.startsWith("пре") && leftWord.toLowerCase().equals(rightWord.substring(3).toLowerCase()) ) {
+      if (PosTagHelper.hasPosTagStart2(leftWdList, "adv")) {
 
-      List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
-      return leftAnalyzedTokens.stream()
-          .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adv") )
-          .map(a -> new AnalyzedToken(word, a.getPOSTag().replaceAll(":comp.|:&predic", ""), word))
-          .collect(Collectors.toList());
+        List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+        return leftAnalyzedTokens.stream()
+            .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adv") )
+            .map(a -> new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(""), word))
+            .collect(Collectors.toList());
+      }
+      // гіркий-прегіркий
+      else if( PosTagHelper.hasPosTagStart2(leftWdList, "adj") ) {
+
+        List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+        return leftAnalyzedTokens.stream()
+            .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adj") )
+            .map(a -> new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(""), word))
+            .collect(Collectors.toList());
+      }
     }
 
     if( rightWdList.isEmpty() ) {
