@@ -26,6 +26,119 @@ USA
 
 <rules lang="en" idprefix="L2_" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="WH_VERB_SUBJECT" name="When comes the bus (does the bus come|is the bus coming)?">
+            <antipattern>
+                <token>why</token>
+                <token postag="VBP" />
+                <token>it</token>
+            </antipattern>
+            <antipattern>
+                <token>how</token>
+                <token>goes</token>
+                <token>it</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">when|where|how</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z]|[a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token>how</token>
+                <token postag="VB" />
+            </antipattern>
+            <antipattern>
+                <token>where</token>
+                <token>lies</token>
+            </antipattern>
+            <rule>  <!-- subject pronouns, present tense WITH progressive suggestion -->
+                <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <token regexp="yes">when|where|why|how</token>
+                    <marker>
+                        <token postag="VB[PZ]" postag_regexp="yes">
+                            <exception postag="MD" />
+                            <exception regexp="yes" inflected="yes">be|chide|do|have</exception>
+                        </token>
+                        <token skip="5" postag="PRP_S.*" postag_regexp="yes" chunk_re="B-NP.*" />
+                    </marker>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>Questions require a helping verb (a form of 'do' or 'be') + the main verb ('<match no="3" postag="VB" />').</message>
+                <suggestion><match no="3" postag="V.*" postag_regexp="yes">do</match> \4 <match no="3" postag="VB" /></suggestion>
+                <suggestion><match no="3" postag="V.*" postag_regexp="yes">be</match> \4 <match no="3" postag="VBG" /></suggestion>
+                <example correction="do you go|are you going">When <marker>go you</marker> home?</example>
+                <example correction="do you eat|are you eating">Why <marker>eat you</marker> so much?</example>
+                <example correction="does he work|is he working">How <marker>works he</marker> so late at night?</example>
+                <example>Why use it?</example>
+                <example>How goes it?</example>
+                <example>Why chide you with me?</example>
+            </rule>
+            <rule>  <!-- subject pronouns, past tense WITHOUT progressive suggestion -->
+                <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <token regexp="yes">when|where|why|how</token>
+                    <marker>
+                        <token postag="VBD">
+                            <exception postag="MD" />
+                            <exception regexp="yes" inflected="yes">be|do|have</exception>
+                        </token>
+                        <token skip="5" postag="PRP_S.*" postag_regexp="yes" chunk_re="B-NP.*" />
+                    </marker>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>Past tense questions require a helping verb ('did') + the base form of the main verb ('<match no="3" postag="VB" />').</message>
+                <suggestion>did \4 <match no="3" postag="VB" /></suggestion>
+                <example correction="did you come">When <marker>came you</marker> home last night?</example>
+                <example correction="did she go">Where <marker>went she</marker> on vacation last month?</example>
+            </rule>
+            <rule>  <!-- other NPs, present tense WITH progressive suggestion -->
+                <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <token regexp="yes">when|where|how</token>
+                    <marker>
+                        <token postag="VB[PZ]" postag_regexp="yes" chunk="B-VP">
+                            <exception postag="MD" />
+                            <exception regexp="yes" inflected="yes">be|do|have</exception>
+                        </token>
+                        <token chunk_re="B-NP.*" />
+                        <token min="0" chunk_re="I-NP.*" />
+                        <token min="0" skip="5" chunk_re="E-NP.*" />
+                    </marker>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>Questions require a helping verb (a form of 'do' or 'be') + the main verb ('<match no="3" postag="VB" />').</message>
+                <suggestion><match no="3" postag="V.*" postag_regexp="yes">do</match> \4 \5 \6 <match no="3" postag="VB" /></suggestion>
+                <suggestion><match no="3" postag="V.*" postag_regexp="yes">be</match> \4 \5 \6 <match no="3" postag="VBG" /></suggestion>
+                <example correction="does the bus come|is the bus coming">When <marker>comes the bus</marker>?</example>
+                <example correction="do the kids go|are the kids going">Where <marker>go the kids</marker> after school?</example>
+                <example correction="does the second domain run|is the second domain running">Where <marker>runs the second domain</marker>?</example>
+                <example>Where r u?</example>
+                <example>So now where i my tuts+ subscription code?</example>
+                <example>How fix it?</example>
+                <example>Hmm, how come my post was edited?</example>
+                <example>Where lies the problem?</example>
+            </rule>
+            <rule>  <!-- other NPs, past tense WITHOUT progressive suggestion -->
+                <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <token regexp="yes">when|where|how</token>
+                    <marker>
+                        <token postag="VBD" chunk="B-VP">
+                            <exception postag="MD" />
+                            <exception regexp="yes" inflected="yes">be|do|have</exception>
+                        </token>
+                        <token chunk_re="B-NP.*" />
+                        <token min="0" chunk_re="I-NP.*" />
+                        <token min="0" skip="5" chunk_re="E-NP.*" />
+                    </marker>
+                    <token postag="SENT_END">?</token>
+                </pattern>
+                <message>Past tense questions require a helping verb ('did') + the base form of the main verb ('<match no="3" postag="VB" />').</message>
+                <suggestion>did \4 \5 \6 <match no="3" postag="VB" /></suggestion>
+                <example correction="did the cats swim">How <marker>swam the cats</marker> across the lake?</example>
+            </rule>
+        </rulegroup>
+    </category>
     <category id="TYPOS" name="Possible Typo" type="misspelling">
         <rule id="FAKE" name="internal rule" default="on">
             <pattern>
