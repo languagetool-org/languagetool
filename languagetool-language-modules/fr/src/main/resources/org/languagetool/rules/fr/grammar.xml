@@ -32739,6 +32739,11 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
             <rule>
+            <antipattern>
+                <token>moi</token>
+                <token skip="1">qui</token>
+                <token>est</token>
+            </antipattern>
                 <pattern>
                     <token>moi
                         <exception scope="previous" regexp="yes">(?-i)en|ou|et|que</exception></token>
@@ -32988,6 +32993,21 @@ though, and has since been slightly modified)-->
                 <example>Vous qui me dérangez</example>
                 <example>Des copains plus vieux que vous qui me dérangeaient.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>moi<exception scope="previous" regexp="yes">à|un</exception></token>
+                    <token skip="1">qui</token>
+                    <marker>
+                        <token>est</token>
+                    </marker>
+                </pattern>
+                <message>Le verbe « \3 » devrait être à la 1ᵉ personne du singulier.</message>
+                <suggestion>ai</suggestion>
+                <suggestion>suis</suggestion>
+                <example correction="ai|suis">C'est moi qui <marker>est</marker> créé cette page.</example>
+                <example>C'est p'être ma coupe à moi qui est bizarre !</example>
+                <example>Il peut alors développer un moi qui lui est propre.</example>
+			</rule>
         </rulegroup>
         <rulegroup id="AUX_AVOIR" name="concordance du participe après le verbe avoir">
             <rule>
