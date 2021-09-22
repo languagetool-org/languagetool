@@ -2,6 +2,10 @@
 
 ## 5.5-SNAPSHOT (release planned for 2021-09-21)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.15)
+
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.09.01)
 
@@ -9,6 +13,10 @@
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.3)
 
 
 ## 5.4 (2021-06-25)
