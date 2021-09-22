@@ -11717,6 +11717,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
+        <rule id="EN_VIGOR" name="entrar a/en vigor" default="temp_off">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="1">entrada|entrar</token>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token>vigor</token>
+            </pattern>
+            <message>La preposició adequada en aquesta expressió és <suggestion>en</suggestion>.</message>
+            <example correction="en">Ahir va entrar <marker>a</marker> vigor la nova llei.</example>
+        </rule>
         <rulegroup id="TIRAR_DE" name="tirar *de">
             <antipattern>
                 <token>de</token>
@@ -45565,11 +45576,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">com</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes">anar</token>
+                <token inflected="yes" regexp="yes">anar|venir</token>
                 <token>millor</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes">anar</token>
+                <token inflected="yes" regexp="yes">anar|venir</token>
                 <token>més</token>
                 <token>bé</token>
             </antipattern>
@@ -45621,6 +45632,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>—Com vostè digui –va dir en Joe.</example>
                 <example>segons "com es resolgui l'afer de la investidura"</example>
                 <example>Com et vagi més bé.</example>
+                <example>Com vos vinga millor.</example>
             </rule>
             <rule>
                 <pattern>
