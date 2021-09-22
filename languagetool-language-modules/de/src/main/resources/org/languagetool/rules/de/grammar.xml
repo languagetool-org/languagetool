@@ -14857,10 +14857,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Selbermachen">Schöne Sachen zum <marker>selber Machen</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>zum</token>
+                    <token>Auto</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Probe</token>
+                        <token regexp="yes">Probe|Auto</token>
                         <token>fahren</token>
                     </marker>
                 </pattern>
@@ -21258,6 +21262,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>daraus</suggestion>
             <suggestion>hieraus</suggestion>
             <example correction="daraus|hieraus">Was machen wir jetzt <marker>dadraus</marker>?</example>
+        </rule>
+        <rule id="DADRAN" name="dadran">
+            <pattern>
+                <token>dadran</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangssprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>daran</suggestion>
+            <suggestion>da dran</suggestion>
+            <suggestion>dort dran</suggestion>
+            <example correction="daran|da dran|dort dran">Ich bin <marker>dadran</marker> gescheitert.</example>
         </rule>
         <rule id="DADRAUF" name="dadrauf">
             <pattern>
