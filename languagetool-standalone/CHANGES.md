@@ -6,6 +6,10 @@
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.15)
 
+#### Dutch
+  * added and improved rules
+  * extended spelling dictionary
+
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.09.01)
 
