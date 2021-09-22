@@ -170,7 +170,8 @@ public class TokenAgreementAdjNounRule extends Rule {
             state.adjAnalyzedTokenReadings = tokenReadings;
           }
           else if( ! LemmaHelper.hasLemma(tokenReadings, Arrays.asList("другий"), "adj:f:")
-              || (i + 1 < tokens.length && ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:")) ) {
+              || (i + 1 < tokens.length && ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:"))
+              && ! PosTagHelper.isPredictOrInsert(token) ) {
             state.reset();
             break;
           }
@@ -210,7 +211,7 @@ public class TokenAgreementAdjNounRule extends Rule {
             || nounPosTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) ) {
           continue;
         }
-        else {
+        else if( ! PosTagHelper.isPredictOrInsert(token) ) {
           nounTokenReadings.clear();
           break;
         }

@@ -262,8 +262,8 @@ public class TokenAgreementPrepNounExceptionHelper {
     String token = tokenReadings.getCleanToken();
 //    String prep = prepTokenReadings.getCleanToken().toLowerCase();
 
-    if( PosTagHelper.hasPosTagPart(tokenReadings, "insert") )
-      return new RuleException(0);
+//    if( PosTagHelper.hasPosTagPart(tokenReadings, "insert") )
+//      return new RuleException(0);
 
     if( PosTagHelper.hasPosTagStart(tokenReadings, "part") ) {
       if( PART_INSERT_PATTERN.matcher(token.toLowerCase()).matches() ) {

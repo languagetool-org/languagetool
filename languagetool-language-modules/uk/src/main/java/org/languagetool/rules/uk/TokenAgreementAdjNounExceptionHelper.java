@@ -377,6 +377,17 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    Pattern afterPredicVerbTags = Pattern.compile(".*(inf|past:n|futr:s:3).*");
+    if( nounPos < tokens.length - 1 
+        && PosTagHelper.hasPosTagPart(tokens[nounPos], "predic")
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], afterPredicVerbTags)
+           || nounPos < tokens.length - 2
+                && PosTagHelper.hasPosTagStart(tokens[nounPos+1], "adv")
+                && PosTagHelper.hasPosTag(tokens[nounPos+2], afterPredicVerbTags)) ) {
+      logException();
+      return true;
+    }
+    
     // на проурядову і, здається, пропрезидентську частини
     if( adjPos > 5
         && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
