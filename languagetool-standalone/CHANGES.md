@@ -9,6 +9,10 @@
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.09.01)
 
+#### French
+  * added and improved rules
+  * updated dictionary (french-pos-dict-0.3) with words from added.txt and removed.txt
+
 #### Portuguese
   * added and improved rules
   * added words and POS data
