@@ -37808,6 +37808,11 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rulegroup id="P_V_PAS" name="négation sans NE">
             <url>http://www.academie-francaise.fr/ne</url>
+             <antipattern>
+                <token postag="C (coord|sub) .*" postag_regexp="yes"/>
+                <token>plus</token>
+                <token regexp="yes">aucune?s?|personne|rien</token>
+            </antipattern>
             <antipattern>
                 <token>
                     <exception postag="V.* (ind|sub|con).*" postag_regexp="yes"/></token>
@@ -39007,7 +39012,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
-                <suggestion>ne <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/> \5</suggestion>
+                <suggestion>ne <match no="3" case_conversion="startlower" include_skipped="all"/> <match no="4" include_skipped="all"/> \5</suggestion>
                 <example correction="ne prenez pas">Surtout, <marker>prenez pas</marker> l'argenterie.</example>
                 <example>Surtout, arrivez pas avant midi.</example>
             </rule>
@@ -39025,7 +39030,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Un adverbe de négation doit être ajouté afin d'obtenir une négation complète.</message>
-                <suggestion>n'<match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/> \5</suggestion>
+                <suggestion>n'<match no="3" case_conversion="startlower" include_skipped="all"/> <match no="4" include_skipped="all"/> \5</suggestion>
                 <example correction="n'arrivez pas">Surtout, <marker>arrivez pas</marker> avant midi.</example>
                 <example>Surtout, prenez pas l'argenterie.</example>
             </rule>
@@ -59713,13 +59718,13 @@ though, and has since been slightly modified)-->
                 <suggestion>\1-\2</suggestion>
                 <example correction="celui-ci">Veux-tu parler de <marker>celui ci</marker>?</example>
             </rule>
-             <rule default="temp_off">
+            <rule default="temp_off">
                 <pattern>
                     <marker>
-                        <token regexp="yes">celui|celles?|ceux|de|par</token>
+                        <token case_sensitive="yes" regexp="yes">celui|celles?|ceux|de|par</token>
                         <token min="0">-</token>
                         <token>si
-                            <exception postag="A" scope="next"/> </token>
+                            <exception postag="A|D.*" postag_regexp="yes" scope="next"/> </token>
                     </marker>
                 </pattern>
                 <message>'Si' exprime une condition, on utilise l'adverbe 'ci' pour former ce mot.</message>
