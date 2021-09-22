@@ -1286,8 +1286,8 @@
     </pattern>
     <disambig action="filter" postag="adj.*"/>
     <example type="ambiguous"
-        inputform="вчений[вчений/adj:m:v_kly:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;&amp;adjp:pasv:imperf,вчений/noun:anim:m:v_kly,вчений/noun:anim:m:v_naz]"
-        outputform="вчений[вчений/adj:m:v_kly:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;&amp;adjp:pasv:imperf]">отримав <marker>вчений</marker> ступінь.</example>
+        inputform="вчений[вчений/adj:m:v_kly:&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;adjp:pasv:imperf,вчений/noun:anim:m:v_kly,вчений/noun:anim:m:v_naz]"
+        outputform="вчений[вчений/adj:m:v_kly:&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;adjp:pasv:imperf]">отримав <marker>вчений</marker> ступінь.</example>
     <example type="untouched">держав її в своїх руках.</example>
   </rule>
 
@@ -3530,10 +3530,10 @@
         <token case_sensitive="yes">Юра</token>
       </marker>
     </pattern>
-    <disambig postag="noun:anim:m:v_rod:prop:fname:xp1"/>
+    <disambig postag="noun:anim:m:v_rod:prop:fname"/>
     <example type="ambiguous" 
-        inputform="Юра[Юра/noun:anim:f:v_naz:prop:lname:xp2,Юра/noun:anim:m:v_naz:prop:fname:xp1,Юра/noun:anim:m:v_naz:prop:lname:xp2,Юра/noun:inanim:f:v_naz:prop:geo:xp3,юра/noun:inanim:f:v_naz]" 
-        outputform="Юра[Юра/noun:anim:m:v_rod:prop:fname:xp1]">святого <marker>Юра</marker>.</example>
+        inputform="Юра[Юра/noun:anim:f:v_naz:prop:lname,Юра/noun:anim:m:v_naz:prop:fname,Юра/noun:anim:m:v_naz:prop:lname,Юра/noun:inanim:f:v_naz:prop:geo,юра/noun:inanim:f:v_naz]" 
+        outputform="Юра[Юра/noun:anim:m:v_rod:prop:fname]">святого <marker>Юра</marker>.</example>
     <example type="untouched">Юра прийшов додому.</example>
   </rule>
 
@@ -4096,6 +4096,38 @@
       outputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname]"><marker>Отто</marker> Мюллер.
     </example>
     <example type="untouched">Оттож вже насміявсь</example>
+  </rule>
+
+  <rule name="так - conj" id="tak_conj">
+    <pattern>
+      <token>,</token>
+      <marker>
+        <token>так</token>
+      </marker>
+      <token regexp="yes">[ій]</token>
+    </pattern>
+    <disambig action="filter" postag="conj:coord" />
+    <example type="ambiguous"
+      inputform="так[так/adv:&amp;pron:dem,так/conj:coord,так/conj:subord,так/part]"
+      outputform="так[так/conj:coord]">, <marker>так</marker> і для нього.
+    </example>
+    <example type="untouched">Так тобі й треба</example>
+  </rule>
+
+  <rule name="так - adv" id="tak_adv">
+    <pattern>
+      <marker>
+        <token>так</token>
+      </marker>
+      <token>,</token>
+      <token regexp="yes">щоби?</token>
+    </pattern>
+    <disambig action="filter" postag="adv:&amp;pron:dem" />
+    <example type="ambiguous"
+      inputform="так[так/adv:&amp;pron:dem,так/conj:coord,так/conj:subord,так/part]"
+      outputform="так[так/adv:&amp;pron:dem]"><marker>так</marker>, щоб йому було
+    </example>
+    <example type="untouched">Так тобі й треба</example>
   </rule>
 
 <!-- 
