@@ -4815,7 +4815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>numero</token>
                 </pattern>
                 <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'numerar'.</message>
-                <suggestion>número</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="ú" case_conversion="preserve"/></suggestion>
                 <example correction="número">Tengo un <marker>numero</marker> de lotería.</example>
                 <example correction="número">El <marker>numero</marker> 4.</example>
                 <example>La lista la numero secuencialmente.</example>
@@ -8243,6 +8243,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Abreviatura de "derechos humanos".</message>
                 <suggestion>DD.&#160;HH.</suggestion>
                 <example correction="DD.&#160;HH.">En los <marker>DDHH</marker></example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>RR</token>
+                    <token>.</token>
+                    <token spacebefore="no">HH</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "recursos humanos".</message>
+                <suggestion>RR.&#160;HH.</suggestion>
+                <example correction="RR.&#160;HH.">En los <marker>RR.HH.</marker> de Pequín.</example>
+                <example>En RR. HH.</example>
+                <example>En RR.&#160;HH.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>RR</token>
+                    <token>.</token>
+                    <token spacebefore="no">HH</token>
+                </pattern>
+                <message>Abreviatura de "recursos humanos".</message>
+                <suggestion>RR.&#160;HH.</suggestion>
+                <example correction="RR.&#160;HH.">En los <marker>RR.HH</marker></example>
+                <example>En RR. HH.</example>
+                <example>En RR.&#160;HH.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>RR</token>
+                    <token>HH</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "recursos humanos".</message>
+                <suggestion>RR.&#160;HH.</suggestion>
+                <example correction="RR.&#160;HH.">En los <marker>RR HH.</marker> de Pequín.</example>
+                <example>En RR. HH.</example>
+                <example>En RR.&#160;HH.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>RR</token>
+                    <token>HH</token>
+                </pattern>
+                <message>Abreviatura de "recursos humanos".</message>
+                <suggestion>RR.&#160;HH.</suggestion>
+                <example correction="RR.&#160;HH.">En los <marker>RR HH</marker></example>
+                <example>En RR. HH.</example>
+                <example>En RR.&#160;HH.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>R</token>
+                    <token>.</token>
+                    <token>R</token>
+                    <token>.</token>
+                    <token>H</token>
+                    <token>.</token>
+                    <token>H</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "recursos humanos".</message>
+                <suggestion>RR.&#160;HH.</suggestion>
+                <example correction="RR.&#160;HH.">En los <marker>R.R. H.H.</marker></example>
+                <example>En RR. HH.</example>
+                <example>En RR.&#160;HH.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">RRHH|rrhh</token>
+                </pattern>
+                <message>Abreviatura de "recursos humanos".</message>
+                <suggestion>RR.&#160;HH.</suggestion>
+                <example correction="RR.&#160;HH.">En los <marker>RRHH</marker></example>
             </rule>
         </rulegroup>
         <rule id="CURRICULUM" name="currículum / curriculum vitae">
@@ -18650,7 +18723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="A ver"><marker>Haber</marker> por qué tiene que ser así.</example>
                 <example>¡Tiene que haber quién lo diga!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>haber</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -18660,6 +18733,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>haber</token>
                     <token min="0" postag="SPS00"/>
                     <token inflected="yes" regexp="yes">quién|qué|cuánto|cuándo|cómo|cuál</token>
+                </antipattern>
+                <antipattern>
+                    <token>haber</token>
+                    <token regexp="yes">.*do</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START|_PUNCT_CONT" postag_regexp="yes"/>
@@ -22547,6 +22624,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="tipografía avanzada" id="ACCURATE_TYPOGRAPHY" tags="picky" type="typographical">
         <rule id="PUNTOS_SUSPENSIVOS" name="Carácter de puntos suspensivos">
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="no" min="6">.</token>
+            </antipattern>
             <pattern>
                 <token>.</token>
                 <token>.</token>
