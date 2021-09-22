@@ -11190,6 +11190,26 @@ Precisamos que nos dê feedback.
 	  <example type='correct'>Precisamos que nos <marker>dê</marker> feedback.</example>
     </rule>
 
+	<!-- CUMPRIR OS COMPROMISSOS honrar os compromissos -->
+    <rule id='HONRAR_COMPROMISSOS' name="Honrar compromissos" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-22 (25-JUN-2021+)      -->
+	<!--
+Vou cumprir os compromissos. → Vou honrar os compromissos.
+Vou cumprir os meus compromissos. → Vou honrar os meus compromissos.
+	-->
+      <pattern>
+		<marker>
+			<token inflected='yes'>cumprir</token>
+		</marker>
+		<token min="0" max="1" regexp="yes">os?</token>
+		<token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+		<token regexp="yes">compromissos?</token>
+      </pattern>
+	  <message>É mais correto usar: <suggestion><match no='1' postag='V.+' postag_regexp='yes'>honrar</match></suggestion>.</message>  
+      <example correction="honrar">Vou <marker>cumprir</marker> os compromissos.</example>
+	  <example>Vou honrar os meus compromissos.</example>
+    </rule>
+
     <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite">
     <!--      Created by Tiago F. Santos, 2019-09-07      -->
       <pattern>
