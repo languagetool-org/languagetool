@@ -59296,12 +59296,21 @@ though, and has since been slightly modified)-->
                 <token>l'</token>
                 <token>amour</token>
             </antipattern>
+            <antipattern>
+                <token>ce</token>
+                <token inflected="yes">que</token>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                <token>que</token>
+            </antipattern>
             <rule>
             <pattern>
-                <token postag="R pers suj.*" postag_regexp="yes"><exception>eux</exception>
+                <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">eux|j'</exception>
                     <exception scope="previous" regexp="yes">entre|contre</exception></token>
                 <marker>
-                    <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                    <token postag="V (avoir|etre).*" postag_regexp="yes">
+                        <exception postag="V etre ind pres 1 s|V etre ind pres [13] p|V etre ind (psim|futu).*|V etre sub (pres|impa).*|V etre con pres.*" postag_regexp="yes"/>
+                    </token>
                 </marker>
                 <token>que</token>
             </pattern>
@@ -59311,13 +59320,14 @@ though, and has since been slightly modified)-->
             <example>Le besoin que l'on avait que les forces pacifient le pays était trop pressant.</example>
             <example>L'une d'elles est que l'arbre symbolise le savoir illimité qui n'appartient qu'à Dieu.</example>
             <example>Épisode 9 : Quand on a que l'amour de Jake</example>
+            <example>Le bonheur de l'homme ne réside pas tant dans ce qu'il a que dans ce qu'il est.</example>
         </rule>
         <rule>
              <pattern>
                 <token postag="R pers suj.*" postag_regexp="yes"><exception>eux</exception>
                     <exception scope="previous" regexp="yes">entre|contre</exception></token>
                 <marker>
-                    <token postag="V etre ind pres [13] p|V etre ind (psim|futu).*|V etre sub (pres|impa).*|V etre con pres.*" postag_regexp="yes"/>
+                    <token postag="V etre ind pres 1 s|V etre ind pres [13] p|V etre ind (psim|futu).*|V etre sub (pres|impa).*|V etre con pres.*" postag_regexp="yes"/>
                 </marker>
                 <token>que</token>
             </pattern>
@@ -59327,6 +59337,18 @@ though, and has since been slightly modified)-->
             <example>Le besoin que l'on avait que les forces pacifient le pays était trop pressant.</example>
             <example>L'une d'elles est que l'arbre symbolise le savoir illimité qui n'appartient qu'à Dieu.</example>
             <example>Épisode 9 : Quand on a que l'amour de Jake</example>
+        </rule>
+        <rule>
+             <pattern>
+                <marker>
+                    <token>j'</token>
+                    <token postag="V avoir.*" postag_regexp="yes"/>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>L'adverbe 'ne' doit être ajouté afin de former une négation complète.</message>
+            <suggestion>je n'\2</suggestion>
+            <example correction="Je n'ai"><marker>J'ai</marker> que des garçons.</example>
         </rule>
         </rulegroup>
         <rulegroup id="NEGATION_PERSONNE" name="je parle à personne (je ne parle)" default="temp_off">
