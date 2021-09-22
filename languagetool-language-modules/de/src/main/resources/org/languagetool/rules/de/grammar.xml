@@ -43275,6 +43275,11 @@ Andere Projekte</example>
             <example correction="von einem">Mehrere Twitter-Accounts <marker>von einen</marker> Twitter-Account aus verwalten.</example>
         </rule>
         <rule id="MEINES_NICHT_GENITIV" name="'meines' etc + Nicht-Genitiv Nomen">
+            <antipattern>
+                <token regexp='yes'>[dms]eines|ihres|unseres|eures</token>
+                <token postag="SUB.+" postag_regexp="yes"/>
+                <token postag="SUB:GEN.+" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>[dms]eines|ihres|unseres|eures</token>
                 <marker>
@@ -43284,6 +43289,7 @@ Andere Projekte</example>
             <message>Meinten Sie den Genitiv?</message>
             <suggestion><match no="2" postag="SUB:GEN:SIN.*" postag_regexp="yes"/></suggestion>
             <example correction='Fahrrades|Fahrrads'>Dort drüben liegt der Reifen meines <marker>Fahrrad</marker>.</example>
+            <!--<example>Da drüben ist die Wohnung meines Fahrrad Händlers.</example>-->
         </rule>
         <rule id="FUER_IMP_SUB" name="'für' + Imperativ + Nomen">
             <pattern>
@@ -45217,6 +45223,11 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
+                    <token case_sensitive="yes">einen</token>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token postag="SUB:DAT:SIN:MAS"/>
+                </antipattern>
+                <antipattern>
                     <token>ab</token>
                     <token case_sensitive="yes">und</token>
                     <token case_sensitive="yes">zu</token>
@@ -45241,6 +45252,13 @@ Andere Projekte</example>
                     <token case_sensitive="yes">und</token>
                     <token case_sensitive="yes">zu</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">[dkms]einen|ihren|unseren|euren</token>
+                    <token regexp="yes" min="0">\d+</token>
+                    <token min="0" spacebefore="no">.</token>
+                    <token postag_regexp="yes" postag="SUB:...:SIN:(MAS|NEU).*"/>
+                    <token postag="SUB:DAT:PLU.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">bei|nahe|nebst|mit(samt)?|samt|von|zu</token>
                     <marker>
@@ -45258,6 +45276,7 @@ Andere Projekte</example>
                 <example correction="ihrem">Er ging zu <marker>ihren</marker> 18. Geburtstag.</example>
                 <example>Sie sah ab und zu einen Mann.</example>
                 <example>Sie versprach, meinen Vater zu grüßen.</example>
+                <!--<example>Sie gingen zu ihren Auto Händlerinnen.</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -45400,6 +45419,11 @@ Andere Projekte</example>
                 <example correction="neuen LED-Schweinwerfern">Mit <marker>neuen LED Schweinwerfern</marker> kann ich mehr anfangen.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token>
+                    <token postag="SUB:DAT:SIN:FEM"/>
+                    <token postag="SUB:DAT:PLU.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
                     <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en<exception>anderen</exception></token></marker>
@@ -45414,8 +45438,14 @@ Andere Projekte</example>
                 <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>
                 <example correction="voller">Mit <marker>vollen</marker> Absicht zerstörte er ihr Gewächshaus.</example>
                 <example>Obwohl das Lichtspektrum bei neuen LED Growlampen schon sehr gut für den kompletten Lebenszyklus einer Cannabis Pflanze geeignet ist, sind gewisse NDL Lampen noch etwas besser.</example>
+                <!--<example>Das mit leckeren Hafermilch Getränken bestückte Tablett balancierten sie zum Tisch.</example>-->
             </rule>
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token>
+                    <token postag="SUB:DAT:SIN:FEM"/>
+                    <token postag="SUB:DAT:PLU.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
                     <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en<exception>anderen</exception></token></marker>
@@ -45623,6 +45653,13 @@ Andere Projekte</example>
                     <token>ein</token>
                 </antipattern>
                 <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token>für</token>
+                    <token postag="PRO:POS:.+|ART:.+" postag_regexp="yes"/>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token postag="SUB.+|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token skip="-1">was</token>
                     <token>für</token>
                     <token>ein</token>
@@ -45697,6 +45734,7 @@ Andere Projekte</example>
                 <example>Was ist das aber für ein Haufen von aufgeregten, gestikulierenden, vorlauten Menschen.</example>
                 <example>Egal ob Sie für Ihr Event oder Ihre Messe eine Videowall mieten oder mit einem fest installierten Werbedisplay Ihre Kunden ansprechen wollen.</example>
                 <example>Was bin ich doch für ein Glückspilz.</example>
+                <!-- <example>Das ist für dein Titel Bild.</example> -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
