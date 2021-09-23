@@ -3217,7 +3217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes" regexp="yes">&pnct;|так|и|но|а|да<exception postag="SENT_START"></exception></token>
                     <token>как</token>
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
-                    <token regexp="yes">&pnct;</token>  <!-- , -->
+                    <token regexp="yes">[:;,—–(-]</token>  <!-- , -->
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3227,7 +3227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">&pnct;<exception postag="SENT_START"></exception><exception scope="previous">так</exception></token>  <!-- , -->
+                    <token regexp="yes">[:;,—–(-]<exception postag="SENT_START"></exception><exception scope="previous">так</exception></token>  <!-- , -->
                     <marker>
                         <token>как</token>
                         <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
