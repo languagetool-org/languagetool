@@ -5015,7 +5015,15 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-    <rulegroup id="PAR_PARS_PART" name="par pars part" default="temp_off">
+        <rule id="FAKE_NEWS" name="fake news" default="temp_off">
+            <pattern>
+                <token>fakes</token>
+                <token>news</token>
+            </pattern>
+            <message>L'expression anglaise est <suggestion>fake news</suggestion>.</message>
+            <example correction="fake news"> Ce sont des <marker>fakes news</marker>.</example>
+        </rule>
+        <rulegroup id="PAR_PARS_PART" name="par pars part" default="temp_off">
          <rule>
             <antipattern>
                 <token postag="[DPV].*" postag_regexp="yes"/>
@@ -8247,6 +8255,40 @@ though, and has since been slightly modified)-->
             <example>J'aimerai être suivi par quelqu'un de sérieux ?</example>
             <example>Il y en ait pas une de sang-froid.</example>
         </rule>
+        <rulegroup id="DES_DE" name="des -> de" default="temp_off" >
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>des</token>
+                    </marker>
+                    <token regexp="yes">les|le|la</token>
+                    <token postag="V inf"/>
+                </pattern>
+                <message>La préposition <suggestion>de</suggestion> est attendue ici.</message>
+                <example correction="de">J’ai refusé des sponsos avant <marker>des</marker> les voir passer sur d’autres petites chaînes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>des</token>
+                    <token>les</token>
+                </pattern>
+                <message>La préposition <suggestion>des</suggestion> est attendue ici.</message>
+                <suggestion>dès les</suggestion>
+                <example correction="des|dès les">La liste <marker>des les</marker> plus stressants des instituts.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>des</token>    
+                    </marker>
+                    <token>la</token>
+                </pattern>
+                <message>La préposition <suggestion>de</suggestion> est attendue ici.</message>
+                <suggestion>dès</suggestion>
+                <example correction="de|dès">Ministère <marker>des</marker> la Culture.</example>
+                <example correction="De|Dès"><marker>Des</marker> la Restauration, les prérogatives des arrondissements sont réduites</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DES_DES_ACCENT" name="Des, dès, dés">
             <rule>
                 <antipattern>
@@ -8259,10 +8301,11 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">d[eé]s
                             <exception scope="previous" regexp="yes">[mtsl]es|[nv]os|quelques</exception></token>
                     </marker>
-                    <token regexp="yes">que|qu'|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
+                    <token regexp="yes">que|qu'|[lmst]a|[mts]on|[lmst]es|le|[nv]os|cette|lors|après|maintenant|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
                 </pattern>
                 <message>Cette préposition s'écrit <suggestion>dès</suggestion>.</message>
                 <example correction="dès">Tu repars <marker>des</marker> qu’il arrive.</example>
+                <example correction="Dès"><marker>Des</marker> le début des années 1950.</example>
                 <example>C’est un des leurs.</example>
                 <example>Les dés les plus courants.</example>
                 <example>Tom est un des mes amis proches.</example>
