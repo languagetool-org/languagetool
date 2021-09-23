@@ -34061,7 +34061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
-            <rule id="EM_VAM" name="em vam">
+            <rule name="em vam">
                 <pattern>
                     <marker>
                         <token regexp="yes">em|me|m'</token>
@@ -34075,7 +34075,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en|ens">Sí que <marker>em</marker> farem una de bona.</example>
                 <example>en vam fer dues</example>
             </rule>
-            <rule id="ET_VAU" name="et vau">
+            <rule name="et vau">
                 <pattern>
                     <marker>
                         <token regexp="yes">et|te|t'</token>
@@ -34087,7 +34087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Et vas fer mal</example>
                 <example>Alguna cosa et deu preocupar</example>
             </rule>
-            <rule id="US_VAS" name="us vas">
+            <rule name="us vas">
                 <pattern>
                     <marker>
                         <token regexp="yes">us|vos</token>
@@ -34099,7 +34099,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Us vau fer mal</example>
                 <example>Si vos pareix bé, ho farem.</example>
             </rule>
-            <rule id="ES_VAM_VAIG" name="es vam/vaig">
+            <rule name="es/els">
+                <pattern>
+                    <token postag="PP1CSN00|SENT_START" postag_regexp="yes"/>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token postag="V...1S..|VMSP3S0V" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+                <suggestion>us</suggestion>
+                <example correction="els|us">Jo <marker>es</marker> recomane aquest.</example>
+                <example correction="Els|Us"><marker>Es</marker> recomane aquest.</example>
+            </rule>
+            <rule name="es/els">
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token postag="V...1S.." postag_regexp="yes"><exception postag="V...3S.." postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+                <suggestion>us</suggestion>
+                <example correction="els|us">Llavors <marker>es</marker> recomano aquest.</example>
+                <example>És natural que és recomane aquest.</example>
+            </rule>
+            <rule name="es vam/vaig">
                 <antipattern>
                     <token regexp="yes">.*s</token>
                     <token spacebefore="no">/</token>
@@ -34126,32 +34151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es feu per la via correcta.</example>
                 <example>es pot fer correctament</example>
             </rule>
-            <rule id="ES_ELS1" name="es/els">
-                <pattern>
-                    <token postag="PP1CSN00|SENT_START" postag_regexp="yes"/>
-                    <marker>
-                        <token>es</token>
-                    </marker>
-                    <token postag="V...1S..|VMSP3S0V" postag_regexp="yes"/>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
-                <suggestion>us</suggestion>
-                <example correction="els|us">Jo <marker>es</marker> recomane aquest.</example>
-                <example correction="Els|Us"><marker>Es</marker> recomane aquest.</example>
-            </rule>
-            <rule id="ES_ELS2" name="es/els">
-                <pattern>
-                    <marker>
-                        <token>es</token>
-                    </marker>
-                    <token postag="V...1S.." postag_regexp="yes"><exception postag="V...3S.." postag_regexp="yes"/></token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
-                <suggestion>us</suggestion>
-                <example correction="els|us">Llavors <marker>es</marker> recomano aquest.</example>
-                <example>És natural que és recomane aquest.</example>
-            </rule>
-            <rule id="FEM_ME" name="fem-m'ho">
+            <rule name="fem-m'ho">
                 <pattern>
                     <token postag="V.M.1P0.?" postag_regexp="yes"/>
                     <marker>
@@ -34162,7 +34162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Fem<marker>-m</marker>'ho.</example>
                 <example>Fem-ho.</example>
             </rule>
-            <rule id="FEU_TE" name="feu-te">
+            <rule name="feu-te">
                 <pattern>
                     <token postag="V.M.2P0.?" postag_regexp="yes"><exception postag="V...3.*" postag_regexp="yes"/></token>
                     <marker>
@@ -34173,7 +34173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Digueu<marker>-te</marker> això.</example>
                 <example>Digueu-los això</example>
             </rule>
-            <rule id="FES_VOS" name="fes-vos">
+            <rule name="fes-vos">
                 <pattern>
                     <token postag="V.M.*" postag_regexp="yes"><exception postag="V.M.2P0." postag_regexp="yes"/></token>
                     <marker>
@@ -34186,7 +34186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Quedi<marker>-us</marker>.</example>
                 <example>Digueu-vos.</example>
             </rule>
-            <rule id="FEM_SE" name="fem-se, feu-se">
+            <rule name="fem-se, feu-se">
                 <pattern>
                     <token postag="V.M.[12][SP]0.?" postag_regexp="yes"><exception postag="V...3[SP]0.?" postag_regexp="yes"/></token>
                     <marker>
