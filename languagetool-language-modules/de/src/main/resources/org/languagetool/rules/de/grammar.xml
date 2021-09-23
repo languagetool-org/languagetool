@@ -26065,13 +26065,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das sind Dinge, die ich durch meinen kleinen Betrieb den jungen Leute bieten kann.</example>
         </rule>
         <rulegroup id="IM_AUS" name="im aus (Aus)">
+            <antipattern>
+                <token inflected="yes" skip="-1" regexp="yes">steigen|stellen</token>
+                <token>aus</token>
+            </antipattern>
+            <antipattern>
+                <token>aus</token>
+                <token regexp="yes">[dms]einer|eurer|ihrer|unserer</token>
+                <token>Sicht</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">aus</token>
+                <token>Gründen</token>
+            </antipattern>
+            <antipattern>
+                <token>aus</token>
+                <token>Versehen</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">i(m|ns)|geplante|besiegelte</token>
                     <marker>
                         <token case_sensitive="yes">aus</token>
                     </marker>
-                    <token postag="SENT_END|VER:.*|PRP:.+|ART:DEF:GEN:.+" postag_regexp="yes"/>
+                    <token postag="SENT_END|PKT|VER:.*|PRP:.+|ART:DEF:GEN:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&inwend;'im Aus sein/landen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
@@ -26095,6 +26112,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO:POS:GEN:.+" postag_regexp="yes" skip="-1"/>
                     <token>bestand</token>
                 </antipattern>
+                <antipattern>
+                    <token>so</token>
+                    <token inflected="yes" regexp="yes">sehen|schauen</token>
+                    <token>das</token>
+                    <token>aus</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">reichen</token>
+                    <token>das</token>
+                    <token>aus</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token skip="-1">aus</token>
+                    <token inflected="yes">bestehen</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token skip="-1">aus</token>
+                    <token inflected="yes">bestehend</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token skip="3">aus</token>
+                    <token>hergestellt</token>
+                </antipattern>
                 <pattern>
                     <token>das</token>
                     <marker>
@@ -26109,6 +26152,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Aus">Er wollte das <marker>aus</marker> seiner Mannschaft nicht kommentieren.</example>
                 <example>Das <marker>aus</marker> seiner Richtung geworfene Feuerzeug verfehlte ihn.</example>
                 <example>Sie trug ihr Kampfoutfit, das aus ihrer strahlend weißen Hose bestand.</example>
+                <example>Reicht das aus um evtl...</example>
+                <example>1928 wurde das aus sieben Kanonikern bestehende Kapitel aufgelöst.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -26137,6 +26182,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Aus">Er wollte das <marker>aus</marker> seiner Mannschaft nicht kommentieren.</example>
                 <example>Das <marker>aus</marker> seiner Richtung geworfene Feuerzeug verfehlte ihn.</example>
                 <example>Sie trug ihr Kampfoutfit, das aus ihrer strahlend weißen Hose bestand.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="PRP:LOK.*" postag_regexp="yes">
+                        <exception>aus</exception>
+                    </token>
+                    <token regexp="yes">dem|eurem|[dsm]?einem|unserem|ihrem</token>
+                    <token min="0" regexp="yes">traurigen|unerwarteten|plötzlichen|unrühmlichen</token>
+                    <marker>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                    <token regexp="yes">beim?|im|\.</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Aus</suggestion>&subende;</message>
+                <example correction="Aus">Wo arbeitet er jetzt nach seinem <marker>aus</marker> bei Volkswagen?</example>
+                <example>Mein Haus sieht neben seinem klein aus.</example>
+                <example>1907 stieg Anton aus diesem aus.</example>
+                <example>1876 sieht schon sehr nach dem aus, was wir heute darunter verstehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_GESTERN" name="im gestern (Gestern) leben">
