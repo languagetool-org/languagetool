@@ -7844,6 +7844,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" regexp="yes">.+s</token>
             <token postag="NN|NN:UN?" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- hires so many people so fast -->
+            <token chunk="E-NP-plural"/>
+            <token regexp="yes">so|too</token>
+            <token postag="JJ" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -7886,6 +7891,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">My biggest concern with smart switches is that technology makes advancements too fast.</example><!-- #2923 -->
         <example type="untouched">The benefit is that that method makes improvements incredibly fast.</example><!-- #2923 -->
         <example type="untouched">It was 15 minutes too long.</example><!-- #2923 -->
+        <example type="untouched">... and that it hires so many people so fast that ...</example>
         <example type="untouched">Insights event pricing is still dependent on each customers use case.</example><!-- missing possessive apostrophe -->
         <example type="untouched">Was it 15 minutes too long when you did it?</example><!-- #2923 -->
         <example type="untouched">Bugs and new features can handled by the LT-team directly.</example><!-- #3251 -->
