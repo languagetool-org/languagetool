@@ -59199,10 +59199,9 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <marker>
                         <token regexp="yes" min="0">[tsmn]'</token>
-                        <token postag="V etre .*" postag_regexp="yes"/>
                         <token postag="V .*" postag_regexp="yes" inflected="yes" skip="1">avérer</token>
                     </marker>
-                    <token inflected="yes">faux<|erroné|incorrect|injuste|inexact</token>
+                    <token inflected="yes" regexp="yes">faux|erroné|incorrect|injuste|inexact</token>
                 </pattern>
                 <message>Cette expression est un oxymore, 'avérer' signifie 'reconnaître comme vrai'.</message>
                 <suggestion><match no="1" regexp_match="([tsm])'" regexp_replace="$1e"/> <match no="2" postag="V.*" postag_regexp="yes">révéler</match></suggestion>
