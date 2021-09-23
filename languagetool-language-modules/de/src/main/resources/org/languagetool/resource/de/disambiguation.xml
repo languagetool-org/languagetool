@@ -9,6 +9,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY genderzeichen "[:_*]">
+    <!ENTITY anfauf "„|&quot;|»|›|‚|'">
+    <!ENTITY anf "&anfauf;|'|'|‹|«">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -773,6 +775,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         Die Erkennung von Fehlern *innerhalb* von Nominalphrasen (z.B. "der Auto") liegt bei der
         Java-Regel AgreementRule.
         -->
+        <antipattern>
+            <token postag="SENT_START"/>
+            <token spacebefore="yes" case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token>:</token>
+            <token spacebefore="yes" case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">&anf;</token>
+            <token spacebefore="no" case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token max="2" regexp="yes">[^\p{L}]</token>
+            <token case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">[a-z]</token>
+            <token regexp="yes">[^\p{L}]</token>
+            <token case_sensitive="yes">Sein</token>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -783,6 +806,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </unify>
         </pattern>
         <disambig action="unify"/>
+        <example type="untouched"> Sein Wissen wurde ihm zum Verhängnis.</example>
+        <example type="untouched">"Sein Wissen wurde ihm zum Verhängnis."</example>
+        <example type="untouched">Es war zu spät: Sein Wissen wurde ihm zum Verhängnis.</example>
+        <example type="untouched">- Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">*Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">• Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">1) Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">2. Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">c) Sein Wissen wurde ihm zum Verhängnis.</example>
     </rule>
     <rule name="NP unify 1b" id="UNIFY_DET_SUB2">
         <antipattern>
