@@ -11191,7 +11191,7 @@ Precisamos que nos dê feedback.
     </rule>
 
 	<!-- CUMPRIR OS COMPROMISSOS honrar os compromissos -->
-    <rule id='HONRAR_COMPROMISSOS' name="Honrar compromissos" default="temp_off">
+    <rule id='HONRAR_COMPROMISSOS' name="Honrar compromissos">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-22 (25-JUN-2021+)      -->
 	<!--
 Vou cumprir os compromissos. → Vou honrar os compromissos.
@@ -14701,6 +14701,18 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
       <example correction='nos'><marker>em os</marker>.</example>
     </rule>
     <rule>
+<!-- MARCOAGPINTO 2021-09-23 (25-JUN-2021+) *START* -->
+<!--
+Houve mais vitórias por as simulações terem sido executadas mais vezes.
+Por as DDR efetuarem duas operações por ciclo, surgiram os módulos CL2.5 que indicam um meio termo.
+-->
+      <antipattern>
+		<token>por</token>
+		<token postag='DA.+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-09-23 (25-JUN-2021+) *END* -->
       <pattern>
         <marker>
           <token regexp='yes'>por|per</token>
@@ -14720,6 +14732,8 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
       <example>Foi louvado por o ter feito.</example>
       <example>Foi por o Miguel compreender o que se passa que decidiu sair.</example>
       <example>Foi por o Miguel, depois de muito tempo, compreender o que se passa que decidiu sair.</example>
+	  <example>Houve mais vitórias por as simulações terem sido executadas mais vezes.</example>
+	  <example>Por as DDR efetuarem duas operações por ciclo, surgiram os módulos CL2.5 que indicam um meio termo.</example>
     </rule>
   </rulegroup>
 
