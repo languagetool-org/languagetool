@@ -56019,7 +56019,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rulegroup id="FRASE_INFINITIU" name="frase que comença per infinitiu" default="temp_off">
+        <rulegroup id="DONAR_PRESSA" name="donar-se pressa" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">donar</token>
+                    <token postag_regexp="yes" postag="&pronom_feble;" spacebefore="no"/>
+                    <token>pressa</token>
+                </pattern>
+                <message>Val més usar una altra expressió</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">afanyar</match>\2</suggestion>
+                <example correction="afanyar-se">Ara cal <marker>donar-se pressa</marker>.</example>
+                <example correction="Afanya't"><marker>Dóna't pressa</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">et|em|de</token>
+                    <and>
+                        <token inflected="yes">donar</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <token>pressa</token>
+                </pattern>
+                <message>Val més usar una altra expressió</message>
+                <suggestion><match no="1" regexp_match="^(?iu)e?([tmd])e?$" regexp_replace="$1'"></match><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">afanyar</match></suggestion>
+                <example correction="t'afanyis">Ara cal que <marker>et donis pressa</marker>.</example>
+                <example correction="d'afanyar">Ara us heu <marker>de donar pressa</marker>.</example>
+                <example>Ara no li donis pressa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <and>
+                        <token inflected="yes">donar</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <token>pressa</token>
+                </pattern>
+                <message>Val més usar una altra expressió</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">afanyar</match></suggestion>
+                <example correction="afanyeu">Ara cal que us <marker>doneu pressa</marker>.</example>
+                <example>Ara no li donis pressa.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FRASE_INFINITIU" name="frase que comença per infinitiu">
             <url>https://esadir.cat/gramatica/sintaxi/introinf</url>
             <antipattern>
                 <token postag="V.N.*" postag_regexp="yes" regexp="yes">&verbs_infinitiu;</token>
