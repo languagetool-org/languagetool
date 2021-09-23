@@ -32374,7 +32374,7 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="NE_IMP_PAS" name="Ne + impératif + pas">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>.</token>
                     <token>.</token>
@@ -32397,8 +32397,6 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Cette expression peut être considérée comme familière.</message>
                 <suggestion>ce n'est</suggestion>
-                <!--<suggestion><match no="4" postag="V (avoir )?(etre )?(inf|ind|con|sub) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2imp $4 2 $6"/></suggestion>
-                <example correction="sois">Ne <marker>soit</marker> pas en retard !</example>-->
                 <example correction="Ce n'est"><marker>N'est</marker> pas une montre de plongée.</example>
                 <example>N'est pas gourmand qui veut.</example>
             </rule>
@@ -32407,6 +32405,11 @@ though, and has since been slightly modified)-->
                     <token>.</token>
                     <token>.</token>
                     <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">ne</token>
+                    <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
+                    <token postag="V etre.* 3 s" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -32433,6 +32436,7 @@ though, and has since been slightly modified)-->
                 <example>Ne craignez pas de faire des fautes en parlant anglais.</example>
                 <example>Ne me traite pas d'idiot !</example>
                 <example>N'est pas gourmand qui veut.</example>
+                <example>N'être pas écouté, ce n'est pas une raison pour se taire.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -66362,7 +66366,8 @@ though, and has since been slightly modified)-->
                     <token>très</token>
                 </pattern>
                 <message>Faute de frappe possible : un mot est répété, mais cela peut être un intensificateur familier.</message>
-                <example></example>
+                <suggestion>très</suggestion>
+                <example correction="très">C'est <marker>très très</marker> bon.</example>
             </rule>
             <rule>
                 <pattern>
