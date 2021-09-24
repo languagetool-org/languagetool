@@ -15,7 +15,8 @@
 
 #### French
   * added and improved rules
-  * updated dictionary (french-pos-dict-0.3) with words from added.txt and removed.txt
+  * updated dictionary (french-pos-dict-0.4) with words from added.txt and removed.txt, 
+    and fixed lemmas of many adjectives (infinitive->masc. sing.)
 
 #### Portuguese
   * added and improved rules

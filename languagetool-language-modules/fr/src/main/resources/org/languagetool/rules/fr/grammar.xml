@@ -24764,7 +24764,7 @@ though, and has since been slightly modified)-->
             <message>Le nom exact est <suggestion>coronavirus</suggestion>. « Corona » est un abus de langage.</message>
             <example correction="coronavirus">Depuis le <marker>corona</marker> ça n'est plus possible.</example>
         </rule>
-        <rule id="N_A_V_PPR" name="Participe présent au lieu d'adjectif">
+        <rule id="N_A_V_PPR" name="Participe présent au lieu d'adjectif" default="temp_off">
             <pattern>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="A">plutôt</token>
@@ -24773,12 +24773,14 @@ though, and has since been slightly modified)-->
                         <exception postag="J.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Erreur possible, il est probable que dans ce cas un adjectif soit attendu. Vouliez-vous dire « <match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m s"/> » ? (Si la suggestion est erronée, vérifiez la racine de votre mot).</message>
-            <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m s"/></suggestion>
+            <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:J.*"/>
+            <message>Erreur possible. Il est probable que dans ce cas un adjectif soit attendu.</message>
+            <!--Vouliez-vous dire « <match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m s"/> » ? (Si la suggestion est erronée, vérifiez la racine de votre mot).</message>-->
+            <!--<suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m s"/></suggestion>
             <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m p"/></suggestion>
             <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J f s"/></suggestion>
-            <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J f p"/></suggestion>
-            <example correction="négligé|négligés|négligée|négligées">Élève plutôt <marker>négligeant</marker>, il est devenu un brillant étudiant.</example>
+            <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J f p"/></suggestion>-->
+            <example correction="négligent">Élève plutôt <marker>négligeant</marker>, il est devenu un brillant étudiant.</example>
         </rule>
         <!-- http://www.leconjugueur.com/frlesnombres.php -->
         <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
@@ -30593,9 +30595,9 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le mot pluriel « \7 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
                 <suggestion><match no="7" postag="(V ppa|J) ([mfe]) ([sp])" postag_regexp="yes" postag_replace="$1 $2 s"/></suggestion>
-                <example correction="contente|contentée">Elle a l’air <marker>contentes</marker>.</example>
+                <example correction="contente">Elle a l’air <marker>contentes</marker>.</example>
                 <example>Elle a l’air <marker>contente</marker>.</example>
-                <example correction="contente|contentée">Ce soir, elle a l’air <marker>contentes</marker>.</example>
+                <example correction="contente">Ce soir, elle a l’air <marker>contentes</marker>.</example>
                 <example>Ce soir, elle a l’air <marker>contente</marker>.</example>
             </rule>
             <rule>
@@ -30637,11 +30639,11 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Le mot pluriel « \10 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
                 <suggestion><match no="10" postag="(V ppa|J) ([mfe]) p" postag_regexp="yes" postag_replace="$1 $2 s"/></suggestion>
-                <example correction="contente|contentée">Elle n’a pas l’air <marker>contentes</marker>.</example>
+                <example correction="contente">Elle n’a pas l’air <marker>contentes</marker>.</example>
                 <example correction="contente">Elle n’a pas l’air très <marker>contentes</marker>.</example>
-                <example correction="contente|contentée">Elle n’a pas toujours l’air <marker>contentes</marker>.</example>
+                <example correction="contente">Elle n’a pas toujours l’air <marker>contentes</marker>.</example>
                 <example>Elle n’a pas l’air <marker>contente</marker>.</example>
-                <example correction="contente|contentée">Ce soir, elle n’a pas l’air <marker>contentes</marker>.</example>
+                <example correction="contente">Ce soir, elle n’a pas l’air <marker>contentes</marker>.</example>
                 <example>Ce soir, elle n’a pas l’air <marker>contente</marker>.</example>
             </rule>
             <rule>
