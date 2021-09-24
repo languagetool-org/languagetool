@@ -3382,7 +3382,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="improbable_verb_balear" name="verb balear improbable">
             <pattern>
                 <marker>
-                    <token postag="VMIP1S0B" regexp="yes">subsol|pis|xiv|plaç|estàs|après|test|remei</token>
+                    <token postag="VMIP1S0B" regexp="yes">subsol|pis|xiv|plaç|estàs|après|test|remei|estiu</token>
+                </marker>
+            </pattern>
+            <disambig action="remove">
+                <wd pos="VMIP1S0B"/>
+            </disambig>
+        </rule>
+        <rule id="improbable_verb_balear2" name="verb balear improbable">
+            <pattern>
+                <token regexp="yes">es|és</token>
+                <marker>
+                    <and>
+                        <token postag="VMIP1S0B" regexp="yes"/>
+                        <token postag="[NA].*" postag_regexp="yes"/>
+                    </and>
                 </marker>
             </pattern>
             <disambig action="remove">
