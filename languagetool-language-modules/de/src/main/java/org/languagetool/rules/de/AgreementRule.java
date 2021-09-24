@@ -1253,6 +1253,10 @@ public class AgreementRule extends Rule {
       posRegex("(ART|PRO:DEM).*"),
       posRegex("ADV.*"),
       posRegex("SUB.*")
+    ),
+    Arrays.asList( // Der Deutsch Langhaar ist ein mittelgroßer Jagdhund
+      token("Deutsch"),
+      token("Langhaar")
     )
   );
 

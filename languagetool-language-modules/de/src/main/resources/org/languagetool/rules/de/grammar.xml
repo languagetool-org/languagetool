@@ -8566,12 +8566,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token>dass</token>
                 </antipattern>
+                <antipattern>
+                    <token>dass</token>
+                    <token>ende</token>
+                    <token regexp="yes">\d{4}|&monate;</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">so</token>
                     <marker>
                         <token>dass</token>
                     </marker>
-                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">vermöge|sieben|gilt|äußerst|äusserst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes">
+                        <exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/>
+                        <exception regexp="yes">m?ein</exception>
+                        <exception regexp="yes">vermöge|sieben|gilt|äußerst|äusserst|anstelle|einst|meinen?|tausenden?|!(hat)</exception>
+                        <exception postag="VER:INF:NON" />
+                    </token>
                 </pattern>
                 <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
                 <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
@@ -8582,6 +8592,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="das">Aber <marker>dass</marker> hast du vergessen.</example>
                 <example correction="das">Aber <marker>dass</marker> warst du gar nicht.</example>
                 <example>Er sagt, <marker>dass</marker> du kommst, aber er irrt.</example>
+                <example>Ich denke dass mein/e Idee gut ist.</example>
+                <example>Ich glaube dass lügen keine Option ist.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10852,7 +10864,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="DA_DURCH" name="da durch (dadurch)" default="temp_off">
+        <rule id="ZU_KOMMEN_LASSEN" name="zu kommen (zukommen)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">da|wo</token>
+                <token>zu</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>zu</token>
+                    <token>kommen</token>
+                </marker>
+                <token inflected="yes">lassen</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token postag="PKT|KON.*" postag_regexp="yes" />
+            </pattern>
+            <message>Das Verb <suggestion>zukommen</suggestion> wird im Sinne von "zuschicken" zusammengeschrieben.</message>
+            <example correction="zukommen">Ich werde dir das <marker>zu kommen</marker> lassen.</example>
+        </rule>
+        <rule id="ZU_SCHICKEN_LASSEN" name="zu schicken (zuschicken)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">da|wo</token>
+                <token>zu</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>zu</token>
+                    <token regexp="yes">schicken|senden</token>
+                </marker>
+                <token inflected="yes" regexp="yes">werden|lassen|können</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token postag="PKT|KON.*" postag_regexp="yes" />
+            </pattern>
+            <message>Das Verb <suggestion>zuschicken</suggestion> wird zusammengeschrieben.</message>
+            <example correction="zuschicken">Ich werde dir das <marker>zu senden</marker> können.</example>
+        </rule>
+        <rulegroup id="DA_DURCH" name="da durch (dadurch)">
             <rule>
                 <pattern>
                     <token postag="SENT_START|PKT" postag_regexp="yes" />
@@ -12555,6 +12601,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>Admissions</token>
                 <token>Office</token>
+            </antipattern>
+            <antipattern>
+                <token>Digital</token>
+                <token>Editions</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">0|Zero</token>
@@ -22618,7 +22668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KFZ_CASE" name="KFZ -> Kfz">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Vergleich(e?[ns]?)|Anmeldestellen?|Versicherungsvergleich(e?[sn]?)?|Anmeldeservices?|Anmeldung(en)?|Abmeldung(en)?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Zulassung(en)?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
+                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Brief(e?[ns]?)?|Vergleich(e?[ns]?)|Anmeldestellen?|Versicherungsvergleich(e?[sn]?)?|Anmeldeservices?|Anmeldung(en)?|Abmeldung(en)?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Zulassungsstellen?|Zulassung(en)?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
                 </pattern>
                 <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
                 <suggestion><match no="1" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
@@ -26183,7 +26233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das <marker>aus</marker> seiner Richtung geworfene Feuerzeug verfehlte ihn.</example>
                 <example>Sie trug ihr Kampfoutfit, das aus ihrer strahlend weißen Hose bestand.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PRP:LOK.*" postag_regexp="yes">
                         <exception>aus</exception>
@@ -35501,6 +35551,16 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
                 <example correction="Ende">Das <marker>ende</marker> kommt schneller als du denkst.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token regexp="yes">&monate;</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <example correction="Ende">Wir glauben, dass <marker>ende</marker> Januar der Film erscheint.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="REDE_SUBST" name="'rede (Rede)'">
             <rule>
@@ -41134,7 +41194,7 @@ Andere Projekte</example>
                     <token>die</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">mit|von|zu|ohne|in</token>
+                    <token regexp="yes">mit|von|zu|ohne|in|an</token>
                     <token>die</token>
                 </antipattern>
                 <pattern>
@@ -41178,6 +41238,27 @@ Andere Projekte</example>
                     <token>das</token>
                     <token>Sinn</token>
                     <token regexp="yes" inflected="yes">ergeben|machen</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token>Gott</token>
+                    <token>sei</token>
+                    <token>Dank</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token>Erfolg</token>
+                    <token regexp="yes">verspricht|versprach|versprechen|brachte|bringt|bringen</token>
+                </antipattern>
+                <antipattern>
+                    <token>durch</token>
+                    <token>das</token>
+                </antipattern>
+                <antipattern>
+                    <token>ob</token>
+                    <token>das</token>
+                    <token />
+                    <token regexp="yes">ist|war</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -41257,7 +41338,7 @@ Andere Projekte</example>
                     <token>Haar</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">mit|von|zu|ohne|in</token>
+                    <token regexp="yes">mit|von|zu|ohne|in|an</token>
                     <token>der</token>
                 </antipattern>
                 <pattern>
@@ -51450,7 +51531,7 @@ Andere Projekte</example>
         <rulegroup id="KOMMA_VOR_WIE" name="Komma vor wie">
             <rule>
                 <antipattern>
-                    <token skip="-1" regexp="yes">(genau)?so</token>
+                    <token skip="-1" regexp="yes">(genau|eben)?so</token>
                     <token>wie</token>
                 </antipattern>
                 <antipattern>
@@ -51471,6 +51552,7 @@ Andere Projekte</example>
                 <example>Er blieb wie angewurzelt stehen.</example>
                 <example>Er lügt wie gedruckt und schreibt gestochen schön.</example>
                 <example>Man wählte Österreich, da Österreich ähnliche Kaufkraft und Kaufverhalten wie Deutschland bietet.</example>
+                <example>... dessen emotionale Unberührtheit ebenso unterkühlt wie destruktiv ist.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -54700,7 +54782,7 @@ Andere Projekte</example>
                 <token regexp="yes">Institute?s?|Archive?s?</token>
             </antipattern>
             <antipattern>
-                <token>the</token>
+                <token regexp="yes">the|daily</token>
                 <token>Telegraph</token>
             </antipattern>
             <antipattern>
