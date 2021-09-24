@@ -7574,6 +7574,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">s?he</token>
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes">this|that</token>
+            <token regexp="yes">will|can</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7601,6 +7605,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I want to age gracefully.</example>
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
         <example type="untouched">Many play, but only one will win.</example>
+        <example type="untouched">This will bright my day.</example>
         <example type="untouched">Many claim that the behavior is in the past.</example>
         <example type="untouched">Doubled consonants count as two consonants.</example>
         <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
@@ -15230,4 +15235,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="UN_HAPPY" name="ignore spelling of (un)happy">
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">un|dis</token>
+            </marker>
+            <token>)</token>
+            <token postag="JJ|VB.*" postag_regexp="yes" spacebefore="no" />
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="PLAY_ING" name="ignore spelling of play(ing)">
+        <pattern>
+            <token postag="VB" />
+            <token>(</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">ing|ed</token>
+            </marker>
+            <token>)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
