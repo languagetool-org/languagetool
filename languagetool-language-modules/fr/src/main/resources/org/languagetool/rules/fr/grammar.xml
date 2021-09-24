@@ -1006,6 +1006,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="D_J" name="Concordance du déterminant avec l’adjectif">
                 <antipattern>
+                    <!-- tous (pronoun, not determiner) -->
+                    <token postag="V.* [123] .*" postag_regexp="yes"/>
+                    <token>à</token>
+                    <token regexp="yes">tous|toutes</token>
+                </antipattern>
+                <antipattern>
                     <token postag="R.*" postag_regexp="yes">
                         <exception regexp="yes">dont|tous</exception></token>
                     <token>ses</token>
@@ -1119,7 +1125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>On peut y ajouter le Jazz, la Soul, et désormais le Funk.</example>
                 <example>dans les 2e, 3e et 4e versions</example>
                 <example>si vous leur dites de venir</example>
-                <example type="triggers_error">Je vous souhaite à tous bonne chance.</example>
+                <example>Je vous souhaite à tous bonne chance.</example>
                 <example type="triggers_error">Coaprovel s'est révélé le droit de vente pour tous fictif</example>
             </rule>
             <rule id="D_VPPA" name="Concordance du déterminant avec participe passé ou pronom avec infinitif">
@@ -1924,6 +1930,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>comme contenue ou conduite permis</example>
                 <example>Dans les tons rose fluo, bleu-gris et vert moutarde.</example>
                 <example>Oui, elle est plate ET elle est ronde.</example>
+                <example>La même expérience a été effectuée avec des enfants daltoniens qui se sont tous plantés environ une fois sur deux.</example>
+                <example>dans vos agendas tout nouveaux tout beaux</example>
             </rule>
             <rule>
                 <!-- same rule with participles -->

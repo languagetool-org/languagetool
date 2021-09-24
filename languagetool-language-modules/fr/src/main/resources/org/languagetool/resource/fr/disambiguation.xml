@@ -443,7 +443,7 @@ RB => Règles Brutes
             </disambig>
         </rule>
     </rulegroup>
-    <rulegroup id="TOUT" name="tout (pron)">
+    <rulegroup id="TOUT_PRON" name="tout (pron)">
         <rule>
             <pattern>
                 <token inflected="yes">avoir</token>
@@ -2119,6 +2119,41 @@ RB => Règles Brutes
     </rule>
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: adverbs -->
+    <rulegroup id="TOUT_ADV" name="tout (adv">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <marker>
+                            <token postag="A">tout</token>
+                        </marker>
+                    </unify-ignore>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="A"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="A">tout</token>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <marker>
+                            <token postag="A">tout</token>
+                        </marker>
+                    </unify-ignore>
+                    <token postag="J.*|V ppa.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="A"/>
+        </rule>
+    </rulegroup>
     <rule id="EN_OUTRE" name="en outre">
         <pattern>
             <marker>
