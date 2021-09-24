@@ -27,6 +27,11 @@
   * added and improved rules
   * updated dictionary (spanish-pos-dict-1.3)
 
+#### Russian
+  * added and improved rules
+  * updated POS and spellchecker dictionary
+  * activate some picky rules in picky mode 
+
 #### Ukrainian
   * over 5000 new words in the POS dictionary
   * added and improved rules
