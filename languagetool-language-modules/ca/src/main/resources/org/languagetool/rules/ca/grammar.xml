@@ -16856,7 +16856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="ES_CAS" name="es cas/en cas" default="temp_off">
+        <rule id="ES_CAS" name="es cas/en cas">
             <pattern>
                 <marker>
                     <token>es</token>
@@ -16867,7 +16867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>en cas</suggestion>?</message>
             <example correction="En cas"><marker>Es cas</marker> contrari, truqueu-me.</example>
         </rule>
-        <rule id="ES_TRACTE" name="es tracte/es tracta" default="temp_off">
+        <rule id="ES_TRACTE" name="es tracte/es tracta">
             <antipattern>
                 <token skip="10">tracte</token>
                 <token>o</token>
@@ -53113,15 +53113,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="annex"><marker>annexe</marker></example>
                 <example>Cal que s'annexe la documentació.</example>
             </rule>
-            <rule default="off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">salari|sou|horari|treball|lloc|càrrec|pagament|ingrés</token>
+                    <token regexp="yes" inflected="yes">salari|sou|horari|treball|lloc|càrrec|pagament|ingrés|alumne|alumnat|ser</token>
                     <marker>
                         <token>fixe</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>fix</suggestion> (adj. masc. sing.) en comptes de "fixe" (del v. 'fixar')?</message>
                 <example correction="fix">Tenia un sou <marker>fixe</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>fixe</token>
+                    </marker>
+                    <token regexp="yes">continu|discontinu</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>fix</suggestion> (adj. masc. sing.) en comptes de "fixe" (del v. 'fixar')?</message>
+                <example correction="fix">Era <marker>fixe</marker> discontinu.</example>
             </rule>
         </rulegroup>
         <rule id="CIMENT_CEMENT" name="ciment/cement">
