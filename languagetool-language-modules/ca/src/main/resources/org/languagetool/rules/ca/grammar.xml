@@ -37980,6 +37980,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De 10,15 a 10,30 quilòmetres.</example>
                 <example>De 23,50 a 25,00</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">[012]?\d,[012345]\d</token>
+                    <token postag="Y|NC[MF][PN]000" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[012]?\d,[012345]\d</token>
+                    <token regexp="yes" inflected="yes">.*metre|.*gram|.*litre|Ma</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
+                    </marker>
+                    <token regexp="yes">a|-</token>
+                    <token regexp="yes">([01]?\d|2[0-4])(,[012345]\d)?</token>
+                </pattern>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
+                <example correction="9.30|9:30">De <marker>9,30</marker> a 11 h.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">[012]?\d,[012345]\d</token>
+                    <token postag="Y|NC[MF][PN]000" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[012]?\d,[012345]\d</token>
+                    <token regexp="yes" inflected="yes">.*metre|.*gram|.*litre|Ma</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">([01]?\d|2[0-4])([,\.:][012345]\d)?</token>
+                    <token regexp="yes">a|-</token>
+                    <marker>
+                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
+                    </marker>
+                </pattern>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
+                <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
+                <example correction="9.30|9:30">De 8 a <marker>9,30</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -56133,7 +56175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rulegroup id="DONAR_PRESSA" name="donar-se pressa" default="temp_off">
+        <rulegroup id="DONAR_PRESSA" name="donar-se pressa">
             <rule>
                 <pattern>
                     <token inflected="yes">donar</token>
