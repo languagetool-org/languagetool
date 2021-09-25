@@ -949,6 +949,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Treibel", "Tribal");
     put("vorort", "vor Ort");
     put("Brotwürfelcro[uû]tons", "Croûtons");
+    put("bess?tetigung", "Bestätigung");
+    put("[mM]ayonaisse", "Mayonnaise");
+    put("misverstaendnis", "Missverständnis");
+    put("[vV]erlu(ss|ß)t", "Verlust");
+    put("glückigerweise", "glücklicherweise");
+    put("[sS]tandtart", "Standard");
+    put("Mainzerstrasse", "Mainzer Straße");
+    put("Genehmigerablauf", "Genehmigungsablauf");
+    put("Bestellerurkunde", "Bestellungsurkunde");
+    put("Selbstmitleidigkeit", "Selbstmitleid");
+    put("[iI]ntuion", "Intuition");
+    put("[cCkK]ontener", "Container");
+    putRepl("[oO]rdnungswiedrichkeit(en)?", "[oO]rdnungswiedrich", "Ordnungswidrig");
+    putRepl("Mauntenbiker[ns]?", "^Maunten", "Mountain");
     putRepl("Mauntenbikes?", "Maunten", "Mountain");
     putRepl("[nN]euhichkeit(en)?", "[nN]euhich", "Neuig");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
