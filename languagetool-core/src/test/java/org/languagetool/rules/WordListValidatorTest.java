@@ -45,6 +45,7 @@ public class WordListValidatorTest {
           "Varaždin/S",
           "Będzin",
           "Aydın",
+          "Poreč",
           "Čeferin",
           "Čeferin/S",
           "Perišić",
