@@ -16856,6 +16856,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rulegroup id="S_OBRE" name="s'obra/s'obre" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">m'|t'|s'|li|ens|us|vos|els|'ns|n'|hi</token>
+                    <marker>
+                        <token>obra</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>obre</suggestion> (del v. 'obrir')? Correcte si és del v. 'obrar'.</message>
+                <example correction="obre">El programa només s'<marker>obra</marker> en anglès.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ens|us|vos|me|te|els</token>
+                    <token regexp="yes">l'</token>
+                    <marker>
+                        <token>obra</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>obre</suggestion> (del v. 'obrir')? Correcte si és del v. 'obrar'.</message>
+                <example correction="obre">La porta cal que ens l'<marker>obra</marker> un manyà.</example>
+            </rule>
+        </rulegroup>
         <rule id="ES_CAS" name="es cas/en cas">
             <pattern>
                 <marker>
