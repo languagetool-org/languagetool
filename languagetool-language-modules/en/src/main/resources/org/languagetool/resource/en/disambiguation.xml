@@ -7578,6 +7578,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">this|that</token>
             <token regexp="yes">will|can</token>
         </antipattern>
+        <antipattern><!-- He was support by ... -->
+            <token postag="NNP|PRP_S3.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">was|is|'s</token>
+            <token postag="VB" />
+            <token postag="IN|DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token postag="NNPS|PRP_S2.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">were|are|'re</token>
+            <token postag="VB" />
+            <token postag="IN|DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7742,6 +7754,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar (ether/either): You can ether type in the address bar or click on a bookmark.</example>
         <example type="untouched">It's shameful; few start at the right times and then they go home early.</example><!-- #3574 -->
         <example type="untouched">At Tatoeba, it is more important that a translation sound natural than that it be strictly faithful to the original.</example>
+        <example type="untouched">I was support by my colleague.</example>
         <!-- ambiguos #2682 -->
         <example type="untouched">Does not much <marker>care</marker> for the patient also cost much money?</example>
 <!-- Refer to the counter example        <example type="untouched">If any professional want to know the new practices of their field...</example>Premium #1564 -->
