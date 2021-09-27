@@ -10886,7 +10886,7 @@ though, and has since been slightly modified)-->
                 <example> Si mon pc s'appelle "x" et que je clique ou je surfe sur site web.</example>
                 <example>Son inspiration pour les personnages peut venir de vraies personnes qu’il connaît ou il peut aussi les créer.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>ou</token>
                     <token>je</token>
@@ -10986,6 +10986,11 @@ though, and has since been slightly modified)-->
                     <token postag="R pers suj.*" postag_regexp="yes"/>
                     <token inflected="yes">aller</token>
                 </antipattern>
+                <antipattern>
+                    <token>ou</token>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="V.* inf" postag_regexp="yes" regexp="yes">(?-i)[a-z].*
                         <exception regexp="yes">aider|rider</exception></token>
@@ -11011,6 +11016,7 @@ though, and has since been slightly modified)-->
                 <example>Ou bien sur un sujet qui vous tient à cœur et que vous aimeriez développer ou nous faire partager.</example>
                 <example>Vous pouvez évidemment vous retirer ou vous rajouter.</example>
                 <example>Dois-je débloquer pour rebloquer ou on laisse couler ?</example>
+                <example>et les personnaliser ou vous contenter des emballages</example>
             </rule>
             <rule>
                 <pattern>
