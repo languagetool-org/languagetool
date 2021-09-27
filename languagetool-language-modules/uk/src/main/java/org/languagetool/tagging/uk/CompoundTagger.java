@@ -337,7 +337,7 @@ class CompoundTagger {
         List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
         return leftAnalyzedTokens.stream()
             .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adj") )
-            .map(a -> new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(""), word))
+            .map(a -> new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(""), a.getLemma()+"-пре"+a.getLemma()))
             .collect(Collectors.toList());
       }
     }
@@ -387,7 +387,18 @@ class CompoundTagger {
       return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);
     }
 
+    if( leftWord.equalsIgnoreCase(rightWord)
+        && leftAnalyzedTokens.size() > 0
+        && LemmaHelper.hasLemma(leftAnalyzedTokens, Pattern.compile("[ув]?весь|[ву]с[еі]")) ) {
+      List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
+      if( tagMatch != null ) {
+        return tagMatch.stream()
+          .filter(m -> equalParts(m.getLemma()) )
+          .collect(Collectors.toList());
+      }
+    }
 
+    
     if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "&pron")
         && ! PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "numr") )
       return null;
@@ -515,6 +526,14 @@ class CompoundTagger {
     
     return null;
   }
+
+  private static boolean equalParts(String lemma) {
+    if( ! lemma.contains("-") )
+      return false;
+    String[] parts = lemma.split("-", 2);
+    return parts[0].equals(parts[1]);
+  }
+
 
   private List<TaggedWord> tagEitherCase(String word) {
     if( word.isEmpty() )

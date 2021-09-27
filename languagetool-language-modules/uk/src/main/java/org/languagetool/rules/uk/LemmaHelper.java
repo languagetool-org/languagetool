@@ -44,6 +44,15 @@ public abstract class LemmaHelper {
     return false;
   }
 
+  public static boolean hasLemma(List<AnalyzedToken> readings, Pattern lemmaRegex) {
+    for(AnalyzedToken analyzedToken: readings) {
+      if( lemmaRegex.matcher(analyzedToken.getLemma()).matches() ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, List<String> lemmas, String partPos) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
       for(String lemma: lemmas) {

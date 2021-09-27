@@ -4130,6 +4130,85 @@
     <example type="untouched">Так тобі й треба</example>
   </rule>
 
+  <rule name="Кривий Ріг" id="kryviy_rih">
+    <pattern>
+      <token inflected="yes">кривий</token>
+      <marker>
+        <token inflected="yes">Ріг</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_...:prop:geo" />
+    <example type="ambiguous"
+      inputform="Ріг[Ріг/noun:inanim:m:v_naz:prop:geo,Ріг/noun:inanim:m:v_zna:prop:geo,ріг/noun:inanim:m:v_naz:xp1,ріг/noun:inanim:m:v_naz:xp2,ріг/noun:inanim:m:v_naz:xp3,ріг/noun:inanim:m:v_zna:xp1,ріг/noun:inanim:m:v_zna:xp2,ріг/noun:inanim:m:v_zna:xp3]"
+      outputform="Ріг[Ріг/noun:inanim:m:v_naz:prop:geo,Ріг/noun:inanim:m:v_zna:prop:geo]">Поїхав в Кривий <marker>Ріг</marker>.
+    </example>
+    <example type="untouched">кривий ріг</example>
+  </rule>
+
+  <rule name="сходу - іменник" id="skhodu_noun1">
+    <pattern>
+      <token postag_regexp="yes" postag="prep.*"/>
+      <marker>
+        <token>сходу</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:.*" />
+    <example type="ambiguous"
+      inputform="сходу[сход/noun:inanim:m:v_dav,сход/noun:inanim:m:v_rod,сходу/adv:bad,схід/noun:inanim:m:v_dav,схід/noun:inanim:m:v_rod]"
+      outputform="сходу[сход/noun:inanim:m:v_dav,сход/noun:inanim:m:v_rod,схід/noun:inanim:m:v_dav,схід/noun:inanim:m:v_rod]">Приїхав зі <marker>сходу</marker>.
+    </example>
+    <example type="untouched">сходу стрибнув</example>
+  </rule>
+
+  <rule name="сходу - іменник" id="skhodu_noun2">
+    <pattern>
+      <token regexp="yes">заходу|півдн[яю]|півночі</token>
+      <token postag_regexp="yes" postag="conj.*"/>
+      <marker>
+        <token>сходу</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_.*"></disambig>
+    <!-- TODO: filter by lemma too -->
+    <example type="ambiguous"
+      inputform="сходу[сход/noun:inanim:m:v_dav,сход/noun:inanim:m:v_rod,сходу/adv:bad,схід/noun:inanim:m:v_dav,схід/noun:inanim:m:v_rod]"
+      outputform="сходу[сход/noun:inanim:m:v_dav,сход/noun:inanim:m:v_rod,схід/noun:inanim:m:v_dav,схід/noun:inanim:m:v_rod]">З півночі і <marker>сходу</marker>.
+    </example>
+    <example type="untouched">сходу стрибнув</example>
+  </rule>
+
+  <rule name="сходу - іменник" id="skhodu_noun3">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:m:v_(rod|dav).*"/>
+      <marker>
+        <token>сходу</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_.*"/>
+    <example type="ambiguous"
+      inputform="сходу[сход/noun:inanim:m:v_dav,сход/noun:inanim:m:v_rod,сходу/adv:bad,схід/noun:inanim:m:v_dav,схід/noun:inanim:m:v_rod]"
+      outputform="сходу[сход/noun:inanim:m:v_dav,сход/noun:inanim:m:v_rod,схід/noun:inanim:m:v_dav,схід/noun:inanim:m:v_rod]">З південного <marker>сходу</marker>.
+    </example>
+    <example type="untouched">сходу стрибнув</example>
+  </rule>
+
+  <rule name="просто - прийм." id="prosto_prep">
+    <pattern>
+      <marker>
+        <token>просто</token>
+      </marker>
+      <token>неба</token>
+    </pattern>
+    <disambig action="filter" postag="prep"/>
+    <example type="ambiguous"
+      inputform="просто[просто/adv:compb:&amp;predic,просто/part,просто/prep]"
+      outputform="просто[просто/prep]">і <marker>просто</marker> неба.
+    </example>
+    <example type="untouched">просто туди</example>
+  </rule>
+
+  <!-- TODO: other просто, but it does not buy much - still have adv and part -->
+
 <!-- 
   <rule name="Качок" id="kachok">
     <pattern>
