@@ -295,6 +295,7 @@ public class HunspellRule extends SpellingCheckRule {
   boolean isFirstItemHighConfidenceSuggestion(String word, List<SuggestedReplacement> sugg) {
     // finds cases like "HAus", where "Haus" is surely the proper suggestion:
     if (sugg.size() > 0 &&
+        !word.equals("IPs") &&
         word.equalsIgnoreCase(sugg.get(0).getReplacement()) &&
         word.matches("[A-Z][A-Z]\\p{javaLowerCase}+") &&
         language.getShortCode().equals("de")) {
