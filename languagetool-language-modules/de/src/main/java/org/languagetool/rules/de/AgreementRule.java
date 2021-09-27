@@ -550,6 +550,12 @@ public class AgreementRule extends Rule {
       csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
       csRegex("gemacht|ergeben|gestiftet")
     ),
+    Arrays.asList( // Eine Lösung die Spaß macht
+      regex("die|der|das"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
+      csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
+      new PatternTokenBuilder().tokenRegex("machen|schaffen|stiften|ergeben").matchInflectedForms().build()
+    ),
     Arrays.asList( // Soll das Spaß machen?
       posRegex("SENT_START|PKT|KON:NEB"),
       regex("soll|sollte|wird|würde|kann|lönnte"),

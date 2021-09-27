@@ -723,6 +723,11 @@ public class ProhibitedCompoundRule extends Rule {
           "Fachlektüren",
           "Lustkugel",
           "Lustkugeln",
+          "Tankbeleg", // vs Bankbeleg
+          "Tankbelegs", // vs Bankbelegs
+          "Tankbeleges", // vs Bankbeleges
+          "Tankbelege", // vs Bankbelege
+          "Tankbelegen", // vs Bankbelegen
           "Kamelart", // vs. Kabelart
           "Kamelarten", // vs. Kabelarten
           "Bayern-Präsident", // vs Bauernpräsident
