@@ -23453,7 +23453,8 @@ though, and has since been slightly modified)-->
                 <example>Les Deaflympics d'été de 1989 a 13 disciplines dont 9 individuelles et 4 en équipe.</example>
                 <example>La plus grosse a 6 m de haut.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <!-- This is rule is too complex, too many antipatterns -->
                 <antipattern>
                     <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
                     <token>a</token>
@@ -23570,6 +23571,15 @@ though, and has since been slightly modified)-->
                     <token>a</token>
                     <token>été</token>
                 </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="A" min="1" max="3"/>
+                    <token postag="V.* ppa .*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">a</token>
+                    <token>?</token>
+                </antipattern>
                 <pattern raw_pos="yes">
                     <and>
                         <token postag="J.*" postag_regexp="yes"/>
@@ -23617,6 +23627,8 @@ though, and has since been slightly modified)-->
                 <example>Sa sœur a remis une lettre à la duchesse de M. de Dillon qu’Honoré a reçu.</example>
                 <example>La récession qui en a résulté a ensuite touché les pays très étroitement liés économiquement avec les États-Unis.</example>
                 <example>La mauvaise conduite a été responsable de l'accident.</example>
+                <example>Combien d'employés a l'entreprise Tencent ?</example>
+                <example>La 4 avec cette deuxième défaite a surement dit au revoir à la montée.</example>
             </rule>
             <rule>
                 <antipattern>
