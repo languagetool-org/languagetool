@@ -44004,10 +44004,12 @@ Andere Projekte</example>
                 <marker>
                     <token>als</token>
                 </marker>
-                <token negate='yes'>dass</token>
+                <token negate='yes' regexp="yes">dass?|daß</token>
             </pattern>
             <message>Ist <suggestion>als dass</suggestion> gemeint?</message>
             <example correction='als dass'>Es war zu schrecklich, <marker>als</marker> man es mit Worten beschreiben könnte.</example>
+            <example>Es war zu schrecklich, als das man es mit Worten beschreiben könnte.</example><!-- found by AI, would result in "dass das" -->
+            <example>Es war zu schrecklich, als daß man es mit Worten beschreiben könnte.</example><!-- found by speller rule, would result in "dass daß" -->
         </rule>
         <rule id="DER_KORPUS" name="der (das) Korpus">
             <regexp>der Korpus\b</regexp>
