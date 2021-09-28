@@ -1169,6 +1169,11 @@ public class AgreementRule extends Rule {
       csToken("das"),
       csToken("Sinn")
     ),
+    Arrays.asList( // Mir machte das Spaß
+      csRegex("machte?"),
+      csToken("das"),
+      csRegex("Spa(ß|ss)|Freude")
+    ),
     Arrays.asList( // Das sind beides Lichtschalter
       token("das"),
       csRegex("sind|waren"),
