@@ -472,6 +472,18 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "bean soups", // vs been
       "bean bag", // vs been
       "bean bags", // vs been
+      "belief in god", // vs good
+      "believe in a god", // vs good
+      "believes in a god", // vs good
+      "believing in a god", // vs good
+      "believed in a god", // vs good
+      "Jesus and god", // vs good
+      "Jesus or god", // vs good
+      "love of god", // vs good
+      "god will be", // vs good
+      "god is doing", // vs good
+      "there may be a god", // vs good
+      "bond with god", // vs good
       "the powers that be" // vs we
     );
 
