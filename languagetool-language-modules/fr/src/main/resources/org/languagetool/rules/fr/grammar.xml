@@ -23872,6 +23872,7 @@ though, and has since been slightly modified)-->
                     <token postag="V.* ppa .*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <token skip="-1">combien</token>
                     <token skip="-1">a</token>
                     <token>?</token>
                 </antipattern>
@@ -23889,6 +23890,7 @@ though, and has since been slightly modified)-->
                 <message>La préposition <suggestion>à</suggestion> est attendue après '\1'.</message>
                 <suggestion>à</suggestion>
                 <example correction="à">J’ai reçu des offres pour des produits étrangers, mais pas soumis <marker>a</marker> la vente.</example>
+                <example correction="à">Es-tu déjà parvenu <marker>a</marker> une décision ?</example>
                 <example>Il a écrit un livre.</example>
                 <example>Le retable proprement dit a exactement la même largeur, et atteint de hauteur.</example>
                 <example>Célestin Lainé a lui-même fabriqué, puis placé la bombe.</example>
@@ -27278,6 +27280,11 @@ though, and has since been slightly modified)-->
             <example correction="travailler">Pour ne plus jamais <marker>travaillez</marker>.</example>
         </rule>
         <rulegroup id="FAIRE_VPPA" name="verbe ppa -> inf">
+            <antipattern>
+                <token inflected="yes">faire</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">forcée?s?</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token inflected="yes">venir</token>
@@ -27326,7 +27333,7 @@ though, and has since been slightly modified)-->
                 <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \2 ».</message>
                 <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="changer">Je ne veux pas <marker>changé</marker> d’école.</example>
-                <example type="triggers_error" reason="the error is in fasse?">Je voulais aussi que le résultat ne fasse pas forcé.</example>
+                <example>Je voulais aussi que le résultat ne fasse pas forcé.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27342,6 +27349,14 @@ though, and has since been slightly modified)-->
                 <example correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>la</token>
+                    <token postag="J [fe] sp?" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>les</token>
+                    <token postag="J . s?p" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
                         <exception postag="V ind pres 1 s">puis</exception></token>
@@ -27356,9 +27371,11 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="téléphoner">Je veux lui <marker>téléphoné</marker>.</example>
                 <example correction="manger">Je ne veux pas les <marker>mangé</marker>.</example>
-                <example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>
+                <!--<example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>-->
                 <example>Je regarde la <marker>télé</marker>.</example>
                 <example>Je compte les <marker>invités</marker>.</example>
+                <example>Ne faites pas les effarouchées avec moi !</example>
+                <example>J'adore la maquée.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FAIRE_VPPA2" name="verbe ppa -> inf" default="temp_off">
