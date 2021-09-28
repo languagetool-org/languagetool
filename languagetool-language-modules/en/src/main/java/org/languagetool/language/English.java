@@ -61,7 +61,7 @@ import java.util.function.Function;
  */
 public class English extends Language implements AutoCloseable {
 
-  private static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
+  protected static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
       .expireAfterWrite(30, TimeUnit.MINUTES)
       .build(new CacheLoader<String, List<Rule>>() {
         @Override
