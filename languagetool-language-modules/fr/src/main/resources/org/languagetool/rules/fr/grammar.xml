@@ -31752,6 +31752,153 @@ though, and has since been slightly modified)-->
                 <example correction="viendrai">Je <marker>viendrais</marker> dans trois jours.</example>
                 <example>Je viendrai dans trois jours.</example>
             </rule>
+            <rule default="temp_off">
+            <antipattern>
+                <token skip="-1" inflected="yes">si</token>
+                <token>je</token>
+                <token>serais</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* ind impa.*" postag_regexp="yes" skip="-1"/>
+                <token>je</token>
+                <token>serais</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token skip="-1">(</token>
+                <token inflected="yes" regexp="yes">&jours_semaine;|&mois_annee;|&parties_journee;|&unites_temps;</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token>serais</token>
+                <token postag="A|UNKNOWN" postag_regexp="yes" min="0" max="2"/>
+                <token regexp="yes">partisan|interessée?|partant|interessée?|sûrement|favorable|pour|plutôt|toi|probablement|éventuellement|peut-être|surement|intéressée?|tentée?|ravie?|enclin|capable</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token postag="V.* sub.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="3">serais</token>
+                <token inflected="yes">que</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token>serais</token>
+                <token>peut</token>
+                <token>être</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token>mais</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="1">serais</token>
+                <token>de</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token postag="V avoir sub impa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V avoir sub impa.*" postag_regexp="yes" skip="-1"/>
+                <token>je</token>
+                <token>serais</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token>bien</token>
+                <token postag="V.* ppa.*|J.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token postag="V.* con.*" postag_regexp="yes"/>
+                <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>à</token>
+                <token>ta</token>
+                <token skip="1">place</token>
+                <token>je</token>
+                <token skip="-1">serais</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1" regexp="yes">perso|personnellement</token>
+                <token>je</token>
+                <token skip="-1">serais</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token>d'</token>
+                <token regexp="yes">accord|avis</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token regexp="yes">["»]</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token skip="-1">serais</token>
+                <token>bien</token>
+                <token regexp="yes">partante?</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token  skip="-1">serais</token>
+                <token  inflected="yes" regexp="yes">tôt|si</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">sinon|que</token>
+                <token>je</token>
+                <token>serais</token>
+            </antipattern>
+            <antipattern>
+                <token>je</token>
+                <token>serais</token>
+                <token>à</token>
+                <token>priori</token>
+            </antipattern>
+            <pattern>
+                <token>je
+                    <exception scope="previous" postag="A inte"/>
+                </token>
+                <marker>
+                <token skip="-1">serais
+                    <exception scope="next" postag="V.* ppa.*" postag_regexp="yes"/>
+                </token>
+                </marker>
+                <token inflected="yes" regexp="yes">&jours_semaine;|&mois_annee;|&parties_journee;|&unites_temps;</token>
+            </pattern>
+            <message>Pour indiquer une action qui va se dérouler, le futur est de rigueur alors que le conditionnel exprime une hypothèse.</message>
+            <suggestion>serai</suggestion>
+            <example correction="serai">Ainsi, je <marker>serais</marker> ce matin à Paris.</example>
+            <example>Bonjour Madame Croque Cerise</example>
+            <example>Je serais éventuellement intéréssé par cette ascension pour octobre.</example>
+            <example>A ta place je serais assez dubitatif sur la qualité de ton "initiation".</example>
+            <example>Eussé-je pris cet avion, je serais mort à l'heure qu'il est.</example>
+            <example>Je serais quand même assez supris qu'on nous prévienne le 10 janvier pour un examen fin janvier ?</example>
+            <example>Je serais assez du même avis (dernière visite fin janvier).</example>
+            <example>Mais, je serais né il y a 500 ans, j'aurais été le plus fort du monde.</example>
+            <example>Je serais surpris que ça s'arrange Message déposé par --Bertrand Labévue (discuter) 16 septembre 2019 à 21:25 (CEST)</example>
+            <example>Je serais resté environ 1/2 heure en dehors du champ de vison.</example>
+            <example>Je serais très étonné qu'avec 850 vues au bout d'un mois, personne ne connaisse les 2 grimpeurs impliqués dans cet accident.</example>
+            <example>La première fois que j’ai entendu parler du défi, je me suis demandé pourquoi je serais prêt à sacrifier un an de ma vie à ne rien faire sauf pédaler.</example>
+            <example>Il se trouve que si je devais être élu, je serais alors le premier administrateur de l'année 2007.</example>
+            <example>Je serais content de pouvoir discuter deux minutes avec toi au téléphone sur Fresno.</example>
+            <example>Je serais favorable à un blocage exprimé en semaines mais j'aimerais bien avoir quelques avis.</example>
+            <example>je serais bien venu dimanche mais impossible je suis de service.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
             <antipattern>
