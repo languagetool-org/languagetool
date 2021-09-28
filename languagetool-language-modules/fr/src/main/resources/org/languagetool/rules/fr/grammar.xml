@@ -5257,6 +5257,18 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="JAMAIS" name="j'amais -> jamais" default="temp_off">
+            <pattern>
+                <token>n'</token>
+                <token>a</token>
+                <marker>
+                    <token>j'</token>
+                    <token>aimais</token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>jamais</suggestion> (en aucun temps)?</message>
+            <example correction="jamais">Ça n’a <marker>j’aimais</marker> été un problème.</example>
+        </rule>
         <rule id="FAKE_NEWS" name="fake news">
             <pattern>
                 <token>fakes</token>
@@ -32004,7 +32016,7 @@ though, and has since been slightly modified)-->
                 <token>je</token>
                 <token>serais</token>
                 <token postag="A|UNKNOWN" postag_regexp="yes" min="0" max="2"/>
-                <token regexp="yes">partisan|interessée?|partant|interessée?|sûrement|favorable|pour|plutôt|toi|probablement|éventuellement|peut-être|surement|intéressée?|tentée?|ravie?|enclin|capable</token>
+                <token regexp="yes">partisan|interessée?|partant|sûrement|favorable|pour|plutôt|toi|probablement|éventuellement|peut-être|surement|intéressée?|tentée?|ravie?|enclin|capable</token>
             </antipattern>
             <antipattern>
                 <token>je</token>
