@@ -34827,13 +34827,13 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <marker>
                         <token postag="V ind pres 1 s" regexp="yes">.*e</token>
+                        <token>-je</token>
                     </marker>
-                    <token>-je</token>
                 </pattern>
+                <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
                 <message>Il semble y avoir une faute de frappe dans la forme verbale « \1 ».</message>
-                <suggestion><match no="1" regexp_match="(?iu)e$" regexp_replace="è"/></suggestion>
-                <suggestion><match no="1" regexp_match="(?iu)e$" regexp_replace="é"/></suggestion>
-                <example correction="pensè|pensé">Que <marker>pense</marker>-je</example>
+                <example correction="pensè-je|pensé-je">Que <marker>pense-je</marker> ?</example>
+                <example correction="espérè-je|espéré-je">À bientôt <marker>espère-je</marker> ?</example>
             </rule>
             <rule>
                 <antipattern>
