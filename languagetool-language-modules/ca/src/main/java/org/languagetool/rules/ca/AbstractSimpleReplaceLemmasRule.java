@@ -70,7 +70,8 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
   public final RuleMatch[] match(final AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
+    String originalLemma = null;
+    
     for (int i=1; i<tokens.length; i++) {
 
       List<String> replacementLemmas = null; 
@@ -82,6 +83,7 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
           replacementLemmas = getWrongWords().get(at.getLemma());
           replacePOSTag = at.getPOSTag();
           bRuleMatches = true;
+          originalLemma=at.getLemma();
           break;
         }
       }
@@ -115,7 +117,7 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
       }
       
       if (bRuleMatches) {
-        RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], possibleReplacements, sentence);
+        RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], possibleReplacements, sentence, originalLemma);
         ruleMatches.add(potentialRuleMatch);
       }
 
