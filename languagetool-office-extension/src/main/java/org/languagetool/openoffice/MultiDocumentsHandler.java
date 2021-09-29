@@ -1328,10 +1328,16 @@ public class MultiDocumentsHandler {
         return false;
       }
       if (xContext == null) {
+        if (showMessage) { 
+          MessageHandler.showMessage("There may be a installation problem! \nNo xContext!");
+        }
         return false;
       }
       XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
       if (xComponent == null) {
+        if (showMessage) { 
+          MessageHandler.showMessage("There may be a installation problem! \nNo xComponent!");
+        }
         return false;
       }
       Locale locale;
