@@ -313,6 +313,7 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium
       case "WRONG_APOSTROPHE":          return 5;
+      case "YOU_GOOD":                  return 3;   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
@@ -397,7 +398,6 @@ public class English extends Language implements AutoCloseable {
       case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
       case "NON_STANDARD_ALPHABETIC_CHARACTERS": return 1;  // prefer over spell checker
       case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
-      case "YOU_GOOD":                  return 1;   // prefer over PRP_PAST_PART
       case "THAN_THANK":                return 1;   // prefer over THAN_THEN
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
