@@ -59,7 +59,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("pense-je")) {
+//    if (match.getSentence().getText().contains("intelligence-je")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -102,9 +102,9 @@ public class InterrogativeVerbFilter extends RuleFilter {
         AnalyzedToken reading = atrVerb.readingWithTagRegex("V ind pres 1 s");
         if (reading!=null) {
           desiredPostag="V ind pres 1 s";
-        }
-        if (atrVerb.getToken().endsWith("e")) {
-          extraSuggestions = synth.synthesize(reading, "V ppa [me] sp?|V ind pres 1 s", true);
+          if (atrVerb.getToken().endsWith("e")) {
+            extraSuggestions = synth.synthesize(reading, "V ppa [me] sp?|V ind pres 1 s", true);
+          }
         }
       }
       else if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
