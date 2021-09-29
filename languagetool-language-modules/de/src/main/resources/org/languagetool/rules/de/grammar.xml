@@ -11472,27 +11472,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * schwer Punkt
                 * warm Wasser
                 * blau Licht
-                * roh Zustand
                 * billig Laden
-                * spät Start
                 * immun System
                 * frontal Aufnahme
                 * nieder Lage
                 * kurz Vorstellung
                 * kurz Abfrage
                 * kurz Text
+                * klein Gruppen
                 * klein Kinder
                 * digital Form
                 * digital Druck
                 * psychisch Kranke
                 * national Galerie
-                * normal Zustand
                 * alternativ Termin
                 * schlecht Wetter
                 * flüssig Beton
-                * klein Gruppen
                 * grob Vorstellung
-                * geistig behinderte
+                * geistig Behinderte
             -->
             <rule>
                 <antipattern>
@@ -11700,6 +11697,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Initiativ<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Initiativbewerbung">Bitte lesen Sie meine <marker>initiativ Bewerbung</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>spät</token>
+                    <token regexp="yes" case_sensitive="yes">Schicht|Starte?s?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Spät<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Spätschicht">Ich habe morgen leider <marker>spät Schicht</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>normal</token>
+                    <token regexp="yes" case_sensitive="yes">Zustands?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Normal<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Normalzustand">Im <marker>normal Zustand</marker> macht es keine Probleme.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>roh</token>
+                    <token regexp="yes" case_sensitive="yes">Fassung|Zustands?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Roh<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Rohzustand">Das Manuskript ist noch im <marker>roh Zustand</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>schwach</token>
+                    <token regexp="yes" case_sensitive="yes">Stelle|Punkt(e?s)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Schwach<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Schwachpunkt">Ich habe keinen <marker>schwach Punkt</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token>falsch</token>
+                </antipattern>
+                <pattern>
+                    <token>falsch</token>
+                    <token regexp="yes" case_sensitive="yes">Meldung|Aussage</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Falsch<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Falschmeldung">Das war eine <marker>falsch Meldung</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -29441,6 +29482,7 @@ Andere Projekte</example>
                 <marker>
                     <token case_sensitive="yes">kürzeren</token>
                 </marker>
+                <token min="0">zu</token>
                 <token inflected="yes">ziehen</token>
             </pattern>
             <message>&inwend;'den Kürzeren ziehen' (metaphorisch im Sinne von 'das Nachsehen haben', 'unterliegen') wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
