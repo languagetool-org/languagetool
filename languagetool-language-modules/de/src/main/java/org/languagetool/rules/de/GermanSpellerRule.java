@@ -961,6 +961,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Selbstmitleidigkeit", "Selbstmitleid");
     put("[iI]ntuion", "Intuition");
     put("[cCkK]ontener", "Container");
+    put("Barcadi", "Bacardi");
+    put("Unnanehmigkeit", "Unannehmlichkeit");
+    put("[wW]ischmöppen?", "Wischmopps");
     putRepl("[oO]rdnungswiedrichkeit(en)?", "[oO]rdnungswiedrich", "Ordnungswidrig");
     putRepl("Mauntenbiker[ns]?", "^Maunten", "Mountain");
     putRepl("Mauntenbikes?", "Maunten", "Mountain");
