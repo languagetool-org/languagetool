@@ -5316,40 +5316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El Fondo Monetario Internacional critica severamente al manejo de la crisis en la Eurozona.</example>
                 <example>Marea Verde critica también que el consejero quiera aprobar el decreto.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="INGLES" name="ingles/inglés">
-            <rule>
-                <pattern>
-                    <token postag="D...S.|SP:DA" postag_regexp="yes"/>
-                    <marker>
-                        <token>ingles</token>
-                    </marker>
-                </pattern>
-                <message>¿Quería decir <suggestion>inglés</suggestion>?</message>
-                <example correction="inglés">Me gusto mucho el <marker>ingles</marker>.</example>
-                <example correction="inglés">Mi <marker>ingles</marker> no es muy bueno.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>ingles</token>
-                    </marker>
-                    <token regexp="yes">básico|avanzado|fácil|principiante|superior|medio</token>
-                </pattern>
-                <message>¿Quería decir <suggestion>inglés</suggestion>?</message>
-                <example correction="inglés">Curso de <marker>ingles</marker> básico.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>ingles</token>
-                    </marker>
-                    <token postag="V.P..SM|A..MS." postag_regexp="yes"/>
-                </pattern>
-                <message>¿Quería decir <suggestion>inglés</suggestion>?</message>
-                <example correction="inglés">Curso de <marker>ingles</marker> americano.</example>
-            </rule>
-            <rule default="temp_off">
+            <rule id="INGLES" name="ingles/inglés">
                 <antipattern>
                     <token postag="D..FP." postag_regexp="yes"/>
                     <token>ingles</token>
@@ -5373,11 +5340,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>inglés</suggestion> (idioma, nacionalidad) en vez de "ingles" (plural de 'ingle')?</message>
-                <example correction="inglés">Correción en castellano, <marker>ingles</marker>.</example>
+                <example correction="inglés">Correción en castellano, <marker>ingles</marker> y otros idiomas.</example>
                 <example correction="inglés">Me gusto mucho el <marker>ingles</marker>.</example>
                 <example correction="inglés">Mi <marker>ingles</marker> no es muy bueno.</example>
                 <example correction="inglés">Curso de <marker>ingles</marker> básico.</example>
                 <example correction="inglés">Curso de <marker>ingles</marker> americano.</example>
+                <example correction="inglés">Tu <marker>ingles</marker> es muy bueno.</example>
                 <example>La piel de las ingles tiende a oscurecerse.</example>
                 <example>Ingles, axilas y piernas.</example>
                 <example>Depilación de ingles.</example>
