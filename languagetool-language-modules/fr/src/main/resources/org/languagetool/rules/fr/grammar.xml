@@ -27300,6 +27300,21 @@ though, and has since been slightly modified)-->
         </rule>
         <rulegroup id="FAIRE_VPPA" name="verbe ppa -> inf">
             <antipattern>
+                <token regexp="yes">se|te|me|nous|vous</token>
+                <token inflected="yes">voir</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">s'|t'|m'|nous|vous</token>
+                <token inflected="yes">avoir</token>
+                <token postag="V ppa.*" postag_regexp="yes" inflected="yes">voir</token>
+            </antipattern>
+            <antipattern>
+                <token>
+                    <exception inflected="yes">avoir</exception>
+                    <exception regexp="yes" inflected="yes">&infinitif_suivi_dinfinitif;</exception></token>
+                <token inflected="yes" regexp="yes" postag="V ppa.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">faire</token>
                 <token min="0" regexp="yes">&mots_negation_plus;</token>
                 <token regexp="yes">(compliqué|forcé|désolé)e?s?|cliché</token>
@@ -27436,7 +27451,7 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup id="FAIRE_VPPA2" name="verbe ppa -> inf" default="temp_off">
-            <!-- with a new list of verbs -->
+            <!-- FAIRE_VPPA with a new list of verbs -->
             <antipattern>
                 <token regexp="yes">se|te|me|nous|vous</token>
                 <token inflected="yes">voir</token>
@@ -27444,7 +27459,7 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token regexp="yes">s'|t'|m'|nous|vous</token>
                 <token inflected="yes">avoir</token>
-                <token postag="V ppa.*" postag_regexp="yes" inflected="yes">avoir</token>
+                <token postag="V ppa.*" postag_regexp="yes" inflected="yes">voir</token>
             </antipattern>
             <antipattern>
                 <token>
@@ -27452,19 +27467,54 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes">&infinitif_suivi_dinfinitif;</exception></token>
                 <token inflected="yes" regexp="yes" postag="V ppa.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">faire</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">(compliqué|forcé|désolé)e?s?|cliché</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">retourner</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">(completé)e?s?</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">venir</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">(deguisé|accompagné)e?s?</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">penser</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">(impliqué|occupé)e?s?</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">regarder</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">(medusé)e?s?</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">savoir</token>
+                <token min="0" regexp="yes">&mots_negation_plus;</token>
+                <token regexp="yes">(observé)e?s?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="P.*|A" postag_regexp="yes"><exception regexp="yes">&mots_negation_plus;</exception></token>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>faux</token>
+                <token postag="[NJ].*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token inflected="yes">venir</token>
-                    <token regexp="yes">accompagnés?e?s?</token>
-                </antipattern>
                 <antipattern>
                     <token>se</token>
                     <token inflected="yes" regexp="yes">(re)?détester|(re)?désirer|savoir|vouloir</token>
                     <token postag="V ppa .*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="V ppa.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;
@@ -27504,7 +27554,7 @@ though, and has since been slightly modified)-->
                 <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \2 ».</message>
                 <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="changer">Je ne veux pas <marker>changé</marker> d’école.</example>
-                <example type="triggers_error" reason="the error is in fasse?">Je voulais aussi que le résultat ne fasse pas forcé.</example>
+                <example>Je voulais aussi que le résultat ne fasse pas forcé.</example>
             </rule>
             <rule>
                 <pattern>
