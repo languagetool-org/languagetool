@@ -33501,35 +33501,7 @@ steenwijk;Steenwijk
 				<example correction="te dezer zake">Zekere overgangsmaatregelen worden <marker>ter dezer zake</marker> ook voorzien.</example>
 			</rule>
 		</rulegroup>
-		<!--
-		2014-08-22 TaalTik
-		slechte regel, uitgeschakeld
-		TODO: betere regel maken
-		<rule id="nr547" name="aller">
-		<pattern>
-		<token>aller</token>
-		<token negate="yes" regexp="yes">lippen|mond|naam|eerst</token>
-		</pattern>
-		<message>Verwacht werd <suggestion><match no="1"></match> mond</suggestion>, <suggestion><match no="1"></match> naam</suggestion>, <suggestion><match no="1"></match> lippen</suggestion>, <suggestion><match no="1"></match><match no="2"></match></suggestion>, <suggestion>alle <match no="2"></match></suggestion>.</message>
-		<short>Ouderwets</short>
-		<example type="incorrect">In <marker>aller geval</marker>.</example>
-		<example>In <marker>aller naam</marker> zeg ik dat.</example>
-		</rule>
-		-->
-		<!--
-		2014-08-22 TaalTik
-		regel geeft fouten
-		<rule id="nr548" name="lande, beginne">
-		<pattern case_sensitive="yes">
-		<token><exception>den</exception></token>
-		<token regexp="yes">lande|beginne</token>
-		</pattern>
-		<message>Verwacht werd <suggestion>den <match no="2"></match></suggestion>, <suggestion>te <match no="2"></match></suggestion> of <match no="2"></match> is een typefout.</message>
-		<short>Ouderwets</short>
-		<example type="incorrect">In <marker>die lande</marker> zijn ze gelukkig.</example>
-		<example>In <marker>den lande</marker> verblijven.</example>
-		</rule>
-		-->
+
 		<rulegroup id="TE_BERDE" name="te berde etc.">
 			<rule>
 				<antipattern case_sensitive="yes"><token regexp="yes">Thomas|[Dd]en</token><token>Berge</token></antipattern>
@@ -41722,6 +41694,17 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>\3 is een het-woord. Daarom moet er geen \2 staan, maar <suggestion>dit</suggestion> of <suggestion>dat</suggestion>.</message>
 				<example correction="Dit|Dat"><marker>Deze</marker> wasmiddel stinkt.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">deze|die</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*HET"><exception postag_regexp="yes" postag="ZNW.*DE_|WKW.*|BNW.*"/></token>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>\2 is een het-woord. Daarom moet er geen \1 staan, maar <suggestion>dit</suggestion> of <suggestion>dat</suggestion>.</message>
+				<example correction="dit|dat">Ik walg van <marker>deze</marker> wasmiddel.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" >
