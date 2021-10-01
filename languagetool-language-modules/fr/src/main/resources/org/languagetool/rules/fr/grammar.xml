@@ -11812,6 +11812,19 @@ though, and has since been slightly modified)-->
                 <suggestion>ce</suggestion>
                 <example correction="ce">Pour <marker>se</marker> faire, il faudra que tu penses à aller chercher le pain.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern raw_pos="yes">
+                    <token postag="P"/>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                    <token><exception postag="V.* inf" postag_regexp="yes"/></token>
+                    <!--  postag="[NJ].*|V ppa.*" postag_regexp="yes" -->
+                </pattern>
+                <message>Le pronom démonstratif 'ce' est plus probable que le pronom réfléchi '\1'.</message>
+                <suggestion>ce</suggestion>
+                <example correction="ce">À <marker>se</marker> point, il n'était pas arrivé.</example>
+            </rule>
         </rulegroup>
         <rule id="FICHER_FICHIER" name="'ficher' au lieu de 'fichier'">
             <pattern>
