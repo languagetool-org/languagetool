@@ -1352,6 +1352,8 @@ public class AgreementRule extends Rule {
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
+    "Rückgrad", // found by speller
+    "Rückgrads", // found by speller
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"

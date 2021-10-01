@@ -4695,13 +4695,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="SOG_KEIN_VERB" name="Abkürzung 'sog.'"><!-- abk "sog." -->
         <pattern>
-            <token postag="PRO:"/>
             <marker>
                 <token>sog</token>
             </marker>
             <token spacebefore="no">.</token>
-            <token regexp="yes" min="0">„|&quot;|“|‹|«</token>
-            <token postag="(ADJ|SUB):.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            <token regexp="yes" min="0" spacebefore="yes">„|&quot;|“|‹|«</token>
+            <token postag="(ADJ|SUB|EIG):.*|UNKNOWN|VER:INF.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
         </pattern>
         <disambig action="remove" postag="VER:.+" />
     </rule>
@@ -4769,4 +4768,72 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
+        <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?eine</token>
+                </marker>
+                <token postag="ADJ:.*:FEM.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?eine</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[a-zäöüß]+e</token>
+                <token postag="SUB:.*:FEM.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?ein</token>
+                </marker>
+                <token postag="ADJ:.*:NEU.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?ein</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[a-zäöüß]+es</token>
+                <token postag="SUB:.*:NEU.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?einen</token>
+                </marker>
+                <token postag="ADJ:.*:MAS.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?einen</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[a-zäöüß]+en</token>
+                <token postag="SUB:.*:MAS.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
+
 </rules>

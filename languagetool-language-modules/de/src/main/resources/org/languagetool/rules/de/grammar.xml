@@ -4616,6 +4616,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="SONDER" name="'sonder (sondern)'">
             <!-- "sonder" wird vom Spellchecker akzeptiert, ist aber fast nie richtig -->
+            <antipattern><!-- https://www.duden.de/rechtschreibung/sonder -->
+                <token>sonder</token>
+                <token>allen</token>
+                <token regexp="yes">Zweifel.*</token>
+            </antipattern>
             <pattern>
                 <token>sonder</token>
             </pattern>
@@ -11698,7 +11703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Initiativ<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Initiativbewerbung">Bitte lesen Sie meine <marker>initiativ Bewerbung</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>spät</token>
                     <token regexp="yes" case_sensitive="yes">Schicht|Starte?s?</token>
@@ -11706,7 +11711,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Spät<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Spätschicht">Ich habe morgen leider <marker>spät Schicht</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>normal</token>
                     <token regexp="yes" case_sensitive="yes">Zustands?</token>
@@ -11714,7 +11719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Normal<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Normalzustand">Im <marker>normal Zustand</marker> macht es keine Probleme.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>roh</token>
                     <token regexp="yes" case_sensitive="yes">Fassung|Zustands?</token>
@@ -11722,7 +11727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Roh<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Rohzustand">Das Manuskript ist noch im <marker>roh Zustand</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>schwach</token>
                     <token regexp="yes" case_sensitive="yes">Stelle|Punkt(e?s)?</token>
@@ -11730,7 +11735,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Schwach<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Schwachpunkt">Ich habe keinen <marker>schwach Punkt</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes">sein</token>
                     <token>falsch</token>
@@ -12668,7 +12673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,30}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Combustions|Dandelions|.*cessions|Therions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Kalions|Combustions|Dandelions|.*cessions|Therions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
