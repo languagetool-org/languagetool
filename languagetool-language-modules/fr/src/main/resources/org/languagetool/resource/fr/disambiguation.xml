@@ -1744,9 +1744,19 @@ RB => Règles Brutes
         <pattern>
             <token regexp="yes">le|de</token>
             <marker>
-                <token postag="N m s" regexp="yes">devoir|savoir</token>    
+                <token postag="N m s">devoir</token>
             </marker>
             <token><exception postag="V.* inf" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="SAVOIR" name="savoir (noun)">
+        <pattern>
+            <marker>
+                <token postag="N m s">savoir</token>
+            </marker>
+            <!-- TODO: make it more general -->
+            <token>spécialisé|inutile|utile|social|scientifique</token>
         </pattern>
         <disambig action="filter" postag="N m s"/>
     </rule>
