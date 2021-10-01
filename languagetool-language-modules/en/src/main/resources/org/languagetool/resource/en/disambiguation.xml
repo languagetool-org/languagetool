@@ -9269,11 +9269,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>needs</token>
             <token postag="TO|PRP\$|DT" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token>singles</token>
+            <token>titles</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
                     <token postag="NNS"><exception postag="NNPS?" postag_regexp="yes"/></token>
-                    <token postag="VBZ"/>
+                    <token postag="VBZ">
+                        <exception regexp="yes">people|companies|soldiers|dinners</exception>
+                    </token>
                 </and>
             </marker>
             <token postag="NN(S|:UN?)" postag_regexp="yes">
@@ -9285,6 +9291,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is work.</example>
         <example type="untouched">...is placed on top of the opening to support the <marker>bricks</marker> above.</example>
         <example type="untouched">How many jelly beans does it take?</example>
+        <example type="untouched">Agassi was the first man to win four Australian Open singles titles.</example>
         <example type="untouched">... in the form of a buy and sell system with the <marker>tags</marker> taking the place of the more traditional...</example>
         <example type="untouched">... with Paul Jones and the <marker>Blues Society</marker> of Italian bluesman Guido...</example>
         <example type="untouched">... with DJ Hurricane to the <marker>AIDS benefit album</marker> 'No Alternative'.</example>
