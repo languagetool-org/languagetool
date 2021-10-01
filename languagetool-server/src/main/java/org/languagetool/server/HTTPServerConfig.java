@@ -57,6 +57,9 @@ public class HTTPServerConfig {
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
 
+  protected boolean logIp = true;
+  protected String logIpMatchingPattern = "__logIPNowForLanguageTool__";
+
   protected URI serverURL = null;
   protected int maxTextLengthAnonymous = Integer.MAX_VALUE;
   protected int maxTextLengthLoggedIn = Integer.MAX_VALUE;
@@ -269,6 +272,19 @@ public class HTTPServerConfig {
           break;
         case "--stoppable":  // internal only, doesn't need to be documented
           stoppable = true;
+          break;
+        case "--notLogIP":
+          logIp = false;
+          break;
+        case "--logIpMatchingPattern":
+          try {
+            logIpMatchingPattern = args[++i];
+            if (logIpMatchingPattern.startsWith("--")) {
+              throw new IllegalArgumentException("Missing argument for '--logIpMatchingPattern' (e.g. any random String)");
+            }
+          } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Missing argument for '--logIpMatchingPattern' (e.g. any random String)");
+          }
           break;
         default:
           if (args[i].contains("=")) {
