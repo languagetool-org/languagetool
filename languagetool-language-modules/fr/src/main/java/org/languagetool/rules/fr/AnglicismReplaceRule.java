@@ -52,6 +52,7 @@ public class AnglicismReplaceRule extends AbstractSimpleReplaceRule2 {
     super(messages, new French());
     super.setCategory(new Category(new CategoryId("CAT_ANGLICISMES"), this.getDescription()));
     setLocQualityIssueType(ITSIssueType.Style);
+    super.useSubRuleSpecificIds();
   }
 
   @Override
