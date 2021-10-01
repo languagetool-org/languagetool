@@ -134,6 +134,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
+        <rulegroup id="WHATSAPP" name="WhatsApp">
+            <url>https://www.fundeu.es/recomendacion/wasap-y-wasapear-grafias-validas/</url>
+            <rule>
+                <pattern>
+                    <token>whatsapp<exception case_sensitive="yes" regexp="yes">WHATSAPP|WhatsApp</exception></token>
+                </pattern>
+                <message>Escribimos <suggestion>WhatsApp</suggestion> (aplicación) o <suggestion>wasap</suggestion> (mensajes enviados con esta aplicación).</message>
+                <example correction="WhatsApp|wasap">Le he enviado un <marker>whatsapp</marker>.</example>
+                <example>WHATSAPP: 555 4444 3333</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>whatsapps</token>
+                </pattern>
+                <message>Escribimos <suggestion>WhatsApp</suggestion> (aplicación) o <suggestion>wasaps</suggestion> (mensajes enviados con esta aplicación).</message>
+                <example correction="WhatsApp|wasaps">Le he enviado varios <marker>whatsapps</marker>.</example>    
+            </rule>
+        </rulegroup>
         <rule id="MAY_ABREVIATURA" name="mayúscula en algunas abreviaturas">
             <pattern>
                 <marker>
