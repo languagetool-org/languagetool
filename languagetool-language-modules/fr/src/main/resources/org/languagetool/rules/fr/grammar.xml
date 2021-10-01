@@ -27308,12 +27308,12 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">avoir</token>
                 <token postag="V ppa.*" postag_regexp="yes" inflected="yes">voir</token>
             </antipattern>
-            <antipattern>
+           <!-- <antipattern>
                 <token>
                     <exception inflected="yes">avoir</exception>
                     <exception regexp="yes" inflected="yes">&infinitif_suivi_dinfinitif;</exception></token>
                 <token inflected="yes" regexp="yes" postag="V ppa.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
-            </antipattern>
+            </antipattern>-->
             <antipattern>
                 <token inflected="yes">faire</token>
                 <token min="0" regexp="yes">&mots_negation_plus;</token>
@@ -27345,12 +27345,19 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">(observé)e?s?</token>
             </antipattern>
             <antipattern>
-                <token postag="P.*|A" postag_regexp="yes"><exception regexp="yes">&mots_negation_plus;</exception></token>
-                <token postag="V ppa.*" postag_regexp="yes"/>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="A"/>
+                    </unify-ignore>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </unify>
             </antipattern>
             <antipattern>
                 <token postag="P.*" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
                 <token postag="V ppa.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -27373,6 +27380,14 @@ though, and has since been slightly modified)-->
                 <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
                 <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="changer">J’aimerais <marker>changé</marker> de travail.</example>
+                <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
+                <example correction="agresser">Tom s'est fait <marker>agressé</marker> en rentrant chez lui du travail.</example>
+                <example correction="moquer">Bob s'est senti honteux de s'être fait <marker>moqué</marker> devant des filles.</example>
+                <example correction="parler">Déjà entendu <marker>parlé</marker> du groupe Très Bien ?</example>
+                <example correction="passer">Celui-ci s'est fait <marker>passé</marker> pour mort.</example>
+                <example correction="tester">En comparaison de certains masque que j'ai déjà pu <marker>testé</marker>, ce masque est largement le moins efficace.</example>
+                <example correction="voler">Je n'aurais jamais dû <marker>volé</marker> ça.</example>
+                <example correction="écraser">Je me suis presque fait <marker>écrasé</marker> par un camion.</example>
                 <example>J’aimerais changer de travail.</example>
                 <example>Ça fait un peu forcé, non ?</example>
                 <example>Je l’ai tout à fait oublié.</example>
@@ -27380,7 +27395,6 @@ though, and has since been slightly modified)-->
                 <example>Je me suis en fait amusé.</example>
                 <example>Elle vint accompagnée.</example>
                 <example>Il se sait traqué.</example>
-                <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
                 <example>Elles sont bien <marker>entendu placées</marker> en hauteur.</example>
                 <example>rendu seulement par des pensées inspirées</example>
                 <example>Compte fermé.</example>
@@ -27461,12 +27475,12 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">avoir</token>
                 <token postag="V ppa.*" postag_regexp="yes" inflected="yes">voir</token>
             </antipattern>
-            <antipattern>
+            <!-- <antipattern>
                 <token>
                     <exception inflected="yes">avoir</exception>
                     <exception regexp="yes" inflected="yes">&infinitif_suivi_dinfinitif;</exception></token>
                 <token inflected="yes" regexp="yes" postag="V ppa.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
-            </antipattern>
+            </antipattern>-->
             <antipattern>
                 <token inflected="yes">faire</token>
                 <token min="0" regexp="yes">&mots_negation_plus;</token>
@@ -27498,12 +27512,19 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">(observé)e?s?</token>
             </antipattern>
             <antipattern>
-                <token postag="P.*|A" postag_regexp="yes"><exception regexp="yes">&mots_negation_plus;</exception></token>
-                <token postag="V ppa.*" postag_regexp="yes"/>
+                <unify>
+                    <feature id="number"/>
+                    <feature id="gender"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="A"/>
+                    </unify-ignore>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                </unify>
             </antipattern>
             <antipattern>
                 <token postag="P.*" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
                 <token postag="V ppa.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -27517,8 +27538,7 @@ though, and has since been slightly modified)-->
                     <token postag="V ppa .*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;
-                        <exception postag="V ind pres 1 s" regexp="yes">puis|compte</exception></token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
@@ -27526,6 +27546,14 @@ though, and has since been slightly modified)-->
                 <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
                 <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="changer">J’aimerais <marker>changé</marker> de travail.</example>
+                <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
+                <example correction="agresser">Tom s'est fait <marker>agressé</marker> en rentrant chez lui du travail.</example>
+                <example correction="moquer">Bob s'est senti honteux de s'être fait <marker>moqué</marker> devant des filles.</example>
+                <example correction="parler">Déjà entendu <marker>parlé</marker> du groupe Très Bien ?</example>
+                <example correction="passer">Celui-ci s'est fait <marker>passé</marker> pour mort.</example>
+                <example correction="tester">En comparaison de certains masque que j'ai déjà pu <marker>testé</marker>, ce masque est largement le moins efficace.</example>
+                <example correction="voler">Je n'aurais jamais dû <marker>volé</marker> ça.</example>
+                <example correction="écraser">Je me suis presque fait <marker>écrasé</marker> par un camion.</example>
                 <example>J’aimerais changer de travail.</example>
                 <example>Ça fait un peu forcé, non ?</example>
                 <example>Je l’ai tout à fait oublié.</example>
@@ -27533,14 +27561,17 @@ though, and has since been slightly modified)-->
                 <example>Je me suis en fait amusé.</example>
                 <example>Elle vint accompagnée.</example>
                 <example>Il se sait traqué.</example>
-                <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
                 <example>Elles sont bien <marker>entendu placées</marker> en hauteur.</example>
                 <example>rendu seulement par des pensées inspirées</example>
                 <example>Compte fermé.</example>
-                <example>Le mot de passe se voit attribué le contenu fixe de la chaîne.</example>
-                <example>Si le colis n'arrive pas d'ici trois jours, je me verrai forcé d'annuler ma commande.</example>
-                <example>Le joueur ayant l'expérience la plus élevée se verra récompensé par un prix. </example>
-                <example>Restez alitée !</example>
+                <example>Elle sera de fait enlevée immédiatement.</example>
+                <example>Clients et comptes rattachés.</example>
+                <example>et des tenues mal faites rencontrées sur le marché</example>
+                <example>et non de faits romancés</example>
+                <example>le devoir sacré de tout bon fils</example>
+                <example>S'ils tombent, le devoir sacré de tout bon fils est de les assommer sur-le-champ à grands coups de tomahawk.</example>
+                <example>J'ai peut-être bien réussi le devoir surveillé d'hier.</example>
+                <example>Cette sorte de savoir spécialisé a très peu à voir avec la vie courante.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27559,7 +27590,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token>n'</token>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|entendre|espérer</token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
                     <token regexp="yes">pas|plus|point|guère|jamais|rien</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
@@ -27570,9 +27601,16 @@ though, and has since been slightly modified)-->
                 <example correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>la</token>
+                    <token postag="J [fe] sp?" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>les</token>
+                    <token postag="J . s?p" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;
-                        <exception postag="V ind pres 1 s">puis</exception></token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">&infinitif_suivi_dinfinitif;</token>
                     <token min="0" max="1" regexp="yes">pas|plus|guère</token>
                     <token regexp="yes">les?|la|en|y|lui|[vn]ous|[mts]e</token>
                     <marker>
@@ -27584,9 +27622,11 @@ though, and has since been slightly modified)-->
                 <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
                 <example correction="téléphoner">Je veux lui <marker>téléphoné</marker>.</example>
                 <example correction="manger">Je ne veux pas les <marker>mangé</marker>.</example>
-                <example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>
+                <!--<example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>-->
                 <example>Je regarde la <marker>télé</marker>.</example>
                 <example>Je compte les <marker>invités</marker>.</example>
+                <example>Ne faites pas les effarouchées avec moi !</example>
+                <example>J'adore la maquée.</example>
             </rule>
         </rulegroup>
         <rule id="VOIR_INFINITIF" name="voir + participe passé -> infinitif">

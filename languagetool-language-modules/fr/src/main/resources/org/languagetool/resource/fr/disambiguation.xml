@@ -1756,7 +1756,7 @@ RB => Règles Brutes
                 <token postag="N m s">savoir</token>
             </marker>
             <!-- TODO: make it more general -->
-            <token>spécialisé|inutile|utile|social|scientifique</token>
+            <token regexp="yes">spécialisé|inutile|utile|social|scientifique</token>
         </pattern>
         <disambig action="filter" postag="N m s"/>
     </rule>
@@ -1765,9 +1765,20 @@ RB => Règles Brutes
             <marker>
                 <token postag="N m p" regexp="yes">vins|comptes</token>
             </marker>
-            <token postag="J [me] s?p|V,* ppa [me] s?p" postag_regexp="yes"/>
+            <token postag="J [me] s?p|V.* ppa [me] s?p" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="N m p"/>
+    </rule>
+    <rule id="COMPTE" name="compte (noun)">
+        <pattern>
+            <marker>
+                <token postag="N m s">compte
+                    <exception scope="previous" regexp="yes">je|il|elle</exception>
+                    <exception scope="previous" postag="[JN].*" postag_regexp="yes"></exception></token>
+            </marker>
+            <token postag="J [me] sp?|V.* ppa [me] sp?" postag_regexp="yes"><exception>sur</exception></token>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
     </rule>
     <rule id="STARTSENT_NOUN" name="sentence start + noun">
         <pattern>
