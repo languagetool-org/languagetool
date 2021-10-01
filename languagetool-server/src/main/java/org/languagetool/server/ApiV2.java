@@ -174,7 +174,6 @@ class ApiV2 {
   private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
     Logger logger = LoggerFactory.getLogger(ApiV2.class);
     InetSocketAddress localAddress = httpExchange.getLocalAddress();
-    ServerTools.print(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
     logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
   }
 
