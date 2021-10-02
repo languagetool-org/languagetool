@@ -2,9 +2,9 @@
 
 **A proof-reading tool for English, Spanish, German,
 Polish, Chinese, French, Russian, Italian, Dutch
-and [more languages](https://www.languagetool.org/languages/)**
+and [more languages](https://dev.languagetool.org/languages)**
 
-Version 5.5 (2021-10-02)
+Version 5.6-SNAPSHOT (2021-xx-xx)
 Copyright (C) 2005-2021 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
