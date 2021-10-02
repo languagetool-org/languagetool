@@ -142,7 +142,7 @@ public class HTTPServerConfig {
 
   /**
    * caching to avoid database hits for e.g. dictionaries
-   * null -> disabled
+   * null -&gt; disabled
    */
   @Nullable
   protected String redisHost = null;
