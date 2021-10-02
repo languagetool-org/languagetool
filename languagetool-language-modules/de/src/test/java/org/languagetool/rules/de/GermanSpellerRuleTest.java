@@ -96,6 +96,8 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Abstellgreisen"));
     assertTrue(rule.isProhibited("Landstreckenflüge"));
     assertTrue(rule.isProhibited("Landstreckenflügen"));
+    assertTrue(rule.isProhibited("Abdominalgangion"));
+    assertTrue(rule.isProhibited("Abdominalgangionen"));
     assertTrue(rule.isProhibited("Badegas"));  // non-expanded entry in prohibited.txt
     assertTrue(rule.isProhibited("Aktienkur")); // non-expanded entry in prohibited.txt
     assertTrue(rule.isProhibited("Stellungsnahmen")); // expanded entry in prohibited.txt
