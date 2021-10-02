@@ -371,7 +371,7 @@ public abstract class RemoteRule extends Rule {
    * based on offsetByCodePoints since codePointCount can be confusing,
    * e.g. "👪".codePointCount(0,2) == 1, but length is 2
    *
-   * Java substring methods use this length (which can be >1 for a single character)
+   * Java substring methods use this length (which can be &gt;1 for a single character)
    * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
    * so "😁foo".length() == 5, but len("😁foo") == 4;
    * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'

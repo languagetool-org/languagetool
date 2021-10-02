@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.5-SNAPSHOT (release planned for 2021-09-21)
+## 5.5 (2021-10-02)
 
 #### Catalan
   * added and improved rules
@@ -11,6 +11,7 @@
   * extended spelling dictionary
 
 #### English
+  * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.09.01)
 
 #### French
@@ -18,19 +19,22 @@
   * updated dictionary (french-pos-dict-0.4) with words from added.txt and removed.txt, 
     and fixed lemmas of many adjectives (infinitive->masc. sing.)
 
+#### German
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
 
-#### Spanish
-  * added and improved rules
-  * updated dictionary (spanish-pos-dict-1.3)
-
 #### Russian
   * added and improved rules
   * updated POS and spellchecker dictionary
-  * activate some picky rules in picky mode 
+  * activate some picky rules in picky mode
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.3)
 
 #### Ukrainian
   * over 5000 new words in the POS dictionary
