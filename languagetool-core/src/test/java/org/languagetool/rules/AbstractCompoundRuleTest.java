@@ -18,10 +18,7 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -68,9 +65,8 @@ public abstract class AbstractCompoundRuleTest {
               Arrays.toString(expSuggestions));
       assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
-      for (Object element : ruleMatch.getSuggestedReplacements()) {
-        String suggestion = (String) element;
-        assertEquals(expSuggestions[i], suggestion);
+      for (String element : ruleMatch.getSuggestedReplacements()) {
+        assertEquals(expSuggestions[i], element);
         i++;
       }
     }
