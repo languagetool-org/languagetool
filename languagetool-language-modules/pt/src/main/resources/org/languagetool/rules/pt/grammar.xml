@@ -8513,6 +8513,16 @@ Posso pedir a uma de voz que o faça? → Posso pedir a uma de vós que o faça?
           <token>e</token>
           <token>mau</token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-10-03 (25-JUN-2021+) *START* -->
+<!--
+Dados confusos resultam em má tomada de decisões quando for necessário.
+-->
+      <antipattern>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token regexp='yes'>más?</token>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-10-03 (25-JUN-2021+) *END* -->	  
       <pattern>
           <token regexp='yes'>m(?:á|au)s?</token>
           <token postag_regexp='yes' postag='V.P.+'/>
@@ -8522,6 +8532,8 @@ Posso pedir a uma de voz que o faça? → Posso pedir a uma de vós que o faça?
       <short>Confusão do adjetivo com o advérbio</short>
       <example correction='mal servido'>Eu fui <marker>mau servido</marker>.</example>
       <example correction='mal servida'>Ela foi <marker>má servida</marker>.</example>
+	  
+	  <example>Dados confusos resultam em má tomada de decisões quando for necessário.</example>
     </rule>
     <rule>
       <antipattern>
