@@ -16856,6 +16856,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="FINS_I_TOT" name="dins i tot -> fins i tot" default="temp_off">
+            <pattern>
+                <token>dins</token>
+                <token>i</token>
+                <token>tot</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>fins i tot</suggestion>?</message>
+            <example correction="fins i tot">Hi hauria pluja i <marker>dins i tot</marker> neu.</example>
+        </rule>
         <rulegroup id="S_OBRE" name="s'obra/s'obre">
             <rule>
                 <pattern>
@@ -49039,6 +49048,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="plujós">Feia un dia <marker>plujos</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>penitenciaria</token>
+                    <token>apostòlica</token>
+                </antipattern>
                 <pattern>
                     <token>penitenciaria</token>
                 </pattern>
