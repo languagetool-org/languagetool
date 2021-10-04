@@ -21,6 +21,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY adj_annee "scolaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien|dernier|prochain">
     <!ENTITY mots_negation "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne">
     <!ENTITY mots_negation_plus "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne|plus|point">
     <!ENTITY exceptions_unitestemps_adj "suivant|futur|précédent|passé|dernier|premier|prochain"> 
@@ -24022,6 +24023,141 @@ though, and has since been slightly modified)-->
                 <example>Au mois de mars, c'est ensuite I Am a Rock qui sort en single.</example>
                 <example>Sais-tu quel âge a madame Nakano ?</example>
                 <example>Ce café a goût de brûlé.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup  id="AN_ANNE2" name="an -> année" default="temp_off">
+            <rule>
+                <pattern>
+                    <!-- TODO: also in plural: des ans difficiles ? -->
+                    <token>un</token>
+                    <token>an</token>
+                    <token postag="(J|V ppa) [me] sp?" postag_regexp="yes"/>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>une année <match no="3" postag="(J|V ppa) [me] sp?" postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion>.</message>
+                <example correction="une année difficile"><marker>un an difficile</marker></example>
+                <example correction="une année mémorable"><marker>un an mémorable</marker></example>
+                <example correction="une année heureuse"><marker>un an heureux</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <!--TODO: more adjectives -->
+                    <token regexp="yes" inflected="yes">&adj_annee;</token>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>année <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion>.</message>
+                <example correction="année scolaire"><marker>an scolaire</marker></example>
+                <example correction="année bissextile"><marker>an bissextil</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ans</token>
+                    <token regexp="yes" inflected="yes">&adj_annee;</token>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>années <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] s?p"/></suggestion>.</message>
+                <example correction="années scolaires"><marker>ans scolaire</marker></example>
+                <example correction="années bissextiles"><marker>ans bissextils</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an|ans</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">lumières?</token>
+                </pattern>
+                <message>L'expression correcte est <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/>-lumière</suggestion>.</message>
+                <example correction="année-lumière"><marker>an-lumière</marker></example>
+                <example correction="années-lumière"><marker>ans-lumières</marker></example>
+                <example correction="années-lumière"><marker>ans lumière</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">début|fin|mois</token>
+                    <token>de</token>
+                    <token>l'</token>
+                    <marker>
+                        <token>an</token>    
+                    </marker>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
+                <example correction="année">il a travaillé les six premiers mois de l'<marker>an</marker></example>
+                <example correction="année">à la fin de l’<marker>an</marker></example>
+                <example correction="année">au début de l’<marker>an</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <marker>
+                        <token>an</token>    
+                    </marker>
+                    <token regexp="yes">de|du|d'</token>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
+                <example correction="année">l'<marker>an</marker> de son mariage</example>
+                <example correction="année">C'était l'<marker>an</marker> du traité de Versailles.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup  id="ANNE_AN" name="année -> an" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.* 3 s" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token min="0" max="3" postag="A"/>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <marker>
+                        <token>années</token>    
+                    </marker>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>ans</suggestion>.</message>
+                <example correction="ans">Julie a maintenant 6 <marker>années</marker>.</example>
+                <example correction="ans">Elle a sept <marker>années</marker>.</example>
+                <example correction="ans">Ils se sont mariés il y a cinq <marker>années</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">dans|après|pendant|depuis</token>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <marker>
+                        <token>années</token>    
+                    </marker>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>ans</suggestion>.</message>
+                <example correction="ans">Il partira pour la France dans deux <marker>années</marker>.</example>
+                <example>dans les trois années précédantes</example> <!--??-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <marker>
+                        <token>années</token>    
+                    </marker>
+                    <token>plus</token>
+                    <token>tard</token>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>ans</suggestion>.</message>
+                <example correction="ans">deux <marker>années</marker> plus tard.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <marker>
+                        <token>années</token>    
+                    </marker>
+                    <token>avant</token>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>ans</suggestion>.</message>
+                <example correction="ans">deux <marker>années</marker> avant.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- it depends, future/past -->
+                    <!--<token>en</token>-->
+                    <token>l'</token>
+                    <marker>
+                        <token>année</token>    
+                    </marker>
+                    <token regexp="yes">\d+|[IXCVL]+</token>    
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>an</suggestion>.</message>
+                <example correction="an">En l'<marker>année</marker> 2000.</example>
+                <example correction="an">En l'<marker>année</marker> II de la République.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE" name="Confusion an/année">
