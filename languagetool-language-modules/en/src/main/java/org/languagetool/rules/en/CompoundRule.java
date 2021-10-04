@@ -25,9 +25,11 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tagging.en.EnglishTagger;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
