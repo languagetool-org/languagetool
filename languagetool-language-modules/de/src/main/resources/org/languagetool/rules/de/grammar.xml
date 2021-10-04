@@ -15461,6 +15461,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>aus</token>
                 <token>zu</token>
             </antipattern>
+            <antipattern><!-- Er hatte nicht vor zu bremsen -->
+                <token inflected="yes" regexp="yes">geben|haben|schlagen</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token>nicht</token>
+                <token>vor</token>
+                <token>zu</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
@@ -15511,6 +15518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dann hören die Tröpfchen irgendwann auf zu wachsen.</example>
                 <example>Sie haben nicht vor zu gehen.</example>
                 <example>Ich schlug vor zu warten.</example>
+                <example>Er hatte nämlich nicht vor zu bremsen.</example>
                 <example>Sein Plan war, den Putsch vom „Bendlerblock“ aus zu dirigieren.</example>
             </rule>
             <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
@@ -22505,6 +22513,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ZUM_BESSEREN_ÄNDERN" name="zum besseren (Besseren) wenden">
+            <pattern>
+                <token>zum</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">besseren|schlechteren</token>
+                </marker>
+                <token postag="ZUS" min="0" />
+                <token regexp="yes" inflected="yes">(ver)?ändern|wenden|entwickeln</token>
+            </pattern>
+            <message>Wenn dieses Wort als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Besseren">Es hat sich zum <marker>besseren</marker> gewendet.</example>
+        </rule>
         <rulegroup id="AUS_DEM_NICHTS" name="aus dem nichts (Nichts)">
             <rule>
                 <pattern>
@@ -36571,6 +36592,20 @@ Andere Projekte</example>
                 <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Tage">Es passierte 10 <marker>tage</marker> danach.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>tagen</token>
+                    <token>wir</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">365|366|100|30|31|28|14|10|7|6|5|4|3|2</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">tagen?</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Tagen">Nach langen 14 <marker>tagen</marker> durfte er wieder in die Freiheit.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DANK_SUBST" name="'dank (Dank)'">
             <rule>
@@ -44286,29 +44321,50 @@ Andere Projekte</example>
                 <token>weiter</token>
                 <token regexp="yes">(west|süd|öst|nörd)lich</token>
             </antipattern>
+            <antipattern>
+                <!--
+                    maybe we should suggest "wegen dessen" but sounds too strange
+                    also see https://grammatikfragen.de/showthread.php?464-Hei%DFt-es-quot-wegen-dem-quot-oder-quot-wegen-dessen-quot
+                -->
+                <token>wegen</token>
+                <token>dem</token>
+                <token min="0">,</token>
+                <token regexp="yes">was|womit|wie</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">mit|durch</token>
+                <token regexp="yes">(zu)?viel|wenig</token>
+                <token>kraft</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER.*" postag_regexp="yes" skip="6" />
+                <token regexp="yes">nördlich|südlich|westlich|östlich|seitwärts|seitlich|unweit|weitab</token>
+                <token regexp="yes">.+en</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- compound error "wegen des iPhone Angebots" -->
-                    <token regexp="yes">dem|ihrem|[dms]?einem|unserem|diesem|jenem|eurem</token>
+                    <token regexp="yes">de[nm]|ihre[nm]|[dms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|eure[nm]</token>
                     <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
-                    <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                     <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START|VER:.*|KON.*" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
-                        <token regexp="yes">dem|[Ii]hrem|[Ddms]?einem|unserem|diesem|jenem|[Ee]urem</token>
+                        <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                         <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
-                        <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                        <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                     </marker>
                 </pattern>
                 <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert standardsprachlich den Genitiv.</message>
-                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)em$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
                 <example correction="Wegen des Unfalles|Wegen des Unfalls"><marker>Wegen dem Unfall</marker> kam ich zu spät.</example>
                 <example correction="Wegen Ihres langsamen Autos"><marker>Wegen Ihrem langsamen Auto</marker> konnten Sie nicht kommen.</example>
                 <example correction="wegen eines Unfalles|wegen eines Unfalls">Ich bin <marker>wegen einem Unfall</marker> zu spät gekommen.</example>
                 <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher. </example>
                 <example correction="Wegen des schlechten Wetters"><marker>Wegen dem schlechten Wetter</marker> hatte das Flugzeug drei Stunden Verspätung.</example>
+                <example correction="Wegen unseres Termines|Wegen unseres Termins"><marker>Wegen unseren Termin</marker> muss ich später leider absagen.</example>
                 <example><marker>Wegen des</marker> Unfalls</example>
                 <example><marker>Wegen ihres</marker> Unfalls</example>
                 <example>Ich bin <marker>wegen eines</marker> Unfalls zu spät gekommen.</example>
@@ -44322,33 +44378,34 @@ Andere Projekte</example>
                     <token postag="ART:.+:AKK:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern><!-- compound error "wegen des iPhone Angebots" -->
-                    <token regexp="yes">dem|ihrem|[dms]?einem|unserem|diesem|jenem|eurem</token>
+                    <token regexp="yes">de[nm]|ihre[nm]|[dms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|eure[nm]</token>
                     <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
-                    <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                     <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
-                        <token regexp="yes">dem|[Ii]hrem|[Ddms]?einem|unserem|diesem|jenem|[Ee]urem</token>
+                        <token regexp="yes">dem|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                         <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
-                        <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                        <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
-                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)em$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
                 <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher.</example>
                 <example correction="wegen meines Geburtstages|wegen meines Geburtstags">Ich bin <marker>wegen meinem Geburtstag</marker> sehr aufgeregt.</example>
                 <example>von Rechts wegen die Bestrafung</example>
                 <example>Er ist der Sache wegen dem Bruder begegnet.</example>
+                <example>1880 erhielt die Ortschaft 1,5 km nördlich einen Eisenbahnanschluss mit Haltepunkt an der Strecke Ducherow-Swinemünde.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
-                        <token regexp="yes">den|[Ii]hre[nm]|[Ddms]?einen|unseren|diesen|jenen|[Ee]uren</token>
+                        <token regexp="yes">den|[Ii]hre[nm]|[Ddms]?einen|unse?ren|diesen|jenen|[Ee]uren</token>
                         <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
                         <token postag="SUB:(GEN|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes">
                             <exception scope="next" postag="SUB:GEN:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
@@ -44373,7 +44430,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
-                        <token regexp="yes" case_sensitive="yes">de[mn]|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jen|dein|dies)e[mn]?</token>
+                        <token regexp="yes" case_sensitive="yes">de[mn]|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse?)re[mn]?|(jen|dein|dies)e[mn]?</token>
                         <token postag="ADJ:DAT:PLU:NEU:GRU:IND" min="0" />
                         <token postag="SUB:DAT:PLU:(NEU|MAS|FEM)" postag_regexp="yes" />
                     </marker>
@@ -44387,6 +44444,7 @@ Andere Projekte</example>
                 <example>1923 legte er des fortgeschrittenen Alters wegen den Führerposten nieder und trat ihn an 0berstraßenmeister Plehn ab, der ihn bis 1929 innehatte.</example>
                 <example>1874 kaufte der Psychiater Ludwig Binswanger (1820–1880) das Schloss einschließlich des dazugehörenden landwirtschaftlichen Betriebs und gab ihm der Brunnen wegen den Namen Brunnegg.</example>
                 <example>Er zog mit gewaltiger Kraft den Einkaufswagen.</example>
+                <example>Er zog mit viel Kraft den Einkaufswagen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -44394,7 +44452,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">den|[Ii]hre[nm]|[Ddms]?eine[mn]|unsere[mn]|diese[mn]|jene[mn]|[Ee]ure[mn]</token>
-                        <token postag="ADJ:DAT:PLU:NEU:GRU:IND" min="0" />
+                        <token postag="(ADJ:DAT:PLU:(NEU|FEM|MAS):GRU:IND)|(PRO:DEM:DAT:PLU.*)" postag_regexp="yes" min="0" />
                         <token postag="SUB:(GEN|NOM|AKK|DAT):PLU:(MAS|FEM|NEU)" postag_regexp="yes">
                             <exception scope="next" postag="SUB:GEN:PLU:(MAS|FEM|NEU)" postag_regexp="yes" />
                         </token>
@@ -44404,6 +44462,9 @@ Andere Projekte</example>
                 <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="[mn]$" regexp_replace="r" /> \4 <match no="5" postag="SUB:GEN:PLU:.+" postag_regexp="yes" /></suggestion>
                 <example correction="inklusive der Fahrten">Der Urlaub ist <marker>inklusive den Fahrten</marker> vom und zum Flughafen gebucht.</example>
                 <example correction="trotz der versöhnlichen Worte|trotz der versöhnlichen Wörter">Er war immer noch verärgert über den Unfall, <marker>trotz den versöhnlichen Worten</marker> seiner Frau.</example>
+                <example correction="wegen meiner freilaufenden Katzen">Mich würde es auch stressen, wenn <marker>wegen meinen freilaufenden Katzen</marker>, die Polizei jeden Tag vorbeikommen würde.</example>
+                <!-- TODO: -->
+                <!-- <example correction="Bezüglich deiner beiden Bestellungen"><marker>Bezüglich deinen beiden Bestellungen</marker> habe ich noch keine News.</example> -->
             </rule>
             <rule>
                 <antipattern>
@@ -48389,6 +48450,18 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="WEGEN_DEM_WAS_KOMMA" name="wegen dem(,) was" default="temp_off">
+            <pattern>
+                <token regexp="yes">wegen|von</token>
+                <token regexp="yes">dem|dessen|allem</token>
+                <marker>
+                    <token case_sensitive="yes">was</token>
+                </marker>
+            </pattern>
+            <message>Hier sollte ein Komma gesetzt werden.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", was">Er ist traurig wegen dem<marker> was</marker> du gesagt hast.</example>
+        </rule>
         <rulegroup id="WENN_DOCH_KOMMA" name="Komma nach 'wenn doch'">
             <antipattern>
                 <token regexp="yes">wenn|falls</token>

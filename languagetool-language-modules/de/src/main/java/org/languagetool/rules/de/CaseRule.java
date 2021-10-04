@@ -197,6 +197,12 @@ public class CaseRule extends Rule {
       regex(".*")
     ),
     Arrays.asList(
+      // non-alphanumeric character
+      SENT_START,
+      regex("^[^a-zA-ZäöüÄÖÜ\\d\\s:]+$"),
+      csRegex("[A-ZÄÖÜ].*")
+    ),
+    Arrays.asList(
       regex("Roten?"),
       regex("Bete")
     ),
@@ -1092,6 +1098,8 @@ public class CaseRule extends Rule {
     "Interessierten", // temporary fix
     "Infizierte", // temporary fix
     "Infizierten", // temporary fix
+    "Gehörlose", // temporary fix
+    "Gehörlosen", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
