@@ -46403,27 +46403,84 @@ Andere Projekte</example>
                     <token>gehabt</token>
                     <token>das</token>
                     <token postag="PRO:IND:.+" postag_regexp="yes" skip="2" />
-                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht)</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">haben
+                        <exception scope="next" regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</exception>
+                    </token>
+                    <token postag="VER.*[123].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
+                    <token postag=".*PA2.*" postag_regexp="yes"/>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="6">haben</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">ich</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="1">haben</token>
+                    <token regexp="yes">mi(ch|r)</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">du</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="1">haben</token>
+                    <token regexp="yes">di(ch|r)</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">wir</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="1">haben</token>
+                    <token>uns</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">ihr</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="1">haben</token>
+                    <token>euch</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
                 </antipattern>
                 <pattern>
                     <token negate="yes">zu</token>
                     <marker>
-                        <token inflected="yes" skip="6">haben
-                            <exception scope="next" regexp="yes">,|;|\(|\[|:|oder|und</exception>
+                        <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="6">haben
+                            <exception scope="next" regexp="yes">,|;|\(|\[|:|oder|und|sich</exception>
                         </token>
-                        <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht)</token><!-- TODO erweitern -->
+                        <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token><!-- TODO erweitern -->
                     </marker>
                 </pattern>
                 <message>&subanfang;eine Form des Hilfsverbs 'sein' verwendet werden muss.</message>
+                <suggestion><match no="2" postag="V.*[123].*" postag_regexp="yes" include_skipped="all">sein</match> \3</suggestion>
                 <url>https://dict.leo.org/grammatik/deutsch/Wort/Verb/Tempora/HabenSein.html</url>
-                <example correction="">Sie <marker>hat gegangen</marker>.</example>
-                <example correction="">Der Brief <marker>hat gestern angekommen</marker>.</example>
-                <example correction="">Sie <marker>hat gestern Abend eingeschlafen</marker>.</example>
+                <example correction="ist gegangen">Sie <marker>hat gegangen</marker>.</example>
+                <example correction="ist gestern angekommen">Der Brief <marker>hat gestern angekommen</marker>.</example>
+                <example correction="sind heute angekommen">Die Gäste <marker>haben heute angekommen</marker>.</example>
+                <example correction="ist gestern Abend eingeschlafen">Sie <marker>hat gestern Abend eingeschlafen</marker>.</example>
+                <example correction="sei zwar davongekommen">Einer der Angreifer <marker>habe zwar davongekommen</marker> aber ein anderer wurde gefasst.</example>
+                <example correction="ist nicht auf Elba gestorben">Napoleon <marker>hat nicht auf Elba gestorben</marker>.</example>
+                <example correction="ist ein Geist erschienen">Mir <marker>hat ein Geist erschienen</marker>!</example>
+                <example correction="sind verschwunden">Meine Schlüssel <marker>haben verschwunden</marker>.</example>
+                <example correction="wäre kläglich gescheitert">Klaus <marker>hätte kläglich gescheitert</marker>.</example>
+                <example correction="sei von selbst entstanden">Diese Verschmutzung <marker>habe von selbst entstanden</marker>.</example>
+                <example correction="war immer bestrebt">Er <marker>hatte immer bestrebt</marker>, den Anforderungen gerecht zu werden.</example>
+                <example correction="wäre etwas Verrücktes eingefallen">Ich wünschte, mir <marker>hätte etwas Verrücktes eingefallen</marker>…</example>
+                <example correction="ist uns das nicht vorher aufgefallen">Warum <marker>hat uns das nicht vorher aufgefallen</marker>?</example>
                 <example>Sie <marker>ist gegangen</marker>.</example>
                 <example>Sie <marker>haben gesungen und sind eingeschlafen</marker>.</example>
                 <example>Er wäre dafür zu <marker>haben gewesen</marker>.</example>
                 <example>Sie haben der Westküste den Rang abgelaufen.</example>
                 <example>Fehlendes Komma + "dass": Ich hab da bisher auch nur Glück gehabt das nichts kaputtgegangen ist.</example>
+                <example>Einer der Angreifer habe ihn zwar verfolgt er sei aber davongekommen.</example>
+                <example>Der Witz dieser Seite hat sich totgelaufen.</example>
+                <example>Schade, dass sie dies nicht so klar gemacht <marker>hat wie es vielleicht nötig gewesen</marker> wäre.</example>
+                <example>Ich bin weniger als eine Woche nachdem ich angefangen <marker>habe in diese Corp gekommen</marker>.</example>
+                <example>Ich glaube, ich habe sie mir durchgelaufen.</example>
+                <example>Ihr habt euch müdegelaufen.</example>
             </rule>
            <!-- <rule>
                 <pattern>
