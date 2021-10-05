@@ -60,7 +60,7 @@ class LanguageDetectionEval {
       List<String> list = getLines(stream);
       for (String line : list) {
         try {
-          errors += getNumberOfWrongDetections(line, language, MIN_CHARACTERS);
+          errors += getWrongDetectionRatio(line, language, MIN_CHARACTERS);
         } catch (DetectionException e) {
           //System.out.println("FAIL: " + e.getMessage());
         }
@@ -70,7 +70,7 @@ class LanguageDetectionEval {
     }
   }
 
-  private float getNumberOfWrongDetections(String line, Language expectedLanguage, int threshold) {
+  private float getWrongDetectionRatio(String line, Language expectedLanguage, int threshold) {
     int errors = 0;
     int checks = 0;
     for (int i = threshold; i < line.length(); i++) {
