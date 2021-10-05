@@ -21,7 +21,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY adj_annee "scolaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien|dernier|prochain">
+    <!ENTITY adj_annee "scolaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien"> <!-- |dernier|prochain -->
     <!ENTITY mots_negation "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne">
     <!ENTITY mots_negation_plus "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne|plus|point">
     <!ENTITY exceptions_unitestemps_adj "suivant|futur|précédent|passé|dernier|premier|prochain"> 
@@ -24025,18 +24025,19 @@ though, and has since been slightly modified)-->
                 <example>Ce café a goût de brûlé.</example>
             </rule>
         </rulegroup>
-        <rulegroup  id="AN_ANNE2" name="an -> année" default="temp_off">
+        <rulegroup  id="AN_ANNE" name="an -> année" default="temp_off">
             <rule>
                 <pattern>
                     <!-- TODO: also in plural: des ans difficiles ? -->
                     <token>un</token>
                     <token>an</token>
-                    <token postag="(J|V ppa) [me] sp?" postag_regexp="yes"/>
+                    <token postag="(J|V ppa) [me] sp?" postag_regexp="yes"><exception regexp="yes">maximum|minimum</exception></token>
                 </pattern>
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion>une année <match no="3" postag="(J|V ppa) [me] sp?" postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion>.</message>
                 <example correction="une année difficile"><marker>un an difficile</marker></example>
                 <example correction="une année mémorable"><marker>un an mémorable</marker></example>
                 <example correction="une année heureuse"><marker>un an heureux</marker></example>
+                <example>J'ai débuté il y a ... hum un an maximum ?</example>
             </rule>
             <rule>
                 <pattern>
@@ -24047,6 +24048,8 @@ though, and has since been slightly modified)-->
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion>année <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion>.</message>
                 <example correction="année scolaire"><marker>an scolaire</marker></example>
                 <example correction="année bissextile"><marker>an bissextil</marker></example>
+                <example>J'ai perdu ma femme l'an dernier.</example>
+                <example>Je reviendrai l'an prochain.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24149,7 +24152,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <!-- it depends, future/past -->
-                    <!--<token>en</token>-->
+                    <token>en</token>
                     <token>l'</token>
                     <marker>
                         <token>année</token>    
@@ -24159,9 +24162,16 @@ though, and has since been slightly modified)-->
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion>an</suggestion>.</message>
                 <example correction="an">En l'<marker>année</marker> 2000.</example>
                 <example correction="an">En l'<marker>année</marker> II de la République.</example>
+                <example>La servante apporta des verres et une bouteille de vin de l'année 181.</example>
+                <example>L'année 2012 a été assez morose en terme d'investissements dans le secteur de l'immobilier neuf.</example>
+                <example>Ce fut au printemps de l'année 1835 qu'un vif désir me prit de voir l'Italie.</example>
+                <example>durant l'année 2019</example>
+                <example>mais ce n'est pas avant l'année 1847</example>
+                <example>Meilleurs vœux à Tom et Marie pour l'année 2018.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AN_ANNEE" name="Confusion an/année">
+        <rulegroup id="AN_ANNEE_OLD" name="Confusion an/année" default="off">
+            <!-- old rule with bad results -->
             <antipattern>
                 <token>bon</token>
                 <token>an</token>
