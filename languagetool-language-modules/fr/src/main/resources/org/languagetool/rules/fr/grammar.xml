@@ -21,7 +21,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY adj_annee "scolaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien|comptable"> <!-- |dernier|prochain -->
+    <!ENTITY adj_annee "scolaire|universitaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien|comptable"> <!-- |dernier|prochain -->
     <!ENTITY mots_negation "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne">
     <!ENTITY mots_negation_plus "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne|plus|point">
     <!ENTITY exceptions_unitestemps_adj "suivant|futur|précédent|passé|dernier|premier|prochain"> 
@@ -24169,6 +24169,16 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>En cette phrase, il est plus approprié de dire <suggestion>toute l'année</suggestion>.</message>
                 <example correction="toute l'année">La magasin est ouvert <marker>tout l'an</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">1(er|re|ʳᵉ|ᵉʳ)|premier|second|.*ème|\d[eᵉ]</token>
+                    <token>an</token>
+                </pattern>
+                <message>En cette phrase, il est plus approprié de dire "année".</message>
+                <suggestion><match no="1" postag="J .*" postag_regexp="yes" postag_replace="J [ef] sp?"/> année</suggestion>
+                <example correction="1ʳᵉ année">Le <marker>1ᵉʳ an</marker>.</example>
+                <example correction="3ᵉ année">Le <marker>3ᵉ an</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup  id="ANNEE_AN" name="année -> an" default="temp_off">
