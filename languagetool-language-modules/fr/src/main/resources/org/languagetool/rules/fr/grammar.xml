@@ -24089,7 +24089,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">\d+|[IXCVL]+</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">début|fin|mois</token>
+                    <token regexp="yes">début|fin|mois|jours</token>
                     <token>de</token>
                     <token>l'</token>
                     <marker>
@@ -24175,10 +24175,48 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">1(er|re|ʳᵉ|ᵉʳ)|premier|second|.*ème|\d[eᵉ]</token>
                     <token>an</token>
                 </pattern>
-                <message>En cette phrase, il est plus approprié de dire "année".</message>
+                <message>Avec un nombre ordinal, il est plus approprié de dire "année".</message>
                 <suggestion><match no="1" postag="J .*" postag_regexp="yes" postag_replace="J [ef] sp?"/> année</suggestion>
                 <example correction="1ʳᵉ année">Le <marker>1ᵉʳ an</marker>.</example>
                 <example correction="3ᵉ année">Le <marker>3ᵉ an</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- TODO: more words -->
+                    <token regexp="yes">plusieurs|quelques|nombreuses</token>
+                    <marker>
+                        <token>ans</token>    
+                    </marker>
+                </pattern>
+                <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
+                <example correction="années">Je suis parti depuis plusieurs <marker>ans</marker>.</example>
+                <example correction="années">Il y a quelques <marker>ans</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- TODO: more words -->
+                    <token regexp="yes">tant|douzaines?|centaines?|milliers?|dizaines?|tellement</token>
+                    <token>d'</token>
+                    <marker>
+                        <token>ans</token>    
+                    </marker>
+                </pattern>
+                <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
+                <example correction="années">Depuis tant d'<marker>ans</marker>.</example>
+                <example correction="années">Il y a un douzaine d'<marker>ans</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">1(er|re|ʳᵉ|ᵉʳ)|premier|second|.*ème|\d[eᵉ]</token>
+                    <token>jour</token>
+                    <token>de</token>
+                    <token>l'</token>
+                    <marker>
+                        <token>an</token>    
+                    </marker>
+                </pattern>
+                <message>En cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
+                <example correction="année">Le premier jour de l'<marker>an</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup  id="ANNEE_AN" name="année -> an" default="temp_off">
@@ -24294,6 +24332,21 @@ though, and has since been slightly modified)-->
                 <message>Dans cette expression, il est plus approprié de dire <suggestion><match no="1" regexp_match="(?iu)née" regexp_replace=""/></suggestion>.</message>
                 <example correction="an">L'état du royaume en l'<marker>année</marker> de grâce 1788.</example>
                 <example correction="An">Le 25 janvier de l'<marker>Année</marker> du Seigneur de 1554</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">1(er|re|ʳᵉ|ᵉʳ)|premier|second|.*ème|\d[eᵉ]</token>
+                    <token>jour</token>
+                </antipattern>
+                <pattern>
+                    <token>jour</token>
+                    <token>de</token>
+                    <token>l'</token>
+                    <token>année</token>
+                </pattern>
+                <message>L'expression appropriée est <suggestion>jour de l'an</suggestion> (premier jour de l’année).</message>
+                <example correction="jour de l'an">Le <marker>jour de l'année</marker></example>
+                <example>Le premier jour de l'année</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDINAL_ANNEE" name="nombre ordinal + année" default="temp_off">
