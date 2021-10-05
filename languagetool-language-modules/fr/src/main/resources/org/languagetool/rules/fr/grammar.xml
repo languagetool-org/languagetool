@@ -21,7 +21,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY adj_annee "scolaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien"> <!-- |dernier|prochain -->
+    <!ENTITY adj_annee "scolaire|bissextil|fiscal|civil|blanc|vide|calendaire|julien|grégorien|comptable"> <!-- |dernier|prochain -->
     <!ENTITY mots_negation "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne">
     <!ENTITY mots_negation_plus "pas|aucun(e(ment)?)?s?|jamais|guère|nulle(ment)?|rien|personne|plus|point">
     <!ENTITY exceptions_unitestemps_adj "suivant|futur|précédent|passé|dernier|premier|prochain"> 
@@ -24025,7 +24025,7 @@ though, and has since been slightly modified)-->
                 <example>Ce café a goût de brûlé.</example>
             </rule>
         </rulegroup>
-        <rulegroup  id="AN_ANNE" name="an -> année" default="temp_off">
+        <rulegroup  id="AN_ANNEE" name="an -> année" default="temp_off">
             <rule>
                 <pattern>
                     <!-- TODO: also in plural: des ans difficiles ? -->
@@ -24038,6 +24038,18 @@ though, and has since been slightly modified)-->
                 <example correction="une année mémorable"><marker>un an mémorable</marker></example>
                 <example correction="une année heureuse"><marker>un an heureux</marker></example>
                 <example>J'ai débuté il y a ... hum un an maximum ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <marker>
+                        <token>ans</token>
+                        <token postag="(J|V ppa) [me] s?p" postag_regexp="yes"><exception regexp="yes">maximum|minimum</exception></token>    
+                    </marker>
+                </pattern>
+                <message>Dans cette phrase, il est plus approprié de dire <suggestion>années <match no="3" postag="(J|V ppa) [me] s?p" postag_regexp="yes" postag_replace="$1 [fe] s?p"/></suggestion>.</message>
+                <example correction="années formidables">12 <marker>ans formidables</marker></example>
+                <example>J'ai débuté il y a ... hum deux ans maximum ?</example>
             </rule>
             <rule>
                 <pattern>
@@ -24072,6 +24084,10 @@ though, and has since been slightly modified)-->
                 <example correction="années-lumière"><marker>ans lumière</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>an</token>
+                    <token regexp="yes">\d+|[IXCVL]+</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">début|fin|mois</token>
                     <token>de</token>
@@ -24084,6 +24100,7 @@ though, and has since been slightly modified)-->
                 <example correction="année">il a travaillé les six premiers mois de l'<marker>an</marker></example>
                 <example correction="année">à la fin de l’<marker>an</marker></example>
                 <example correction="année">au début de l’<marker>an</marker></example>
+                <example>La reine mère et sa fille cadette meurent toutes deux au plus tard à la fin de l'an XII.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24168,6 +24185,36 @@ though, and has since been slightly modified)-->
                 <example>durant l'année 2019</example>
                 <example>mais ce n'est pas avant l'année 1847</example>
                 <example>Meilleurs vœux à Tom et Marie pour l'année 2018.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">année|années</token>
+                    <token regexp="yes">de|d'</token>
+                </antipattern>
+                <pattern>
+                    <token>par</token>
+                    <token regexp="yes">année|années</token>
+                </pattern>
+                <message>Il convient d’utiliser « an » dans l’expression « par an ».</message>
+                <suggestion>\1 an</suggestion>
+                <example correction="par an">Il gagne quatorze mille euros <marker>par année</marker>.</example>
+                <example>Il est augmenté par année d'ancienneté.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>mois</token>
+                    <token>/</token>
+                    <token>année</token>
+                </antipattern>
+                <pattern>
+                    <token>/</token>
+                    <token regexp="yes">année|années</token>
+                </pattern>
+                <message>Il convient d’utiliser « an » dans l’expression « par an ».</message>
+                <suggestion>/an</suggestion>
+                <example correction="/an">Il gagne quatorze mille euros<marker>/année</marker>.</example>
+                <example>Il est augmenté par année d'ancienneté.</example>
+                <example>jour/mois/année</example>
             </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE_OLD" name="Confusion an/année" default="off">
