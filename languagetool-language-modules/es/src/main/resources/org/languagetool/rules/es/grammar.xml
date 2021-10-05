@@ -149,7 +149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>whatsapps</token>
                 </pattern>
                 <message>Escribimos <suggestion>WhatsApp</suggestion> (aplicación) o <suggestion>wasaps</suggestion> (mensajes enviados con esta aplicación).</message>
-                <example correction="WhatsApp|wasaps">Le he enviado varios <marker>whatsapps</marker>.</example>    
+                <example correction="WhatsApp|wasaps">Le he enviado varios <marker>whatsapps</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="MAY_ABREVIATURA" name="mayúscula en algunas abreviaturas">
@@ -14625,6 +14625,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  producidos por la aceleración y desaceleración lineal y angular repetitivas.
                 -->
         </rule>
+        <rulegroup id="POSTPONED_ADJ_PARTICULAR" name="casos particulares de adjetivo compuesto">
+            <rule default="temp_off">
+                <pattern>
+                    <token>dirección</token>
+                    <token>de</token>
+                    <token>correo</token>
+                    <marker>
+                        <token>electrónica</token>
+                    </marker>
+                </pattern>
+                <message>El adjetivo <suggestion>electrónico</suggestion> concuerda con "correo".</message>
+                <example correction="electrónico">Te daré mi dirección de correo <marker>electrónica</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>dirección</token>
+                    <token>de</token>
+                    <token>correo</token>
+                    <token>electrónico</token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token regexp="yes">válido|correcto|incorrecto|inválido</token>
+                    </marker>
+                </pattern>
+                <message>El adjetivo <suggestion><match no="6" regexp_match="(?iu)o$" regexp_replace="a" case_conversion="preserve"></match></suggestion> debe concordar con "dirección".</message>
+                <example correction="válida">Dirección de correo electrónico no <marker>válido</marker>.</example>
+                <example correction="incorrecta">Dirección de correo electrónico <marker>incorrecto</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN_AREA" name="*el mismo área">
             <url>https://www.fundeu.es/recomendacion/el-area-pero-la-otra-area/</url>
             <rule>
