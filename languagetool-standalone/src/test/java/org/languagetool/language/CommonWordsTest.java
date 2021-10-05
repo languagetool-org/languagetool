@@ -70,6 +70,10 @@ public class CommonWordsTest {
     Map<Language, Integer> res8 = cw.getKnownWordsPerLanguage("Autohaus-Wirklichkeit");  // "Wirklichkeit" is in common_words.txt
     assertNull(res8.get(en));
     assertThat(res8.get(de), is(1));
+
+    Map<Language, Integer> res9 = cw.getKnownWordsPerLanguage("Costum de certes cultures que imposa a un pare l’adopció d’un comportament idèntic al de la mare en el període anterior o posterior al part");
+    assertThat(res9.get(ca), is(20));
+    assertThat(res9.get(es), is(10));
   }
 
 }
