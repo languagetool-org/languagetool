@@ -24117,6 +24117,37 @@ though, and has since been slightly modified)-->
                 <example>L'état du royaume en l'an de grâce 1788.</example>
                 <example>Le 25 janvier de l'An du Seigneur de 1554</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>chaque</token>
+                    <token>an</token>
+                </pattern>
+                <message>Il est plus approprié de dire <suggestion>chaque année</suggestion>.</message>
+                <example correction="Chaque année"><marker>Chaque an</marker>, nous allons célébrer dans un grand restaurant.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>bon</token>
+                    <token>an</token>
+                    <token min="0">,</token>
+                    <token>mal</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <token>bon</token>
+                    <token>an</token>
+                </pattern>
+                <message>Il est plus approprié de dire <suggestion>bonne année</suggestion>.</message>
+                <example correction="Bonne année"><marker>Bon an</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bons</token>
+                    <token>ans</token>
+                </pattern>
+                <message>Il est plus approprié de dire <suggestion>bonnes années</suggestion>.</message>
+                <example correction="bonnes années">les récoltes des <marker>bons ans</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup  id="ANNEE_AN" name="année -> an" default="temp_off">
             <rule>
