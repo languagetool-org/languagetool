@@ -46,6 +46,7 @@ class LanguageDetectionEval {
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
     //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
+    //languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
   }
 
   private float evaluate(Language language) throws IOException {
