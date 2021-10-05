@@ -24148,6 +24148,28 @@ though, and has since been slightly modified)-->
                 <message>Il est plus approprié de dire <suggestion>bonnes années</suggestion>.</message>
                 <example correction="bonnes années">les récoltes des <marker>bons ans</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ans</token>    
+                    </marker>
+                    <token regexp="yes">(19|20)?\d0|dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingts?| quatre-vingt-dix</token>
+                </pattern>
+                <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
+                <example correction="années">la musique des <marker>ans</marker> cinquante</example>
+                <example correction="années">la musique des <marker>ans</marker> 80</example>
+                <example correction="années">la musique des <marker>ans</marker> 1970</example>
+                <example correction="années">la musique des <marker>ans</marker> 2010</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tout</token>
+                    <token>l'</token>
+                    <token>an</token>
+                </pattern>
+                <message>En cette phrase, il est plus approprié de dire <suggestion>toute l'année</suggestion>.</message>
+                <example correction="toute l'année">La magasin est ouvert <marker>tout l'an</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup  id="ANNEE_AN" name="année -> an" default="temp_off">
             <rule>
