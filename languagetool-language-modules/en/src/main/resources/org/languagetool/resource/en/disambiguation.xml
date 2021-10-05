@@ -7589,13 +7589,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNP|PRP_S3.*" postag_regexp="yes" chunk_re="E-NP.*" />
             <token regexp="yes">was|is|'s</token>
             <token postag="VB" />
-            <token postag="IN|DT|PRP\$" postag_regexp="yes" />
+            <token postag="IN" chunk="B-PP" />
         </antipattern>
-        <antipattern>
+        <antipattern><!-- You were support by ... -->
             <token postag="NNPS|PRP_S2.*" postag_regexp="yes" chunk_re="E-NP.*" />
             <token regexp="yes">were|are|'re</token>
             <token postag="VB" />
-            <token postag="IN|DT|PRP\$" postag_regexp="yes" />
+            <token postag="IN" chunk="B-PP" />
+        </antipattern>
+        <antipattern><!-- I am support by ... -->
+            <token>I</token>
+            <token regexp="yes">am|'m|was|were</token>
+            <token postag="VB" />
+            <token postag="IN" chunk="B-PP" />
         </antipattern>
         <pattern>
             <marker>
