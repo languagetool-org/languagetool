@@ -5487,6 +5487,7 @@ O plural de cavalo é cavalos.
       <message>Substitua por <suggestion>prestes a</suggestion>.</message>
       <example correction="prestes a">Está <marker>preste a</marker> acontecer.</example>
     </rule>
+	
     <rule id='ÀS_CUSTAS_DA_DAS_DO_DOS' name="Confusão: às custas/à custa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -8226,6 +8227,24 @@ A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento
       <example correction='Nenhum lugar te recorda'><marker>Nenhum lugar recorda-te</marker> daquelas férias?</example>
     </rule>
   </rulegroup>
+
+	<!-- APROXIMA a próxima -->
+    <rule id='APROXIMA_A_PRÓXIMA' name="Confusão: Aproxima/A próxima" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-05 (25-JUN-2021+)      -->
+	<!--
+Mas gostava de poder ir... fica para aproxima.
+	-->
+      <pattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token>para</token>
+		<marker>
+			<token>aproxima</token>
+		</marker>
+      </pattern>
+      <message>Confusão de palavras.</message>
+	  <suggestion>a próxima</suggestion>
+      <example correction="a próxima">Mas gostava de poder ir... fica para <marker>aproxima</marker>.</example>
+    </rule>
 
   <rulegroup id='POR_QUE_PORQUE' name="Confusão: 'Por que', 'Por quê' e 'Porque' ">
     <!--    Created by Tiago F. Santos, 2017-02-27     -->
