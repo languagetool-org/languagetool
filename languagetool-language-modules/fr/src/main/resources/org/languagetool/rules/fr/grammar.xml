@@ -24109,10 +24109,13 @@ though, and has since been slightly modified)-->
                         <token>an</token>    
                     </marker>
                     <token regexp="yes">de|du|d'</token>
+                    <token><exception regexp="yes">grâce|seigneur</exception></token>
                 </pattern>
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
                 <example correction="année">l'<marker>an</marker> de son mariage</example>
                 <example correction="année">C'était l'<marker>an</marker> du traité de Versailles.</example>
+                <example>L'état du royaume en l'an de grâce 1788.</example>
+                <example>Le 25 janvier de l'An du Seigneur de 1554</example>
             </rule>
         </rulegroup>
         <rulegroup  id="ANNE_AN" name="année -> an" default="temp_off">
@@ -24215,6 +24218,18 @@ though, and has since been slightly modified)-->
                 <example correction="/an">Il gagne quatorze mille euros<marker>/année</marker>.</example>
                 <example>Il est augmenté par année d'ancienneté.</example>
                 <example>jour/mois/année</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">années?</token>
+                    </marker>
+                    <token regexp="yes">de|du|d'</token>
+                    <token regexp="yes">grâce|seigneur</token>
+                </pattern>
+                <message>Dans cette expression, il est plus approprié de dire <suggestion><match no="1" regexp_match="(?iu)née" regexp_replace=""/></suggestion>.</message>
+                <example correction="an">L'état du royaume en l'<marker>année</marker> de grâce 1788.</example>
+                <example correction="An">Le 25 janvier de l'<marker>Année</marker> du Seigneur de 1554</example>
             </rule>
         </rulegroup>
         <rulegroup id="AN_ANNEE_OLD" name="Confusion an/année" default="off">
