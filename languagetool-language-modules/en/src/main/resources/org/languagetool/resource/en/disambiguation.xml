@@ -6291,6 +6291,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">\p{L}</token>
                 <token>'s</token>
             </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token spacebefore="no">'s</token>
+                <token postag="JJS" />
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token>
                     <exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/>
@@ -6304,6 +6310,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">Let's go!</example>
             <example type="untouched">Let's see!</example>
+            <example type="untouched">This is a Type A's worst nightmare.</example>
             <example type="untouched">There's got to be another way.</example>
             <example type="untouched">That's got to be a good sign.</example>
             <example type="untouched">Incorrect grammar. It's can not be.</example>
@@ -8596,6 +8603,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>'s</token>
             <token postag="VBZ" chunk_re=".-VP" />
         </antipattern>
+        <antipattern><!-- I'd like to be refund -->
+            <token regexp="yes" inflected="yes">like|want|have|try</token>
+            <token>to</token>
+            <token>be</token>
+            <token postag="VB" />
+            <token postag="IN|PCT|DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
             <marker>
@@ -8622,6 +8636,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. They are build from wood.</example>
         <example type="untouched">Incorrect grammar. We are drive to London.</example>
         <example type="untouched">Incorrect grammar: I will be search for you.</example><!-- #2657 -->
+        <example type="untouched">Incorrect grammar: I would like to be refund.</example><!-- #2657 -->
         <example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
     </rule>
 
