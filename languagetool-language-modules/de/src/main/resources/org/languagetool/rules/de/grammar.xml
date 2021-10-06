@@ -46423,7 +46423,7 @@ Andere Projekte</example>
                     <token skip="-1" inflected="yes">haben
                         <exception scope="next" regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</exception>
                     </token>
-                    <token inflected="yes" postag="VER.*[123].*" postag_regexp="yes">sein</token>
+                    <token inflected="yes" postag="V.*" postag_regexp="yes">sein</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" inflected="yes">haben</token>
@@ -46465,10 +46465,15 @@ Andere Projekte</example>
                     <token max="-1" chunk_re="I-NP.*"/>
                     <token>gekommen</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" postag="V.*:[123]:.*" postag_regexp="yes" skip="6">haben</token>
+                    <token skip="-1" postag="V.*:[123]:.*" postag_regexp="yes"/>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">zu</token>
                     <marker>
-                        <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="6">haben
+                        <token inflected="yes" postag="V.*:[123]:.*" postag_regexp="yes" skip="6">haben
                             <exception scope="next" regexp="yes">,|;|\(|\[|:|[–—-]|oder|und|sich|man</exception>
                             <exception scope="previous" postag=".*PA2.*" postag_regexp="yes"/>
                         </token>
@@ -46506,6 +46511,8 @@ Andere Projekte</example>
                 <example>Deutz, der Magirus 1935/36 übernommen <marker>hatte MAN — Maschinenfabrik Augsburg-Nürnberg Mandriva — Entstanden</marker> durch die Fusion der Linux-Distributoren.</example>
                 <example>Das hat man in dem Gespräch schon mitgekommen.</example>
                 <example>Habe keine Zeit gehabt bin nicht dazu gekommen.</example>
+                <example>Sie haben bei uns Produkte gebucht die fällig geworden sind.</example>
+                <example>Was du da gesehen hast könnte auch ein Hund gewesen sein.</example>
             </rule>
            <!-- <rule>
                 <pattern>
