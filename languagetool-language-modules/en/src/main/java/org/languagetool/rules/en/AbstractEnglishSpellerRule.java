@@ -380,6 +380,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
+                   !k.getReplacement().endsWith(" ne") &&
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
                    !k.getReplacement().endsWith(" ans") &&
