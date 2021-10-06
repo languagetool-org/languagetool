@@ -44456,6 +44456,10 @@ Andere Projekte</example>
                 <example>Er zog mit viel Kraft den Einkaufswagen.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="(ART|PRO|ADJ).*SIN:FEM.*" postag_regexp="yes"/>
+                    <token>zeit</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
@@ -44473,6 +44477,8 @@ Andere Projekte</example>
                 <example correction="trotz der versöhnlichen Worte|trotz der versöhnlichen Wörter">Er war immer noch verärgert über den Unfall, <marker>trotz den versöhnlichen Worten</marker> seiner Frau.</example>
                 <example correction="wegen meiner freilaufenden Katzen">Mich würde es auch stressen, wenn <marker>wegen meinen freilaufenden Katzen</marker>, die Polizei jeden Tag vorbeikommen würde.</example>
                 <example correction="Bezüglich deiner beiden Bestellungen"><marker>Bezüglich deinen beiden Bestellungen</marker> habe ich noch keine News.</example>
+                <example>Es war nur eine kurze <marker>Zeit den Katalysatoren</marker> ausgesetzt.</example>
+                <example>Ich habe keine Zeit den Hund rauszubringen.</example>
             </rule>
             <rule>
                 <antipattern>
