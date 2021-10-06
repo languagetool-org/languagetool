@@ -44350,6 +44350,10 @@ Andere Projekte</example>
                 <token regexp="yes">nördlich|südlich|westlich|östlich|seitwärts|seitlich|unweit|weitab</token>
                 <token regexp="yes">.+en</token>
             </antipattern>
+            <antipattern>
+                <token postag="(ART|PRO|ADJ).*SIN:FEM.*" postag_regexp="yes"/>
+                <token>zeit</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- compound error "wegen des iPhone Angebots" -->
                     <token regexp="yes">de[nm]|ihre[nm]|[dms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|eure[nm]</token>
@@ -44410,6 +44414,10 @@ Andere Projekte</example>
                 <example>1880 erhielt die Ortschaft 1,5 km nördlich einen Eisenbahnanschluss mit Haltepunkt an der Strecke Ducherow-Swinemünde.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>zum</token>
+                    <token>dank</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
@@ -44424,6 +44432,7 @@ Andere Projekte</example>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
                 <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="[mn]$" regexp_replace="s" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
                 <example correction="bezüglich unseres Termines|bezüglich unseres Termins">Ich würde mich <marker>bezüglich unseren Termins</marker> noch einmal melden.</example>
+                <example>Sie gaben ihm zum Dank die Auszeichnung.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -44456,10 +44465,6 @@ Andere Projekte</example>
                 <example>Er zog mit viel Kraft den Einkaufswagen.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token postag="(ART|PRO|ADJ).*SIN:FEM.*" postag_regexp="yes"/>
-                    <token>zeit</token>
-                </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
