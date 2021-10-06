@@ -94,7 +94,8 @@ public class Catalan extends Language {
             new CheckCaseRule(messages, this),
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
-            new CompoundRule(messages)
+            new CompoundRule(messages),
+            new CatalanRepeatedWordsRule(messages, this)
             //REMEMBER TO ADD RULES TO ValencianCatalan!!
     );
   }
