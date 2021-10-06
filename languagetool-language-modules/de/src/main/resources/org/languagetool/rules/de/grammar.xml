@@ -11720,7 +11720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>spät</token>
-                    <token regexp="yes" case_sensitive="yes">Schicht|Starte?s?</token>
+                    <token regexp="yes" case_sensitive="yes">Schicht|Starte?s?|Kaufs?|Burgunders?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Spät<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Spätschicht">Ich habe morgen leider <marker>spät Schicht</marker>.</example>
@@ -44354,6 +44354,14 @@ Andere Projekte</example>
                 <token postag="(ART|PRO|ADJ).*SIN:FEM.*" postag_regexp="yes"/>
                 <token>zeit</token>
             </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Zeit</token>
+                <token regexp="yes">.+e[nm]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">vielen|herzliche[rn]|liebe[rn]|tausend|zum</token>
+                <token>dank</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- compound error "wegen des iPhone Angebots" -->
                     <token regexp="yes">de[nm]|ihre[nm]|[dms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|eure[nm]</token>
@@ -44410,6 +44418,7 @@ Andere Projekte</example>
                 <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher.</example>
                 <example correction="wegen meines Geburtstages|wegen meines Geburtstags">Ich bin <marker>wegen meinem Geburtstag</marker> sehr aufgeregt.</example>
                 <example>von Rechts wegen die Bestrafung</example>
+                <example>Er widmete seine ganze Zeit dem Geschichtsstudium.</example>
                 <example>Er ist der Sache wegen dem Bruder begegnet.</example>
                 <example>1880 erhielt die Ortschaft 1,5 km nördlich einen Eisenbahnanschluss mit Haltepunkt an der Strecke Ducherow-Swinemünde.</example>
             </rule>
@@ -48550,18 +48559,33 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rule id="WEGEN_DEM_WAS_KOMMA" name="wegen dem(,) was">
-            <pattern>
-                <token regexp="yes">wegen|von|mit|zu</token>
-                <token regexp="yes">dem|dessen|allem</token>
-                <marker>
-                    <token case_sensitive="yes">was</token>
-                </marker>
-            </pattern>
-            <message>Hier sollte ein Komma gesetzt werden.</message>
-            <suggestion>, \3</suggestion>
-            <example correction=", was">Er ist traurig wegen dem<marker> was</marker> du gesagt hast.</example>
-        </rule>
+        <rulegroup id="WEGEN_DEM_WAS_KOMMA" name="wegen dem(,) was">
+            <rule>
+                <pattern>
+                    <token regexp="yes">wegen|von|mit|zu|bezüglich|dank</token>
+                    <token regexp="yes">dem|dessen|allem</token>
+                    <marker>
+                        <token case_sensitive="yes">was</token>
+                    </marker>
+                </pattern>
+                <message>Hier sollte ein Komma gesetzt werden.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", was">Er ist traurig wegen dem<marker> was</marker> du gesagt hast.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">wegen|von|mit|zu|bezüglich|dank</token>
+                    <token regexp="yes">alle?</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">was</token>
+                    </marker>
+                </pattern>
+                <message>Hier sollte ein Komma gesetzt werden.</message>
+                <suggestion>, \4</suggestion>
+                <example correction=", was">Er ist traurig wegen all dem<marker> was</marker> du gesagt hast.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WENN_DOCH_KOMMA" name="Komma nach 'wenn doch'">
             <antipattern>
                 <token regexp="yes">wenn|falls</token>
