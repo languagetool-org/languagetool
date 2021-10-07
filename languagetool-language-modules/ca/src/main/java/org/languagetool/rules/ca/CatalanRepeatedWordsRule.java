@@ -58,5 +58,29 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule{
   protected String getShortMessage() {
     return "Paraula repetida";
   }
+  
+  @Override
+  protected String adjustPostag(String postag) {
+    if (postag.contains("CN")) {
+      return postag.replaceFirst("CN", "..");
+    } else if (postag.contains("MS")) {
+      return postag.replaceFirst("MS", "[MC][SN]");
+    } else if (postag.contains("FS")) {
+      return postag.replaceFirst("FS", "[FC][SN]");
+    } else if (postag.contains("MP")) {
+      return postag.replaceFirst("MP", "[MC][PN]");
+    } else if (postag.contains("FP")) {
+      return postag.replaceFirst("FP", "[FC][PN]");
+    } else if (postag.contains("CS")) {
+      return postag.replaceFirst("CS", "[MC][SN]"); // also F ?
+    } else if (postag.contains("CP")) {
+      return postag.replaceFirst("CP", "[MC][PN]"); // also F ?
+    } else if (postag.contains("MN")) {
+      return postag.replaceFirst("MN", "[MC][SPN]");
+    } else if (postag.contains("FN")) {
+      return postag.replaceFirst("FN", "[FC][SPN]");
+    }
+    return postag; 
+  }
 
 }

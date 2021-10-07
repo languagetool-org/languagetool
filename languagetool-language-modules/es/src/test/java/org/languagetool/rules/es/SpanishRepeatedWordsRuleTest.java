@@ -1,3 +1,4 @@
+
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
  * 
@@ -15,8 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
- */
-package org.languagetool.rules.en;
+ */package org.languagetool.rules.es;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,52 +27,34 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.Spanish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
-public class EnglishRepeatedWordsRuleTest {
+public class SpanishRepeatedWordsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
 
   @Before
   public void setUp() {
-    rule = new EnglishRepeatedWordsRule(TestTools.getEnglishMessages(), new AmericanEnglish());
-    lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    rule = new SpanishRepeatedWordsRule(TestTools.getMessages("es"), new Spanish());
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("es"));
   }
 
   @Test
   public void testRule() throws IOException {
-    assertCorrectText("I suggested that, but he also suggests that.");
-    assertCorrectText("Matthew S. Anderson, Peter the Great. The Tomahawks were shipped from Great Britain.");
-    assertCorrectText("It was great. The Tomahawks were shipped from Great Britain.");
-    assertCorrectText("It was a global effort. Announcing the participation of Enron Global Markets.");
-    
-    RuleMatch[] matches=getRuleMatches("I suggested this. She suggests that.");
+
+    RuleMatch[] matches = getRuleMatches("Fue excelente. Fue un resultado excelente.");
     assertEquals(1, matches.length);
-    assertEquals(22, matches[0].getFromPos());
-    assertEquals(30, matches[0].getToPos());
-    assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("recommends", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("submits", matches[0].getSuggestedReplacements().get(2));
-      
-    
-    matches=getRuleMatches ("I suggested this. She suggests that. And they suggested that.");
-    assertEquals(2, matches.length);
-    assertEquals(22, matches[0].getFromPos());
-    assertEquals(46, matches[1].getFromPos());
-    assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("proposed", matches[1].getSuggestedReplacements().get(0));
-    
-    matches=getRuleMatches ("The problem was global. And the solutions needed to be global.");
-    assertEquals(1, matches.length);
-    assertEquals("comprehensive", matches[0].getSuggestedReplacements().get(0));
-    
+    assertEquals("magnífico", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("fantástico", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("maravilloso", matches[0].getSuggestedReplacements().get(2));
+
   }
-  
+
   private RuleMatch[] getRuleMatches(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
     return rule.match(lt.analyzeText(sentences), aText);
@@ -83,6 +65,5 @@ public class EnglishRepeatedWordsRuleTest {
     RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
     assertEquals(0, matches.length);
   }
-
 
 }

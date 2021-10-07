@@ -34,6 +34,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.StringTools;
 
 public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
 
@@ -67,6 +68,14 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
       synth = language.createDefaultSynthesizer();
     }
   }
+  
+  protected String adjustPostag(String postag) {
+    return postag;
+  }
+  
+  protected boolean ignoreCapitalized() {
+    return true;
+  }
 
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
@@ -78,9 +87,19 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     for (AnalyzedSentence sentence : sentences) {
       // sentenceNumber++;
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      boolean sentStart = true;
       List<String> lemmasInSentece = new ArrayList<>();
       for (AnalyzedTokenReadings atrs : tokens) {
         wordNumber++;
+        String token = atrs.getToken();
+        if (sentStart && !token.isEmpty() && !token.matches("\\p{P}")) {
+          sentStart = false;
+        }
+        boolean isCapitalized = StringTools.isCapitalizedWord(token);
+        if (ignoreCapitalized() && isCapitalized && !sentStart) {
+          continue;
+        }
+        boolean isAllUppercase = StringTools.isAllUppercase(token);
         for (AnalyzedToken atr : atrs) {
           String lemma = atr.getLemma();
           Integer seenInWordPosition = wordsLastSeen.get(lemma);
@@ -91,8 +110,15 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
             List<String> replacementLemmas = getWordsToCheck().get(lemma);
             for (String replacementLemma : replacementLemmas) {
               String[] replacements = synth
-                  .synthesize(new AnalyzedToken(atr.getToken(), atr.getPOSTag(), replacementLemma), atr.getPOSTag());
-              rulematch.addSuggestedReplacements(Arrays.asList(replacements));
+                  .synthesize(new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
+              for (String r: replacements) {
+                if (isAllUppercase) {
+                  r = r.toUpperCase();
+                } else if (isCapitalized) {
+                  r = StringTools.uppercaseFirstChar(r);
+                }
+                rulematch.addSuggestedReplacement(r);
+              }
             }
             matches.add(rulematch);
           }
