@@ -7593,6 +7593,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception>of</exception>
             </token>
         </antipattern>
+        <antipattern><!-- It is refund to ... -->
+            <token postag="NNP|PRP_S3.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">was|is|'s</token>
+            <token postag="VB" />
+            <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+        </antipattern>
         <antipattern><!-- You were support by ... -->
             <token postag="NNPS|PRP_S2.*" postag_regexp="yes" chunk_re="E-NP.*" />
             <token regexp="yes">were|are|'re</token>
@@ -7601,6 +7607,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception>of</exception>
             </token>
         </antipattern>
+        <antipattern><!-- You were refund to ... -->
+            <token postag="NNPS|PRP_S2.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">were|are|'re</token>
+            <token postag="VB" />
+            <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+        </antipattern>
         <antipattern><!-- I am support by ... -->
             <token>I</token>
             <token regexp="yes">am|'m|was|were</token>
@@ -7608,6 +7620,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="IN" chunk="B-PP">
                 <exception>of</exception>
             </token>
+        </antipattern>
+        <antipattern><!-- I was refund to ... -->
+            <token>I</token>
+            <token regexp="yes">am|'m|was|were</token>
+            <token postag="VB" />
+            <token case_sensitive="yes" regexp="yes">[Tt]o</token>
         </antipattern>
         <pattern>
             <marker>

@@ -339,6 +339,50 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Mark, <marker>attached</marker> is a file.</example> 
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z].*</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">["“”’’]</token>
+                </pattern>
+                <example correction="">“It is the pickup <marker>stop</marker>” he explained.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z].*</token>
+                    </marker>
+                    <token>LLC</token>
+                </pattern>
+                <example correction="">He works for the Learning <marker>Company</marker> LLC.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>what</token>
+                    </marker>
+                    <token>exactly</token>
+                </pattern>
+                <example correction="">I do not know <marker>what</marker> exactly, …</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z].*</token>
+                    </marker>
+                    <token regexp="yes">[js]r</token>
+                </pattern>
+                <example correction="">He is Martin Luther <marker>King</marker> Jr.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">.*[a-z0-9].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Please call <marker>911</marker></example> 
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
