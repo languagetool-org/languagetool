@@ -254,8 +254,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rulegroup id="ZAHL_IM_WORT" name="Zahl im Word" default="temp_off">
-            <rule>
+            <rule id="ZAHL_IM_WORT" name="Zahl im Word" default="temp_off">
+                <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
+                    <token regexp="yes">\p{L}\d\p{L}</token>
+                </antipattern>
                 <pattern>
                     <!-- <token regexp="yes">[A-Za-zßäüö]+[0-9]+[a-zßäüö]</token> -->
                     <token regexp="yes" case_sensitive="yes">[a-zA-ZäüöÄÜÖ]{1}[a-zßäüöÄÜÖ]{0,20}[0-9]{1}[a-zßäüö]{1,20}</token>
@@ -264,7 +266,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicher Tippfehler gefunden.</message>
                 <example correction="Grüße">Schöne <marker>Grüß0e</marker>.</example>
             </rule>
-        </rulegroup>
         <rule id="POTENTIAL_COMPUND_TEST" name="potential compound test" default="temp_off">
             <pattern>
                 <token regexp="yes">teures|neue|manchen</token>
