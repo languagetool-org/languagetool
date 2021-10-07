@@ -408,6 +408,7 @@ public class CaseRuleTest {
     assertGood("4.)   Bei Beschäftigung von Hilfskräften: Schadenfälle durch Hilfskräfte");
     assertGood("Es besteht aus Schülern, Arbeitstätigen und Studenten.");
     assertGood("Sie starrt ständig ins Nichts.");
+    assertGood("Alleine durch die bloße Einwohnerzahl des Landes leben im Land zahlreiche Kulturschaffende, nach einer Schätzung etwa 30.000 Künstler.");
   }
 
   private void assertGood(String input) throws IOException {

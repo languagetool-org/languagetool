@@ -1471,13 +1471,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>im</token>
                     <token>nehmen</token>
                 </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token skip="1">dunkeln</token>
+                    <token inflected="yes">tappen</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">.*[a-zäöü].*</token>
+                    <token case_sensitive="yes">IM</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">IM</token>
+                    <token case_sensitive="yes">.*[a-zäöü].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token postag="VER.*" postag_regexp="yes" />
+                    <token min="0">zu</token>
+                    <token postag="VER.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token regexp="yes">sinne|falle</token>
+                    <token regexp="yes">von|eine[sr]</token>
+                </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token>vergleich</token>
+                    <token regexp="yes">zu[mr]?|mit</token>
+                </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token>laufe</token>
+                    <token regexp="yes">de[sr]|diese[rs]</token>
+                </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token>rahmen</token>
+                    <token regexp="yes">von|de[sr]</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>im</token>
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">regen|prallen|siebten|achten|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen</exception>
+                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -22523,6 +22562,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="IM_SITZEN" name="im sitzen (Sitzen)" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Ii]m</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|stehen|leben|web|abstand|wohlwollen|sterben|(durch)?schnitt|sinne|kopf|unterschied|herzen|laufe|liegen|betrieb|einklang|reisen|griff|vorbeigehen|falle|schlaf|vergleich|verlaufe?|beruf</token>
+            </pattern>
+            <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
+            <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="im Abstand">Die Häuser stehen <marker>im abstand</marker> von 2 Metern.</example>
+        </rule>
         <rule id="ZUM_BESSEREN_ÄNDERN" name="zum besseren (Besseren) wenden">
             <pattern>
                 <token>zum</token>
@@ -44336,7 +44384,7 @@ Andere Projekte</example>
                     maybe we should suggest "wegen dessen" but sounds too strange
                     also see https://grammatikfragen.de/showthread.php?464-Hei%DFt-es-quot-wegen-dem-quot-oder-quot-wegen-dessen-quot
                 -->
-                <token>wegen</token>
+                <token regexp="yes">trotz|wegen|mit</token>
                 <token>dem</token>
                 <token min="0">,</token>
                 <token regexp="yes">was|womit|wie</token>
@@ -44353,10 +44401,10 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <token postag="(ART|PRO|ADJ).*SIN:FEM.*" postag_regexp="yes"/>
-                <token>zeit</token>
+                <token regexp="yes">zeit|kraft</token>
             </antipattern>
             <antipattern>
-                <token case_sensitive="yes">Zeit</token>
+                <token case_sensitive="yes" regexp="yes">Zeit|Kraft</token>
                 <token regexp="yes">.+e[nm]</token>
             </antipattern>
             <antipattern>

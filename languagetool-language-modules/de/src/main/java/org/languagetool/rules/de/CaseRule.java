@@ -1005,6 +1005,12 @@ public class CaseRule extends Rule {
       // Sie starrt ständig ins Nichts. 
       csRegex("vorm|ins"),
       csToken("Nichts")
+    ),
+    Arrays.asList(
+      // zahlreiche Kulturschaffende
+      new PatternTokenBuilder().posRegex("ADJ:NOM:PLU.*").csTokenRegex("[a-zäöü].+").build(),
+      new PatternTokenBuilder().posRegex("SUB:NOM:PLU.*").csTokenRegex("[A-ZÄÖÜ].+").build(),
+      csRegex(",|und|oder|aber|\\.|!|\\?|…")
     )
   );
 

@@ -734,6 +734,9 @@ public class ProhibitedCompoundRule extends Rule {
           "Bayern-Präsidenten", // vs Bauernpräsident
           "Bundessprechern", // vs Bundessprecherin
           "Netzsuche", // vs Netztuche (?)
+          "Beileger", // vs Beilager
+          "Beilegers", // vs Beilagers
+          "Beilegern", // vs Beilagern
           "Sexangelegenheit", // vs Seeangelegenheit
           "Sexangelegenheiten" // vs Seeangelegenheiten
   ));
