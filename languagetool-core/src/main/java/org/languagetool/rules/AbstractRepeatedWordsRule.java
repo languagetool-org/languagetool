@@ -134,7 +134,11 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
           throw new RuntimeException("Format error in file " + path + ", line: " + line);
         }
         if (!word.isEmpty()) {
-          map.put(word, Arrays.asList(parts));
+          if (!map.containsKey(word)) {
+            map.put(word, Arrays.asList(parts));
+          } else {
+            throw new RuntimeException("Word found in more than one line. \"" + word + "\" in line: " + line);
+          }
         } else {
           for (String key : parts) {
             List<String> values = new ArrayList<>();
@@ -146,7 +150,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
             if (!map.containsKey(key)) {
               map.put(key, values);
             } else {
-              throw new RuntimeException("Word found in more the one line. \"" + key + "\" in line: " + line);
+              throw new RuntimeException("Word found in more than one line. \"" + key + "\" in line: " + line);
             }
           }
         }
