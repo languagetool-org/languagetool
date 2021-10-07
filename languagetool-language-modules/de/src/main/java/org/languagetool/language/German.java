@@ -355,6 +355,7 @@ public class German extends Language implements AutoCloseable {
       case "AERZTEN_INNEN": return -2;  // overwrite speller ("Ärzte/-innen")
       case "ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
+      case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
@@ -364,7 +365,6 @@ public class German extends Language implements AutoCloseable {
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
-      case "ZAHL_IM_WORT": return -10; //should not override rules like H2O
       case "TOO_LONG_PARAGRAPH": return -15;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;
