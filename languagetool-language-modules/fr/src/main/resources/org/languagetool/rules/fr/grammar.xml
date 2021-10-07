@@ -24256,7 +24256,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">second|.*ème|\d[eᵉ]</token>
+                    <token regexp="yes">second|.*ème|\d[eᵉ]|chaque|dernier|avant-dernier</token>
                     <!-- 1(er|re|ʳᵉ|ᵉʳ)|premier| -->
                     <token>jour</token>
                     <token>de</token>
@@ -24267,19 +24267,22 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>En cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
                 <example correction="année">Le quatrième jour de l'<marker>an</marker>.</example>
+                <example correction="année">chaque jour de l'<marker>an</marker></example>
                 <example>Le premier jour de l’an</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">fil|cours</token>
+                    <token>cours</token>
                     <token>des</token>
                     <marker>
                         <token>ans</token>
                     </marker>
                 </pattern>
                 <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
-                <example correction="années">suffisamment répétée au fil des <marker>ans</marker>.</example>
+                <!--<example correction="années">suffisamment répétée au fil des <marker>ans</marker>.</example>-->
                 <example correction="années">Le cours des <marker>ans</marker>.</example> 
+                <example>Au fil des ans.</example>
+                <example>Au fil des années.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24327,6 +24330,11 @@ though, and has since been slightly modified)-->
             </rule>
         </rulegroup>
         <rulegroup  id="ANNEE_AN" name="année -> an" default="temp_off">
+            <antipattern>
+                <token regexp="yes">années|année</token>
+                <token>de</token>
+                <token regexp="yes">service|présence</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">avoir</token>
@@ -24437,7 +24445,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">1(er|re|ʳᵉ|ᵉʳ)|premier|second|.*ème|\d[eᵉ]</token>
+                    <token regexp="yes">1(er|re|ʳᵉ|ᵉʳ)|premier|second|.*ème|\d[eᵉ]|chaque|dernier|avant-dernier</token>
                     <token>jour</token>
                 </antipattern>
                 <pattern>
@@ -24449,6 +24457,7 @@ though, and has since been slightly modified)-->
                 <message>L'expression appropriée est <suggestion>jour de l'an</suggestion> (premier jour de l’année).</message>
                 <example correction="jour de l'an">Le <marker>jour de l'année</marker></example>
                 <example>Le premier jour de l'année</example>
+                <example>chaque jour de l'année</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDINAL_ANNEE" name="nombre ordinal + année" default="temp_off">
