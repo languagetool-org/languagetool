@@ -66,6 +66,4 @@ public abstract class Premium {
 
   public abstract boolean isPremiumRule(Rule rule);
 
-  public abstract Set<String> getPremiumRuleIds();
-
 }
