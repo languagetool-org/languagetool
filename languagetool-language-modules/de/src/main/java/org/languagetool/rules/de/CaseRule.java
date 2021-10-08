@@ -1007,10 +1007,40 @@ public class CaseRule extends Rule {
       csToken("Nichts")
     ),
     Arrays.asList(
-      // zahlreiche Kulturschaffende
-      new PatternTokenBuilder().posRegex("ADJ:NOM:PLU.*").csTokenRegex("[a-zäöü].+").build(),
+      // zahlreiche Kulturschaffende, jungen Wilden
+      csRegex("[a-zäöü].+en?"),
       new PatternTokenBuilder().posRegex("SUB:NOM:PLU.*").csTokenRegex("[A-ZÄÖÜ].+").build(),
       csRegex(",|und|oder|aber|\\.|!|\\?|…")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      regex("\\u2063"),
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      regex("\\u2063"),
+      regex("\\u2063"),
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 

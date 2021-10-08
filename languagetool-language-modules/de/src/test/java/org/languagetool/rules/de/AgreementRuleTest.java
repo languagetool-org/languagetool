@@ -517,6 +517,7 @@ public class AgreementRuleTest {
     assertGood("Der Deutsch Langhaar ist ein mittelgroßer Jagdhund");
     assertGood("Eine Lösung die Spaß macht");
     assertGood("Mir machte das Spaß.");
+    assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

@@ -1268,6 +1268,11 @@ public class AgreementRule extends Rule {
     Arrays.asList( // Der Deutsch Langhaar ist ein mittelgroßer Jagdhund
       token("Deutsch"),
       token("Langhaar")
+    ),
+    Arrays.asList( // Einige nennen das 
+      new PatternTokenBuilder().csToken("nennen").matchInflectedForms().build(),
+      token("das"),
+      posRegex("SUB:NOM:SIN:(FEM|MAS)")
     )
   );
 
