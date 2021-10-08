@@ -121,6 +121,65 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Testbeobachtung",  // vs text
+          "Testproduktionen",  // vs text
+          "Produkttext",  // vs test
+          "Textkampagnen",  // vs test
+          "Texting",  // vs testing
+          "Testfelds",  // vs text
+          "Testnachweis",  // vs text
+          "Testbeiträge",  // vs text
+          "Testbeiträgen",  // vs text
+          "Verkaufstext",  // vs test
+          "Bewerbungsfrage",  // vs bewertung
+          "Bewerbungstag",  // vs bewertung
+          "Bestätigungstext",  // vs test
+          "Bewerbungsprozess",  // vs bewertung
+          "Bewerbungsprozesse",  // vs bewertung
+          "Bewertungsmanagement",  // vs bewerbung
+          "Bewertungsdossier",  // vs bewerbung
+          "Bewerbungsnote",  // vs bewertung
+          "Bewerbungskennziffer",  // vs bewertung
+          "Online-Bewertung",  // vs bewerbung
+          "Schuhmodell",  // vs schul
+          "Schuhmodells",  // vs schul
+          "Bürgertest",  // vs fest
+          "Testzelt",  // vs fest
+          "Testgelegenheit",  // vs fest
+          "Testbestellung",  // vs fest
+          "Aufklärungsseiten",  // vs zeiten
+          "Verkaufsseiten",  // vs zeiten
+          "Morgenseiten",  // vs zeiten
+          "Bedürfnisseiten",  // vs zeiten
+          "Kehrzeiten",  // vs seiten
+          "Lernseiten",  // vs zeiten
+          "Suchstatistik",  // vs buch
+          "Kassenlösung",  // vs klasse
+          "Kassenchef",  // vs klasse
+          "Kassenmanagement",  // vs klasse
+          "Kassenbesetzung",  // vs klasse
+          "Stundenkonten",  // vs kosten
+          "Werbekonten",  // vs kosten
+          "Kontensicherung",  // vs kosten
+          "Extrakonten",  // vs kosten
+          "Servicekonten",  // vs kosten
+          "Lichtmodi",  // vs sicht
+          "Frontlicht",  // vs sicht
+          "sichtgeschützter",  // vs licht
+          "Sichtproben",  // vs licht
+          "Mietschein",  // vs mit
+          "Miethilfen",  // vs mit
+          "Mietberater",  // vs mit
+          "Mietstrom",  // vs mit
+          "Fitnessmarke",  // vs markt
+          "Kameramarke",  // vs markt
+          "Gewürzmarke",  // vs markt
+          "Paketmarke",  // vs markt
+          "Standregal",  // vs strand
+          "Standordnung",  // vs strand
+          "Zahnkorrekturen",  // vs bahn
+          "Infektionslage",  // vs tage
+          "Strandtage",  // vs lage
           "Schweinebach",  // vs Schweinebauch
           "Schweinebaches",  // vs Schweinebauches
           "Wellenbach",  // vs Wellenbauch
