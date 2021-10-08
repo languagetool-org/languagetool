@@ -33,9 +33,4 @@ public class PremiumOff extends Premium {
     return false;
   }
 
-  @Override
-  public Set<String> getPremiumRuleIds() {
-    return new HashSet<>();
-  }
-
 }

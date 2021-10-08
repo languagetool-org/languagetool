@@ -63,6 +63,7 @@ public abstract class Rule {
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
+  private boolean isPremium;
   private boolean defaultOff;
   private boolean defaultTempOff;
   private boolean officeDefaultOn = false;
@@ -520,4 +521,11 @@ public abstract class Rule {
     return tags != null && tags.contains(tag);
   }
 
+  public boolean isPremium() {
+    return isPremium;
+  }
+
+  public void setPremium(boolean premium) {
+    isPremium = premium;
+  }
 }
