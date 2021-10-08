@@ -1274,7 +1274,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
       List<String> tmp = super.getCandidates(parts);
-      candidates.addAll(tmp.stream().filter(k -> !k.matches("[A-ZÖÄÜ][a-zöäüß]+-[\\-\\s]?[a-zöäüß]+") && !k.matches("[a-zöäüß]+-[\\-\\s][A-ZÖÄÜa-zöäüß]+")).collect(Collectors.toList()));  // avoid e.g. "Direkt-weg"
+      tmp = tmp.stream().filter(k -> !k.matches("[A-ZÖÄÜ][a-zöäüß]+-[\\-\\s]?[a-zöäüß]+") &&
+                                     !k.matches("[a-zöäüß]+-[\\-\\s][A-ZÖÄÜa-zöäüß]+")).collect(Collectors.toList());  // avoid e.g. "Direkt-weg"
+      if (!word.endsWith("-")) {
+        tmp = tmp.stream().filter(k -> !k.endsWith("-")).collect(Collectors.toList());  // avoid "xyz-" unless the input word ends in "-"
+      }
+      candidates.addAll(tmp);
       if (parts.size() == 2) {
         // e.g. "inneremedizin" -> "innere Medizin", "gleichgroß" -> "gleich groß"
         candidates.add(parts.get(0) + " " + parts.get(1));

@@ -588,6 +588,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Primär-α-Mischkristallen")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("supergut")).length); // elativ meaning "sehr gut"
     assertEquals(0, rule.match(lt.getAnalyzedSentence("90°-Winkel")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Kosten- und Kreditmanagement")).length);
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
@@ -831,6 +832,8 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "wievielen", "wie vielen");
     assertCorrection(rule, "undzwar", "und zwar");
     assertCorrection(rule, "Ambei", "Anbei");
+    assertCorrection(rule, "Kostn-", "Kosten-");
+    assertCorrection(rule, "Adam-Ries-Nachfahrenbuch");
 
     // TODO: compounds with errors in more than one part
     // totally wrong jwordsplitter split: Hands + elvertretertreffn:
@@ -984,6 +987,9 @@ public class GermanSpellerRuleTest {
     List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
       assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.contains(expectedTerm));
+    }
+    if (expectedTerms.length == 0 && suggestions.size() > 0) {
+      fail("Didn't expect suggestions at all for '" + input + "', got: " + suggestions);
     }
   }
   
