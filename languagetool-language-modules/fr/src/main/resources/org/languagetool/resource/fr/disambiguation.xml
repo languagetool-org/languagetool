@@ -2632,15 +2632,6 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
-    <rule>
-        <pattern>
-            <token>qui</token>
-            <marker>
-                <token postag="V.*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V imp pres 2 s"/>
-    </rule>
     <rulegroup id="PREP_NOM" name="prep + noun (not verb)">
         <rule>
             <pattern>
@@ -2701,6 +2692,18 @@ RB => Règles Brutes
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rule id="QUI_VERBE" name="qui verbe (not imperative)">
+        <pattern>
+            <token>qui</token>
+            <marker>
+                <and>
+                    <token postag="V imp pres 2 s"/>
+                    <token postag="V imp pres 2 s" negate_pos="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V imp pres 2 s"/>
+    </rule>
     <rule id="APPROCHE" name="approche (3 s)">
         <pattern>
             <token postag="N.*" postag_regexp="yes">
