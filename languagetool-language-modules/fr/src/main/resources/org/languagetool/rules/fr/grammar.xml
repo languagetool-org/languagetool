@@ -24025,7 +24025,7 @@ though, and has since been slightly modified)-->
                 <example>Ce café a goût de brûlé.</example>
             </rule>
         </rulegroup>
-        <rulegroup  id="AN_ANNEE" name="an -> année" default="temp_off">
+        <rulegroup  id="AN_ANNEE" name="an -> année">
             <antipattern>
                 <token regexp="yes">dans|après|pendant|depuis</token>
                 <token postag="K|Y" postag_regexp="yes"/>
@@ -24038,10 +24038,10 @@ though, and has since been slightly modified)-->
                     <token>an</token>
                     <token postag="(J|V ppa) [me] sp?" postag_regexp="yes"><exception regexp="yes">maximum|minimum|révolu</exception></token>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>une année <match no="3" postag="(J|V ppa) [me] sp?" postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion>.</message>
-                <example correction="une année difficile"><marker>un an difficile</marker></example>
-                <example correction="une année mémorable"><marker>un an mémorable</marker></example>
-                <example correction="une année heureuse"><marker>un an heureux</marker></example>
+                <message>Le mot <suggestion>une année <match no="3" postag="(J|V ppa) [me] sp?" postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion> est plus approprié lorsqu'il est inclus dans un groupe nominal.</message>
+                <example correction="une année difficile">Il a eu <marker>un an difficile</marker>.</example>
+                <example correction="une année mémorable">Il a passé <marker>un an mémorable</marker>.</example>
+                <example correction="une année heureuse">Je te souhaite de passer <marker>un an heureux</marker>.</example>
                 <example>J'ai débuté il y a ... hum un an maximum ?</example>
                 <example>Après un an révolu</example>
             </rule>
@@ -24052,16 +24052,28 @@ though, and has since been slightly modified)-->
                     <token postag="K|Y" postag_regexp="yes"/>
                     <token>ans</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <token>ans</token>
+                    <token>bons</token>
+                    <token>et</token>
+                    <token>loyaux</token>
+                    <token>services</token>
+                </antipattern>
                 <pattern>
                     <token postag="K|Y" postag_regexp="yes"/>
                     <marker>
                         <token>ans</token>
-                        <token postag="(J|V ppa) [me] s?p" postag_regexp="yes"><exception regexp="yes">maximum|minimum|inclus|révolus</exception></token>    
+                        <token postag="(J|V ppa) [me] s?p" postag_regexp="yes">
+                            <exception postag="N.*" postag_regexp="yes"/>
+                            <exception regexp="yes">maximum|minimum|inclus|révolus</exception></token>
                     </marker>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>années <match no="3" postag="(J|V ppa) [me] s?p" postag_regexp="yes" postag_replace="$1 [fe] s?p"/></suggestion>.</message>
-                <example correction="années formidables">12 <marker>ans formidables</marker></example>
+                <message>Le mot <suggestion>années <match no="3" postag="(J|V ppa) [me] s?p" postag_regexp="yes" postag_replace="$1 [fe] s?p"/></suggestion> est plus approprié lorsqu'il est inclus dans un groupe nominal.</message>
+                <example correction="années formidables">Tu as 12 <marker>ans formidables</marker> en perspective donc !</example>
                 <example>J'ai débuté il y a ... hum deux ans maximum ?</example>
+                <example>« 10 ans Gagnants »:comment gagner de l'argent ?</example>
+                <example>200 ans bons et loyaux services</example>
                 <example>Il suit les enfants de plus de 3 ans atteints de déficience visuelle grave.</example>
                 <example>Ce obligatoirement pendant six ans consécutifs</example>
                 <example>jusqu'à 80 ans inclus</example>
@@ -24074,9 +24086,9 @@ though, and has since been slightly modified)-->
                     <!--TODO: more adjectives -->
                     <token regexp="yes" inflected="yes">&adj_annee;</token>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>année <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion>.</message>
-                <example correction="année scolaire"><marker>an scolaire</marker></example>
-                <example correction="année bissextile"><marker>an bissextil</marker></example>
+                <message>Le mot <suggestion>année <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] sp?"/></suggestion> est plus approprié lorsqu'il est inclus dans un groupe nominal.</message>
+                <example correction="année scolaire">Combien de semaines y a-t-il dans l'<marker>an scolaire</marker> ?</example>
+                <example correction="année bissextile">L'<marker>an bissextil</marker> existe bel et bien !</example>
                 <example>J'ai perdu ma femme l'an dernier.</example>
                 <example>Je reviendrai l'an prochain.</example>
             </rule>
@@ -24085,9 +24097,9 @@ though, and has since been slightly modified)-->
                     <token>ans</token>
                     <token regexp="yes" inflected="yes">&adj_annee;</token>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>années <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] s?p"/></suggestion>.</message>
-                <example correction="années scolaires"><marker>ans scolaire</marker></example>
-                <example correction="années bissextiles"><marker>ans bissextils</marker></example>
+                <message>Le mot <suggestion>années <match no="2" postag="(J|V ppa) [me] ." postag_regexp="yes" postag_replace="$1 [fe] s?p"/></suggestion> est plus approprié lorsqu'il est inclus dans un groupe nominal.</message>
+                <example correction="années scolaires">Mes <marker>ans scolaire</marker> sont loin derrière moi.</example>
+                <example correction="années bissextiles">Les <marker>ans bissextils</marker> sont rares.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24095,10 +24107,10 @@ though, and has since been slightly modified)-->
                     <token min="0">-</token>
                     <token regexp="yes">lumières?</token>
                 </pattern>
-                <message>L'expression correcte est <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/>-lumière</suggestion>.</message>
-                <example correction="année-lumière"><marker>an-lumière</marker></example>
-                <example correction="années-lumière"><marker>ans-lumières</marker></example>
-                <example correction="années-lumière"><marker>ans lumière</marker></example>
+                <message>L'expression appropriée est <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/>-lumière</suggestion>.</message>
+                <example correction="année-lumière">L'<marker>an-lumière</marker> est une notion abstraite.</example>
+                <example correction="années-lumière">Les <marker>ans-lumières</marker> sont des notions abstraites.</example>
+                <example correction="années-lumière">Les <marker>ans lumière</marker> sont des notions abstraites.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24106,10 +24118,10 @@ though, and has since been slightly modified)-->
                     <token>de</token>
                     <token regexp="yes">lumières?</token>
                 </pattern>
-                <message>L'expression correcte est <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/> de lumière</suggestion>.</message>
-                <example correction="année de lumière"><marker>an de lumière</marker></example>
-                <example correction="années de lumière"><marker>ans de lumières</marker></example>
-                <example correction="années de lumière"><marker>ans de lumière</marker></example>
+                <message>L'expression appropriée est <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/> de lumière</suggestion>.</message>
+                <example correction="année de lumière">L'<marker>an de lumière</marker> est une notion abstraite.</example>
+                <example correction="années de lumière">Les <marker>ans de lumières</marker> sont des notions abstraites.</example>
+                <example correction="années de lumière">Les <marker>ans de lumière</marker> sont des notions abstraites.</example>
             </rule>
             <rule>
                 <!--<antipattern>
@@ -24124,10 +24136,10 @@ though, and has since been slightly modified)-->
                         <token>an</token>    
                     </marker>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
-                <example correction="année">il a travaillé les six premiers mois de l'<marker>an</marker></example>
-                <example correction="année">à la fin de l’<marker>an</marker></example>
-                <example correction="année">au début de l’<marker>an</marker></example>
+                <message>Le mot approprié est <suggestion>année</suggestion> lorsqu'il est inclus un groupe nominal.</message>
+                <example correction="année">Il a travaillé les six premiers mois de l'<marker>an</marker>.</example>
+                <example correction="année">Il le dira à la fin de l’<marker>an</marker>.</example>
+                <example correction="année">Il faut prendre de bonnes résolutions au début de l’<marker>an</marker>.</example>
                <!-- <example>La reine mère et sa fille cadette meurent toutes deux au plus tard à la fin de l'an XII.</example>-->
             </rule>
             <rule>
@@ -24139,8 +24151,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">de|du|d'</token>
                     <token><exception regexp="yes">grâce|seigneur</exception></token>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
-                <example correction="année">l'<marker>an</marker> de son mariage</example>
+                <message>Le mot approprié est <suggestion>année</suggestion> lorsqu'il est inclus un groupe nominal.</message>
+                <example correction="année">L'<marker>an</marker> de son mariage, il eut un accident.</example>
                 <example correction="année">C'était l'<marker>an</marker> du traité de Versailles.</example>
                 <example correction="année">L'<marker>an</marker> de deuil terminée, il s’était remarié.</example>
                 <example>L'état du royaume en l'an de grâce 1788.</example>
@@ -24155,8 +24167,8 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">deuil|captivité|probation|apprentissage|loyer|salaire|pension</token>
                     <!--|service-->
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/></suggestion>.</message>
-                <example correction="année">Un <marker>an</marker> d'apprentissage</example>
+                <message>Le mot approprié est <suggestion><match no="1" regexp_match="(?iu)an" regexp_replace="année" case_conversion="preserve"/></suggestion> est plus approprié, car il désigne une durée.</message>
+                <example correction="année">Un <marker>an</marker> d'apprentissage.</example>
                 <example correction="années">Quatre <marker>ans</marker> de captivité.</example>
                 <!--<example correction="années">Ce professeur a trente-quatre <marker>ans</marker> de service</example>-->
                 <example>Avoir dix ans de service.</example>
@@ -24167,8 +24179,8 @@ though, and has since been slightly modified)-->
                     <token>chaque</token>
                     <token>an</token>
                 </pattern>
-                <message>Il est plus approprié de dire <suggestion>chaque année</suggestion>.</message>
-                <example correction="Chaque année"><marker>Chaque an</marker>, nous allons célébrer dans un grand restaurant.</example>
+                <message>L'expression <suggestion>chaque année</suggestion> semble plus appropriée.</message>
+                <example correction="Chaque année"><marker>Chaque an</marker>, nous allons déjeuner dans un grand restaurant.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -24182,7 +24194,7 @@ though, and has since been slightly modified)-->
                     <token>bon</token>
                     <token>an</token>
                 </pattern>
-                <message>Il est plus approprié de dire <suggestion>bonne année</suggestion>.</message>
+                <message>L'expression <suggestion>bonne année</suggestion> semble plus appropriée.</message>
                 <example correction="Bonne année"><marker>Bon an</marker>!</example>
             </rule>
             <rule>
@@ -24190,8 +24202,8 @@ though, and has since been slightly modified)-->
                     <token>bons</token>
                     <token>ans</token>
                 </pattern>
-                <message>Il est plus approprié de dire <suggestion>bonnes années</suggestion>.</message>
-                <example correction="bonnes années">les récoltes des <marker>bons ans</marker></example>
+                <message>L'expression <suggestion>bonnes années</suggestion> semble plus appropriée.</message>
+                <example correction="bonnes années">Les récoltes des <marker>bons ans</marker> sont conservées précieusement.</example>
             </rule>
             <rule>
                 <!--<antipattern>
@@ -24202,13 +24214,15 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>ans</token>    
                     </marker>
-                    <token regexp="yes">(19|20)?\d0|dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingts?| quatre-vingt-dix</token>
+                    <token regexp="yes">(19|20)?\d0|dix|vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingts?|quatre-vingt-dix
+                        <exception scope="next">ans</exception></token>
                 </pattern>
-                <message>Faisant référence à des décennies, il est plus approprié de dire <suggestion>années</suggestion>.</message>
-                <example correction="années">la musique des <marker>ans</marker> cinquante</example>
-                <example correction="années">la musique des <marker>ans</marker> 80</example>
-                <example correction="années">la musique des <marker>ans</marker> 1970</example>
-                <example correction="années">la musique des <marker>ans</marker> 2010</example>
+                <message>Le mot <suggestion>années</suggestion> fait référence à une décennie.</message>
+                <example correction="années">Il apprécie la musique des <marker>ans</marker> cinquante.</example>
+                <example correction="années">Il apprécie la musique la musique des <marker>ans</marker> 80.</example>
+                <example correction="années">Il apprécie la musique la musique des <marker>ans</marker> 1970.</example>
+                <example correction="années">Il apprécie la musique la musique des <marker>ans</marker> 2010.</example>
+                <example>3 mois 6 mois 9 mois 1 an 2 ans 5 ans 10 ans Max.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24216,8 +24230,8 @@ though, and has since been slightly modified)-->
                     <token>l'</token>
                     <token>an</token>
                 </pattern>
-                <message>Il est plus approprié de dire <suggestion>toute l'année</suggestion>.</message>
-                <example correction="toute l'année">La magasin est ouvert <marker>tout l'an</marker>.</example>
+                <message>L'expression <suggestion>toute l'année</suggestion> semble plus appropriée.</message>
+                <example correction="toute l'année">Le magasin est ouvert <marker>tout l'an</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24226,8 +24240,9 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Avec un nombre ordinal, il est plus approprié de dire "année".</message>
                 <suggestion><match no="1" postag="J .*" postag_regexp="yes" postag_replace="J [ef] sp?"/> année</suggestion>
-                <example correction="1ʳᵉ année">Le <marker>1ᵉʳ an</marker>.</example>
-                <example correction="3ᵉ année">Le <marker>3ᵉ an</marker>.</example>
+                <example correction="1ʳᵉ année">Il est en <marker>1ᵉʳ an</marker> de médecine.</example>
+                <example correction="3ᵉ année">Il est en <marker>3ᵉ an</marker> de droit.</example>
+                <example type="triggers_error" reason="??">Le 3ᵉ an.</example> <!--TODO: check -->
             </rule>
             <rule>
                 <pattern>
@@ -24237,9 +24252,9 @@ though, and has since been slightly modified)-->
                         <token>ans</token>    
                     </marker>
                 </pattern>
-                <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
+                <message>Le mot <suggestion>années</suggestion> est plus approprié, car il exprime une durée.</message>
                 <example correction="années">Je suis parti depuis plusieurs <marker>ans</marker>.</example>
-                <example correction="années">Il y a quelques <marker>ans</marker>.</example>
+                <example correction="années">Il y a quelques <marker>ans</marker>, j'ai obtenu ma licence de droit.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24250,9 +24265,9 @@ though, and has since been slightly modified)-->
                         <token>ans</token>    
                     </marker>
                 </pattern>
-                <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
-                <example correction="années">Depuis tant d'<marker>ans</marker>.</example>
-                <example correction="années">Il y a un douzaine d'<marker>ans</marker>.</example>
+                <message>Le mot <suggestion>années</suggestion> est plus approprié, car il exprime une durée.</message>
+                <example correction="années">Je suis marié depuis tant d'<marker>ans</marker>.</example>
+                <example correction="années">Il y a une douzaine d'<marker>ans</marker> que le facteur est parti.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24265,8 +24280,8 @@ though, and has since been slightly modified)-->
                         <token>an</token>    
                     </marker>
                 </pattern>
-                <message>En cette phrase, il est plus approprié de dire <suggestion>année</suggestion>.</message>
-                <example correction="année">Le quatrième jour de l'<marker>an</marker>.</example>
+                <message>Le mot <suggestion>année</suggestion> est plus approprié, car il exprime une durée.</message>
+                <example correction="année">Le quatrième jour de l'<marker>an</marker> sera un jeudi.</example>
                 <example correction="année">chaque jour de l'<marker>an</marker></example>
                 <example>Le premier jour de l’an</example>
             </rule>
@@ -24278,9 +24293,8 @@ though, and has since been slightly modified)-->
                         <token>ans</token>
                     </marker>
                 </pattern>
-                <message>En cette phrase, il est plus approprié de dire <suggestion>années</suggestion>.</message>
-                <!--<example correction="années">suffisamment répétée au fil des <marker>ans</marker>.</example>-->
-                <example correction="années">Le cours des <marker>ans</marker>.</example> 
+                <message>Le mot <suggestion>années</suggestion> est plus approprié, car il exprime une durée.</message>
+                <example correction="années">Il évolue au cours des <marker>ans</marker>.</example>
                 <example>Au fil des ans.</example>
                 <example>Au fil des années.</example>
             </rule>
@@ -24291,8 +24305,8 @@ though, and has since been slightly modified)-->
                     <token>en</token>
                     <token>an</token>
                 </pattern>
-                <message>Il est plus approprié de dire <suggestion>d'année en année</suggestion>.</message>
-                <example correction="D'année en année"><marker>D'an en an</marker></example>
+                <message>L'expression <suggestion>d'année en année</suggestion> est plus appropriée, car elle exprime la durée.</message>
+                <example correction="D'année en année"><marker>D'an en an</marker>, il grandit.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24305,18 +24319,18 @@ though, and has since been slightly modified)-->
                     <token>l'</token>
                     <token>autre</token>
                 </pattern>
-                <message>En cette expression, il est plus approprié de dire <suggestion>une année</suggestion>.</message>
-                <example correction="une année">D'<marker>un an</marker> à l'autre</example>
+                <message>En cette expression, <suggestion>une année</suggestion> est plus appropriée, car elle exprime la durée.</message>
+                <example correction="une année">D'<marker>un an</marker> à l'autre, les modes de vie changent.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>le</token>
-                    <token regexp="yes">dernier|proche</token>
+                    <token regexp="yes">dernier|proche|prochain</token>
                     <token>an</token>
                 </pattern>
                 <message>L'expression appropriée est <suggestion>la <match no="2" postag="J .*" postag_regexp="yes" postag_replace="J [ef] sp?"/> année</suggestion>.</message>
-                <example correction="La dernière année"><marker>Le dernier an</marker></example>
-                <example correction="La proche année"><marker>Le proche an</marker></example>
+                <example correction="La dernière année"><marker>Le dernier an</marker> de médecine est cruciale.</example>
+                <example correction="La proche année"><marker>Le proche an</marker>, je partirai en Suisse.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24325,17 +24339,27 @@ though, and has since been slightly modified)-->
                     <token>ans</token>
                 </pattern>
                 <message>L'expression appropriée est <suggestion>les <match no="2" postag="J .*" postag_regexp="yes" postag_replace="J [ef] s?p"/> années</suggestion>.</message>
-                <example correction="Les jeunes années"><marker>Les jeunes ans</marker></example>
-                <example correction="Les vertes années"><marker>Les verts ans</marker></example>
+                <example correction="Les jeunes années"><marker>Les jeunes ans</marker> sont loin derrière.</example>
+                <example correction="Les vertes années"><marker>Les verts ans</marker> sont les meilleures.</example>
             </rule>
         </rulegroup>
-        <rulegroup  id="ANNEE_AN" name="année -> an" default="temp_off">
+        <rulegroup  id="ANNEE_AN" name="année -> an">
             <antipattern>
                 <token regexp="yes">années|année</token>
                 <token>de</token>
                 <token regexp="yes">service|présence</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token min="0" max="3" postag="A"/>
+                    <token postag="K|Y" postag_regexp="yes"/>
+                    <token>années</token>
+                    <token min="0" max="3" postag="A"/>
+                    <token postag="J.*" postag_regexp="yes">
+                        <exception regexp="yes">maximum|minimum|inclus|révolus</exception>
+                    </token>
+                </antipattern>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">avoir</token>
                     <token min="0" max="3" postag="A"/>
@@ -24347,13 +24371,14 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">années?</token>    
                     </marker>
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion><match no="4" regexp_match="(?iu)née" regexp_replace=""/></suggestion>.</message>
+                <message>Le mot 'an' désigne un repère dans le temps alors que 'année' indique une durée.</message>
+                <suggestion>ans</suggestion>
                 <example correction="ans">Julie a maintenant 6 <marker>années</marker>.</example>
                 <example correction="ans">Elle a sept <marker>années</marker>.</example>
                 <example correction="ans">Ils se sont mariés il y a cinq <marker>années</marker>.</example>
                 <example correction="ans">J'ai 14 <marker>années</marker>.</example>
                 <example correction="ans">L'acheteur s'engage donc à avoir 18 <marker>années</marker> révolus à la date de la commande.</example>
-                <example correction="ans">Cette statuette a au moins trois mille <marker>années</marker>.</example>
+                <example>Nous avons deux années un peu longues coté développement.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24380,13 +24405,14 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">un|1</token>
                     </or>
                     <marker>
-                        <token regexp="yes">années?</token>    
+                        <token regexp="yes">années?<exception scope="next" regexp="yes">de|d'|du</exception></token>    
                     </marker>
                 </pattern>
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion><match no="4" regexp_match="(?iu)née" regexp_replace=""/></suggestion>.</message>
                 <example correction="ans">Elle va sur ses soixante <marker>années</marker>.</example>
                 <example correction="ans">Il est âgé de soixante <marker>années</marker>.</example>
                 <example correction="ans">C’est une coutume vieille de deux cents <marker>années</marker>.</example>
+                <example>Mon 19,8 de moyenne en Italien sur mes trois années de lycée m'a bien servi.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24449,7 +24475,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">tard|tôt</token>
                 </pattern>
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion>ans</suggestion>.</message>
-                <example correction="ans">deux <marker>années</marker> plus tard.</example>
+                <example correction="ans">Il mourut deux <marker>années</marker> plus tard.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24461,9 +24487,10 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token regexp="yes">\d+|[IXCVL]+</token>    
                 </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>an</suggestion>.</message>
-                <example correction="an">En l'<marker>année</marker> 2000.</example>
-                <example correction="an">En l'<marker>année</marker> II de la République.</example>
+                <message>Le mot 'an' désigne un repère dans le temps alors que 'année' indique une durée.</message>
+                <suggestion>an</suggestion>
+                <example correction="an">En l'<marker>année</marker> 2000, les voitures volantes n'existaient pas !</example>
+                <example correction="an">En l'<marker>année</marker> II de la République, il déclara la guerre.</example>
                 <example>La servante apporta des verres et une bouteille de vin de l'année 181.</example>
                 <example>L'année 2012 a été assez morose en terme d'investissements dans le secteur de l'immobilier neuf.</example>
                 <example>Ce fut au printemps de l'année 1835 qu'un vif désir me prit de voir l'Italie.</example>
@@ -24477,13 +24504,14 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">de|d'</token>
                 </antipattern>
                 <pattern>
-                    <token>par</token>
+                    <token>par<exception scope="previous" regexp="yes">recherches?</exception></token>
                     <token regexp="yes">année|années</token>
                 </pattern>
-                <message>Il convient d’utiliser « an » dans l’expression « par an ».</message>
+                <message>L’expression « par an » désigne un repère dans le temps.</message>
                 <suggestion>\1 an</suggestion>
                 <example correction="par an">Il gagne quatorze mille euros <marker>par année</marker>.</example>
                 <example>Il est augmenté par année d'ancienneté.</example>
+                <example>Pour les périodiques faire une recherche par année puis numéro.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -24495,23 +24523,24 @@ though, and has since been slightly modified)-->
                     <token>/</token>
                     <token regexp="yes">année|années</token>
                 </pattern>
-                <message>Il convient d’utiliser « an » dans l’expression « par an ».</message>
+                <message>L’expression « par an » désigne un repère dans le temps.</message>
                 <suggestion>/an</suggestion>
-                <example correction="/an">Il gagne quatorze mille euros<marker>/année</marker>.</example>
+                <example correction="/an">Il vend beaucoup de marchandises, 2000<marker>/année</marker> je crois.</example>
                 <example>Il est augmenté par année d'ancienneté.</example>
                 <example>jour/mois/année</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">années?</token>
+                        <token regexp="yes">années?<exception scope="previous">une</exception></token>
                     </marker>
                     <token regexp="yes">de|du|d'</token>
                     <token regexp="yes">grâce|seigneur</token>
                 </pattern>
-                <message>Dans cette expression, il est plus approprié de dire <suggestion><match no="1" regexp_match="(?iu)née" regexp_replace=""/></suggestion>.</message>
-                <example correction="an">L'état du royaume en l'<marker>année</marker> de grâce 1788.</example>
-                <example correction="An">Le 25 janvier de l'<marker>Année</marker> du Seigneur de 1554</example>
+                <message>Le mot <suggestion><match no="1" regexp_match="(?iu)née" regexp_replace=""/></suggestion> est plus approprié, car il fixe un point dans le temps.</message>
+                <example correction="an">L'état du royaume en l'<marker>année</marker> de grâce 1788 est instable.</example>
+                <example correction="An">Le 25 janvier de l'<marker>Année</marker> du Seigneur de 1554, le roi mourut.</example>
+                <example>Il m'a envoyé proclamer une année de grâce du Seigneur.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -24522,12 +24551,13 @@ though, and has since been slightly modified)-->
                     <token>jour</token>
                     <token>de</token>
                     <token>l'</token>
-                    <token>année</token>
+                    <token>année<exception scope="next" postag="Y"/></token>
                 </pattern>
                 <message>L'expression appropriée est <suggestion>jour de l'an</suggestion> (premier jour de l’année).</message>
-                <example correction="jour de l'an">Le <marker>jour de l'année</marker></example>
+                <example correction="jour de l'an">Le <marker>jour de l'année</marker> est férié.</example>
                 <example>Le premier jour de l'année</example>
-                <example>chaque jour de l'année</example>
+                <example>Ils ne le font pas uniquement pendant le coronavirus mais chaque jour de l'année.</example>
+                <example>C'est aujourd'hui l'avant-dernier jour de l'année 2010.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24545,20 +24575,6 @@ though, and has since been slightly modified)-->
                 <message>Dans cette phrase, il est plus approprié de dire <suggestion><match no="5" regexp_match="(?iu)née" regexp_replace=""/></suggestion>.</message>
                 <example correction="ans">Au bout de cinquante <marker>années</marker>.</example>
                 <example correction="an">au bout d'une <marker>année</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes" inflected="yes">charger|accabler|poids</token>
-                    <token regexp="yes">des|de|d'|par</token>
-                    <token min="0">les</token>
-                    <marker>
-                        <token>années</token>    
-                    </marker>
-                </pattern>
-                <message>Dans cette phrase, il est plus approprié de dire <suggestion>ans</suggestion>.</message>
-                <example correction="ans">Il est chargé d'<marker>années</marker>.</example>
-                <example correction="ans">Il est accablé par les <marker>années</marker>.</example>
-                <example correction="ans">Le poids des <marker>années</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDINAL_ANNEE" name="nombre ordinal + année" default="temp_off">
