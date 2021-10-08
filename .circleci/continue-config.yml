@@ -1,28 +1,4 @@
 version: 2.1
-jobs:
-  test:
-    parameters:
-      path:
-        type: string
-    docker:
-      - image: circleci/openjdk:8-jdk
-    working_directory: ~/repo/<<parameters.path>>
-    environment:
-      MAVEN_OPTS: -Xmx3200m
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
-      - run: mvn install -DskipTests
-      - run: mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn clean test
-
 parameters:
   commandline_changed:
     type: boolean
@@ -48,15 +24,37 @@ parameters:
   lang-be_changed:
     type: boolean
     default: false
+commands:
+  run-tests:
+    description: run tests
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - run: mvn install -DskipTests
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - run: mvn clean test
+
+executors:
+  docker-openjdk8:
+    docker:
+      - image: circleci/openjdk:8-jdk
 
 workflows:
   test-commandline:
     when: << pipeline.parameters.commandline_changed >>
     jobs:
-      - test:
-          - path: languagetool-commandline
-  test-core:
-    when: << pipeline.parameters.core_changed >>
-    jobs:
-      - test:
-          - path: languagetool-core
+      - test-commandline:
+jobs:
+  test-commandline:
+    executor:
+      name: docker-openjdk8
+    working_directory: ~/repo/languagetool-commandline
+    steps:
+      - run-tests
