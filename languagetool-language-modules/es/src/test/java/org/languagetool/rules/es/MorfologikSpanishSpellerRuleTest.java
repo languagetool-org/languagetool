@@ -100,6 +100,9 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("esque"));
     assertEquals("es que", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(lt.getAnalyzedSentence("hicistes"));
+    assertEquals("[hiciste, hicisteis]", matches[0].getSuggestedReplacements().toString());
+    
     //currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
     assertEquals(0, matches.length);
