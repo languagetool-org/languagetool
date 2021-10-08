@@ -1288,6 +1288,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONCORDANCES_NOUNS" name="Z) Concordances en grups nominals" type="grammar">
+        <rulegroup id="POSTPONED_ADJ_PARTICULAR" name="casos particulars d'adjectiu posposat">
+            <rule>
+                <pattern>
+                    <token>adreça</token>
+                    <token>de</token>
+                    <token>correu</token>
+                    <marker>
+                        <token>electrònica</token>
+                    </marker>
+                </pattern>
+                <message>L'adjectiu <suggestion>electrònic</suggestion> ha de concordar amb "correu".</message>
+                <example correction="electrònic">Et diré la meva adreça de correu <marker>electrònica</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">adreça|adreces</token>
+                    <token>de</token>
+                    <token>correu</token>
+                    <token>electrònic</token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token regexp="yes">vàlids?|correcte|incorrecte|invàlids?</token>
+                    </marker>
+                </pattern>
+                <message>L'adjectiu ha de concordar amb "adreça".</message>
+                <suggestion><match no="6" postag="AQ.M(.)." postag_regexp="yes" postag_replace="AQ0[FC]$10"/></suggestion>
+                <example correction="vàlida">Adreça de correu electrònic no <marker>vàlid</marker>.</example>
+                <example correction="vàlides">Adreces de correu electrònic no <marker>vàlids</marker>.</example>
+                <example correction="incorrecta">Adreça de correu electrònic <marker>incorrecte</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordança d'adjectiu posposat a substantius">
             <antipattern>
                 <token>iva</token>
