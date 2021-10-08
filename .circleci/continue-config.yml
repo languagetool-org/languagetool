@@ -24,7 +24,7 @@ parameters:
   lang-be_changed:
     type: boolean
     default: false
-  lang-de_changed:
+  lang_de_changed:
     type: boolean
     default: false
 commands:
@@ -55,7 +55,7 @@ workflows:
     jobs:
       - test-commandline-job
   test-lang-de:
-    when: << pipeline.parameters.lang-de_changed >>
+    when: << pipeline.parameters.lang_de_changed >>
     jobs:
       - test-lang-de-job
 jobs:
