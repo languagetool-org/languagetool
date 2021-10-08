@@ -67171,11 +67171,12 @@ though, and has since been slightly modified)-->
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Janvier|Février|Avril|Mai|Juillet|Ao[uû]t|Septembre|Octobre|Novembre|Décembre|Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</token>
+                        <token regexp="yes">Janviers?|Févriers?|Avrils?|Mai|Juillets?|Ao[uû]ts?|Septembres?|Octobres?|Novembres?|Décembres?|Vendémiaires?|Brumaires?|Frimaires?|Nivôses?|Pluviôses?|Ventôses?|Germinals?|Floréals?|Prairials?|Messidors?|Thermidors?|Fructidors?</token>
                     </marker>
                 </pattern>
                 <message>Les mois de l’année n’ont pas de majuscule. Voulez-vous écrire <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
                 <example correction="avril">Cette année, <marker>Avril</marker> a été chaud.</example>
+                <example correction="décembres">Ces cinq dernières années, nous avons eu de beaux <marker>Décembres</marker>.</example>
                 <example>Février est le mois le plus froid.</example>
                 <example>La monarchie de Juillet.</example>
             </rule>
@@ -67185,11 +67186,12 @@ though, and has since been slightly modified)-->
                     <token>
                         <exception regexp="yes">(?i)général|maréchal|Alphonse|André|Hubert</exception></token>
                     <marker>
-                        <token>Juin</token>
+                        <token regexp="yes">Juins?</token>
                     </marker>
                 </pattern>
                 <message>Les mois de l’année n’ont pas de majuscule. Voulez-vous écrire <suggestion><match no="3" case_conversion="startlower"/></suggestion> ?</message>
                 <example correction="juin">Cette année, <marker>Juin</marker> a été chaud.</example>
+                <example correction="juins">Ces cinq dernières années, nous avons eu de beaux <marker>Juins</marker>.</example>
                 <example>Cette année, juin a été chaud.</example>
                 <example>Juin est le sixième mois.</example>
                 <example>André Juin était un sculpteur français.</example>
@@ -67215,19 +67217,20 @@ though, and has since been slightly modified)-->
                 <token>gras</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche</token>
-                <token>saint</token>
+                <token regexp="yes">Lundis?|Mardis?|Mercredis?|Jeudis?|Vendredis?|Samedis?|Dimanches?</token>
+                <token regexp="yes">saints?</token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
-                    <token regexp="yes">Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche
+                    <token regexp="yes">Lundis?|Mardis?|Mercredis?|Jeudis?|Vendredis?|Samedis?|Dimanches?
                         <exception scope="previous">«</exception></token>
                 </marker>
             </pattern>
             <message>Les jours de la semaine n’ont pas de majuscule. Voulez-vous écrire <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
             <url>http://www.academie-francaise.fr/questions-de-langue#42_strong-em-jours-de-la-semaine-pluriel-et-majuscules-em-strong</url>
             <example correction="lundi">Je viendrai <marker>Lundi</marker>.</example>
+            <example correction="jeudis">La réunion hebdomadaire se déroule tous les <marker>Jeudis</marker>.</example>
             <example>Je viendrai lundi.</example>
             <example>Lundi est le premier jour de la semaine.</example>
             <example>« Jeudi, je suis resté au lit. »</example>
