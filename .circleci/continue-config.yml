@@ -50,9 +50,9 @@ workflows:
   test-commandline:
     when: << pipeline.parameters.commandline_changed >>
     jobs:
-      - test-commandline:
+      - test-commandline-job:
 jobs:
-  test-commandline:
+  test-commandline-job:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo/languagetool-commandline
