@@ -46,8 +46,16 @@ public class SpanishRepeatedWordsRuleTest {
 
   @Test
   public void testRule() throws IOException {
+    
+    assertCorrectText("Propuse aquello. Pero la propuesta no fue acceptada.");
+    
+    RuleMatch[] matches = getRuleMatches("Yo propuse aquello. Pero la sugerencia propuesta por el presidente no fue acceptada.");
+    assertEquals(1, matches.length);
+    
+    matches = getRuleMatches("Propuse aquello. Pero la sugerencia propuesta por el presidente no fue acceptada.");
+    assertEquals(1, matches.length);
 
-    RuleMatch[] matches = getRuleMatches("Fue excelente. Fue un resultado excelente.");
+    matches = getRuleMatches("Fue excelente. Fue un resultado excelente.");
     assertEquals(1, matches.length);
     assertEquals("magnífico", matches[0].getSuggestedReplacements().get(0));
     assertEquals("fantástico", matches[0].getSuggestedReplacements().get(1));

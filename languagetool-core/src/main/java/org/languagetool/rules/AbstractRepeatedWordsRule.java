@@ -92,14 +92,17 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
       for (AnalyzedTokenReadings atrs : tokens) {
         wordNumber++;
         String token = atrs.getToken();
-        if (sentStart && !token.isEmpty() && !token.matches("\\p{P}")) {
-          sentStart = false;
-        }
         boolean isCapitalized = StringTools.isCapitalizedWord(token);
+        boolean isAllUppercase = StringTools.isAllUppercase(token);
         if (ignoreCapitalized() && isCapitalized && !sentStart) {
           continue;
         }
-        boolean isAllUppercase = StringTools.isAllUppercase(token);
+        if (isAllUppercase) {
+          continue;
+        }
+        if (sentStart && !token.isEmpty() && !token.matches("\\p{P}")) {
+          sentStart = false;
+        }
         for (AnalyzedToken atr : atrs) {
           String lemma = atr.getLemma();
           Integer seenInWordPosition = wordsLastSeen.get(lemma);
