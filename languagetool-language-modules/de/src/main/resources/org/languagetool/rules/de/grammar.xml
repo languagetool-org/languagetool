@@ -254,12 +254,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-            <rule id="ZAHL_IM_WORT" name="Zahl im Word" default="temp_off">
+            <rule id="ZAHL_IM_WORT" name="Zahl im Word">
                 <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
                     <token regexp="yes">\p{L}\d\p{L}</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">car2go|md5sum|video2brain</token>
+                </antipattern>
                 <pattern>
-                    <!-- <token regexp="yes">[A-Za-zßäüö]+[0-9]+[a-zßäüö]</token> -->
                     <token regexp="yes" case_sensitive="yes">[a-zA-ZäüöÄÜÖ]{1}[a-zßäüöÄÜÖ]{0,20}[0-9]{1}[a-zßäüö]{1,20}</token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.NumberInWordFilter" args="word:\1"/>
