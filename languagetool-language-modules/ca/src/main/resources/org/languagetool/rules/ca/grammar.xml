@@ -15464,31 +15464,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="empremtes">La policia li va agafar les <marker>petjades</marker> dactilars.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ALUMNES" name="alumnes i alumnes" default="temp_off">
-            <rule>
-                <pattern>
-                    <token postag="NCCP000"/>
-                    <token regexp="yes">i|o|,|/</token>
-                    <token><match no="0"/></token>
-                </pattern>
-                <message>Repetició probablement inecessària.</message>
-                <suggestion>\1</suggestion>
-                <example correction="ministres">Reunió de <marker>ministres i ministres</marker> del govern.</example>
-                <example correction="alumnes">Estimats <marker>alumnes/alumnes</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="[NAV].*" postag_regexp="yes"/>
-                    <token regexp="yes">i|/</token>
-                    <token><match no="0"/><exception regexp="yes">\p{Lu}.*</exception></token>
-                </pattern>
-                <message>Repetició probablement inecessària.</message>
-                <suggestion>\1</suggestion>
-                <example correction="ministres">Els <marker>ministres i ministres</marker> del govern.</example>
-                <example correction="alumnes">Tots els <marker>alumnes/alumnes</marker> del centre.</example>
-                <example>El seu cognom era Borbó i Borbó.</example>
-            </rule>
-        </rulegroup>
+        <rule id="ALUMNES" name="alumnes i alumnes">
+            <antipattern>
+                <token>ex</token>
+                <token>-</token>
+                <token regexp="yes">alumnes|ministres</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">alumnes|ministres</token>
+                <token regexp="yes">i|o|,|/|ni</token>
+                <token><match no="0"/></token>
+            </pattern>
+            <message>Repetició probablement inecessària.</message>
+            <suggestion>\1</suggestion>
+            <example correction="ministres">Reunió de <marker>ministres i ministres</marker> del govern.</example>
+            <example correction="alumnes">Estimats <marker>alumnes/alumnes</marker>.</example>
+            <example>Va haver-hi una trobada d'ex-alumnes i alumnes.</example>
+        </rule>
         <rulegroup id="TALLADA_DE_CABELLS" name="*tall de pèl/tallada de cabells">
             <antipattern>
                 <token regexp="yes">tallada|tallades</token>
