@@ -484,7 +484,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "god is doing", // vs good
       "there may be a god", // vs good
       "bond with god", // vs good
-      "the powers that be" // vs we
+      "the powers that be", // vs we
+      "people from there" // vs their
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
