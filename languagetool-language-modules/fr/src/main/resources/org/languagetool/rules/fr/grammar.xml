@@ -4115,7 +4115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ces pu(ri)tains de Suisses ils ont peur de voir LES CANICULES S'EMBALLER !</example>
             <example>La république a dans les faits duré peu de temps.</example>
         </rule>
-        <rulegroup id="ADJ_ADJ_SENT_END" name="J + J + sent end" default="temp_off">
+        <rulegroup id="ADJ_ADJ_SENT_END" name="J + J + sent end">
              <antipattern>
                 <token skip="-1" regexp="yes">entre|par</token>
                 <token postag="N [fm] [sp]" postag_regexp="yes"/>
@@ -5418,7 +5418,7 @@ though, and has since been slightly modified)-->
                 <example>Ils font tous ça.</example>
                 <example>Si on s'y met tous ça fonctionnera.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
             <antipattern>
                 <token skip="1">une</token>
                 <token>fois</token>
@@ -5451,7 +5451,7 @@ though, and has since been slightly modified)-->
             <example correction="tous|tout">Il faut se défaire de <marker>toute</marker> sujets litigieux.</example>
             <example>Il va tuer une fois pour toutes Long Croc.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token regexp="yes">aux?|les|des?|pour</token>
                 <marker>
@@ -5468,7 +5468,7 @@ though, and has since been slightly modified)-->
             <example>C'est-à-dire une Sécurité sociale pour tous prévoyant remboursements des frais médicaux.</example>
             <example>On peut définir une échelle macroscopique pour toute variable scalaire a.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token regexp="yes">une?</token>
                 <marker>
@@ -5481,7 +5481,7 @@ though, and has since been slightly modified)-->
             <suggestion>tout</suggestion>
             <example correction="tout">Ah, mais ça, mon cher, c'est une <marker>toute</marker> autre affaire.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="3"/>
@@ -5499,7 +5499,7 @@ though, and has since been slightly modified)-->
             <example correction="tout">Ainsi, <marker>tous</marker> Montréal célèbrent cette victoire.</example>
             <example>Nous sommes tous Claude François </example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token>de</token>
@@ -5512,7 +5512,7 @@ though, and has since been slightly modified)-->
             <suggestion>tous</suggestion>
             <example correction="tous">Ils l'encerclent de <marker>tout</marker> côtés.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
                     <exception postag="N.*" postag_regexp="yes"/>
@@ -5529,7 +5529,7 @@ though, and has since been slightly modified)-->
             <suggestion>tout</suggestion>
             <example correction="tout">Il parle en réalité de <marker>tous</marker> autre chose.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token><exception postag="SENT_START"/></token>
                 <token regexp="yes" skip="-1">(?-i)[A-Z].*</token>
@@ -5552,7 +5552,7 @@ though, and has since been slightly modified)-->
             <example>Tout passe, tout lasse ?</example>
             <example>En 1975, TF1 prend la suite du jeu Réponse à tout diffusée sur l'ORTF.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -5565,7 +5565,7 @@ though, and has since been slightly modified)-->
              <suggestion>Toute</suggestion>
             <example correction="Toute"><marker>Tout</marker> autre personne aurait abandonné en bas de la colline.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -5578,7 +5578,7 @@ though, and has since been slightly modified)-->
             <suggestion>toutes autres</suggestion>
             <example correction="Toutes autres"><marker>Tout autre</marker> personnes suceptibles de s'évanouir, levez la main.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token>que</token>
                 <marker>
@@ -5591,7 +5591,7 @@ though, and has since been slightly modified)-->
             <suggestion>toute</suggestion>
             <example correction="toute">Il est plus intéressant que <marker>tout</marker> autre personne.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
                 <token>toute</token>
@@ -5622,7 +5622,7 @@ though, and has since been slightly modified)-->
             <example>Elles appartiennent toute a la même compagnie.</example>
             <example>Il publie son premier livre, Toute va ben été.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token>tous</token>
                 <token>-</token>
@@ -33806,7 +33806,7 @@ though, and has since been slightly modified)-->
                 <example>Ne m’y <marker>attends</marker> pas</example>
                 <example>Ne m’y <marker>étant</marker> pas rendu compte</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">est?</token>
                     <token regexp="yes">(-|-t-)?tu|il|elle|on</token>
@@ -34241,10 +34241,17 @@ though, and has since been slightly modified)-->
                 <example>Des copains plus vieux que moi qui fumaient.</example>
             </rule>
             <rule>
+            <antipattern>
+                <token>autour</token>
+                <token>de</token>
+                <token>toi</token>
+                <token skip="1">qui</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
                 <pattern>
                     <token>toi
                         <exception regexp="yes" scope="previous">en|ou|que</exception></token>
-                    <token skip="1">qui</token>
+                    <token skip="1">qui<exception scope="next" postag="R pers suj.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
                             <exception postag="V.* (sub|ind|con).* 2 s" postag_regexp="yes"/>
@@ -34253,9 +34260,12 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Le verbe « \3 » devrait être à la 2ᵉ personne du singulier.</message>
-                <suggestion><match no="3" postag="V (sub|ind|con) (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 $2 2 s"/></suggestion>
+                <suggestion><match no="3" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 2 s"/></suggestion>
+                <example correction="as">C’est toi qui <marker>a</marker> pris mes clés.</example>
                 <example correction="penses">C’est toi qui <marker>pense</marker> à ça.</example>
                 <example>C’est toi qui penses à ça.</example>
+                <example>Souviens toi qui j'étais.</example>
+                <example>Ce sont de minuscules insectes inombrables autour de toi qui te bouffent même à travers tes vetements.</example>
                 <example correction="prends">C’est toi qui me <marker>prend</marker></example>
                 <example>C’est toi qui me prends</example>
                 <example>C’est l’animal en toi qui le veut.</example>
@@ -34463,7 +34473,7 @@ though, and has since been slightly modified)-->
                 <example>Vous qui me dérangez</example>
                 <example>Des copains plus vieux que vous qui me dérangeaient.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>moi<exception scope="previous" regexp="yes">à|un</exception></token>
                     <token skip="1">qui</token>
@@ -60724,7 +60734,7 @@ though, and has since been slightly modified)-->
                 <example correction="se révèle vraie|s'avère">Sa conclusion <marker>s'avère vraie</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NEGATION_NULLE_PART" name="négation nulle part" default="temp_off">
+        <rulegroup id="NEGATION_NULLE_PART" name="négation nulle part">
              <rule>
             <antipattern>
                 <token inflected="yes">ne</token>
@@ -60806,7 +60816,7 @@ though, and has since been slightly modified)-->
             <example>1998 : On va nulle part et c'est très bien.</example>
         </rule>
         </rulegroup>
-		 <rulegroup id="NEGATION_QUE" name="négation que" default="temp_off">
+		 <rulegroup id="NEGATION_QUE" name="négation que">
             <antipattern>
                 <token>que</token>
                 <token min="0" max="1">l'</token>
@@ -60883,7 +60893,7 @@ though, and has since been slightly modified)-->
             <example correction="Je n'ai"><marker>J'ai</marker> que des garçons.</example>
         </rule>
         </rulegroup>
-        <rulegroup id="NEGATION_PERSONNE" name="je parle à personne (je ne parle)" default="temp_off">
+        <rulegroup id="NEGATION_PERSONNE" name="je parle à personne (je ne parle)">
             <rule>
             <antipattern>
                 <token inflected="yes" skip="3">ne</token>
@@ -63626,7 +63636,7 @@ though, and has since been slightly modified)-->
                 <suggestion>est</suggestion>
                 <example correction="est">Il s'<marker>et</marker> encore levé tôt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
             <antipattern>
                 <token postag="V.* inf" postag_regexp="yes" skip="-1"/>
                 <token postag="R pers.*|C coor" postag_regexp="yes"/>
@@ -63738,7 +63748,7 @@ though, and has since been slightly modified)-->
             <example>Le blocage de est n'importe quoi.</example>
             <example>L'aile est n'est que partiellement fouillée.</example>
         </rule>
-         <rule default="temp_off">
+         <rule>
             <antipattern>
                 <token postag="V.* ppa.*|J.*" postag_regexp="yes"/>
                 <token>est</token>
@@ -63777,7 +63787,7 @@ though, and has since been slightly modified)-->
             <example>Entre-temps l'entreprise est devient une entreprise de classe moyenne.</example>
             <example>De plus l'information qui a été écrites est a titre informatif.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <antipattern>
                 <token postag="V.* (ind|con-sub).*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
                 <token>est</token>
@@ -63818,7 +63828,7 @@ though, and has since been slightly modified)-->
             <example>La manière dont elle se comporte est signe de son orgueil.</example>
             <example>La délimitation de ce qui est médecine et de ce qui ne l'est pas est source de débat.</example>
         </rule>
-          <rule default="temp_off">
+          <rule>
             <antipattern>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="J.*|V ppa.*" postag_regexp="yes"/>
