@@ -130,7 +130,7 @@ public class Spanish extends Language implements AutoCloseable {
             new SimpleReplaceVerbsRule(messages, this),
             new SpanishWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages),
-            new SpanishRepeatedWordsRule(messages, this)
+            new SpanishRepeatedWordsRule(messages)
     );
   }
 

@@ -115,7 +115,7 @@ public class ValencianCatalan extends Catalan {
             new PronomFebleDuplicateRule(messages),
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
-            new CatalanRepeatedWordsRule(messages, this)
+            new CatalanRepeatedWordsRule(messages)
     );
   }
 

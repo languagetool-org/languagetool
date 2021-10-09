@@ -22,13 +22,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.languagetool.Language;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.en.EnglishSynthesizer;
 
 public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
+  
+  private static final EnglishSynthesizer synth = new EnglishSynthesizer(new AmericanEnglish());
 
-  public EnglishRepeatedWordsRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+  public EnglishRepeatedWordsRule(ResourceBundle messages) {
+    super(messages);
     super.setDefaultTempOff();
   }
   
@@ -57,6 +62,23 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   @Override
   protected String getShortMessage() {
     return "Repeated word";
+  }
+
+  @Override
+  protected Synthesizer getSynthesizer() {
+    return synth;
+  }
+
+  @Override
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart, boolean isCapitalized,
+      boolean isAllUppercase) {
+    if (isAllUppercase || (isCapitalized && !sentStart)) {
+      return true;
+    }
+    if (tokens[i].hasPosTagStartingWith("NNP")) {
+      return true;
+    }
+    return false;
   }
 
 }

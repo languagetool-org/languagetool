@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AmericanEnglish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
@@ -40,7 +39,7 @@ public class EnglishRepeatedWordsRuleTest {
 
   @Before
   public void setUp() {
-    rule = new EnglishRepeatedWordsRule(TestTools.getEnglishMessages(), new AmericanEnglish());
+    rule = new EnglishRepeatedWordsRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 

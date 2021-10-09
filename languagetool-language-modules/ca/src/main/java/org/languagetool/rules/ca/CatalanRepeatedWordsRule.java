@@ -22,18 +22,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.languagetool.Language;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
-public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule{
+public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
-  public CatalanRepeatedWordsRule(ResourceBundle messages, Language language) {
-    super(messages, language);
-    //super.setDefaultTempOff();
+  private static final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
+
+  public CatalanRepeatedWordsRule(ResourceBundle messages) {
+    super(messages);
+    // super.setDefaultTempOff();
   }
-  
+
   private static final Map<String, List<String>> wordsToCheck = loadWords("/ca/synonyms.txt");
-  
+
   @Override
   protected String getMessage() {
     return "Ja heu usat aquesta paraula abans. Podeu usar un sinònim per a fer més interessant el text, llevat que la repetició sigui intencionada.";
@@ -58,7 +63,12 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule{
   protected String getShortMessage() {
     return "Paraula repetida";
   }
-  
+
+  @Override
+  protected Synthesizer getSynthesizer() {
+    return synth;
+  }
+
   @Override
   protected String adjustPostag(String postag) {
     if (postag.contains("CN")) {
@@ -80,7 +90,19 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule{
     } else if (postag.contains("FN")) {
       return postag.replaceFirst("FN", "[FC][SPN]");
     }
-    return postag; 
+    return postag;
+  }
+
+  @Override
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart, boolean isCapitalized,
+      boolean isAllUppercase) {
+    if (isAllUppercase || (isCapitalized && !sentStart)) {
+      return true;
+    }
+    if (tokens[i].hasPosTagStartingWith("NP")) {
+      return true;
+    }
+    return false;
   }
 
 }

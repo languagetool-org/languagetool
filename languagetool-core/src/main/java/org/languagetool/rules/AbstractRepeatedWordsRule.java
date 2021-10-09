@@ -32,7 +32,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -40,7 +39,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
 
   protected abstract Map<String, List<String>> getWordsToCheck();
 
-  private static Synthesizer synth;
+  protected abstract Synthesizer getSynthesizer();
 
   @Override
   public int minToCheckParagraph() {
@@ -61,22 +60,18 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   @Override
   public abstract String getDescription();
 
-  public AbstractRepeatedWordsRule(ResourceBundle messages, Language language) {
+  public AbstractRepeatedWordsRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
-    if (synth == null) {
-      synth = language.createDefaultSynthesizer();
-    }
   }
   
   protected String adjustPostag(String postag) {
     return postag;
   }
+ 
+  protected abstract boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart,
+      boolean isCapitalized, boolean isAllUppercase);
   
-  protected boolean ignoreCapitalized() {
-    return true;
-  }
-
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
@@ -89,15 +84,14 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       boolean sentStart = true;
       List<String> lemmasInSentece = new ArrayList<>();
+      int i = -1;
       for (AnalyzedTokenReadings atrs : tokens) {
         wordNumber++;
         String token = atrs.getToken();
         boolean isCapitalized = StringTools.isCapitalizedWord(token);
         boolean isAllUppercase = StringTools.isAllUppercase(token);
-        if (ignoreCapitalized() && isCapitalized && !sentStart) {
-          continue;
-        }
-        if (isAllUppercase) {
+        i++;
+        if (isException(tokens, i, sentStart, isCapitalized, isAllUppercase)) {
           continue;
         }
         if (sentStart && !token.isEmpty() && !token.matches("\\p{P}")) {
@@ -112,7 +106,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
                 getShortMessage());
             List<String> replacementLemmas = getWordsToCheck().get(lemma);
             for (String replacementLemma : replacementLemmas) {
-              String[] replacements = synth
+              String[] replacements = getSynthesizer()
                   .synthesize(new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
               for (String r: replacements) {
                 if (isAllUppercase) {
@@ -135,6 +129,8 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     }
     return toRuleMatchArray(matches);
   }
+
+
 
   private static final String FILE_ENCODING = "utf-8";
 

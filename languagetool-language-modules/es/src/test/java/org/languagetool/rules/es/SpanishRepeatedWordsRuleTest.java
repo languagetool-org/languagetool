@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.Spanish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
@@ -40,7 +39,7 @@ public class SpanishRepeatedWordsRuleTest {
 
   @Before
   public void setUp() {
-    rule = new SpanishRepeatedWordsRule(TestTools.getMessages("es"), new Spanish());
+    rule = new SpanishRepeatedWordsRule(TestTools.getMessages("es"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("es"));
   }
 
