@@ -9626,6 +9626,27 @@ onwaarschijnlijk
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
 		
+		<!-- 1e-jaars* -->
+		<rulegroup id="XE_JAARS" name="1e jaarsstudent/1e-jaarsstudent">
+			<rule>
+				<pattern>
+					<token postag="GET:RNG"/>
+					<token regexp="yes">jaars.*</token>
+				</pattern>
+				<message>Dit hoort aan elkaar geschreven.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="eerstejaarsstudent">Het is een <marker>eerste jaarsstudent</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[1-9](e|de|ste)</token>
+					<token regexp="yes">jaars.*</token>
+				</pattern>
+				<message>Dit hoort met koppelteken aan elkaar geschreven.</message>
+				<suggestion>\1-\2</suggestion>
+				<example correction="1e-jaarsstudent">Het is een <marker>1e jaarsstudent</marker>.</example>
+			</rule>
+		</rulegroup>
 		<!-- samenstellingen met privé -->
 		<rulegroup id="PRIVE_AUTO" name="Privé auto/privéauto">
 			<rule>
