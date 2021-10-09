@@ -1966,6 +1966,7 @@ public class CaseRule extends Rule {
         !isExceptionPhrase(i, tokens) &&
         !(i == 2 && "“".equals(tokens[i-1].getToken())) &&   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)
         !isCaseTypo(tokens[i].getToken()) &&
+        !followedByGenderGap(tokens, i) &&
         !isNounWithVerbReading(i, tokens) &&
         !speller.isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
@@ -1980,6 +1981,13 @@ public class CaseRule extends Rule {
       }
       addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], lcWord);
     }
+  }
+
+  private boolean followedByGenderGap(AnalyzedTokenReadings[] tokens, int i) {
+    if (i + 2 < tokens.length && tokens[i+1].getToken().equals(":") && tokens[i+2].getToken().matches("in|innen")) {
+      return true;
+    }
+    return false;
   }
 
   private boolean isCaseTypo(String token) {
