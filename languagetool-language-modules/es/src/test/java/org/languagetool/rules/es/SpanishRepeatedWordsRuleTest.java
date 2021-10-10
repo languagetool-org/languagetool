@@ -60,6 +60,10 @@ public class SpanishRepeatedWordsRuleTest {
     assertEquals("fantástico", matches[0].getSuggestedReplacements().get(1));
     assertEquals("maravilloso", matches[0].getSuggestedReplacements().get(2));
 
+    matches = getRuleMatches("Esto propuse. ¿Propones tu algo diferente?");
+    assertEquals(1, matches.length);
+    assertEquals("Sugieres", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Recomiendas", matches[0].getSuggestedReplacements().get(1));
   }
 
   private RuleMatch[] getRuleMatches(String sentences) throws IOException {

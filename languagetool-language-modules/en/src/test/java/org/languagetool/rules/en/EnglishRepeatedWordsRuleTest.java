@@ -45,6 +45,9 @@ public class EnglishRepeatedWordsRuleTest {
 
   @Test
   public void testRule() throws IOException {
+    
+    assertCorrectText("This is a new experience. Happy New Year!");
+    assertCorrectText("Asia Global Crossing Ltd. Global Crossing and Asia Global Crossing.");
     assertCorrectText("I suggested that, but he also suggests that.");
     assertCorrectText("Matthew S. Anderson, Peter the Great. The Tomahawks were shipped from Great Britain.");
     assertCorrectText("It was great. The Tomahawks were shipped from Great Britain.");

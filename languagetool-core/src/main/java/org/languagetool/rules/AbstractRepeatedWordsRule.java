@@ -64,14 +64,14 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
   }
-  
+
   protected String adjustPostag(String postag) {
     return postag;
   }
- 
+
   protected abstract boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart,
       boolean isCapitalized, boolean isAllUppercase);
-  
+
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
@@ -91,24 +91,26 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
         boolean isCapitalized = StringTools.isCapitalizedWord(token);
         boolean isAllUppercase = StringTools.isAllUppercase(token);
         i++;
-        if (isException(tokens, i, sentStart, isCapitalized, isAllUppercase)) {
-          continue;
-        }
+        boolean isException = token.isEmpty() || isException(tokens, i, sentStart, isCapitalized, isAllUppercase);
         if (sentStart && !token.isEmpty() && !token.matches("\\p{P}")) {
           sentStart = false;
+        }
+        if (isException) {
+          continue;
         }
         for (AnalyzedToken atr : atrs) {
           String lemma = atr.getLemma();
           Integer seenInWordPosition = wordsLastSeen.get(lemma);
-          if (seenInWordPosition != null && !lemmasInSentece.contains(lemma) && (seenInWordPosition - wordNumber) <= maxWordsDistance()) {
+          if (seenInWordPosition != null && !lemmasInSentece.contains(lemma)
+              && (seenInWordPosition - wordNumber) <= maxWordsDistance()) {
             // create match
-            RuleMatch rulematch = new RuleMatch(this, sentence, pos + atrs.getStartPos(), pos + atrs.getEndPos(), getMessage(),
-                getShortMessage());
+            RuleMatch rulematch = new RuleMatch(this, sentence, pos + atrs.getStartPos(), pos + atrs.getEndPos(),
+                getMessage(), getShortMessage());
             List<String> replacementLemmas = getWordsToCheck().get(lemma);
             for (String replacementLemma : replacementLemmas) {
-              String[] replacements = getSynthesizer()
-                  .synthesize(new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
-              for (String r: replacements) {
+              String[] replacements = getSynthesizer().synthesize(
+                  new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
+              for (String r : replacements) {
                 if (isAllUppercase) {
                   r = r.toUpperCase();
                 } else if (isCapitalized) {
@@ -129,8 +131,6 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     }
     return toRuleMatchArray(matches);
   }
-
-
 
   private static final String FILE_ENCODING = "utf-8";
 
