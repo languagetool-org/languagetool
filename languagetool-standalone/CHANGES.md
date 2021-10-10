@@ -4,6 +4,12 @@
 
 ...
 
+#### General
+  * The `--allow-origin` option doesn't require a parameter anymore
+    in order to avoid confusion about whether `*` needs to be quoted
+    on Windows. Using `--allow-origin` without a parameter now implies `*`.
+
+
 
 ## 5.5 (2021-10-02)
 
