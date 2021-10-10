@@ -11523,8 +11523,8 @@ though, and has since been slightly modified)-->
                 <token postag="[NJ] f s" postag_regexp="yes">
                     <exception postag="V.*" postag_regexp="yes"/> </token>
             </pattern>
-            <message>Une confusion semble être détectée. Souhaitez-vous écrire <suggestion>sa</suggestion> ?</message>
-            <example correction="sa">C'est <marker>se</marker> fille.</example>
+            <message>Une confusion semble être détectée. Souhaitez-vous écrire <suggestion>sa</suggestion> ou <suggestion>cette</suggestion> ?</message>
+            <example correction="sa|cette">C'est <marker>se</marker> fille.</example>
             <example>Chacune se confectionne un cocon et se nymphose.</example>
             <example>Une page se rédie en code wiki, pas en HTML.</example>
             <example>Elle se prend se sympathie pour elle.</example>
@@ -11647,6 +11647,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token>se</token>
                     <token postag="N m s|J.*" postag_regexp="yes">
+                        <exception regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|&H_ASPIRE;</exception>
                         <exception postag="V.*|J . p" postag_regexp="yes"/> </token>
                 </pattern>
                 <message>Avant le nom "\2" il faut écrire le démonstratif "ce".</message>
@@ -11827,6 +11828,59 @@ though, and has since been slightly modified)-->
                 <message>Le pronom démonstratif 'ce' est plus probable que le pronom réfléchi '\1'.</message>
                 <suggestion>ce</suggestion>
                 <example correction="ce">À <marker>se</marker> point, il n'était pas arrivé.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>se</token>
+                    <token postag="J e ." postag_regexp="yes" min="0" max="1"/>
+                    <token postag="[NJ] f ." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NJ].*|C coor" postag_regexp="yes"/>
+                    <token>se</token>
+                    <token postag="N m s" regexp="yes">.*ement$</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token regexp="yes">[-:/]</token>
+                    <token>se</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token>se</token>
+                    <token postag="N m s|J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>se</token>
+                    <token regexp="yes">dés|dé|des</token>
+                    <token>-</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>qui</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token>se</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="1">pas|jamais|plus</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token>se</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>se</token>
+                    <token regexp="yes">.*ante?s?$</token>
+                </antipattern>
+                <pattern>
+                    <token>se</token>
+                    <and>
+                        <token regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|&H_ASPIRE;</token>
+                        <token postag="N m s|J.*" postag_regexp="yes">
+                            <exception postag="V.*|J . p" postag_regexp="yes"/></token>
+                    </and>
+                </pattern>
+                <message>Avant le nom "\2" il faut écrire le démonstratif "ce".</message>
+                <suggestion>cet \2</suggestion>
+                <example correction="Cet oiseau"><marker>Se oiseau</marker> montre que ça fonctionne.</example>
             </rule>
         </rulegroup>
         <rule id="FICHER_FICHIER" name="'ficher' au lieu de 'fichier'">
@@ -27705,6 +27759,394 @@ though, and has since been slightly modified)-->
                 <example>Les <marker>hommes auxquels</marker> tu parles</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TE_NV2" name="te nv improved" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[mts]e</token>
+                    <marker>
+                        <token case_sensitive="yes">lève-tôt</token>
+                    </marker>
+                </pattern>
+                <message>Un verbe est attendu après ce pronom.</message>
+                <suggestion>lève tôt</suggestion>
+                <example correction="lève tôt">Je me <marker>lève-tôt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">ban<exception scope="next" postag="UNKNOWN"/></token>
+                    </marker>
+                </pattern>
+                <message>Une préposition est attendue.</message>
+                <suggestion>banir</suggestion>
+                <example correction="banir">Je veux te <marker>ban</marker> de ma vie.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">mercier</token>
+                    </marker>
+                </pattern>
+                <message>Un verbe est attendu après ce pronom.</message>
+                <suggestion>remercier</suggestion>
+                <example correction="remercier">Je veux te <marker>mercier</marker> pour ton cadeau.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ce</token>
+                        <token>te</token>
+                    </marker>
+                    <token postag="[DPAJ].*" postag_regexp="yes"><exception>soit</exception></token>
+                </pattern>
+                <message>Dans un contexte formel, préférez l'écriture en toutes lettres plutôt que la phonétique.</message>
+                <suggestion>c'était</suggestion>
+                <example correction="c'était">Il sont venus et <marker>ce te</marker> très amusant.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">appeler|a</exception></token>
+                    <marker>
+                        <token case_sensitive="yes">focus<exception scope="next" postag="UNKNOWN"/></token>
+                    </marker>
+                </pattern>
+                <message>Préférez une expression française à un anglicisme.</message>
+                <suggestion>concentré</suggestion>
+                <suggestion>un point</suggestion>
+                <example correction="concentré|un point">Il est <marker>focus</marker> ce projet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[DP] . s" postag_regexp="yes"/>
+                        <token case_sensitive="yes">focus<exception scope="next" postag="UNKNOWN"/></token>
+                    </marker>
+                </pattern>
+                <message>Préférez une expression française à un anglicisme.</message>
+                <suggestion><match no="1" postag="([DP]) (.) (s)" postag_regexp="yes" postag_replace="$1 f $3"/> mise au point</suggestion>
+                <suggestion>\1 cœur</suggestion>
+                <suggestion>\1 intérêt</suggestion>
+                <suggestion>\1 gros plan</suggestion>
+                <example correction="une mise au point|un cœur|un intérêt|un gros plan">Il effectue <marker>un focus</marker> sur la vie de cette personne célèbre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[DP].*" postag_regexp="yes"><exception postag="[DP] . s" postag_regexp="yes"/></token>
+                    <marker>
+                        <token case_sensitive="yes">focus</token>
+                    </marker>
+                </pattern>
+                <message>Préférez une expression française à un anglicisme.</message>
+                <suggestion>mises au point</suggestion>
+                <suggestion>cœurs</suggestion>
+                <suggestion>intérêts</suggestion>
+                <suggestion>gros plans</suggestion>
+                <example correction="mises au point|cœurs|intérêts|gros plans">Il effectue des <marker>focus</marker> sur la vie de cette personne célèbre.</example>
+                <example>Un focus groupe se déroule en 3 temps.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ms]e</token>
+                    <marker>
+                        <token>focus</token>
+                    </marker>
+                </pattern>
+                <message>Préférez une expression française à un anglicisme.</message>
+                <suggestion>concentre</suggestion>
+                <example correction="concentre">En vrai, il se <marker>focus</marker> mieux dans sa chambre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>te</token>
+                    <marker>
+                        <token>focus</token>
+                    </marker>
+                </pattern>
+                <message>Une préposition est attendue.</message>
+                <suggestion>concentres</suggestion>
+                <example correction="concentres">En vrai, tu te <marker>focus</marker> mieux dans sa chambre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                    <token postag="J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+                    <token>que</token>
+                </pattern>
+                <message>Dans un contexte formel, préférez l'écriture en toutes lettres plutôt que la phonétique.</message>
+                <suggestion>c'est</suggestion>
+                <example correction="c'est">En vrai, <marker>se</marker> mieux que tout.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">\d+me</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Confusion de nombres et de lettres.</message>
+                <suggestion><match no="1" regexp_match="(?iu)me" regexp_replace="ᵉ"/></suggestion>
+                <example correction="16ᵉ">Au <marker>16me</marker> siècle !</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="Y"/>
+                        <token case_sensitive="yes">me</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>La particule ordinale doit être liée avec le nombre.</message>
+                <suggestion>\1ᵉ</suggestion>
+                <example correction="16ᵉ">Au <marker>16 me</marker> siècle, l'électricité n'existait pas !</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[mts]e</token>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">.*ier
+                            <exception postag="V.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*"/>
+                <message>Un verbe est attendu après ce pronom.</message>
+                <example correction="fournir|fournie|fournies">Peux-tu me <marker>fournier</marker> le sujet svp ?</example>
+                <example>Mieux vaut ne pas se fier aux apparences </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">te</token>
+                    </marker>
+                    <token postag="[JN].*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Une conjonction de coordination est placé ici pour lier ces deux mots.</message>
+                <suggestion>et</suggestion>
+                <example correction="et">Elle sont belles <marker>te</marker> intelligentes.</example>
+                <example>A te lire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <and>
+                        <token regexp="yes">[àâaêèéeiîoôòóöŌuœä].*|&H_ASPIRE;</token>
+                        <token postag="N f s">
+                            <exception postag="V.*|J . p" postag_regexp="yes"/></token>
+                    </and>
+                </pattern>
+                <message>Avant le nom "\2" il faut écrire le démonstratif "ce".</message>
+                <suggestion>cette \2</suggestion>
+                <example correction="Cette année"><marker>Se année</marker> montre que ça fonctionne.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*|R pers obj.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>dires</token>
+                    </marker>
+                </pattern>
+                <message>Un verbe à l'infinitif est invariable.</message>
+                <suggestion>dire</suggestion>
+                <example correction="dire">Enfin, je préfère me <marker>dires</marker> !</example>
+                <example>Cela me gène.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">me
+                            <exception scope="previous" postag="R dem.*|N.*" postag_regexp="yes"/>
+                            <exception scope="previous">j'</exception></token>
+                    </marker>
+                    <token postag="N m s">
+                        <exception postag="V.*|UNKNOWN" postag_regexp="yes"/>
+                        <exception regexp="yes">of|for|and|the|or|(?-i)[A-Z].*|an</exception></token>
+                </pattern>
+                <message>Un déterminant doit être placé devant ce nom.</message>
+                <suggestion>le</suggestion>
+                <suggestion>mon</suggestion>
+                <example correction="le|mon">Enfin, je préfère <marker>me</marker> blackjack !</example>
+                <example>Cela me gène.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>qui</token>
+                    <token>se</token>
+                    <marker>
+                        <token>
+                            <exception regexp="yes">le|la|ré</exception>
+                            <exception postag="V.*|UNKNOWN" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*(inf|ppr|3).*"/>
+                <message>Un verbe est plus probable qu'un nom.</message>
+                <example correction="">C'est une chose qui se <marker>refuges</marker> !</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">c'</token>
+                        <token>te</token>
+                    </marker>
+                </pattern>
+                <message>Cette contraction peut sembler familière dans un contexte formel.</message>
+                <suggestion>cette</suggestion>
+                <example correction="cette">Quelle folle <marker>c'te</marker> meuf !</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[mts]e</token>
+                    </marker>
+                    <token postag="A"><exception regexp="yes">ben|tout|soit|ne|n'</exception></token>
+                </pattern>
+                <message>Ce pronom ne peut pas être placé devant cet adverbe.</message>
+                <suggestion>ne</suggestion>
+                <suggestion>et</suggestion>
+                <example correction="ne|et">Il m'a dit de <marker>me</marker> jamais courir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[mts]e</token>
+                        <token>n'</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>L'adverbe de négation et le pronom doivent être inversés.</message>
+                <suggestion>ne <match no="1" regexp_match="(?iu)e" regexp_replace="'"/></suggestion>
+                <example correction="ne m'">Il <marker>me n'</marker>est pas inconnu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="R pers suj.*" postag_regexp="yes"><exception>eux</exception></token>
+                    <marker>
+                        <token regexp="yes">ni</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Le mot 'ni' ne peut pas être placé devant un verbe conjugué.</message>
+                <suggestion>n'y</suggestion>
+                <example correction="n'y">Il <marker>ni</marker> avait que des filles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">[tsf]e</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Une préposition est attendue.</message>
+                <suggestion>de</suggestion>
+                <example correction="de">Ce nombre <marker>te</marker> personnes est variable.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">[tsf]e</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Une préposition est attendue.</message>
+                <suggestion>de</suggestion>
+                <example correction="de">Gave-toi <marker>te</marker> poulet ce week-end.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A inte"/>
+                    <marker>
+                        <token regexp="yes">[tf]e</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Une préposition est attendue.</message>
+                <suggestion>de</suggestion>
+                <example correction="de">Combien <marker>te</marker> temps dois-je encore attendre ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[mts]e</token>
+                    <token postag="A"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>L'adverbe et le pronom doivent être inversés.</message>
+                <suggestion>\2 \1 \3</suggestion>
+                <example correction="mieux se connaitre">Faisons un tour de table pour <marker>se mieux connaitre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[mts]e</token>
+                    </marker>
+                    <token postag="N f s" postag_regexp="yes"/>
+                </pattern>
+                <message>Vérifiez l'accord entre le déterminant et le nom qui suit.</message>
+                <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="a"/></suggestion>
+                <example correction="ma">C'est important pour <marker>me</marker> vie.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[mts]e</token>
+                    </marker>
+                    <token postag="N m p" postag_regexp="yes"/>
+                </pattern>
+                <message>Vérifiez l'accord entre le déterminant et le nom qui suit.</message>
+                <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="es"/></suggestion>
+                <example correction="mes">J'ai besoin d'espace pour <marker>me</marker> moutons.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[mts]e</token>
+                    <marker>
+                        <token regexp="yes">mixtes?</token>
+                    </marker>
+                </pattern>
+                <message>Dans le sens de 'mélanger', préférez le verbe 'mixer'.</message>
+                <suggestion>mixe</suggestion>
+                <example correction="mixe">Cela se <marker>mixte</marker> facilement.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                    <token postag="D.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                    <token inflected="yes" min="0" max="1">de</token>
+                    <token postag="[NJ].*" postag_regexp="yes" min="0" max="1"/>
+                    <token regexp="yes" case_sensitive="yes">mixes?</token>
+                    <token><exception postag="V.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes" skip="-1">mixes?</token>
+                    <token regexp="yes">musiques?|chants?|danses?|DJs?|sons?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">musiques?|chants?|danses?|DJs?|sons?</token>
+                    <token regexp="yes" case_sensitive="yes">mixes?</token>
+                </antipattern>
+                <pattern>
+                    <token postag="[NV].*" postag_regexp="yes">
+                        <exception postag="[ZJ].*" postag_regexp="yes"/>
+                        <exception regexp="yes">[a-z]|puis|(?-i)[A-Z].*</exception></token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">mixes?
+                            <exception scope="next" regexp="yes">["»]</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>L'adjectif 'mixte' semble plus probable, car 'mixe' est un verbe.</message>
+                <suggestion>mixte</suggestion>
+                <example correction="mixte">Ce sont des mariages <marker>mixe</marker>.</example>
+                <example>Leur musique mixe basses funks, percussions tribales et synthétiseurs complexes.</example>
+            </rule>
+        </rulegroup>
         <rule id="TE_NV" name="me/te/se + non verbe">
             <antipattern>
                 <!-- rule SE_CE -->
@@ -27750,6 +28192,10 @@ though, and has since been slightly modified)-->
                 <token/>
                 <token>-</token>
             </antipattern>
+            <antipattern>
+                <token>me</token>
+                <token regexp="yes">&unites_de_mesure;</token>
+            </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">\p{Lu}.*</token>
             </antipattern>
@@ -27758,7 +28204,7 @@ though, and has since been slightly modified)-->
                 <marker>
                     <token postag="[NJAKZ].*" postag_regexp="yes">
                         <exception postag="[^NJAKZ].*" postag_regexp="yes"/>
-                        <exception>bien</exception></token>
+                        <exception regexp="yes">of|if|the|and|bien</exception></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*(ind|sub).*3.*"/>
@@ -27767,6 +28213,7 @@ though, and has since been slightly modified)-->
             <example correction="signa|signale|signala|signât">La personne se <marker>signal</marker> au comptoir.</example>
             <example correction="réfèrent|préfèrent|referment|repèrent|refirent|révèrent|referont|rêvèrent|défèrent|déferrent">Les différents groupes se <marker>référent</marker> à eux.</example>
             <example>Ça te gêne si je fume ?</example>
+            <example>Que faut-il faire pour avoir me mg/m ?</example>
             <example>Il faut se bien connaître soi-même.</example>
             <example>J'ai l impression que l'on vit la même chose en se moment.</example>
             <example>Le déclin du syndicalisme est observé depuis les années 1980 (te taux de syndicalisation est passé de 20,3 % à 11,3 % entre 1983 et 2012) pourrait être responsable de 10 à 20 % de l’augmentation des inégalités de revenus.</example>
