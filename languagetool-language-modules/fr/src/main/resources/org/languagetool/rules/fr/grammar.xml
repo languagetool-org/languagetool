@@ -5260,6 +5260,16 @@ though, and has since been slightly modified)-->
         </rule>
     </category>
     <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+        <rule id="ETAIS_ETE" name="étais -> été" default="temp_off">
+            <pattern>
+                <token inflected="yes">avoir</token>
+                <marker>
+                    <token>étais</token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>été</suggestion> (participe passé)?</message>
+            <example correction="été">il a <marker>étais</marker> contaminé.</example>
+        </rule>
         <rule id="JAMAIS" name="j'amais -> jamais">
             <pattern>
                 <token>n'</token>
@@ -27989,7 +27999,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">c'</token>
+                        <token>c'</token>
                         <token>te</token>
                     </marker>
                 </pattern>
@@ -28025,7 +28035,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token postag="R pers suj.*" postag_regexp="yes"><exception>eux</exception></token>
                     <marker>
-                        <token regexp="yes">ni</token>
+                        <token>ni</token>
                     </marker>
                     <token postag="V.*" postag_regexp="yes"/>
                 </pattern>
@@ -28084,7 +28094,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">[mts]e</token>
                     </marker>
-                    <token postag="N f s" postag_regexp="yes"/>
+                    <token postag="N f s"/>
                 </pattern>
                 <message>Vérifiez l'accord entre le déterminant et le nom qui suit.</message>
                 <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="a"/></suggestion>
@@ -28095,7 +28105,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">[mts]e</token>
                     </marker>
-                    <token postag="N m p" postag_regexp="yes"/>
+                    <token postag="N m p"/>
                 </pattern>
                 <message>Vérifiez l'accord entre le déterminant et le nom qui suit.</message>
                 <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="es"/></suggestion>
