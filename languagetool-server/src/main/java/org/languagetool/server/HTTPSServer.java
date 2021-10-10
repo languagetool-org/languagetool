@@ -123,7 +123,7 @@ public class HTTPSServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length == 0 || args.length > 7 || usageRequested(args)) {
+    if (args.length == 0 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file (one key=value entry per line) with values for:");
