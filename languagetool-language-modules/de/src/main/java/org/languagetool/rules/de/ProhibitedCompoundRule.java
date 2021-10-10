@@ -830,7 +830,14 @@ public class ProhibitedCompoundRule extends Rule {
           "Beilegers", // vs Beilagers
           "Beilegern", // vs Beilagern
           "Sexangelegenheit", // vs Seeangelegenheit
-          "Sexangelegenheiten" // vs Seeangelegenheiten
+          "Sexangelegenheiten", // vs Seeangelegenheiten
+          "Mobilfunkmarke", // vs Mobilfunkmarkt
+          "marktdurchdringend", // vs markdurchdringend
+          "marktdurchdringende",
+          "marktdurchdringendes",
+          "marktdurchdringender",
+          "marktdurchdringenden",
+          "marktdurchdringendem"
   ));
 
   // have per-class static list of these and reference that in instance

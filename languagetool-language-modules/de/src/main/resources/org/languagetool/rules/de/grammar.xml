@@ -22567,6 +22567,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="FUNKEN_ANSTAND" name="keinen Funken Anstand" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">FUNKEN|Funken</token>
+                <token regexp="yes">HOFFNUNG|Hoffnung|ANSTAND|Anstand</token>
+            </antipattern>
+            <pattern>
+                <token>funken</token>
+                <token regexp="yes">anstand|hoffnung</token>
+            </pattern>
+            <message>In dieser Redewendung werden beide Wörter großgeschrieben.</message>
+            <suggestion>Funken <match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Funken Anstand">Er hat keinen <marker>funken anstand</marker>.</example>
+        </rule>
         <rule id="IM_SITZEN" name="im sitzen (Sitzen)">
             <antipattern><!-- er sagte im falle nichts ein (should be "ihm") -->
                 <token>im</token>
@@ -22575,7 +22588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|garten|stehen|leben|web|abstand|wohlwollen|sterben|(durch)?schnitt|sinne|kopf|unterschied|herzen|laufe|liegen|betrieb|einklang|reisen|griff|vorbeigehen|falle|schlaf|vergleich|verlaufe?|beruf</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|schlaf|vergleich|verlaufe?|beruf</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
@@ -45134,6 +45147,11 @@ Andere Projekte</example>
                 <example>Als ich erkältet war, habe ich wie ein Rabe gekrächzt.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">um|vor|nach</token>
+                    <token>ein</token>
+                    <token>uhr</token>
+                </antipattern>
                 <pattern>
                     <token postag="PRO:PER:NOM:(SIN|PLU):ALG" postag_regexp="yes"/>
                     <token postag="ADV.*" postag_regexp="yes" min="0"/>
@@ -45155,6 +45173,12 @@ Andere Projekte</example>
                     <token postag="SUB:(AKK|NOM):SIN:MAS" postag_regexp="yes" skip="-1"><exception postag=".*:NEU" postag_regexp="yes"/></token>
                     <token inflected="yes" regexp="yes">sein|werden</token>
                 </antipattern>
+                <antipattern>
+                    <token>weder</token>
+                    <token />
+                    <token>noch</token>
+                    <token regexp="yes">[mds]?eine?</token>
+                </antipattern>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">sein|werden|als</exception></token>
                     <token postag="PRO:PER:NOM:(SIN|PLU):ALG" postag_regexp="yes">
@@ -45173,6 +45197,7 @@ Andere Projekte</example>
                 <example correction="einen">Wenn ich <marker>ein</marker> hübschen Mann sehe, verschlägt es mir die Sprache.</example>
                 <example correction="meinen">Wenn ich <marker>meine</marker> Mann sehe, verschlägt es mir die Sprache.</example>
                 <example correction="meinen">Wenn ich <marker>meine</marker> hübschen Mann sehe, verschlägt es mir die Sprache.</example>
+                <example>Weder ich noch mein Freund können Auto fahren.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -45193,7 +45218,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token postag="ART:.+" postag_regexp="yes"/>
                     <token postag="ADJ:PRD:GRU"/>
-                       <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
+                    <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
                     <token postag="SUB:NOM:SIN:MAS"/>
                 </antipattern>
                 <antipattern>
@@ -45201,15 +45226,21 @@ Andere Projekte</example>
                     <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
                     <token postag="SUB:NOM:SIN:MAS"/>
                 </antipattern>
+                <antipattern>
+                    <token>der</token>
+                    <token postag="ADV:TMP.*" postag_regexp="yes" />
+                    <token postag="ADJ:NOM:SIN:MAS:GRU:DEF" />
+                    <token postag="SUB:NOM:SIN:MAS" />
+                </antipattern>
                 <pattern>
                     <token>
                         <exception postag="PRO:DEM:NOM:SIN:MAS.*|PRP:.+" postag_regexp="yes"/>
-                        <exception regexp="yes" case_sensitive="yes">D(ies)?er|Jener</exception>
+                        <exception regexp="yes" case_sensitive="yes">D(ies)?er|Jener|DER|DIESER</exception>
                     </token>
                     <marker>
                         <token postag="ADJ:NOM:SIN:MAS:GRU:DEF">
                             <exception negate_pos="yes" postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
-                            <exception regexp="yes">gerade|.+weise|lange|andere|heutige|erlaubte</exception>
+                            <exception regexp="yes">gerade|.+weise|lange|andere|heutige|erlaubte|derartige</exception>
                         </token>
                         <token postag="SUB:NOM:SIN:MAS">
                             <exception negate_pos="yes" postag="SUB:NOM:SIN:MAS"/>
@@ -45233,6 +45264,7 @@ Andere Projekte</example>
                 <example>Es sind bereits knapp 25 Millionen australische Dollar zusammengekommen.</example>
                 <example>So ist die Beere bekannter als der eigentlich namensgebende Vogel.</example>
                 <example>Ihn störte der humoristische Umgang mit dem Thema.</example>
+                <example>Elmar Paulke ist DER deutsche Darts-Experte und zugleich Stimme, Gesicht und Fan-Ikone des aberwitzigen Konzentrationssports mit Bierzeltatmosphäre.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_ADJ_AGREEMENT" name="falscher Kasus/Numerus/Genus des Adjektivs">
