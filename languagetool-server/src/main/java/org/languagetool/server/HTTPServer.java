@@ -141,8 +141,8 @@ public class HTTPServer extends Server {
     try {
       checkForNonRootUser();
       HTTPServer server;
-      ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
       if (config.isPublicAccess()) {
+        ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
         ServerTools.print("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
         server = new HTTPServer(config, false, null, null);
       } else {
