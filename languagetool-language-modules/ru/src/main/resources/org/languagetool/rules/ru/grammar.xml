@@ -4013,6 +4013,129 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="работа, одним словом,">Эта <marker>работа одним словом,</marker> представляет огромную научную ценность.</example>
             </rule>
             <rule>
+                <!-- Вводные слова:   по правде, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token>по</token>
+                    <token>правде</token>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, по правде, представляет огромную научную ценность.</example>
+                <example correction="работа, по правде,">Эта <marker>работа по правде представляет</marker> огромную научную ценность.</example>
+            </rule>
+            <rule>
+                     <!-- Вводные слова:   по правде, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token>по</token>
+                    <token>правде</token>
+                    <token>,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, по правде, представляет огромную научную ценность.</example>
+                <example correction="работа, по правде,">Эта <marker>работа по правде,</marker> представляет огромную научную ценность.</example>
+            </rule>
+            <rule>
+                <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token>иначе</token>
+                    <token>говоря</token>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, иначе говоря, представляет огромную научную ценность.</example>
+                <example correction="работа, иначе говоря,">Эта <marker>работа иначе говоря представляет</marker> огромную научную ценность.</example>
+            </rule>
+            <rule>
+                <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token>иначе</token>
+                    <token>говоря</token>
+                    <token>,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, иначе говоря, представляет огромную научную ценность.</example>
+                <example correction="работа, иначе говоря,">Эта <marker>работа иначе говоря,</marker> представляет огромную научную ценность.</example>
+            </rule>
+            <rule>
+                <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">так|смешно</token>
+                    <token>сказать</token>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, так сказать, представляет огромную научную ценность.</example>
+                <example correction="работа, так сказать,">Эта <marker>работа так сказать представляет</marker> огромную научную ценность.</example>
+            </rule>
+            <rule>
+                <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">так|смешно</token>
+                    <token>сказать</token>
+                    <token>,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, так сказать, представляет огромную научную ценность.</example>
+                <example correction="работа, так сказать,">Эта <marker>работа так сказать,</marker> представляет огромную научную ценность.</example>
+            </rule>
+            
+            
+            
+            <rule>
+                <!-- Вводные слова:   не в обиду будет сказано, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token>не</token>
+                    <token>в</token>
+                    <token>обиду</token>
+                    <token>будет</token>                   
+                    <token>сказано</token>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3 \4 \5 \6,</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Этот метод, не в обиду будет сказано, представляет сомнительную ценность.</example>
+                <example correction="метод, не в обиду будет сказано,">Этот <marker>метод не в обиду будет сказано представляет</marker> сомнительную ценность.</example>
+            </rule>
+            <rule>
+                <!-- Вводные слова:   не в обиду будет сказано, ...-->
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token>не</token>
+                    <token>в</token>
+                    <token>обиду</token>
+                    <token>будет</token>                   
+                    <token>сказано</token>
+                    <token>,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3 \4 \5 \6\7</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая</short>
+                <example>Этот метод, не в обиду будет сказано, представляет сомнительную ценность.</example>
+                <example correction="метод, не в обиду будет сказано,">Этот <marker>метод не в обиду будет сказано,</marker> представляет сомнительную ценность.</example>
+            </rule>
+            
+            
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>,<exception postag="SENT_START"></exception></token>
                     <marker>
@@ -4948,11 +5071,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="скорее знали об изысканных манерах, нежели">В их семье мужчины <marker>скорее знали об изысканных манерах нежели</marker> владели ими.</example>
         </rule>
                 
-        <rulegroup  id="Punct_sobstvenno_govorja" name="Вводное выражение «собственно говоря»">
+        <rulegroup  id="Punct_sobstvenno_govorja" name="Вводное выражение «собственно/честно говоря»">
             <rule>
                 <pattern>
                     <marker>
-                        <token>собственно</token>
+                        <token regexp="yes">собственно|честно</token>
                         <token>говоря</token>
                         <token><exception regexp="yes">&pnct;</exception></token>  
                     </marker>
@@ -4966,7 +5089,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token><exception regexp="yes">&pnct;</exception><exception postag="SENT_START" /></token>
-                        <token>собственно</token>
+                        <token regexp="yes">собственно|честно</token>
                         <token>говоря</token>
   
                     </marker>
