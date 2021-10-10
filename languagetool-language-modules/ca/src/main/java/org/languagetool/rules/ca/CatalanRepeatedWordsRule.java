@@ -41,7 +41,7 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   @Override
   protected String getMessage() {
-    return "Ja heu usat aquesta paraula abans. Podeu usar un sinònim per a fer més interessant el text, llevat que la repetició sigui intencionada.";
+    return "Ja heu usat aquesta paraula abans. Podeu substituir-la per un sinònim per a fer més variat el text, llevat que la repetició sigui intencionada.";
   }
 
   @Override
