@@ -7589,6 +7589,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         <rulegroup default="on" id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>
+                <pattern case_sensitive="yes">
+                    <marker>                
+                        <token>не</token>
+                        <token regexp="yes">ее|её</token>
+                        <token postag="NN:.*:.*:P" postag_regexp="yes" regexp="yes">[а-яё].*<exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">«|[\p{Punct}]|[\p{Digit}]*</exception></token>
+                    </marker>
+                </pattern>
+                <message>Опечатка (не) -> (на): <suggestion>на \2 \3</suggestion>?</message>
+                <short>Опечатка (не) -> (на)?</short>
+                <example>Слёза на её щеках.</example>
+                <example correction="на её щеках">Слёзы <marker>не её щеках</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token chunk="MayMissingYO"></token>
                 </antipattern>
