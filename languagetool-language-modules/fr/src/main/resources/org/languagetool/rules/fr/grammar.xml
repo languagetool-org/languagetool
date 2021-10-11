@@ -27965,12 +27965,18 @@ though, and has since been slightly modified)-->
                 <example correction="dire">Enfin, je préfère me <marker>dires</marker> !</example>
                 <example>Cela me gène.</example>
             </rule>
-            <rule>
+           <rule>
+                <antipattern>
+                    <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                    <token>peu</token>
+                    <token>me</token>
+                    <token postag="N m s"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">me
                             <exception scope="previous" postag="R dem.*|N.*" postag_regexp="yes"/>
-                            <exception scope="previous">j'</exception></token>
+                            <exception scope="previous" regexp="yes">j'|at</exception></token>
                     </marker>
                     <token postag="N m s">
                         <exception postag="V.*|UNKNOWN" postag_regexp="yes"/>
@@ -27981,6 +27987,8 @@ though, and has since been slightly modified)-->
                 <suggestion>mon</suggestion>
                 <example correction="le|mon">Enfin, je préfère <marker>me</marker> blackjack !</example>
                 <example>Cela me gène.</example>
+                <example>Peu me chaud.</example>
+                <example>She said look at me baby these tears we run out.</example>
             </rule>
             <rule>
                 <pattern>
@@ -28012,7 +28020,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">[mts]e</token>
                     </marker>
-                    <token postag="A"><exception regexp="yes">ben|tout|soit|ne|n'</exception></token>
+                    <token postag="A"><exception regexp="yes">ben|tout|soit|ne|n'|in</exception></token>
                 </pattern>
                 <message>Ce pronom ne peut pas être placé devant cet adverbe.</message>
                 <suggestion>ne</suggestion>
@@ -28082,23 +28090,28 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token regexp="yes">[mts]e</token>
-                    <token postag="A"/>
+                    <token postag="A"><exception inflected="yes">ne</exception></token>
                     <token postag="V.*" postag_regexp="yes"/>
                 </pattern>
                 <message>L'adverbe et le pronom doivent être inversés.</message>
                 <suggestion>\2 \1 \3</suggestion>
                 <example correction="mieux se connaitre">Faisons un tour de table pour <marker>se mieux connaitre</marker>.</example>
+                <example>Se ne sont pas ses écrits exacts.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[mts]e</token>
+                        <token regexp="yes" case_sensitive="yes">[mts]e
+                        <exception scope="previous" postag="R dem.*|R pers suj.*|[NJ].*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="N f s"/>
+                    <token postag="N f s"><exception>lire</exception></token>
                 </pattern>
                 <message>Vérifiez l'accord entre le déterminant et le nom qui suit.</message>
                 <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="a"/></suggestion>
                 <example correction="ma">C'est important pour <marker>me</marker> vie.</example>
+                <example>Kiss Me Once Tour.</example>
+                <example>Pourrais-tu me lire ça ?</example>
+                <example>Ça se ballade, ça bossa, ça jazz.</example>
             </rule>
             <rule>
                 <pattern>
