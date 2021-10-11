@@ -43,7 +43,10 @@ commands:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
       - run: mvn clean test
-
+  check-dir:
+    description: test directory
+    steps:
+      - run: pwd
 executors:
   docker-openjdk8:
     docker:
@@ -64,10 +67,12 @@ jobs:
       name: docker-openjdk8
     working_directory: ~/repo/languagetool-commandline
     steps:
-      - run-tests
+      - check-dir
+#      - run-tests
   test-lang-de-job:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo/languagetool-language-modules/de
     steps:
-      - run-tests
+      - check-dir
+#      - run-tests
