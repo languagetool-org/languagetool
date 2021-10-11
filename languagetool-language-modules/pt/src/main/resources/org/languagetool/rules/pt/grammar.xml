@@ -8365,6 +8365,25 @@ Mas gostava de poder ir... fica para aproxima.
     </rule>
   </rulegroup>
 
+	<!-- TIVE DE FÉRIAS estive de férias -->
+    <rule id='TIVE_ESTIVE' name="Confusão: Tive/estive" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-11 (25-JUN-2021+)      -->
+	<!--
+Em janeiro tive de férias. → Em janeiro estive de férias.
+	-->
+      <pattern>
+		<marker>
+			<token inflected='yes'>ter</token>
+		</marker>
+		<token>de</token>
+		<token regexp='yes'>baixa|férias|folga|licença</token>
+		<token postag_regexp='yes' postag='SPS.+|_PUNCT'/>
+      </pattern>
+      <message>Confusão de palavras.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
+      <example correction="estive">Em janeiro <marker>tive</marker> de férias.</example>
+    </rule>
+
     <rule id='NADA_HAVER' name="Confusão: 'haver' com 'a ver'">
     <!--    Created by Tiago F. Santos, 2017-03-12     -->
       <pattern>
