@@ -9,8 +9,12 @@ workflows:
           base-revision: master
           config-path: .circleci/continue-config.yml
           mapping: |
-            languagetool-commandline/.* commandline_changed true
-            languagetool-language-modules/de/.* lang_de_changed true
+            languagetool-core/.* run_all_tests true
+            languagetool-language-modules/ar/.* run_lang_ar_tests true
+            languagetool-language-modules/ast/.* run_lang_ast_tests true
+            languagetool-language-modules/be/.* run_lang_be_tests true
+            languagetool-language-modules/de/.* run_lang_de_tests true
+
 #            languagetool-core/.* core_changed true
 #            languagetool-dev/.* dev_changed true
 #            languagetool-gui-commons/.* gui-commons_changed true
