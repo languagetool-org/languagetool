@@ -27,9 +27,14 @@ parameters:
   lang_de_changed:
     type: boolean
     default: false
+
 commands:
+  # Run tests
   run-tests:
     description: run tests
+    parameters:
+      projects:
+        type: string
     steps:
       - checkout
       - restore_cache:
@@ -42,7 +47,7 @@ commands:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn clean test
+      - run: mvn --projects <<parameters.projects>> clean test
   check-dir:
     description: test directory
     steps:
@@ -65,14 +70,16 @@ jobs:
   test-commandline-job:
     executor:
       name: docker-openjdk8
-    working_directory: ~/repo/languagetool-commandline
+    working_directory: ~/repo
     steps:
       - check-dir
-#      - run-tests
+      #- run-tests
+        #projects: languagetool-commandline
   test-lang-de-job:
     executor:
       name: docker-openjdk8
-    working_directory: ~/repo/languagetool-language-modules/de
+    working_directory: ~/repo
     steps:
-      - check-dir
-#      - run-tests
+      #- check-dir
+      - run-tests
+        projects: languagetool-language-modules/de
