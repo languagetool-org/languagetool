@@ -42,7 +42,14 @@ commands:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn --projects <<parameters.projects>> clean test
+      - when:
+          condition: << pipeline.parameters.run_lang_de_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/de clean test
+      - when:
+          condition: << pipeline.parameters.run_lang_en_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/en clean test
 executors:
   docker-openjdk8:
     docker:
@@ -54,9 +61,8 @@ workflows:
     jobs:
       - test-all-job
   test-languages:
-    when: << pipeline.parameters.any_lang_changed >> #und nicht alle
     jobs:
-      - test-languages-job
+      - test-modules-job
 jobs:
   test-all-job:
     executor:
@@ -67,20 +73,11 @@ jobs:
     steps:
       - run-tests:
           projects: languagetool-commandline
-  test-languages-job:
+  test-modules-job:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
-      - when:
-          condition: << pipeline.parameters.run_lang_de_tests >>
-          steps:
-            - run-tests:
-                projects: languagetool-language-modules/de
-      - when:
-          condition: << pipeline.parameters.run_lang_en_tests >>
-          steps:
-            - run-tests:
-                projects: languagetool-language-modules/en
+      - run-tests
