@@ -70,6 +70,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY couleur "blanc|bleu|brun|gris|jaune|noir|rouge|vert">
     <!-- only on the second position: -->
     <!ENTITY couleur_variable2 "brillant|cassé|bigarré|clair">
+    <!ENTITY textes "texte|dessinée|métrage|succès|édition|monologue|récit|téléfilm|film|nouvelle|adaptation|livre|roman|fiction|émission|tome|commentaire|chanson|album|série|critique|reprise|écran|parodie|production|(.*-)métrage|concours|prix|box-office|comédie|histoire|titre">
     ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
@@ -54874,13 +54875,28 @@ though, and has since been slightly modified)-->
             <suggestion>serviette de table</suggestion>
             <example correction="serviette de table"><marker>napkin</marker>.</example>
         </rule>
-        <rule id="HELLO" name="hello">
+         <rule id="HELLO" name="hello">
+            <antipattern>
+            <token regexp="yes" skip="-1">hellos</token>
+            <token inflected="yes" regexp="yes">&textes;</token>
+            </antipattern>
+            <antipattern>
+            <token regexp="yes" skip="-1">hellos?</token>
+            <token regexp="yes">[12]\d\d\d</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">hellos?</token>
+            <token postag="SENT_START"/>
+                <token regexp="yes">hellos?<exception scope="next" regexp="yes">yes|neighbor|everybody|I|it|world|star|Kitty|(?-i)Bank|[=]|pro|at|my|for|of|by|business|team</exception></token>
             </pattern>
-            <message>« Hello » est considéré comme un anglicisme. Vous pouvez employer <suggestion>salut</suggestion>, <suggestion>allô</suggestion>. Prenez note qu'« allô » n'est valable que comme salutation pour le téléphone.</message>
-            <example correction="Salut|Allô"><marker>Hello</marker>.</example>
+            <message>Cette salutation anglaise peut être remplacée par un synonyme français afin d'apporter de la fluidité à votre texte.</message>
+            <suggestion>salut</suggestion>
+            <suggestion>coucou</suggestion>
+            <suggestion>bonjour</suggestion>
+            <suggestion>allô</suggestion>
+            <example correction="Salut|Coucou|Bonjour|Allô"><marker>Hello</marker>.</example>
             <example><marker>allô</marker>.</example>
+            <example>En anglais Hello=bonjour.</example>
+            <example>Ma fille veut le nouveau Hello Kitty pour son anniversaire.</example>
         </rule>
         <rule id="HOOD" name="hood">
             <pattern>
