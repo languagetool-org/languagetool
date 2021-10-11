@@ -4,6 +4,9 @@ parameters:
   run_all_tests:
     type: boolean
     default: false
+  any_lang_changed:
+    type: boolean
+    default: false
   run_lang_ar_tests:
     type: boolean
     default: false
@@ -53,43 +56,22 @@ executors:
       - image: circleci/openjdk:8-jdk
 #Check parameters and start jobs
 workflows:
-  build_and_test:
-    jobs:
-      - get_files_job
-      when: << pipeline.parameters.run_lang_de_tests >>
-              - test-lang-de-job:
-              - requires:
-                  - get_files_job
-      when: << pipeline.parameters.run_lang_en_tests >>
-              - test-lang-en-job:
-              - requires:
-                  - get_files_job
   test-all:
     when: << pipeline.parameters.run_all_tests >>
     jobs:
+      - get-files-job
       - test-all-job:
           requires:
-            - get_files_job
-  test-lang-ar:
-    when: << pipeline.parameters.run_lang_ar_tests >>
+            - get-files-job
+  test-languages:
+    when: << pipeline.parameters.any_lang_changed >> #und nicht alle
     jobs:
-      - test-lang-ar-job:
-          requires:
-            - get_files_job
-#  test-lang-de:
-#    when: << pipeline.parameters.run_lang_de_tests >>
-#    jobs:
-#      - test-lang-de-job:
-#          requires:
-#            - get_files_job
-#  test-lang-en:
-#    when: << pipeline.parameters.run_lang_en_tests >>
-#    jobs:
-#      - test-lang-en-job:
-#          requires:
-#            - get_files_job
+      - get_files_job
+      - test-langauage-job:
+          -requires:
+            - get-files-job
 jobs:
-  get_files_job:
+  get-files-job:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo
@@ -102,26 +84,41 @@ jobs:
     steps:
       - run-tests:
           projects: languagetool-commandline
-  test-lang-ar-job:
+  test-languages:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo
     steps:
-      - run-tests:
-          projects: languagetool-language-modules/ar
+      - when:
+          condition: << pipeline.parameters.run_lang_de_tests >>
+          steps:
+            - run-test:
+                projects: languagetool-language-modules/de
+      - when:
+          condition: << pipeline.parameters.run_lang_en_tests >>
+          steps:
+            - run-test:
+                projects: languagetool-language-modules/en
+#  test-lang-ar-job:
+#    executor:
+#      name: docker-openjdk8
+#    working_directory: ~/repo
+#    steps:
+#      - run-tests:
+#          projects: languagetool-language-modules/ar
   #German
-  test-lang-de-job:
-    executor:
-      name: docker-openjdk8
-    working_directory: ~/repo
-    steps:
-      - run-tests:
-          projects: languagetool-language-modules/de
+#  test-lang-de-job:
+#    executor:
+#      name: docker-openjdk8
+#    working_directory: ~/repo
+#    steps:
+##      - run-tests:
+#          projects: languagetool-language-modules/de
   #English
-  test-lang-en-job:
-    executor:
-      name: docker-openjdk8
-    working_directory: ~/repo
-    steps:
-      - run-tests:
-          projects: languagetool-language-modules/en
+#  test-lang-en-job:
+#    executor:
+#      name: docker-openjdk8
+#    working_directory: ~/repo
+#    steps:
+#      - run-tests:
+ #         projects: languagetool-language-modules/en
