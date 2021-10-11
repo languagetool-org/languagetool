@@ -21800,12 +21800,12 @@ though, and has since been slightly modified)-->
                 <token postag="Y" skip="-1"/>
                 <token regexp="yes">\d</token>
             </antipattern>
+            <rule>
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token>2</token>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
-            <rule>
             <antipattern>
                 <token regexp="yes">\d</token>
                 <token postag="N f s"/>
@@ -59105,7 +59105,7 @@ though, and has since been slightly modified)-->
         </rule>
         <rule default="temp_off">
             <pattern>
-                <token regexp="yes">[\d+][a-z].*&sigles;</token>
+                <token regexp="yes">[\d+][a-z].*[\$|£|€|元|¥|₡|₹|₸|₩|ден|₮|रु|₦|₲|₱|฿|₴|₫|đ|°F|°C]</token>
             </pattern>
             <message>Le nombre est l'unité de mesure doivent être séparée.</message>
             <suggestion><match no="1" regexp_match="([\d+])(?iu)" regexp_replace="$1 "/></suggestion>
@@ -59134,7 +59134,7 @@ though, and has since been slightly modified)-->
             </pattern>
             <message>En français, l'unité se place après le nombre.</message>
             <suggestion>\2 \1</suggestion>
-            <example correction="10 €">Il a obtenu un bon de réduction de<marker>€ 10</marker>.</example>
+            <example correction="10 €">Il a obtenu un bon de réduction de <marker>€ 10</marker>.</example>
         </rule>
         <rule default="temp_off">
             <pattern>
