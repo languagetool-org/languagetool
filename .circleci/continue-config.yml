@@ -52,16 +52,18 @@ workflows:
   test-all:
     when: << pipeline.parameters.run_all_tests >>
     jobs:
-      - test-all-job:
+      - test-all-job
   test-languages:
     when: << pipeline.parameters.any_lang_changed >> #und nicht alle
     jobs:
-      - test-languages-job:
+      - test-languages-job
 jobs:
   test-all-job:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx3200m
     steps:
       - run-tests:
           projects: languagetool-commandline
@@ -69,6 +71,8 @@ jobs:
     executor:
       name: docker-openjdk8
     working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx3200m
     steps:
       - when:
           condition: << pipeline.parameters.run_lang_de_tests >>
