@@ -66,7 +66,7 @@ workflows:
   test-languages:
     when: << pipeline.parameters.any_lang_changed >> #und nicht alle
     jobs:
-      - get_files_job
+      - get-files-job
       - test-langauage-job:
           -requires:
             - get-files-job
