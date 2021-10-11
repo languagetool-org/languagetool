@@ -301,23 +301,23 @@ commands:
       - when:
           condition: << pipeline.parameters.run_office_extension_tests >>
           steps:
-            - run: mvn --projects languagetool-office-extension
+            - run: mvn --projects languagetool-office-extension test
       - when:
           condition: << pipeline.parameters.run_server_tests >>
           steps:
-            - run: mvn --projects languagetool-server
+            - run: mvn --projects languagetool-server test
       - when:
           condition: << pipeline.parameters.run_standalone_tests >>
           steps:
-            - run: mvn --projects languagetool-standalone
+            - run: mvn --projects languagetool-standalone test
       - when:
           condition: << pipeline.parameters.run_tools_tests >>
           steps:
-            - run: mvn --projects languagetool-tools
+            - run: mvn --projects languagetool-tools test
       - when:
           condition: << pipeline.parameters.run_wikipedia_tests >>
           steps:
-            - run: mvn --projects languagetool-wikipeida
+            - run: mvn --projects languagetool-wikipeida test
 executors:
   docker-openjdk8:
     docker:
