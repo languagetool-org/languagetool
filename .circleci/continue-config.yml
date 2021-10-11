@@ -27,9 +27,6 @@ commands:
   # Run tests
   run-tests:
     description: run tests
-    parameters:
-      projects:
-        type: string
     steps:
       - checkout
       - restore_cache:
@@ -56,23 +53,10 @@ executors:
       - image: circleci/openjdk:8-jdk
 #Check parameters and start jobs
 workflows:
-  test-all:
-    when: << pipeline.parameters.run_all_tests >>
-    jobs:
-      - test-all-job
-  test-languages:
+  test-modules:
     jobs:
       - test-modules-job
 jobs:
-  test-all-job:
-    executor:
-      name: docker-openjdk8
-    working_directory: ~/repo
-    environment:
-      MAVEN_OPTS: -Xmx3200m
-    steps:
-      - run-tests:
-          projects: languagetool-commandline
   test-modules-job:
     executor:
       name: docker-openjdk8
