@@ -37,6 +37,10 @@ commands:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - '*'
   # Run tests
   run-tests:
     description: run tests
@@ -44,11 +48,13 @@ commands:
       projects:
         type: string
     steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
       - run: mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
       - run: mvn --projects <<parameters.projects>> clean test
 executors:
   docker-openjdk8:
@@ -99,26 +105,26 @@ jobs:
           steps:
             - run-tests:
                 projects: languagetool-language-modules/en
-#  test-lang-ar-job:
-#    executor:
-#      name: docker-openjdk8
-#    working_directory: ~/repo
-#    steps:
-#      - run-tests:
-#          projects: languagetool-language-modules/ar
+  #  test-lang-ar-job:
+  #    executor:
+  #      name: docker-openjdk8
+  #    working_directory: ~/repo
+  #    steps:
+  #      - run-tests:
+  #          projects: languagetool-language-modules/ar
   #German
-#  test-lang-de-job:
-#    executor:
-#      name: docker-openjdk8
-#    working_directory: ~/repo
-#    steps:
-##      - run-tests:
-#          projects: languagetool-language-modules/de
+  #  test-lang-de-job:
+  #    executor:
+  #      name: docker-openjdk8
+  #    working_directory: ~/repo
+  #    steps:
+  ##      - run-tests:
+  #          projects: languagetool-language-modules/de
   #English
-#  test-lang-en-job:
-#    executor:
-#      name: docker-openjdk8
-#    working_directory: ~/repo
-#    steps:
-#      - run-tests:
- #         projects: languagetool-language-modules/en
+  #  test-lang-en-job:
+  #    executor:
+  #      name: docker-openjdk8
+  #    working_directory: ~/repo
+  #    steps:
+  #      - run-tests:
+  #         projects: languagetool-language-modules/en
