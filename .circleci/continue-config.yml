@@ -16,14 +16,13 @@ parameters:
   run_lang_de_tests:
     type: boolean
     default: false
+  run_lang_en_tests:
+    type: boolean
+    default: false
 
 commands:
-  # Run tests
-  run-tests:
-    description: run tests
-    parameters:
-      projects:
-        type: string
+  get_code_and_cache:
+    description: Get files and cache
     steps:
       - checkout
       - restore_cache:
@@ -31,36 +30,63 @@ commands:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
       - run: mvn install -DskipTests
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+  # Run tests
+  run-tests:
+    description: run tests
+    parameters:
+      projects:
+        type: string
+    steps:
       - run: mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
       - run: mvn --projects <<parameters.projects>> clean test
-  check-dir:
-    description: test directory
-    steps:
-      - run: pwd
-
 executors:
   docker-openjdk8:
     docker:
       - image: circleci/openjdk:8-jdk
 #Check parameters and start jobs
 workflows:
+  build:
+    jobs:
+      - get_files_job
   test-all:
     when: << pipeline.parameters.run_all_tests >>
     jobs:
-      - test-all-job
+      - test-all-job:
+          requires:
+            - get_files_job
   test-lang-ar:
     when: << pipeline.parameters.run_lang_ar_tests >>
     jobs:
-      - test-lang-ar-job
+      - test-lang-ar-job:
+        requires:
+          - get_files_job
   test-lang-de:
     when: << pipeline.parameters.run_lang_de_tests >>
     jobs:
-      - test-lang-de-job
+      - test-lang-de-job:
+          requires:
+            - get_files_job
+  test-lang-en:
+    when: << pipeline.parameters.run_lang_en_tests >>
+    jobs:
+      - test-lang-en-job:
+          requires:
+            - get_files_job
 jobs:
+  get_files_job:
+    executor:
+      name: docker-openjdk8
+    working_directory: ~/repo
+    steps:
+      - get_code_and_cache
   test-all-job:
     executor:
       name: docker-openjdk8
@@ -83,3 +109,11 @@ jobs:
     steps:
       - run-tests:
           projects: languagetool-language-modules/de
+  #English
+  test-lang-en-job:
+    executor:
+      name: docker-openjdk8
+    working_directory: ~/repo
+    steps:
+      - run-tests:
+          projects: languagetool-language-modules/en
