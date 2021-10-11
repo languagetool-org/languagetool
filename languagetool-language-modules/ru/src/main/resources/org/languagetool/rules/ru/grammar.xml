@@ -2693,8 +2693,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Пропущена запятая: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
-                <short>Пропущена запятая в сложном предложении</short>
+                <short>Пропущена запятая в сложном предложении</short>   
                 <example>Пролетели года, и настало время.</example>
+        <!--    <example>На пристани стоит человек и продаёт билеты.</example>  -->
                 <example>Могу ли я уточнить время и место нашей встречи?</example>
                 <example>Они сделали предложение и бросили вызов нам.</example>
                 <example>Нам пришлось уменьшить шаг сканирования и увеличить размер в настройках.</example>
@@ -2738,6 +2739,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении</short>
                 <example>Пролетели года, и время настало.</example>
+                <example>На пристани стоит человек и продаёт билеты.</example>
                 <example>Могу ли я уточнить время и место нашей встречи?</example>
                 <example>Они сделали предложение и вызов бросили нам.</example>
                 <example>Нам пришлось уменьшить шаг сканирования и увеличить размер в настройках.</example>
@@ -2771,6 +2773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пропущена запятая в сложном предложении</short>
                 <example>Года пролетели, и время настало.</example>
                 <example>Иван думал о будущем, пока сын жил настоящим.</example>
+                <example>На пристани стоит человек и продаёт билеты.</example>
                 <example>Как мышка бегает, так и кошка прыгает.</example>
                 <example>Принцип старшинства распространяется также на жён и дочерей чиновников («все замужние жены поступают в рангах по чинам мужей их»).</example>        
                 <example>Он говорит: "Когда она позовёт меня?"</example>
@@ -4015,7 +4018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова:   по правде, ...-->
                 <pattern case_sensitive="no">
-                    <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем<exception postag="SENT_START"></exception><exception postag="VB:.*" postag_regexp="yes"></exception></token>
                     <token>по</token>
                     <token>правде</token>
                     <token negate="yes">,</token>
@@ -4029,7 +4032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                      <!-- Вводные слова:   по правде, ...-->
                 <pattern case_sensitive="no">
-                    <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем<exception postag="SENT_START"></exception><exception postag="VB:.*" postag_regexp="yes"></exception></token>
                     <token>по</token>
                     <token>правде</token>
                     <token>,</token>
@@ -4446,7 +4449,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>,</token>
                         <token regexp="yes">авось|буквально|будто|вдобавок|вдруг|ведь|вот|всё-таки|даже|исключительно|именно|небось|наверняка|приблизительно|примерно|притом|почти|поэтому|просто|решительно|словно|якобы</token>
-                        <token skip="-1"><exception scope="next" regexp="yes">как|что|чтобы</exception>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">как|что|чтобы|должно</exception>,</token>
                     </marker>
                     <token>.</token>
                 </pattern>
@@ -4455,6 +4458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятые не нужны</short>
                 <example>Вокалисты неритмично поют,и вдобавок не те ноты.</example>
                 <example>Он практикуется со своим клинком, ведь, чтобы отбиваться от убийц, он должен держать себя в форме.</example>
+                <example>Она похожа на крепкую, защищаемую позицию, поэтому, должно быть, открывающиеся вокруг пещеры стали неприятным сюрпризом.</example>
                 <example correction=" вдобавок">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
             </rule>
             <rule>
