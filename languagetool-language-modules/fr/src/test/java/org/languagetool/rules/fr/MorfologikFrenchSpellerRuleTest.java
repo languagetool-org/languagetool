@@ -178,7 +178,6 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "saperçoit", "sa perçoit", "s'aperçoit");
     assertSuggestion(rule, lt, "saperçu", "sa perçu", "aperçu");
     
-    
     // don't split prefixes 
     matches = rule.match(lt.getAnalyzedSentence("macrodiscipline"));
     assertEquals(1, matches.length);

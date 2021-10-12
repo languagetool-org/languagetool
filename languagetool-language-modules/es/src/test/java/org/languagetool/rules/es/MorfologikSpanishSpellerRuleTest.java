@@ -103,6 +103,17 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("hicistes"));
     assertEquals("[hiciste, hicisteis]", matches[0].getSuggestedReplacements().toString());
     
+    matches = rule.match(lt.getAnalyzedSentence("Windows10"));
+    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows10"));
+    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows1995"));
+    assertEquals("Windows 1995", matches[0].getSuggestedReplacements().get(0));
+    
     //currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
     assertEquals(0, matches.length);
