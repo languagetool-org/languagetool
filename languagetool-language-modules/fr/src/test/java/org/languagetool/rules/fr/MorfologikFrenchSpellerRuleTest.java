@@ -182,6 +182,15 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("macrodiscipline"));
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getSuggestedReplacements().size());
+    
+    // digits
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows1"));
+    assertEquals(1, matches.length);
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows10"));
+    assertEquals(1, matches.length);
+    
 
   }
   

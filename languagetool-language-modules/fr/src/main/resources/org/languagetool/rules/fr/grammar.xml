@@ -54877,7 +54877,7 @@ though, and has since been slightly modified)-->
         </rule>
          <rule id="HELLO" name="hello">
             <antipattern>
-            <token regexp="yes" skip="-1">hellos</token>
+            <token regexp="yes" skip="-1">hellos?</token>
             <token inflected="yes" regexp="yes">&textes;</token>
             </antipattern>
             <antipattern>
@@ -54885,8 +54885,10 @@ though, and has since been slightly modified)-->
             <token regexp="yes">[12]\d\d\d</token>
             </antipattern>
             <pattern>
-            <token postag="SENT_START"/>
-                <token regexp="yes">hellos?<exception scope="next" regexp="yes">yes|neighbor|everybody|I|it|world|star|Kitty|(?-i)Bank|[=]|pro|at|my|for|of|by|business|team</exception></token>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">hellos?<exception scope="next" regexp="yes">yes|neighbor|everybody|I|it|world|star|Kitty|(?-i)Bank|[=]|pro|at|my|for|of|by|business|team</exception></token>    
+                </marker>
             </pattern>
             <message>Cette salutation anglaise peut être remplacée par un synonyme français afin d'apporter de la fluidité à votre texte.</message>
             <suggestion>salut</suggestion>
