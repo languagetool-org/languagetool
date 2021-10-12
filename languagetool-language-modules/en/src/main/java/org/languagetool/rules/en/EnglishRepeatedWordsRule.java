@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
+import org.languagetool.rules.SynonymsData;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 
@@ -37,7 +38,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     super.setDefaultTempOff();
   }
   
-  private static final Map<String, List<String>> wordsToCheck = loadWords("/en/synonyms.txt");
+  private static final Map<String, SynonymsData> wordsToCheck = loadWords("/en/synonyms.txt");
   
   @Override
   protected String getMessage() {
@@ -55,7 +56,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   }
 
   @Override
-  protected Map<String, List<String>> getWordsToCheck() {
+  protected Map<String, SynonymsData> getWordsToCheck() {
     return wordsToCheck;
   }
 

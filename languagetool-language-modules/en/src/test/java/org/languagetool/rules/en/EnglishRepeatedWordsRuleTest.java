@@ -44,9 +44,12 @@ public class EnglishRepeatedWordsRuleTest {
   }
 
   @Test
-  public void testRule() throws IOException {
+  public void testRule() throws IOException {   
     
     assertCorrectText("This is a new experience. Happy New Year!");
+    assertCorrectText("This was needed. There is a need to do it.");
+    assertCorrectText("It needs to be done. That also needed to be done.");
+    
     assertCorrectText("Asia Global Crossing Ltd. Global Crossing and Asia Global Crossing.");
     assertCorrectText("I suggested that, but he also suggests that.");
     assertCorrectText("Matthew S. Anderson, Peter the Great. The Tomahawks were shipped from Great Britain.");
@@ -60,9 +63,8 @@ public class EnglishRepeatedWordsRuleTest {
     assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
     assertEquals("recommends", matches[0].getSuggestedReplacements().get(1));
     assertEquals("submits", matches[0].getSuggestedReplacements().get(2));
-      
     
-    matches=getRuleMatches ("I suggested this. She suggests that. And they suggested that.");
+    matches=getRuleMatches("I suggested this. She suggests that. And they suggested that.");
     assertEquals(2, matches.length);
     assertEquals(22, matches[0].getFromPos());
     assertEquals(46, matches[1].getFromPos());
@@ -72,6 +74,10 @@ public class EnglishRepeatedWordsRuleTest {
     matches=getRuleMatches ("The problem was global. And the solutions needed to be global.");
     assertEquals(1, matches.length);
     assertEquals("comprehensive", matches[0].getSuggestedReplacements().get(0));
+    
+    matches=getRuleMatches("It needs to be done. That needs to be done.");
+    assertEquals(1, matches.length);
+    assertEquals("requires", matches[0].getSuggestedReplacements().get(0));
     
   }
   
