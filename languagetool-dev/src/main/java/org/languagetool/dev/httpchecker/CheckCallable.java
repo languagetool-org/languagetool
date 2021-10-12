@@ -146,7 +146,7 @@ class CheckCallable implements Callable<File> {
     System.err.println(sdf.format(new Date()) + " " + s);
   }
 
-  private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e, int retries) throws IOException {
+  private synchronized void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e, int retries) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
     RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, FAIL_MESSAGE + e.getMessage() + " (retries: " + retries + ")");
