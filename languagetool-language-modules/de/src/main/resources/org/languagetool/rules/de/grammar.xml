@@ -4783,7 +4783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wenn ihr zufrieden <marker>seid</marker>, ist ja alles in Ordnung.</example>
                 <example correction="seid">Es ist doch alles in Ordnung, wenn ihr zufrieden <marker>seit</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token min="0" regexp="yes">dann|so</token>
@@ -4801,7 +4801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seidseit;</message>
                 <example correction="seid">Wenn doch, <marker>seit</marker> ihr selbstverständlich die Ersten, die wir anschreiben werden.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="-1">seit</token>
                     <token regexp="yes">seid|wart</token>
@@ -4817,7 +4817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seidseit;</message>
                 <example correction="Seid"><marker>Seit</marker> ihr schon fertig?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>ihr</token>
                     <marker>
@@ -4829,7 +4829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seidseit;</message>
                 <example correction="seid">Ich dachte ihr <marker>seit</marker> schon fertig.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>ihr</token>
                     <marker>
@@ -4842,7 +4842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seidseit;</message>
                 <example correction="seid">Ich hoffe ihr <marker>seit</marker> gut angekommen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>seit</token>
@@ -11014,7 +11014,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="NORD_WESTEN" name="im osten (Osten)" default="temp_off">
+        <rule id="GROESSEN_WAHNSINNIG" name="Größen wahnsinnig (Größenwahnsinnig)" default="temp_off">
+            <pattern>
+                <token regexp="yes">grö(ss|ß)en</token>
+                <token regexp="yes">wahnsinnig(e[rsnm]?)?</token>
+            </pattern>
+            <message>Das Adjektive <suggestion>größen<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="größenwahnsinnig">Der Typ ist wirklich <marker>größen wahnsinnig</marker>.</example>
+        </rule>
+        <rulegroup id="NORD_WESTEN" name="im osten (Osten)">
             <rule>
                 <pattern>
                     <marker>
@@ -11026,7 +11034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Südosten">Der Wind kommt aus <marker>Süd Osten</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NORD_WESTLICH" name="nord-westlich" default="temp_off">
+        <rulegroup id="NORD_WESTLICH" name="nord-westlich">
             <rule>
                 <pattern>
                     <token regexp="yes">(nord|süd)-(östlich|westlich)(e[srnm]?)?</token>
@@ -22681,17 +22689,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="IM_OSTEN" name="im osten (Osten)" default="temp_off">
+        <rule id="IM_OSTEN" name="im osten (Osten)">
             <pattern>
                 <token regexp="yes">im|zum|gen|gegen|nach|vo[mn]|aus|dem|der</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">nord-?osten|süd-?osten|osten|nord-?westen|süd-?westen|westen|süden|norden</token>
+                    <token regexp="yes" case_sensitive="yes">nord-?osten|süd-?osten|nord-?westen|süd-?westen|westen|osten|süden|norden</token>
                 </marker>
             </pattern>
             <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" regexp_match="-" regexp_replace="" /></suggestion> wird großgeschrieben.</message>
             <example correction="Südosten">Der Wind kommt aus <marker>südosten</marker>.</example>
         </rule>
-        <rule id="EINIGES" name="Einiges (einiges)" default="temp_off">
+        <rule id="EINIGES" name="Einiges (einiges)">
             <antipattern><!-- als Verb -->
                 <token regexp="yes" skip="1">zum|beim|im|ins</token>
                 <token>Einigen</token>
@@ -22712,7 +22720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="einiges">Wir haben <marker>Einiges</marker> geschafft.</example>
             <example>Wir haben uns beim Einigen ein Bier aufgemacht.</example>
         </rule>
-        <rule id="FUNKEN_ANSTAND" name="keinen Funken Anstand" default="temp_off">
+        <rule id="FUNKEN_ANSTAND" name="keinen Funken Anstand">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">FUNKEN|Funken</token>
                 <token regexp="yes">HOFFNUNG|Hoffnung|ANSTAND|Anstand</token>
@@ -41253,6 +41261,22 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="AN_EINEN_STRANG" name="an einen (einem) Strang" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">einem|EINEM</token>
+                <token regexp="yes">Strang|STRANG</token>
+            </antipattern>
+            <pattern>
+                <token>an</token>
+                <marker>
+                    <token>einen</token>
+                    <token>Strang</token>
+                </marker>
+            </pattern>
+            <message>In der Redewendung "an einem Strang ziehen" wird der Dativ verwendet.</message>
+            <suggestion>einem Strang</suggestion>
+            <example correction="einem Strang">Wir ziehen alle an <marker>einen Strang</marker>.</example>
+        </rule>
         <rule id="SPREU_VOM_WEIZEN" name="Spreu von (vom) Weizen" >
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Spreu|SPREU</token>
@@ -43565,6 +43589,12 @@ Andere Projekte</example>
                 <example correction="Zum einen|Zu einem"><marker>Zum einem</marker> hat er seine Prüfungen immer recht gut gemeistert, zum anderen hat er auch Nachhilfeunterricht gegeben.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">beim|zum|aufm|vorm|hinterm|unterm|überm</token>
+                    <token>ein</token>
+                    <token>oder</token>
+                    <token>anderen</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum|aufm</token>
                     <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
@@ -43578,6 +43608,7 @@ Andere Projekte</example>
                 <example>Er entschied sich, beim alles entscheidenden Punkt anzusetzen.</example>
                 <example correction="an die">Gehen wir konservativ <marker>ans die</marker> Sache heran.</example>
                 <example correction="Auf einem"><marker>Aufm einem</marker> Ast saß ein fetter Vogel.</example>
+                <example>Da sind beim ein oder anderen Tränchen geflossen</example>
             </rule>
             <!--
             FA: "... die erste städtische Autobuslinie, die vom den Strassenbahnen angegliederten Kraftwagenbetrieb der Städtischen Strassenbahn Zürich betrieben wurde."
