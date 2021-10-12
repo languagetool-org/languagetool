@@ -2159,6 +2159,14 @@ RB => Règles Brutes
     </rule>
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: adverbs -->
+    <rule id="DE_MANIERE_ADJ" name="de manière + adj">
+        <pattern>
+            <token postag="P">de</token>
+            <token postag="N f s" regexp="yes">manière|forme</token>
+            <token postag="J [fe] sp?|V ppa [fe] sp?" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="TOUT_ADV" name="tout (adv">
         <rule>
             <pattern>
