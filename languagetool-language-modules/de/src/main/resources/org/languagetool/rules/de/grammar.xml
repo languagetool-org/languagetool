@@ -261,6 +261,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- Eigennamen -->
                     <token regexp="yes">md5sums|log4php|planet3dnow|people4project|brands4friends|car2go|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|wissen2go|cat5e|unity3d</token>
                 </antipattern>
+                <antipattern>
+                    <token />
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">&sometlds;</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[a-zA-ZäüöÄÜÖ]{1}[a-zßäüöÄÜÖ]{0,20}[0-9]{1}[a-zßäüö]{1,20}</token>
                 </pattern>
@@ -4778,6 +4783,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wenn ihr zufrieden <marker>seid</marker>, ist ja alles in Ordnung.</example>
                 <example correction="seid">Es ist doch alles in Ordnung, wenn ihr zufrieden <marker>seit</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">dann|so</token>
+                    <marker>
+                        <token>seit</token>
+                    </marker>
+                    <token>ihr</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>die</token>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                    <token postag=".*SUB.*" postag_regexp="yes" />
+                    <token>,</token>
+                    <token regexp="yes">die|welche|jene|denen</token>
+                </pattern>
+                <message>&seidseit;</message>
+                <example correction="seid">Wenn doch, <marker>seit</marker> ihr selbstverständlich die Ersten, die wir anschreiben werden.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="-1">seit</token>
+                    <token regexp="yes">seid|wart</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>seit</token>
+                    </marker>
+                    <token>ihr</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">bereit|fertig|da|zuhause|angekommen|geimpft|dabei|wohlauf|gesund|glücklich</token>
+                </pattern>
+                <message>&seidseit;</message>
+                <example correction="Seid"><marker>Seit</marker> ihr schon fertig?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>ihr</token>
+                    <marker>
+                        <token>seit</token>
+                    </marker>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">bereit|fertig|da|zuhause|angekommen|geimpft|dabei|wohlauf|gesund|glücklich</token>
+                </pattern>
+                <message>&seidseit;</message>
+                <example correction="seid">Ich dachte ihr <marker>seit</marker> schon fertig.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>ihr</token>
+                    <marker>
+                        <token>seit</token>
+                    </marker>
+                    <token regexp="yes">alle|gut</token>
+                    <token regexp="yes" min="0">zuhause|dort</token>
+                    <token regexp="yes">(durch|an)gekommen|gesund</token>
+                </pattern>
+                <message>&seidseit;</message>
+                <example correction="seid">Ich hoffe ihr <marker>seit</marker> gut angekommen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>seit</token>
+                    </marker>
+                    <token>ihr</token>
+                    <token regexp="yes">alle|gut</token>
+                    <token regexp="yes" min="0">zuhause|dort</token>
+                    <token regexp="yes">(durch|an)gekommen</token>
+                </pattern>
+                <message>&seidseit;</message>
+                <example correction="Seid"><marker>Seit</marker> ihr gut angekommen?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SEIT_VS_SEID" name="'seid (seit)'">
             <rule><!-- 1 -->
@@ -4798,6 +4875,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Ihr</token>
                     <token>seid</token>
                 </antipattern>
+                <antipattern>
+                    <token>seid</token>
+                    <token postag="ADV:TMP"/>
+                    <token postag="ADJ.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4811,6 +4893,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Seit"><marker>Seid</marker> gestern geht es mir wieder besser.</example>
                 <example>Ihr Mädchen <marker>seid</marker> immer verlegen.</example>
                 <example>Ihr seid immer beschäftigt.</example>
+                <example>Ich hoffe ihr habt den Sommer so richtig genossen und seid nun bereit den Herbst mit neuer Energie zu begrüssen.</example>
             </rule>
             <rule><!-- 3 -->
                 <pattern>
@@ -10931,6 +11014,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="NORD_WESTEN" name="im osten (Osten)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">nord|süd</token>
+                        <token regexp="yes">westen|osten</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="alllower" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Südosten">Der Wind kommt aus <marker>Süd Osten</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NORD_WESTLICH" name="nord-westlich" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(nord|süd)-(östlich|westlich)(e[srnm]?)?</token>
+                </pattern>
+                <message>Das Adjektiv wird klein und zusammengeschrieben.</message>
+                <suggestion><match no="1" case_conversion="alllower" regexp_match="-" regexp_replace="" /></suggestion>
+                <example correction="nordöstlich">Die Insel liegt <marker>nord-östlich</marker> von Rügen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">nord|süd</token>
+                    <token regexp="yes">(östlich|westlich)(e[srnm]?)?</token>
+                </pattern>
+                <message>Das Adjektiv wird klein und zusammengeschrieben.</message>
+                <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+                <example correction="nordöstlich">Die Insel liegt <marker>nord östlich</marker> von Rügen.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_KOMMEN_LASSEN" name="zu kommen (zukommen)">
             <antipattern>
                 <token regexp="yes">da|wo</token>
@@ -22567,6 +22681,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="IM_OSTEN" name="im osten (Osten)" default="temp_off">
+            <pattern>
+                <token regexp="yes">im|zum|gen|gegen|nach|vo[mn]|aus|dem|der</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">nord-?osten|süd-?osten|osten|nord-?westen|süd-?westen|westen|süden|norden</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" regexp_match="-" regexp_replace="" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Südosten">Der Wind kommt aus <marker>südosten</marker>.</example>
+        </rule>
+        <rule id="EINIGES" name="Einiges (einiges)" default="temp_off">
+            <antipattern><!-- als Verb -->
+                <token regexp="yes" skip="1">zum|beim|im|ins</token>
+                <token>Einigen</token>
+            </antipattern>
+            <antipattern><!-- als Verb -->
+                <token regexp="yes">vor|nach</token>
+                <token skip="1" regexp="yes">dem|jenem</token>
+                <token>Einigen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">,|.*[a-zäöü].*</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">Einige[srn]?</token>
+                </marker>
+            </pattern>
+            <message>Das Pronomen/Zahlwort <suggestion><match no="2" case_conversion="alllower" /></suggestion> sollte (außer am Satzanfang) immer kleingeschrieben werden.</message>
+            <url>https://germanblogs.de/einiges-oder-einiges-gross-oder-klein-wie-schreibt-man-es-richtig/</url>
+            <example correction="einiges">Wir haben <marker>Einiges</marker> geschafft.</example>
+            <example>Wir haben uns beim Einigen ein Bier aufgemacht.</example>
+        </rule>
         <rule id="FUNKEN_ANSTAND" name="keinen Funken Anstand" default="temp_off">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">FUNKEN|Funken</token>
