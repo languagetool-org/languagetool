@@ -184,13 +184,15 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, matches[0].getSuggestedReplacements().size());
     
     // digits
-    
     matches = rule.match(lt.getAnalyzedSentence("windows1"));
     assertEquals(1, matches.length);
+    assertEquals("Windows 1", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("windows10"));
     assertEquals(1, matches.length);
-    
+    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
 
   }
   
