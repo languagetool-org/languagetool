@@ -9944,6 +9944,68 @@ though, and has since been slightly modified)-->
             <example correction="à">À la vie, <marker>a</marker> la mort.</example>
             <example>Qui a la volonté, a la force.</example>
         </rule>
+        <rule default="temp_off">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="R pers suj.*|[DIZ].*|UNKNOWN|[RA] inte" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">raison|tor[dt]|lieu|été|minima|écrit|contrario|enclos|fortiori|posteriori|priori|capp?ella|côté</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="[DJ].*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">a</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">[a-z]</token>
+                <token case_sensitive="yes">a</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">[\=,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">soient|soit|gracias|have</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag="UNKNOWN|V.* ppa.*|A|V.* (ind|con|sub).*|C.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" skip="1"/>
+                <marker>
+                    <token case_sensitive="yes">a</token>
+                </marker>
+            </pattern>
+            <message>La préposition <suggestion>à</suggestion> est attendue.</message>
+            <example correction="à">Contrairement <marker>a</marker> ce que je pensais, ce n'est pas difficile.</example>
+            <example>Qui a raison ?</example>
+            <example>Commode a gagné.</example>
+            <example>Donc a = 2a</example>
+            <example>Mais a contrario :</example>
+            <example>Si a existe, a et a existent, donc {a,a} existe.</example>
+            <example>Machin a raison !</example>
+            <example>Nounours a le hoquet.</example>
+            <example>Y a vraiment personne qui a vu le chien ?</example>
+            <example>Malaisie a: Leftenan</example>
+            <example>Soient a, a, …</example>
+            <example>Serein a raison !</example>
+            <example>Vine a decirte adios</example>
+        </rule>
         </rulegroup>
         <rule id="R_VAVOIR_VINF" name="Verbe à l'infinitif après l'auxiliaire avoir">
             <pattern>
