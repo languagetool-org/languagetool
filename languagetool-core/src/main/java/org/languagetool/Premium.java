@@ -22,12 +22,20 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Information about premium-only rules.
  */
 public abstract class Premium {
+
+  private static List<String> tempNotPremiumRules = Arrays.asList();
+
+  public static boolean isTempNotPremium(Rule rule) {
+    return tempNotPremiumRules.contains(rule.getId());
+  }
   
   public static boolean isPremiumStatusCheck(AnnotatedText text) {
     final String testRuleText = "languagetool testrule 8634756";
