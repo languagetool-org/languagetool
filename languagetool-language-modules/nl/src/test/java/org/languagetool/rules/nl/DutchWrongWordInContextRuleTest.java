@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.nl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
@@ -30,6 +31,7 @@ import java.io.IOException;
 public class DutchWrongWordInContextRuleTest {
 
   @Test
+  @Ignore("no tests yet")
   public void testRule() throws IOException {
     DutchWrongWordInContextRule rule = new DutchWrongWordInContextRule(null);
     JLanguageTool lt = new JLanguageTool(new Dutch());

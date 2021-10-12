@@ -37,7 +37,8 @@ import org.languagetool.tokenizers.Tokenizer;
 public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final String SPLIT_CHARS =
-            "!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
+//      "(?<!\uE120)(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
+            "(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             + "|[\u0020\u00A0\\n\\r\\t"
             + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…=¿¡]"
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
@@ -46,7 +47,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + "\u2400-\u27FF"                                                       // Control Pictures
             + String.valueOf(Character.toChars(0x1F000)) + "-" + String.valueOf(Character.toChars(0x1FFFF))          // Emojis
             + "\uf000-\uffff" // private unicode area: U+E000..U+F8FF
-            + "\uE110]";
+            + "\uE110])(?!\uE120)";
 
   private static final Pattern SPLIT_CHARS_REGEX = Pattern.compile(SPLIT_CHARS);
 
@@ -60,8 +61,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final char LEFT_BRACE_SUBST = '\uE005';
   private static final char RIGHT_BRACE_SUBST = '\uE006';
   private static final char NON_BREAKING_SLASH_SUBST = '\uE007';    // hide slash in с/г
+  private static final char LEFT_ANGLE_SUBST = '\uE008';
+  private static final char RIGHT_ANGLE_SUBST = '\uE009';
+  private static final char SLASH_SUBST = '\uE010';
   private static final String NON_BREAKING_PLACEHOLDER = "\uE109";
   private static final String BREAKING_PLACEHOLDER = "\uE110";
+  private static final String NON_BREAKING_PLACEHOLDER2 = "\uE120";
 
   private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile("([бвджзклмнпрстфхш])[\"\u201D\u201F]([єїюя])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -94,6 +99,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // braces in words
   private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+  private static final Pattern XML_TAG_PATTERN = Pattern.compile("<(/?[a-z_]+/?)>", Pattern.CASE_INSENSITIVE);
+
   // abbreviation dot
   private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("([вВу])\\.([\\h\\v]*о)\\.");
   private static final Pattern ABBR_DOT_VO_PATTERN2 = Pattern.compile("(к)\\.([\\h\\v]*с)\\.");
@@ -101,8 +108,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\h\\v]+)(тис|арт)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\h\\v]+[а-яіїєґ0-9])");
+  private static final Pattern ABBR_DOT_ART_PATTERN = Pattern.compile("([Аа]рт|[Мм]ал|[Рр]ис)\\.([\\h]*[0-9])");
+  private static final Pattern ABBR_DOT_MAN_PATTERN = Pattern.compile("(Ман)\\.([\\h]*(Сіті|[Юю]н))");
   private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]лат)\\.([\\h\\v]+[a-zA-Z])");
-  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|тов|вул|о|р|ім|упоряд|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
+  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|тов|вул|о|р|ім|упоряд|[Пп]реп|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
   private static final Pattern ABBR_DOT_GUB_PATTERN = Pattern.compile("(.[А-ЯІЇЄҐ][а-яіїєґ'-]+[\\h\\v]+губ)\\.");
   private static final Pattern ABBR_DOT_DASH_PATTERN = Pattern.compile("\\b([А-ЯІЇЄҐ]ж?)\\.([-\u2013]([А-ЯІЇЄҐ][а-яіїєґ']{2}|[А-ЯІЇЄҐ]\\.))");
 
@@ -133,7 +142,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // скорочення що не можуть бути в кінці речення
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|австрал|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
       + "|держ|див|діал|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зневажл?|зовн|ім|івр|ісп|іст|італ"
-      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|[Нн]апр|нац|образн|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|прикм|присл|пров|пром|просп"
+      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|латин|мал|моб|н|[Нн]апр|нац|образн|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|прикм|прим|присл|пров|пром|просп"
       + "|[Рр]ед|[Рр]еж|розд|розм|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\h\\v]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
@@ -148,7 +157,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
 
-  private static final Pattern COMPOUND_WITH_QUOTES = Pattern.compile("([а-яіїє]-)([«\"„][а-яіїєґ'-]+)([»\"“])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern COMPOUND_WITH_QUOTES1 = Pattern.compile("([а-яіїє]-)([«\"„])([а-яіїєґ'-]+)([»\"“])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern COMPOUND_WITH_QUOTES2 = Pattern.compile("([«\"„])([а-яіїєґ0-9'-]+)([»\\\"“])(-[а-яіїє])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
@@ -195,12 +205,17 @@ public class UkrainianWordTokenizer implements Tokenizer {
       token = token.replace(LEFT_BRACE_SUBST, '(');
       token = token.replace(RIGHT_BRACE_SUBST, ')');
 
+      token = token.replace(LEFT_ANGLE_SUBST, '<');
+      token = token.replace(RIGHT_ANGLE_SUBST, '>');
+      token = token.replace(SLASH_SUBST, '/');
+
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
 
       token = token.replace(SOFT_HYPHEN_WRAP_SUBST, SOFT_HYPHEN_WRAP);
 
       token = token.replace(NON_BREAKING_PLACEHOLDER, "");
+      token = token.replace(NON_BREAKING_PLACEHOLDER2, "");
 
       if( ! urls.isEmpty() ) {
         for(Entry<String, String> entry : urls.entrySet()) {
@@ -285,7 +300,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     
-    text = COMPOUND_WITH_QUOTES.matcher(text).replaceAll("$1\uE109$2\uE109$3");
+    text = COMPOUND_WITH_QUOTES1.matcher(text).replaceAll("$1$2\uE120$3\uE120$4\uE120");
+    text = COMPOUND_WITH_QUOTES2.matcher(text).replaceAll("$1\uE120$2\uE120$3\uE120$4");
     
     // if period is not the last character in the sentence
     int dotIndex = text.indexOf('.');
@@ -303,6 +319,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_VO_PATTERN1.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
       text = ABBR_DOT_VO_PATTERN2.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
       text = ABBR_DOT_VO_PATTERN3.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
+      text = ABBR_DOT_ART_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+      text = ABBR_DOT_MAN_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_TYS_PATTERN1.matcher(text).replaceAll("$1$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_TYS_PATTERN2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_LAT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
@@ -360,6 +378,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
     // ВКПБ(о)
     if( text.contains("(") ) {
       text = BRACE_IN_WORD_PATTERN.matcher(text).replaceAll("$1" + LEFT_BRACE_SUBST + "$2" + RIGHT_BRACE_SUBST);
+    }
+
+    if( text.contains("<") ) {
+      text = XML_TAG_PATTERN.matcher(text).replaceAll(BREAKING_PLACEHOLDER + LEFT_ANGLE_SUBST + "$1" + RIGHT_ANGLE_SUBST + BREAKING_PLACEHOLDER);
+      text = text.replace(LEFT_ANGLE_SUBST+"/", "" + LEFT_ANGLE_SUBST + SLASH_SUBST);
+      text = text.replace("/" + RIGHT_ANGLE_SUBST, "" + SLASH_SUBST + RIGHT_ANGLE_SUBST);
     }
 
     if( text.contains("-") ) {

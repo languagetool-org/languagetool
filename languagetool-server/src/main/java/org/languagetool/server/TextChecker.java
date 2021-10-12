@@ -30,10 +30,7 @@ import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.DictionaryMatchFilter;
-import org.languagetool.rules.RemoteRule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.tools.Tools;
@@ -85,11 +82,6 @@ abstract class TextChecker {
   private final Queue<Runnable> workQueue;
   private final RequestCounter reqCounter;
 
-  // keep track of timeouts of the hidden matches server, check health periodically;
-  // -1 => healthy, else => check timed out at given date, check back if time difference > config.getHiddenMatchesFailTimeout()
-  private long lastHiddenMatchesServerTimeout;
-  // counter; mark as down if this reaches hiddenMatchesServerFall
-  private long hiddenMatchesServerFailures = 0;
   private final LanguageIdentifier fastTextIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
@@ -120,8 +112,6 @@ abstract class TextChecker {
     } else {
       this.logServerId = null;
     }
-
-    ServerMetricsCollector.getInstance().logHiddenServerConfiguration(config.getHiddenMatchesServer() != null);
 
     if (cache != null) {
       ServerMetricsCollector.getInstance().monitorCache("languagetool_matches_cache", cache.getMatchesCache());
@@ -324,8 +314,13 @@ abstract class TextChecker {
       }
     }
 
+    boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
+    if (limits.hasPremium()) {
+      enableHiddenRules = false;
+    }
     UserConfig userConfig = new UserConfig(dictWords, getRuleValues(parameters), config.getMaxSpellingSuggestions(),
-      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId);
+      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId,
+      !limits.hasPremium() && enableHiddenRules);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
@@ -400,10 +395,6 @@ abstract class TextChecker {
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
             enabledCategories.size() > 0 || disabledCategories.size() > 0 || enableTempOffRules;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
-    boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
-    if (limits.hasPremium()) {
-      enableHiddenRules = false;
-    }
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     JLanguageTool.Level level = ServerTools.getLevel(parameters);
     String callback = parameters.get("callback");
@@ -492,8 +483,7 @@ abstract class TextChecker {
     List<RuleMatch> hiddenMatches = new ArrayList<>();
 
     // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
-    if (!params.premium && config.getHiddenMatchesServer() == null && params.enableHiddenRules &&
-      config.getHiddenMatchesLanguages().contains(lang)) {
+    if (!params.premium && params.enableHiddenRules) {
       List<RuleMatch> allMatches = new ArrayList<>(); // for filtering out overlapping matches, collect across CheckResults
       List<RuleMatch> premiumMatches = new ArrayList<>();
       for (CheckResults result : res) {
@@ -514,43 +504,6 @@ abstract class TextChecker {
       hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
     }
 
-    if (config.getHiddenMatchesServer() != null && params.enableHiddenRules &&
-      config.getHiddenMatchesLanguages().contains(lang)) {
-      if (config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
-        System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
-        ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-        ServerMetricsCollector.getInstance().logHiddenServerRequest(false, lang, 0);
-        logger.warn("Warn: Skipped querying hidden matches server at " +
-          config.getHiddenMatchesServer() + " because of recent error/timeout (timeout=" + config.getHiddenMatchesServerFailTimeout() + "ms).");
-      } else {
-        ResultExtender resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
-        try {
-          long start = System.currentTimeMillis();
-          List<RemoteRuleMatch> extensionMatches = resultExtender.getExtensionMatches(aText.getPlainText(), parameters);
-          List<RuleMatch> matches = new ArrayList<>();
-          for (CheckResults result : res) {
-            matches.addAll(result.getRuleMatches());
-          }
-          hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, extensionMatches);
-          long end = System.currentTimeMillis();
-          logger.info("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms for " + lang.getShortCodeWithCountryAndVariant());
-          ServerMetricsCollector.getInstance().logHiddenServerStatus(true);
-          lastHiddenMatchesServerTimeout = -1;
-          hiddenMatchesServerFailures = 0;
-          ServerMetricsCollector.getInstance().logHiddenServerRequest(true, lang, hiddenMatches.size());
-        } catch (Exception e) {
-          ServerMetricsCollector.getInstance().logHiddenServerRequest(false, lang, 0);
-          hiddenMatchesServerFailures++;
-          if (hiddenMatchesServerFailures >= config.getHiddenMatchesServerFall()) {
-            ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-            logger.warn("Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters - marked as down now");
-            lastHiddenMatchesServerTimeout = System.currentTimeMillis();
-          } else {
-            logger.warn("Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters - " + (config.getHiddenMatchesServerFall() - hiddenMatchesServerFailures) + " errors until marked as down");
-          }
-        }
-      }
-    }
     int compactMode = Integer.parseInt(parameters.getOrDefault("c", "0"));
     String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode, limits.getPremiumUid() == null);
     if (params.callback != null) {

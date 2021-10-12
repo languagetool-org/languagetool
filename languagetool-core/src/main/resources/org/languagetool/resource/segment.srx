@@ -4969,7 +4969,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(cts?|Ca|ca|chem|chin|Chr|cresc|dat|Dat|desgl|ders|dgl|Dipl|Dir?|Doz?|durchg|durchges|Dr|dt|ebd|Ed|eigtl|Eigtl|Engl|engl|Erg|al|et[cw]|Etw|ev(tl)?|Evtl|exkl|Expl|Exz)\.[\u00A0\s]</beforebreak>
+<beforebreak>\b(cts?|Ca|ca|chem|chin|Chr|cresc|dat|Dat|desgl|ders|dgl|Dipl|Dir?|Doz?|durchg|durchges|Dr|dt|ebd|Ed|eigtl|Eigtl|eigl|Eigl|akt|Engl|engl|Erg|al|et[cw]|Etw|ev(tl)?|Evtl|exkl|Expl|Exz)\.[\u00A0\s]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5602,10 +5602,14 @@
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|ім|упоряд|чл\.-кор)\.[\h\v]*</beforebreak>
+<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|ім|упоряд|чл\.-кор|[Пп]реп)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
-<!-- смерть гр. Болтаровича -->
+<rule break="no">
+<beforebreak>\bМан\.[\h\v]*</beforebreak>
+<afterbreak>[\h\v]*([Сс]іті|[Юю]н)</afterbreak>
+</rule>
+<!-- смерть гр. Болтаровича, but not "9 гр." -->
 <rule break="no">
 <beforebreak>[^0-9][\h\v]+[Гг]р\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐA-Z]</afterbreak>
@@ -5613,7 +5617,7 @@
 <!-- арт. - артикул -->
 <!-- TODO: арт. - артист -->
 <rule break="no">
-<beforebreak>\bарт\.[\h\v]*</beforebreak>
+<beforebreak>\b([Аа]рт|[Мм]ал|[Рр]ис)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[0-9]</afterbreak>
 </rule>
 <!-- ХІІ р., 3-6 арт. -->

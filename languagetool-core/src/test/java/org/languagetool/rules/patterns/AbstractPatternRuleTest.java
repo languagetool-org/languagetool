@@ -94,6 +94,7 @@ public class AbstractPatternRuleTest {
         fileName = lang.getShortCode() + "/" + nameOnly;
       } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
           && !shortNameWithVariant.endsWith("-ANY") && Languages.get().size() > 1
+          && !shortNameWithVariant.equals("de-DE")
           && !shortNameWithVariant.equals("ca-ES")) { // TODO: change Catalan language definitions?
         fileName = lang.getShortCode() + "/" + shortNameWithVariant + "/" + nameOnly;
       } else {

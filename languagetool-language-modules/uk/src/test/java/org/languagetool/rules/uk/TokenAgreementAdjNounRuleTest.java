@@ -236,6 +236,8 @@ public class TokenAgreementAdjNounRuleTest {
     //FIXME: FN due to ignoring adj.v_oru + noun.*v_naz/zna
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що робить її найвищою будівля")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
+    
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("найцікавішій час")).length);
   }
   
   @Test
@@ -296,7 +298,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("від наступних пари")).length);
 
     assertEmptyMatch("Північний Рейн-Вестфалія");
-
+    
+    //TODO: too many FN with this exception
+//    assertEmptyMatch("тепер хоч по Підвальній трамваї можуть пройти");
   }
   
   @Test
@@ -510,6 +514,12 @@ public class TokenAgreementAdjNounRuleTest {
     
     assertEmptyMatch("не перевищував кількох десятих відсотка");
 
+  }
+  
+  @Test
+  public void testExceptionsPredic() throws IOException {
+    assertEmptyMatch("всі сумнівні слід викинути");
+    assertEmptyMatch("все зроблене слід обов'язково перетворити");
   }
   
   @Test

@@ -66,6 +66,7 @@ public class InsertCommaFilter extends RuleFilter {
           List<AnalyzedTokenReadings> tags1 = getTag(0, parts);
           List<AnalyzedTokenReadings> tags2 = getTag(1, parts);
           List<AnalyzedTokenReadings> tags3 = getTag(2, parts);
+          List<AnalyzedTokenReadings> tags4 = getTag(3, parts);
           String rest1 = String.join(" ", Arrays.asList(parts).subList(1, parts.length));
           if (patternTokenPos <= 2 || (patternTokenPos == 3 && match.getSentence().getTokens().length >= 1 && match.getSentence().getTokens()[1].hasPosTagStartingWith("ADV:"))) {
             if (parts.length == 5 && hasTag(tags1, "VER:") && hasTag(tags2, "ART:") && hasTag(tags3, "SUB:") && hasTag(getTag(3, parts), "SUB:") && hasTag(getTag(4, parts), "VER:")) {
@@ -88,6 +89,9 @@ public class InsertCommaFilter extends RuleFilter {
               suggestions.add(parts[0] + ", " + rest1);
             } else if (parts[0].matches("denke|dachte|glaube|schätze|vermute|behaupte") && hasTag(tags2, "PRO:DEM:") && hasTag(tags3, "SUB:")) {
               // "Ich schätze(,) diese Krawatte passt gut zum Anzug."
+              suggestions.add(parts[0] + ", " + rest1);
+            } else if (patternTokenPos == 1 && parts[1].matches("bei|für|mit") && parts[2].matches("[Di]ir|[Dd]ich|[Ee]uer|[Ee]uch") && hasTag(tags4, "VER:")) {
+              // "Hoffe(,) bei euch ist alles gut."
               suggestions.add(parts[0] + ", " + rest1);
             }
           }

@@ -118,6 +118,8 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Іван Ч. (1914 р. н.)");
     testSplit("альбом “Сніжність” (2006 р.) – разом із Юрієм");
     testSplit("СК “Слон” (2008 р.) ", "У минулому харків’янка");
+
+    testSplit("рис. 14, Мал. 5; Арт. 88-99");
   }
 
   @Test

@@ -108,9 +108,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         String catName = attrs.getValue(NAME);
+        isPremiumCategory = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM));
         String catId = attrs.getValue(ID);
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
-                Category.Location.EXTERNAL : Category.Location.INTERNAL;
+          Category.Location.EXTERNAL : Category.Location.INTERNAL;
         boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
         String tabName = attrs.getValue(TABNAME);
         category = new Category(new CategoryId(catId), catName, location, onByDefault, tabName);
@@ -123,6 +124,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
+        isPremiumFile = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM)); //check if all rules should be premium by default in this file
         idPrefix = attrs.getValue("idprefix");
         language = Languages.getLanguageForShortCode(languageStr);
         break;
@@ -141,6 +143,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
         url = new StringBuilder();
         id = attrs.getValue(ID);
         name = attrs.getValue(NAME);
+        String premiumRule = attrs.getValue(PREMIUM);
+        //check if this rule is premium
+        if (premiumRule != null) { //if flag is set on rule it overrides everything before
+          isPremiumRule = YES.equals(attrs.getValue(PREMIUM));
+        } else if (isPremiumRuleGroup){
+          isPremiumRule = true;
+        } else if (isPremiumCategory) {
+          isPremiumRule = true;
+        } else {
+          isPremiumRule = isPremiumFile;
+        }
         if (inRuleGroup) {
           subId++;
           if (id == null) {
@@ -255,7 +268,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         isRuleSuppressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
         if (isRuleSuppressMisspelled) {
           message.append(PLEASE_SPELL_ME);
-        } 
+        }
         break;
       case SUGGESTION:
         String strToAppend = "<suggestion>";
@@ -290,6 +303,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case RULEGROUP:
         ruleGroupId = attrs.getValue(ID);
+        isPremiumRuleGroup = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM));
         ruleGroupDescription = attrs.getValue(NAME);
         ruleGroupDefaultOff = OFF.equals(attrs.getValue(DEFAULT));
         ruleGroupDefaultTempOff = TEMP_OFF.equals(attrs.getValue(DEFAULT));
@@ -602,6 +616,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.addTags(ruleGroupTags);
         rule.addTags(categoryTags);
         rule.setSourceFile(sourceFile);
+        rule.setPremium(isPremiumRule);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();

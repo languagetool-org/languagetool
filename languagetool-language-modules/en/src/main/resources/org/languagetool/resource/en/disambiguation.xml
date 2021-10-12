@@ -2476,17 +2476,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>-->
 
-   <!-- <rule id="AIN_T_FILTER_NN" name="ain't">
+   <rule id="AIN_T_FILTER_NN" name="ain't">
         <pattern>
             <marker>
-                <token>ain</token>
+                <token>ai</token>
             </marker>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
         </pattern>
         <disambig action="remove" postag="NN.*"/>
-        <example type="ambiguous" inputform="ain[ain/NN]" outputform="ain[ain]">I <marker>ain</marker>'t stupid.</example>
-    </rule>-->
+        <example type="ambiguous" inputform="ai[ai/NN]" outputform="ai[ai]">Faith is believing what you know <marker>ai</marker>n't true.</example>
+    </rule>
 
    <!-- <rulegroup id="IT_AIN_T_VBZ" name="It ain't => VBZ">
         <rule>
@@ -6292,6 +6291,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">\p{L}</token>
                 <token>'s</token>
             </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token spacebefore="no">'s</token>
+                <token postag="JJS" />
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token>
                     <exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/>
@@ -6305,6 +6310,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">Let's go!</example>
             <example type="untouched">Let's see!</example>
+            <example type="untouched">This is a Type A's worst nightmare.</example>
             <example type="untouched">There's got to be another way.</example>
             <example type="untouched">That's got to be a good sign.</example>
             <example type="untouched">Incorrect grammar. It's can not be.</example>
@@ -7575,6 +7581,52 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">s?he</token>
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes">this|that</token>
+            <token regexp="yes">will|can</token>
+        </antipattern>
+        <antipattern><!-- He was support by ... -->
+            <token postag="NNP|PRP_S3.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">was|is|'s</token>
+            <token postag="VB" />
+            <token postag="IN" chunk="B-PP">
+                <exception>of</exception>
+            </token>
+        </antipattern>
+        <antipattern><!-- It is refund to ... -->
+            <token postag="NNP|PRP_S3.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">was|is|'s</token>
+            <token postag="VB" />
+            <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+        </antipattern>
+        <antipattern><!-- You were support by ... -->
+            <token postag="NNPS|PRP_S2.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">were|are|'re</token>
+            <token postag="VB" />
+            <token postag="IN" chunk="B-PP">
+                <exception>of</exception>
+            </token>
+        </antipattern>
+        <antipattern><!-- You were refund to ... -->
+            <token postag="NNPS|PRP_S2.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token regexp="yes">were|are|'re</token>
+            <token postag="VB" />
+            <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+        </antipattern>
+        <antipattern><!-- I am support by ... -->
+            <token>I</token>
+            <token regexp="yes">am|'m|was|were</token>
+            <token postag="VB" />
+            <token postag="IN" chunk="B-PP">
+                <exception>of</exception>
+            </token>
+        </antipattern>
+        <antipattern><!-- I was refund to ... -->
+            <token>I</token>
+            <token regexp="yes">am|'m|was|were</token>
+            <token postag="VB" />
+            <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7602,6 +7654,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I want to age gracefully.</example>
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
         <example type="untouched">Many play, but only one will win.</example>
+        <example type="untouched">This will bright my day.</example>
         <example type="untouched">Many claim that the behavior is in the past.</example>
         <example type="untouched">Doubled consonants count as two consonants.</example>
         <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
@@ -7738,6 +7791,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar (ether/either): You can ether type in the address bar or click on a bookmark.</example>
         <example type="untouched">It's shameful; few start at the right times and then they go home early.</example><!-- #3574 -->
         <example type="untouched">At Tatoeba, it is more important that a translation sound natural than that it be strictly faithful to the original.</example>
+        <example type="untouched">I was support by my colleague.</example>
         <!-- ambiguos #2682 -->
         <example type="untouched">Does not much <marker>care</marker> for the patient also cost much money?</example>
 <!-- Refer to the counter example        <example type="untouched">If any professional want to know the new practices of their field...</example>Premium #1564 -->
@@ -7845,6 +7899,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" regexp="yes">.+s</token>
             <token postag="NN|NN:UN?" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- hires so many people so fast -->
+            <token chunk="E-NP-plural"/>
+            <token regexp="yes">so|too</token>
+            <token postag="JJ" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -7887,6 +7946,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">My biggest concern with smart switches is that technology makes advancements too fast.</example><!-- #2923 -->
         <example type="untouched">The benefit is that that method makes improvements incredibly fast.</example><!-- #2923 -->
         <example type="untouched">It was 15 minutes too long.</example><!-- #2923 -->
+        <example type="untouched">... and that it hires so many people so fast that ...</example>
         <example type="untouched">Insights event pricing is still dependent on each customers use case.</example><!-- missing possessive apostrophe -->
         <example type="untouched">Was it 15 minutes too long when you did it?</example><!-- #2923 -->
         <example type="untouched">Bugs and new features can handled by the LT-team directly.</example><!-- #3251 -->
@@ -8573,6 +8633,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>'s</token>
             <token postag="VBZ" chunk_re=".-VP" />
         </antipattern>
+        <antipattern><!-- I'd like to be refund -->
+            <token regexp="yes" inflected="yes">like|want|have|try</token>
+            <token>to</token>
+            <token>be</token>
+            <token postag="VB" />
+            <token postag="IN|PCT|DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
             <marker>
@@ -8599,6 +8666,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. They are build from wood.</example>
         <example type="untouched">Incorrect grammar. We are drive to London.</example>
         <example type="untouched">Incorrect grammar: I will be search for you.</example><!-- #2657 -->
+        <example type="untouched">Incorrect grammar: I would like to be refund.</example><!-- #2657 -->
         <example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
     </rule>
 
@@ -9259,11 +9327,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>needs</token>
             <token postag="TO|PRP\$|DT" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token>singles</token>
+            <token>titles</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
                     <token postag="NNS"><exception postag="NNPS?" postag_regexp="yes"/></token>
-                    <token postag="VBZ"/>
+                    <token postag="VBZ">
+                        <exception regexp="yes">people|companies|soldiers|dinners</exception>
+                    </token>
                 </and>
             </marker>
             <token postag="NN(S|:UN?)" postag_regexp="yes">
@@ -9275,6 +9349,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is work.</example>
         <example type="untouched">...is placed on top of the opening to support the <marker>bricks</marker> above.</example>
         <example type="untouched">How many jelly beans does it take?</example>
+        <example type="untouched">Agassi was the first man to win four Australian Open singles titles.</example>
         <example type="untouched">... in the form of a buy and sell system with the <marker>tags</marker> taking the place of the more traditional...</example>
         <example type="untouched">... with Paul Jones and the <marker>Blues Society</marker> of Italian bluesman Guido...</example>
         <example type="untouched">... with DJ Hurricane to the <marker>AIDS benefit album</marker> 'No Alternative'.</example>
@@ -14016,7 +14091,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rule id="LETTER_AMP_LETTER_SPELLING" name="Ignore spelling of 'A&amp;B'">
         <pattern case_sensitive="yes">
-            <token regexp="yes">[A-Z]&amp;[A-Z]</token>
+            <token regexp="yes">[A-Z]{1,2}&amp;[A-Z]{1,2}</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -14349,6 +14424,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule>
             <antipattern>
                 <token postag="PCT" />
+                <token>forward</token>
+            </antipattern>
+            <antipattern>
+                <token postag="MD|TO" postag_regexp="yes" />
+                <token>forward</token>
+            </antipattern>
+            <antipattern>
+                <token>please</token>
                 <token>forward</token>
             </antipattern>
             <pattern>
@@ -15194,4 +15277,69 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="ambiguous" inputform="index[index/NN,index/VB,index/VBP]" outputform="index[index/NN]">I have <marker>index</marker>.php modifications.</example>
         </rule>
     </rulegroup>
+
+    <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
+        <rule><!-- lowercase word + abbreviation with no vowels -->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">.*[a-z].*</token>
+                <token min="0">(</token>
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!-- abbreviation with no vowels + lowercase word -->
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+                <token min="0">)</token>
+                <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="UN_HAPPY" name="ignore spelling of (un)happy">
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">un|dis</token>
+            </marker>
+            <token>)</token>
+            <token postag="JJ|VB.*" postag_regexp="yes" spacebefore="no" />
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="PLAY_ING" name="ignore spelling of play(ing)">
+        <pattern>
+            <token postag="VB" />
+            <token>(</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">ing|ed</token>
+            </marker>
+            <token>)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="UNIVERSITE_DE_X" name="ignore spelling of 'Université de'">
+        <pattern case_sensitive="yes">
+            <token>Université</token>
+            <token postag="UNKNOWN" min="0" />
+            <token regexp="yes">[Dd]e</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="UNIVERSIDAD_DE_X" name="ignore spelling of 'Universidad de'">
+        <pattern case_sensitive="yes">
+            <token>Universidad</token>
+            <token postag="UNKNOWN" min="0" />
+            <token regexp="yes">[Dd]el?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

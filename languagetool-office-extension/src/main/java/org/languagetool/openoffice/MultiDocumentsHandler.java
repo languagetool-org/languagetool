@@ -619,7 +619,10 @@ public class MultiDocumentsHandler {
           }
         }
         if (goneContext != null ) {
-          removeDoc(docID);
+          int n = removeDoc(docID);
+          if (n >= 0 && n < i) {
+            return i - 1;
+          }
         }
         return i;
       }
@@ -672,7 +675,7 @@ public class MultiDocumentsHandler {
   /**
    * Delete a document number and all internal space
    */
-  private void removeDoc(String docID) {
+  private int removeDoc(String docID) {
     if (goneContext != null) {
       for (int i = documents.size() - 1; i >= 0; i--) {
         if (!docID.equals(documents.get(i).getDocID())) {
@@ -689,10 +692,12 @@ public class MultiDocumentsHandler {
               MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
 //          }
             documents.remove(i);
+            return (i);
           }
         }
       }
     }
+    return (-1);
   }
   
   /**
@@ -745,7 +750,9 @@ public class MultiDocumentsHandler {
         currentLanguage = docLanguage;
       }
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      lt = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
+//      lt = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
+//          new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
+      lt = new SwJLanguageTool(currentLanguage, null,
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
       config.initStyleCategories(lt.getAllRules());
       /* The next row is only for a single line break marks a paragraph
@@ -1323,10 +1330,16 @@ public class MultiDocumentsHandler {
         return false;
       }
       if (xContext == null) {
+        if (showMessage) { 
+          MessageHandler.showMessage("There may be a installation problem! \nNo xContext!");
+        }
         return false;
       }
       XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
       if (xComponent == null) {
+        if (showMessage) { 
+          MessageHandler.showMessage("There may be a installation problem! \nNo xComponent!");
+        }
         return false;
       }
       Locale locale;

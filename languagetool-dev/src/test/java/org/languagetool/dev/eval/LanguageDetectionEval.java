@@ -45,7 +45,8 @@ class LanguageDetectionEval {
     languageIdentifier = new LanguageIdentifier();
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
-    //languageIdentifier.enableFasttext(new File("/prg/fastText-0.1.0/fasttext"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
+    //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
+    //languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
   }
 
   private float evaluate(Language language) throws IOException {
@@ -60,7 +61,7 @@ class LanguageDetectionEval {
       List<String> list = getLines(stream);
       for (String line : list) {
         try {
-          errors += getNumberOfWrongDetections(line, language, MIN_CHARACTERS);
+          errors += getWrongDetectionRatio(line, language, MIN_CHARACTERS);
         } catch (DetectionException e) {
           //System.out.println("FAIL: " + e.getMessage());
         }
@@ -70,7 +71,7 @@ class LanguageDetectionEval {
     }
   }
 
-  private float getNumberOfWrongDetections(String line, Language expectedLanguage, int threshold) {
+  private float getWrongDetectionRatio(String line, Language expectedLanguage, int threshold) {
     int errors = 0;
     int checks = 0;
     for (int i = threshold; i < line.length(); i++) {

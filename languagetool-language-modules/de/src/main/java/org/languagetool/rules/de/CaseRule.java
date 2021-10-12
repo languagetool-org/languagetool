@@ -197,6 +197,12 @@ public class CaseRule extends Rule {
       regex(".*")
     ),
     Arrays.asList(
+      // non-alphanumeric character
+      SENT_START,
+      regex("^[^a-zA-ZäöüÄÖÜ\\d\\s:]+$"),
+      csRegex("[A-ZÄÖÜ].*")
+    ),
+    Arrays.asList(
       regex("Roten?"),
       regex("Bete")
     ),
@@ -994,6 +1000,47 @@ public class CaseRule extends Rule {
       csToken("die"),
       new PatternTokenBuilder().posRegex("SUB:NOM:PLU.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
       new PatternTokenBuilder().posRegex("SUB:.*:SIN").csTokenRegex("[A-ZÖÜÄ].+").build()
+    ),
+    Arrays.asList(
+      // Sie starrt ständig ins Nichts. 
+      csRegex("vorm|ins"),
+      csToken("Nichts")
+    ),
+    Arrays.asList(
+      // zahlreiche Kulturschaffende, jungen Wilden
+      csRegex("[a-zäöü].+en?"),
+      new PatternTokenBuilder().posRegex("SUB:NOM:PLU.*").csTokenRegex("[A-ZÄÖÜ].+").build(),
+      csRegex(",|und|oder|aber|\\.|!|\\?|…")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      regex("\\u2063"),
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // ignore uppercase words after invisible commas at sent start
+      SENT_START,
+      regex("\\u2063"),
+      regex("\\u2063"),
+      regex("\\u2063"),
+      regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 
@@ -1026,6 +1073,7 @@ public class CaseRule extends Rule {
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
+    "Responsive", // eng
     "Mo",
     "Di",
     "Mi",
@@ -1087,6 +1135,8 @@ public class CaseRule extends Rule {
     "Interessierten", // temporary fix
     "Infizierte", // temporary fix
     "Infizierten", // temporary fix
+    "Gehörlose", // temporary fix
+    "Gehörlosen", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
@@ -1916,6 +1966,7 @@ public class CaseRule extends Rule {
         !isExceptionPhrase(i, tokens) &&
         !(i == 2 && "“".equals(tokens[i-1].getToken())) &&   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)
         !isCaseTypo(tokens[i].getToken()) &&
+        !followedByGenderGap(tokens, i) &&
         !isNounWithVerbReading(i, tokens) &&
         !speller.isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
@@ -1930,6 +1981,13 @@ public class CaseRule extends Rule {
       }
       addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], lcWord);
     }
+  }
+
+  private boolean followedByGenderGap(AnalyzedTokenReadings[] tokens, int i) {
+    if (i + 2 < tokens.length && tokens[i+1].getToken().equals(":") && tokens[i+2].getToken().matches("in|innen")) {
+      return true;
+    }
+    return false;
   }
 
   private boolean isCaseTypo(String token) {

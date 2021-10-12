@@ -550,6 +550,12 @@ public class AgreementRule extends Rule {
       csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
       csRegex("gemacht|ergeben|gestiftet")
     ),
+    Arrays.asList( // Eine Lösung die Spaß macht
+      regex("die|der|das"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
+      csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
+      new PatternTokenBuilder().tokenRegex("machen|schaffen|stiften|ergeben").matchInflectedForms().build()
+    ),
     Arrays.asList( // Soll das Spaß machen?
       posRegex("SENT_START|PKT|KON:NEB"),
       regex("soll|sollte|wird|würde|kann|lönnte"),
@@ -1163,6 +1169,11 @@ public class AgreementRule extends Rule {
       csToken("das"),
       csToken("Sinn")
     ),
+    Arrays.asList( // Mir machte das Spaß
+      csRegex("machte?"),
+      csToken("das"),
+      csRegex("Spa(ß|ss)|Freude")
+    ),
     Arrays.asList( // Das sind beides Lichtschalter
       token("das"),
       csRegex("sind|waren"),
@@ -1241,6 +1252,27 @@ public class AgreementRule extends Rule {
       token("jeder"),
       posRegex("SUB:(AKK|DAT).*"),
       posRegex("VER.*")
+    ),
+    Arrays.asList( // der fließend Französisch sprechende Trudeau
+      posRegex("(ART|PRO:DEM).*"),
+      posRegex("ADV.*"),
+      posRegex("SUB.*"),
+      posRegex("PA[12].*")
+    ),
+    Arrays.asList( // Spricht dieser fließend Französisch
+      posRegex("VER.*[123].*"),
+      posRegex("(ART|PRO:DEM).*"),
+      posRegex("ADV.*"),
+      posRegex("SUB.*")
+    ),
+    Arrays.asList( // Der Deutsch Langhaar ist ein mittelgroßer Jagdhund
+      token("Deutsch"),
+      token("Langhaar")
+    ),
+    Arrays.asList( // Einige nennen das 
+      new PatternTokenBuilder().csToken("nennen").matchInflectedForms().build(),
+      token("das"),
+      posRegex("SUB:NOM:SIN:(FEM|MAS)")
     )
   );
 
@@ -1325,6 +1357,8 @@ public class AgreementRule extends Rule {
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
+    "Rückgrad", // found by speller
+    "Rückgrads", // found by speller
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"

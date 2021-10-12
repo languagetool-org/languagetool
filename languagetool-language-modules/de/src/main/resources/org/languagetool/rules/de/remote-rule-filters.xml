@@ -27,14 +27,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
-        <rule id="AI_HYDRA_LEO_CASE_LOWER" name="">
+        <rule id="AI_HYDRA_LEO_CASE_UPPER" name="">
+            <!-- no upper for mRNA, iPhone etc. -->
             <pattern>
                 <marker>
-                    <token regexp="yes">.*[^\p{IsLatin}\p{Nd}\p{P}-].*</token>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöüß][A-ZÄÖÜẞ-].*</token>
                 </marker>
             </pattern>
-            <example correction="">Die Geowissenschaften (von griechisch <marker>Γεω</marker> geo zu gē „Erde“; Erdwissenschaften) beschäftigen sich mit der Erforschung der naturwissenschaftlichen Aspekte des Systems Erde.</example>
+            <example correction="">Das <marker>iPhone</marker> XR ist das günstigste der drei neuen Modelle.</example>
+            <example correction="">An eine <marker>mRNA</marker> können sich aber mehrere Ribosomen zugleich anlagern und jeweils eine Polypeptidkette synthetisieren.</example>
+            <example correction="">Es handelt sich um einen <marker>mRNA-Impfstoff</marker>.</example>
         </rule>
+        <rulegroup id="AI_HYDRA_LEO_CASE_LOWER" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[^\p{IsLatin}\p{Nd}\p{P}-].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Die Geowissenschaften (von griechisch <marker>Γεω</marker> geo zu gē „Erde“; Erdwissenschaften) beschäftigen sich mit der Erforschung der naturwissenschaftlichen Aspekte des Systems Erde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Kommt</marker> dein Kind.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
@@ -87,6 +109,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="PA2.*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Das erste, was passierte, haben natürlich die <marker>Ärzte</marker> die Rechtsanwälte verständigt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_WIE_WIR" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token postag="VER.*[123]:SIN.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">@B_Kardell <marker>Wie</marker> hält es sich bei Bonussemestern mit VertrerInnen in gewählten Organen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*[123]:PLU.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token regexp="yes">viele?</token>
+                </pattern>
+                <example correction="">Oder vielleicht haben <marker>wie</marker> viele von was was wie getan?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>als</token>
+                    <marker>
+                        <token skip="-1">wie</token>
+                    </marker>
+                    <token postag="VER.*[123]:SIN.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Die Beziehungen zwischen Erwachsenen sind komplizierter, als <marker>wie</marker> es auf den ersten Blick erscheint.</example>
             </rule>
         </rulegroup>
     </category>

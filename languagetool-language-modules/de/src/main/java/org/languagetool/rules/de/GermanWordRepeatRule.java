@@ -48,6 +48,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       csToken("Bora")
     ),
     Arrays.asList(
+      csToken("Miu"),
+      csToken("Miu")
+    ),
+    Arrays.asList(
       token("Moin"),
       token("Moin")
     ),

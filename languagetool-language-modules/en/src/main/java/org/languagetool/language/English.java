@@ -61,7 +61,7 @@ import java.util.function.Function;
  */
 public class English extends Language implements AutoCloseable {
 
-  private static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
+  protected static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
       .expireAfterWrite(30, TimeUnit.MINUTES)
       .build(new CacheLoader<String, List<Rule>>() {
         @Override
@@ -205,7 +205,8 @@ public class English extends Language implements AutoCloseable {
         new EnglishRedundancyRule(messages),
         new SimpleReplaceRule(messages, this),
         new ReadabilityRule(messages, this, userConfig, false),
-        new ReadabilityRule(messages, this, userConfig, true)
+        new ReadabilityRule(messages, this, userConfig, true), 
+        new EnglishRepeatedWordsRule(messages)
     ));
     return allRules;
   }
@@ -313,11 +314,13 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium
       case "WRONG_APOSTROPHE":          return 5;
+      case "YOU_GOOD":                  return 3;   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "THIS_MISSING_VERB":         return 1;   // higher priority than A_MY
+      case "YOURE":                     return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "LIFE_COMPOUNDS":            return 1;
       case "DRIVE_THROUGH_HYPHEN":      return 1;   // higher prio than agreement rules
       case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
@@ -396,7 +399,6 @@ public class English extends Language implements AutoCloseable {
       case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
       case "NON_STANDARD_ALPHABETIC_CHARACTERS": return 1;  // prefer over spell checker
       case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
-      case "YOU_GOOD":                  return 1;   // prefer over PRP_PAST_PART
       case "THAN_THANK":                return 1;   // prefer over THAN_THEN
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
@@ -507,7 +509,10 @@ public class English extends Language implements AutoCloseable {
       return -20;
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_HYDRA_LEO_CP_YOUR_YOURE")) {
+      if (id.startsWith("AI_HYDRA_LEO_CP")) {
+        return 2;
+      }
+      if (id.startsWith("AI_HYDRA_LEO_CP_YOU")) {
         return 1;
       }
       if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {

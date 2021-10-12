@@ -71,6 +71,10 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
+    assertGood("Der fließend Französisch sprechende Präsident dankt stilvoll ab.");
+    assertGood("Spricht der fließend Französisch?");
+    assertGood("Spricht dieser fließend Französisch, muss er viel Geld verdienen.");
+    assertGood("Der letzte Woche beschlossene Etat ist unwirksam.");
     assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
@@ -510,6 +514,10 @@ public class AgreementRuleTest {
     assertGood("Ich weiß, dass jeder LanguageTool benutzen sollte.");
     assertGood("1992 übernahm die damalige Ernst Klett Schulbuchverlag GmbH, Stuttgart, den reprivatisierten Verlag Haack Gotha");
     assertGood("Überlegst du dir einen ID.3 zu leasen?");
+    assertGood("Der Deutsch Langhaar ist ein mittelgroßer Jagdhund");
+    assertGood("Eine Lösung die Spaß macht");
+    assertGood("Mir machte das Spaß.");
+    assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

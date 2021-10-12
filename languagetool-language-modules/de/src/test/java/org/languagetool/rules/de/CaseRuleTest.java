@@ -186,6 +186,7 @@ public class CaseRuleTest {
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
+    assertGood("Liebe Kund:in");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -399,6 +400,8 @@ public class CaseRuleTest {
     assertGood("Das ist ein Mann.");
     assertBad("Das ist Ein Mann.");
 
+    assertBad("Sie erhalten bald unsere Neuesten Insights.");
+
     assertGood("Du Ärmste!");
     assertGood("Du Ärmster, leg dich besser ins Bett.");
     assertGood("Er wohnt Am Hohen Hain 6a");
@@ -407,6 +410,11 @@ public class CaseRuleTest {
     assertGood("Der Platz auf dem die Ahnungslosen Kopf an Kopf stehen.");
     assertGood("4.)   Bei Beschäftigung von Hilfskräften: Schadenfälle durch Hilfskräfte");
     assertGood("Es besteht aus Schülern, Arbeitstätigen und Studenten.");
+    assertGood("Sie starrt ständig ins Nichts.");
+    assertGood("\\u2063Das Haus ist schlön.");
+    assertGood("\\u2063\\u2063Das Haus ist schlön.");
+    assertGood("Die Mannschaft ist eine gelungene Mischung aus alten Haudegen und jungen Wilden.");
+    assertGood("Alleine durch die bloße Einwohnerzahl des Landes leben im Land zahlreiche Kulturschaffende, nach einer Schätzung etwa 30.000 Künstler.");
   }
 
   private void assertGood(String input) throws IOException {

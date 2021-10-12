@@ -57,6 +57,9 @@ public class HTTPServerConfig {
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
 
+  protected boolean logIp = true;
+  protected String logIpMatchingPattern = "__logIPNowForLanguageTool__";
+
   protected URI serverURL = null;
   protected int maxTextLengthAnonymous = Integer.MAX_VALUE;
   protected int maxTextLengthLoggedIn = Integer.MAX_VALUE;
@@ -94,11 +97,6 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
-  protected String hiddenMatchesServer;
-  protected int hiddenMatchesServerTimeout;
-  protected int hiddenMatchesServerFailTimeout;
-  protected int hiddenMatchesServerFall;
-  protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
   protected boolean premiumAlways;
   protected boolean premiumOnly;
 
@@ -142,7 +140,7 @@ public class HTTPServerConfig {
 
   /**
    * caching to avoid database hits for e.g. dictionaries
-   * null -> disabled
+   * null -&gt; disabled
    */
   @Nullable
   protected String redisHost = null;
@@ -175,8 +173,7 @@ public class HTTPServerConfig {
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
-    "grammalecteServer", "grammalecteUser", "hiddenMatchesLanguages", "hiddenMatchesServer", "hiddenMatchesServerFailTimeout",
-    "hiddenMatchesServerTimeout", "hiddenMatchesServerFall", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
+    "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
@@ -252,10 +249,10 @@ public class HTTPServerConfig {
           try {
             allowOriginUrl = args[++i];
             if (allowOriginUrl.startsWith("--")) {
-              throw new IllegalArgumentException("Missing argument for '--allow-origin' (e.g. an URL or '*')");
+              allowOriginUrl = "*";
             }
           } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Missing argument for '--allow-origin' (e.g. an URL or '*')");
+            allowOriginUrl = "*";
           }
           break;
         case LANGUAGE_MODEL_OPTION:
@@ -269,6 +266,19 @@ public class HTTPServerConfig {
           break;
         case "--stoppable":  // internal only, doesn't need to be documented
           stoppable = true;
+          break;
+        case "--notLogIP":
+          logIp = false;
+          break;
+        case "--logIpMatchingPattern":
+          try {
+            logIpMatchingPattern = args[++i];
+            if (logIpMatchingPattern.startsWith("--")) {
+              throw new IllegalArgumentException("Missing argument for '--logIpMatchingPattern' (e.g. any random String)");
+            }
+          } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Missing argument for '--logIpMatchingPattern' (e.g. any random String)");
+          }
           break;
         default:
           if (args[i].contains("=")) {
@@ -369,16 +379,6 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
-        hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
-        hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
-        hiddenMatchesServerFailTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFailTimeout", "10000"));
-        hiddenMatchesServerFall = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFall", "1"));
-        String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
-        for (String code : langCodes.split(",\\s*")) {
-          if (!code.isEmpty()) {
-            hiddenMatchesLanguages.add(Languages.getLanguageForShortCode(code));
-          }
-        }
         String premiumAlwaysValue = props.getProperty("premiumAlways");
         if (premiumAlwaysValue != null) {
           premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
@@ -979,74 +979,6 @@ public class HTTPServerConfig {
     this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
   }
   
-  /**
-   * URL of server that is queried to add additional (but hidden) matches to the result.
-   * @since 4.0
-   */
-  @Nullable
-  String getHiddenMatchesServer() {
-    return hiddenMatchesServer;
-  }
-
-  /**
-   * @since 4.4
-   * @param hiddenMatchesServerTimeout
-   */
-  @Experimental
-  public void setHiddenMatchesServerTimeout(int hiddenMatchesServerTimeout) {
-    this.hiddenMatchesServerTimeout = hiddenMatchesServerTimeout;
-  }
-
-  /**
-   * Timeout in milliseconds for querying {@link #getHiddenMatchesServer()}.
-   * @since 4.0
-   */
-  int getHiddenMatchesServerTimeout() {
-    return hiddenMatchesServerTimeout;
-  }
-
-
-  /**
-   * @since 4.4
-   */
-  @Experimental
-  public void setHiddenMatchesServer(String hiddenMatchesServer) {
-    this.hiddenMatchesServer = hiddenMatchesServer;
-  }
-
-  /**
-   * @since 4.4
-   */
-  @Experimental
-  public void setHiddenMatchesLanguages(List<Language> hiddenMatchesLanguages) {
-    this.hiddenMatchesLanguages = hiddenMatchesLanguages;
-  }
-
-  /**
-   * Period to skip requests to hidden matches server after a timeout (in milliseconds)
-   * @since 4.5
-   */
-  int getHiddenMatchesServerFailTimeout() {
-    return hiddenMatchesServerFailTimeout;
-  }
-
-  /**
-   * Languages for which {@link #getHiddenMatchesServer()} will be queried.
-   * @since 4.0
-   */
-  List<Language> getHiddenMatchesLanguages() {
-    return hiddenMatchesLanguages;
-  }
-
-  /**
-   * Number of failed/timed out requests after which server gets marked as down
-   * @since 5.1
-   */
-  @Experimental
-  int getHiddenMatchesServerFall() {
-    return hiddenMatchesServerFall;
-  }
-
   /**
    * @return the file from which server rules configuration should be loaded, or {@code null}
    * @since 3.0

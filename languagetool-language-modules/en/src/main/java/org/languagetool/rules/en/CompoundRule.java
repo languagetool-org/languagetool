@@ -25,9 +25,11 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tagging.en.EnglishTagger;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -119,6 +121,7 @@ public class CompoundRule extends AbstractCompoundRule {
             "Compound");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
+    setUrl(Tools.getUrl("https://insights.languagetool.com/post/hyphen/"));
     if (englishSpellerRule == null) {
       englishSpellerRule = new MorfologikAmericanSpellerRule(messages, new AmericanEnglish());
     }

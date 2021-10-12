@@ -213,8 +213,8 @@ public class UkrainianHybridDisambiguationTest {
         "/[null]SENT_START Всіляких/[всілякий]adj:p:v_rod:&pron:gen|Всіляких/[всілякий]adj:p:v_zna:ranim:&pron:gen"
         + "  /[null]null Василів/[Василь]noun:anim:p:v_rod:prop:fname|Василів/[Василь]noun:anim:p:v_zna:prop:fname|Василів/[Василів]adj:m:v_kly|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
         + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname"
-        + "|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1"
-        + "|Василів/[Василів]noun:inanim:m:v_naz:prop:geo:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:geo:xp2",
+        + "|Василів/[Василів]noun:anim:m:v_naz:prop:lname"
+        + "|Василів/[Василів]noun:inanim:m:v_naz:prop:geo|Василів/[Василів]noun:inanim:m:v_zna:prop:geo",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("2 Андрії",
@@ -235,7 +235,7 @@ public class UkrainianHybridDisambiguationTest {
     // untouched
     TestTools.myAssert("Василів автомобіль",
       "/[null]SENT_START Василів/[Василів]adj:m:v_kly|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
-      + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:geo:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:geo:xp2"
+      + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname|Василів/[Василів]noun:anim:m:v_naz:prop:lname|Василів/[Василів]noun:inanim:m:v_naz:prop:geo|Василів/[Василів]noun:inanim:m:v_zna:prop:geo"
 //      + " |Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:xp2"
       + "  /[null]null автомобіль/[автомобіль]noun:inanim:m:v_naz|автомобіль/[автомобіль]noun:inanim:m:v_zna",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -349,7 +349,7 @@ public class UkrainianHybridDisambiguationTest {
         "/[null]SENT_START"
         	+ " С./[С.]noun:anim:m:v_naz:prop:fname:abbr"
           + "  /[null]null"
-          + " Макаров/[Макаров]noun:anim:m:v_naz:prop:lname|Макаров/[Макаров]noun:inanim:m:v_naz:prop:geo:xp2|Макаров/[Макаров]noun:inanim:m:v_zna:prop:geo:xp2"
+          + " Макаров/[Макаров]noun:anim:m:v_naz:prop:lname|Макаров/[Макаров]noun:inanim:m:v_naz:prop:geo|Макаров/[Макаров]noun:inanim:m:v_zna:prop:geo"
           + " ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -459,7 +459,7 @@ public class UkrainianHybridDisambiguationTest {
       "/[null]SENT_START"
       +  " 1/[1]number"
       + "  /[null]null"
-      + " ст./[ст.]adj:f:v_dav:nv:abbr|ст./[ст.]adj:f:v_naz:nv:abbr|ст./[ст.]adj:f:v_oru:nv:abbr|ст./[ст.]adj:f:v_rod:nv:abbr|ст./[ст.]adj:f:v_zna:nv:abbr|ст./[ст.]adj:p:v_dav:nv:abbr|ст./[ст.]adj:p:v_naz:nv:abbr|ст./[ст.]adj:p:v_oru:nv:abbr|ст./[ст.]adj:p:v_rod:nv:abbr|ст./[ст.]adj:p:v_zna:nv:abbr"
+      + " ст./[ст.]adj:f:v_dav:nv:abbr|ст./[ст.]adj:f:v_naz:nv:abbr|ст./[ст.]adj:f:v_oru:nv:abbr|ст./[ст.]adj:f:v_rod:nv:abbr|ст./[ст.]adj:f:v_zna:nv:abbr|ст./[ст.]adj:p:v_dav:nv:abbr|ст./[ст.]adj:p:v_naz:nv:abbr|ст./[ст.]adj:p:v_oru:nv:abbr|ст./[ст.]adj:p:v_rod:nv:abbr|ст./[ст.]adj:p:v_zna:ranim:nv:abbr|ст./[ст.]adj:p:v_zna:rinanim:nv:abbr"
       + "  /[null]null ложка/[ложка]noun:inanim:f:v_naz",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -467,7 +467,7 @@ public class UkrainianHybridDisambiguationTest {
       "/[null]SENT_START"
       +  " 1/[1]number"
       + "  /[null]null"
-      + " ст./[ст.]adj:m:v_dav:nv:abbr|ст./[ст.]adj:m:v_naz:nv:abbr|ст./[ст.]adj:m:v_oru:nv:abbr|ст./[ст.]adj:m:v_rod:nv:abbr|ст./[ст.]adj:m:v_zna:nv:abbr"
+      + " ст./[ст.]adj:m:v_dav:nv:abbr|ст./[ст.]adj:m:v_naz:nv:abbr|ст./[ст.]adj:m:v_oru:nv:abbr|ст./[ст.]adj:m:v_rod:nv:abbr|ст./[ст.]adj:m:v_zna:ranim:nv:abbr|ст./[ст.]adj:m:v_zna:rinanim:nv:abbr"
       + "  /[null]null сержант/[сержант]noun:anim:m:v_naz",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -550,7 +550,7 @@ public class UkrainianHybridDisambiguationTest {
 
     // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
     assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
-        + " Петрович[Петрович/noun:anim:f:v_dav:nv:prop:lname,Петрович/noun:anim:f:v_naz:nv:prop:lname,Петрович/noun:anim:f:v_oru:nv:prop:lname,Петрович/noun:anim:f:v_rod:nv:prop:lname,Петрович/noun:anim:f:v_zna:nv:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname:xp2,Петрович/noun:anim:m:v_naz:prop:pname]"
+        + " Петрович[Петрович/noun:anim:f:v_dav:nv:prop:lname,Петрович/noun:anim:f:v_naz:nv:prop:lname,Петрович/noun:anim:f:v_oru:nv:prop:lname,Петрович/noun:anim:f:v_rod:nv:prop:lname,Петрович/noun:anim:f:v_zna:nv:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname,Петрович/noun:anim:m:v_naz:prop:pname]"
         + ".[</S>]",
         analyzedSentence.toString());
 

@@ -336,6 +336,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("ans ") &&
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("infra ") &&
+                   !k.getReplacement().toLowerCase().startsWith("hypo ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
@@ -351,7 +352,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("h ") &&
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
+                   !k.getReplacement().toLowerCase().startsWith("s ") &&
+                   !k.getReplacement().toLowerCase().startsWith("t ") &&
                    !k.getReplacement().toLowerCase().startsWith("um ") &&
+                   !k.getReplacement().toLowerCase().startsWith("oft ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
@@ -363,6 +367,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" st") &&
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ability") && // interruptability
+                   !k.getReplacement().endsWith(" ware") && // drinkware
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
                    !k.getReplacement().endsWith(" ions") && // sealions
@@ -375,6 +380,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
+                   !k.getReplacement().endsWith(" ne") &&
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
                    !k.getReplacement().endsWith(" ans") &&
@@ -390,6 +396,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" er") &&
                    !k.getReplacement().endsWith(" na") &&
+                   !k.getReplacement().endsWith(" don") &&
+                   !k.getReplacement().endsWith(" dons") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -511,12 +519,56 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("UberEats", Arrays.asList("Uber Eats"));
     s.put("KWH", Arrays.asList("kWh"));
     s.put("MWH", Arrays.asList("MWh"));
+    s.put("xray", Arrays.asList("X-ray"));
+    s.put("xrays", Arrays.asList("X-rays"));
     return s;
   }
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("se", Arrays.asList("see"));
+    s.put("maam", Arrays.asList("ma'am", "madam"));
+    s.put("Maam", Arrays.asList("Ma'am", "Madam"));
+    s.put("mam", Arrays.asList("ma'am"));
+    s.put("Mam", Arrays.asList("Ma'am"));
+    s.put("evidents", Arrays.asList("evidence"));
+    s.put("Evidents", Arrays.asList("Evidence"));
+    s.put("greatfull", Arrays.asList("grateful"));
+    s.put("Greatfull", Arrays.asList("Grateful"));
+    s.put("verticle", Arrays.asList("vertical"));
+    s.put("Verticle", Arrays.asList("Vertical"));
+    s.put("definaly", Arrays.asList("definitely"));
+    s.put("Definaly", Arrays.asList("Definitely"));
+    s.put("definally", Arrays.asList("definitely"));
+    s.put("Definally", Arrays.asList("Definitely"));
+    s.put("handable", Arrays.asList("handleable"));
+    s.put("Handable", Arrays.asList("Handleable"));
+    s.put("Tuffed", Arrays.asList("Toughed"));
+    s.put("tuffed", Arrays.asList("toughed"));
+    s.put("Tuffest", Arrays.asList("Toughest"));
+    s.put("tuffest", Arrays.asList("toughest"));
+    s.put("Tuffer", Arrays.asList("Tougher"));
+    s.put("tuffer", Arrays.asList("tougher"));
+    s.put("Fundrace", Arrays.asList("Fundraise"));
+    s.put("fundrace", Arrays.asList("fundraise"));
+    s.put("Fundraces", Arrays.asList("Fundraises"));
+    s.put("fundraces", Arrays.asList("fundraises"));
+    s.put("Fundracing", Arrays.asList("Fundraising"));
+    s.put("fundracing", Arrays.asList("fundraising"));
+    s.put("Fundraced", Arrays.asList("Fundraised"));
+    s.put("fundraced", Arrays.asList("fundraised"));
+    s.put("hollyday", Arrays.asList("holiday"));
+    s.put("Hollyday", Arrays.asList("Holiday"));
+    s.put("hollydays", Arrays.asList("holidays"));
+    s.put("Hollydays", Arrays.asList("Holidays"));
+    s.put("overnite", Arrays.asList("overnight"));
+    s.put("Overnite", Arrays.asList("Overnight"));
+    s.put("tonite", Arrays.asList("tonight"));
+    s.put("Tonite", Arrays.asList("Tonight"));
+    s.put("nite", Arrays.asList("night"));
+    s.put("Nite", Arrays.asList("Night"));
+    s.put("nites", Arrays.asList("nights"));
+    s.put("Nites", Arrays.asList("Nights"));
     s.put("upto", Arrays.asList("up to", "unto"));
     s.put("Upto", Arrays.asList("Up to", "Unto"));
     s.put("prolly", Arrays.asList("probably"));

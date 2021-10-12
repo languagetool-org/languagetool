@@ -56,13 +56,23 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   @Override
   protected List<String> getSpellingSuggestions(String w) throws IOException {
     List<String> suggestions = new ArrayList<>();
-    AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];
-    AnalyzedToken token = new AnalyzedToken(w, null, null);
-    atk[0] = new AnalyzedTokenReadings(token);
-    AnalyzedSentence sentence = new AnalyzedSentence(atk);
-    RuleMatch[] matches = morfologikRule.match(sentence);
-    if (matches.length > 0) {
-      suggestions.addAll(matches[0].getSuggestedReplacements());
+    List<String> wordsToCheck = new ArrayList<>();
+    wordsToCheck.add(w);
+    if (w.endsWith("s")) {
+      wordsToCheck.add(w.substring(0, w.length() - 1));
+    }
+    if (w.matches("[aeioué]$")) {
+      wordsToCheck.add(w + "s");
+    }
+    for (String word : wordsToCheck) {
+      AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];
+      AnalyzedToken token = new AnalyzedToken(word, null, null);
+      atk[0] = new AnalyzedTokenReadings(token);
+      AnalyzedSentence sentence = new AnalyzedSentence(atk);
+      RuleMatch[] matches = morfologikRule.match(sentence);
+      if (matches.length > 0) {
+        suggestions.addAll(matches[0].getSuggestedReplacements());
+      }  
     }
     return suggestions;
   }

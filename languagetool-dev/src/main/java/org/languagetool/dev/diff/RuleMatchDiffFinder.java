@@ -419,7 +419,10 @@ public class RuleMatchDiffFinder {
         fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
         fw.write("</td>");
         fw.write("<td>");
-        fw.write("  <a href='" + file + "'>" + file.replaceFirst("result_.*?_", "").replace(".html", "") + "</a>");
+        String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
+        fw.write("  <a href='" + file + "'>" + id + "</a>");
+        fw.write("  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
+          id.replaceFirst("\\[[0-9]+\\]", "") + "&var-language=" + langCode + "'>[g]</a>");
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
           fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");
@@ -538,15 +541,22 @@ public class RuleMatchDiffFinder {
     return id;
   }
 
+  private static void printUsageAndExit() {
+    System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <date>");
+    System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
+    System.out.println("                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
+    System.exit(1);
+  }
+
   public static void main(String[] args) throws IOException {
     RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
     LightRuleMatchParser parser = new LightRuleMatchParser();
+    if (args.length == 0) {
+      printUsageAndExit();
+    }
     if (args[0].contains("XX") && args[1].contains("XX") && args[2].contains("XX")) {
       if (args.length != 4) {
-        System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <date>");
-        System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
-        System.out.println("                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
-        System.exit(1);
+        printUsageAndExit();
       }
       System.out.println("Running in multi-file mode, replacing 'XX' in filenames with lang codes...");
       String file1 = args[0];

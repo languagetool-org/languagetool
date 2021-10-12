@@ -35,10 +35,13 @@ import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.util.*;
 
 import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
@@ -73,7 +76,7 @@ class ApiV2 {
     } else if (path.equals("info")) {
       handleSoftwareInfoRequest(httpExchange);
     } else if (path.equals("check")) {
-      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
+      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
     } else if (path.equals("words")) {
       handleWordsRequest(httpExchange, parameters, config);
     } else if (path.equals("words/add")) {
@@ -133,7 +136,7 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
+  private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
     AnnotatedText aText;
     if (parameters.containsKey("text") && parameters.containsKey("data")) {
       throw new BadRequestException("Set only 'text' or 'data' parameter, not both");
@@ -159,7 +162,19 @@ class ApiV2 {
     } else {
       throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
+    //get from config
+    if (config.logIp && aText.getPlainText().equals(config.logIpMatchingPattern)) {
+      handleIpLogMatch(httpExchange, remoteAddress);
+      //no need to check text again rules
+      return;
+    }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
+  }
+
+  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
+    Logger logger = LoggerFactory.getLogger(ApiV2.class);
+    InetSocketAddress localAddress = httpExchange.getLocalAddress();
+    logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
   }
 
   private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {

@@ -1558,6 +1558,15 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token inflected="yes" regexp="yes">chico|hombre|mujer|persona|modelo</token>
+                <marker>
+                    <token>icono</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token postag="NC.*" postag_regexp="yes" inflected="yes">libro</token>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes">entrevista|resumen|documento|testimonio</token>
@@ -1811,7 +1820,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <token postag="N.*" postag_regexp="yes" inflected="yes">propuesta</token>
             </marker>
-            <token>que</token>
+            <token><exception>por</exception></token>
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
@@ -3351,7 +3360,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <!--<token><exception regexp="yes">me|te|se</exception></token>-->
                 <marker>
-                    <token regexp="yes" inflected="yes">amigo|español</token>
+                    <token regexp="yes" inflected="yes">amigo|español|bicicleta</token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="V.*"/>
@@ -6567,4 +6576,27 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
+        <rule><!-- lowercase word + abbreviation with no vowels -->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">.*[a-z].*</token>
+                <token min="0">(</token>
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!-- abbreviation with no vowels + lowercase word -->
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+                <token min="0">)</token>
+                <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

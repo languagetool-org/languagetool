@@ -71,7 +71,7 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
-    if ( LATIN_NUMBER.matcher(word).matches() ) {
+    if ( LATIN_NUMBER.matcher(word).matches() && ! word.matches("[MD]+") ) {
       List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin", word));
       return additionalTaggedTokens;
