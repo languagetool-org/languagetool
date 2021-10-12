@@ -51,4 +51,44 @@ workflows:
             languagetool-server/.* run_server_tests true
             languagetool-standalone/.* run_standalone_tests true
             languagetool-tools/.* run_tools_tests true
-            languagetool-wikipeida/.* run_wikipedia_tests true
+            languagetool-wikipedia/.* run_wikipedia_tests true
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test-all
+commands:
+  # Run tests
+  run-tests:
+    description: run tests
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - run: mvn install -DskipTests
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - run: mvn test
+executors:
+  docker-openjdk8:
+    docker:
+      - image: circleci/openjdk:8-jdk
+jobs:
+  test-all:
+    executor:
+      name: docker-openjdk8
+    working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - run-tests
