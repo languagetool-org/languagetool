@@ -58,6 +58,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L})(\\d+)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
@@ -66,6 +68,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final Pattern VERB_INF = Pattern.compile("V.N.*");
+  private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
   private CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -184,6 +187,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", true);
     suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", true);
+    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true);
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
     }
@@ -207,7 +211,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         if (moresugg.size() > 0) {
           String newWord;
           if (suggestionPosition == 1) {
-            newWord = moresugg.get(0).toLowerCase() + matcher.group(2);
+            newWord = moresugg.get(0) + matcher.group(2); //.toLowerCase()
           } else {
             newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
           }

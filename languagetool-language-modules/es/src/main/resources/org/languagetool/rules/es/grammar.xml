@@ -77,6 +77,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición |corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor"> 
     <!ENTITY exceptions_sujeto_singular "mayoría|número|puñado|porcentaje|cien|mil|millón|millones|billones|enjambre|grupo|parte|docena|mitad|cincuenta|cuarenta|multitud|treinta|veinte|sesenta|resto|diez">
     <!ENTITY exceptions_sujeto_singular2 "grupo|género|totalidad|serie|concentración|infinito|montón|cantidad|tercero|familia|equipo">
+    <!ENTITY context_mama "ablación|adiposo|areola|arteria|bulto|calostro|carcinoma|carne|chupar|cirugía|culo|cáncer|célula|desarrollar|desarrollo|diagnóstico|embarazo|epitelio|estrógeno|femenino|ginecológico|ginecólogo|glandular|glándula|herida|hinchazón|hipertrofia|hormona|implante|inervación|infección|infectar|inflamación|lactancia|leche|lobulillo|mamario|mamífero|mastectomía|mastitis|mastología|neonato|parto|patológico|pecho|pectoral|pelvis|pezón|piel|progesterona|ptosis|pubertad|quirúrgico|sangre|sarcoma|seno|sexo|sexual|silicona|tejido|teta|tratamiento|turgencia|turgente|ubre|vena">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -14649,7 +14650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">válido|correcto|incorrecto|inválido</token>
                     </marker>
                 </pattern>
-                <message>El adjetivo <suggestion><match no="6" regexp_match="(?iu)o$" regexp_replace="a" case_conversion="preserve"></match></suggestion> debe concordar con "dirección".</message>
+                <message>El adjetivo <suggestion><match no="6" regexp_match="(?iu)o$" regexp_replace="a" case_conversion="preserve"/></suggestion> debe concordar con "dirección".</message>
                 <example correction="válida">Dirección de correo electrónico no <marker>válido</marker>.</example>
                 <example correction="incorrecta">Dirección de correo electrónico <marker>incorrecto</marker>.</example>
             </rule>
@@ -16905,9 +16906,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mamá">Mi <marker>mama</marker> dice que sí.</example>
                 <example>Una molestia en mi mama izquierda.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
+                    <token regexp="yes">mama|mamas</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">mama|mamas</token>
+                    <token inflected="yes" regexp="yes">&context_mama;</token>
+                </antipattern>
                 <pattern>
-                    <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                    <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">quien|que</exception></token>
                     <token>la</token>
                     <marker>
                         <token>mama</token>
@@ -16916,6 +16925,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
                 <example correction="mamá">La <marker>mama</marker> dice que sí.</example>
                 <example>Una molestia en la mama izquierda.</example>
+                <example>Los sarcomas son producto de la transformación maligna de células del tejido conectivo de la mama.</example>
+                <example>Hinchazón de un brazo (próximo a la mama).</example>
             </rule>
         </rulegroup>
         <rulegroup id="PAPA" name="papa/papá">

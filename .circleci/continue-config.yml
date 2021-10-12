@@ -1,0 +1,338 @@
+version: 2.1
+
+parameters:
+  run_commandline_tests:
+    type: boolean
+    default: false
+  run_core_tests:
+    type: boolean
+    default: false
+  run_dev_tests:
+    type: boolean
+    default: false
+  run_gui_commons_tests:
+    type: boolean
+    default: false
+  run_http_client_tests:
+    type: boolean
+    default: false
+  run_lang_ar_tests:
+    type: boolean
+    default: false
+  run_lang_ast_tests:
+    type: boolean
+    default: false
+  run_lang_be_tests:
+    type: boolean
+    default: false
+  run_lang_br_tests:
+    type: boolean
+    default: false
+  run_lang_ca_tests:
+    type: boolean
+    default: false
+  run_lang_da_tests:
+    type: boolean
+    default: false
+  run_lang_de_tests:
+    type: boolean
+    default: false
+  run_lang_el_tests:
+    type: boolean
+    default: false
+  run_lang_en_tests:
+    type: boolean
+    default: false
+  run_lang_eo_tests:
+    type: boolean
+    default: false
+  run_lang_es_tests:
+    type: boolean
+    default: false
+  run_lang_fa_tests:
+    type: boolean
+    default: false
+  run_lang_fr_tests:
+    type: boolean
+    default: false
+  run_lang_ga_tests:
+    type: boolean
+    default: false
+  run_lang_gl_tests:
+    type: boolean
+    default: false
+  run_lang_is_tests:
+    type: boolean
+    default: false
+  run_lang_it_tests:
+    type: boolean
+    default: false
+  run_lang_ja_tests:
+    type: boolean
+    default: false
+  run_lang_km_tests:
+    type: boolean
+    default: false
+  run_lang_lt_tests:
+    type: boolean
+    default: false
+  run_lang_ml_tests:
+    type: boolean
+    default: false
+  run_lang_nl_tests:
+    type: boolean
+    default: false
+  run_lang_pl_tests:
+    type: boolean
+    default: false
+  run_lang_pt_tests:
+    type: boolean
+    default: false
+  run_lang_ro_tests:
+    type: boolean
+    default: false
+  run_lang_ru_tests:
+    type: boolean
+    default: false
+  run_lang_sk_tests:
+    type: boolean
+    default: false
+  run_lang_sl_tests:
+    type: boolean
+    default: false
+  run_lang_sv_tests:
+    type: boolean
+    default: false
+  run_lang_ta_tests:
+    type: boolean
+    default: false
+  run_lang_tl_tests:
+    type: boolean
+    default: false
+  run_lang_uk_tests:
+    type: boolean
+    default: false
+  run_lang_zh_tests:
+    type: boolean
+    default: false
+  run_office_extension_tests:
+    type: boolean
+    default: false
+  run_server_tests:
+    type: boolean
+    default: false
+  run_standalone_tests:
+    type: boolean
+    default: false
+  run_tools_tests:
+    type: boolean
+    default: false
+  run_wikipedia_tests:
+    type: boolean
+    default: false
+commands:
+  # Run tests
+  run-tests:
+    description: run tests
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - run: mvn install -DskipTests
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - when:
+          condition: << pipeline.parameters.run_commandline_tests >>
+          steps:
+            - run: mvn --projects languagetool-commandline test
+      - when:
+          condition: << pipeline.parameters.run_core_tests >>
+          steps:
+            - run: mvn --projects languagetool-core test
+      - when:
+          condition: << pipeline.parameters.run_dev_tests >>
+          steps:
+            - run: mvn --projects languagetool-dev test
+      - when:
+          condition: << pipeline.parameters.run_gui_commons_tests >>
+          steps:
+            - run: mvn --projects languagetool-gui-commons test
+      - when:
+          condition: << pipeline.parameters.run_http_client_tests >>
+          steps:
+            - run: mvn --projects languagetool-http-client test
+      - when:
+          condition: << pipeline.parameters.run_lang_ar_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ar test
+      - when:
+          condition: << pipeline.parameters.run_lang_ast_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ast test
+      - when:
+          condition: << pipeline.parameters.run_lang_be_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/be test
+      - when:
+          condition: << pipeline.parameters.run_lang_br_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/br test
+      - when:
+          condition: << pipeline.parameters.run_lang_ca_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ca test
+      - when:
+          condition: << pipeline.parameters.run_lang_da_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/da test
+      - when:
+          condition: << pipeline.parameters.run_lang_de_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/de test
+      - when:
+          condition: << pipeline.parameters.run_lang_el_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/el test
+      - when:
+          condition: << pipeline.parameters.run_lang_en_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/en test
+      - when:
+          condition: << pipeline.parameters.run_lang_eo_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/eo test
+      - when:
+          condition: << pipeline.parameters.run_lang_es_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/es test
+      - when:
+          condition: << pipeline.parameters.run_lang_fa_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/fa test
+      - when:
+          condition: << pipeline.parameters.run_lang_fr_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/fr test
+      - when:
+          condition: << pipeline.parameters.run_lang_ga_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ga test
+      - when:
+          condition: << pipeline.parameters.run_lang_gl_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/gl test
+      - when:
+          condition: << pipeline.parameters.run_lang_is_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/is test
+      - when:
+          condition: << pipeline.parameters.run_lang_it_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/it test
+      - when:
+          condition: << pipeline.parameters.run_lang_ja_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ja test
+      - when:
+          condition: << pipeline.parameters.run_lang_km_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/km test
+      - when:
+          condition: << pipeline.parameters.run_lang_lt_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/lt test
+      - when:
+          condition: << pipeline.parameters.run_lang_ml_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ml test
+      - when:
+          condition: << pipeline.parameters.run_lang_nl_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/nl test
+      - when:
+          condition: << pipeline.parameters.run_lang_pl_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/pl test
+      - when:
+          condition: << pipeline.parameters.run_lang_pt_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/pt test
+      - when:
+          condition: << pipeline.parameters.run_lang_ro_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ro test
+      - when:
+          condition: << pipeline.parameters.run_lang_ru_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ru test
+      - when:
+          condition: << pipeline.parameters.run_lang_sk_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/sk test
+      - when:
+          condition: << pipeline.parameters.run_lang_sl_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/sl test
+      - when:
+          condition: << pipeline.parameters.run_lang_sv_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/sv test
+      - when:
+          condition: << pipeline.parameters.run_lang_ta_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/ta test
+      - when:
+          condition: << pipeline.parameters.run_lang_tl_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/tl test
+      - when:
+          condition: << pipeline.parameters.run_lang_uk_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/uk test
+      - when:
+          condition: << pipeline.parameters.run_lang_zh_tests >>
+          steps:
+            - run: mvn --projects languagetool-language-modules/zh test
+      - when:
+          condition: << pipeline.parameters.run_office_extension_tests >>
+          steps:
+            - run: mvn --projects languagetool-office-extension test
+      - when:
+          condition: << pipeline.parameters.run_server_tests >>
+          steps:
+            - run: mvn --projects languagetool-server test
+      - when:
+          condition: << pipeline.parameters.run_standalone_tests >>
+          steps:
+            - run: mvn --projects languagetool-standalone test
+      - when:
+          condition: << pipeline.parameters.run_tools_tests >>
+          steps:
+            - run: mvn --projects languagetool-tools test
+      - when:
+          condition: << pipeline.parameters.run_wikipedia_tests >>
+          steps:
+            - run: mvn --projects languagetool-wikipeida test
+executors:
+  docker-openjdk8:
+    docker:
+      - image: circleci/openjdk:8-jdk
+#Check parameters and start jobs
+workflows:
+  test-modules:
+    jobs:
+      - test-modules-job
+jobs:
+  test-modules-job:
+    executor:
+      name: docker-openjdk8
+    working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - run-tests
