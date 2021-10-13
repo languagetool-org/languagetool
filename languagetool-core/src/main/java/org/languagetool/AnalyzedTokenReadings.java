@@ -286,6 +286,20 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return found;
   }
   
+  public boolean matchesChunkRegex(String chunkRegex) {
+    Pattern pattern = Pattern.compile(chunkRegex);
+    boolean found = false;
+    for ( ChunkTag chunk : getChunkTags()) {
+      if (chunk != null) {
+        found = pattern.matcher(chunk.getChunkTag()).matches();
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+  
   /**
    * Returns the first reading that matches a given POS tag regex.
    *

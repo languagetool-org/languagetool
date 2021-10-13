@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules.es;
 
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
+import org.languagetool.rules.SynonymsData;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 
@@ -38,7 +38,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     super.setDefaultTempOff();
   }
   
-  private static final Map<String, List<String>> wordsToCheck = loadWords("/es/synonyms.txt");
+  private static final Map<String, SynonymsData> wordsToCheck = loadWords("/es/synonyms.txt");
   
   @Override
   protected String getMessage() {
@@ -56,7 +56,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   }
 
   @Override
-  protected Map<String, List<String>> getWordsToCheck() {
+  protected Map<String, SynonymsData> getWordsToCheck() {
     return wordsToCheck;
   }
 

@@ -403,6 +403,7 @@ public class CaseRuleTest {
     assertBad("Sie erhalten bald unsere Neuesten Insights.");
 
     assertGood("Du Ärmste!");
+    assertGood("Ich habe nur Schlechtes über den Laden gehört.");
     assertGood("Du Ärmster, leg dich besser ins Bett.");
     assertGood("Er wohnt Am Hohen Hain 6a");
     assertGood("Das Bauvorhaben Am Wiesenhang 9");

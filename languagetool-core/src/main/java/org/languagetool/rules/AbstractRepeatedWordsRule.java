@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -37,10 +39,10 @@ import org.languagetool.tools.StringTools;
 
 public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
 
-  protected abstract Map<String, List<String>> getWordsToCheck();
+  protected abstract Map<String, SynonymsData> getWordsToCheck();
 
   protected abstract Synthesizer getSynthesizer();
-
+  
   @Override
   public int minToCheckParagraph() {
     return 1;
@@ -98,33 +100,50 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
         if (isException) {
           continue;
         }
+        List<String> lemmas = new ArrayList<>();
         for (AnalyzedToken atr : atrs) {
           String lemma = atr.getLemma();
+          lemmas.add(lemma);
           Integer seenInWordPosition = wordsLastSeen.get(lemma);
           if (seenInWordPosition != null && !lemmasInSentece.contains(lemma)
               && (seenInWordPosition - wordNumber) <= maxWordsDistance()) {
-            // create match
-            RuleMatch rulematch = new RuleMatch(this, sentence, pos + atrs.getStartPos(), pos + atrs.getEndPos(),
-                getMessage(), getShortMessage());
-            List<String> replacementLemmas = getWordsToCheck().get(lemma);
-            for (String replacementLemma : replacementLemmas) {
-              String[] replacements = getSynthesizer().synthesize(
-                  new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
-              for (String r : replacements) {
-                if (isAllUppercase) {
-                  r = r.toUpperCase();
-                } else if (isCapitalized) {
-                  r = StringTools.uppercaseFirstChar(r);
-                }
-                rulematch.addSuggestedReplacement(r);
-              }
+            boolean createMatch = true;
+            String postag =  getWordsToCheck().get(lemma).getPostag();
+            if (postag !=null && !atr.getPOSTag().matches(postag)) {
+              createMatch = false;
             }
-            matches.add(rulematch);
+            String chunk =  getWordsToCheck().get(lemma).getChunk();
+            if (chunk !=null && !atrs.matchesChunkRegex(chunk)) {
+              createMatch = false;
+            }
+            // create match
+            if (createMatch) {
+              RuleMatch rulematch = new RuleMatch(this, sentence, pos + atrs.getStartPos(), pos + atrs.getEndPos(),
+                  getMessage(), getShortMessage());
+              List<String> replacementLemmas = getWordsToCheck().get(lemma).getSynonyms();
+              for (String replacementLemma : replacementLemmas) {
+                String[] replacements = getSynthesizer().synthesize(
+                    new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
+                for (String r : replacements) {
+                  if (isAllUppercase) {
+                    r = r.toUpperCase();
+                  } else if (isCapitalized) {
+                    r = StringTools.uppercaseFirstChar(r);
+                  }
+                  rulematch.addSuggestedReplacement(r);
+                }
+              }
+              matches.add(rulematch);
+              break;
+            }
           }
+        }
+        // count even if postag/chunk don't match
+        for (String lemma : lemmas) {
           if (getWordsToCheck().containsKey(lemma)) {
             wordsLastSeen.put(lemma, wordNumber);
             lemmasInSentece.add(lemma);
-          }
+          }  
         }
       }
       pos += sentence.getText().length();
@@ -133,10 +152,10 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   private static final String FILE_ENCODING = "utf-8";
-
-  protected static Map<String, List<String>> loadWords(String path) {
+    
+  protected static Map<String, SynonymsData> loadWords(String path) {
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    final Map<String, List<String>> map = new HashMap<>();
+    final Map<String, SynonymsData> map = new HashMap<>();
     try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().replaceFirst("#.*", "").trim();
@@ -145,10 +164,20 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
         }
         final String[] mainParts = line.split("=");
         String[] parts = null;
-        final String word;
+        String postag = null;
+        String chunk = null;    
+        String word;
         if (mainParts.length == 2) {
           parts = mainParts[1].split(";");
           word = mainParts[0];
+          String[] wordPosChunk = word.split("/");
+          word = wordPosChunk[0];
+          if (wordPosChunk.length>1) {
+            postag = wordPosChunk[1];
+          }
+          if (wordPosChunk.length>2) {
+            chunk = wordPosChunk[2];
+          }
         } else if (mainParts.length == 1) {
           parts = line.split(";");
           word = "";
@@ -160,7 +189,8 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
         }
         if (!word.isEmpty()) {
           if (!map.containsKey(word)) {
-            map.put(word, Arrays.asList(parts));
+            SynonymsData synonymsData = new SynonymsData(Arrays.asList(parts), postag, chunk);
+            map.put(word, synonymsData);
           } else {
             throw new RuntimeException("Word found in more than one line. \"" + word + "\" in line: " + line);
           }
@@ -173,7 +203,8 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
               }
             }
             if (!map.containsKey(key)) {
-              map.put(key, values);
+              SynonymsData synonymsData = new SynonymsData(values, postag, chunk);
+              map.put(key, synonymsData);
             } else {
               throw new RuntimeException("Word found in more than one line. \"" + key + "\" in line: " + line);
             }

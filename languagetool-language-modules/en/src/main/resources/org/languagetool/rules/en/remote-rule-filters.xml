@@ -383,6 +383,35 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Please call <marker>911</marker></example> 
             </rule>
+            <rule>
+                <!-- non-independent clauses with no subject -->
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>but</token>
+                    <token postag="VB[PZD]|MD" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Boxers are not designed for <marker>support</marker> but excel in breathability.</example>
+            </rule>
+            <rule>
+                <!-- non-independent clauses with no predicate -->
+                <antipattern>
+                    <token>but</token>
+                    <token>no</token>
+                    <token min="0">such</token>
+                    <token>luck</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token skip="-1">but<exception scope="next" postag="VB[PZD]|MD" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">Bikinis make you feel like you are at the <marker>beach</marker> but without the sand.</example>
+                <example>I tried using promises but no luck.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>

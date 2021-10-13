@@ -16904,7 +16904,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="FINS_I_TOT" name="dins i tot -> fins i tot" default="temp_off">
+        <rule id="VASER" name="vaser/va ser">
+            <pattern>
+                <token>vaser</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>va ser</suggestion>? "Vaser" (enterramorts) és una paraula d'ús poc freqüent.</message>
+            <example correction="Va ser"><marker>Vaser</marker> alertada per la policia.</example>
+        </rule>
+        <rule id="FINS_I_TOT" name="dins i tot -> fins i tot">
             <pattern>
                 <token>dins</token>
                 <token>i</token>
@@ -19476,6 +19483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker>
                     <token>pera</token>
+                    <token min="0">a</token>
                 </marker>
                 <token postag="V.N.*|D.*|N.*" postag_regexp="yes"/>
             </pattern>
@@ -19483,6 +19491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="per a">Eixir del foc <marker>pera</marker> caure a les brases.</example>
             <example correction="per a">Ho vull <marker>pera</marker> dijous.</example>
             <example correction="per a">Vet ací material <marker>pera</marker> reflexionar.</example>
+            <example correction="per a">Cal un permís <marker>pera a</marker> poder utilitzar-la.</example>
             <example>Vull una pera d'aigua.</example>
             <example>Es va menjar una pera dijous.</example>
         </rule>
@@ -28078,6 +28087,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Avui es juga la Super Bowl.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HIPER" name="hiper/híper/híper-" default="temp_off">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=prefix+super-&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13527&amp;idHit=13527&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=El+prefix+%3Cem%3Esuper%3C%2Fem%3E-+%2F+L%27adjectiu+i+adverbi+%3Cem%3Es%FAper%3C%2Fem%3E&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hiper|híper</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">...+</token>
+                </pattern>
+                <message suppress_misspelled="yes">El prefix 'hiper-' s'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="hiper$1" case_conversion="alllower"/></suggestion>
+                <example correction="hiperalimentació">La <marker>híper alimentació</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hiper|híper</token>
+                    <token min="0">-</token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Com a prefix d'un altre adjectiu, 'hiper-' s'escriu junt, encara que la paraula resultant no sigui en el diccionari.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="hiper$1" case_conversion="alllower"/></suggestion>
+                <example correction="hiperrics">Són <marker>hiper rics</marker>.</example>
+                <example correction="hiperriques">Són <marker>híper-riques</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hiper|híper<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token min="0">-</token>
+                    <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">\d+|.</exception></token>
+                </pattern>
+                <message>Com a prefix, 'hiper-' s'escriu junt, encara que la paraula resultant no sigui en el diccionari.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="hiper$1" case_conversion="alllower"/></suggestion>
+                <example correction="hipercamí">És un <marker>hiper camí</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hiper<exception postag="NP.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Com a adjectiu, adverbi o sinònim de 'hipermercat', s'escriu <suggestion>híper</suggestion>.</message>
+                <example correction="híper">Me'n vaig al <marker>hiper</marker>.</example>
+                <example correction="híper">Ens ho vam passar <marker>hiper</marker>.</example>
+                <example>Són del Club Super 3.</example>
+                <example>Avui es juga la Super Bowl.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
             <rule>
                 <pattern>
@@ -28724,6 +28777,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>S'escriu junt.</message>
                 <suggestion>\1virus</suggestion>
                 <example correction="coronavirus">El <marker>corona virus</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">obsessius?|obsessivo</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">compulsiu</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>obsessivo\3</suggestion>
+                <example correction="obsessivocompulsiu">Teniu un trastorn <marker>obsessivo-compulsiu</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
@@ -35983,6 +36046,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rule id="SINDROME_MIN" name="minúscules: síndrome, regla..." default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Principi|Síndrome|Regla|Malaltia|Fórmula|Sistema|Mètode<exception scope="previous" postag="SENT_START"/></token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <message>S'escriu en minúscula.</message>
+            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="síndrome">Era un símptoma de la <marker>Síndrome</marker> de Savant.</example>
+            <example correction="regla">Era el resultat de la <marker>Regla</marker> D'Hondt.</example>
+        </rule>
         <rule id="DRETS_HUMANS" name="drets humans">
             <antipattern case_sensitive="yes">
                 <token>drets</token>
@@ -38586,6 +38662,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion><match no="2" postag_regexp="yes" postag="AQ..(.)." postag_replace="AQ0F$10">brasiler</match></suggestion>? "Carioca" és el gentilici de la ciutat de Rio de Janeiro.</message>
             <url>https://esadir.cat/entrades/fitxa/node/carioca</url>
             <example correction="brasilera">La selecció <marker>carioca</marker> jugarà la final.</example>
+        </rule>
+        <rule id="ENCARARSE_AMB" name="encarar-se a/contra -> amb" default="temp_off">
+            <pattern>
+                <and>
+                    <token inflected="yes">encarar</token>
+                    <token postag="_reflexiu"/>
+                </and>
+                <marker>
+                    <token regexp="yes">a|contra</token>
+                </marker>
+            </pattern>
+            <message>La preposició adequada amb el verb 'encarar-se' és <suggestion>amb</suggestion>.</message>
+            <example correction="amb">El jugador del Barça es va encarar <marker>contra</marker> l'àrbitre.</example>
+            <example correction="amb">El jugador del Barça es va encarar <marker>a</marker> l'àrbitre.</example>
         </rule>
         <rule id="EN_RECONEIXEMENT" name="en reconeixement *a/*per/de">
             <pattern>
@@ -56421,18 +56511,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">indicar</match></suggestion>
-                <example correction="indicà">Aquesta marca me la <marker>marcà</marker> Josep.</example>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">assenyalar</match></suggestion>
+                <example correction="indicà|assenyalà">Aquesta marca me la <marker>marcà</marker> Josep.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token inflected="yes" skip="-1">marcar<exception inflected="yes">marca</exception></token>
                     </marker>
-                    <token inflected="yes">marca<exception inflected="yes">marcar</exception></token>
+                    <token inflected="yes">marca<!--<exception inflected="yes">marcar</exception>--></token>
                 </pattern>
                 <message>Considereu usar un sinònim per a evitar la repetició de "\1" i "\2".</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">indicar</match></suggestion>
-                <example correction="indicar">Per a <marker>marcar</marker>-ho es fan servir aqueixes marques.</example>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">assenyalar</match></suggestion>
+                <example correction="indicar|assenyalar">Per a <marker>marcar</marker>-ho es fan servir aqueixes marques.</example>
+                <example correction="indicar|assenyalar">Vaig <marker>marcar</marker> una marca en el cotxe.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TORRO" name="torró fort/fluix">

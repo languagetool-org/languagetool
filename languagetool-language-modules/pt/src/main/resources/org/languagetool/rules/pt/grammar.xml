@@ -7088,6 +7088,73 @@ No seu conjunto existem cinco capelas e uma igreja.
 	  <example>No seu conjunto existem cinco capelas e uma igreja.</example>	  
     </rule>
 	
+	<!-- MOSTRAM mostra -->
+    <rule id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name="Concordância com núcleo do sujeito" default="temp_off">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13 (25-JUN-2021+)      -->
+	<!--
+A realidade das pessoas mostram. → A realidade das pessoas mostra.
+	-->
+	
+	  <!--
+	    Cada uma das características podem ser definidas separadamente
+	    Na forma de fios podem ser utilizados para usinagem por eletroerosão de corte a fio (fast-cut).
+	    Uma série de obras foram bem sucedidas apenas no seio da comunidade mórmon.
+	    Uma variedade de categorias têm sido propostas para tentar distinguir as diferentes formas de ateísmo.
+	    No extremo das interações estão as junções de galáxias.
+	    Na constituição dos átomos predominam os espaços vazios.
+		Ao longo dos tempos foram vários os sistemas para classificar a artilharia segundo o calibre utilizado.
+		Ao longo dos séculos foram sendo registrados muitos problemas curiosos, cujas resoluções têm como base este famoso teorema.
+	  -->
+	  <antipattern>
+		<token postag_regexp='no' postag='SENT_START'/>		
+		<token/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
+			<exception regexp='yes'>maioria|minoria|dúzia|dezena|centena|milhar|milhão|bilião|bilhão</exception>
+			<exception postag_regexp='yes' postag='NCC.+'/>
+		</token>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<token postag='V...3P.+' postag_regexp='yes'/>
+		<token postag='RG|VM[GN]0000|VMP00S.+|D[AI]0.P.+|RM' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>	  
+	  </antipattern>
+      <pattern>
+		<token postag_regexp='no' postag='SENT_START'/>
+		<token/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
+			<exception regexp='yes'>maioria|minoria|dúzia|dezena|centena|milhar|milhão|bilião|bilhão</exception>
+			<exception postag_regexp='yes' postag='NCC.+'/>
+		</token>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<marker>
+			<token postag='V...3P.+' postag_regexp='yes'/>
+		</marker>
+		<token negate_pos="yes" postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+' postag_regexp='yes'/>
+      </pattern>
+      <message>O verbo concorda com o núcleo do sujeito.</message>
+	  <suggestion><match no='6' postag='V.(..)3P.+' postag_regexp="yes" postag_replace='VM$13S0'/></suggestion>
+      <example correction="mostra">A realidade das pessoas <marker>mostram</marker>.</example>
+	  <example>O direito de civis possuírem armas é objeto de um controverso debate político.</example>
+	  <example>A actividade vulcânica, o impacto de cometas e a existência de vida sob a forma de microrganismos está entre as possíveis causas ainda não comprovadas.</example>
+	  <example>A área destes túmulos varia de tamanho, chegando a dimensões tão grandes quanto as pirâmides do Egito.</example>
+	  <example>Um bilhão de pessoas falam inglês.</example>
+	  <example>Artigos só com links são muito mal vistos.</example>	  
+	  <example>Um milhão de pessoas perderam as suas vidas na guerra.</example>
+	  <example>Meia dúzia de ferramentas formam a coleção.</example>
+	  <example>Cada uma destas denominações tem direito a um lugar no parlamento.</example>
+	  <example>Cada um destes dialetos tem por sua vez suas variantes.</example>
+
+	  <example>Cada uma das características podem ser definidas separadamente</example>
+	  <example>Na forma de fios podem ser utilizados para usinagem por eletroerosão de corte a fio (fast-cut).</example>
+	  <example>Uma série de obras foram bem sucedidas apenas no seio da comunidade mórmon.</example>	
+	  <example>Uma variedade de categorias têm sido propostas para tentar distinguir as diferentes formas de ateísmo.</example>
+	  <example>No extremo das interações estão as junções de galáxias.</example>
+	  <example>Na constituição dos átomos predominam os espaços vazios.</example>
+	  <example>Ao longo dos tempos foram vários os sistemas para classificar a artilharia segundo o calibre utilizado.</example>
+	  <example>Ao longo dos séculos foram sendo registrados muitos problemas curiosos, cujas resoluções têm como base este famoso teorema.</example>
+    </rule>
+	
     <!-- 	VERBO_SER + EU fui eu -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-12 (21-OCT-2020+)     -->
     <rule>

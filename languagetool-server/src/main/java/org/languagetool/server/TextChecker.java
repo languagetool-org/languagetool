@@ -481,7 +481,8 @@ abstract class TextChecker {
     setHeaders(httpExchange);
 
     List<RuleMatch> hiddenMatches = new ArrayList<>();
-
+    boolean temporaryPremiumDisabledRuleMatch = false;
+    Set<String> temporaryPremiumDisabledRuleMatchedIds = new HashSet<>();
     // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
     if (!params.premium && params.enableHiddenRules) {
       List<RuleMatch> allMatches = new ArrayList<>(); // for filtering out overlapping matches, collect across CheckResults
@@ -489,8 +490,14 @@ abstract class TextChecker {
       for (CheckResults result : res) {
         List<RuleMatch> filteredMatches = new ArrayList<>();
         for (RuleMatch match : result.getRuleMatches()) {
-          if (Premium.get().isPremiumRule(match.getRule())) {
+          if (Premium.get().isPremiumRule(match.getRule()) && !Premium.isTempNotPremium(match.getRule())) {
             premiumMatches.add(match);
+          } else if (userConfig.getAbTest() != null && userConfig.getAbTest().equals("ALLOW_PREMIUM_IN_BASIC") && Premium.get().isPremiumRule(match.getRule()) && Premium.isTempNotPremium(match.getRule())) {
+            System.out.println("Rule: " + match.getRule().getId() + " is premium but temporary available in basic");
+            filteredMatches.add(match);
+            allMatches.add(match);
+            temporaryPremiumDisabledRuleMatch = true;
+            temporaryPremiumDisabledRuleMatchedIds.add(match.getRule().getId());
           } else {
             // filter out premium matches
             filteredMatches.add(match);
@@ -546,6 +553,8 @@ abstract class TextChecker {
             + ", r:" + reqCounter.getRequestCount()
             + ", m:" + ServerTools.getModeForLog(mode) + skipLimits
             + ", premium: " + (limits.getPremiumUid() != null && limits.hasPremium())
+            + ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch
+            + ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
     if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
       logger.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));

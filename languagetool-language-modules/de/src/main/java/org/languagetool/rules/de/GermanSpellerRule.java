@@ -1192,6 +1192,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Deutschsprache", "deutsche Sprache");
     put("eigl", "eigtl");
     put("ma", "mal");
+    put("strang", w -> Arrays.asList("Strang", "strengte"));
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {

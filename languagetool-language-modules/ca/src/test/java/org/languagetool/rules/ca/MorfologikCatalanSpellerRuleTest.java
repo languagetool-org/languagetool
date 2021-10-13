@@ -343,6 +343,14 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
         
+        matches = rule.match(lt.getAnalyzedSentence("Windows10"));
+        assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+        
+        matches = rule.match(lt.getAnalyzedSentence("windows10"));
+        assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+        
         // pronoms febles
         matches = rule.match(lt.getAnalyzedSentence("ferse"));
         assertEquals("fer-se", matches[0].getSuggestedReplacements().get(0));

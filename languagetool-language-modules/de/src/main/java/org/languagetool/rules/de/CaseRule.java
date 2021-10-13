@@ -1041,6 +1041,15 @@ public class CaseRule extends Rule {
       regex("\\u2063"),
       regex("\\u2063"),
       csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      regex("nur"),
+      csRegex("Schlechtes"),
+      csRegex("[a-zäöü…\\.!\\?].*")
+    ),
+    Arrays.asList(
+      regex("[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff]+"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 

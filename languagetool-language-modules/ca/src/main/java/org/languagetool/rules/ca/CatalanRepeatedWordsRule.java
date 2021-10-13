@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules.ca;
 
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
+import org.languagetool.rules.SynonymsData;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
@@ -37,7 +37,7 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
     // super.setDefaultTempOff();
   }
 
-  private static final Map<String, List<String>> wordsToCheck = loadWords("/ca/synonyms.txt");
+  private static final Map<String, SynonymsData> wordsToCheck = loadWords("/ca/synonyms.txt");
 
   @Override
   protected String getMessage() {
@@ -55,7 +55,7 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
   }
 
   @Override
-  protected Map<String, List<String>> getWordsToCheck() {
+  protected Map<String, SynonymsData> getWordsToCheck() {
     return wordsToCheck;
   }
 
