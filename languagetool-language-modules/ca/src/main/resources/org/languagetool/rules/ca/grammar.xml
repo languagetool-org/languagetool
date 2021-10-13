@@ -38594,6 +38594,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://esadir.cat/entrades/fitxa/node/carioca</url>
             <example correction="brasilera">La selecció <marker>carioca</marker> jugarà la final.</example>
         </rule>
+        <rule id="ENCARARSE_AMB" name="encarar-se a/contra -> amb" default="temp_off">
+            <pattern>
+                <and>
+                    <token inflected="yes">encarar</token>
+                    <token postag="_reflexiu"/>
+                </and>
+                <marker>
+                    <token regexp="yes">a|contra</token>
+                </marker>
+            </pattern>
+            <message>La preposició adequada amb el verb 'encarar-se' és <suggestion>amb</suggestion>.</message>
+            <example correction="amb">El jugador del Barça es va encarar <marker>contra</marker> l'àrbitre.</example>
+            <example correction="amb">El jugador del Barça es va encarar <marker>a</marker> l'àrbitre.</example>
+        </rule>
         <rule id="EN_RECONEIXEMENT" name="en reconeixement *a/*per/de">
             <pattern>
                 <token>en</token>
