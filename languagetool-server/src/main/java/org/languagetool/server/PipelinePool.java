@@ -130,6 +130,7 @@ class PipelinePool {
     int expireTime = config.getPipelineExpireTime();
     if (config.isPipelineCachingEnabled()) {
       this.pool = CacheBuilder.newBuilder()
+        .recordStats()
         .maximumSize(maxPoolSize)
         .expireAfterAccess(expireTime, TimeUnit.SECONDS)
         .build(new CacheLoader<PipelineSettings, ConcurrentLinkedQueue<Pipeline>>() {
@@ -138,6 +139,7 @@ class PipelinePool {
             return new ConcurrentLinkedQueue<>();
           }
         });
+      ServerMetricsCollector.getInstance().monitorCache("languagetool_pipeline_pool", this.pool);
     } else {
       this.pool = null;
     }
@@ -151,14 +153,17 @@ class PipelinePool {
         AtomicInteger removed = new AtomicInteger();
         pipelineExpireCheckTimestamp = System.currentTimeMillis();
         //pool.asMap().forEach((s, queue) -> queue.removeIf(Pipeline::isExpired));
-        pool.asMap().forEach((s, queue) -> queue.removeIf(pipeline -> {
-          if (pipeline.isExpired()) {
-            removed.getAndIncrement();
-            return true;
-          } else {
-            return false;
-          }
-        }));
+        pool.asMap().forEach((s, queue) -> {
+          ServerTools.print("Cleanup for pipelines with settings [" + s + "]; checking " + queue.size() + " pipelines");
+          queue.removeIf(pipeline -> {
+            if (pipeline.isExpired()) {
+              removed.getAndIncrement();
+              return true;
+            } else {
+              return false;
+            }
+          });
+        });
         ServerTools.print("Removing " + removed.get() + " expired pipelines");
       }
 
@@ -166,6 +171,7 @@ class PipelinePool {
       ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
       if (requests % 1000 == 0) {
         logger.info(String.format("Pipeline cache stats: %f hit rate", (double) pipelinesUsed / requests));
+        logger.info("Available pipelines for settings {}: {}", settings, pipelines.size());
       }
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
