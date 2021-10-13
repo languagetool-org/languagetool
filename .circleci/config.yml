@@ -42,7 +42,6 @@ commands:
       - run: cd languagetool && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
       - run: cd languagetool && git rev-parse --abbrev-ref HEAD
       - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
-      - run: more /home/circleci/repo/git_diffs.txt
   install-project:
     description: Run maven install
     steps:
