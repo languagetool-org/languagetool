@@ -269,7 +269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Santo|Negro</token>
             </antipattern>
             <antipattern case_sensitive="yes">
-                <token regexp="yes">[\.\?!]</token>
+                <token regexp="yes">[\.\?!:]</token>
                 <token regexp="yes">&dias_semana_may;</token>
             </antipattern>
             <antipattern case_sensitive="yes">
@@ -17364,6 +17364,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="PLURALS" name="establecimiento s -> establecimientos" default="temp_off">
+            <pattern>
+                <token postag="D...P." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NC.S.*" postag_regexp="yes"/>
+                    <token>s</token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion>\2\3</suggestion>?</message>
+            <example correction="establecimientos">Verifica los <marker>establecimiento s</marker> de la compra.</example>
+        </rule>
+        <rule id="LA_A" name="la a -> la" default="temp_off">
+            <pattern>
+                <token>la</token>
+                <token case_sensitive="yes">a</token>
+                <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion>\1 \3</suggestion></message>
+            <example correction="la propuesta">No entiendo <marker>la a propuesta</marker>.</example>
+        </rule>
         <rule id="CENYO" name="seño/ceño">
             <pattern>
                 <token postag="D..MS.|SP:DA" postag_regexp="yes"/>
@@ -18728,10 +18748,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D..[CM]S." postag_regexp="yes"/>
                 <token>haber</token>
             </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">verbos?|presente|pasado|futuro|imperfecto|perfecto|persona|singular|1a|2a|3a|auxiliar</token>
+                <token>haber</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3">haber</token>
+                <token regexp="yes">verbos?|presente|pasado|futuro|imperfecto|perfecto|persona|singular|1a|2a|3a|auxiliar</token>
+            </antipattern>
+            <antipattern>
+                <token>haber</token>
+                <token postag="_PUNCT_CONT" min="1" max="4"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token postag="_PUNCT_CONT" min="1" max="4"/>
+                <token>haber</token>
+            </antipattern>
+            <antipattern>
+                <token>debe</token>
+                <token>y</token>
+                <token>haber</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token>haber</token>
+                        <token>haber<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
                     </marker>
                     <token regexp="yes">[,!?]</token>
                 </pattern>
@@ -18742,6 +18785,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Qué otra explicación puede haber?</example>
                 <example>es lo que hay, y no debería haber, en el encuentro de las mujeres</example>
                 <example>con la mejor lana habida y por haber,</example>
+                <example>Debe de haber, por ahí, alguno.</example>
+                <example>Con el auxiliar haber, etc.</example>
+                <example>hacer, ser, haber, bastar</example>
             </rule>
             <rule>
                 <pattern>
@@ -18825,6 +18871,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo que más me molestó fue haber sido engañado.</example>
                 <example>su éxito fue haber seguido al pie de la letra una estrategia</example>
                 <example>¡Tiene que haber quién lo diga!</example>
+                <example>haya (verbo “haber”)</example>
+                <example>SER, HABER Y HACER</example>
             </rule>
         </rulegroup>
         <rulegroup id="PUDE_PUEDE" name="pude/puede">
@@ -19278,9 +19326,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="_QM_OPEN"/>
             </antipattern>-->
             <antipattern>
+                <!-- probably incomplete senteces -->
+                <token postag="SENT_END" regexp="yes">lo|los|la|las</token>
+            </antipattern>
+            <!-- TODO: avoid VOSEO forms -->
+            <antipattern>
+                <token>la</token>
+                <token>sobre</token>
+                <token min="0">-</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">lo|los|la|las</token>
                 <token><exception regexp="yes" case_sensitive="yes">[,;\.]|a|ante|con|desde|durante|en|hasta|mediante|por|sin|sobre|tras|versus</exception></token>
             </antipattern>
+            <!--<antipattern>
+                <token>la</token>
+                <token>a</token>
+            </antipattern>-->
             <rule>
                 <pattern>
                     <marker>
@@ -19325,7 +19388,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.[MNG]...." postag_regexp="yes"/>
+                        <token postag="V.[MNG]...." postag_regexp="yes"><exception>sé</exception></token>
                         <token>las</token>
                     </marker>
                 </pattern>
@@ -19340,7 +19403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"><exception regexp="yes">.*l[eao]s</exception></token>
                         <token>lo</token>
                     </marker>
                 </pattern>
@@ -19351,7 +19414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"><exception regexp="yes">.*l[eao]s</exception></token>
                         <token>los</token>
                     </marker>
                 </pattern>
@@ -19363,7 +19426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"><exception regexp="yes">.*l[eao]s</exception></token>
                         <token>la</token>
                     </marker>
                 </pattern>
@@ -19375,7 +19438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"><exception regexp="yes">.*l[eao]s</exception></token>
                         <token>las</token>
                     </marker>
                 </pattern>
