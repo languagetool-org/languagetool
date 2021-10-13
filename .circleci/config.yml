@@ -1,54 +1,85 @@
 version: 2.1
-setup: true
-orbs:
-  path-filtering: circleci/path-filtering@0.0.3
+#setup: true
+#orbs:
+#  path-filtering: circleci/path-filtering@0.0.3
 workflows:
   always-run:
     jobs:
-      - path-filtering/filter:
-          base-revision: master
-          config-path: .circleci/continue-config.yml
-          mapping: |
-            languagetool-commandline/.* run_commandline_tests true
-            languagetool-core/.* run_core_tests true
-            languagetool-dev/.* run_dev_tests true
-            languagetool-gui-commons/.* run_gui_commons_tests true
-            languagetool-http-client/.* run_http_client_tests true
-            languagetool-language-modules/ar/.* run_lang_ar_tests true
-            languagetool-language-modules/ast/.* run_lang_ast_tests true
-            languagetool-language-modules/be/.* run_lang_be_tests true
-            languagetool-language-modules/br/.* run_lang_br_tests true
-            languagetool-language-modules/ca/.* run_lang_ca_tests true
-            languagetool-language-modules/da/.* run_lang_da_tests true
-            languagetool-language-modules/de/.* run_lang_de_tests true
-            languagetool-language-modules/el/.* run_lang_el_tests true
-            languagetool-language-modules/en/.* run_lang_en_tests true
-            languagetool-language-modules/eo/.* run_lang_eo_tests true
-            languagetool-language-modules/es/.* run_lang_es_tests true
-            languagetool-language-modules/fa/.* run_lang_fa_tests true
-            languagetool-language-modules/fr/.* run_lang_fr_tests true
-            languagetool-language-modules/ga/.* run_lang_ga_tests true
-            languagetool-language-modules/gl/.* run_lang_gl_tests true
-            languagetool-language-modules/is/.* run_lang_is_tests true
-            languagetool-language-modules/it/.* run_lang_it_tests true
-            languagetool-language-modules/ja/.* run_lang_ja_tests true
-            languagetool-language-modules/km/.* run_lang_km_tests true
-            languagetool-language-modules/lt/.* run_lang_lt_tests true
-            languagetool-language-modules/ml/.* run_lang_ml_tests true
-            languagetool-language-modules/nl/.* run_lang_nl_tests true
-            languagetool-language-modules/pl/.* run_lang_pl_tests true
-            languagetool-language-modules/pt/.* run_lang_pt_tests true
-            languagetool-language-modules/ro/.* run_lang_ro_tests true
-            languagetool-language-modules/ru/.* run_lang_ru_tests true
-            languagetool-language-modules/sk/.* run_lang_sk_tests true
-            languagetool-language-modules/sl/.* run_lang_sl_tests true
-            languagetool-language-modules/sv/.* run_lang_sv_tests true
-            languagetool-language-modules/ta/.* run_lang_ta_tests true
-            languagetool-language-modules/tl/.* run_lang_tl_tests true
-            languagetool-language-modules/uk/.* run_lang_uk_tests true
-            languagetool-language-modules/zh/.* run_lang_zh_tests true
-            languagetool-office-extension/.* run_office_extension_tests true
-            languagetool-server/.* run_server_tests true
-            languagetool-standalone/.* run_standalone_tests true
-            languagetool-tools/.* run_tools_tests true
-            languagetool-wikipedia/.* run_wikipedia_tests true
+      - test-modules-job
+commands:
+  add-github-ssh:
+    description: Avoid hosts unknown for github
+    steps:
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+  # Run tests
+  run-tests:
+    description: run tests
+    steps:
+      - run: git clone --depth 5 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
+      - run: ls
+      - run: cd languagetool
+      - run: ls
+      - run: git diff master..$CIRCLE_BRANCH
+      - run: date
+executors:
+  docker-openjdk8:
+    docker:
+      - image: circleci/openjdk:8-jdk
+jobs:
+  test-modules-job:
+    executor:
+      name: docker-openjdk8
+    working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - add-github-ssh
+      - run-tests
+#    jobs:
+#      - path-filtering/filter:
+#          base-revision: master
+#          config-path: .circleci/continue-config.yml
+#          mapping: |
+#            languagetool-commandline/.* run_commandline_tests true
+#            languagetool-core/.* run_core_tests true
+#            languagetool-dev/.* run_dev_tests true
+#            languagetool-gui-commons/.* run_gui_commons_tests true
+#            languagetool-http-client/.* run_http_client_tests true
+#            languagetool-language-modules/ar/.* run_lang_ar_tests true
+#            languagetool-language-modules/ast/.* run_lang_ast_tests true
+#            languagetool-language-modules/be/.* run_lang_be_tests true
+#            languagetool-language-modules/br/.* run_lang_br_tests true
+#            languagetool-language-modules/ca/.* run_lang_ca_tests true
+#            languagetool-language-modules/da/.* run_lang_da_tests true
+#            languagetool-language-modules/de/.* run_lang_de_tests true
+#            languagetool-language-modules/el/.* run_lang_el_tests true
+#            languagetool-language-modules/en/.* run_lang_en_tests true
+#            languagetool-language-modules/eo/.* run_lang_eo_tests true
+#            languagetool-language-modules/es/.* run_lang_es_tests true
+#            languagetool-language-modules/fa/.* run_lang_fa_tests true
+#            languagetool-language-modules/fr/.* run_lang_fr_tests true
+#            languagetool-language-modules/ga/.* run_lang_ga_tests true
+#            languagetool-language-modules/gl/.* run_lang_gl_tests true
+#            languagetool-language-modules/is/.* run_lang_is_tests true
+#            languagetool-language-modules/it/.* run_lang_it_tests true
+#            languagetool-language-modules/ja/.* run_lang_ja_tests true
+#            languagetool-language-modules/km/.* run_lang_km_tests true
+#            languagetool-language-modules/lt/.* run_lang_lt_tests true
+#            languagetool-language-modules/ml/.* run_lang_ml_tests true
+#            languagetool-language-modules/nl/.* run_lang_nl_tests true
+#            languagetool-language-modules/pl/.* run_lang_pl_tests true
+#            languagetool-language-modules/pt/.* run_lang_pt_tests true
+#            languagetool-language-modules/ro/.* run_lang_ro_tests true
+#            languagetool-language-modules/ru/.* run_lang_ru_tests true
+#            languagetool-language-modules/sk/.* run_lang_sk_tests true
+#            languagetool-language-modules/sl/.* run_lang_sl_tests true
+#            languagetool-language-modules/sv/.* run_lang_sv_tests true
+#            languagetool-language-modules/ta/.* run_lang_ta_tests true
+#            languagetool-language-modules/tl/.* run_lang_tl_tests true
+#            languagetool-language-modules/uk/.* run_lang_uk_tests true
+#            languagetool-language-modules/zh/.* run_lang_zh_tests true
+#            languagetool-office-extension/.* run_office_extension_tests true
+#            languagetool-server/.* run_server_tests true
+#            languagetool-standalone/.* run_standalone_tests true
+#            languagetool-tools/.* run_tools_tests true
+#            languagetool-wikipedia/.* run_wikipedia_tests true
