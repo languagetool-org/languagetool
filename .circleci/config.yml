@@ -39,7 +39,7 @@ commands:
   get-diffs:
     description: Get diffs via git diff
     steps:
-      - run: cd languagetool && git git show --pretty="" --name-only "$CIRCLE_SHA1" > /home/circleci/repo/git_diffs.txt
+      - run: cd languagetool && git show --pretty="" --name-only "$CIRCLE_SHA1" > /home/circleci/repo/git_diffs.txt
 #      - run: cd languagetool && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
 #      - run: cd languagetool && git rev-parse --abbrev-ref HEAD
 #      - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
