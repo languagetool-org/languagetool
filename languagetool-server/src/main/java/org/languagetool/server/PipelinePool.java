@@ -138,6 +138,7 @@ class PipelinePool {
             return new ConcurrentLinkedQueue<>();
           }
         });
+      ServerMetricsCollector.getInstance().monitorCache("languagetool_pipeline_pool", this.pool);
     } else {
       this.pool = null;
     }
