@@ -89,7 +89,7 @@ public class CatalanWordRepeatBeginningRule extends WordRepeatBeginningRule {
     CONTRAST_CONJ.add("Mes");
     CAUSE_CONJ.add("Perquè");
     CAUSE_CONJ.add("Car");
-    EMPHASIS_ADVERBS.add("Òbviamente");
+    EMPHASIS_ADVERBS.add("Òbviament");
     EMPHASIS_ADVERBS.add("Clarament");
     EMPHASIS_ADVERBS.add("Absolutament");
     EMPHASIS_ADVERBS.add("Definitivament");
