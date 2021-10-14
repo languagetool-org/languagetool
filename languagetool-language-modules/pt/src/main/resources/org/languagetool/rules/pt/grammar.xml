@@ -8439,7 +8439,7 @@ Mas gostava de poder ir... fica para aproxima.
   </rulegroup>
 
 	<!-- TIVE DE FÉRIAS estive de férias -->
-    <rule id='TIVE_ESTIVE' name="Confusão: Ter/estar" default="temp_off">
+    <rule id='TIVE_ESTIVE' name="Confusão: Ter/estar">
     <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-11 (25-JUN-2021+)      -->
 	<!--
 Em janeiro tive de férias. → Em janeiro estive de férias.
@@ -39793,6 +39793,67 @@ Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as 
 	  <example>O disco vermelho representa o sol a nascer sobre Bengala e também simboliza o sangue dos que tombaram pela independência do Bangladesh.</example>
 	  <example>É a parte da Física que analisa o movimento, as variações de energia e as forças a atuar sobre um corpo.</example>	  
     </rule>	
+	
+	
+	
+	
+	<!-- QUE ESTÁ/ESTÃO CONTRAÇÃO/PREPOSIÇÃO contração/preposição -->
+    <rule id='QUE_ESTAR_CONTRACAO_PREPOSICAO' name="Que + estar + contração/preposição → contração/preposição" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-14 (25-JUN-2021+)      -->
+	<!--
+Observe os polícias que estão na rua. → Observe os polícias na rua.
+	-->	
+	  <!--
+	    Tom acha que está com a perna quebrada.
+	  -->  
+	  <antipattern>
+		<token postag='NP.+|NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token>que</token>
+		<token regexp="yes">está|estão</token>
+		<token regexp="no">com</token>
+	  </antipattern>
+      <pattern>
+		<token negate_pos="yes" postag='RG|SPS.+|RN' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<marker>
+			<token>que</token>
+			<token regexp="yes">está|estão</token>
+			<token postag='SPS.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='V.+'/>
+			</token>			
+		</marker>
+		<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\5</suggestion>
+      <example correction="na">Observe os polícias <marker>que estão na</marker> rua.</example> 
+	  <example>Crianças com sede deveriam beber água.</example>
+	  <example>Vocês reconhecem o homem nesta foto?</example>
+	  <example>O dinheiro na mesa não é meu.</example>
+	  <example>Eu gosto dos vermelhos na prateleira.</example>
+	  <example>Ela pintou o quadro na parede.</example>
+	  <example>Espécies ameaçadas são espécies em perigo de extinção.</example>	
+	  <example>Os livros são tão velhos que estão em estado de desintegração.</example>
+	  <example>É na Guia que está a génese do grupo Covina, indústria de vidros especiais agora parte do grupo Saint Gobain.</example>
+	  <example>A emissão de um sinal contínuo permite que esse radar distinga objetos parados de objetos que estão em movimento.</example>
+	  <example>Depois de irem buscar os touros ao lameiro soltam-nos numa praça à entrada da freguesia.</example>
+	  <example>E daí se vai direito ao pardieiro de Vale Mourinho e vai-se ao malhão no dito Vale Mourinho no caminho que vai para o Pedrógão.</example>
+	  <example>Então para resolvermos problemas que envolvem cálculo, devemos saber como a função em jogo se comporta.</example>	  
+	  <example>A superfície de Calisto está no topo de uma fria litosfera que está entre 80 e 150 km de profundidade.</example>
+	  <example>O líquido que está sobre pressão junto com o ovócito e as células da corona radiata formam um vulcão e são expelidos.</example>
+	  <example>John é o menino que está a ler o livro.</example>
+	  <example>Escarigo é uma freguesia que está a envelhecer bastante.</example> 
+	  <example>A rapariga que está a falar com John é Susan.</example>
+	  <example>Olha este pássaro que está a voar.</example>
+	  <example>Faça uma visita ao Estaleiro e descubra artigos que estão a necessitar da sua colaboração.</example>	  
+	  <example>Tom ainda não percebe que está em problemas.</example>
+	  
+	  <example>Tom acha que está com a perna quebrada.</example>
+    </rule>	
+	
+	
+	
 	
 	<!-- USAR empregar -->
     <rulegroup id='EMPREGAR_TERMO' name="usar → empregar" type="style" tags="picky">
