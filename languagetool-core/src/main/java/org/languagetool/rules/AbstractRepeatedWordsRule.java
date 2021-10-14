@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -49,7 +47,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   protected int maxWordsDistance() {
-    return 200;
+    return 150;
   }
 
   protected abstract String getMessage();
@@ -88,8 +86,10 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
       List<String> lemmasInSentece = new ArrayList<>();
       int i = -1;
       for (AnalyzedTokenReadings atrs : tokens) {
-        wordNumber++;
         String token = atrs.getToken();
+        if (!token.isEmpty()) {
+          wordNumber++;
+        }
         boolean isCapitalized = StringTools.isCapitalizedWord(token);
         boolean isAllUppercase = StringTools.isAllUppercase(token);
         i++;
@@ -106,7 +106,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
           lemmas.add(lemma);
           Integer seenInWordPosition = wordsLastSeen.get(lemma);
           if (seenInWordPosition != null && !lemmasInSentece.contains(lemma)
-              && (seenInWordPosition - wordNumber) <= maxWordsDistance()) {
+              && (wordNumber - seenInWordPosition) <= maxWordsDistance()) {
             boolean createMatch = true;
             String postag =  getWordsToCheck().get(lemma).getPostag();
             if (postag !=null && !atr.getPOSTag().matches(postag)) {
