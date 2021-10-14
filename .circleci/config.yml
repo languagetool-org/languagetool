@@ -42,7 +42,8 @@ commands:
   get-diffs:
     description: Get diffs via git diff
     steps:
-      - run: curl https://api.github.com/repos/languagetool-org/languagetool/pulls/5832/files | grep -oP '(?<="filename": ")[^"]*'
+      - run: curl https://api.github.com/repos/languagetool-org/languagetool/pulls/"$CIRCLE_PR_NUMBER"/files | grep -oP '(?<="filename":\s{1}")[^"]*' > /home/circleci/github_diffs.txt || echo "No forked PR"
+      - run: tail --lines=100 /home/circleci/github_diffs.txt
       - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/git_diffs.txt
       - run: cd $CIRCLE_WORKING_DIRECTORY && git show --name-only --pretty="" >> /home/circleci/git_diffs.txt
       - run: tail --lines=100 /home/circleci/git_diffs.txt
