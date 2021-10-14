@@ -16877,6 +16877,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="ESTILO" name="Estilo" type="style">
+        <rulegroup id="REPEATED_WORDS" name="palabras repetidas (test)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="VM.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="VM.*" postag_regexp="yes" inflected="yes"><match no="0" postag="VM.*" postag_regexp="yes" postag_replace="VMN...."/></token>    
+                    </marker>
+                </pattern>
+                <message>Verbo repetido.</message>
+                <example correction="">Cantaba muy bien, pero desafinó cuando <marker>cantó</marker> la última.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NC.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes"><match no="0" postag="NC.*" postag_regexp="yes" postag_replace="NC.[SN]..."/></token>    
+                    </marker>
+                </pattern>
+                <message>Verbo repetido.</message>
+                <example correction="">Las casas eran rojas, pero aquella <marker>casa</marker> era verde.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes"><match no="0" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][SN]."/></token>    
+                    </marker>
+                </pattern>
+                <message>Adjetivo repetido.</message>
+                <example correction="">Las casas eran rojas, pero aquel árbol también era <marker>rojo</marker>.</example>    
+            </rule>
+        </rulegroup>
         <rulegroup id="MAMA" name="mama/mamá">
             <url>https://www.rae.es/dpd/mam%C3%A1</url>
             <antipattern>
