@@ -49,6 +49,10 @@ public class ContractionSpellingRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("I'm ill.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Staatszerfall im südlichen Afrika.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("by IVE")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Jonathan Ive left Apple.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Jony Ive left Apple.")).length);
+    
+    
     
     // incorrect sentences:
 
@@ -61,6 +65,7 @@ public class ContractionSpellingRuleTest {
     checkSimpleReplaceRule("It wasnt me", "wasn't");
     checkSimpleReplaceRule("You neednt do this", "needn't");
     checkSimpleReplaceRule("I know Im wrong", "I'm");
+    checkSimpleReplaceRule("That's what Ive said", "I've");
 
     //two suggestions
     final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Whereve you are"));

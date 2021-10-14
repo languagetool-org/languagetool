@@ -18,12 +18,20 @@
  */
 package org.languagetool.rules.en;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -38,7 +46,15 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/en/contractions.txt");
   private static final Locale EN_LOCALE = new Locale("en");
+  
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+      Arrays.asList( // Jonathan Ive (proper noun)
+      tokenRegex("\\p{Lu}.*"),
+      token("Ive")
+    ));
+    
   @Override
   protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
@@ -51,8 +67,13 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),
                    Example.fixed("We <marker>haven't</marker> earned anything."));
     super.setCheckLemmas(false);
+    antiPatterns = cacheAntiPatterns(new AmericanEnglish(), ANTI_PATTERNS);
   }
-
+  
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns.get();
+  }
   @Override
   public final String getId() {
     return CONTRACTION_SPELLING_RULE;
