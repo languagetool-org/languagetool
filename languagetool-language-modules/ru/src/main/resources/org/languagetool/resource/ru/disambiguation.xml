@@ -661,6 +661,67 @@ Copyright (C) 2009-2021 Yakov Reztsov
             <disambig action="ignore_spelling"></disambig>
         </rule>
     </rulegroup>
+    <!-- обер-, унтер-, лейб-, штаб-, вице-, экс-, -->
+    <rulegroup id="pol1-Word" name="pol1-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Оо]бер-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Оо]бер-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+   <rulegroup id="pol5-Word" name="pol5-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Уу]нтер-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Уу]нтер-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol6-Word" name="pol6-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Лл]ейб-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Лл]ейб-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol2-Word" name="pol2-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Шш]таб-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Шш]таб-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol3-Word" name="pol3-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Вв]ице-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Вв]ице-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol4-Word" name="pol4-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Ээ]кс-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Ээ]кс-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
    
     <rule name="VERB_NOUN1" id="VERB_NOUN">
         <pattern>		   
