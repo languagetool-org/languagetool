@@ -4356,7 +4356,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>LanguageTool — это свободное программное обеспечение для проверки грамматики, пунктуации и стиля.</example>
                 <example correction="LanguageTool — это"><marker>LanguageTool —это</marker> свободное программное обеспечение для проверки грамматики, пунктуации и стиля.</example>
             </rule>
-        </rulegroup>	    
+        </rulegroup>
+        <rule id="Tire_and_two" name="Пропущено тире">
+            <pattern>
+                <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                <token>и</token>
+                <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                <token regexp="yes">две|два|двое</token>
+            </pattern>
+            <message>Пропущено тире: <suggestion>\1 \2 \3 — \4</suggestion></message>
+            <short>Пропущено тире</short>
+            <example correction="гений и злодейство — две">А <marker>гений и злодейство две</marker> вещи несовместные.</example>
+            <example>А гений и злодейство - две вещи несовместные.</example>
+            <example>А гений и злодейство — две вещи несовместные.</example>
+        </rule>	    
         <rulegroup default="on" id="Punct_and_spaces" name="Пробелы перед знаками препинания">
             <rule>
                 <pattern case_sensitive="yes">
