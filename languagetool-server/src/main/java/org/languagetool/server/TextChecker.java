@@ -478,6 +478,10 @@ abstract class TextChecker {
       }
     }
 
+    // no lazy computation at later points (outside of timeout enforcement)
+    // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
+    res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
+
     setHeaders(httpExchange);
 
     List<RuleMatch> hiddenMatches = new ArrayList<>();
