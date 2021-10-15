@@ -781,6 +781,13 @@ public class AgreementRule extends Rule {
       posRegex("SUB:NOM:.*"),
       posRegex("PKT|SENT_END|KON.*")
     ),
+    Arrays.asList( // "Meistens sind das faktenfreie Behauptungen."
+      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      csToken("das"),
+      posRegex("ADJ:NOM:.*"),
+      posRegex("SUB:NOM:.*"),
+      posRegex("PKT|KON.*")
+    ),
     Arrays.asList( // "Aber ansonsten ist das erste Sahne"
       new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
       csToken("das"),
@@ -1273,6 +1280,22 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("nennen").matchInflectedForms().build(),
       token("das"),
       posRegex("SUB:NOM:SIN:(FEM|MAS)")
+    ),
+    Arrays.asList( // Das ist bestimmt kein Made in Germany
+      csToken("Made"),
+      csToken("in"),
+      csToken("Germany")
+    ),
+    Arrays.asList( // Des Plan de XXX
+      csRegex("[A-Z].+"),
+      csRegex("del?"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Des Plan de XXX
+      csRegex("[A-Z].+"),
+      csToken("de"),
+      regex("l[ao]s?"),
+      csRegex("[A-Z].+")
     )
   );
 

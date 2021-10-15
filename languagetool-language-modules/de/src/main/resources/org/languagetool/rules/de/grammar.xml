@@ -254,17 +254,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-            <rule id="ZAHL_IM_WORT" name="Zahl im Word">
+            <rule id="ZAHL_IM_WORT" name="Zahl im Wort">
                 <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
                     <token regexp="yes">\p{L}\d\p{L}</token>
                 </antipattern>
                 <antipattern><!-- Eigennamen -->
-                    <token regexp="yes">co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|car2go|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|wissen2go|cat5e|unity3d</token>
+                    <token regexp="yes">co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2go|.+4(all|ever)|cat5e|unity3d</token>
                 </antipattern>
                 <antipattern>
                     <token />
                     <token spacebefore="no">.</token>
                     <token regexp="yes" spacebefore="no">&sometlds;</token>
+                </antipattern>
+                <antipattern><!-- Hashtags -->
+                    <token>#</token>
+                    <token spacebefore="no" />
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[a-zA-ZäüöÄÜÖ]{1}[a-zßäüöÄÜÖ]{0,20}[0-9]{1}[a-zßäüö]{1,20}</token>
@@ -11021,7 +11025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mir</token>
                     <token regexp="yes">buttons?</token>
                 </pattern>
-                <message>Dieses Substantiv sollte mit Anführungszeichen und Bindestrich zusammengeschrieben werden.</message>
+                <message>Dieses Nomen sollte mit Anführungszeichen und Bindestrich zusammengeschrieben werden.</message>
                 <suggestion>&quot;Gefällt mir&quot;-<match no="3" case_conversion="startupper" /></suggestion>
                 <suggestion>„Gefällt mir“-<match no="3" case_conversion="startupper" /></suggestion>
                 <example correction="&quot;Gefällt mir&quot;-Button|„Gefällt mir“-Button">Bitte klicken Sie auf den <marker>Gefällt mir Button</marker>.</example>
@@ -11034,7 +11038,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">&quot;|“</token>
                     <token regexp="yes">buttons?</token>
                 </pattern>
-                <message>Dieses Substantiv sollte mit Anführungszeichen und Bindestrich zusammengeschrieben werden.</message>
+                <message>Dieses Nomen sollte mit Anführungszeichen und Bindestrich zusammengeschrieben werden.</message>
                 <suggestion>\1Gefällt mir\4-<match no="5" case_conversion="startupper" /></suggestion>
                 <example correction="„Gefällt mir“-Button">Bitte klicken Sie auf den <marker>„Gefällt mir“ Button</marker>.</example>
             </rule>
