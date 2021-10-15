@@ -246,5 +246,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Die Beziehungen zwischen Erwachsenen sind komplizierter, als <marker>wie</marker> es auf den ersten Blick erscheint.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CPT_DIE_CDIE" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[,;!\?\.:–—-]</token>
+                    <marker>
+                        <token regexp="yes">.*[\d\w]+.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Wir kennen Menschen, <marker>die</marker> Avocados auf dem Balkon anbauen.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
