@@ -46802,6 +46802,10 @@ Andere Projekte</example>
                     <token skip="-1" postag="V.*:[123]:.*" postag_regexp="yes"/>
                     <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
                 </antipattern>
+                <antipattern><!-- Haben Sie die vorangegangen Frage beantwortet? -->
+                    <token postag="PA2.*" postag_regexp="yes" chunk_re="..NP.*"/>
+                    <token postag="SUB.*" postag_regexp="yes" chunk_re="I-NP.*"/>
+                </antipattern>
                 <pattern>
                     <token negate="yes">zu</token>
                     <marker>
@@ -46847,6 +46851,7 @@ Andere Projekte</example>
                 <example>Sie haben bei uns Produkte gebucht die fällig geworden sind.</example>
                 <example>Was du da gesehen hast könnte auch ein Hund gewesen sein.</example>
                 <example>Somit hätte er in der Lage gewesen sein müssen, alle korrekt zu schreiben.</example>
+                <example>Das haben Sie beim Ausfüllen der vorangegangen Frage explizit erwähnt.</example>
             </rule>
            <!-- <rule>
                 <pattern>
