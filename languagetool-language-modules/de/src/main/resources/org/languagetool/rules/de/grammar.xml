@@ -11014,6 +11014,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="GEFAELLT_MIR_BUTTON" name="„Gefällt mir“-Button" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>gefällt</token>
+                    <token>mir</token>
+                    <token regexp="yes">buttons?</token>
+                </pattern>
+                <message>Dieses Substantiv sollte mit Anführungszeichen und Bindestrich zusammengeschrieben werden.</message>
+                <suggestion>&quot;Gefällt mir&quot;-<match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion>„Gefällt mir“-<match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="&quot;Gefällt mir&quot;-Button|„Gefällt mir“-Button">Bitte klicken Sie auf den <marker>Gefällt mir Button</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&quot;|„</token>
+                    <token spacebefore="no">gefällt</token>
+                    <token>mir</token>
+                    <token spacebefore="no" regexp="yes">&quot;|“</token>
+                    <token regexp="yes">buttons?</token>
+                </pattern>
+                <message>Dieses Substantiv sollte mit Anführungszeichen und Bindestrich zusammengeschrieben werden.</message>
+                <suggestion>\1Gefällt mir\4-<match no="5" case_conversion="startupper" /></suggestion>
+                <example correction="„Gefällt mir“-Button">Bitte klicken Sie auf den <marker>„Gefällt mir“ Button</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="GROESSEN_WAHNSINNIG" name="Größen wahnsinnig (Größenwahnsinnig)">
             <pattern>
                 <token regexp="yes">grö(ss|ß)en</token>
@@ -42049,12 +42074,12 @@ Andere Projekte</example>
         <rulegroup id="ZAL_MAL" name="Fehlender Bindestrich in '10 mal'">
             <rule>
                 <antipattern>
-                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">-?\d+</token>
                     <token>mal</token>
-                    <token regexp="yes">\d+.*</token>
+                    <token regexp="yes">-?\d+.*</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">-?\d+</token>
                     <token>mal</token>
                     <token postag="ZAL" />
                 </antipattern>
@@ -42073,6 +42098,7 @@ Andere Projekte</example>
                 <suggestion>\1 Mal</suggestion>
                 <example correction="10-mal|10 Mal">Noch <marker>10 mal</marker> schlafen, dann kommt das Christkind.</example>
                 <example>6 mal 6 ergibt 36</example>
+                <example>6 mal -6 ergibt -36</example>
                 <example>1833 schreibt Edmund March Blunt, sie messe 8 mal 2½ Meilen, hingegen behaupteten John Purdy und Alexander G. Findlay, sie messe fast 7 mal 3½ Meilen.</example>
                 <example>Wir könnten um 14:00 oder 16:30 mal einen Zoom-Call machen..</example>
             </rule>
@@ -55330,7 +55356,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]ezapped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]ezapped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>

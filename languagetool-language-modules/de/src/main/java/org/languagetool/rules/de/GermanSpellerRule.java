@@ -329,6 +329,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Präsen", "Präsentationen");
     put("Orga", "Organisation");
     put("Orgas", "Organisationen");
+    put("Reorga", "Reorganisation");
+    put("Reorgas", "Reorganisationen");
     put("instande?zusetzen", "instand zu setzen");
     put("Lia(si|is)onen", "Liaisons");
     put("[cC]asemana?ge?ment", "Case Management");
