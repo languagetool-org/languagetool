@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.FakeRule;
+import org.languagetool.rules.NumberInWordFilter;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
-public class NumberInWordFilterTest {
+public class GermanNumberInWordFilterTest {
 
   @Test
   public void testFilter() throws IOException {
@@ -41,7 +42,7 @@ public class NumberInWordFilterTest {
   }
 
   private void runFilter(String input, String arg, String newRepl, int patternTokenPos, int fromPos, int toPos, JLanguageTool lt) throws IOException {
-    NumberInWordFilter filter = new NumberInWordFilter();
+    NumberInWordFilter filter = new GermanNumberInWordFilter();
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     RuleMatch match = new RuleMatch(new FakeRule(), sentence, fromPos, toPos, "fake msg");
     HashMap<String, String> args = new HashMap<>();
