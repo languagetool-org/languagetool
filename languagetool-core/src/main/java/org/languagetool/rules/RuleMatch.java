@@ -56,6 +56,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private Supplier<List<SuggestedReplacement>> suggestedReplacements;
+  // track if more work needs to be done to compute suggestions;
+  // allows enforcement of timeouts to return partial results without spending more time
+  private boolean suggestionsComputed = true;
   private URL url;
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
@@ -389,6 +392,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public void setSuggestedReplacements(List<String> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    suggestionsComputed = true;
     suggestedReplacements = Suppliers.ofInstance(
       replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
     );
@@ -404,6 +408,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setSuggestedReplacementObjects(List<SuggestedReplacement> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestedReplacements = Suppliers.ofInstance(replacements);
+    suggestionsComputed = true;
   }
 
   /**
@@ -416,6 +421,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setLazySuggestedReplacements(@NotNull Supplier<List<SuggestedReplacement>> replacements) {
     Objects.requireNonNull(replacements, "replacements may not be null");
     suggestedReplacements = Suppliers.memoize(replacements::get);
+    suggestionsComputed = false;
   }
 
   /**
@@ -424,6 +430,17 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public void computeLazySuggestedReplacements() {
     suggestedReplacements = Suppliers.ofInstance(suggestedReplacements.get());
+    suggestionsComputed = true;
+  }
+
+  /**
+   * Discard lazy suggested replacements, but keep other suggestions
+   * Useful to enforce time limits on result computation
+   */
+  public void discardLazySuggestedReplacements() {
+    if (!suggestionsComputed) {
+      setSuggestedReplacementObjects(Collections.emptyList());
+    }
   }
 
   /**
