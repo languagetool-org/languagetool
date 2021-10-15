@@ -36052,11 +36052,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" case_sensitive="yes">Principi|Síndrome|Regla|Malaltia|Fórmula|Sistema|Mètode<exception scope="previous" postag="SENT_START"/></token>
                 </marker>
                 <token regexp="yes">de|d'</token>
-                <token regexp="yes">\p{Lu}.*</token>
+                <token regexp="yes">\p{Lu}.*<exception postag="NC.*" postag_regexp="yes"/></token>
             </pattern>
             <message>La paraula <suggestion><match no="1" case_conversion="alllower"/></suggestion> s'escriu normalment en minúscula, seguida d'un nom propi (ex. síndrome de Down, regla D'Hondt).</message>
             <example correction="síndrome">Era un símptoma de la <marker>Síndrome</marker> de Savant.</example>
             <example correction="regla">Era el resultat de la <marker>Regla</marker> D'Hondt.</example>
+            <example>Sistema de Control d'Entrada.</example>
         </rule>
         <rule id="DRETS_HUMANS" name="drets humans">
             <antipattern case_sensitive="yes">
@@ -37207,7 +37208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error ortotipogràfic</short>
                 <example correction="1989">És del <marker>1.989</marker> d. C.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <antipattern>
                     <token>més|menys</token>
                     <token>de</token>
@@ -38178,27 +38179,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
                 <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
                 <example correction="9.30|9:30">De <marker>9,30</marker> a 11 h.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token regexp="yes">[012]?\d,[012345]\d</token>
-                    <token postag="Y|NC[MF][PN]000" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[012]?\d,[012345]\d</token>
-                    <token regexp="yes" inflected="yes">.*metre|.*gram|.*litre|Ma</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">([01]?\d|2[0-4])([,\.:][012345]\d)?</token>
-                    <token regexp="yes">a|-</token>
-                    <marker>
-                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
-                    </marker>
-                </pattern>
-                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
-                <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
-                <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
-                <example correction="9.30|9:30">De 8 a <marker>9,30</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -49345,10 +49325,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">candits?|candida|candides</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)ca" regexp_replace="cà"/></suggestion>? "\1" és participi del v. 'candir'.</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)candi[td]" regexp_replace="càndid" case_conversion="preserve"/></suggestion>? "\1" és participi del v. 'candir'.</message>
                 <short>Possible confusió</short>
                 <example correction="Càndida"><marker>Candida</marker></example>
                 <example correction="càndides">Eren <marker>candides</marker>.</example>
+                <example correction="càndids">Que en sou de <marker>candits</marker>.</example>
+                <example correction="càndid">Que n'ets de <marker>candit</marker>.</example>
             </rule>
             <rule>
                 <pattern>
