@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Create suggestions for German noun phrases that lack agreement.
@@ -73,15 +73,17 @@ class AgreementSuggestor2 {
 
   List<String> getSuggestions() {
     try {
-      return getSuggestionsInternal();
+      List<Suggestion> suggestions = getSuggestionsInternal();
+      Collections.sort(suggestions);  // sort so that suggestions with fewer edits come first
+      return suggestions.stream().map(k -> k.phrase).collect(Collectors.toList());
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
-  private List<String> getSuggestionsInternal() throws IOException {
+  private List<Suggestion> getSuggestionsInternal() throws IOException {
     List<String> nounCases = getNounCases();
-    List<String> result = new ArrayList<>();
+    List<Suggestion> result = new ArrayList<>();
     for (String num : number) {
       for (String gen : gender) {
         for (String aCase : cases) {
@@ -193,15 +195,19 @@ class AgreementSuggestor2 {
     return result.toArray(new String[0]);
   }
 
-  private void combineSynth(List<String> result, String[] detSynthesized, String[] adjSynthesized, String[] nounSynthesized) {
+  private void combineSynth(List<Suggestion> result, String[] detSynthesized, String[] adjSynthesized, String[] nounSynthesized) {
     for (String detSynthesizedElem : detSynthesized) {
       for (String adjSynthesizedElem : adjSynthesized) {
         for (String nounSynthesizedElem : nounSynthesized) {
           String elem = adjSynthesizedElem.isEmpty() ?
               detSynthesizedElem + " " + nounSynthesizedElem :
               detSynthesizedElem + " " + adjSynthesizedElem + " " + nounSynthesizedElem;
-          if (!result.contains(elem)) {
-            result.add(elem);
+          int corrections = (detSynthesizedElem.equals(determinerToken.getToken()) ? 0 : 1) +
+                            (adjToken != null && adjSynthesizedElem.equals(adjToken.getToken()) ? 0 : 1) +
+                            (nounSynthesizedElem.equals(nounToken.getToken()) ? 0 : 1);
+          Suggestion suggestion = new Suggestion(elem, corrections);
+          if (!result.contains(suggestion)) {
+            result.add(suggestion);
           }
         }
       }
@@ -210,6 +216,34 @@ class AgreementSuggestor2 {
 
   private String generate(String template, String num, String gen, String aCase) {
     return template.replaceFirst("SIN/PLU", num).replaceFirst("MAS/FEM/NEU", gen).replaceFirst("NOM/AKK/DAT/GEN", aCase);
+  }
+
+  private static class Suggestion implements Comparable<Suggestion> {
+    String phrase;
+    int corrections;
+    Suggestion(String phrase, int corrections) {
+      this.phrase = Objects.requireNonNull(phrase);
+      this.corrections = corrections;
+    }
+    @Override
+    public int compareTo(@NotNull Suggestion o) {
+      return corrections - o.corrections;
+    }
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Suggestion that = (Suggestion) o;
+      return corrections == that.corrections && phrase.equals(that.phrase);
+    }
+    @Override
+    public int hashCode() {
+      return Objects.hash(phrase, corrections);
+    }
+    @Override
+    public String toString() {
+      return phrase + "/c=" + corrections;
+    }
   }
 
 }

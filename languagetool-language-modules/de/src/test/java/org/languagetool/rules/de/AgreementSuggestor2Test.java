@@ -38,21 +38,22 @@ public class AgreementSuggestor2Test {
 
   @Test
   public void testSuggestions() throws IOException {
-    assertSuggestion1("deine Buch", "[dein Buch, deinem Buch, deinem Buche, deines Buches, deines Buchs, deine Bücher, deinen Büchern, deiner Bücher]");
-    assertSuggestion1("dieser Buch", "[dies Buch, dieses Buch, diesem Buch, diesem Buche, dieses Buches, dieses Buchs, diese Bücher, diesen Büchern, dieser Bücher]");
-    assertSuggestion1("die Kabels", "[der Kabel, den Kabel, dem Kabel, des Kabels, das Kabel, die Kabel, den Kabeln]");
-    assertSuggestion1("die LAN-Kabels", "[der LAN-Kabel, den LAN-Kabel, dem LAN-Kabel, des LAN-Kabels, das LAN-Kabel, die LAN-Kabel, den LAN-Kabeln]");
+    assertSuggestion1("deine Buch", "[dein Buch, deinem Buch, deine Bücher, deinem Buche, deines Buches, deines Buchs, deinen Büchern, deiner Bücher]");
+    assertSuggestion1("dieser Buch", "[dies Buch, dieses Buch, diesem Buch, dieser Bücher, diesem Buche, dieses Buches, dieses Buchs, diese Bücher, diesen Büchern]");
+    assertSuggestion1("die Kabels", "[des Kabels, die Kabel, der Kabel, den Kabel, dem Kabel, das Kabel, den Kabeln]");
+    assertSuggestion1("die LAN-Kabels", "[des LAN-Kabels, die LAN-Kabel, der LAN-Kabel, den LAN-Kabel, dem LAN-Kabel, das LAN-Kabel, den LAN-Kabeln]");
     assertSuggestion1("mehrere Kabels", "[mehrere Kabel, mehreren Kabeln, mehrerer Kabel]");
     assertSuggestion1("mehrere LAN-Kabels", "[mehrere LAN-Kabel, mehreren LAN-Kabeln, mehrerer LAN-Kabel]");
     assertSuggestion1("mehrere WLAN-LAN-Kabels", "[mehrere WLAN-LAN-Kabel, mehreren WLAN-LAN-Kabeln, mehrerer WLAN-LAN-Kabel]");
     assertSuggestion1("Ihren Verständnis", "[Ihr Verständnis, Ihrem Verständnis, Ihrem Verständnisse, Ihres Verständnisses]");
-    assertSuggestion1("die Kühlschranktest", "[der Kühlschranktest, den Kühlschranktest, dem Kühlschranktest, dem Kühlschrankteste, " +
-      "des Kühlschranktestes, des Kühlschranktests, die Kühlschrankteste, die Kühlschranktests, den Kühlschranktesten, den Kühlschranktests, " +
-      "der Kühlschrankteste, der Kühlschranktests]");
+    assertSuggestion1("die Kühlschranktest", "[der Kühlschranktest, den Kühlschranktest, dem Kühlschranktest, die Kühlschrankteste, " +
+      "die Kühlschranktests, dem Kühlschrankteste, des Kühlschranktestes, des Kühlschranktests, den Kühlschranktesten, " +
+      "den Kühlschranktests, der Kühlschrankteste, der Kühlschranktests]");
     assertSuggestion1("die Kühlschrankverarbeitungstest", "[der Kühlschrankverarbeitungstest, den Kühlschrankverarbeitungstest, " +
-      "dem Kühlschrankverarbeitungstest, dem Kühlschrankverarbeitungsteste, des Kühlschrankverarbeitungstestes, " +
-      "des Kühlschrankverarbeitungstests, die Kühlschrankverarbeitungsteste, die Kühlschrankverarbeitungstests, " +
-      "den Kühlschrankverarbeitungstesten, den Kühlschrankverarbeitungstests, der Kühlschrankverarbeitungsteste, der Kühlschrankverarbeitungstests]");
+      "dem Kühlschrankverarbeitungstest, die Kühlschrankverarbeitungsteste, die Kühlschrankverarbeitungstests, " +
+      "dem Kühlschrankverarbeitungsteste, des Kühlschrankverarbeitungstestes, des Kühlschrankverarbeitungstests, " +
+      "den Kühlschrankverarbeitungstesten, den Kühlschrankverarbeitungstests, der Kühlschrankverarbeitungsteste, " +
+      "der Kühlschrankverarbeitungstests]");
   }
 
   @Test
@@ -65,41 +66,41 @@ public class AgreementSuggestor2Test {
 
   @Test
   public void testSuggestionsHaus() throws IOException {
-    String res = "[das Haus, dem Haus, dem Hause, des Hauses, die Häuser, den Häusern, der Häuser]";
-    assertSuggestion1("der Haus", res);
-    assertSuggestion1("das Haus", res);
-    assertSuggestion1("der Haus", res);
-    assertSuggestion1("die Haus", res);
-    assertSuggestion1("die Hauses", res);
-    assertSuggestion1("die Häusern", res);
+    assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");
+    assertSuggestion1("das Haus", "[das Haus, dem Haus, dem Hause, des Hauses, die Häuser, den Häusern, der Häuser]");
+    assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");
+    assertSuggestion1("die Haus", "[das Haus, dem Haus, die Häuser, dem Hause, des Hauses, den Häusern, der Häuser]");
+    assertSuggestion1("die Hauses", "[des Hauses, die Häuser, das Haus, dem Haus, dem Hause, den Häusern, der Häuser]");
+    assertSuggestion1("die Häusern", "[die Häuser, den Häusern, das Haus, dem Haus, dem Hause, des Hauses, der Häuser]");
   }
 
   @Test
   public void testDetAdjNounSuggestions() throws IOException {
     assertSuggestion2("die neuen Unterlage", "[die neue Unterlage, der neuen Unterlage, die neuen Unterlagen, den neuen Unterlagen, der neuen Unterlagen]");
-    assertSuggestion2("der neue Unterlagen", "[die neue Unterlage, der neuen Unterlage, die neuen Unterlagen, den neuen Unterlagen, der neuen Unterlagen]");
+    assertSuggestion2("der neue Unterlagen", "[der neuen Unterlagen, die neue Unterlage, der neuen Unterlage, die neuen Unterlagen, den neuen Unterlagen]");
     assertSuggestion2("eine schönes Auto", "[ein schönes Auto, einem schönen Auto, eines schönen Autos]");
     assertSuggestion2("eine schöne Auto", "[ein schönes Auto, einem schönen Auto, eines schönen Autos]");
     assertSuggestion2("ein schöne Auto", "[ein schönes Auto, einem schönen Auto, eines schönen Autos]");
-    assertSuggestion2("einen großen Auto", "[ein großes Auto, einem großen Auto, eines großen Autos]");
+    assertSuggestion2("einen großen Auto", "[einem großen Auto, ein großes Auto, eines großen Autos]");
     assertSuggestion2("das schönes Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("das schöneren Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("das schöneren Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("das schönstem Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("das schönsten Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
-    assertSuggestion2("der schöne Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
-    assertSuggestion2("der kleine Auto", "[das kleine Auto, dem kleinen Auto, des kleinen Autos, die kleinen Autos, den kleinen Autos, der kleinen Autos]");
-    assertSuggestion2("der kleiner Auto", "[das kleine Auto, dem kleinen Auto, des kleinen Autos, die kleinen Autos, den kleinen Autos, der kleinen Autos]");
-    assertSuggestion2("das stärkste Körperteil", "[der starke Körperteil, den starken Körperteil, dem starken Körperteil, des starken Körperteils, das starke Körperteil, dem starken Körperteile, des starken Körperteiles, die starken Körperteile, den starken Körperteilen, der starken Körperteile]");
+    assertSuggestion2("der schöne Auto", "[das schöne Auto, dem schönen Auto, der schönen Autos, des schönen Autos, die schönen Autos, den schönen Autos]");
+    assertSuggestion2("der kleine Auto", "[das kleine Auto, dem kleinen Auto, der kleinen Autos, des kleinen Autos, die kleinen Autos, den kleinen Autos]");
+    assertSuggestion2("der kleiner Auto", "[das kleine Auto, dem kleinen Auto, der kleinen Autos, des kleinen Autos, die kleinen Autos, den kleinen Autos]");
+    assertSuggestion2("das stärkste Körperteil", "[das starke Körperteil, der starke Körperteil, den starken Körperteil, dem starken Körperteil, des starken Körperteils, dem starken Körperteile, des starken Körperteiles, die starken Körperteile, den starken Körperteilen, der starken Körperteile]");
     // "benötigten" ist PA2:
     assertSuggestion2("die benötigten Unterlage", "[die benötigte Unterlage, der benötigten Unterlage, die benötigten Unterlagen, den benötigten Unterlagen, der benötigten Unterlagen]");   // ist PA2
     assertSuggestion2("eine benötigten Unterlage", "[eine benötigte Unterlage, einer benötigten Unterlage]");
-    assertSuggestion2("die voller Verzierungen", "[die volle Verzierung, der vollen Verzierung, die vollen Verzierungen, den vollen Verzierungen, der vollen Verzierungen]"); // evtl. Fehlalarm...
+    assertSuggestion2("die voller Verzierungen", "[die vollen Verzierungen, die volle Verzierung, den vollen Verzierungen, der vollen Verzierungen, der vollen Verzierung]"); // evtl. Fehlalarm...
     assertSuggestion2("zu zukünftigen Vorstands", "[]");  // ?
-    assertSuggestion2("der ikonischsten Gebäuden", "[das ikonische Gebäude, dem ikonischen Gebäude, des ikonischen Gebäudes, die ikonischen Gebäude, den ikonischen Gebäuden, der ikonischen Gebäude]");
-    assertSuggestion2("des südlichen Kontinent", "[der südliche Kontinent, den südlichen Kontinent, dem südlichen Kontinent, dem südlichen Kontinente, des südlichen Kontinentes, des südlichen Kontinents, die südlichen Kontinente, den südlichen Kontinenten, der südlichen Kontinente]");
+    // TODO: Komparativ + Superlativ:
+    assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischen Gebäuden, der ikonischen Gebäude, das ikonische Gebäude, dem ikonischen Gebäude, des ikonischen Gebäudes, die ikonischen Gebäude]");
+    assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, des südlichen Kontinentes, des südlichen Kontinents, der südliche Kontinent, dem südlichen Kontinente, die südlichen Kontinente, den südlichen Kontinenten, der südlichen Kontinente]");
     assertSuggestion2("die erwartet Entwicklung", "[die erwartete Entwicklung, der erwarteten Entwicklung, die erwarteten Entwicklungen, den erwarteten Entwicklungen, der erwarteten Entwicklungen]");
-    assertSuggestion2("die verschieden Ämter", "[das verschiedene Amt, dem verschiedenen Amt, dem verschiedenen Amte, des verschiedenen Amtes, des verschiedenen Amts, die verschiedenen Ämter, den verschiedenen Ämtern, der verschiedenen Ämter]");
+    assertSuggestion2("die verschieden Ämter", "[die verschiedenen Ämter, der verschiedenen Ämter, das verschiedene Amt, dem verschiedenen Amt, dem verschiedenen Amte, des verschiedenen Amtes, des verschiedenen Amts, den verschiedenen Ämtern]");
     assertSuggestion2("keine richtiger Fahrerin", "[keine richtige Fahrerin, keiner richtigen Fahrerin, keine richtigen Fahrerinnen, keinen richtigen Fahrerinnen, keiner richtigen Fahrerinnen]");
   }
 
@@ -121,16 +122,13 @@ public class AgreementSuggestor2Test {
     assertThat(suggestor.getSuggestions().toString(), is("[ein hilfreicher Tipp, einen hilfreichen Tipp, einem hilfreichen Tipp, eines hilfreichen Tipps]"));
     suggestor.setPreposition(tags.get(1));  // "über"
     assertThat(suggestor.getSuggestions().toString(), is("[einen hilfreichen Tipp, einem hilfreichen Tipp]"));
-  }
 
-  @Test
-  public void testCase1() throws IOException {
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("an den stacheligen Pflanzenteile");
-    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
-    AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), null);
-    assertThat(suggestor.getSuggestions().toString(), is("[der stachelige Pflanzenteil, den stacheligen Pflanzenteil, dem stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, des stacheligen Pflanzenteiles, des stacheligen Pflanzenteils, das stachelige Pflanzenteil, die stacheligen Pflanzenteile, den stacheligen Pflanzenteilen, der stacheligen Pflanzenteile]"));
+    analyzedSentence = lt.getAnalyzedSentence("an den stacheligen Pflanzenteile");
+    tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), null);
+    assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, die stacheligen Pflanzenteile, den stacheligen Pflanzenteilen, der stacheligen Pflanzenteile, dem stacheligen Pflanzenteil, des stacheligen Pflanzenteiles, des stacheligen Pflanzenteils, der stachelige Pflanzenteil, das stachelige Pflanzenteil]"));
     suggestor.setPreposition(tags.get(1));  // "an"
-    assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, das stachelige Pflanzenteil, die stacheligen Pflanzenteile, den stacheligen Pflanzenteilen]"));
+    assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, die stacheligen Pflanzenteile, den stacheligen Pflanzenteilen, dem stacheligen Pflanzenteil, das stachelige Pflanzenteil]"));
   }
 
   private void assertSuggestion1(String input, String expectedSuggestions) throws IOException {
