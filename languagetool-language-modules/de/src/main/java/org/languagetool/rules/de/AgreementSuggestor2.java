@@ -48,7 +48,7 @@ class AgreementSuggestor2 {
   private final AnalyzedTokenReadings determinerToken;
   private final AnalyzedTokenReadings adjToken;
   private final AnalyzedTokenReadings nounToken;
-  private final AgreementRule.ReplacementType replacementType;  //TODO??
+  private final AgreementRule.ReplacementType replacementType;
 
   private AnalyzedTokenReadings prepositionToken;
 
@@ -167,6 +167,11 @@ class AgreementSuggestor2 {
       AnalyzedToken adjReading = adjToken.getReadings().get(0);
       boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
       String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
+      if (adjReading.getPOSTag().contains(":KOM:")) {
+        template = template.replace(":GRU:", ":KOM:");
+      } else if (adjReading.getPOSTag().contains(":SUP:")) {
+        template = template.replace(":GRU:", ":SUP:");
+      }
       template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
       String adjPos = generate(template, num, gen, aCase);
       adjSynthesized = synthesizer.synthesize(adjReading, adjPos);

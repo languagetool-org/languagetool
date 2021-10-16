@@ -82,26 +82,27 @@ public class AgreementSuggestor2Test {
     assertSuggestion2("eine schöne Auto", "[ein schönes Auto, einem schönen Auto, eines schönen Autos]");
     assertSuggestion2("ein schöne Auto", "[ein schönes Auto, einem schönen Auto, eines schönen Autos]");
     assertSuggestion2("einen großen Auto", "[einem großen Auto, ein großes Auto, eines großen Autos]");
-    assertSuggestion2("das schönes Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
-    assertSuggestion2("das schöneren Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
-    assertSuggestion2("das schöneren Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
-    assertSuggestion2("das schönstem Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
-    assertSuggestion2("das schönsten Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("der schöne Auto", "[das schöne Auto, dem schönen Auto, der schönen Autos, des schönen Autos, die schönen Autos, den schönen Autos]");
     assertSuggestion2("der kleine Auto", "[das kleine Auto, dem kleinen Auto, der kleinen Autos, des kleinen Autos, die kleinen Autos, den kleinen Autos]");
     assertSuggestion2("der kleiner Auto", "[das kleine Auto, dem kleinen Auto, der kleinen Autos, des kleinen Autos, die kleinen Autos, den kleinen Autos]");
-    assertSuggestion2("das stärkste Körperteil", "[das starke Körperteil, der starke Körperteil, den starken Körperteil, dem starken Körperteil, des starken Körperteils, dem starken Körperteile, des starken Körperteiles, die starken Körperteile, den starken Körperteilen, der starken Körperteile]");
+    assertSuggestion2("das stärkste Körperteil", "[das stärkste Körperteil, der stärkste Körperteil, den stärksten Körperteil, dem stärksten Körperteil, des stärksten Körperteils, dem stärksten Körperteile, des stärksten Körperteiles, die stärksten Körperteile, den stärksten Körperteilen, der stärksten Körperteile]");
     // "benötigten" ist PA2:
     assertSuggestion2("die benötigten Unterlage", "[die benötigte Unterlage, der benötigten Unterlage, die benötigten Unterlagen, den benötigten Unterlagen, der benötigten Unterlagen]");   // ist PA2
     assertSuggestion2("eine benötigten Unterlage", "[eine benötigte Unterlage, einer benötigten Unterlage]");
     assertSuggestion2("die voller Verzierungen", "[die vollen Verzierungen, die volle Verzierung, den vollen Verzierungen, der vollen Verzierungen, der vollen Verzierung]"); // evtl. Fehlalarm...
     assertSuggestion2("zu zukünftigen Vorstands", "[]");  // ?
-    // TODO: Komparativ + Superlativ:
-    assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischen Gebäuden, der ikonischen Gebäude, das ikonische Gebäude, dem ikonischen Gebäude, des ikonischen Gebäudes, die ikonischen Gebäude]");
     assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, des südlichen Kontinentes, des südlichen Kontinents, der südliche Kontinent, dem südlichen Kontinente, die südlichen Kontinente, den südlichen Kontinenten, der südlichen Kontinente]");
     assertSuggestion2("die erwartet Entwicklung", "[die erwartete Entwicklung, der erwarteten Entwicklung, die erwarteten Entwicklungen, den erwarteten Entwicklungen, der erwarteten Entwicklungen]");
     assertSuggestion2("die verschieden Ämter", "[die verschiedenen Ämter, der verschiedenen Ämter, das verschiedene Amt, dem verschiedenen Amt, dem verschiedenen Amte, des verschiedenen Amtes, des verschiedenen Amts, den verschiedenen Ämtern]");
     assertSuggestion2("keine richtiger Fahrerin", "[keine richtige Fahrerin, keiner richtigen Fahrerin, keine richtigen Fahrerinnen, keinen richtigen Fahrerinnen, keiner richtigen Fahrerinnen]");
+    // GRU, KOM, SUP:
+    assertSuggestion2("das schönes Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
+    assertSuggestion2("das schöneren Auto", "[das schönere Auto, dem schöneren Auto, des schöneren Autos, die schöneren Autos, den schöneren Autos, der schöneren Autos]");
+    assertSuggestion2("das schönstem Auto", "[das schönste Auto, dem schönsten Auto, des schönsten Autos, die schönsten Autos, den schönsten Autos, der schönsten Autos]");
+    assertSuggestion2("das schönsten Auto", "[das schönste Auto, dem schönsten Auto, des schönsten Autos, die schönsten Autos, den schönsten Autos, der schönsten Autos]");
+    assertSuggestion2("der ikonischen Gebäuden", "[den ikonischen Gebäuden, der ikonischen Gebäude, dem ikonischen Gebäude, des ikonischen Gebäudes, die ikonischen Gebäude, das ikonische Gebäude]");
+    assertSuggestion2("der ikonischeren Gebäuden", "[den ikonischeren Gebäuden, der ikonischeren Gebäude, dem ikonischeren Gebäude, des ikonischeren Gebäudes, die ikonischeren Gebäude, das ikonischere Gebäude]");
+    assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischsten Gebäuden, der ikonischsten Gebäude, dem ikonischsten Gebäude, des ikonischsten Gebäudes, die ikonischsten Gebäude, das ikonischste Gebäude]");
   }
 
   @Test
