@@ -1483,6 +1483,9 @@ public class AgreementRule extends Rule {
         }
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
         AnalyzedTokenReadings maybePreposition = i-1 >= 0 ? tokens[i-1] : null;
+        if (i-2 >= 0 && "was".equalsIgnoreCase(tokens[i-2].getToken())) {
+          maybePreposition = null;  // avoid preposition filtering on "Was für eine schöner Sonnenuntergang!"
+        }
         if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = tokenPosAfterModifier + 1;
           if (tokenPos >= tokens.length) {

@@ -59,6 +59,8 @@ public class AgreementRuleTest {
     assertBad("Mit seinem Konkurrent Alistair Müller", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
+    assertBad("Was für eine schöner Sonnenuntergang!", "einen schönen Sonnenuntergang", "einen schöneren Sonnenuntergang",
+              "einem schönen Sonnenuntergang", "einem schöneren Sonnenuntergang", "ein schöner Sonnenuntergang", "ein schönerer Sonnenuntergang");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
     assertGood("War das Eifersucht?");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
