@@ -162,23 +162,24 @@ class AgreementSuggestor2 {
   }
 
   private String[] getAdjSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
-    String[] adjSynthesized;
+    List<String> adjSynthesized = new ArrayList<>();
     if (adjToken != null) {
-      AnalyzedToken adjReading = adjToken.getReadings().get(0);
-      boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
-      String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
-      if (adjReading.getPOSTag().contains(":KOM:")) {
-        template = template.replace(":GRU:", ":KOM:");
-      } else if (adjReading.getPOSTag().contains(":SUP:")) {
-        template = template.replace(":GRU:", ":SUP:");
+      for (AnalyzedToken adjReading : adjToken.getReadings()) {
+        boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
+        String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
+        if (adjReading.getPOSTag().contains(":KOM:")) {
+          template = template.replace(":GRU:", ":KOM:");
+        } else if (adjReading.getPOSTag().contains(":SUP:")) {
+          template = template.replace(":GRU:", ":SUP:");
+        }
+        template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
+        String adjPos = generate(template, num, gen, aCase);
+        adjSynthesized.addAll(Arrays.asList(synthesizer.synthesize(adjReading, adjPos)));
       }
-      template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
-      String adjPos = generate(template, num, gen, aCase);
-      adjSynthesized = synthesizer.synthesize(adjReading, adjPos);
     } else {
-      adjSynthesized = new String[]{""};  // noun phrase without an adjective
+      adjSynthesized.add("");  // noun phrase without an adjective
     }
-    return adjSynthesized;
+    return adjSynthesized.toArray(new String[0]);
   }
 
   private String[] getNounSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {

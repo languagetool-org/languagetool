@@ -54,6 +54,8 @@ public class AgreementSuggestor2Test {
       "dem Kühlschrankverarbeitungsteste, des Kühlschrankverarbeitungstestes, des Kühlschrankverarbeitungstests, " +
       "den Kühlschrankverarbeitungstesten, den Kühlschrankverarbeitungstests, der Kühlschrankverarbeitungsteste, " +
       "der Kühlschrankverarbeitungstests]");
+    assertSuggestion2("den gleiche Gebiete", "[das gleiche Gebiet, dem gleichen Gebiete, die gleichen Gebiete, " +
+      "den gleichen Gebieten, der gleichen Gebiete, dem gleichen Gebiet, des gleichen Gebietes, des gleichen Gebiets]");
   }
 
   @Test
@@ -99,10 +101,12 @@ public class AgreementSuggestor2Test {
     assertSuggestion2("das schönes Auto", "[das schöne Auto, dem schönen Auto, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("das schöneren Auto", "[das schönere Auto, dem schöneren Auto, des schöneren Autos, die schöneren Autos, den schöneren Autos, der schöneren Autos]");
     assertSuggestion2("das schönstem Auto", "[das schönste Auto, dem schönsten Auto, des schönsten Autos, die schönsten Autos, den schönsten Autos, der schönsten Autos]");
-    assertSuggestion2("das schönsten Auto", "[das schönste Auto, dem schönsten Auto, des schönsten Autos, die schönsten Autos, den schönsten Autos, der schönsten Autos]");
+    assertSuggestion2("das schönsten Auto", "[das schönste Auto, das schöne Auto, dem schönsten Auto, dem schönen Auto, des schönsten Autos, " +
+      "die schönsten Autos, den schönsten Autos, der schönsten Autos, des schönen Autos, die schönen Autos, den schönen Autos, der schönen Autos]");
     assertSuggestion2("der ikonischen Gebäuden", "[den ikonischen Gebäuden, der ikonischen Gebäude, dem ikonischen Gebäude, des ikonischen Gebäudes, die ikonischen Gebäude, das ikonische Gebäude]");
     assertSuggestion2("der ikonischeren Gebäuden", "[den ikonischeren Gebäuden, der ikonischeren Gebäude, dem ikonischeren Gebäude, des ikonischeren Gebäudes, die ikonischeren Gebäude, das ikonischere Gebäude]");
-    assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischsten Gebäuden, der ikonischsten Gebäude, dem ikonischsten Gebäude, des ikonischsten Gebäudes, die ikonischsten Gebäude, das ikonischste Gebäude]");
+    assertSuggestion2("der ikonischsten Gebäuden", "[den ikonischsten Gebäuden, der ikonischsten Gebäude, dem ikonischsten Gebäude, des ikonischsten Gebäudes, die ikonischsten Gebäude, den ikonischen Gebäuden, " +
+      "der ikonischen Gebäude, das ikonischste Gebäude, das ikonische Gebäude, dem ikonischen Gebäude, des ikonischen Gebäudes, die ikonischen Gebäude]");
   }
 
   @Test
