@@ -68,6 +68,7 @@ public class AgreementSuggestor2Test {
 
   @Test
   public void testSuggestionsHaus() throws IOException {
+    assertSuggestion1("Der Haus", "[Das Haus, Dem Haus, Der Häuser, Dem Hause, Des Hauses, Die Häuser, Den Häusern]");
     assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");
     assertSuggestion1("das Haus", "[das Haus, dem Haus, dem Hause, des Hauses, die Häuser, den Häusern, der Häuser]");
     assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");

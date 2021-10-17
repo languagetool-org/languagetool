@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -93,7 +94,7 @@ class AgreementSuggestor2 {
             }
             String[] detSynthesized = getDetOrPronounSynth(num, gen, aCase, detReading);
             String[] adjSynthesized = getAdjSynth(num, gen, aCase, detReading);
-            String[] nounSynthesized = getNounSynth(num, gen, aCase, detReading);
+            String[] nounSynthesized = getNounSynth(num, gen, aCase);
             combineSynth(result, detSynthesized, adjSynthesized, nounSynthesized);
           }
         }
@@ -123,7 +124,10 @@ class AgreementSuggestor2 {
   private String[] getDetOrPronounSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
     String template;
     String detPos = detReading.getPOSTag();
-    boolean isDet = detPos.contains(":DEF:");
+    if (detPos == null) {
+      return new String[]{};
+    }
+    boolean isDef = detPos.contains(":DEF:");
     if (detPos.contains("ART:")) {
       template = detTemplate;
     } else if (detPos.contains("PRO:POS:")) {
@@ -135,11 +139,11 @@ class AgreementSuggestor2 {
     } else if (detReading.getToken().equals("zur")) {
       template = detTemplate;
       detReading = new AnalyzedToken("der", "", "der");
-      isDet = true;
+      isDef = true;
     } else {
       return new String[]{};
     }
-    template = template.replaceFirst("IND/DEF", isDet ? "DEF" : "IND");
+    template = template.replaceFirst("IND/DEF", isDef ? "DEF" : "IND");
     String pos = generate(template, num, gen, aCase);
     List<String> synthesize = Arrays.asList(synthesizer.synthesize(detReading, pos, true));
     String origFirstChar = detReading.getToken().substring(0, 1);
@@ -156,7 +160,10 @@ class AgreementSuggestor2 {
       }
       return adaptedDet.toArray(new String[0]);
     } else {
-      return synthesize.stream().filter(k -> k.startsWith(origFirstChar)).toArray(String[]::new);  // don't suggest "dein" for "mein" etc.
+      return synthesize.stream()
+        .filter(k -> k.toLowerCase().startsWith(origFirstChar.toLowerCase()))
+        .map(k -> Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)
+        .toArray(String[]::new);  // don't suggest "dein" for "mein" etc.
     }
   }
 
@@ -164,10 +171,10 @@ class AgreementSuggestor2 {
     List<String> adjSynthesized = new ArrayList<>();
     if (adjToken != null) {
       for (AnalyzedToken adjReading : adjToken.getReadings()) {
-        boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
-        if (adjReading.getPOSTag() == null) {
+        if (adjReading.getPOSTag() == null || detReading.getPOSTag() == null) {
           continue;
         }
+        boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
         String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
         if (adjReading.getPOSTag().contains(":KOM:")) {
           template = template.replace(":GRU:", ":KOM:");
@@ -184,7 +191,7 @@ class AgreementSuggestor2 {
     return adjSynthesized.toArray(new String[0]);
   }
 
-  private String[] getNounSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
+  private String[] getNounSynth(String num, String gen, String aCase) throws IOException {
     AnalyzedToken nounReading = nounToken.getReadings().get(0);
     String nounPos = generate(nounTemplate, num, gen, aCase);
     String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos);
