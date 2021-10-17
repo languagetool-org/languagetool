@@ -183,7 +183,13 @@ class AgreementSuggestor2 {
         }
         template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
         String adjPos = replaceVars(template, num, gen, aCase);
-        adjSynthesized.addAll(Arrays.asList(synthesizer.synthesize(adjReading, adjPos)));
+
+        String[] synthesize = synthesizer.synthesize(adjReading, adjPos);
+        for (String synthNoun : synthesize) {
+          if (!adjSynthesized.contains(synthNoun)) {
+            adjSynthesized.add(synthNoun);
+          }
+        }
       }
     } else {
       adjSynthesized.add("");  // noun phrase without an adjective
