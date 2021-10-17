@@ -174,7 +174,7 @@ public class CacheIO implements Serializable {
   /**
    * save all caches if the document exceeds the defined minimum of paragraphs
    */
-  public void saveCaches(XComponent xComponent, DocumentCache docCache, List<ResultCache> paragraphsCache,
+  public void saveCaches(DocumentCache docCache, List<ResultCache> paragraphsCache,
       IgnoredMatches ignoredMatches, Configuration config, MultiDocumentsHandler mDocHandler) {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
