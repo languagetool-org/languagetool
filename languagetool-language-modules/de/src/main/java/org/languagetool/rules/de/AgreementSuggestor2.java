@@ -88,10 +88,10 @@ class AgreementSuggestor2 {
     for (String num : number) {
       for (String gen : gender) {
         for (String aCase : cases) {
+          if (!nounCases.contains(aCase)) {
+            continue;
+          }
           for (AnalyzedToken detReading : determinerToken.getReadings()) {
-            if (!nounCases.contains(aCase)) {
-              continue;
-            }
             String[] detSynthesized = getDetOrPronounSynth(num, gen, aCase, detReading);
             String[] adjSynthesized = getAdjSynth(num, gen, aCase, detReading);
             String[] nounSynthesized = getNounSynth(num, gen, aCase);
