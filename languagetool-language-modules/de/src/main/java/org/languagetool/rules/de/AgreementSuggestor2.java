@@ -114,11 +114,10 @@ class AgreementSuggestor2 {
             result.add(val.toUpperCase());
           }
         }
+        return result;
       }
-      return result;
-    } else {
-      return AgreementSuggestor2.nounCases;
     }
+    return AgreementSuggestor2.nounCases;
   }
 
   private String[] getDetOrPronounSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
@@ -166,6 +165,9 @@ class AgreementSuggestor2 {
     if (adjToken != null) {
       for (AnalyzedToken adjReading : adjToken.getReadings()) {
         boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
+        if (adjReading.getPOSTag() == null) {
+          continue;
+        }
         String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
         if (adjReading.getPOSTag().contains(":KOM:")) {
           template = template.replace(":GRU:", ":KOM:");
