@@ -104,7 +104,8 @@ class AgreementSuggestor2 {
   }
 
   private List<String> getNounCases() {
-    if (prepositionToken != null) {
+    if (prepositionToken != null &&
+        replacementType == null) {  // "bis zur" = "bis" must not be considered preposition: "zur" = "zu der"
       // some prepositions require specific cases, so only generated those:
       List<String> result = new ArrayList<>();
       List<PrepositionToCases.Case> casesForToken = PrepositionToCases.getCasesFor(prepositionToken.getToken());
@@ -150,8 +151,10 @@ class AgreementSuggestor2 {
     if (replacementType == AgreementRule.ReplacementType.Zur) {
       List<String> adaptedDet = new ArrayList<>();
       for (String synthesizeDet : synthesize) {
-        if (synthesizeDet.equals("der") && pos.contains(":SIN:")) {
+        if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":MAS")) {
           adaptedDet.add("zum");
+        } else if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":FEM")) {
+          adaptedDet.add("zur");
         } else if (synthesizeDet.equals("dem")) {
           adaptedDet.add("zum");
         } else if (synthesizeDet.equals("den") && pos.contains(":PLU:")) {

@@ -70,6 +70,11 @@ public class AgreementSuggestor2Test {
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), AgreementRule.ReplacementType.Zur);
     assertThat(suggestor.getSuggestions().toString(), is("[zum Mann, zum Manne, zu den Männern]"));
+
+    analyzedSentence = lt.getAnalyzedSentence("gehe zur kuschelige Ferienwohnung");
+    tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), AgreementRule.ReplacementType.Zur);
+    assertThat(suggestor.getSuggestions().toString(), is("[zur kuscheligen Ferienwohnung, zu den kuscheligen Ferienwohnungen]"));
   }
 
   @Test
