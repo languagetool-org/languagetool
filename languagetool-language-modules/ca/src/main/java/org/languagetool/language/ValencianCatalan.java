@@ -105,7 +105,7 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
             new CheckCaseRule(messages, this),
-            new CompoundRule(messages),
+            new CompoundRule(messages, this, userConfig),
             // Valencian DNV
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),

@@ -36,7 +36,7 @@ public abstract class NonSwissGerman extends German {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new GermanCompoundRule(messages));
+    rules.add(new GermanCompoundRule(messages, this, userConfig));
     return rules;
   }
 

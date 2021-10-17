@@ -54,7 +54,7 @@ public class SwissGerman extends German {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new SwissCompoundRule(messages));
+    rules.add(new SwissCompoundRule(messages, this, userConfig));
     return rules;
   }
 

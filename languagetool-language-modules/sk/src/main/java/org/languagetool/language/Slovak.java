@@ -92,7 +92,7 @@ public class Slovak extends Language {
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to Slovak:
-            new CompoundRule(messages),
+            new CompoundRule(messages, this, userConfig),
             new MorfologikSlovakSpellerRule(messages, this, userConfig, altLanguages)
             //new SlovakVesRule(messages)
     );
