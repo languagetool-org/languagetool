@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.*;
+
 /**
  * Create suggestions for German noun phrases that lack agreement.
  */
@@ -35,11 +37,18 @@ class AgreementSuggestor2 {
 
   private final static String detTemplate = "ART:IND/DEF:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU";
   private final static String proPosTemplate = "PRO:POS:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG";
-  private final static String proDemTemplate = "PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:(BEG|B/S)";
-  private final static String proIndTemplate = "PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:(BEG|B/S)";
+  private final static List<String> proDemTemplates = Arrays.asList(
+    "PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG",
+    "PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S");
+  private final static List<String> proIndTemplates = Arrays.asList(
+    "PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG",
+    "PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S"
+  );
   private final static String adjTemplate = "ADJ:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF";
   private final static String pa2Template = "PA2:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER";
-  private final static String nounTemplate = "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU(:INF)?";   // INF is for cases like "das Züchten" etc.
+  private final static List<String> nounTemplates = Arrays.asList(
+    "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU",
+    "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:INF");   // INF is for cases like "das Züchten" etc.
   private final static List<String> number = Arrays.asList("SIN", "PLU");
   private final static List<String> gender = Arrays.asList("MAS", "FEM", "NEU");
   private final static List<String> cases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
@@ -75,7 +84,7 @@ class AgreementSuggestor2 {
   List<String> getSuggestions() {
     try {
       List<Suggestion> suggestions = getSuggestionsInternal();
-      Collections.sort(suggestions);  // sort so that suggestions with fewer edits come first
+      sort(suggestions);  // sort so that suggestions with fewer edits come first
       return suggestions.stream().map(k -> k.phrase).collect(Collectors.toList());
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -123,51 +132,55 @@ class AgreementSuggestor2 {
   }
 
   private String[] getDetOrPronounSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
-    String template;
     String detPos = detReading.getPOSTag();
     if (detPos == null) {
       return new String[]{};
     }
     boolean isDef = detPos.contains(":DEF:");
+    List<String> templates;
     if (detPos.contains("ART:")) {
-      template = detTemplate;
+      templates = singletonList(detTemplate);
     } else if (detPos.contains("PRO:POS:")) {
-      template = proPosTemplate;
+      templates = singletonList(proPosTemplate);
     } else if (detPos.contains("PRO:DEM:")) {
-      template = proDemTemplate;
+      templates = proDemTemplates;
     } else if (detPos.contains("PRO:IND:")) {
-      template = proIndTemplate;
+      templates = proIndTemplates;
     } else if (detReading.getToken().equals("zur")) {
-      template = detTemplate;
+      templates = singletonList(detTemplate);
       detReading = new AnalyzedToken("der", "", "der");
       isDef = true;
     } else {
       return new String[]{};
     }
-    template = template.replaceFirst("IND/DEF", isDef ? "DEF" : "IND");
-    String pos = replaceVars(template, num, gen, aCase);
-    List<String> synthesize = Arrays.asList(synthesizer.synthesize(detReading, pos, true));
-    String origFirstChar = detReading.getToken().substring(0, 1);
-    if (replacementType == AgreementRule.ReplacementType.Zur) {
-      List<String> adaptedDet = new ArrayList<>();
-      for (String synthesizeDet : synthesize) {
-        if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":MAS")) {
-          adaptedDet.add("zum");
-        } else if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":FEM")) {
-          adaptedDet.add("zur");
-        } else if (synthesizeDet.equals("dem")) {
-          adaptedDet.add("zum");
-        } else if (synthesizeDet.equals("den") && pos.contains(":PLU:")) {
-          adaptedDet.add("zu " + synthesizeDet);
+    List<String> synthesized = new ArrayList<>();
+    for (String template : templates) {
+      template = template.replaceFirst("IND/DEF", isDef ? "DEF" : "IND");
+      String pos = replaceVars(template, num, gen, aCase);
+      String[] tmp = synthesizer.synthesize(detReading, pos);
+      String origFirstChar = detReading.getToken().substring(0, 1);
+      if (replacementType == AgreementRule.ReplacementType.Zur) {
+        List<String> adaptedDet = new ArrayList<>();
+        for (String synthesizeDet : tmp) {
+          if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":MAS")) {
+            adaptedDet.add("zum");
+          } else if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":FEM")) {
+            adaptedDet.add("zur");
+          } else if (synthesizeDet.equals("dem")) {
+            adaptedDet.add("zum");
+          } else if (synthesizeDet.equals("den") && pos.contains(":PLU:")) {
+            adaptedDet.add("zu " + synthesizeDet);
+          }
         }
+        synthesized.addAll(adaptedDet);
+      } else {
+        synthesized.addAll(Arrays.stream(tmp)
+          .filter(k -> k.toLowerCase().startsWith(origFirstChar.toLowerCase()))
+          .map(k -> Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)  // don't suggest "dein" for "mein" etc.
+          .collect(Collectors.toList()));
       }
-      return adaptedDet.toArray(new String[0]);
-    } else {
-      return synthesize.stream()
-        .filter(k -> k.toLowerCase().startsWith(origFirstChar.toLowerCase()))
-        .map(k -> Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)
-        .toArray(String[]::new);  // don't suggest "dein" for "mein" etc.
     }
+    return synthesized.toArray(new String[0]);
   }
 
   private String[] getAdjSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
@@ -202,19 +215,21 @@ class AgreementSuggestor2 {
 
   private String[] getNounSynth(String num, String gen, String aCase) throws IOException {
     AnalyzedToken nounReading = nounToken.getReadings().get(0);
-    String nounPos = replaceVars(nounTemplate, num, gen, aCase);
-    String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos, true);
     List<String> result = new ArrayList<>();
-    if (nounSynthesized.length == 0 && nounReading.getToken().contains("-")) {
-      String firstPart = nounReading.getToken().substring(0, nounReading.getToken().lastIndexOf('-') + 1);
-      String lastTokenPart = nounToken.getToken().replaceFirst(".*-", "");
-      String lastLemmaPart = nounReading.getLemma() != null ? nounReading.getLemma().replaceFirst(".*-", "") : null;
-      nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, "fake_value", lastLemmaPart), nounPos, true);
-      for (String lastPartInflected : nounSynthesized) {
-        result.add(firstPart + lastPartInflected);
+    for (String nounTemplate : nounTemplates) {
+      String nounPos = replaceVars(nounTemplate, num, gen, aCase);
+      String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos);
+      if (nounSynthesized.length == 0 && nounReading.getToken().contains("-")) {
+        String firstPart = nounReading.getToken().substring(0, nounReading.getToken().lastIndexOf('-') + 1);
+        String lastTokenPart = nounToken.getToken().replaceFirst(".*-", "");
+        String lastLemmaPart = nounReading.getLemma() != null ? nounReading.getLemma().replaceFirst(".*-", "") : null;
+        nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, "fake_value", lastLemmaPart), nounPos);
+        for (String lastPartInflected : nounSynthesized) {
+          result.add(firstPart + lastPartInflected);
+        }
+      } else {
+        result.addAll(Arrays.asList(nounSynthesized));
       }
-    } else {
-      result.addAll(Arrays.asList(nounSynthesized));
     }
     return result.toArray(new String[0]);
   }
