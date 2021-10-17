@@ -37,6 +37,11 @@ public class AgreementSuggestor2Test {
   private final JLanguageTool lt = new JLanguageTool(german);
 
   @Test
+  public void testInteractive() throws IOException {
+    //assertSuggestion1("des Züchten", "[das Züchten, dem Züchten, des Züchtens]");
+  }
+
+  @Test
   public void testSuggestions() throws IOException {
     assertSuggestion1("deine Buch", "[dein Buch, deinem Buch, deine Bücher, deinem Buche, deines Buches, deines Buchs, deinen Büchern, deiner Bücher]");
     assertSuggestion1("dieser Buch", "[dies Buch, dieses Buch, diesem Buch, dieser Bücher, diesem Buche, dieses Buches, dieses Buchs, diese Bücher, diesen Büchern]");
@@ -46,6 +51,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("mehrere LAN-Kabels", "[mehrere LAN-Kabel, mehreren LAN-Kabeln, mehrerer LAN-Kabel]");
     assertSuggestion1("mehrere WLAN-LAN-Kabels", "[mehrere WLAN-LAN-Kabel, mehreren WLAN-LAN-Kabeln, mehrerer WLAN-LAN-Kabel]");
     assertSuggestion1("Ihren Verständnis", "[Ihr Verständnis, Ihrem Verständnis, Ihrem Verständnisse, Ihres Verständnisses]");
+    assertSuggestion1("des Züchten", "[das Züchten, dem Züchten, des Züchtens]");
     assertSuggestion1("die Kühlschranktest", "[der Kühlschranktest, den Kühlschranktest, dem Kühlschranktest, die Kühlschrankteste, " +
       "die Kühlschranktests, dem Kühlschrankteste, des Kühlschranktestes, des Kühlschranktests, den Kühlschranktesten, " +
       "den Kühlschranktests, der Kühlschrankteste, der Kühlschranktests]");

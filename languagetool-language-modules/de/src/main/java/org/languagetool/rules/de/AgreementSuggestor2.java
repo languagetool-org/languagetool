@@ -39,7 +39,7 @@ class AgreementSuggestor2 {
   private final static String proIndTemplate = "PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:(BEG|B/S)";
   private final static String adjTemplate = "ADJ:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF";
   private final static String pa2Template = "PA2:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER";
-  private final static String nounTemplate = "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU";
+  private final static String nounTemplate = "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU(:INF)?";   // INF is for cases like "das Züchten" etc.
   private final static List<String> number = Arrays.asList("SIN", "PLU");
   private final static List<String> gender = Arrays.asList("MAS", "FEM", "NEU");
   private final static List<String> cases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
@@ -144,7 +144,7 @@ class AgreementSuggestor2 {
       return new String[]{};
     }
     template = template.replaceFirst("IND/DEF", isDef ? "DEF" : "IND");
-    String pos = generate(template, num, gen, aCase);
+    String pos = replaceVars(template, num, gen, aCase);
     List<String> synthesize = Arrays.asList(synthesizer.synthesize(detReading, pos, true));
     String origFirstChar = detReading.getToken().substring(0, 1);
     if (replacementType == AgreementRule.ReplacementType.Zur) {
@@ -182,7 +182,7 @@ class AgreementSuggestor2 {
           template = template.replace(":GRU:", ":SUP:");
         }
         template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
-        String adjPos = generate(template, num, gen, aCase);
+        String adjPos = replaceVars(template, num, gen, aCase);
         adjSynthesized.addAll(Arrays.asList(synthesizer.synthesize(adjReading, adjPos)));
       }
     } else {
@@ -193,14 +193,14 @@ class AgreementSuggestor2 {
 
   private String[] getNounSynth(String num, String gen, String aCase) throws IOException {
     AnalyzedToken nounReading = nounToken.getReadings().get(0);
-    String nounPos = generate(nounTemplate, num, gen, aCase);
-    String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos);
+    String nounPos = replaceVars(nounTemplate, num, gen, aCase);
+    String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos, true);
     List<String> result = new ArrayList<>();
     if (nounSynthesized.length == 0 && nounReading.getToken().contains("-")) {
       String firstPart = nounReading.getToken().substring(0, nounReading.getToken().lastIndexOf('-') + 1);
       String lastTokenPart = nounToken.getToken().replaceFirst(".*-", "");
       String lastLemmaPart = nounReading.getLemma() != null ? nounReading.getLemma().replaceFirst(".*-", "") : null;
-      nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, "fake_value", lastLemmaPart), nounPos);
+      nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, "fake_value", lastLemmaPart), nounPos, true);
       for (String lastPartInflected : nounSynthesized) {
         result.add(firstPart + lastPartInflected);
       }
@@ -229,7 +229,7 @@ class AgreementSuggestor2 {
     }
   }
 
-  private String generate(String template, String num, String gen, String aCase) {
+  private String replaceVars(String template, String num, String gen, String aCase) {
     return template.replaceFirst("SIN/PLU", num).replaceFirst("MAS/FEM/NEU", gen).replaceFirst("NOM/AKK/DAT/GEN", aCase);
   }
 
