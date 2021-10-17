@@ -935,7 +935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                     <marker>
                         <token inflected="yes" regexp="yes">poder|querer</token>
-                        <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -948,7 +948,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                     <marker>
                         <token inflected="yes" regexp="yes">poder|querer</token>
-                        <token postag="VMM02V0.PP.*0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMM02V0.PP.*0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -960,7 +960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber|que</token>
                     <marker>
-                        <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -972,7 +972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber|que</token>
                     <marker>
-                        <token postag="VMM02V0.PP.*0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMM02V0.PP.*0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -6406,7 +6406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="-1" regexp="yes">estás?<exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="V.[SI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="V.[SI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Posible confusión. ¿Quería decir <suggestion><match no="2" regexp_match="(?iu)á" regexp_replace="a" case_conversion="preserve"/></suggestion>? Si no, revise la puntuación.</message>
                 <example correction="Estas"><marker>Estás</marker> casas son verdes.</example>
@@ -6428,7 +6428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/><exception postag="V.[SI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|P[RT].*|_PUNCT.*|LOC_CS|D[ET].*" postag_regexp="yes"/><exception postag="V.[SI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token regexp="yes">estás?</token>
                     </marker>
@@ -6577,7 +6577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>este</token>
                 <token min="0" max="3" postag="N.[MC][SN].*|A..[MC][NS]." postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
             <rule>
                 <!-- esté + participio-->
@@ -11233,7 +11233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*|P[DI].*"/>
                 <message>Construcción incorrecta.</message>
@@ -11248,7 +11248,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
                     <token>los</token>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|_possible_NP" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[MC][PN].*|A..[MC][PN].|V.P..PM"/>
                 <message>Construcción incorrecta.</message>
@@ -11262,7 +11262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
                     <token>las</token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[FC][PN].*|A..[FC][PN].|V.P..PF"/>
                 <message>Construcción incorrecta.</message>
@@ -11275,7 +11275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
                     <token>la</token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[FC][SN].*|A..[FC][SN].|V.P..SF"/>
                 <message>Construcción incorrecta.</message>
@@ -11287,7 +11287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
                     <token>los</token>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|_possible_NP" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[MC][PN].*|A..[MC][PN].|V.P..PM"/>
                 <message>Construcción incorrecta.</message>
@@ -11300,7 +11300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
                     <token>las</token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[FC][PN].*|A..[FC][PN].|V.P..PF"/>
                 <message>Construcción incorrecta.</message>
@@ -11312,7 +11312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
                     <token>la</token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[FC][SN].*|A..[FC][SN].|V.P..SF"/>
                 <message>Construcción incorrecta.</message>
@@ -11323,7 +11323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
                     <token regexp="yes">lo|les|nos|os</token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>se \2 \3</suggestion>
@@ -11334,7 +11334,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP|SP:DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+se<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+se<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="VMN0000.PP3CN000"/></suggestion>
@@ -11344,7 +11344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP|SP:DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="VMM02V0.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMM02V0.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="VMM02V0.(PP.+)" postag_regexp="yes" postag_replace="VMN0000.$1"/></suggestion>
@@ -11353,7 +11353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP|SP:DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="VMM02V0.PP.{6}.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMM02V0.PP.{6}.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="VMM02V0.(PP.+).(PP.+)" postag_regexp="yes" postag_replace="VMN0000.$1.$2"/></suggestion>
@@ -11364,7 +11364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">ir</token>
                     <marker>
                         <token>a<exception postag="_possible_NP"/></token>
-                        <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -11375,7 +11375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>a<exception postag="_possible_NP"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*|P[DI].*"/>
                 <message>Construcción incorrecta.</message>
@@ -11390,7 +11390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>desde</token>
-                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*|P[DI].*"/>
                 <message>Combinación imposible: preposición seguida de verbo conjugado.</message>
@@ -11401,7 +11401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception regexp="yes">de|desde</exception></token>
-                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:NC.*|A.*|V.[PN].*|P[DI].*"/>
                 <message>Combinación imposible: preposición seguida de verbo conjugado.</message>
@@ -11424,7 +11424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                     <token min="0" max="3" postag="DA.*|PP3..A.*|PP[123]C[SP]000|P0[123].*" postag_regexp="yes"/>
-                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinación imposible: preposición seguida de verbo conjugado.</message>
                 <example correction=""><marker>en informa</marker>.</example>
@@ -12045,7 +12045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>haber</token>
                     <marker>
-                        <token postag="V.P..PM|V.P..F." postag_regexp="yes"><exception postag="V.P.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                        <token postag="V.P..PM|V.P..F." postag_regexp="yes"><exception postag="V.P.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión. El participio que acompaña el v. 'haber' debe ser masculino singular.</message>
@@ -18198,7 +18198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber</token>
                     <marker>
-                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -18210,7 +18210,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -18221,7 +18221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber</token>
                     <marker>
-                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -18234,7 +18234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END|PARA_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -23065,7 +23065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 The least bad solution (without language variants) is to leave it on.-->
             <rule>
                 <pattern>
-                    <token postag="V.M02V0.PP.*PP.*" postag_regexp="yes"><exception postag="V.M02V0.PP.*PP.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.M02V0.PP.*PP.*" postag_regexp="yes"><exception postag="V.M02V0.PP.*PP.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag_regexp="yes" postag="(V.M02)V0.(PP.*).(PP.*)" postag_replace="$1S0.$2.$3"/></suggestion>
@@ -23074,7 +23074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M02V0.PP.*" postag_regexp="yes"><exception postag="V.M02V0.PP.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.M02V0.PP.*" postag_regexp="yes"><exception postag="V.M02V0.PP.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag_regexp="yes" postag="(V.M02)V0.(PP.*)" postag_replace="$1S0.$2"/></suggestion>
@@ -23086,7 +23086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M02V0" postag_regexp="yes"><exception postag="V.M02V0|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.M02V0" postag_regexp="yes"><exception postag="V.M02V0|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.M02)V0" postag_replace="$1S0"/></suggestion>
@@ -23097,7 +23097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.IP2V0" postag_regexp="yes"><exception postag="V.IP2V0|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.IP2V0" postag_regexp="yes"><exception postag="V.IP2V0|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.IP2)V0" postag_replace="$1S0"/></suggestion>
