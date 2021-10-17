@@ -267,7 +267,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @since 2.4
    */
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
-    if (!speller.isMisspelled(word)) {
+    if (speller == null || !speller.isMisspelled(word)) {
       return false;
     }
     if (checkCompound && compoundRegex.matcher(word).find()) {
