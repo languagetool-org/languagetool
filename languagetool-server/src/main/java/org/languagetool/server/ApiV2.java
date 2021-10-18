@@ -43,6 +43,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
 
@@ -114,9 +115,6 @@ class ApiV2 {
   }
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
-    if (Premium.isPremiumVersion()) {
-      throw new BadRequestException("Not supported in premium mode");
-    }
     if (parameters.get("language") == null) {
       throw new BadRequestException("'language' parameter missing");
     }
@@ -490,6 +488,7 @@ class ApiV2 {
       lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
     }
     List<Rule> rules = lt.getAllRules();
+    rules = rules.stream().filter(rule -> !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartObject();
 
