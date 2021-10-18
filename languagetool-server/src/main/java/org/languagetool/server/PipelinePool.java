@@ -259,9 +259,11 @@ class PipelinePool {
       }
       //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
     } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
-      for (Rule rule : lt.getAllActiveRules()) {
-        if (premium.isPremiumRule(rule)) {
-          lt.disableRule(rule.getFullId());
+      if (!(premium instanceof PremiumOff)) {
+        for (Rule rule : lt.getAllActiveRules()) {
+          if (premium.isPremiumRule(rule)) {
+            lt.disableRule(rule.getFullId());
+          }
         }
       }
     }
