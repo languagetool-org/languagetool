@@ -243,12 +243,13 @@ class PipelinePool {
     }
     lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));
 
+    Premium premium = Premium.get();
     if (config.isPremiumOnly()) {
       //System.out.println("Enabling ONLY premium rules.");
       int premiumEnabled = 0;
       int otherDisabled = 0;
       for (Rule rule : lt.getAllActiveRules()) {
-        if (Premium.get().isPremiumRule(rule)) {
+        if (premium.isPremiumRule(rule)) {
           lt.enableRule(rule.getFullId());
           premiumEnabled++;
         } else {
@@ -259,7 +260,7 @@ class PipelinePool {
       //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
     } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
       for (Rule rule : lt.getAllActiveRules()) {
-        if (Premium.get().isPremiumRule(rule)) {
+        if (premium.isPremiumRule(rule)) {
           lt.disableRule(rule.getFullId());
         }
       }
