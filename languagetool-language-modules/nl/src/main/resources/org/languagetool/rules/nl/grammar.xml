@@ -42009,6 +42009,22 @@ steenwijk;Steenwijk
 				<example correction="word">Als je de sleeve verwijdert <marker>wordt</marker> je getrakteerd op een doos met zegel en magnetische sluiting.</example>
 			</rule>
 		</rulegroup>
+
+		<rulegroup id="PART_SENTENCE_002" name="verkeerde werkwoordvorm" >
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">worden|zijn|hebben</token>
+					<token regexp="yes">niet|wel|toch</token>
+					<marker>
+						<token postag="WKW:TGW:3EP"><exception postag_regexp="yes" postag="WKW:VTD:ONV|ZNW.*|BNW.*|BYW|GET.*|VRZ"/><exception>heeft</exception></token>
+					</marker>
+				</pattern>
+				<message>Dit is vast de verkeerde vorm van het werkwoord. Of er is iets anders mis met de constructie van de zin.</message>
+				<suggestion><match no="3" postag_regexp="yes" postag="WKW:VTD:ONV"/></suggestion>
+				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
+			</rule>
+		</rulegroup>
+
 	</category>
 	<!--
 	<category id="VANG" name="vangen">
