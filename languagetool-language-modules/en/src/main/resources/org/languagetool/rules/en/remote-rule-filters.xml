@@ -511,16 +511,46 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <!-- -#5 Numbers representing money. -->
-                <regexp mark="1">\$(\d+)</regexp>
+                <regexp mark="1">[\$€£¥](\d+)</regexp>
                 <example correction="">The amount charged and paid by joint ventures is $<marker>91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is €<marker>91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is £<marker>91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is ¥<marker>91062</marker>.</example>
             </rule>
             <rule>
                 <!-- #6 -->
-                <regexp mark="1">(\d+)\$</regexp>
+                <regexp mark="1">(\d+)[\$€£¥]</regexp>
                 <example correction="">The amount charged and paid by joint ventures is <marker>91062</marker>$.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062</marker>€.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062</marker>£.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062</marker>¥.</example>
             </rule>
             <rule>
-                <!-- #7 Numbers representing information size (e.g. disk size). -->
+                <!-- #7 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[\$€£¥][0-9.,]+</token>
+                    </marker>
+                </pattern>
+                <example correction="">The amount charged and paid by joint ventures is <marker>$91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>€91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>£91062</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>¥91062</marker>.</example>
+            </rule>
+            <rule>
+                <!-- #8 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9.,]+[\$€£¥]</token>
+                    </marker>
+                </pattern>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062$</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062€</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062£</marker>.</example>
+                <example correction="">The amount charged and paid by joint ventures is <marker>91062¥</marker>.</example>
+            </rule>
+            <rule>
+                <!-- #9 Numbers representing information size (e.g. disk size). -->
                 <pattern>
                     <marker>
                         <token regexp="yes">\d+</token>
@@ -531,7 +561,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Your mailbox size is currently <marker>17</marker> GB.</example>
             </rule>
             <rule>
-                <!-- #8 Date representation e.g. 12/5/21 -->
+                <!-- #10 Date representation e.g. 12/5/21 -->
                 <pattern>
                     <token regexp="yes">\d{1,4}</token>
                     <token regexp="yes">\/|-</token>
@@ -544,7 +574,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Updated 11/29/<marker>00</marker> Person was activated from the injured list on Tuesday after missing Cleveland's last eight games with an elbow injury.</example>
             </rule>
             <rule>
-                <!-- #9 Date representation e.g. May 5th -->
+                <!-- #11 Date representation e.g. May 5th -->
                 <pattern>
                     <or>
                         <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
@@ -621,7 +651,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                        <token regexp="yes">[\$€£¥฿₹\u8371][0-9.,]+</token>
                     </marker>
                     <token regexp="yes">(m|b|tr|quadr|quint|sext|sept|oct|non)illion|advance|fine</token>
                 </pattern>
@@ -632,7 +662,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                        <token regexp="yes">[\$€£¥฿₹\u8371][0-9.,]+</token>
                     </marker>
                     <token regexp="yes">a|each|every</token>
                     <token regexp="yes">century|decade|lust(er|re)|year|(se|quadri|tri)mester|month|fortnight|week|day|night|hour|minute|second</token>
@@ -642,7 +672,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[$€£¥฿₹\u8371][0-9.,]+</token>
+                        <token regexp="yes">[\$€£¥฿₹\u8371][0-9.,]+</token>
                     </marker>
                     <token>of</token>
                     <token regexp="yes">debi?ts?|arrears|credit|dues</token>
@@ -844,7 +874,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <token/>
                     <marker>
-                        <token regexp="yes">[a-z]+-[$€£¥฿₹\u8371][0-9.,]+</token>
+                        <token regexp="yes">[a-z]+-[\$€£¥฿₹\u8371][0-9.,]+</token>
                     </marker>
                 </pattern>
                 <example correction="">nearly 20 percent of <marker>sub-$300</marker> notebook sales</example>
