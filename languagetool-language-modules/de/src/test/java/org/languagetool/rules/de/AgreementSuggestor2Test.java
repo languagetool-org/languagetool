@@ -81,11 +81,19 @@ public class AgreementSuggestor2Test {
   public void testSuggestionsHaus() throws IOException {
     assertSuggestion1("Der Haus", "[Das Haus, Dem Haus, Der Häuser, Dem Hause, Des Hauses, Die Häuser, Den Häusern]");
     assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");
-    assertSuggestion1("das Haus", "[das Haus, dem Haus, dem Hause, des Hauses, die Häuser, den Häusern, der Häuser]");
+    assertSuggestion1("das Haus", "[dem Haus, dem Hause, des Hauses, die Häuser, den Häusern, der Häuser]");
     assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");
     assertSuggestion1("die Haus", "[das Haus, dem Haus, die Häuser, dem Hause, des Hauses, den Häusern, der Häuser]");
     assertSuggestion1("die Hauses", "[des Hauses, die Häuser, das Haus, dem Haus, dem Hause, den Häusern, der Häuser]");
     assertSuggestion1("die Häusern", "[die Häuser, den Häusern, das Haus, dem Haus, dem Hause, des Hauses, der Häuser]");
+    // filtered:
+    assertSuggestion1("Der Haus", "[Das Haus, Dem Haus, Der Häuser]", true);
+    assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser]", true);
+    assertSuggestion1("das Haus", "[dem Haus]", true);
+    assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser]", true);
+    assertSuggestion1("die Haus", "[das Haus, dem Haus, die Häuser]", true);
+    assertSuggestion1("die Hauses", "[des Hauses, die Häuser]", true);
+    assertSuggestion1("die Häusern", "[die Häuser, den Häusern]", true);
   }
 
   @Test
@@ -99,7 +107,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion2("der schöne Auto", "[das schöne Auto, dem schönen Auto, der schönen Autos, des schönen Autos, die schönen Autos, den schönen Autos]");
     assertSuggestion2("der kleine Auto", "[das kleine Auto, dem kleinen Auto, der kleinen Autos, des kleinen Autos, die kleinen Autos, den kleinen Autos]");
     assertSuggestion2("der kleiner Auto", "[das kleine Auto, dem kleinen Auto, der kleinen Autos, des kleinen Autos, die kleinen Autos, den kleinen Autos]");
-    assertSuggestion2("das stärkste Körperteil", "[das stärkste Körperteil, der stärkste Körperteil, den stärksten Körperteil, dem stärksten Körperteil, des stärksten Körperteils, dem stärksten Körperteile, des stärksten Körperteiles, die stärksten Körperteile, den stärksten Körperteilen, der stärksten Körperteile]");
+    assertSuggestion2("das stärkste Körperteil", "[der stärkste Körperteil, den stärksten Körperteil, dem stärksten Körperteil, des stärksten Körperteils, dem stärksten Körperteile, des stärksten Körperteiles, die stärksten Körperteile, den stärksten Körperteilen, der stärksten Körperteile]");
     // "benötigten" ist PA2:
     assertSuggestion2("die benötigten Unterlage", "[die benötigte Unterlage, der benötigten Unterlage, die benötigten Unterlagen, den benötigten Unterlagen, der benötigten Unterlagen]");   // ist PA2
     assertSuggestion2("eine benötigten Unterlage", "[eine benötigte Unterlage, einer benötigten Unterlage]");
@@ -126,9 +134,11 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("für dein Schmuck");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), null);
-    assertThat(suggestor.getSuggestions().toString(), is("[dein Schmuck, deinen Schmuck, deinem Schmuck, deinem Schmucke, deines Schmuckes, deines Schmucks]"));
+    assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck, deinem Schmuck, deinem Schmucke, deines Schmuckes, deines Schmucks]"));
+    assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck, deinem Schmuck]"));
     suggestor.setPreposition(tags.get(1));  // "für"
-    assertThat(suggestor.getSuggestions().toString(), is("[deinen Schmuck]"));
+    assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck]"));
+    assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck]"));
   }
 
   @Test
@@ -149,13 +159,17 @@ public class AgreementSuggestor2Test {
   }
 
   private void assertSuggestion1(String input, String expectedSuggestions) throws IOException {
+    assertSuggestion1(input, expectedSuggestions, false);
+  }
+
+  private void assertSuggestion1(String input, String expectedSuggestions, boolean filter) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     if (analyzedSentence.getTokensWithoutWhitespace().length != 3) {  // 2 tokens + sentence start token
       fail("Please use 2 tokens (det, noun) as input: " + input);
     }
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(1), tags.get(2), null);
-    assertThat(suggestor.getSuggestions().toString(), is(expectedSuggestions));
+    assertThat(suggestor.getSuggestions(filter).toString(), is(expectedSuggestions));
   }
   
   private void assertSuggestion2(String input, String expectedSuggestions) throws IOException {

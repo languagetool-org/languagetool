@@ -82,10 +82,32 @@ class AgreementSuggestor2 {
   }
 
   List<String> getSuggestions() {
+    return getSuggestions(false);
+  }
+
+  /**
+   * @param filter to filter only the best suggestions, as in: if there are suggestions that replace only
+   *               one word in the original phrase, don't return those that replace two words etc.
+   */
+  List<String> getSuggestions(boolean filter) {
     try {
       List<Suggestion> suggestions = getSuggestionsInternal();
       sort(suggestions);  // sort so that suggestions with fewer edits come first
-      return suggestions.stream().map(k -> k.phrase).collect(Collectors.toList());
+      if (filter) {
+        List<Suggestion> filteredSuggestions = new ArrayList<>();
+        int prevCorrections = suggestions.size() > 0 ? suggestions.get(0).corrections : 0;
+        boolean hadRealSuggestions = false;
+        for (Suggestion suggestion : suggestions) {
+          if (hadRealSuggestions && suggestion.corrections > prevCorrections) {
+            break;
+          }
+          hadRealSuggestions = suggestion.corrections > 0;
+          filteredSuggestions.add(suggestion);
+        }
+        return filteredSuggestions.stream().map(k -> k.phrase).collect(Collectors.toList());
+      } else {
+        return suggestions.stream().map(k -> k.phrase).collect(Collectors.toList());
+      }
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -242,8 +264,11 @@ class AgreementSuggestor2 {
               detSynthesizedElem + " " + nounSynthesizedElem :
               detSynthesizedElem + " " + adjSynthesizedElem + " " + nounSynthesizedElem;
           int corrections = (detSynthesizedElem.equals(determinerToken.getToken()) ? 0 : 1) +
-                            (adjToken != null && adjSynthesizedElem.equals(adjToken.getToken()) ? 0 : 1) +
+                            (adjToken == null || adjSynthesizedElem.equals(adjToken.getToken()) ? 0 : 1) +
                             (nounSynthesizedElem.equals(nounToken.getToken()) ? 0 : 1);
+          if (corrections == 0) {
+            continue;
+          }
           Suggestion suggestion = new Suggestion(elem, corrections);
           if (!result.contains(suggestion)) {
             result.add(suggestion);
