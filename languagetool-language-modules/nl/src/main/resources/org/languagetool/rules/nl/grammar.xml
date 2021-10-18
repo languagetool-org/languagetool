@@ -7366,7 +7366,6 @@ onwaarschijnlijk
 	</category>
 	<category id="EIGENNAMEN" name="Eigennamen beroemdheden etc.">
 
-		
 		<rulegroup id="NAAM_FOUT_GESPELD" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
 			<rule>
 				<antipattern case_sensitive="yes"><token>Aleksej</token><token>Navalni</token></antipattern>
@@ -13306,7 +13305,8 @@ onwaarschijnlijk
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
 				</pattern>
 				<message>Gebruik geen nadruktekens als het niet nodig is. Het staat lelijk.</message>
-				<example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
+				<example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -19073,7 +19073,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token><exception postag="SENT_START"/></token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte|eenendertig</exception></token>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte|eenendertig|jouw</exception></token>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM.*"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien|jou|vierde</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
 					</marker>
 				</pattern>
@@ -22788,21 +22788,17 @@ steenwijk;Steenwijk
 				<example>QQ <marker>meestal te vervangen door 'en' of 'of'</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="C_Q" name="c.q.">
+		<rulegroup id="C_Q" name="c.q. betekent geen 'of'" >
 			<rule>
 				<pattern>
-					<token>c</token>
+					<token spacebefore="yes">c</token>
 					<token spacebefore="no">.</token>
-					<token>q</token>
+					<token spacebefore="no">q</token>
 					<token spacebefore="no">.</token>
 				</pattern>
-				<message>&vlotter_mess; <suggestion>en</suggestion> of <suggestion>of</suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="en|of">Om een plaatselijk project te kaderen binnen dit Limburgse verhaal voorziet de provincie Limburg (<marker>c.q.</marker> het PCCE) in een financiële impuls ter ondersteuning.</example>
-				<example correction="en|of">Door middel van een instructieboek <marker>c.q.</marker> parochieplan wordt de hoop uitgesproken duidelijke structuur te brengen en gestelde doelen te bereiken.</example>
-				<example correction="en|of">En onder een BC-schoen kan je geen flexibele stijgijzers zetten, daar heb je toch minstens een zware <marker>c.q.</marker> stugge, tegen D aanhangende, C-schoen voor nodig.</example>
-				<example correction="en|of">Indien er op dat moment geen concrete voorstellen zijn voor verdere samenwerking <marker>c.q.</marker> geen consensus bestaat over planvorming, is de samenwerking ten einde.</example>
-				<example correction="en|of">Het gaat dan over de rust- <marker>c.q.</marker> hersteltijd na nachtdiensten, de arbeidstijd per nachtdienst en het aantal nachtdiensten dat in een bepaald tijdsbestek mag worden gedraaid.</example>
+				<message>C.q. betekent 'als dat geval zich voordoet' of 'als dat nodig is'. En zeker niet: 'of'. Let op dat u het correct gebruikt.</message>
+				<url>https://onzetaal.nl/taaladvies/cq</url>
+				<example type="incorrect" >Het resultaat <marker>c.q.</marker> het gevolg.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="CATEGORIE" name="categorie" tags="picky">
@@ -41713,6 +41709,21 @@ steenwijk;Steenwijk
 				<example correction="ik niet houd">Het klopt dat <marker>ik houd niet</marker> van piepers.</example>
 			</rule>
 		</rulegroup>
+
+		<rulegroup id="LAGER_TOV" name="ten opzichte van/dan" >
+			<rule>
+				<pattern>
+					<token postag="BNW:VGR:ONV"/>
+					<token>ten</token>
+					<token>opzichte</token>
+					<token>van</token>
+				</pattern>
+				<message>Beter kunt u <suggestion>\1 dan</suggestion> schrijven.</message>
+				<example correction="lager dan">Het resultaat is <marker>lager ten opzichte van</marker> vorig jaar.</example>
+			</rule>
+		</rulegroup>
+
+
 		<rulegroup id="DEZE_WASMIDDEL" name="deze/dit" >
 			<rule>
 				<pattern>
