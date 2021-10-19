@@ -540,17 +540,23 @@ abstract class TextChecker {
     }
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
+    Premium premium = Premium.get();
+
     List<String> premiumMatchRuleIds = res.stream().
             flatMap(r -> r.getRuleMatches().stream()).
-            filter(k -> Premium.get().isPremiumRule(k.getRule())).
+            filter(k -> premium.isPremiumRule(k.getRule())).
             map(k -> k.getRule().getId()).
             collect(Collectors.toList());
+
+    Map<String, Integer> ruleMatchCount = getRuleMatchCount(res);
+    int matchCount = ruleMatchCount.size();
+
     String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
     logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
             ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
             + premiumMatchRuleIds.size() + "/"
-            + res.size() + " matches, "
+            + matchCount + " matches, "
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
@@ -566,15 +572,6 @@ abstract class TextChecker {
     if (premiumMatchRuleIds.size() > 0) {
       for (String premiumMatchRuleId : premiumMatchRuleIds) {
         logger.info("premium:" + lang.getShortCodeWithCountryAndVariant() + ":" + premiumMatchRuleId);
-      }
-    }
-    int matchCount = 0;
-    Map<String, Integer> ruleMatchCount = new HashMap<>();
-    for (CheckResults r : res) {
-      for (RuleMatch ruleMatch : r.getRuleMatches()) {
-        matchCount++;
-        String ruleId = ruleMatch.getRule().getId();
-        ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
       }
     }
 
@@ -616,6 +613,18 @@ abstract class TextChecker {
 
     }
 
+  }
+
+  @NotNull
+  private Map<String, Integer> getRuleMatchCount(List<CheckResults> res) {
+    Map<String, Integer> ruleMatchCount = new HashMap<>();
+    for (CheckResults r : res) {
+      for (RuleMatch ruleMatch : r.getRuleMatches()) {
+        String ruleId = ruleMatch.getRule().getId();
+        ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+      }
+    }
+    return ruleMatchCount;
   }
 
   private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
