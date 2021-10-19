@@ -885,7 +885,7 @@ Coloquei os clientes com cartão Auchan em espera.
 	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
 	  
 	  <example>Coloquei os clientes com cartão Auchan em espera.</example>
-      <example>A informação conseguida para saber preparações para atos de terror específicos eminentes.</example>
+<!--      <example>A informação conseguida para saber preparações para atos de terror específicos eminentes.</example> -->
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
@@ -7089,13 +7089,28 @@ No seu conjunto existem cinco capelas e uma igreja.
 	  <example>No seu conjunto existem cinco capelas e uma igreja.</example>	  
     </rule>
 	
+    <!-- 	VERBO_SER + EU fui eu -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-12 (21-OCT-2020+)     -->
+    <rule>
+      <pattern>
+		<marker>
+			<token regexp='yes'>foi|foram</token>
+		</marker>
+        <token>eu</token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion>fui</suggestion>
+      <example correction='fui'>Quem deu a cara <marker>foi</marker> eu.</example>
+    </rule>
+	
+  </rulegroup>
+
 	<!-- MOSTRAM mostra -->
-    <rule id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name="Concordância com núcleo do sujeito">
-    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13 + 2021-10-14 + 2021-10-15 (25-JUN-2021+)      -->
+    <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13 + 2021-10-14 + 2021-10-15 + 2021-10-19 (25-JUN-2021+)      -->
 	<!--
 A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	-->
-	
 	  <!--
 	    Uma série de obras foram bem sucedidas apenas no seio da comunidade mórmon.
 	    No extremo das interações estão as junções de galáxias.
@@ -7119,6 +7134,27 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+' postag_regexp='yes'/>
 		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>	  
 	  </antipattern>
+	  <!--
+	    Ao longo dos tempos desenvolveram-se vários simuladores.
+		Na Praia dos Cavaleiros realizam-se as competições esportivas do FestVerão.
+		Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.
+	  -->
+	  <antipattern>
+		<token postag_regexp='no' postag='SENT_START'/>		
+		<token/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
+			<exception regexp='yes'>maioria|minoria|dúzia|dezena|centena|milhar|milhão|bilião|bilhão</exception>
+			<exception postag_regexp='yes' postag='NCC.+'/>
+		</token>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<token postag='V...3P.+' postag_regexp='yes'/>
+		<token regexp='yes' spacebefore='no'>&hifen;</token>
+		<token spacebefore='no'>se</token>		
+		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>	  
+	  </antipattern>	  
+<rule>
       <pattern>
 		<token postag_regexp='no' postag='SENT_START'/>
 		<token/>
@@ -7154,23 +7190,37 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	  <example>Do lado dos cangaceiros morreram cinco bandidos.</example>
 	  <example>No rescaldo dos confrontos morrem quatro pessoas.</example>
 	  <example>A habilidade destes radares diferenciarem dois objetos próximos depende da largura do sinal emitido.</example>	  
-    </rule>
-	
-    <!-- 	VERBO_SER + EU fui eu -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-12 (21-OCT-2020+)     -->
-    <rule>
+</rule>
+<rule>
       <pattern>
+		<token postag_regexp='no' postag='SENT_START'/>
+		<token/>
+		<token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
+			<exception regexp='yes'>maioria|minoria|dúzia|dezena|centena|milhar|milhão|bilião|bilhão</exception>
+			<exception postag_regexp='yes' postag='NCC.+'/>
+		</token>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
 		<marker>
-			<token regexp='yes'>foi|foram</token>
+			<token postag='V...3P.+' postag_regexp='yes'/>
+			<token regexp='yes' spacebefore='no'>&hifen;</token>
+			<token spacebefore='no'>se</token>
 		</marker>
-        <token>eu</token>
+		<token negate_pos="yes" postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+' postag_regexp='yes'/>
       </pattern>
-      <message>&MSG_ECV;</message>
-        <suggestion>fui</suggestion>
-      <example correction='fui'>Quem deu a cara <marker>foi</marker> eu.</example>
-    </rule>
-	
-  </rulegroup>
+      <message>O verbo concorda com o núcleo do sujeito.</message>
+	  <suggestion><match no='6' postag='V.(..)3P.+' postag_regexp="yes" postag_replace='VM$13S0'/>-se</suggestion>
+      <example correction="mostra-se">A realidade das pessoas <marker>mostram-se</marker>.</example>	  
+	  <example>Uma variedade de pessoas juntou-se na reunião.</example>
+	  <example>Grande parte destas crateras localiza-se no hemisfério sul.</example>
+	  <example>O povoamento destas terras encontra-se ligado Castelo de Lanhoso, fortificação ancestral.</example>
+	  <example>O sucesso destas campanhas valeu-lhe o cognome Germânico pelo qual ficou conhecido.</example>
+	  
+	  <example>Ao longo dos tempos desenvolveram-se vários simuladores.</example>	  
+	  <example>Na Praia dos Cavaleiros realizam-se as competições esportivas do FestVerão.</example>
+	  <example>Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.</example>	  
+</rule>
+    </rulegroup>
 
     <!-- General verbal concordance errors - They + Verb -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
