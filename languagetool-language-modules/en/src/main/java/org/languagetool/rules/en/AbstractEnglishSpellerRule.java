@@ -344,6 +344,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("al ") &&
                    !k.getReplacement().toLowerCase().startsWith("mu ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
+                   !k.getReplacement().toLowerCase().startsWith("la ") &&
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
@@ -399,6 +400,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" na") &&
                    !k.getReplacement().endsWith(" don") &&
                    !k.getReplacement().endsWith(" dons") &&
+                   !k.getReplacement().endsWith(" la") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
