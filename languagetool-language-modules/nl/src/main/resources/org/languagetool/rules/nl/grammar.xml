@@ -13328,7 +13328,7 @@ onwaarschijnlijk
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
 				<antipattern><token postag="ENM.*|UNKNOWN" postag_regexp="yes"/></antipattern>
-				<antipattern><token regexp="yes">^.-</token></antipattern>
+				<antipattern><token regexp="yes">^.-.+</token></antipattern>
 				<antipattern><token regexp="yes">-.$</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token regexp="yes">(?i)^(&gespeld;)-.*</token></antipattern>
 				<antipattern><token regexp="yes">^(&gespeld;)-.*</token></antipattern>
@@ -13348,6 +13348,7 @@ onwaarschijnlijk
 				<example type="correct">Het <marker>sms-bericht</marker> is kapot.</example>
 				<example type="correct"><marker>Sms-berichten</marker> gaan kapot.</example>
 				<example type="correct">De <marker>wc-deksel</marker> is kapot.</example>
+				<example type="correct">Het <marker>e-mailadres</marker> klopt.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -41752,6 +41753,7 @@ steenwijk;Steenwijk
 		<rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" >
 			<!-- veel uitzonderingen nodig!, zoals voor 'een groot man' etc. -->
 			<rule>
+				<antipattern><token>stuk</token><token postag="BNW:VGR:ONV"/></antipattern>
 				<antipattern><token>week</token><token>leren</token><token>kan</token></antipattern>
 				<antipattern><token postag="BNW:STL:ONV"/><token postag="BNW:STL:ONV"/></antipattern>
 				<antipattern><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag_regexp="yes" postag=".*HET"/></antipattern>
