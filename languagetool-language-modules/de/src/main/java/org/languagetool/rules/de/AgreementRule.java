@@ -792,10 +792,17 @@ public class AgreementRule extends Rule {
       posRegex("PKT|SENT_END|KON.*")
     ),
     Arrays.asList( // "Meistens sind das faktenfreie Behauptungen."
-      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      regex("sind|waren|wären"),
       csToken("das"),
-      posRegex("ADJ:NOM:.*"),
-      posRegex("SUB:NOM:.*"),
+      posRegex("ADJ:NOM:PLU.*"),
+      posRegex("SUB:NOM:PLU.*"),
+      posRegex("PKT|KON.*")
+    ),
+    Arrays.asList( // "Meistens ist das reine Formsache."
+      regex("ist|war|wär"),
+      csToken("das"),
+      posRegex("ADJ:NOM:SIN.*"),
+      posRegex("SUB:NOM:SIN.*"),
       posRegex("PKT|KON.*")
     ),
     Arrays.asList( // "Aber ansonsten ist das erste Sahne"

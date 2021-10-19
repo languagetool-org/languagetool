@@ -4715,6 +4715,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER:.+" />
     </rule>
 
+    <rule id="LIKE_A_PRAYER" name="'Like' kein Substantiv in 'Like a Prayer'">
+        <pattern><!-- -->
+            <marker>
+                <token>Like</token>
+            </marker>
+            <token regexp="yes">an?|the|my|y?our|me</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+
     <rule id="IGNORE_SUBDOMAIN_SPELLING" name="Ignore spelling of subdomains">
         <pattern>
             <token regexp="yes">[a-z0-9\-]+</token>

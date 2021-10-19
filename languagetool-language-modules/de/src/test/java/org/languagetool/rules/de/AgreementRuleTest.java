@@ -521,6 +521,7 @@ public class AgreementRuleTest {
     assertGood("Eine Lösung die Spaß macht");
     assertGood("Mir machte das Spaß.");
     assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
+    assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

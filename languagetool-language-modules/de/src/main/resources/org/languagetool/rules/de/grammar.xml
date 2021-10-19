@@ -11018,7 +11018,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="GEFAELLT_MIR_BUTTON" name="„Gefällt mir“-Button" default="temp_off">
+        <rule id="ZWISCHEN_DURCH" name="zwischendurch" default="temp_off">
+            <pattern>
+                <token>zwischen</token>
+                <token case_sensitive="yes" regexp="yes">durch|drin|zeitig</token>
+            </pattern>
+            <message>Das Adverb <suggestion>zwischen\2</suggestion> wird zusammengeschrieben.</message>
+            <example correction="zwischendurch">Machen wir <marker>zwischen durch</marker> auch Pause?</example>
+        </rule>
+        <rule id="DAS_EINS_SEIN" name="das Einssein" default="temp_off">
+            <pattern>
+                <token regexp="yes">das|des|dieses</token>
+                <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>eins</token>
+                    <token regexp="yes">seins?</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion>Eins<match no="4" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="Einssein">Er liebt Das <marker>Eins sein</marker> mit der Natur.</example>
+        </rule>
+        <rule id="DEM_ENTSPRECHEND" name="dem entsprechend (dementsprechend)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|KON.*|PKT" postag_regexp="yes" />
+                <marker>
+                    <token>dem</token>
+                    <token regexp="yes">entsprechend|gemä(ß|ss)</token>
+                </marker>
+            </pattern>
+            <message>Dieses Wort wird in der Regel zusammengeschrieben.</message>
+            <suggestion>\2<match no="3" case_conversion="alllower" /></suggestion>
+            <example correction="Dementsprechend"><marker>Dem entsprechend</marker> hat er dann auch reagiert.</example>
+        </rule>
+        <rulegroup id="GEFAELLT_MIR_BUTTON" name="„Gefällt mir“-Button">
             <rule>
                 <pattern>
                     <token>gefällt</token>
@@ -11516,7 +11548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="US_ARMEE" name="US Armee (US-Armee)">
             <antipattern>
                 <token>US</token>
-                <token regexp="yes">Post|Army|Route|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus|Boys?|Top|Cars?|Vereinigten?</token>
+                <token regexp="yes">Post|Army|Route|Robots?|Marine|Air|Masters|Pro|Champion.*|Cognac|Engineering|Airways|Corps|Court|Amateur|Open|Bonus|Boys?|Top|Cars?|Vereinigten?</token>
             </antipattern>
             <antipattern>
                 <token>US</token>
@@ -22718,6 +22750,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="KEIN_GERINGERER_ALS" name="kein geringerer (Geringerer) als" default="temp_off">
+            <pattern>
+                <token regexp="yes">keine?</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">geringerer?</token>
+                </marker>
+                <token>als</token>
+            </pattern>
+            <message>Wenn dieses Wort als Nomen verwendet wird, sollte es großgeschrieben werden.</message>
+            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Geringerer">Es war kein <marker>geringerer</marker> als der Vize-Meister selbst.</example>
+        </rule>
         <rule id="IM_OSTEN" name="im osten (Osten)">
             <pattern>
                 <token regexp="yes">im|zum|gen|gegen|nach|vo[mn]|aus|dem|der</token>
@@ -33842,6 +33886,18 @@ Andere Projekte</example>
                 <example correction="Sorgen">Er hat sich nicht beteiligt, weil er gerade andere <marker>sorgen</marker> hatte.</example>
                 <example correction="Sorgen">Er schien andere <marker>sorgen</marker> zu haben.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="3">haben|versuchen|werden</token>
+                    <marker>
+                        <token case_sensitive="yes">sorgen</token>
+                    </marker>
+                    <token postag="ZUS" min="0" />
+                    <token inflected="yes">bereiten</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Sorgen">Er hat mir viele <marker>sorgen</marker> bereitet.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MONTAGS" name="'Montags/montags etc.'">
             <!-- Das Adverb "montags" wird kleingeschrieben -->
@@ -41290,6 +41346,42 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="SCHWEREN_HERZEN" name="schweren Herzens" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>mit</token>
+                    <token>schweren</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">schw?eren</token>
+                    <token>herzen</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung <suggestion>schweren Herzens</suggestion>?</message>
+                <example correction="schweren Herzens">Ich muss <marker>schweren Herzen</marker> leider absagen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mit</token>
+                        <token regexp="yes">schw?eren</token>
+                        <token regexp="yes">herzens?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Redewendung <suggestion>mit schwerem Herzen</suggestion>?</message>
+                <example correction="mit schwerem Herzen">Ich habe <marker>mit schweren Herzen</marker> abgesagt.</example>
+            </rule>
+        </rulegroup>
+        <rule id="KEIN_GERINGER_ALS" name="kein Geringer (Geringerer) als" default="temp_off">
+            <pattern>
+                <token>kein</token>
+                <marker>
+                    <token>geringer</token>
+                </marker>
+                <token>als</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Geringerer</suggestion>?</message>
+            <example correction="Geringerer">Es war kein <marker>Geringer</marker> als der Vize-Meister selbst.</example>
+        </rule>
         <rule id="AN_EINEN_STRANG" name="an einen (einem) Strang">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">einem|EINEM</token>
@@ -46055,7 +46147,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>dem \3 <match no="4" postag=".+" postag_replace="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes">dem \3 <match no="4" postag=".+" postag_replace="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
                 <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
                 <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
             </rule>
@@ -46069,7 +46161,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>einem \3 <match no="4" postag=".+" postag_replace="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes">einem \3 <match no="4" postag=".+" postag_replace="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
                 <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
                 <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
             </rule>
@@ -52092,8 +52184,14 @@ Andere Projekte</example>
                     <token/>
                     <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
                 </antipattern>
+                <antipattern>
+                    <token>wen</token>
+                    <token postag="VER:PA2:(NON|SFT)" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
-                    <token postag='VER:.*' postag_regexp='yes'><exception>mal</exception></token>
+                    <token postag='VER:.*' postag_regexp='yes'>
+                        <exception regexp="yes">mal|schnell|einen?</exception>
+                    </token>
                     <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|schliesslich|endlich</token>
                     <marker>
                         <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worauf|wovon|wozu</token>
@@ -52108,6 +52206,7 @@ Andere Projekte</example>
                 <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
                 <example>Er zitterte ob Marias Schlagfertigkeit.</example>
                 <example>Sie fragte: "Wer küsste wen?"</example>
+                <example>Auch wenn ich immer wieder schnell wen geheiratet habe, ist es nicht so einfach.</example>
             </rule>
             <rule>
                 <antipattern>
