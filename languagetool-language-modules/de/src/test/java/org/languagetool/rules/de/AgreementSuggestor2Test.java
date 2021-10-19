@@ -78,6 +78,22 @@ public class AgreementSuggestor2Test {
   }
 
   @Test
+  public void testSuggestionsWithReplTypeIns() throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("gehe ins Hauses");
+    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), AgreementRule.ReplacementType.Ins);
+    assertThat(suggestor.getSuggestions().toString(), is("[ins Haus, im Haus, im Hause, in die Häuser, in den Häusern]"));
+  }
+
+  @Test
+  public void testSuggestionsWithReplTypeInsAdj() throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("gehe ins großen Haus");
+    List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
+    AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), AgreementRule.ReplacementType.Ins);
+    assertThat(suggestor.getSuggestions().toString(), is("[im großen Haus, ins große Haus, im großen Hause, in die großen Häuser, in den großen Häusern]"));
+  }
+
+  @Test
   public void testSuggestionsHaus() throws IOException {
     assertSuggestion1("Der Haus", "[Das Haus, Dem Haus, Der Häuser, Dem Hause, Des Hauses, Die Häuser, Den Häusern]");
     assertSuggestion1("der Haus", "[das Haus, dem Haus, der Häuser, dem Hause, des Hauses, die Häuser, den Häusern]");

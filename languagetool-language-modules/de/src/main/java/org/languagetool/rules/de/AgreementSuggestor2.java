@@ -90,9 +90,15 @@ class AgreementSuggestor2 {
    *               one word in the original phrase, don't return those that replace two words etc.
    */
   List<String> getSuggestions(boolean filter) {
+    if (replacementType == AgreementRule.ReplacementType.Zur) {
+      prepositionToken = new AnalyzedTokenReadings(new AnalyzedToken("zu", "", "zu"));
+    } else if (replacementType == AgreementRule.ReplacementType.Ins) {
+      prepositionToken = new AnalyzedTokenReadings(new AnalyzedToken("in", "", "zu"));
+    }
     try {
       List<Suggestion> suggestions = getSuggestionsInternal();
       sort(suggestions);  // sort so that suggestions with fewer edits come first
+      addContraction(suggestions);
       if (filter) {
         List<Suggestion> filteredSuggestions = new ArrayList<>();
         int prevCorrections = suggestions.size() > 0 ? suggestions.get(0).corrections : 0;
@@ -110,6 +116,36 @@ class AgreementSuggestor2 {
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  private void addContraction(List<Suggestion> suggestions) {
+    if (replacementType == AgreementRule.ReplacementType.Zur) {
+      suggestions.forEach(k -> {
+        if (k.phrase.startsWith("der")) {
+          k.phrase = k.phrase.replaceFirst("der", "zur");
+        } else if (k.phrase.startsWith("den")) {
+          k.phrase = k.phrase.replaceFirst("den", "zu den");
+        } else if (k.phrase.startsWith("dem")) {
+          k.phrase = k.phrase.replaceFirst("dem", "zum");
+        }
+      });
+    } else if (replacementType == AgreementRule.ReplacementType.Ins) {
+      Iterator<Suggestion> iterator = suggestions.iterator();
+      while (iterator.hasNext()) {
+        Suggestion s = iterator.next();
+        if (s.phrase.startsWith("das")) {
+          s.phrase = s.phrase.replaceFirst("das", "ins");
+        } else if (s.phrase.startsWith("dem")) {
+          s.phrase = s.phrase.replaceFirst("dem", "im");
+        } else if (s.phrase.startsWith("den")) {
+          s.phrase = s.phrase.replaceFirst("den", "in den");
+        } else if (s.phrase.startsWith("die")) {
+          s.phrase = s.phrase.replaceFirst("die", "in die");
+        } else {
+          iterator.remove();
+        }
+      }
     }
   }
 
@@ -135,8 +171,7 @@ class AgreementSuggestor2 {
   }
 
   private List<String> getNounCases() {
-    if (prepositionToken != null &&
-        replacementType == null) {  // "bis zur" = "bis" must not be considered preposition: "zur" = "zu der"
+    if (prepositionToken != null) {  // also "bis zur" = "bis" must not be considered preposition: "zur" = "zu der"
       // some prepositions require specific cases, so only generated those:
       List<String> result = new ArrayList<>();
       List<PrepositionToCases.Case> casesForToken = PrepositionToCases.getCasesFor(prepositionToken.getToken());
@@ -172,6 +207,10 @@ class AgreementSuggestor2 {
       templates = singletonList(detTemplate);
       detReading = new AnalyzedToken("der", "", "der");
       isDef = true;
+    } else if (detReading.getToken().equals("ins")) {
+      templates = singletonList(detTemplate);
+      detReading = new AnalyzedToken("das", "", "der");
+      isDef = true;
     } else {
       return new String[]{};
     }
@@ -181,26 +220,10 @@ class AgreementSuggestor2 {
       String pos = replaceVars(template, num, gen, aCase);
       String[] tmp = synthesizer.synthesize(detReading, pos);
       String origFirstChar = detReading.getToken().substring(0, 1);
-      if (replacementType == AgreementRule.ReplacementType.Zur) {
-        List<String> adaptedDet = new ArrayList<>();
-        for (String synthesizeDet : tmp) {
-          if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":MAS")) {
-            adaptedDet.add("zum");
-          } else if (synthesizeDet.equals("der") && pos.contains(":SIN:") && pos.contains(":FEM")) {
-            adaptedDet.add("zur");
-          } else if (synthesizeDet.equals("dem")) {
-            adaptedDet.add("zum");
-          } else if (synthesizeDet.equals("den") && pos.contains(":PLU:")) {
-            adaptedDet.add("zu " + synthesizeDet);
-          }
-        }
-        synthesized.addAll(adaptedDet);
-      } else {
-        synthesized.addAll(Arrays.stream(tmp)
-          .filter(k -> k.toLowerCase().startsWith(origFirstChar.toLowerCase()))
-          .map(k -> Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)  // don't suggest "dein" for "mein" etc.
-          .collect(Collectors.toList()));
-      }
+      synthesized.addAll(Arrays.stream(tmp)
+        .filter(k -> k.toLowerCase().startsWith(origFirstChar.toLowerCase()))
+        .map(k -> Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)  // don't suggest "dein" for "mein" etc.
+        .collect(Collectors.toList()));
     }
     return synthesized.toArray(new String[0]);
   }
@@ -212,7 +235,7 @@ class AgreementSuggestor2 {
         if (adjReading.getPOSTag() == null || detReading.getPOSTag() == null) {
           continue;
         }
-        boolean detIsDef = detReading.getPOSTag().contains(":DEF:");
+        boolean detIsDef = detReading.getPOSTag().contains(":DEF:") || detReading.getToken().equals("ins");
         String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
         if (adjReading.getPOSTag().contains(":KOM:")) {
           template = template.replace(":GRU:", ":KOM:");
@@ -221,7 +244,6 @@ class AgreementSuggestor2 {
         }
         template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
         String adjPos = replaceVars(template, num, gen, aCase);
-
         String[] synthesize = synthesizer.synthesize(adjReading, adjPos);
         for (String synthNoun : synthesize) {
           if (!adjSynthesized.contains(synthNoun)) {
