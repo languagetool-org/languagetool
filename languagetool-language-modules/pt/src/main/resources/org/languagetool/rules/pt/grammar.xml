@@ -7120,6 +7120,8 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		Do lado dos cangaceiros morreram cinco bandidos.
 		No rescaldo dos confrontos morrem quatro pessoas.
 		A habilidade destes radares diferenciarem dois objetos próximos depende da largura do sinal emitido.
+		No Concelho das Velas existem 6 bandas filarmónicas.
+		No Porto de Pipas naufragaram 7 navios.
 	  -->
 	  <antipattern>
 		<token postag_regexp='no' postag='SENT_START'/>		
@@ -7131,13 +7133,17 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		<token postag='SPS.+' postag_regexp='yes'/>
 		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
 		<token postag='V...3P.+' postag_regexp='yes'/>
-		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+' postag_regexp='yes'/>
-		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>	  
+		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+|AQ0.P.+|NC.P.+|Z0CN0' postag_regexp='yes'>
+			<exception regexp='yes'>[1]</exception>
+		</token>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>
+		<token negate_pos="yes" postag_regexp='no' postag='UNKNOWN'/>
 	  </antipattern>
 	  <!--
 	    Ao longo dos tempos desenvolveram-se vários simuladores.
 		Na Praia dos Cavaleiros realizam-se as competições esportivas do FestVerão.
 		Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.
+		Na época das Descobertas instalam-se novas actividades industriais e comerciais.
 	  -->
 	  <antipattern>
 		<token postag_regexp='no' postag='SENT_START'/>		
@@ -7151,8 +7157,11 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		<token postag='V...3P.+' postag_regexp='yes'/>
 		<token regexp='yes' spacebefore='no'>&hifen;</token>
 		<token spacebefore='no'>se</token>		
-		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+' postag_regexp='yes'/>
-		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>	  
+		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+|AQ0.P.+|NC.P.+|Z0CN0' postag_regexp='yes'>
+			<exception regexp='yes'>[1]</exception>
+		</token>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>
+		<token negate_pos="yes" postag_regexp='no' postag='UNKNOWN'/>
 	  </antipattern>	  
 <rule>
       <pattern>
@@ -7190,6 +7199,8 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	  <example>Do lado dos cangaceiros morreram cinco bandidos.</example>
 	  <example>No rescaldo dos confrontos morrem quatro pessoas.</example>
 	  <example>A habilidade destes radares diferenciarem dois objetos próximos depende da largura do sinal emitido.</example>	  
+	  <example>No Concelho das Velas existem 6 bandas filarmónicas.</example>
+	  <example>No Porto de Pipas naufragaram 7 navios.</example>
 </rule>
 <rule>
       <pattern>
@@ -7218,7 +7229,8 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	  
 	  <example>Ao longo dos tempos desenvolveram-se vários simuladores.</example>	  
 	  <example>Na Praia dos Cavaleiros realizam-se as competições esportivas do FestVerão.</example>
-	  <example>Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.</example>	  
+	  <example>Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.</example>
+	  <example>Na época das Descobertas instalam-se novas actividades industriais e comerciais.</example>
 </rule>
     </rulegroup>
 
