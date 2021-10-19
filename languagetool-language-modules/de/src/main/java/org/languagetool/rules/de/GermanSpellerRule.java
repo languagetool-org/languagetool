@@ -1194,6 +1194,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Deutschsprache", "deutsche Sprache");
     put("eigl", "eigtl");
     put("ma", "mal");
+    put("leidete", "litt");
+    put("leidetest", "littest");
+    put("leideten", "litten");
     put("strang", w -> Arrays.asList("Strang", "strengte"));
   }
 

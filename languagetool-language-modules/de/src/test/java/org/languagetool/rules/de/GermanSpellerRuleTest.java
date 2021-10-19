@@ -804,7 +804,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Amaturenbrett", "Armaturenbrett");
     assertCorrection(rule, "Aquise", "Akquise");
     assertCorrection(rule, "Artzt", "Arzt");
-    
+
     assertCorrection(rule, "aufgrunddessen", "aufgrund dessen");
     
     assertCorrection(rule, "barfuss", "barfuß");
@@ -856,6 +856,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);
     assertFirstSuggestion("Auschwitzmythxs,", null, rule, lt);  // correction prevented by lcDoNotSuggestWords
+    assertFirstSuggestion("Wursteinalgen", "Wursteinlagen", rule, lt);  // "algen" was accepted in de_DE.dic as compound part, we removed it
+    assertFirstSuggestion("Wursteinalge", "Wursteinlage", rule, lt);    // "algen" was accepted in de_DE.dic as compound part, we removed it
   }
   
   @Test

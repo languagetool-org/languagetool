@@ -1006,6 +1006,17 @@
       </pattern>
       <disambig action="filter" postag="N.+"/>
     </rule>
+    
+    <rule id="INFINITIVE_NOUN" name="saber, comer (infinitive / noun)">
+        <!-- exception to DET_VERBONOME -->
+        <pattern>
+            <token>para</token>
+            <marker>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">saber|comer</token>    
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.N.*"/>
+    </rule>
 
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
@@ -1031,7 +1042,7 @@
     <rule>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
-            <exception regexp='yes'>[ao]s?|nos</exception></token>
+            <exception regexp='yes'>[ao]s?|nos|para</exception></token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>

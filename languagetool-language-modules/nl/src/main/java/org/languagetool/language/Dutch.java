@@ -114,7 +114,7 @@ public class Dutch extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MorfologikDutchSpellerRule(messages, this, userConfig, altLanguages),
             new MultipleWhitespaceRule(messages, this),
-            new CompoundRule(messages),
+            new CompoundRule(messages, this, userConfig),
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),

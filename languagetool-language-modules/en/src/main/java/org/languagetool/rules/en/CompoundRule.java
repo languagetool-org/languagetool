@@ -20,6 +20,7 @@ package org.languagetool.rules.en;
 
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
@@ -113,8 +114,8 @@ public class CompoundRule extends AbstractCompoundRule {
       )
   ), AMERICAN_ENGLISH);
 
-  public CompoundRule(ResourceBundle messages) throws IOException {    
-    super(messages,
+  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {    
+    super(messages, lang, userConfig,
             "This word is normally spelled with a hyphen.",
             "This word is normally spelled as one.", 
             "This expression is normally spelled as one or with a hyphen.",

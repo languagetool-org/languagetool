@@ -59,6 +59,8 @@ public class AgreementRuleTest {
     assertBad("Mit seinem Konkurrent Alistair Müller", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
+    assertBad("Was für eine schöner Sonnenuntergang!", "einen schönen Sonnenuntergang", "einen schöneren Sonnenuntergang",
+              "einem schönen Sonnenuntergang", "einem schöneren Sonnenuntergang", "ein schöner Sonnenuntergang", "ein schönerer Sonnenuntergang");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
     assertGood("War das Eifersucht?");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
@@ -184,6 +186,7 @@ public class AgreementRuleTest {
     assertGood("Einwohnerzahl stieg um das Zweieinhalbfache");
     assertGood("Die Müllers aus Hamburg.");
     assertGood("Es ist noch unklar, wann und für wen Impfungen vorgenommen werden könnten.");
+    assertGood("Macht dir das Hoffnung?");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -518,6 +521,7 @@ public class AgreementRuleTest {
     assertGood("Eine Lösung die Spaß macht");
     assertGood("Mir machte das Spaß.");
     assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
+    assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

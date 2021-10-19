@@ -91,7 +91,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Possible spelling mistake found";
+    return "Possible spelling mistake found.";
   }
 
   @Override

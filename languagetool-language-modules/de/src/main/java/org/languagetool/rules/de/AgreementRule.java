@@ -87,6 +87,16 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      tokenRegex("spendet|macht"),  // "Macht dir das Hoffnung?"
+      tokenRegex("mir|euch|dir|uns|ihnen"),
+      token("das"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
+      token("eine"),
+      token("Zeitlang")
+    ),
+    Arrays.asList(
       token("für"),  // "..., wann und für wen Impfungen vorgenommen werden könnten."
       token("wen"),
       posRegex("SUB:.*PLU.*")
@@ -782,10 +792,17 @@ public class AgreementRule extends Rule {
       posRegex("PKT|SENT_END|KON.*")
     ),
     Arrays.asList( // "Meistens sind das faktenfreie Behauptungen."
-      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      regex("sind|waren|wären"),
       csToken("das"),
-      posRegex("ADJ:NOM:.*"),
-      posRegex("SUB:NOM:.*"),
+      posRegex("ADJ:NOM:PLU.*"),
+      posRegex("SUB:NOM:PLU.*"),
+      posRegex("PKT|KON.*")
+    ),
+    Arrays.asList( // "Meistens ist das reine Formsache."
+      regex("ist|war|wär"),
+      csToken("das"),
+      posRegex("ADJ:NOM:SIN.*"),
+      posRegex("SUB:NOM:SIN.*"),
       posRegex("PKT|KON.*")
     ),
     Arrays.asList( // "Aber ansonsten ist das erste Sahne"
@@ -1483,6 +1500,9 @@ public class AgreementRule extends Rule {
         }
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
         AnalyzedTokenReadings maybePreposition = i-1 >= 0 ? tokens[i-1] : null;
+        if (i-2 >= 0 && "was".equalsIgnoreCase(tokens[i-2].getToken())) {
+          maybePreposition = null;  // avoid preposition filtering on "Was für eine schöner Sonnenuntergang!"
+        }
         if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = tokenPosAfterModifier + 1;
           if (tokenPos >= tokens.length) {

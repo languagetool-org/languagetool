@@ -335,7 +335,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token>attached</token>
                     </marker>
-                    <token inflected="yes">be</token>
+                    <token inflected="yes" regexp="yes">be|please</token>
                 </pattern>
                 <example correction="">Mark, <marker>attached</marker> is a file.</example> 
             </rule>
@@ -411,6 +411,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Bikinis make you feel like you are at the <marker>beach</marker> but without the sand.</example>
                 <example>I tried using promises but no luck.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>University</token>
+                    <marker>
+                        <token>College</token>
+                    </marker>
+                    <token>London</token>
+                </pattern>
+                <example correction="">2010; University <marker>College</marker> London, UK.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">

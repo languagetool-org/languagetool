@@ -31,10 +31,10 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
   @Test
   public void testRule() throws IOException {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    rule = new GermanCompoundRule(TestTools.getMessages("de"));
+    rule = new GermanCompoundRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
     //testAllCompounds();
     runTests();
-    rule = new SwissCompoundRule(TestTools.getMessages("de"));
+    rule = new SwissCompoundRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
     runTests();
     
   }

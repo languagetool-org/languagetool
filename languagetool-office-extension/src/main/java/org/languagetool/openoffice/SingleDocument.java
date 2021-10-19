@@ -430,7 +430,7 @@ class SingleDocument {
    */
   void writeCaches() {
     if (numParasToCheck != 0) {
-      cacheIO.saveCaches(getNoneGoneComponent(), docCache, paragraphsCache, ignoredMatches, config, mDocHandler);
+      cacheIO.saveCaches(docCache, paragraphsCache, ignoredMatches, config, mDocHandler);
     }
   }
   

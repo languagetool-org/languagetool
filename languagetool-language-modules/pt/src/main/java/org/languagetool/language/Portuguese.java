@@ -128,7 +128,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new ParagraphRepeatBeginningRule(messages, this),
             new PunctuationMarkAtParagraphEnd(messages, this, true),
             //Specific to Portuguese:
-            new PostReformPortugueseCompoundRule(messages),
+            new PostReformPortugueseCompoundRule(messages, this, userConfig),
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095

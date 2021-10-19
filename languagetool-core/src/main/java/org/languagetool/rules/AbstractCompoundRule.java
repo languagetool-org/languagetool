@@ -23,6 +23,9 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -41,6 +44,8 @@ public abstract class AbstractCompoundRule extends Rule {
   private final String withoutHyphenMessage;
   private final String withOrWithoutHyphenMessage;
   private final String shortDesc;
+  protected final LinguServices linguServices;   // Linguistic Service of LO/OO used for LO/OO extension is null in other cases
+  protected final Language lang;                 // used by LO/OO Linguistic Service 
   // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
   protected boolean sentenceStartsWithUpperCase = true;
 
@@ -61,15 +66,15 @@ public abstract class AbstractCompoundRule extends Rule {
   /**
    * @since 3.0
    */
-  public AbstractCompoundRule(ResourceBundle messages,
+  public AbstractCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
-    this(messages, withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage, null);
+    this(messages, lang, userConfig, withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage, null);
   }
 
   /**
    * @since 3.0
    */
-  public AbstractCompoundRule(ResourceBundle messages,
+  public AbstractCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage,
                               String shortMessage) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -78,6 +83,12 @@ public abstract class AbstractCompoundRule extends Rule {
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
     this.shortDesc = shortMessage;
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    this.lang = lang;
+    if (userConfig != null) {
+      linguServices = userConfig.getLinguServices();
+    } else {
+      linguServices = null;
+    }
   }
 
   @Override
@@ -162,7 +173,7 @@ public abstract class AbstractCompoundRule extends Rule {
     List<String> newReplacements = new ArrayList<String>();
     for (String replacement : replacements) {
       String newReplacement = replacement.replaceAll("\\-\\-+", "-");
-      if (!newReplacement.equals(original) && !isMisspelled(newReplacement)) {
+      if (!newReplacement.equals(original) && isCorrectSpell(newReplacement)) {
         newReplacements.add(newReplacement);
       }
     }
@@ -237,6 +248,13 @@ public abstract class AbstractCompoundRule extends Rule {
       prevTokens.poll();
     }
     prevTokens.offer(token);
+  }
+  
+  private boolean isCorrectSpell(String word) throws IOException {
+    if (linguServices == null) {
+      return !isMisspelled(word);
+    }
+    return linguServices.isCorrectSpell(word, lang);
   }
   
   public boolean isMisspelled(String word) throws IOException {

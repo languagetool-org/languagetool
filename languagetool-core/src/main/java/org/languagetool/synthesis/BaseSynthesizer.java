@@ -188,15 +188,13 @@ public class BaseSynthesizer implements Synthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
-      Pattern p;
       try {
-        p = Pattern.compile(posTag);
+        Pattern p = Pattern.compile(posTag);
+        return synthesizeForPosTags(token.getLemma(), tag -> p.matcher(tag).matches());
       } catch (PatternSyntaxException e) {
         throw new RuntimeException("Error trying to synthesize POS tag " + posTag +
                 " (posTagRegExp: " + posTagRegExp + ") from token " + token.getToken(), e);
       }
-
-      return synthesizeForPosTags(token.getLemma(), tag -> p.matcher(tag).matches());
     }
     return removeExceptions(synthesize(token, posTag));
   }
