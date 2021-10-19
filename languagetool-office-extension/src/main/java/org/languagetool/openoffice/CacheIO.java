@@ -65,6 +65,10 @@ public class CacheIO implements Serializable {
   private AllCaches allCaches;
   
   CacheIO(XComponent xComponent) {
+    setDocumentPath(xComponent);
+  }
+  
+  void setDocumentPath(XComponent xComponent) {
     documentPath = getDocumentPath(xComponent);
   }
   

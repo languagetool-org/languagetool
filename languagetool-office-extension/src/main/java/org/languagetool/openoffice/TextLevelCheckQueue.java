@@ -38,7 +38,7 @@ public class TextLevelCheckQueue {
   public static final int STOP_FLAG = 2;
   public static final int DISPOSE_FLAG = 3;
 
-  private static final int MAX_WAIT = 2000;
+  private static final int MAX_WAIT = 5000;
   
   private static final int HEAP_CHECK_INTERVAL = 50;
 

@@ -259,9 +259,7 @@ public class LinguisticServices extends LinguServices {
     }
     PropertyValue[] properties = new PropertyValue[0];
     try {
-      boolean isValid = spellChecker.isValid(word, locale, properties);
-      printText("Word: " + word + " is " + isValid);
-      return isValid;
+      return spellChecker.isValid(word, locale, properties);
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
       printMessage(t);

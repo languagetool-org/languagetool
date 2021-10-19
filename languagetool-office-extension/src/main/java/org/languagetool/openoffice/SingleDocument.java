@@ -921,6 +921,10 @@ class SingleDocument {
 //      MessageHandler.printToLogFile("Document Event: " + event.EventName);
       if (event.EventName.equals("OnSave") && config.saveLoCache()) {
         writeCaches();
+      } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
+        writeCaches();
+        cacheIO.setDocumentPath(xComponent);
+        writeCaches();
       }
     }
   }
