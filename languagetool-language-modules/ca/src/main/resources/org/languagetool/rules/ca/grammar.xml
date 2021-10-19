@@ -35577,6 +35577,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="És"><marker>¡És</marker> així!</example>
             <example>És així!</example>
         </rule>
+        <rule id="XIFRES_PERCENT" name="per cent -> %">
+            <pattern>
+                <token regexp="yes">[\d\., ]+</token>
+                <token>per</token>
+                <token>cent</token>
+            </pattern>
+            <message>Els percentatges amb xifres s'escriuen preferiblement amb el símbolo "%".</message>
+            <suggestion>\1&#8239;%</suggestion>
+            <example correction="2.4&#8239;%">L'economia creixerà el <marker>2.4 per cent</marker>.</example>
+        </rule>
         <rule id="PERCENT_AMB_ESPAI" name="tant per cent amb espai fi abans (3 %)" tags="picky">
             <pattern>
                 <token regexp="yes">[\d.,]+[%‰‱]</token>
@@ -37210,7 +37220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="off">
                 <antipattern>
-                    <token>més|menys</token>
+                    <token regexp="yes">més|menys</token>
                     <token>de</token>
                     <token regexp="yes">[12]\.\d{3}</token>
                 </antipattern>
