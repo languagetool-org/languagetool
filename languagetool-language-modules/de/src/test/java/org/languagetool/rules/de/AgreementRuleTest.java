@@ -386,7 +386,6 @@ public class AgreementRuleTest {
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
     assertBad("Die Galerie zu den Bilder findet sich hier.");
     assertBad("Ganz im Gegensatz zu den Blätter des Brombeerstrauches.");
-    //assertBad("Das erwähnt Auto bog nach rechts ab.");    // TODO
     assertGood("Das erlaubt Forschern, neue Versuche durchzuführen.");
     assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
     assertGood("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntieren zu unterscheiden.");
