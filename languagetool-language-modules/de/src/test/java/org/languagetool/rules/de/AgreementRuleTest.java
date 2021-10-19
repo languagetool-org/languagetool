@@ -59,8 +59,7 @@ public class AgreementRuleTest {
     assertBad("Mit seinem Konkurrent Alistair Müller", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
-    assertBad("Was für eine schöner Sonnenuntergang!", "einen schönen Sonnenuntergang", "einen schöneren Sonnenuntergang",
-              "einem schönen Sonnenuntergang", "einem schöneren Sonnenuntergang", "ein schöner Sonnenuntergang", "ein schönerer Sonnenuntergang");
+    assertBad("Was für eine schöner Sonnenuntergang!", "ein schöner Sonnenuntergang");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
     assertGood("War das Eifersucht?");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
@@ -373,14 +372,14 @@ public class AgreementRuleTest {
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
     assertBad("Er hat eine 34-jährigen Sohn.");
-    assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
-    assertBad("Es sind das Tisch.", "dem Tisch", "den Tisch", "der Tisch");
+    assertBad("Es sind die Tisch.", "der Tisch", "den Tisch", "dem Tisch", "die Tische");
+    assertBad("Es sind das Tisch.", "der Tisch", "den Tisch", "dem Tisch");
     assertBad("Es sind die Haus.", "das Haus", "dem Haus", "die Häuser");
     assertBad("Es sind der Haus.", "das Haus", "dem Haus", "der Häuser");
-    assertBad("Es sind das Frau.", "der Frau", "die Frau");
-    assertBad("Das Auto des Mann.", "dem Mann", "den Mann", "der Mann", "des Mannes", "des Manns");
-    assertBad("Das interessiert das Mann.", "dem Mann", "den Mann", "der Mann");
-    assertBad("Das interessiert die Mann.", "dem Mann", "den Mann", "der Mann", "die Männer");
+    assertBad("Es sind das Frau.", "die Frau", "der Frau");
+    assertBad("Das Auto des Mann.", "der Mann", "den Mann", "dem Mann", "des Mannes", "des Manns");
+    assertBad("Das interessiert das Mann.", "der Mann", "den Mann", "dem Mann");
+    assertBad("Das interessiert die Mann.", "der Mann", "den Mann", "dem Mann", "die Männer");
     assertBad("Das Auto ein Mannes.", "ein Mann", "eines Mannes");
     assertBad("Das Auto einem Mannes.", "einem Mann", "eines Mannes");
     assertBad("Das Auto einer Mannes.", "eines Mannes");
@@ -416,16 +415,16 @@ public class AgreementRuleTest {
     assertBad("Er erzählte von den Leute und den Dingen, die er gesehen hatte.");
     assertBad("Diese Partnerschaft wurde 1989 nach den Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
 
-    assertBad("Das Dach von meine Auto.", "meine Autos", "meinem Auto");
+    assertBad("Das Dach von meine Auto.", "meinem Auto");
     assertBad("Das Dach von meinen Auto.", "meinem Auto", "meinen Autos");
 
-    assertBad("Das Dach mein Autos.", "mein Auto", "meine Autos", "meinen Autos", "meiner Autos", "meines Autos");
-    assertBad("Das Dach meinem Autos.", "meine Autos", "meinem Auto", "meinen Autos", "meiner Autos", "meines Autos");
+    assertBad("Das Dach mein Autos.", "mein Auto", "meines Autos", "meine Autos", "meinen Autos", "meiner Autos");
+    assertBad("Das Dach meinem Autos.", "meinem Auto", "meines Autos", "meine Autos", "meinen Autos", "meiner Autos");
 
     assertBad("Das Dach meinem großen Autos.");
     assertBad("Das Dach mein großen Autos.");
 
-    assertBad("Das Klientel der Partei.", "Der Klientel", "Die Klientel");  // gender used to be wrong in Morphy data
+    assertBad("Das Klientel der Partei.", "Die Klientel", "Der Klientel");  // gender used to be wrong in Morphy data
     assertGood("Die Klientel der Partei.");
 
     assertBad("Der Haus ist groß", "Das Haus", "Dem Haus", "Der Häuser");
@@ -538,13 +537,14 @@ public class AgreementRuleTest {
   @Test
   public void testZurReplacement() throws IOException {
     assertBad("Hier geht's zur Schrank.", "zum Schrank");
-    assertBad("Hier geht's zur Schränken.", "zu den Schränken", "zum Schränken");
+    //assertBad("Hier geht's zur Schränken.", "zu den Schränken", "zum Schränken");   //TODO
+    assertBad("Hier geht's zur Schränken.", "zum Schränken");   //TODO
     assertBad("Hier geht's zur Männern.", "zu den Männern");
     assertBad("Hier geht's zur Portal.", "zum Portal");
     assertBad("Hier geht's zur Portalen.", "zu den Portalen");
-    assertBad("Sie gehen zur Frauen.", "zu Frauen", "zu den Frauen", "zur Frau");
-    assertBad("Niereninsuffizienz führt zur Störungen des Wasserhaushalts.", "zu Störungen", "zu den Störungen", "zur Störung");
-    assertBad("Das Motiv wird in der Klassik auch zur Darstellungen übernommen.", "zu Darstellungen", "zu den Darstellungen", "zur Darstellung");
+    assertBad("Sie gehen zur Frauen.", "zur Frau", "zu den Frauen");
+    assertBad("Niereninsuffizienz führt zur Störungen des Wasserhaushalts.", "zur Störung", "zu den Störungen");
+    assertBad("Das Motiv wird in der Klassik auch zur Darstellungen übernommen.", "zur Darstellung", "zu den Darstellungen");
     assertGood("Hier geht's zur Sonne.");
     assertGood("Hier geht's zum Schrank.");
     assertGood("Niereninsuffizienz führt zu Störungen des Wasserhaushalts.");

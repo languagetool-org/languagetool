@@ -1655,9 +1655,9 @@ public class AgreementRule extends Rule {
         throw new RuntimeException(e);
       }*/
       if (returnSuggestions) {
-        AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
+        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
-        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
       }
     }
     return ruleMatch;
@@ -1808,9 +1808,9 @@ public class AgreementRule extends Rule {
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
       if (returnSuggestions && replMap != null) {
-        AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
+        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
-        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions());
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
       }
     }
     return ruleMatch;
