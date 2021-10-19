@@ -45,14 +45,19 @@ public abstract class NumberInWordFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException {
     String word = arguments.get("word");
+    String wordReplacingZeroO = word.replaceAll("0","o");
     String wordWithoutNumberCharacter = typoPattern.matcher(word).replaceAll("");
     List<String> replacements = new ArrayList<>();
-
-    if (isMisspelled(wordWithoutNumberCharacter)) {
+    
+    if (!isMisspelled(wordReplacingZeroO)) {
+      replacements.add(wordReplacingZeroO);
+    }
+    if (!isMisspelled(wordWithoutNumberCharacter)) {
+      replacements.add(wordWithoutNumberCharacter);
+    } 
+    if (replacements.isEmpty()){
       List<String> suggestions = getSuggestions(wordWithoutNumberCharacter);
       replacements.addAll(suggestions);
-    } else {
-      replacements.add(wordWithoutNumberCharacter);
     }
     if (!replacements.isEmpty()) {
       RuleMatch ruleMatch = new RuleMatch(match);
@@ -62,7 +67,7 @@ public abstract class NumberInWordFilter extends RuleFilter {
     return null;
   }
 
-  protected abstract boolean isMisspelled(String word);
+  protected abstract boolean isMisspelled(String word) throws IOException;
 
   protected abstract List<String> getSuggestions(String word) throws IOException;
 

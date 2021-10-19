@@ -19,7 +19,6 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.NumberInWordFilter;
 

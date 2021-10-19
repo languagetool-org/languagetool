@@ -637,4 +637,23 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
   }
   
+  /*
+   * Get suggestions for a single word, using all the features of the Morfologik
+   * spelling rule
+   * 
+   * @since 5.6
+   */
+  public List<String> getSpellingSuggestions(String w) throws IOException {
+    List<String> suggestions = new ArrayList<>();
+    AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];
+    AnalyzedToken token = new AnalyzedToken(w, null, null);
+    atk[0] = new AnalyzedTokenReadings(token);
+    AnalyzedSentence sentence = new AnalyzedSentence(atk);
+    RuleMatch[] matches = this.match(sentence);
+    if (matches.length > 0) {
+      suggestions.addAll(matches[0].getSuggestedReplacements());
+    }
+    return suggestions;
+  }
+  
 }

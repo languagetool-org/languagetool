@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|bio|live|ngo">
     <!ENTITY exceptions_unidadestiempo_adj "siguiente|próximo|futuro|venidero|anterior|pasado|precedente|subsiguiente|previo|último|primero">
 <!ENTITY apostrophe "['’´]">
 <!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
@@ -7725,6 +7726,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rule id="NUMBERS_IN_WORDS" name="Numbers in words" default="temp_off">
+            <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
+                <token regexp="yes">\p{L}\d\p{L}</token>
+            </antipattern>
+            <antipattern><!-- Eigennamen -->
+                <token regexp="yes">co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2go|.+4(all|ever)|cat5e|unity3d</token>
+            </antipattern>
+            <antipattern>
+                <token />
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">&sometlds;</token>
+            </antipattern>
+            <antipattern><!-- Hashtags -->
+                <token>#</token>
+                <token spacebefore="no" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.es.SpanishNumberInWordFilter" args="word:\1"/>
+            <message>Posible error ortográfico.</message>
+            <example correction="Buenos">¡<marker>Buen0s</marker> días!</example>
+        </rule>
         <rulegroup id="DEMAS" name="demás/de más">
             <url>https://www.fundeu.es/recomendacion/de-mas-demas/</url>
             <rule>
