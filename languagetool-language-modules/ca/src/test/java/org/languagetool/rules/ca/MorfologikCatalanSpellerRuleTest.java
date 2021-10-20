@@ -484,6 +484,12 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(lt.getAnalyzedSentence("cual"));
         assertEquals("qual", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(lt.getAnalyzedSentence("m0entretinc"));
+        assertEquals("m'entretinc", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(lt.getAnalyzedSentence("m9entretinc"));
+        assertEquals("m'entretinc", matches[0].getSuggestedReplacements().get(0));
+        
+        
         //Ela geminada 
         matches = rule.match(lt.getAnalyzedSentence("La sol•licitud"));
         assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
