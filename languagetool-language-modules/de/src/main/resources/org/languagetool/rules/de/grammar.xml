@@ -11018,7 +11018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ZWISCHEN_DURCH" name="zwischendurch" default="temp_off">
+        <rule id="ZWISCHEN_DURCH" name="zwischendurch">
             <pattern>
                 <token>zwischen</token>
                 <token case_sensitive="yes" regexp="yes">durch|drin|zeitig</token>
@@ -11026,7 +11026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Adverb <suggestion>zwischen\2</suggestion> wird zusammengeschrieben.</message>
             <example correction="zwischendurch">Machen wir <marker>zwischen durch</marker> auch Pause?</example>
         </rule>
-        <rule id="DAS_EINS_SEIN" name="das Einssein" default="temp_off">
+        <rule id="DAS_EINS_SEIN" name="das Einssein">
             <pattern>
                 <token regexp="yes">das|des|dieses</token>
                 <token postag="ADJ.*" postag_regexp="yes" min="0" />
@@ -11038,7 +11038,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion>Eins<match no="4" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <example correction="Einssein">Er liebt das <marker>Eins sein</marker> mit der Natur.</example>
         </rule>
-        <rule id="DEM_ENTSPRECHEND" name="dem entsprechend (dementsprechend)" default="temp_off">
+        <rule id="DEM_ENTSPRECHEND" name="dem entsprechend (dementsprechend)">
             <pattern>
                 <token postag="SENT_START|KON.*|PKT" postag_regexp="yes" />
                 <marker>
@@ -22751,7 +22751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="KEIN_GERINGERER_ALS" name="kein geringerer (Geringerer) als" default="temp_off">
+        <rule id="KEIN_GERINGERER_ALS" name="kein geringerer (Geringerer) als">
             <pattern>
                 <token regexp="yes">keine?</token>
                 <marker>
@@ -33887,7 +33887,7 @@ Andere Projekte</example>
                 <example correction="Sorgen">Er hat sich nicht beteiligt, weil er gerade andere <marker>sorgen</marker> hatte.</example>
                 <example correction="Sorgen">Er schien andere <marker>sorgen</marker> zu haben.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes" skip="3">haben|versuchen|werden</token>
                     <marker>
@@ -41347,7 +41347,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="SCHWEREN_HERZEN" name="schweren Herzens" default="temp_off">
+        <rulegroup id="SCHWEREN_HERZEN" name="schweren Herzens">
             <rule>
                 <antipattern>
                     <token>mit</token>
@@ -41372,7 +41372,7 @@ Andere Projekte</example>
                 <example correction="mit schwerem Herzen">Ich habe <marker>mit schweren Herzen</marker> abgesagt.</example>
             </rule>
         </rulegroup>
-        <rule id="KEIN_GERINGER_ALS" name="kein Geringer (Geringerer) als" default="temp_off">
+        <rule id="KEIN_GERINGER_ALS" name="kein Geringer (Geringerer) als">
             <pattern>
                 <token>kein</token>
                 <marker>
@@ -55465,7 +55465,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]ezapped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
