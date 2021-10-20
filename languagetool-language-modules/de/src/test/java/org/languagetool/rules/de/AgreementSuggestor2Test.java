@@ -62,6 +62,7 @@ public class AgreementSuggestor2Test {
       "der Kühlschrankverarbeitungstests]");
     assertSuggestion2("den gleiche Gebiete", "[das gleiche Gebiet, dem gleichen Gebiete, die gleichen Gebiete, " +
       "den gleichen Gebieten, der gleichen Gebiete, dem gleichen Gebiet, des gleichen Gebietes, des gleichen Gebiets]");
+    //assertSuggestion2("vor allem Teams", "[vor allen Teams]");  // TODO: 'allen' is PRO:IND, 'allem' is PRO:DEM, so we don't map yet between those
   }
 
   @Test

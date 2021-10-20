@@ -93,6 +93,17 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      new PatternTokenBuilder().csToken("sein").matchInflectedForms().build(),
+      token("das"),
+      tokenRegex("Grund|Anlass|Auslöser|Ursache")
+    ),
+    Arrays.asList(
+      // "Vielleicht schreckt das Frauen ab"
+      tokenRegex("schreckte?"),
+      token("das"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       token("eine"),
       token("Zeitlang")
     ),
@@ -219,9 +230,6 @@ public class AgreementRule extends Rule {
       regex("(Bundes)?Verdienstkreuz(es)?")
     ),
     Arrays.asList( // "Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion."
-      tokenRegex(".*"),
-      token("und"),
-      tokenRegex(".*"),
       token(","),
       token("beides"),
       posRegex("SUB:.*")
