@@ -7107,7 +7107,7 @@ No seu conjunto existem cinco capelas e uma igreja.
 
 	<!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
-    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13 + 2021-10-14 + 2021-10-15 + 2021-10-19 (25-JUN-2021+)      -->
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13/14/15/19/20 (25-JUN-2021+)      -->
 	<!--
 A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	-->
@@ -7122,6 +7122,8 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		A habilidade destes radares diferenciarem dois objetos próximos depende da largura do sinal emitido.
 		No Concelho das Velas existem 6 bandas filarmónicas.
 		No Porto de Pipas naufragaram 7 navios.
+		Neste tipo de erupções predominaram as de estilo pliniano, conduzindo ao abatimento da caldeira do vulcão mencionado.
+		Na aldeia de Pedras existiam também umas pedras lavradas antigas, que terão dado nome ao lugar.
 	  -->
 	  <antipattern>
 		<token postag_regexp='no' postag='SENT_START'/>		
@@ -7136,14 +7138,16 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+|AQ0.P.+|NC.P.+|Z0CN0' postag_regexp='yes'>
 			<exception regexp='yes'>[1]</exception>
 		</token>
-		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>
-		<token negate_pos="yes" postag_regexp='no' postag='UNKNOWN'/>
+		<token min="0" max="1" regexp='yes'>[,]</token>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|D[AI]0.P.+|SPS00' postag_regexp='yes'/>
+		<token negate_pos="yes" postag_regexp='yes' postag='UNKNOWN|DA0.S.+'/>
 	  </antipattern>
 	  <!--
 	    Ao longo dos tempos desenvolveram-se vários simuladores.
 		Na Praia dos Cavaleiros realizam-se as competições esportivas do FestVerão.
 		Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.
 		Na época das Descobertas instalam-se novas actividades industriais e comerciais.
+		Na prestação de Serviços destacam-se cabeleireiros, oficinas mecânicas, eletrônicas.
 	  -->
 	  <antipattern>
 		<token postag_regexp='no' postag='SENT_START'/>		
@@ -7160,8 +7164,9 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 		<token postag='RG|VMG0000|D[AI]0.P.+|RM|Z0.P.+|AQ0.P.+|NC.P.+|Z0CN0' postag_regexp='yes'>
 			<exception regexp='yes'>[1]</exception>
 		</token>
-		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|DA0.P.+' postag_regexp='yes'/>
-		<token negate_pos="yes" postag_regexp='no' postag='UNKNOWN'/>
+		<token min="0" max="1" regexp='yes'>[,]</token>
+		<token postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+|D[AI]0.P.+|SPS00' postag_regexp='yes'/>
+		<token negate_pos="yes" postag_regexp='yes' postag='UNKNOWN|DA0.S.+'/>
 	  </antipattern>	  
 <rule>
       <pattern>
@@ -7201,6 +7206,8 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	  <example>A habilidade destes radares diferenciarem dois objetos próximos depende da largura do sinal emitido.</example>	  
 	  <example>No Concelho das Velas existem 6 bandas filarmónicas.</example>
 	  <example>No Porto de Pipas naufragaram 7 navios.</example>
+	  <example>Neste tipo de erupções predominaram as de estilo pliniano, conduzindo ao abatimento da caldeira do vulcão mencionado.</example>
+	  <example>Na aldeia de Pedras existiam também umas pedras lavradas antigas, que terão dado nome ao lugar.</example>
 </rule>
 <rule>
       <pattern>
@@ -7231,6 +7238,7 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	  <example>Na Praia dos Cavaleiros realizam-se as competições esportivas do FestVerão.</example>
 	  <example>Na freguesia das Lameiras encontram-se as Lameiras, o Barregão e a Vendada.</example>
 	  <example>Na época das Descobertas instalam-se novas actividades industriais e comerciais.</example>
+	  <example>Na prestação de Serviços destacam-se cabeleireiros, oficinas mecânicas, eletrônicas.</example>
 </rule>
     </rulegroup>
 
