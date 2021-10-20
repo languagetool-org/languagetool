@@ -50,6 +50,7 @@ public class BaseSynthesizer implements Synthesizer {
   private final IStemmer stemmer;
   private final ManualSynthesizer manualSynthesizer;
   private final ManualSynthesizer removalSynthesizer;
+  private final ManualSynthesizer removalSynthesizer2;
   private final String sorosFileName;
   private final Soros numberSpeller;
   
@@ -81,6 +82,14 @@ public class BaseSynthesizer implements Synthesizer {
         }
       } else {
         this.removalSynthesizer = null;
+      }
+      String removalPath2 = "/" + lang.getShortCode() + "/do-not-synthesize.txt";
+      if (JLanguageTool.getDataBroker().resourceExists(removalPath2)) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath2)) {
+          this.removalSynthesizer2 = new ManualSynthesizer(stream);
+        }
+      } else {
+        this.removalSynthesizer2 = null;
       }
       
     } catch (IOException e) {
@@ -162,6 +171,12 @@ public class BaseSynthesizer implements Synthesizer {
     }
     if (removalSynthesizer != null) {
       List<String> removeForms = removalSynthesizer.lookup(lemma, posTag);
+      if (removeForms != null) {
+        results.removeAll(removeForms);
+      }
+    }
+    if (removalSynthesizer2 != null) {
+      List<String> removeForms = removalSynthesizer2.lookup(lemma, posTag);
       if (removeForms != null) {
         results.removeAll(removeForms);
       }

@@ -167,6 +167,10 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken17 = tagger.lookup("under");
     assertTrue(aToken17 == null);
+    
+    // tag old forms
+    AnalyzedTokenReadings aToken18 = tagger.lookup("Zuge");
+    assertEquals("Zuge[Zug/SUB:DAT:SIN:MAS]", toSortedString(aToken18));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
