@@ -122,7 +122,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (AnalyzedTokenReadings tokenReadings : tokens) {
       // short for SENT_START
       if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) ||
