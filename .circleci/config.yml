@@ -15,6 +15,16 @@ workflows:
                 - master
     jobs:
       - test-scheduled-job
+  run_before-deployment:
+    triggers:
+      - schedule:
+          cron: "30 16 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test-scheduled-job
   run_nightly:
     triggers:
       - schedule:
