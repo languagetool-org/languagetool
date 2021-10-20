@@ -53,11 +53,11 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("Ihren Verständnis", "[Ihr Verständnis, Ihrem Verständnis, Ihrem Verständnisse, Ihres Verständnisses]");
     assertSuggestion1("des Züchten", "[das Züchten, dem Züchten, des Züchtens]");
     assertSuggestion1("die Kühlschranktest", "[der Kühlschranktest, den Kühlschranktest, dem Kühlschranktest, die Kühlschrankteste, " +
-      "die Kühlschranktests, dem Kühlschrankteste, des Kühlschranktestes, des Kühlschranktests, den Kühlschranktesten, " +
+      "die Kühlschranktests, des Kühlschranktestes, des Kühlschranktests, den Kühlschranktesten, " +
       "den Kühlschranktests, der Kühlschrankteste, der Kühlschranktests]");
     assertSuggestion1("die Kühlschrankverarbeitungstest", "[der Kühlschrankverarbeitungstest, den Kühlschrankverarbeitungstest, " +
       "dem Kühlschrankverarbeitungstest, die Kühlschrankverarbeitungsteste, die Kühlschrankverarbeitungstests, " +
-      "dem Kühlschrankverarbeitungsteste, des Kühlschrankverarbeitungstestes, des Kühlschrankverarbeitungstests, " +
+      "des Kühlschrankverarbeitungstestes, des Kühlschrankverarbeitungstests, " +
       "den Kühlschrankverarbeitungstesten, den Kühlschrankverarbeitungstests, der Kühlschrankverarbeitungsteste, " +
       "der Kühlschrankverarbeitungstests]");
     assertSuggestion2("den gleiche Gebiete", "[das gleiche Gebiet, dem gleichen Gebiete, die gleichen Gebiete, " +
@@ -69,7 +69,7 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("gehe zur Mann");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), AgreementRule.ReplacementType.Zur);
-    assertThat(suggestor.getSuggestions().toString(), is("[zum Mann, zum Manne, zu den Männern]"));
+    assertThat(suggestor.getSuggestions().toString(), is("[zum Mann, zu den Männern]"));
 
     analyzedSentence = lt.getAnalyzedSentence("gehe zur kuschelige Ferienwohnung");
     tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
@@ -129,7 +129,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion2("eine benötigten Unterlage", "[eine benötigte Unterlage, einer benötigten Unterlage]");
     assertSuggestion2("die voller Verzierungen", "[die vollen Verzierungen, die volle Verzierung, den vollen Verzierungen, der vollen Verzierungen, der vollen Verzierung]"); // evtl. Fehlalarm...
     assertSuggestion2("zu zukünftigen Vorstands", "[]");  // ?
-    assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, des südlichen Kontinentes, des südlichen Kontinents, der südliche Kontinent, dem südlichen Kontinente, die südlichen Kontinente, den südlichen Kontinenten, der südlichen Kontinente]");
+    assertSuggestion2("des südlichen Kontinent", "[den südlichen Kontinent, dem südlichen Kontinent, des südlichen Kontinentes, des südlichen Kontinents, der südliche Kontinent, die südlichen Kontinente, den südlichen Kontinenten, der südlichen Kontinente]");
     assertSuggestion2("die erwartet Entwicklung", "[die erwartete Entwicklung, der erwarteten Entwicklung, die erwarteten Entwicklungen, den erwarteten Entwicklungen, der erwarteten Entwicklungen]");
     assertSuggestion2("die verschieden Ämter", "[die verschiedenen Ämter, der verschiedenen Ämter, das verschiedene Amt, dem verschiedenen Amt, dem verschiedenen Amte, des verschiedenen Amtes, des verschiedenen Amts, den verschiedenen Ämtern]");
     assertSuggestion2("keine richtiger Fahrerin", "[keine richtige Fahrerin, keiner richtigen Fahrerin, keine richtigen Fahrerinnen, keinen richtigen Fahrerinnen, keiner richtigen Fahrerinnen]");
@@ -150,7 +150,7 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("für dein Schmuck");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), null);
-    assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck, deinem Schmuck, deinem Schmucke, deines Schmuckes, deines Schmucks]"));
+    assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck, deinem Schmuck, deines Schmuckes, deines Schmucks]"));
     assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck, deinem Schmuck]"));
     suggestor.setPreposition(tags.get(1));  // "für"
     assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck]"));

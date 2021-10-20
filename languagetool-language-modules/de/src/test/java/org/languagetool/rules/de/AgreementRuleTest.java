@@ -381,7 +381,7 @@ public class AgreementRuleTest {
     assertBad("Das interessiert das Mann.", "der Mann", "den Mann", "dem Mann");
     assertBad("Das interessiert die Mann.", "der Mann", "den Mann", "dem Mann", "die Männer");
     assertBad("Das Auto ein Mannes.", "ein Mann", "eines Mannes");
-    assertBad("Das Auto einem Mannes.", "einem Mann", "einem Manne", "eines Mannes");
+    assertBad("Das Auto einem Mannes.", "einem Mann", "eines Mannes");
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
     assertBad("Die Galerie zu den Bilder findet sich hier.");
