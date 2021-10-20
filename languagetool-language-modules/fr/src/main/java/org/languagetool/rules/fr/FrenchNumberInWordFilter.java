@@ -20,12 +20,12 @@ package org.languagetool.rules.fr;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
-import org.languagetool.rules.NumberInWordFilter;
+import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
 import java.util.*;
 
-public class FrenchNumberInWordFilter extends NumberInWordFilter {
+public class FrenchNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikFrenchSpellerRule frenchSpellerRule;
 

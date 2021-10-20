@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public abstract class NumberInWordFilter extends RuleFilter {
+public abstract class AbstractNumberInWordFilter extends RuleFilter {
 
   protected final Language language;
 
   public static final Pattern typoPattern = Pattern.compile("[0-9]");
 
-  protected NumberInWordFilter(Language language) {
+  protected AbstractNumberInWordFilter(Language language) {
     this.language = language;
   }
 

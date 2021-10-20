@@ -23,7 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.FakeRule;
-import org.languagetool.rules.NumberInWordFilter;
+import org.languagetool.rules.AbstractNumberInWordFilter;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class EnglishNumberInWordFilterTest {
   }
 
   private void runFilter(String input, String arg, String newRepl, int patternTokenPos, int fromPos, int toPos, JLanguageTool lt) throws IOException {
-    NumberInWordFilter filter = new EnglishNumberInWordFilter();
+    AbstractNumberInWordFilter filter = new EnglishNumberInWordFilter();
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     RuleMatch match = new RuleMatch(new FakeRule(), sentence, fromPos, toPos, "fake msg");
     HashMap<String, String> args = new HashMap<>();

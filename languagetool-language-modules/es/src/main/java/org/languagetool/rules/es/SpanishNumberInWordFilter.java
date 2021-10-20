@@ -20,12 +20,12 @@ package org.languagetool.rules.es;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Spanish;
-import org.languagetool.rules.NumberInWordFilter;
+import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
 import java.util.*;
 
-public class SpanishNumberInWordFilter extends NumberInWordFilter {
+public class SpanishNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikSpanishSpellerRule spanishSpellerRule;
 

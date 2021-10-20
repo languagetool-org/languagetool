@@ -20,12 +20,12 @@ package org.languagetool.rules.nl;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
-import org.languagetool.rules.NumberInWordFilter;
+import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
 import java.util.*;
 
-public class DutchNumberInWordFilter extends NumberInWordFilter {
+public class DutchNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikDutchSpellerRule dutchSpellerRule;
 

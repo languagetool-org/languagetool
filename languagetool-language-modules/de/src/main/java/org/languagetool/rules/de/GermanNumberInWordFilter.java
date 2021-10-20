@@ -20,12 +20,12 @@ package org.languagetool.rules.de;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.NumberInWordFilter;
+import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
 import java.util.*;
 
-public class GermanNumberInWordFilter extends NumberInWordFilter {
+public class GermanNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private final GermanSpellerRule germanSpellerRule;
 

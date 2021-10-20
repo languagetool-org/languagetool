@@ -20,12 +20,12 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Catalan;
-import org.languagetool.rules.NumberInWordFilter;
+import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
 import java.util.*;
 
-public class CatalanNumberInWordFilter extends NumberInWordFilter {
+public class CatalanNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikCatalanSpellerRule catalanSpellerRule;
 
