@@ -7105,6 +7105,26 @@ No seu conjunto existem cinco capelas e uma igreja.
 	
   </rulegroup>
 
+
+	<!-- CUJO , cujo -->
+    <rule id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase" default="temp_off">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-20 (25-JUN-2021+)      -->
+	<!--
+Cujo pai chegou. → Foi a Ana, cujo pai chegou.
+	-->
+      <pattern>
+		<token postag_regexp='no' postag='SENT_START'/>
+		<marker>
+			<token regexp='yes' case_sensitive="yes">Cuj[oa]s?</token>
+		</marker>
+		<token/>
+      </pattern>
+      <message>O pronome relativo 'cujo' liga dois substantivos, portanto não pode estar em começo de frase.</message>
+      <example type='incorrect'><marker>Cujo</marker> pai chegou.</example>
+      <example type='correct'>Foi a Ana<marker>, cujo</marker> pai chegou.</example>	  
+    </rule>
+
+
 	<!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
     <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13/14/15/19/20 (25-JUN-2021+)      -->
