@@ -62034,34 +62034,62 @@ though, and has since been slightly modified)-->
             <example correction="conforme à|en conformité avec">Ce produit est <marker>en conformité à</marker> la legislation.</example>
             <example>Ce produit en conformité avec la legislation.</example>
         </rule>
-        <rule id="CEST_CE_SONT" name="c'est (ce sont)" default="temp_off">
-            <antipattern>
-                <token>c'</token>
-                <token>est</token>
-                <token min="0" regexp="yes">pas|plus</token>
-                <token postag_regexp="yes" postag="R (pers|dem) .*"/>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>c'</token>
-                    <token skip="2">est
-                        <exception scope="next" postag_regexp="yes" postag=".* sp?|P"/></token>
-                </marker>
-                <token postag="A" min="0" max="3"/>
-                <token regexp="yes">des|les</token>
-                <!--<token postag_regexp="yes" postag=".* s?p"/>-->
-            </pattern>
-            <message>'C'est' suivi d'un pluriel devient 'ce sont'. Dans la langue parlée, on admet 'c'est' suivi par 'ceux/celles' ou 'eux|elles'.</message>
-            <suggestion>ce sont</suggestion>
-            <example correction="Ce sont"><marker>C'est</marker> des barbares qui ont fait ça.</example>
-            <example correction="Ce sont"><marker>C'est</marker> pas les yeux qu'il faut ouvrir, </example>
-            <example>C'est eux qui ont eu l'idée.</example>
-            <example>C'est ceux qui ont eu l'idée.</example>
-            <example>C'est un site excellent pour apprendre le finnois.</example>
-            <example>C'est dans ces modestes bureaux de banlieue qu'a eu lieu la genèse de cette multinationale.</example>
-            <example>C'est la tendance des vingt dernières années.</example>
-            <example>C'est juste à dix minutes de marche d'ici.</example>
-        </rule>
+        <rulegroup id="CEST_CE_SONT" name="c'est (ce sont)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>c'</token>
+                        <token>est</token>
+                    </marker>
+                    <token regexp="yes">[ldcmts]es|[vn]os|leurs</token>
+                </pattern>
+                <message>Il convient d'accorder ce présentatif au pluriel lorsque le sujet réel est au pluriel.</message>
+                <suggestion>ce sont</suggestion>
+                <example correction="Ce sont"><marker>C'est</marker> des étudiants.</example>
+                <example correction="Ce sont"><marker>C'est</marker> vos affaires.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ce</token>
+                        <token regexp="yes">n'</token>
+                        <token>est</token>
+                    </marker>
+                    <token min="0" regexp="yes">&mots_negation_plus;</token>
+                    <token regexp="yes">[ldcmts]es|[vn]os|leurs</token>
+                </pattern>
+                <message>Il convient d'accorder ce présentatif au pluriel lorsque le sujet réel est au pluriel.</message>
+                <suggestion>ce ne sont</suggestion>
+                <example correction="Ce ne sont"><marker>Ce n'est</marker> pas tes affaires.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ce|ça</token>
+                        <token min="0" regexp="yes">n[e']</token>
+                        <token postag="V etre (ind (pres|impa|psim|futu)|con pres) 3 s" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0">&mots_negation_plus;</token>
+                    <token regexp="yes">[ldcmts]es|[vn]os|leurs</token>
+                </pattern>
+                <message>Vous pourriez enrichir votre phrase en évitant cette répétition de participe présent.</message>
+                <suggestion>ce <match no="2" regexp_match="([^']$)" regexp_replace="$1 "/><match no="3" postag="(V .*) s" postag_regexp="yes" postag_replace="$1 p"/></suggestion>
+                <example correction="Ce seraient"><marker>Ce serait</marker> des étudiants.</example>
+                <example correction="Ce seront"><marker>Ça sera</marker> vos affaires.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">c'</token>
+                    <marker>
+                        <token>était</token>
+                    </marker>
+                    <token regexp="yes">[ldcmts]es|[vn]os|leurs|ce(ux|lles)</token>
+                </pattern>
+                <message>Il convient d'accorder ce présentatif au pluriel lorsque le sujet réel est au pluriel.</message>
+                <suggestion>étaient</suggestion>
+                <example correction="étaient">C'<marker>était</marker> des étudiants.</example>
+            </rule>
+        </rulegroup>
         <rule id="SE_BAFRER" name="se bâfrer">
             <pattern>
                 <marker>
