@@ -56,7 +56,7 @@ public class ContractionSpellingRuleTest {
     checkSimpleReplaceRule("Wasnt this great", "Wasn't");
     checkSimpleReplaceRule("YOURE WRONG", "YOU'RE");
     checkSimpleReplaceRule("Dont do this", "Don't");
-    checkSimpleReplaceRule("Ive been doing", "I've");
+    //checkSimpleReplaceRule("Ive been doing", "I've");
     // inside sentence
     checkSimpleReplaceRule("It wasnt me", "wasn't");
     checkSimpleReplaceRule("You neednt do this", "needn't");
