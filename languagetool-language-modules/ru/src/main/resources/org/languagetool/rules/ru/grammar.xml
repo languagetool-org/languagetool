@@ -6826,7 +6826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
                 <rule  id="Unify_Adj_NN_number">
                      <antipattern>
-                        <token postag="ADJ:.*:Nom" postag_regexp="yes"></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"></token>
                         <token postag="NN:.*:D" postag_regexp="yes"></token>
                         <token></token>
                     </antipattern>
@@ -8352,6 +8352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис</short>
+                <example>Судя по мясному рагу на столе, вы застигли его за обедом.</example>
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker>.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker>.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>.</example>
@@ -8359,7 +8360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern raw_pos="yes">
                     <marker>
-                        <token>по</token>
+                        <token>по<exception scope="previous">судя</exception></token>
                         <token  postag="ADJ:Posit:Masc:D">
                             <exception regexp="yes">черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
@@ -8376,6 +8377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис</short>
+                <example>Судя по мясному рагу на столе, вы застигли его за обедом.</example>
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker> тепло, так как было холодно.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker> разберёмся, иначе будет грустно.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker> отчаянно, как бы вы меня ни уговаривали.</example>
@@ -8383,7 +8385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>по</token>
+                        <token>по<exception scope="previous">судя</exception></token>
 			<token  postag="ADJ:Posit:Masc:D" case_sensitive="yes">
                             <exception regexp="yes">[А-Я].*|федеральному|местному|минимальному|максимальному|черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
@@ -8398,6 +8400,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис</short>
                 <example>Он взял курс прямо на юг по местному шоссе N 11.</example>
+                <example>Судя по мясному рагу на столе, вы застигли его за обедом.</example>
                 <example>Мне смутно помнилось, что ехать надо по федеральному шоссе №1.</example>
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker> тепло.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker> разберёмся.</example>
