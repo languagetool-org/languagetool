@@ -258,24 +258,27 @@ class AgreementSuggestor2 {
   }
 
   private String[] getNounSynth(String num, String gen, String aCase) throws IOException {
-    AnalyzedToken nounReading = nounToken.getReadings().get(0);
     List<String> result = new ArrayList<>();
-    for (String nounTemplate : nounTemplates) {
-      String nounPos = replaceVars(nounTemplate, num, gen, aCase);
-      String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos);
-      if (nounSynthesized.length == 0 && nounReading.getToken().contains("-")) {
-        String firstPart = nounReading.getToken().substring(0, nounReading.getToken().lastIndexOf('-') + 1);
-        String lastTokenPart = nounToken.getToken().replaceFirst(".*-", "");
-        String lastLemmaPart = nounReading.getLemma() != null ? nounReading.getLemma().replaceFirst(".*-", "") : null;
-        nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, "fake_value", lastLemmaPart), nounPos);
-        for (String lastPartInflected : nounSynthesized) {
-          result.add(firstPart + lastPartInflected);
+    for (AnalyzedToken nounReading : nounToken.getReadings()) {
+      for (String nounTemplate : nounTemplates) {
+        String nounPos = replaceVars(nounTemplate, num, gen, aCase);
+        String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos);
+        if (nounSynthesized.length == 0 && nounReading.getToken().contains("-")) {
+          String firstPart = nounReading.getToken().substring(0, nounReading.getToken().lastIndexOf('-') + 1);
+          String lastTokenPart = nounToken.getToken().replaceFirst(".*-", "");
+          String lastLemmaPart = nounReading.getLemma() != null ? nounReading.getLemma().replaceFirst(".*-", "") : null;
+          nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, "fake_value", lastLemmaPart), nounPos);
+          for (String lastPartInflected : nounSynthesized) {
+            result.add(firstPart + lastPartInflected);
+          }
+        } else {
+          result.addAll(Arrays.asList(nounSynthesized));
         }
-      } else {
-        result.addAll(Arrays.asList(nounSynthesized));
       }
     }
-    return result.toArray(new String[0]);
+    // remove forms like "Blutfluß" if there's also "Blutfluss" - must be old spelling then:
+    Set<String> oldSpelling = result.stream().filter(k -> k.contains("ss")).map(k -> k.replace("ss", "ß")).collect(Collectors.toSet());
+    return result.stream().filter(k -> !oldSpelling.contains(k)).toArray(String[]::new);
   }
 
   private void combineSynth(List<Suggestion> result, String[] detSynthesized, String[] adjSynthesized, String[] nounSynthesized) {
