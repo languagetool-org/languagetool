@@ -49,7 +49,7 @@ public abstract class AbstractNumberInWordFilter extends RuleFilter {
     String wordWithoutNumberCharacter = typoPattern.matcher(word).replaceAll("");
     List<String> replacements = new ArrayList<>();
     
-    if (!isMisspelled(wordReplacingZeroO)) {
+    if (!isMisspelled(wordReplacingZeroO) && !word.equals(wordReplacingZeroO) ) {
       replacements.add(wordReplacingZeroO);
     }
     if (!isMisspelled(wordWithoutNumberCharacter)) {
