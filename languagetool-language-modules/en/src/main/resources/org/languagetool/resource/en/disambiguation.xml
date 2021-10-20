@@ -7627,6 +7627,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" />
             <token case_sensitive="yes" regexp="yes">[Tt]o</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">many|few|several|some</token>
+            <token postag="VB" />
+            <token postag="VBG" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7665,6 +7670,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Many look quite a bit like American campaign logos.</example>
         <example type="untouched">When the text can't be check because it is too short.</example><!-- needed to detect "check" as wrong by BEEN_PART_AGREEMENT -->
         <example type="untouched">He sexual assault her.</example>
+        <example type="untouched">However, many support putting these 2 arguments …</example>
         <example type="untouched">Many doubt OPEC's ability to maintain its modest level.</example>
         <example type="untouched">Many doubt his ability to maintain its modest level.</example>
         <example type="untouched">He is sexual assaulting her.</example>
