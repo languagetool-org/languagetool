@@ -27308,20 +27308,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="SPELLING" name="Errors ortogràfics" type="misspelling">
         <rule id="NUMBERS_IN_WORDS" name="Numbers in words" default="temp_off">
-            <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
+            <antipattern>
+                <!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
                 <token regexp="yes">\p{L}\d\p{L}</token>
             </antipattern>
-            <antipattern><!-- Eigennamen -->
+            <antipattern>
+                <!-- Eigennamen -->
                 <token regexp="yes">ed2k|co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2go|.+4(all|ever)|cat5e|unity3d</token>
             </antipattern>
             <antipattern>
-                <token />
+                <token/>
                 <token spacebefore="no">.</token>
                 <token regexp="yes" spacebefore="no">&sometlds;</token>
             </antipattern>
-            <antipattern><!-- Hashtags -->
+            <antipattern>
+                <!-- Hashtags -->
                 <token>#</token>
-                <token spacebefore="no" />
+                <token spacebefore="no"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">[mltnsd][09].*</token>
@@ -38719,7 +38722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>La preposició adequada amb el verb 'encarar-se' és "amb".</message>
                 <suggestion>amb el</suggestion>
-                <example correction="amb el">L'amo es va encarar <marker>al</marker> majordom.</example>    
+                <example correction="amb el">L'amo es va encarar <marker>al</marker> majordom.</example>
             </rule>
             <rule>
                 <pattern>
@@ -38733,7 +38736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>La preposició adequada amb el verb 'encarar-se' és <suggestion>amb</suggestion>.</message>
                 <example correction="amb">El jugador del Barça es va encarar <marker>contra</marker> l'àrbitre.</example>
-                <example correction="amb">El jugador del Barça es va encarar <marker>a</marker> l'àrbitre.</example>    
+                <example correction="amb">El jugador del Barça es va encarar <marker>a</marker> l'àrbitre.</example>
             </rule>
         </rulegroup>
         <rule id="EN_RECONEIXEMENT" name="en reconeixement *a/*per/de">
@@ -68889,6 +68892,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://ca.wikipedia.org/wiki/Emmanuel_Macron</url>
                 <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
                 <example correction="Emmanuel Macron"><marker>Emmanuele Mackron</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Galileu</token>
+                    <token>Galilei</token>
+                </pattern>
+                <message>Preferentment s'usa el nom complet <suggestion>Galileo Galilei</suggestion> o l'adaptació <suggestion>Galileu</suggestion>.</message>
+                <url>https://ca.wikipedia.org/wiki/Galileo_Galilei</url>
+                <example correction="Galileo Galilei|Galileu"><marker>Galileu Galilei</marker> va ser un personatge clau en la revolució científica.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Galileo</token>
+                    </marker>
+                    <token><exception>Galilei</exception></token>
+                </pattern>
+                <message>Preferentment s'usa el nom complet <suggestion>Galileo Galilei</suggestion> o l'adaptació <suggestion>Galileu</suggestion>.</message>
+                <url>https://ca.wikipedia.org/wiki/Galileo_Galilei</url>
+                <example correction="Galileo Galilei|Galileu"><marker>Galileo</marker> va ser un personatge clau en la revolució científica.</example>
             </rule>
         </rulegroup>
     </category>
