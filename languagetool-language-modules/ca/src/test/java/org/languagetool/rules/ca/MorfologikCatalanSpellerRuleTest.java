@@ -588,5 +588,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(lt.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
         assertEquals(0, rule.match(lt.getAnalyzedSentence("Fa 5·10-³ metres.")).length);
         
+        // mentions, hashtags, domain names
+        assertEquals(0, rule.match(lt.getAnalyzedSentence("Parlem del #temagran amb @algugros en algunacosa.cat.")).length);
+        assertEquals(0, rule.match(lt.getAnalyzedSentence("En el domini .org hi ha fitxers d'extensió .txt.")).length);
+        assertEquals(0, rule.match(lt.getAnalyzedSentence("En el domini .live hi ha fitxers d'extensió .7z.")).length);
+        
     }
 }

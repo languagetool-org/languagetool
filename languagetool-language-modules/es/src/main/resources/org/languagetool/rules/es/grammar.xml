@@ -11184,6 +11184,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
+                <!-- es.wikipedia.org-->
+                <token>es</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[A-Za-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[A-Za-z0-9\-]+</token>
+            </antipattern>
+            <antipattern>
                 <token>vete</token>
                 <token min="0">tú</token>
                 <token>a</token>
@@ -17431,7 +17439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>\2\3</suggestion>?</message>
             <example correction="establecimientos">Verifica los <marker>establecimiento s</marker> de la compra.</example>
         </rule>
-        <rule id="LA_A" name="la a -> la" default="temp_off">
+        <rule id="LA_A" name="la a -> la">
             <pattern>
                 <token>la</token>
                 <token case_sensitive="yes">a</token>

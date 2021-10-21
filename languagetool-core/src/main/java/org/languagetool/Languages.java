@@ -302,6 +302,11 @@ public final class Languages {
       }
     } else {
       for (Language element : getStaticAndDynamicLanguages()) {
+        if (langCode.equals("global")) {
+          // for disambiguation-global.xml take any language
+          result = element;
+          break;
+        }
         if (langCode.equalsIgnoreCase(element.getShortCode())) {
           result = element;
             /* TODO: It should return the DefaultLanguageVariant,

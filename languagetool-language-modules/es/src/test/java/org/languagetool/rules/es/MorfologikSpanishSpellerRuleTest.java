@@ -163,6 +163,9 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("5·10-³ metros.")).length);
     
+    // hashtags, domain names, mentions
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Una #mecion de @algunamigo en es.wikipedia.org")).length);
+    
   }
 
 }
