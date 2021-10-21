@@ -40,7 +40,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/pt/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Portuguese());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Portuguese(), true);
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

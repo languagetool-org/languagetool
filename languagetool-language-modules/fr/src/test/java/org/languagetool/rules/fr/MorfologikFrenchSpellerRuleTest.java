@@ -62,6 +62,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("L'iPhone")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Une #sprache @mentioned mywebsite.org ereredd.7z, domaine .com, NH₄OH")).length);
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Un test simple.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Le cœur, la sœur.")).length);
