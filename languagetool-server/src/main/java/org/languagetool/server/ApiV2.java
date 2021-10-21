@@ -43,6 +43,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
@@ -52,6 +53,8 @@ import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
  * @since 3.4
  */
 class ApiV2 {
+
+  private static final Logger logger = LoggerFactory.getLogger(ApiV2.class);
 
   private static final String JSON_CONTENT_TYPE = "application/json";
   private static final String TEXT_CONTENT_TYPE = "text/plain";
@@ -181,6 +184,9 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     int offset = params.get("offset") != null ? Integer.parseInt(params.get("offset")) : 0;
     int limit = params.get("limit") != null ? Integer.parseInt(params.get("limit")) : 10;
+    logger.info("Started reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"));
+
 
     if (params.containsKey("dict")) {
       throw new IllegalArgumentException("Use parameter 'dicts', not 'dict' in GET /words API method.");
@@ -191,7 +197,12 @@ class ApiV2 {
     if (params.containsKey("dicts")) {
       groups = Arrays.asList(params.get("dicts").split(","));
     }
-    List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
+    long start = System.nanoTime();
+    List<String> words = db.getWords(limits, groups, offset, limit);
+    //List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
+    long durationMilliseconds = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {} in {}ms",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), durationMilliseconds);
     writeListResponse("words", words, httpExchange);
   }
   
