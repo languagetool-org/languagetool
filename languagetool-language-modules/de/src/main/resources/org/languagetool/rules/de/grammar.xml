@@ -1270,7 +1270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Tür, durch die beide passen, muss erst noch erfunden werden.</example>
             <example>Die Aufführung, in der beide Hauptfiguren am Ende sterben, wurde heftig kritisiert.</example>
         </rule>
-        <rule id="BEI_VERB" name="bei + Verb">
+        <rulegroup id="BEI_VERB" name="bei + Verb">
             <antipattern><!-- covered by rule HIER_BEI -->
                 <token>hier</token>
                 <token>bei</token>
@@ -1282,26 +1282,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>wir</token>
                 <token>mal</token>
             </antipattern>
-            <pattern>
+            <antipattern><!-- bei plaudern.de gibt es ... -->
                 <token>bei</token>
-                <token min="0" postag="ADJ:DAT:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+em
-                    <exception>ersterem</exception>
-                </token>
-                <token postag='VER:.*' postag_regexp='yes' regexp="yes" case_sensitive="yes">[a-zöäü]+
-                    <exception postag='PA[12]:.*' postag_regexp='yes'/>
-                    <exception postag='ADJ:.*' postag_regexp='yes'/>
-                    <exception postag='ZAL' />
-                    <exception regexp="yes">ein|einen|meinen</exception>
-                </token>
-            </pattern>
-            <message>Nach 'bei' folgt normalerweise kein Verb.</message>
-            <example correction=''>Was ich <marker>bei machen</marker> Menschen hasse.</example>
-            <example>Das ist die Gegenleistung <marker>bei Übernahmeangeboten</marker> und Pflichtangeboten.</example>
-            <example>Sie lagen <marker>bei einigen</marker> 100 Nanosekunden.</example>
-            <example>Bei ein paar Einträgen war ich mir unsicher.</example>
-            <example correction=''><marker>Bei drastischem absenken</marker> des Drucks kann es zur Explosion kommen.</example>
-            <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
-        </rule>
+                <token />
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(et)?was|nichts|nix</token>
+                <token>bei</token>
+                <token regexp="yes">rumkommt|rumkam|rumgekommen</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">google|skype|twitter</token>
+                    </marker>
+                </pattern>
+                <message>Der Name dieses Unternehmens wird großgeschrieben.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Google">Ich habe das bei <marker>google</marker> gefunden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <token min="0" postag="ADJ:DAT:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+em
+                        <exception regexp="yes">ersterem|weitem|letzterem|(letzt|(zu)?erst)genanntem</exception>
+                    </token>
+                    <token postag='VER:.*' postag_regexp='yes' regexp="yes" case_sensitive="yes">[a-zöäü]+
+                        <exception postag='PA[12]:.*' postag_regexp='yes'/>
+                        <exception postag='ADJ:.*' postag_regexp='yes'/>
+                        <exception postag='ZAL' />
+                        <exception regexp="yes">m?ein|einen|meinen</exception>
+                    </token>
+                </pattern>
+                <message>Nach 'bei' folgt normalerweise kein Verb.</message>
+                <example correction=''>Was ich <marker>bei machen</marker> Menschen hasse.</example>
+                <example>Das ist die Gegenleistung <marker>bei Übernahmeangeboten</marker> und Pflichtangeboten.</example>
+                <example>Sie lagen <marker>bei einigen</marker> 100 Nanosekunden.</example>
+                <example>Bei ein paar Einträgen war ich mir unsicher.</example>
+                <example correction=''><marker>Bei drastischem absenken</marker> des Drucks kann es zur Explosion kommen.</example>
+                <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
+                <example>Ich hoffe, dass da was bei rumkommt.</example>
+                <example>Ich habe es bei web.de gefunden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
             <rule>
                 <pattern>
@@ -4760,7 +4786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token skip="1">Seit<exception scope="next" regexp="yes">wann|gestern</exception></token>
+                        <token skip="1">Seit<exception scope="next" regexp="yes">wann|(vor)?gestern</exception></token>
                     </marker>
                     <token postag="ADJ:PRD:.*|PA2:PRD:.*|ADV:MOD" postag_regexp="yes"/>
                     <token postag="SENT_END"/>
@@ -5141,6 +5167,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seitseid;</message>
                 <example correction="seit">Da ich <marker>seid</marker> letzter Woche nicht mehr kommen kann, ist alles doof.</example>
                 <example>Tom und du seid gute Freunde, oder?</example>
+            </rule>
+            <rule default="temp_off"><!-- 20 -->
+                <pattern>
+                    <token regexp="yes" inflected="yes">sein|haben|werden|machen|gehen|bieten|verkaufen|laufen|existieren|entwickeln|bestehen|sprechen</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">seid</token>
+                    </marker>
+                    <token regexp="yes">(vor)?gestern|heute|morgens|mittags|nachts|&wochentage;|&monate;|.+(abend|mittag|morgen|nachmittag|nacht)|(1[3-9]|20)\d{2}</token>
+                </pattern>
+                <message>&seitseid;</message>
+                <example correction="seit">Wir sind <marker>seid</marker> gestern im Geschäft.</example>
+            </rule>
+            <rule default="temp_off"><!-- 21 -->
+                <pattern>
+                    <token regexp="yes">erst|bereits</token>
+                    <marker>
+                        <token case_sensitive="yes">seid</token>
+                    </marker>
+                    <token regexp="yes">(vor)?gestern|heute|morgens|mittags|nachts|&wochentage;|&monate;|.+(abend|mittag|morgen|nachmittag|nacht)|(1[3-9]|20)\d{2}</token>
+                </pattern>
+                <message>&seitseid;</message>
+                <example correction="seit">Erst <marker>seid</marker> gestern sind wir im Geschäft.</example>
             </rule>
         </rulegroup>
         <rule id="IN_DIE_ANALEN" name="'in die Analen (Annalen)'">
@@ -11724,6 +11773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- candidates:
                 * frei Zeit
                 * schwer Punkt
+                * schwer Transport(er)
                 * warm Wasser
                 * blau Licht
                 * billig Laden
@@ -41359,6 +41409,17 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="IM_AUFTRAG_VON" name="im Auftrag von" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>im</token>
+                    <token regexp="yes" case_sensitive="yes">auftrage?</token>
+                </marker>
+                <token regexp="yes">de[sr]|vo[mn]|diese[sr]|[dsm]?eine[rs]|ihre[rs]|unse?re[rs]</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1 Auftrag</suggestion>?</message>
+            <example correction="im Auftrag">Ich handele <marker>im auftrag</marker> von XYZ.</example>
+        </rule>
         <rulegroup id="SCHWEREN_HERZEN" name="schweren Herzens">
             <rule>
                 <antipattern>
@@ -51600,10 +51661,10 @@ Andere Projekte</example>
                     <token regexp="yes">dass|weil|obwohl|obgleich|sodass|wenn</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1">
+                        <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
+                    </token>
                     <marker>
-                        <token postag="SENT_START" skip="-1">
-                            <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
-                        </token>
                         <token regexp="yes" skip="-1">
                             dass|weil|obwohl|obgleich|sodass|wenn
                             <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception>
@@ -51616,15 +51677,15 @@ Andere Projekte</example>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Der von '\2' eingeleitete Nebensatz muss in der Regel mit einem Komma vom Hauptsatz getrennt werden.</message>
-                <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
+                <suggestion>, \2</suggestion>
+                <example correction=", weil">Er mag das Spiel<marker> weil</marker> es ihm Spaß macht.</example>
                 <example>Er mag das Spiel, <marker>weil</marker> es ihm Spaß macht.</example>
                 <example>Er mag das Spiel, auch <marker>weil</marker> es Spaß macht.</example>
-                <example correction="Er mag das Spiel, weil"><marker>Er mag das Spiel weil</marker> es ihm Spaß macht.</example>
                 <example>Er mag das Spiel nicht, selbst <marker>wenn</marker> es Spaß macht.</example>
                 <example>Besser <marker>denn</marker> je.</example>
                 <example>Auch <marker>wenn</marker> es so ist, bist du noch mein Freund.</example>
                 <example>Erst <marker>wenn</marker> es so ist, kann ich dir helfen.</example>
-                <example correction="Erst, wenn"><marker>Erst wenn</marker> es so ist kann ich dir helfen.</example>
+                <example correction=", wenn">Erst<marker> wenn</marker> es so ist kann ich dir helfen.</example>
                 <example>Er ist in der freien Reichsstadt <marker>Weil</marker> geboren.</example>
                 <example>Ich komme <marker>wenn</marker> möglich früher.</example>
                 <example>Falls nötig und <marker>wenn</marker> möglich wird er beendet.</example>

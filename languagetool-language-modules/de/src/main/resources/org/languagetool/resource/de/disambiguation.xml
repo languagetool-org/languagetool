@@ -4798,6 +4798,34 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rulegroup id="BZW_KONJUNKTION" name="'bzw.' als Konjunktion">
+        <!-- "beziehungsweise" is already KON:NEB -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">bzw</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="yes" />
+            </pattern>
+            <disambig action="add">
+                <wd pos="KON:NEB"/>
+                <wd pos="KON:NEB"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">bzw</token>
+                </marker>
+                <token spacebefore="yes" />
+            </pattern>
+            <disambig action="add">
+                <wd pos="KON:NEB"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
         <rule>

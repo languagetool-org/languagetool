@@ -239,6 +239,13 @@ public class CaseRule extends Rule {
       posRegex("VER:INF:.+"),
       posRegex("KON:NEB|PKT")
     ),
+    Arrays.asList(
+      // Ich hatte das vergessen oder nicht ganz verstanden.
+      csToken("das"),
+      posRegex("ADV.*"),
+      posRegex("VER:INF:.+"),
+      posRegex("KON:NEB|PKT")
+    ),
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),

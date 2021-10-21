@@ -416,6 +416,8 @@ public class CaseRuleTest {
     assertGood("\\u2063\\u2063Das Haus ist schlön.");
     assertGood("Die Mannschaft ist eine gelungene Mischung aus alten Haudegen und jungen Wilden.");
     assertGood("Alleine durch die bloße Einwohnerzahl des Landes leben im Land zahlreiche Kulturschaffende, nach einer Schätzung etwa 30.000 Künstler.");
+    assertGood("Ich hatte das offenbar vergessen oder nicht ganz verstanden.");
+    assertGood("Ich hatte das vergessen oder nicht ganz verstanden.");
   }
 
   private void assertGood(String input) throws IOException {
