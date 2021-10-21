@@ -7105,7 +7105,6 @@ No seu conjunto existem cinco capelas e uma igreja.
 	
   </rulegroup>
 
-
 	<!-- CUJO , cujo -->
     <rule id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase" default="temp_off">
     <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-20 (25-JUN-2021+)      -->
@@ -7124,6 +7123,81 @@ Cujo pai chegou. → Foi a Ana, cujo pai chegou.
       <example type='correct'>Foi a Ana<marker>, cujo</marker> pai chegou.</example>	  
     </rule>
 
+	<!-- TER/HAVER COISAS MAIS IMPORTANTES A FAZER/PENSAR ter/haver prioridades -->
+    <rulegroup id='COISAS_MAIS_IMPORTANTES_FAZER_PENSAR_PRIORIDADES' name="Ter/Haver prioridades" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-21 (25-JUN-2021+)      -->
+	<!--
+Há coisas mais importantes a fazer. → Há prioridades.
+Há coisas mais importantes para fazer. → Há prioridades.
+Há coisas mais importantes em mente. → Há prioridades.
+Há coisas mais importantes em que pensar. → Há prioridades.
+	-->
+	 <rule>
+      <pattern>
+		<token regexp='yes' inflected='yes'>ter|haver</token>
+		<marker>
+			<token>coisas</token>
+			<token>mais</token>
+			<token>importantes</token>
+			<token>a</token>
+			<token>fazer</token>
+		</marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>prioridades</suggestion>
+	  <suggestion>outras prioridades</suggestion>
+      <example correction="prioridades|outras prioridades">Há <marker>coisas mais importantes a fazer</marker>.</example>
+	 </rule>
+	 <rule>
+      <pattern>
+		<token regexp='yes' inflected='yes'>ter|haver</token>
+		<marker>
+			<token>coisas</token>
+			<token>mais</token>
+			<token>importantes</token>
+			<token>para</token>
+			<token>fazer</token>
+		</marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>prioridades</suggestion>
+	  <suggestion>outras prioridades</suggestion>
+      <example correction="prioridades|outras prioridades">Há <marker>coisas mais importantes para fazer</marker>.</example>
+	 </rule>
+	 <rule>
+      <pattern>
+		<token regexp='yes' inflected='yes'>ter|haver</token>
+		<marker>
+			<token>coisas</token>
+			<token>mais</token>
+			<token>importantes</token>
+			<token>em</token>
+			<token>mente</token>
+		</marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>prioridades</suggestion>
+	  <suggestion>outras prioridades</suggestion>
+      <example correction="prioridades|outras prioridades">Há <marker>coisas mais importantes em mente</marker>.</example>
+	 </rule>	 	 
+	 <rule>
+      <pattern>
+		<token regexp='yes' inflected='yes'>ter|haver</token>
+		<marker>
+			<token>coisas</token>
+			<token>mais</token>
+			<token>importantes</token>
+			<token>em</token>
+			<token>que</token>
+			<token>pensar</token>
+		</marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>prioridades</suggestion>
+	  <suggestion>outras prioridades</suggestion>
+      <example correction="prioridades|outras prioridades">Há <marker>coisas mais importantes em que pensar</marker>.</example>
+	 </rule> 		 
+    </rulegroup>
 
 	<!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
