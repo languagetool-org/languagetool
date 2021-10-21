@@ -254,6 +254,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="DOLLER_DOLLAR" name="Doller (Dollar)" default="temp_off">
+            <pattern>
+                <token regexp="yes">[0-9]+|hunderte?|tausende?|Million|Millionen|Milliarden?|Billion|Billionen|Billiarden?|Trillion|Trillionen</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">(US-)?Doller</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Währung <suggestion><match no="2" regexp_match="Doller" regexp_replace="Dollar"/></suggestion> (z.B. US-Dollar)?</message>
+            <example correction="Dollar">Der Staat investiert viele Milliarden <marker>Doller</marker>.</example>
+            <example correction="Dollar">Die Hose kostet inzwischen 100 <marker>Doller</marker>.</example>
+            <example correction="US-Dollar">Die Hose kostet inzwischen 100 <marker>US-Doller</marker>.</example>
+        </rule>
             <rule id="ZAHL_IM_WORT" name="Zahl im Wort">
                 <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
                     <token regexp="yes">\p{L}\d\p{L}</token>
