@@ -11565,6 +11565,25 @@ Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
 	  <example>Manda-me uma foto sua, por favor.</example>
     </rule>
 
+	<!-- VINHA ESTRAGADA vinha danificada/avariada -->
+    <rule id='VIR_ESTAR_ESTRAGADO_AVARIADO_DANIFICADO' name="Vir/estar danificado/avariado" type="style" tags="picky" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-21 (25-JUN-2021+)      -->
+	<!--
+A minha UPS nova vinha estragada. → A minha UPS nova vinha avariada.
+	-->
+      <pattern>
+		  <token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes'>vir|estar</token>
+		  <marker>
+			<token regexp="yes">estragad[ao]s?</token>
+		  </marker>
+      </pattern>
+      <message>Se for equipamento eletrónico utilize o verbo 'avariar' ou 'danificar'.</message>
+      <suggestion><match no='3' postag='V.+' postag_regexp='yes'>danificar</match></suggestion>
+	  <suggestion><match no='3' postag='V.+' postag_regexp='yes'>avariar</match></suggestion>
+	  <example correction="danificada|avariada">A minha UPS nova vinha <marker>estragada</marker>.</example>
+    </rule>
+
     <rule id='AO_PAR_COM' name="A par com">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
