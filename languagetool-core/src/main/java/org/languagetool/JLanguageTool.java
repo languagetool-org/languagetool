@@ -1053,10 +1053,13 @@ public class JLanguageTool {
             }
             remoteMatches.addAll(adjustedMatches);
           }
-        } catch (InterruptedException | CancellationException e) {
-          logger.warn("Failed to fetch result from remote rule.", e);
+        } catch (InterruptedException e) {
+          logger.warn("Failed to fetch result from remote rule - interrupted (request timed out).", e);
+          break;
+        } catch (CancellationException e) {
+          logger.warn("Failed to fetch result from remote rule - cancelled (rule marked as down).", e);
         } catch (ExecutionException e) {
-          logger.error("Failed to fetch result from remote rule.", e);
+          logger.error("Failed to fetch result from remote rule - error while executing rule.", e);
         }
       }
 
@@ -1074,6 +1077,9 @@ public class JLanguageTool {
       for (RuleMatch match : remoteMatches) {
         match.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
       }
+
+      // cancel any remaining tasks (e.g. after interrupt because request timed out)
+      remoteRuleTasks.forEach(t -> t.cancel(true));
     }
   }
 
