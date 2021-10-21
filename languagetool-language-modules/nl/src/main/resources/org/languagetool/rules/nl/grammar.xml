@@ -62,7 +62,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
 <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
 <!-- definieer macro voor gespelde afkortingen als cd -->
-<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km|mm|cm|soa|bbl">
+<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ok|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km|mm|cm|soa|bbl">
 <!ENTITY apostrof "[`'‘’]">
 <!ENTITY quote "[&quot;“]">
 
@@ -13313,7 +13313,8 @@ onwaarschijnlijk
 					<token regexp="yes">^één.{3,50}</token>
 				</pattern>
 				<message>Hier zijn de tekens absoluut onnodig voor de uitspraak.</message>
-				<example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
+				<example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
@@ -13328,7 +13329,7 @@ onwaarschijnlijk
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
 				<antipattern><token postag="ENM.*|UNKNOWN" postag_regexp="yes"/></antipattern>
-				<antipattern><token regexp="yes">^.-.+</token></antipattern>
+				<antipattern><token regexp="yes">^[^a]-.+</token></antipattern>
 				<antipattern><token regexp="yes">-.$</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token regexp="yes">(?i)^(&gespeld;)-.*</token></antipattern>
 				<antipattern><token regexp="yes">^(&gespeld;)-.*</token></antipattern>
@@ -13342,7 +13343,8 @@ onwaarschijnlijk
 					</marker>
 				</pattern>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat u het consequent doet voor een woord.</message>
-				<example type="incorrect">De <marker>muziek-industrie</marker> is overspannen.</example>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
+				<example correction="muziekindustrie">De <marker>muziek-industrie</marker> is overspannen.</example>
 				<example type="correct">De <marker>muziekindustrie</marker> is overspannen.</example>
 				<example type="correct">Het <marker>auto-onderdeel</marker> is kapot.</example>
 				<example type="correct">Het <marker>sms-bericht</marker> is kapot.</example>
@@ -41753,6 +41755,7 @@ steenwijk;Steenwijk
 		<rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" >
 			<!-- veel uitzonderingen nodig!, zoals voor 'een groot man' etc. -->
 			<rule>
+				<antipattern><token>een</token><token>ander</token><token postag="WKW:TGW:3EP"/></antipattern>
 				<antipattern><token>stuk</token><token postag="BNW:VGR:ONV"/></antipattern>
 				<antipattern><token>week</token><token>leren</token><token>kan</token></antipattern>
 				<antipattern><token postag="BNW:STL:ONV"/><token postag="BNW:STL:ONV"/></antipattern>
