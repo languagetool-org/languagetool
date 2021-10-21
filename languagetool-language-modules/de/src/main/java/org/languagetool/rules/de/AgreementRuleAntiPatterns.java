@@ -1149,8 +1149,7 @@ class AgreementRuleAntiPatterns {
       csToken("das"),
       csRegex("Spa(ß|ss)|Freude")
     ),
-    Arrays.asList( // Das sind beides Lichtschalter
-      token("das"),
+    Arrays.asList( // Das sind beides Lichtschalter; Wasser und Luft sind beides Fluide.
       csRegex("sind|waren"),
       csToken("beides"),
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
