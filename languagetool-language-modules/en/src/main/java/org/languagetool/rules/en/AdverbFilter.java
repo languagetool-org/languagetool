@@ -495,6 +495,31 @@ public class AdverbFilter extends RuleFilter {
     put("procedurally", "procedural");
     put("interchangeably", "interchangeable");
     put("conceivably", "conceivable");
+    put("jokily", "joking");
+    put("resignedly", "resigned");
+    put("vehemently", "vehement");
+    put("horribly", "horrible");
+    put("teasingly", "teasing");
+    put("figuratively", "figurative");
+    put("excitingly", "exciting");
+    put("haltingly", "halting");
+    put("phonetically", "phonetic");
+    put("proverbially", "proverbial");
+    put("informally", "informal");
+    put("cozily", "cozy");
+    put("cosily", "cosy");
+    put("constantly", "constant");
+    put("rightfully", "rightful");
+    put("reluctantly", "reluctant");
+    put("externally", "external");
+    put("intellectually", "intellectual");
+    put("dramatically", "dramatic");
+    put("freshly", "fresh");
+    put("casually", "casual");
+    put("unevenly", "uneven");
+    put("enormously", "enormous");
+    put("firstly", "first");
+    put("secondly", "second");
     put("twice", "second"); // special case
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
