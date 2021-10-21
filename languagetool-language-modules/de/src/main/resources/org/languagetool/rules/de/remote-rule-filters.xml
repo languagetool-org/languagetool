@@ -257,5 +257,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Wir kennen Menschen, <marker>die</marker> Avocados auf dem Balkon anbauen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CPT_DA_CDA" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="ART.*" postag_regexp="yes"/>
+                    <token min="0" postag="ADV.*" postag_regexp="yes"/>
+                    <token min="0" postag="ADJ.*" postag_regexp="yes"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <marker>
+                        <token spacebefore="yes">da</token>
+                    </marker>
+                    <token postag="VER.*[123].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">In der Fabrik <marker>da</marker> wohnt ein Hobbit.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
