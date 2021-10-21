@@ -8168,7 +8168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
+        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет   default="temp_off" -->
              <antipattern>   
                     <marker>
@@ -8199,6 +8199,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
             </antipattern>
+            
+            <antipattern>
+                <token>
+                    <exception>,</exception>
+                </token>   
+                <marker>
+                    <token>не</token>
+                    <token postag="ADJ:Short:.*" postag_regexp="yes">
+                        <exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token regexp="yes">[.!?:]</token>
+            </antipattern> 
                   
             
             <pattern>   
@@ -8221,6 +8234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Река не глубока, а мелка.</example>  <!-- противопоставление с отрицанием, раздельно-->
                 <example>Река неглубокая, но холодная.</example>   <!-- противопоставление без отрицания, слитно -->
                 <example>Река неглубока, но холодна.</example>   <!-- противопоставление без отрицания, слитно -->
+                <example>Мы с ней не знакомы.</example>
                 <example>Человек не виновен в вымирании мамонтов.</example>
                 <example>Эта доставка либо слишком дорога, либо вообще не доступна.</example>
                 <example>Я никогда не бывал в Нью-Йорке, и моя сестра тоже не бывала там.</example>
