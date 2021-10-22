@@ -57,6 +57,11 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("Jahren?")
     ),
     Arrays.asList(
+      tokenRegex("die|der|den"),  // "die wilden 90er"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      tokenRegex("\\d+er")
+    ),
+    Arrays.asList(
       posRegex("ART:.*"),  // "ein ausgesprochen unattraktiver Dienstort"
       token("ausgesprochen"),
       posRegex("ADJ:.*"),
