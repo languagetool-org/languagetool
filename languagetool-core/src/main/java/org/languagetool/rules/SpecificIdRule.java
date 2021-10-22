@@ -11,7 +11,7 @@ public class SpecificIdRule extends Rule {
   private final String id;
   private final String desc;
   
-  SpecificIdRule(String id, String desc, ResourceBundle messages) {
+  public SpecificIdRule(String id, String desc, ResourceBundle messages) {
     super(messages);
     this.id = Objects.requireNonNull(id);
     this.desc = desc;
