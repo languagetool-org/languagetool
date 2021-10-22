@@ -271,7 +271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{L}\d\p{L}</token>
                 </antipattern>
                 <antipattern><!-- Eigennamen -->
-                    <token regexp="yes">ed2k|co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2go|.+4(all|ever)|cat5e|unity3d</token>
+                    <token regexp="yes">d3con|b2match|ed2k|co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2go|.+4(all|ever|you)|cat5e|unity3d</token>
                 </antipattern>
                 <antipattern>
                     <token />
@@ -279,7 +279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" spacebefore="no">&sometlds;</token>
                 </antipattern>
                 <antipattern><!-- Hashtags -->
-                    <token>#</token>
+                    <token>[#_]</token>
                     <token spacebefore="no" />
                 </antipattern>
                 <pattern>
@@ -5168,19 +5168,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="seit">Da ich <marker>seid</marker> letzter Woche nicht mehr kommen kann, ist alles doof.</example>
                 <example>Tom und du seid gute Freunde, oder?</example>
             </rule>
-            <rule default="temp_off"><!-- 20 -->
+            <rule><!-- 20 -->
                 <pattern>
-                    <token regexp="yes" inflected="yes">sein|haben|werden|machen|gehen|bieten|verkaufen|laufen|existieren|entwickeln|bestehen|sprechen</token>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*" postag_regexp="yes" />
+                    </token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token case_sensitive="yes">seid</token>
                     </marker>
-                    <token regexp="yes">(vor)?gestern|heute|morgens|mittags|nachts|&wochentage;|&monate;|.+(abend|mittag|morgen|nachmittag|nacht)|(1[3-9]|20)\d{2}</token>
+                    <token regexp="yes">letzte[nmr]|vorherige[mr]|(vor)?gestern|heute|morgens|mittags|nachts|&wochentage;|&monate;|.+(abend|mittag|morgen|nachmittag|nacht)|(1[3-9]|20)\d{2}</token>
                 </pattern>
                 <message>&seitseid;</message>
                 <example correction="seit">Wir sind <marker>seid</marker> gestern im Geschäft.</example>
             </rule>
             <rule default="temp_off"><!-- 21 -->
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">seid</token>
+                    </marker>
+                    <token regexp="yes">diese[rm]?</token>
+                    <token regexp="yes">Stunde|Tag|Jahr|Monat|Woche(nende)?|&wochentage;|&monate;</token>
+                </pattern>
+                <message>&seitseid;</message>
+                <example correction="seit">Es gibt <marker>seid</marker> dieser Woche eine neue Staffel davon.</example>
+            </rule>
+            <rule default="temp_off"><!-- 22 -->
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">seid</token>
+                    </marker>
+                    <token regexp="yes">\d{1,2}</token>
+                    <token spacebefore="no">:</token>
+                    <token spacebefore="no" regexp="yes">\d{1,2}</token>
+                </pattern>
+                <message>&seitseid;</message>
+                <example correction="seit">Es gibt schon <marker>seid</marker> 12:00 keine Brötchen mehr.</example>
+            </rule>
+            <rule default="temp_off"><!-- 23 -->
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">seid</token>
+                    </marker>
+                    <token regexp="yes">\d{1,2}</token>
+                    <token>Uhr</token>
+                </pattern>
+                <message>&seitseid;</message>
+                <example correction="seit">Es gibt schon <marker>seid</marker> 12 Uhr keine Brötchen mehr.</example>
+            </rule>
+            <rule><!-- 24 -->
                 <pattern>
                     <token regexp="yes">erst|bereits</token>
                     <marker>
@@ -18913,6 +18961,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz">
         <rule id="VER_DOPPELUNG" name="Doppelung von Verben">
+            <antipattern>
+                <token regexp="yes">.+te</token>
+                <token postag="SUB.*|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="VER:1:SIN:.+" postag_regexp="yes">
@@ -18922,20 +18974,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:1:SIN:.+" postag_regexp="yes">
                         <exception postag="VER:(AUX|MOD|IMP):.+|ADJ:.+|ART:.+|SUB:.+" postag_regexp="yes"/>
                         <exception postag="PRP:.+" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">einen|bitten</exception>
+                        <exception inflected="yes" regexp="yes">m?einen|bitten</exception>
                     </token>
                 </marker>
                 <token>
                     <exception postag="PKT"/>
                 </token>
             </pattern>
-            <message>Hier steht möglicherweise ein Verb zu viel.</message>
+            <message>Hier fehlt möglicherweise ein Komma oder hier ist ein Verb zuviel.</message>
+            <suggestion>\1, \2</suggestion>
             <suggestion>\1</suggestion>
             <suggestion>\2</suggestion>
-            <example correction="legte|umarmte">Serena <marker>legte umarmte</marker> Sandra und Lisa.</example>
+            <example correction="legte, umarmte|legte|umarmte">Serena <marker>legte umarmte</marker> Sandra und Lisa.</example>
+            <example correction="bemerkte, erkannte|bemerkte|erkannte">Als ich die Richtung <marker>bemerkte erkannte</marker> ich die Chance.</example>
             <example>Bitte benachrichtige mich per E-Mail.</example>
             <example>In der ersten Gruppe zeigte sich eine reduzierte Prävalenz von Depressionen</example>
             <example>Er verschränkte seine Arme und nahm anstelle seiner Hände die Füße zum Lenken.</example>
+            <example>Er forderte bezahlte Elternzeit.</example>
         </rule>
         <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt">
             <pattern>
@@ -41409,7 +41464,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="IM_AUFTRAG_VON" name="im Auftrag von" default="temp_off">
+        <rule id="IM_AUFTRAG_VON" name="im Auftrag von">
             <pattern>
                 <marker>
                     <token>im</token>
