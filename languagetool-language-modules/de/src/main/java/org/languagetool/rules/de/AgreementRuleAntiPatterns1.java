@@ -40,7 +40,7 @@ class AgreementRuleAntiPatterns1 {
       token("denen"),
       tokenRegex("viele|alle|einige|manche"),
       posRegex("SUB:.*SIN:.*"),
-      token("sind")
+      token("sind|seien|waren")
     ),
     Arrays.asList(
       token("von"),  // "von denen die meisten Open-Source-Software sind"
@@ -48,7 +48,7 @@ class AgreementRuleAntiPatterns1 {
       token("die"),
       token("meisten"),
       posRegex("SUB:.*SIN:.*"),
-      token("sind")
+      token("sind|seien|waren")
     ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
