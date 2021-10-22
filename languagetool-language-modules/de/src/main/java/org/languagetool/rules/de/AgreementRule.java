@@ -30,6 +30,7 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -38,6 +39,8 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.languagetool.rules.de.GermanHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
@@ -183,12 +186,17 @@ public class AgreementRule extends Rule {
     "RP" // "Die RP (Rheinische Post)"
   ));
 
+  private final static List<List<PatternToken>> allAntiPatterns =
+    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS)
+      .flatMap(Collection::stream)
+      .collect(Collectors.toList());
+
   public AgreementRule(ResourceBundle messages, German language) {
     this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
-    antiPatterns = cacheAntiPatterns(language, AgreementRuleAntiPatterns.ANTI_PATTERNS);
+    antiPatterns = cacheAntiPatterns(language, allAntiPatterns);
   }
 
   @Override
@@ -198,7 +206,7 @@ public class AgreementRule extends Rule {
 
   @Override
   public int estimateContextForSureMatch() {
-    return AgreementRuleAntiPatterns.ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);
+    return allAntiPatterns.stream().mapToInt(List::size).max().orElse(0);
   }
 
   @Override
