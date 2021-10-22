@@ -52,8 +52,7 @@ commands:
   get-diffs:
     description: Get diffs via git diff
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt
-      - run: tail --lines=100 /home/circleci/push_diffs.txt 
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt 
 #      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/git_diffs.txt
 #      - run: cd $CIRCLE_WORKING_DIRECTORY && git show --name-only --pretty="" >> /home/circleci/git_diffs.txt
       - run: tail --lines=100 /home/circleci/git_diffs.txt
