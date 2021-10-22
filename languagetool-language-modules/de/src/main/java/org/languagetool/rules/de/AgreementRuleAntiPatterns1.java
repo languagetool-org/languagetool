@@ -36,6 +36,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      tokenRegex("eine[mr]"),  // "Dieses Bild stammt von einem lange Zeit unbekannten Maler."
+      pos("ADV:TMP"),
+      pos("ADV:TMP"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
       tokenRegex("zu"),  // "Sie gehörte einst zu den besten Afrikas."
       tokenRegex("den"),
       posRegex("ADJ:.*"),
