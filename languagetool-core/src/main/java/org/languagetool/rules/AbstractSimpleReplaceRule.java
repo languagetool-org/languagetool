@@ -277,26 +277,5 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public void useSubRuleSpecificIds() {
     subRuleSpecificIds = true;
   }
-  
-  static class SpecificIdRule extends AbstractSimpleReplaceRule {
-    private final String id;
-    private final String desc;
-    SpecificIdRule(String id, String desc, ResourceBundle messages) {
-      super(messages);
-      this.id = Objects.requireNonNull(id);
-      this.desc = desc;
-    }
-    @Override
-    protected Map<String, List<String>> getWrongWords() {
-      throw new RuntimeException("not implemented");
-    }
-    @Override
-    public String getId() {
-      return id;
-    }
-    @Override
-    public String getDescription() {
-      return desc;
-    }
-  }
+    
 }

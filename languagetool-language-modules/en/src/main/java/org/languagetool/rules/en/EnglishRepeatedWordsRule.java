@@ -34,7 +34,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   private static final EnglishSynthesizer synth = new EnglishSynthesizer(new AmericanEnglish());
 
   public EnglishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages);
+    super(messages, new AmericanEnglish());
     super.setDefaultTempOff();
   }
   
@@ -43,11 +43,6 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   @Override
   protected String getMessage() {
     return "You have used this word before. Using a synonym could make your text more interesting to read, unless the repetition is intentional.";
-  }
-
-  @Override
-  public String getId() {
-    return "EN_REPEATED_WORDS";
   }
 
   @Override

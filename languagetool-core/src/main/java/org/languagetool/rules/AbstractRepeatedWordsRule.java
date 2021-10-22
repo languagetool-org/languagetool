@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -32,6 +33,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -40,7 +42,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   protected abstract Map<String, SynonymsData> getWordsToCheck();
 
   protected abstract Synthesizer getSynthesizer();
-  
+
   @Override
   public int minToCheckParagraph() {
     return 1;
@@ -55,15 +57,22 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   protected abstract String getShortMessage();
 
   @Override
-  public abstract String getId();
+  public String getId() {
+    return ruleId;
+  }
+
+  private String ruleId;
+  private Language lang;
 
   @Override
   public abstract String getDescription();
 
-  public AbstractRepeatedWordsRule(ResourceBundle messages) {
+  public AbstractRepeatedWordsRule(ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
+    ruleId = language.getShortCode().toUpperCase() + "_" + "REPEATEDWORDS";
+    lang = language;
   }
 
   protected String adjustPostag(String postag) {
@@ -109,18 +118,20 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
           if (seenInWordPosition != null && !lemmasInSentece.contains(lemma)
               && (wordNumber - seenInWordPosition) <= maxWordsDistance()) {
             boolean createMatch = true;
-            String postag =  getWordsToCheck().get(lemma).getPostag();
-            if (postag !=null && !atr.getPOSTag().matches(postag)) {
+            String postag = getWordsToCheck().get(lemma).getPostag();
+            if (postag != null && !atr.getPOSTag().matches(postag)) {
               createMatch = false;
             }
-            String chunk =  getWordsToCheck().get(lemma).getChunk();
-            if (chunk !=null && !atrs.matchesChunkRegex(chunk)) {
+            String chunk = getWordsToCheck().get(lemma).getChunk();
+            if (chunk != null && !atrs.matchesChunkRegex(chunk)) {
               createMatch = false;
             }
             // create match
             if (createMatch) {
-              RuleMatch rulematch = new RuleMatch(this, sentence, pos + atrs.getStartPos(), pos + atrs.getEndPos(),
-                  getMessage(), getShortMessage());
+              String specificRuleId = ruleId + "_" + StringTools.toId(lemma);
+              SpecificIdRule specificRule = new SpecificIdRule(specificRuleId, getDescription(), messages);
+              RuleMatch rulematch = new RuleMatch(specificRule, sentence, pos + atrs.getStartPos(),
+                  pos + atrs.getEndPos(), getMessage(), getShortMessage());
               List<String> replacementLemmas = getWordsToCheck().get(lemma).getSynonyms();
               for (String replacementLemma : replacementLemmas) {
                 String[] replacements = getSynthesizer().synthesize(
@@ -144,7 +155,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
           if (getWordsToCheck().containsKey(lemma)) {
             wordsLastSeen.put(lemma, wordNumber);
             lemmasInSentece.add(lemma);
-          }  
+          }
         }
       }
       pos += sentence.getText().length();
@@ -153,7 +164,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   private static final String FILE_ENCODING = "utf-8";
-    
+
   protected static Map<String, SynonymsData> loadWords(String path) {
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     final Map<String, SynonymsData> map = new HashMap<>();
@@ -166,17 +177,17 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
         final String[] mainParts = line.split("=");
         String[] parts = null;
         String postag = null;
-        String chunk = null;    
+        String chunk = null;
         String word;
         if (mainParts.length == 2) {
           parts = mainParts[1].split(";");
           word = mainParts[0];
           String[] wordPosChunk = word.split("/");
           word = wordPosChunk[0];
-          if (wordPosChunk.length>1) {
+          if (wordPosChunk.length > 1) {
             postag = wordPosChunk[1];
           }
-          if (wordPosChunk.length>2) {
+          if (wordPosChunk.length > 2) {
             chunk = wordPosChunk[2];
           }
         } else if (mainParts.length == 1) {
@@ -215,5 +226,6 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     }
     return map;
   }
+ 
 
 }

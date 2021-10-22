@@ -33,7 +33,7 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
   private static final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
 
   public CatalanRepeatedWordsRule(ResourceBundle messages) {
-    super(messages);
+    super(messages, new Catalan());
     // super.setDefaultTempOff();
   }
 
@@ -42,11 +42,6 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
   @Override
   protected String getMessage() {
     return "Ja heu usat aquesta paraula abans. Podeu substituir-la per un sinònim per a fer més variat el text, llevat que la repetició sigui intencionada.";
-  }
-
-  @Override
-  public String getId() {
-    return "CA_REPEATED_WORDS";
   }
 
   @Override

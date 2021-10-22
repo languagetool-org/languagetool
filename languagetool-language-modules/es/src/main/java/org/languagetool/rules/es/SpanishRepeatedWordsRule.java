@@ -34,7 +34,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   
   public SpanishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages);
+    super(messages, new Spanish());
     super.setDefaultTempOff();
   }
   
@@ -43,11 +43,6 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   @Override
   protected String getMessage() {
     return "Esta palabra ya ha aparecido antes. Puede usar un sinónimo para hacer más interesante el texto, excepto si la repetición es intencionada.";
-  }
-
-  @Override
-  public String getId() {
-    return "ES_REPEATED_WORDS";
   }
 
   @Override
