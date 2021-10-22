@@ -63,6 +63,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   public AbstractRepeatedWordsRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setLocQualityIssueType(ITSIssueType.Style);
   }
 
   protected String adjustPostag(String postag) {
