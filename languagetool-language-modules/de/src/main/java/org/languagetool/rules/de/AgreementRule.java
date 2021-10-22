@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static org.languagetool.rules.de.GermanHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
 
 /**
@@ -81,6 +82,11 @@ public class AgreementRule extends Rule {
   enum ReplacementType {
     Ins, Zur
   }
+
+  private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
+    "statt 'mein kleines Haus'";
+  private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
       "besonders",
@@ -258,7 +264,7 @@ public class AgreementRule extends Rule {
         ignore = true;
       }
 
-      if ((GermanHelper.hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
+      if ((hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPosAfterModifier = getPosAfterModifier(i+1, tokens);
         int tokenPos = tokenPosAfterModifier;
         if (tokenPos >= tokens.length) {
@@ -274,10 +280,10 @@ public class AgreementRule extends Rule {
           if (tokenPos >= tokens.length) {
             break;
           }
-          if (GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {
+          if (hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
-            if (i >= 2 && GermanHelper.hasReadingOfType(tokens[i-2], POSType.ADJEKTIV)
+            if (i >= 2 && hasReadingOfType(tokens[i-2], POSType.ADJEKTIV)
                        && "als".equals(tokens[i-1].getToken())
                        && "das".equals(tokens[i].getToken())) {
               // avoid false alarm for e.g. "weniger farbenprächtig als das anderer Papageien"
@@ -289,8 +295,14 @@ public class AgreementRule extends Rule {
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
+          } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
+            RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
+              nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap);
+            if (ruleMatch != null) {
+              ruleMatches.add(ruleMatch);
+            }
           }
-        } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
+        } else if (hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
           RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
@@ -345,7 +357,7 @@ public class AgreementRule extends Rule {
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
     AnalyzedTokenReadings analyzedToken = tokens[pos];
-    boolean relevantPronoun = GermanHelper.hasReadingOfType(analyzedToken, POSType.PRONOMEN);
+    boolean relevantPronoun = hasReadingOfType(analyzedToken, POSType.PRONOMEN);
     // avoid false alarms:
     String token = tokens[pos].getToken();
     if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase()) ||
@@ -568,13 +580,33 @@ public class AgreementRule extends Rule {
       if (token3.hasPartialPosTag("ABK")) {
         return null;
       }
-      String msg = "Möglicherweise fehlende grammatische Übereinstimmung " +
-            "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
-            "statt 'mein kleines Haus'";
-      String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
-      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), MSG, SHORT_MSG);
       if (returnSuggestions && replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
+        suggestor.setPreposition(maybePreposition);
+        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
+      }
+    }
+    return ruleMatch;
+  }
+
+  // TODO: partially duplicates checkDetAdjNounAgreement
+  private RuleMatch checkDetAdjAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4,
+                                             AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
+    Set<String> set = retainCommonCategories(token1, token2, token3, token4);
+    RuleMatch ruleMatch = null;
+    if (set.isEmpty()) {
+      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence);
+      if (compoundMatch != null) {
+        return compoundMatch;
+      }
+      if (token4.hasPartialPosTag("ABK")) {
+        return null;
+      }
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG, SHORT_MSG);
+      if (returnSuggestions && replMap != null) {
+        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
       }
@@ -606,6 +638,21 @@ public class AgreementRule extends Rule {
     Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, true);
     set1.retainAll(set2);
     set1.retainAll(set3);
+    return set1;
+  }
+
+  @NotNull
+  private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4) {
+    Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
+    boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);
+    Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, skipSol);
+    Set<String> set4 = AgreementTools.getAgreementCategories(token4, categoryToRelaxSet, true);
+    set1.retainAll(set2);
+    set1.retainAll(set3);
+    set1.retainAll(set4);
     return set1;
   }
 

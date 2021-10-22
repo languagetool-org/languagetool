@@ -36,6 +36,24 @@ class AgreementRuleAntiPatterns {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      tokenRegex("die|der|den"),  // "die späten 50er Jahre"
+      tokenRegex("frühen|späten"),  // "die späten 50er Jahre"
+      tokenRegex("\\d+er"),  // "die späten 50er Jahre"
+      tokenRegex("Jahren?")
+    ),
+    Arrays.asList(
+      posRegex("ART:.*"),  // "ein ausgesprochen unattraktiver Dienstort"
+      token("ausgesprochen"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("ein|eine|einen"),  // "bietet einen weniger genauen Zugriff"
+      token("weniger"),
+      posRegex("ADJ:AKK:SIN:.*:GRU:.*"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().csToken("sein").matchInflectedForms().build(),
       token("das"),
       tokenRegex("Grund|Anlass|Auslöser|Ursache")

@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -56,9 +57,11 @@ class AgreementSuggestor2 {
 
   private final Synthesizer synthesizer;
   private final AnalyzedTokenReadings determinerToken;
-  private final AnalyzedTokenReadings adjToken;
+  private final AnalyzedTokenReadings adjToken1;
+  private final AnalyzedTokenReadings adjToken2;
   private final AnalyzedTokenReadings nounToken;
   private final AgreementRule.ReplacementType replacementType;
+  private final String origPhrase;
 
   private AnalyzedTokenReadings prepositionToken;
 
@@ -68,13 +71,22 @@ class AgreementSuggestor2 {
   }
 
   /** @since 5.4 */
-  AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings adjToken, AnalyzedTokenReadings nounToken,
+  AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings adjToken1, AnalyzedTokenReadings nounToken,
                       AgreementRule.ReplacementType replacementType) {
+    this(synthesizer, determinerToken, adjToken1, null, nounToken, replacementType);
+  }
+
+  /** @since 5.6 */
+  AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken,
+                      AnalyzedTokenReadings adjToken1, AnalyzedTokenReadings adjToken2,
+                      AnalyzedTokenReadings nounToken, AgreementRule.ReplacementType replacementType) {
     this.synthesizer = synthesizer;
     this.determinerToken = determinerToken;
-    this.adjToken = adjToken;
+    this.adjToken1 = adjToken1;
+    this.adjToken2 = adjToken2;
     this.nounToken = nounToken;
     this.replacementType = replacementType;
+    this.origPhrase = getOrigPhrase();
   }
 
   void setPreposition(AnalyzedTokenReadings prep) {
@@ -101,13 +113,13 @@ class AgreementSuggestor2 {
       addContraction(suggestions);
       if (filter) {
         List<Suggestion> filteredSuggestions = new ArrayList<>();
-        int prevCorrections = suggestions.size() > 0 ? suggestions.get(0).corrections : 0;
+        int prevCorrections = suggestions.size() > 0 ? suggestions.get(0).tokenLevelEdits : 0;
         boolean hadRealSuggestions = false;
         for (Suggestion suggestion : suggestions) {
-          if (hadRealSuggestions && suggestion.corrections > prevCorrections) {
+          if (hadRealSuggestions && suggestion.tokenLevelEdits > prevCorrections) {
             break;
           }
-          hadRealSuggestions = suggestion.corrections > 0;
+          hadRealSuggestions = suggestion.tokenLevelEdits > 0;
           filteredSuggestions.add(suggestion);
         }
         return filteredSuggestions.stream().map(k -> k.phrase).collect(Collectors.toList());
@@ -160,9 +172,10 @@ class AgreementSuggestor2 {
           }
           for (AnalyzedToken detReading : determinerToken.getReadings()) {
             String[] detSynthesized = getDetOrPronounSynth(num, gen, aCase, detReading);
-            String[] adjSynthesized = getAdjSynth(num, gen, aCase, detReading);
+            String[] adj1Synthesized = getAdjSynth(num, gen, aCase, adjToken1, detReading);
+            String[] adj2Synthesized = getAdjSynth(num, gen, aCase, adjToken2, detReading);
             String[] nounSynthesized = getNounSynth(num, gen, aCase);
-            combineSynth(result, detSynthesized, adjSynthesized, nounSynthesized);
+            combineSynth(result, detSynthesized, adj1Synthesized, adj2Synthesized, nounSynthesized);
           }
         }
       }
@@ -228,11 +241,14 @@ class AgreementSuggestor2 {
     return synthesized.toArray(new String[0]);
   }
 
-  private String[] getAdjSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
+  private String[] getAdjSynth(String num, String gen, String aCase, AnalyzedTokenReadings adjToken, AnalyzedToken detReading) throws IOException {
     List<String> adjSynthesized = new ArrayList<>();
     if (adjToken != null) {
       for (AnalyzedToken adjReading : adjToken.getReadings()) {
         if (adjReading.getPOSTag() == null || detReading.getPOSTag() == null) {
+          continue;
+        }
+        if (adjReading.getToken().equals("meisten") && num.equals("SIN")) {
           continue;
         }
         boolean detIsDef = detReading.getPOSTag().contains(":DEF:") || detReading.getToken().equals("ins");
@@ -281,26 +297,48 @@ class AgreementSuggestor2 {
     return result.stream().filter(k -> !oldSpelling.contains(k)).toArray(String[]::new);
   }
 
-  private void combineSynth(List<Suggestion> result, String[] detSynthesized, String[] adjSynthesized, String[] nounSynthesized) {
+  private void combineSynth(List<Suggestion> result, String[] detSynthesized, String[] adj1Synthesized, String[] adj2Synthesized, String[] nounSynthesized) {
     for (String detSynthesizedElem : detSynthesized) {
-      for (String adjSynthesizedElem : adjSynthesized) {
-        for (String nounSynthesizedElem : nounSynthesized) {
-          String elem = adjSynthesizedElem.isEmpty() ?
-              detSynthesizedElem + " " + nounSynthesizedElem :
-              detSynthesizedElem + " " + adjSynthesizedElem + " " + nounSynthesizedElem;
-          int corrections = (detSynthesizedElem.equals(determinerToken.getToken()) ? 0 : 1) +
-                            (adjToken == null || adjSynthesizedElem.equals(adjToken.getToken()) ? 0 : 1) +
-                            (nounSynthesizedElem.equals(nounToken.getToken()) ? 0 : 1);
-          if (corrections == 0) {
-            continue;
-          }
-          Suggestion suggestion = new Suggestion(elem, corrections);
-          if (!result.contains(suggestion)) {
-            result.add(suggestion);
+      for (String adj1SynthesizedElem : adj1Synthesized) {
+        for (String adj2SynthesizedElem : adj2Synthesized) {
+          for (String nounSynthesizedElem : nounSynthesized) {
+            String elem = detSynthesizedElem;
+            if (!adj1SynthesizedElem.isEmpty()) {
+              elem += " " + adj1SynthesizedElem;
+            }
+            if (!adj2SynthesizedElem.isEmpty()) {
+              elem += " " + adj2SynthesizedElem;
+            }
+            elem += " " + nounSynthesizedElem;
+            int edits = (detSynthesizedElem.equals(determinerToken.getToken()) ? 0 : 1) +
+              (adjToken1 == null || adj1SynthesizedElem.equals(adjToken1.getToken()) ? 0 : 1) +
+              (adjToken2 == null || adj2SynthesizedElem.equals(adjToken2.getToken()) ? 0 : 1) +
+              (nounSynthesizedElem.equals(nounToken.getToken()) ? 0 : 1);
+            if (edits == 0) {
+              continue;
+            }
+            Integer charLevelEdits = LevenshteinDistance.getDefaultInstance().apply(elem, origPhrase);
+            Suggestion suggestion = new Suggestion(elem, edits, charLevelEdits);
+            if (!result.contains(suggestion)) {
+              result.add(suggestion);
+            }
           }
         }
       }
     }
+  }
+
+  @NotNull
+  private String getOrigPhrase() {
+    String origElem = determinerToken.getToken();
+    if (adjToken1 != null) {
+      origElem += " " + adjToken1.getToken();
+    }
+    if (adjToken2 != null) {
+      origElem += " " + adjToken2.getToken();
+    }
+    origElem += " " + nounToken.getToken();
+    return origElem;
   }
 
   private String replaceVars(String template, String num, String gen, String aCase) {
@@ -309,29 +347,35 @@ class AgreementSuggestor2 {
 
   private static class Suggestion implements Comparable<Suggestion> {
     String phrase;
-    int corrections;
-    Suggestion(String phrase, int corrections) {
+    int tokenLevelEdits;
+    int charLevelCorrections;
+    Suggestion(String phrase, int tokenLevelEdits, int charLevelEdits) {
       this.phrase = Objects.requireNonNull(phrase);
-      this.corrections = corrections;
+      this.tokenLevelEdits = tokenLevelEdits;
+      this.charLevelCorrections = charLevelEdits;
     }
     @Override
     public int compareTo(@NotNull Suggestion o) {
-      return corrections - o.corrections;
+      if (tokenLevelEdits == o.tokenLevelEdits) {
+        return charLevelCorrections - o.charLevelCorrections;
+      } else {
+        return tokenLevelEdits - o.tokenLevelEdits;
+      }
     }
     @Override
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       Suggestion that = (Suggestion) o;
-      return corrections == that.corrections && phrase.equals(that.phrase);
+      return tokenLevelEdits == that.tokenLevelEdits && phrase.equals(that.phrase);
     }
     @Override
     public int hashCode() {
-      return Objects.hash(phrase, corrections);
+      return Objects.hash(phrase, tokenLevelEdits);
     }
     @Override
     public String toString() {
-      return phrase + "/c=" + corrections;
+      return phrase + "/c=" + tokenLevelEdits;
     }
   }
 
