@@ -36,6 +36,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      tokenRegex("zu"),  // "Sie gehörte einst zu den besten Afrikas."
+      tokenRegex("den"),
+      posRegex("ADJ:.*"),
+      posRegex("EIG:GEN:.*")
+    ),
+    Arrays.asList(
       token("von"),  // "von denen viele Open-Source-Software sind"
       token("denen"),
       tokenRegex("viele|alle|einige|manche"),

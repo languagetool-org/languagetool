@@ -62,6 +62,7 @@ public class AgreementRuleTest {
     assertBad("Was für eine schöner Sonnenuntergang!", "ein schöner Sonnenuntergang");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
     assertGood("War das Eifersucht?");
+    assertGood("Sie gehörte einst zu den besten Afrikas.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
