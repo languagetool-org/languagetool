@@ -64,6 +64,7 @@ public class AgreementRuleTest {
     assertGood("War das Eifersucht?");
     assertGood("Sie gehörte einst zu den besten Afrikas.");
     assertGood("Dieses Bild stammt von einem lange Zeit unbekannten Maler.");
+    assertGood("Das Staatsoberhaupt ist der Verfassung zufolge der König.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");

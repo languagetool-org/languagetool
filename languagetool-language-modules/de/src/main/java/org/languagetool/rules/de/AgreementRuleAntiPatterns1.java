@@ -36,6 +36,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      tokenRegex("der|dem"),  // "Das Staatsoberhaupt ist der Verfassung zufolge der König."
+      posRegex("SUB:.*SIN.*"),
+      token("zufolge"),
+      tokenRegex("der|die|das"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
       tokenRegex("eine[mr]"),  // "Dieses Bild stammt von einem lange Zeit unbekannten Maler."
       pos("ADV:TMP"),
       pos("ADV:TMP"),
