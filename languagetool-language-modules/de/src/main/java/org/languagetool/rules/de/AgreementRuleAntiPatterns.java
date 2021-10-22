@@ -36,6 +36,21 @@ class AgreementRuleAntiPatterns {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      token("von"),  // "von denen viele Open-Source-Software sind"
+      token("denen"),
+      tokenRegex("viele|alle|einige|manche"),
+      posRegex("SUB:.*SIN:.*"),
+      token("sind")
+    ),
+    Arrays.asList(
+      token("von"),  // "von denen die meisten Open-Source-Software sind"
+      token("denen"),
+      token("die"),
+      token("meisten"),
+      posRegex("SUB:.*SIN:.*"),
+      token("sind")
+    ),
+    Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
       tokenRegex("frühen|späten"),  // "die späten 50er Jahre"
       tokenRegex("\\d+er"),  // "die späten 50er Jahre"
