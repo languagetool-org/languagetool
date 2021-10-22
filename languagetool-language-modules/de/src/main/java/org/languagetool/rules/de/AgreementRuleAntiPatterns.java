@@ -206,8 +206,9 @@ class AgreementRuleAntiPatterns {
       regex("(Bundes)?Verdienstkreuz(es)?")
     ),
     Arrays.asList( // "Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion."
-      tokenRegex("[,-–]"),
+      tokenRegex("[,–-]"),
       token("beides"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       posRegex("SUB:.*")
     ),
     Arrays.asList( // "In den Zwei Abhandlungen" (lowercase "zwei" is correct, but does not need to be found here)

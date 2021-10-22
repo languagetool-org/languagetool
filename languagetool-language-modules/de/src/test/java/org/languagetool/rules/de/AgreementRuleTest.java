@@ -326,6 +326,8 @@ public class AgreementRuleTest {
     assertGood("Er wollte doch nur jemandem Gutes tun.");
     assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
     assertGood("Texas und New Mexico, beides spanische Kolonien, sind...");
+    assertGood("Texas und New Mexico - beides spanische Kolonien - sind...");
+    assertGood("Texas und New Mexico – beides spanische Kolonien – sind...");
     assertGood("Weitere Brunnen sind insbesondere der Wittelsbacher und der Vater-Rhein-Brunnen auf der Museumsinsel, beides Werke von Adolf von Hildebrand.");
     assertGood("Für manche ist das Anlass genug, darüber nicht weiter zu diskutieren.");
     assertGood("Vielleicht schreckt das Frauen ab.");
