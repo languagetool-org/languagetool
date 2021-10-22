@@ -191,7 +191,7 @@ class AgreementRuleAntiPatterns {
       regex("(Bundes)?Verdienstkreuz(es)?")
     ),
     Arrays.asList( // "Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion."
-      token(","),
+      tokenRegex("[,-–]"),
       token("beides"),
       posRegex("SUB:.*")
     ),
