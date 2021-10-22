@@ -137,7 +137,7 @@ class AgreementSuggestor2 {
         if (k.phrase.startsWith("der")) {
           k.phrase = k.phrase.replaceFirst("der", "zur");
         } else if (k.phrase.startsWith("den")) {
-          k.phrase = k.phrase.replaceFirst("den", "zu den");
+          k.phrase = k.phrase.replaceFirst("den", "zu");  // usually sounds more natural than "zu den"
         } else if (k.phrase.startsWith("dem")) {
           k.phrase = k.phrase.replaceFirst("dem", "zum");
         }

@@ -539,13 +539,13 @@ public class AgreementRuleTest {
   @Test
   public void testZurReplacement() throws IOException {
     assertBad("Hier geht's zur Schrank.", "zum Schrank");
-    assertBad("Hier geht's zur Schränken.", "zum Schränken", "zu den Schränken");
-    assertBad("Hier geht's zur Männern.", "zu den Männern");
+    assertBad("Hier geht's zur Schränken.", "zum Schränken", "zu Schränken");
+    assertBad("Hier geht's zur Männern.", "zu Männern");
     assertBad("Hier geht's zur Portal.", "zum Portal");
-    assertBad("Hier geht's zur Portalen.", "zu den Portalen");
-    assertBad("Sie gehen zur Frauen.", "zu den Frauen", "zur Frau");  // TODO: "zu" should be considered when sorting
-    assertBad("Niereninsuffizienz führt zur Störungen des Wasserhaushalts.", "zu den Störungen", "zur Störung");
-    assertBad("Das Motiv wird in der Klassik auch zur Darstellungen übernommen.", "zu den Darstellungen", "zur Darstellung");
+    assertBad("Hier geht's zur Portalen.", "zu Portalen");
+    assertBad("Sie gehen zur Frauen.", "zu Frauen", "zur Frau");
+    assertBad("Niereninsuffizienz führt zur Störungen des Wasserhaushalts.", "zu Störungen", "zur Störung");
+    assertBad("Das Motiv wird in der Klassik auch zur Darstellungen übernommen.", "zu Darstellungen", "zur Darstellung");
     assertGood("Hier geht's zur Sonne.");
     assertGood("Hier geht's zum Schrank.");
     assertGood("Niereninsuffizienz führt zu Störungen des Wasserhaushalts.");
