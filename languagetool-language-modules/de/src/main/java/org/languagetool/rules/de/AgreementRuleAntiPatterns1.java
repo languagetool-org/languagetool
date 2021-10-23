@@ -83,7 +83,7 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
-      tokenRegex("der|die"), // "zog sich der Düsseldorfer schwere Verletzungen zu. "
+      tokenRegex("der|die|manche[mr]"), // "zog sich der Düsseldorfer schwere Verletzungen zu. "
       csRegex("[A-ZÖÄÜ].*"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
@@ -94,9 +94,26 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:GEN:.*")
     ),
     Arrays.asList(
+      tokenRegex("der|ein|eine[rnms]?|des|die"),  // "Ein lose zusammengewürfelter Haufen"
+      token("lose"),
+      tokenRegex("zusammengewürfelte[rnms]?")
+    ),
+    Arrays.asList(
+      token("den"),  // Als Ersatz für den kleiner gewordenen Spielplatz.
+      posRegex("ADJ:PRD:KOM"),
+      posRegex("ADJ:AKK:SIN.*"),
+      posRegex("SUB:AKK:SIN.*")
+    ),
+    Arrays.asList(
+      token("die"),  // Als Ersatz für die kleiner gewordenen Spielplätze.
+      posRegex("ADJ:PRD:KOM"),
+      posRegex("ADJ:AKK:PLU.*"),
+      posRegex("SUB:AKK:PLU.*")
+    ),
+    Arrays.asList(
       // "Andere weniger bekannte Vorschläge", "Ich habe mir das gerade letzte Woche zugelegt."
       posRegex("ART:.*|PRO:(POS|DEM|PER|IND).*"),
-      tokenRegex("ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
+      tokenRegex("zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
