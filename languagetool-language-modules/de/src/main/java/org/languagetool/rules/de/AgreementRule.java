@@ -304,11 +304,11 @@ public class AgreementRule extends Rule {
               ruleMatches.add(ruleMatch);
             }
           } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
-            RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
+            /*RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
               nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
-            }
+            }*/
           }
         } else if (hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
           RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap);
