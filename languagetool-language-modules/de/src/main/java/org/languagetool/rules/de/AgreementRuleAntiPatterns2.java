@@ -98,6 +98,11 @@ class AgreementRuleAntiPatterns2 {
       posRegex("SUB:NOM:PLU.+"),
       pos("PKT")
     ),
+    Arrays.asList(    // Beides Teenager mit verrückten Ideen
+      pos("SENT_START"),
+      csToken("Beides"),
+      posRegex("SUB:NOM:PLU.+")
+    ),
     Arrays.asList(
       tokenRegex("[dD]e[rn]"),
       csToken("Gold"),

@@ -490,11 +490,27 @@ class AgreementRuleAntiPatterns1 {
       token("einen"),
       pos("SUB:NOM:SIN:NEU")
     ),
+    Arrays.asList(  // -> "Kaffee" - handled by spell checker
+      tokenRegex("eine[sn]"),
+      tokenRegex("Kaffes?")
+    ),
     Arrays.asList(  // "Dies erlaubt Forschern, ..." aber auch "Dieses versuchten Mathematiker ..."
       pos("SENT_START"),
       posRegex("PRO:DEM:.+"),
       posRegex("VER:3:.+"),
       posRegex("SUB:(DAT|NOM):PLU.*")
+    ),
+    Arrays.asList(  // "Das verkündete Premierminister Miller"
+      pos("SENT_START"),
+      token("das"),
+      token("verkündete"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Das verkündete Premierminister Miller"
+      token("wegen"),
+      token("der"),
+      token("vielen"),
+      token("Arbeit")
     ),
     Arrays.asList(  // "in denen Energie steckt"
       new PatternTokenBuilder().posRegex("SENT_START|VER:AUX:[123].+").negate().build(),
@@ -665,7 +681,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList( // Soll das Spaß machen?
       posRegex("SENT_START|PKT|KON:NEB"),
-      regex("soll|sollte|wird|würde|kann|lönnte"),
+      regex("soll|sollte|wird|würde|kann|könnte"),
       csToken("das"),
       new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
       csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
