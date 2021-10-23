@@ -518,6 +518,13 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().posRegex("PRO:DEM:(DAT|AKK).+").tokenRegex("der|dies").matchInflectedForms().build(),
       posRegex("SUB:...:PLU.*")
     ),
+    Arrays.asList(  // "ein für mich sehr peinlicher Termin"
+      token("für"),
+      token("mich"),
+      pos("ADV:MOD"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "für den Mailänder Bischofssitz"
       posRegex("PRP:.+"),
       new PatternTokenBuilder().posRegex("PRO:DEM:(DAT|AKK).+").tokenRegex("der|dies").matchInflectedForms().build(),
