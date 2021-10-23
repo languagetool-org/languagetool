@@ -795,7 +795,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·"),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·|⬢"),
       regex(".*")
     ),
     Arrays.asList(
@@ -816,6 +816,12 @@ public class CaseRule extends Rule {
       token("["),
       regex("[A-Z0-9]+"),
       token("]"),
+      csRegex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // Markup: "H3 Die Headline"
+      SENT_START,
+      regex("H[1-6]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
@@ -1010,7 +1016,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Sie starrt ständig ins Nichts. 
-      csRegex("vorm|ins"),
+      csRegex("vorm|ins|im"),
       csToken("Nichts")
     ),
     Arrays.asList(
@@ -1047,6 +1053,12 @@ public class CaseRule extends Rule {
       regex("\\u2063"),
       regex("\\u2063"),
       regex("\\u2063"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      SENT_START,
+      regex("[\\\\/`´*„\"']"),
+      regex("[\\\\/`´*„\"']"),
       csRegex("[A-ZÄÖÜ].+")
     ),
     Arrays.asList(

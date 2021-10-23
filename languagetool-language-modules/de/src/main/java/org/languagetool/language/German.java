@@ -372,6 +372,7 @@ public class German extends Language implements AutoCloseable {
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;
       case "REDUNDANCY": return -15;
+      case "VER_DOPPELUNG": return -15; // prefer comma rules (including AI)
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;
