@@ -640,6 +640,32 @@ public class AgreementRuleTest {
     //assertBad("An der rot Ampel.");
   }
 
+  @Test
+  public void testDetAdjAdjNounRule() throws IOException {
+    // correct:
+    assertGood("Das verlangt reifliche Überlegung.");
+    assertGood("Das bedeutet private Versicherungssummen ab 100€.");
+    assertGood("Das erfordert einigen Mut.");
+    assertGood("Die abnehmend aufwendige Gestaltung der Portale...");
+    assertGood("Die strahlend roten Blumen.");
+    assertGood("Der weiter vorhandene Widerstand konnte sich nicht durchsetzen.");
+    assertGood("Das jetzige gemeinsame Ergebnis...");
+    assertGood("Das früher übliche Abdecken mit elementarem Schwefel...");
+    assertGood("Das einzig wirklich Schöne...");
+    assertGood("Andere weniger bekannte Vorschläge waren „Konsistenter Empirismus“ oder...");
+    assertGood("Werden mehrere solcher physikalischen Elemente zu einer Einheit zusammengesetzt...");
+    assertGood("Aufgrund ihrer weniger guten Bonitätslage.");
+    assertGood("Mit ihren teilweise eigenwilligen Außenformen...");
+    // incorrect:
+    assertBad("Das ist eine solides strategisches Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist eine solide strategisches Fundament", "ein solides strategisches Fundament");
+    assertBad1("Das ist eine solide strategische Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solide strategisches Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solides strategische Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solides strategisches Fundamente", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solides strategisches Fundaments", "ein solides strategisches Fundament");
+  }
+
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
@@ -652,6 +678,25 @@ public class AgreementRuleTest {
       RuleMatch match = matches[0];
       List<String> suggestions = match.getSuggestedReplacements();
       assertThat(suggestions, is(Arrays.asList(expectedSuggestions)));
+    }
+  }
+
+  // test that a suggestion is there, no matter its position
+  private void assertBad1(String s, String expectedSuggestion) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    RuleMatch match = matches[0];
+    List<String> suggestions = match.getSuggestedReplacements();
+    boolean found = false;
+    for (String suggestion : suggestions.subList(0, Math.min(4, suggestions.size()))) {
+      if (suggestion.equals(expectedSuggestion)) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      fail("Expected suggestion '" + expectedSuggestion + "' not found in first 5 suggestions for input '" + s + "'. " +
+        "Suggestions found: " + suggestions);
     }
   }
 

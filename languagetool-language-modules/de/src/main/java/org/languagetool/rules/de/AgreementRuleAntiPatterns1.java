@@ -43,6 +43,76 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      // "die Anfang des 20. Jahrhunderts"
+      tokenRegex("Anfang|Mitte|Ende"),
+      tokenRegex("des"),
+      tokenRegex("\\d+"),
+      tokenRegex(".")
+    ),
+    Arrays.asList(
+      // "Das verlangt reifliche Überlegung.", "Die abnehmend aufwendige Gestaltung der Portale...",
+      // "Eine ausreichend genaue Bestimmung"
+      tokenRegex("diese|der|die|das|ein|eine|dem|den|eine[ernm]|anderen?"),
+      posRegex("PA[12]:.*VER|ADV:TMP"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      // "Und den dritten wenige Tage später."
+      tokenRegex("den|die"),
+      tokenRegex("ersten?|zweiten?|dritten?|vierten?|fünften?|sechsten?|siebten?|achten?|neuten?|zehnten?|elften?|zwölften?"),
+      posRegex("ADJ:.*")
+    ),
+    Arrays.asList(
+      // "sie zog allem anderen kindliche Spiele vor"
+      token("allem"),
+      token("anderen")
+    ),
+    Arrays.asList(
+      // "Von denen die meisten erst Ende des 19. Jahrhunderts"
+      token("denen"),
+      token("die"),
+      token("meisten")
+    ),
+    Arrays.asList(
+      // "Viele weniger bekannte Vorschläge", "Seine überwiegend raschen Walzer ...",
+      // "Keiner erwähnte eigene Überprüfungen"
+      new PatternTokenBuilder().posRegexWithStringException("PRO:(IND|POS).*", "eine[nm]").build(),
+      posRegex("PA[12]:.*|ADV:TMP"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("der|die"), // "zog sich der Düsseldorfer schwere Verletzungen zu. "
+      csRegex("[A-ZÖÄÜ].*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("einer?"),  // "Der als einer der ersten gängige Swingklischees vermied"
+      token("der"),
+      posRegex("ADJ:GEN:.*")
+    ),
+    Arrays.asList(
+      // "Andere weniger bekannte Vorschläge", "Ich habe mir das gerade letzte Woche zugelegt."
+      posRegex("ART:.*|PRO:(POS|DEM|PER|IND).*"),
+      tokenRegex("ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      posRegex("PRO:DEM:.*"),  // "Diese definiert einzelne Genres ..."
+      posRegex("VER:[23]:.*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("aufs|beides|welcher"),  // "aufs äußerste grausamer Krieg"
+      posRegex("ADJ:.*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("eine[mr]"),  // "Dieses Bild stammt von einem lange Zeit unbekannten Maler."
       pos("ADV:TMP"),
       pos("ADV:TMP"),

@@ -236,12 +236,13 @@ public class AgreementRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] origTokens = Arrays.copyOf(tokens, tokens.length);
     Map<Integer, ReplacementType> replMap = replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized()) {
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {
         continue;
       }
 
@@ -304,11 +305,11 @@ public class AgreementRule extends Rule {
               ruleMatches.add(ruleMatch);
             }
           } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
-            /*RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
+            RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
               nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
-            }*/
+            }
           }
         } else if (hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
           RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap);
