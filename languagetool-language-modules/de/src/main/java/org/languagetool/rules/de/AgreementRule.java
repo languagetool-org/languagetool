@@ -87,8 +87,9 @@ public class AgreementRule extends Rule {
   }
 
   private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
-    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
-    "statt 'mein kleines Haus'";
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' statt 'mein kleines Haus'";
+  private static final String MSG2 = "Möglicherweise fehlende grammatische Übereinstimmung " +
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein schönes kleiner Haus' statt 'mein schönes kleines Haus'";
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
@@ -613,7 +614,7 @@ public class AgreementRule extends Rule {
       if (token4.hasPartialPosTag("ABK")) {
         return null;
       }
-      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG, SHORT_MSG);
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);
       if (returnSuggestions && replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
