@@ -401,6 +401,7 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>REM</td>");
       fw.write("  <td>MOD</td>");
       fw.write("  <td>Source</td>");
+      fw.write("  <td title='Picky'>P</td>");
       fw.write("  <td>ID</td>");
       fw.write("  <td>Message of first match</td>");
       fw.write("</tr>");
@@ -418,6 +419,11 @@ public class RuleMatchDiffFinder {
         fw.write("<td>");
         fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
         fw.write("</td>");
+        if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
+          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().getTags().contains("picky") ? "y" : "") + "</td>");
+        } else {
+          fw.write("<td></td>");
+        }
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
         fw.write("  <a href='" + file + "'>" + id + "</a>");
