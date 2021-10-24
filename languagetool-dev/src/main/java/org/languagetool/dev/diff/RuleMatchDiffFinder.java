@@ -422,7 +422,7 @@ public class RuleMatchDiffFinder {
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
         fw.write("  <a href='" + file + "'>" + id + "</a>");
         fw.write("  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
-          id.replaceFirst("\\[[0-9]+\\]", "") + "&var-language=" + langCode + "'>[g]</a>");
+          id.replaceFirst("\\[[0-9]+\\]", "") + "&var-language=" + langCode.replaceFirst("-.*", "") + "'>[g]</a>");
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
           fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");
