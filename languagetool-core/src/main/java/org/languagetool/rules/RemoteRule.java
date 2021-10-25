@@ -170,12 +170,12 @@ public abstract class RemoteRule extends Rule {
       }
       if (System.nanoTime() - timeoutIntervalStart.get(ruleId) >
           TimeUnit.MILLISECONDS.toNanos(serviceConfiguration.getTimeoutLimitIntervalMilliseconds())) {
-        System.out.printf("Resetting timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
+        //System.out.printf("Resetting timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
         timeoutTotal.get(ruleId).set(0L);
         timeoutIntervalStart.put(ruleId, System.nanoTime());
       } else if (serviceConfiguration.getTimeoutLimitTotalMilliseconds() > 0L &&
                  timeoutTotal.get(ruleId).get() > serviceConfiguration.getTimeoutLimitTotalMilliseconds()) {
-        System.out.printf("Down because of timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
+        //System.out.printf("Down because of timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
         RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
         result = fallbackResults(req);
         return result;

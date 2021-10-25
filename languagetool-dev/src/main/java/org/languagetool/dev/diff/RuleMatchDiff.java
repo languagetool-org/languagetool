@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.diff;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 class RuleMatchDiff {
@@ -63,10 +65,12 @@ class RuleMatchDiff {
     return newMatch == null ? oldMatch.getCoveredText() : newMatch.getCoveredText();
   }
 
+  @Nullable
   LightRuleMatch getOldMatch() {
     return oldMatch;
   }
 
+  @Nullable
   LightRuleMatch getNewMatch() {
     return newMatch;
   }

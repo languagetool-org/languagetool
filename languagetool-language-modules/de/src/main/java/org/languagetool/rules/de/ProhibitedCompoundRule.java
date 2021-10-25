@@ -841,6 +841,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Sexangelegenheit", // vs Seeangelegenheit
           "Sexangelegenheiten", // vs Seeangelegenheiten
           "Mobilfunkmarke", // vs Mobilfunkmarkt
+          "Schulball", // vs Schulfall
+          "Schulballs", // vs Schulfalls
           "marktdurchdringend", // vs markdurchdringend
           "marktdurchdringende",
           "marktdurchdringendes",

@@ -87,8 +87,9 @@ public class AgreementRule extends Rule {
   }
 
   private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
-    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
-    "statt 'mein kleines Haus'";
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' statt 'mein kleines Haus'";
+  private static final String MSG2 = "Möglicherweise fehlende grammatische Übereinstimmung " +
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein schönes kleiner Haus' statt 'mein schönes kleines Haus'";
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
@@ -236,12 +237,13 @@ public class AgreementRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] origTokens = Arrays.copyOf(tokens, tokens.length);
     Map<Integer, ReplacementType> replMap = replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized()) {
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {
         continue;
       }
 
@@ -612,7 +614,7 @@ public class AgreementRule extends Rule {
       if (token4.hasPartialPosTag("ABK")) {
         return null;
       }
-      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG, SHORT_MSG);
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);
       if (returnSuggestions && replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);

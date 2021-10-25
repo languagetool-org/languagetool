@@ -1199,6 +1199,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("leideten", "litten");
     put("Hoody", "Hoodie");
     put("Hoodys", "Hoodies");
+    put("Exam", "Examen");
     put("strang", w -> Arrays.asList("Strang", "strengte"));
   }
 

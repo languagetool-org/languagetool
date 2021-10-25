@@ -43,6 +43,99 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN.*")
     ),
     Arrays.asList(
+      // "die Anfang des 20. Jahrhunderts"
+      tokenRegex("Anfang|Mitte|Ende"),
+      tokenRegex("des"),
+      tokenRegex("\\d+"),
+      tokenRegex(".")
+    ),
+    Arrays.asList(
+      // "Das verlangt reifliche Überlegung.", "Die abnehmend aufwendige Gestaltung der Portale...",
+      // "Eine ausreichend genaue Bestimmung"
+      tokenRegex("diese|der|die|das|ein|eine|dem|den|eine[ernm]|anderen?"),
+      posRegex("PA[12]:.*VER|ADV:TMP"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      // "Und den dritten wenige Tage später."
+      tokenRegex("den|die"),
+      tokenRegex("ersten?|zweiten?|dritten?|vierten?|fünften?|sechsten?|siebten?|achten?|neuten?|zehnten?|elften?|zwölften?"),
+      posRegex("ADJ:.*")
+    ),
+    Arrays.asList(
+      // "Die ersten Drei bekommen einen Preis."
+      tokenRegex("den|die"),
+      token("ersten"),
+      csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert")
+    ),
+    Arrays.asList(
+      // "sie zog allem anderen kindliche Spiele vor"
+      token("allem"),
+      token("anderen")
+    ),
+    Arrays.asList(
+      // "Von denen die meisten erst Ende des 19. Jahrhunderts"
+      token("denen"),
+      token("die"),
+      token("meisten")
+    ),
+    Arrays.asList(
+      // "Viele weniger bekannte Vorschläge", "Seine überwiegend raschen Walzer ...",
+      // "Keiner erwähnte eigene Überprüfungen"
+      new PatternTokenBuilder().posRegexWithStringException("PRO:(IND|POS).*", "eine[nm]").build(),
+      posRegex("PA[12]:.*|ADV:TMP"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("der|die|manche[mr]"), // "zog sich der Düsseldorfer schwere Verletzungen zu. "
+      csRegex("[A-ZÖÄÜ].*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("einer?"),  // "Der als einer der ersten gängige Swingklischees vermied"
+      token("der"),
+      posRegex("ADJ:GEN:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("der|ein|eine[rnms]?|des|die"),  // "Ein lose zusammengewürfelter Haufen"
+      token("lose"),
+      tokenRegex("zusammengewürfelte[rnms]?")
+    ),
+    Arrays.asList(
+      token("den"),  // Als Ersatz für den kleiner gewordenen Spielplatz.
+      posRegex("ADJ:PRD:KOM"),
+      posRegex("ADJ:AKK:SIN.*"),
+      posRegex("SUB:AKK:SIN.*")
+    ),
+    Arrays.asList(
+      token("die"),  // Als Ersatz für die kleiner gewordenen Spielplätze.
+      posRegex("ADJ:PRD:KOM"),
+      posRegex("ADJ:AKK:PLU.*"),
+      posRegex("SUB:AKK:PLU.*")
+    ),
+    Arrays.asList(
+      // "Andere weniger bekannte Vorschläge", "Ich habe mir das gerade letzte Woche zugelegt."
+      posRegex("ART:.*|PRO:(POS|DEM|PER|IND).*"),
+      tokenRegex("zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      posRegex("PRO:DEM:.*"),  // "Diese definiert einzelne Genres ..."
+      posRegex("VER:[23]:.*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("aufs|beides|welcher"),  // "aufs äußerste grausamer Krieg"
+      posRegex("ADJ:.*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("eine[mr]"),  // "Dieses Bild stammt von einem lange Zeit unbekannten Maler."
       pos("ADV:TMP"),
       pos("ADV:TMP"),
@@ -403,17 +496,40 @@ class AgreementRuleAntiPatterns1 {
       token("einen"),
       pos("SUB:NOM:SIN:NEU")
     ),
+    Arrays.asList(  // -> "Kaffee" - handled by spell checker
+      tokenRegex("eine[sn]"),
+      tokenRegex("Kaffes?")
+    ),
     Arrays.asList(  // "Dies erlaubt Forschern, ..." aber auch "Dieses versuchten Mathematiker ..."
       pos("SENT_START"),
       posRegex("PRO:DEM:.+"),
       posRegex("VER:3:.+"),
       posRegex("SUB:(DAT|NOM):PLU.*")
     ),
+    Arrays.asList(  // "Das verkündete Premierminister Miller"
+      pos("SENT_START"),
+      token("das"),
+      token("verkündete"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Das verkündete Premierminister Miller"
+      token("wegen"),
+      token("der"),
+      token("vielen"),
+      token("Arbeit")
+    ),
     Arrays.asList(  // "in denen Energie steckt"
       new PatternTokenBuilder().posRegex("SENT_START|VER:AUX:[123].+").negate().build(),
       posRegex("PRP:.+"),
       new PatternTokenBuilder().posRegex("PRO:DEM:(DAT|AKK).+").tokenRegex("der|dies").matchInflectedForms().build(),
       posRegex("SUB:...:PLU.*")
+    ),
+    Arrays.asList(  // "ein für mich sehr peinlicher Termin"
+      token("für"),
+      token("mich"),
+      pos("ADV:MOD"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
     ),
     Arrays.asList(  // "für den Mailänder Bischofssitz"
       posRegex("PRP:.+"),
@@ -578,7 +694,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList( // Soll das Spaß machen?
       posRegex("SENT_START|PKT|KON:NEB"),
-      regex("soll|sollte|wird|würde|kann|lönnte"),
+      regex("soll|sollte|wird|würde|kann|könnte"),
       csToken("das"),
       new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
       csRegex("Spa(ß|ss)|Freude|Sinn|Mehrwert"),
