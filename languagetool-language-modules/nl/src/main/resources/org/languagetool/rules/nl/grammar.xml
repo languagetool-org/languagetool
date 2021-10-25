@@ -19999,14 +19999,24 @@ steenwijk;Steenwijk
 			<!-- TaalTik 2014-08-18 -->
 			<rule>
 				<pattern>
-					<token regexp="yes">.*°K</token>
+					<token case_sensitive="yes" regexp="yes">[0-9]+°K</token>
 				</pattern>
 				<message>Bij een temperatuur in Kelvin word geen ° gebruikt, wel een spatie.</message>
+				<suggestion><match no="1" regexp_match="°" regexp_replace=" "/></suggestion>
 				<url>https://taaladvies.net/taal/advies/tekst/20/symbolen_voor_grootheden_en_eenheden_algemeen/</url>
 				<short>geen ° bij Kelvin</short>
-				<example type="incorrect"><marker>21°K</marker></example>
-				<example><marker>21 K</marker></example>
-				<example type="incorrect">Buislampen in 3200°, 4000° of <marker>5600°K</marker> en kan alle vormen van het decor aannemen.</example>
+				<example correction="21 K"><marker>21°K</marker></example>
+				<example correction="5600 K">Buislampen in 3200°, 4000° of <marker>5600°K</marker> en kan alle vormen van het decor aannemen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">[0-9]+°c</token>
+				</pattern>
+				<message>Bij een temperatuur hoort een spatie voor de eenheid, en deze in hoofdletters.</message>
+				<suggestion><match no="1" regexp_match="°c" regexp_replace=" °C"/></suggestion>
+				<url>https://taaladvies.net/taal/advies/tekst/20/symbolen_voor_grootheden_en_eenheden_algemeen/</url>
+				<short>Celsius</short>
+				<example correction="21 °C">De temperatuur is <marker>21°c</marker>.</example>
 			</rule>
 			<rule>
 				<!-- TaalTik 2014-08-18: -->
