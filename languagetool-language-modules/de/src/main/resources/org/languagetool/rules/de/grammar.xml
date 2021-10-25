@@ -53960,20 +53960,20 @@ Andere Projekte</example>
                     <token postag="SUB:.+" postag_regexp="yes"/>  
                 </antipattern>
                 <pattern>
-                    <marker>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen</exception>
                         <exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|…|und|oder</exception>
                     </token>
-                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <marker>
+                        <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     </marker>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Infinitiv) handelt, muss in der Regel ein Komma gesetzt werden.</message>
-                <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
-                <example correction="kenne nichts Schöneres, als">Ich <marker>kenne nichts Schöneres als</marker> mit einem guten Buch am Kamin zu sitzen</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", als">Ich kenne nichts Schöneres<marker> als</marker> mit einem guten Buch am Kamin zu sitzen</example>
                 <example>Ich <marker>kenne nichts Schöneres, als</marker> mit einem guten Buch am Kamin zu sitzen</example>
                 <example>Es scheint sich um einen Fehler zu handeln.</example>
                 <example>Er braucht sich um diese Sache nicht zu kümmern.</example>
@@ -54016,19 +54016,19 @@ Andere Projekte</example>
                     <token>als</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen</exception>
                         <exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|…|und|oder</exception>
                     </token>
-                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <marker>
+                        <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     </marker>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Wenn eine Infinitivgruppe ('zu' + Infinitiv) mit '\2' eingeleitet wird, muss ein Komma gesetzt werden.</message>
-                <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
-                <example correction="ging nach Hause, um">Sie <marker>ging nach Hause um</marker> sich umzuziehen.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", um">Sie ging nach Hause<marker> um</marker> sich umzuziehen.</example>
                 <example>Sie <marker>ging nach Hause, um</marker> sich umzuziehen.</example>
                 <example>Es ist Ihre Pflicht als Bürger aufzupassen.</example>
             </rule>
@@ -54062,10 +54062,10 @@ Andere Projekte</example>
                     <token regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
                 <pattern>
-                    <marker>
-                    <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <token>zu</token>
-                    <token postag="VER:INF:.*" postag_regexp="yes"><exception regexp="yes">essen|trinken</exception></token>
+                    <marker>
+                        <token postag="VER:INF:.*" postag_regexp="yes"><exception regexp="yes">essen|trinken</exception></token>
                     </marker>
                     <token>
                         <exception postag="VER:AUX:.*" postag_regexp="yes"/>
@@ -54074,8 +54074,8 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Infinitiv) handelt, muss in der Regel ein Komma gesetzt werden.</message>
-                <suggestion><match no="1" include_skipped="all"/> \2 \3,</suggestion>
-                <example correction="Anstatt einen Brief zu schreiben,"><marker>Anstatt einen Brief zu schreiben</marker> könntest du auch einfach anrufen.</example>
+                <suggestion>\3,</suggestion>
+                <example correction="schreiben,">Anstatt einen Brief zu <marker>schreiben</marker> könntest du auch einfach anrufen.</example>
                 <example><marker>Anstatt einen Brief zu schreiben,</marker> könntest du auch einfach anrufen.</example>
             </rule>
             <rule>
@@ -54101,9 +54101,9 @@ Andere Projekte</example>
                     <token regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                     <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
-                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                     </marker>
                     <token>
                         <exception postag="VER:AUX:.*" postag_regexp="yes"/>
@@ -54112,8 +54112,8 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Infinitiv) handelt, muss in der Regel ein Komma gesetzt werden.</message>
-                <suggestion><match no="1" include_skipped="all"/> \2,</suggestion>
-                <example correction="Um sich umzuziehen,"><marker>Um sich umzuziehen</marker> ging sie nach Hause.</example>
+                <suggestion>\2,</suggestion>
+                <example correction="umzuziehen,">Um sich <marker>umzuziehen</marker> ging sie nach Hause.</example>
                 <example><marker>Um sich umzuziehen,</marker> ging sie nach Hause.</example>
             </rule>
         </rulegroup>
