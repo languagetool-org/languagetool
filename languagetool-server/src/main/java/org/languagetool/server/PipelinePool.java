@@ -21,12 +21,12 @@
 
 package org.languagetool.server;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.pool2.KeyedObjectPool;
+import org.apache.commons.pool2.KeyedPooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
+import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.DictionaryMatchFilter;
@@ -41,151 +41,68 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
  * TODO: reimplement using apache commons KeyedObjectPool
  */
-class PipelinePool {
+class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipeline> {
 
   private static final Logger logger = LoggerFactory.getLogger(PipelinePool.class);
 
-  static final long PIPELINE_EXPIRE_TIME = 15 * 60 * 1000;
-
-  public static class PipelineSettings {
-    private final Language lang;
-    private final Language motherTongue;
-    private final TextChecker.QueryParams query;
-    private final UserConfig userConfig;
-    private final GlobalConfig globalConfig;
-    
-    PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {
-      this.lang = lang;
-      this.motherTongue = motherTongue;
-      this.query = params;
-      this.userConfig = userConfig;
-      this.globalConfig = globalConfig;
-    }
-
-    @Override
-    public int hashCode() {
-      return new HashCodeBuilder(17, 31)
-        .append(lang)
-        .append(motherTongue)
-        .append(query)
-        .append(globalConfig)
-        .append(userConfig)
-        .toHashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (obj == this) return true;
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      PipelineSettings other = (PipelineSettings) obj;
-      return new EqualsBuilder()
-        .append(lang, other.lang)
-        .append(motherTongue, other.motherTongue)
-        .append(query, other.query)
-        .append(globalConfig, other.globalConfig)
-        .append(userConfig, other.userConfig)
-        .isEquals();
-    }
-
-    @Override
-    public String toString() {
-      return new ToStringBuilder(this)
-        .append("lang", lang)
-        .append("motherTongue", motherTongue)
-        .append("query", query)
-        .append("globalConfig", globalConfig)
-        .append("user", userConfig)
-        .build();
-    }
-  }
+  private final KeyedObjectPool<PipelineSettings, Pipeline> pool;
 
   private final HTTPServerConfig config;
   private final ResultCache cache;
-  private final LoadingCache<PipelineSettings, ConcurrentLinkedQueue<Pipeline>> pool;
   private final boolean internalServer;
-
-  private long pipelineExpireCheckTimestamp;
-  // stats
-  private long pipelinesUsed;
-  private long requests;
 
   PipelinePool(HTTPServerConfig config, ResultCache cache, boolean internalServer) {
     this.internalServer = internalServer;
     this.config = config;
     this.cache = cache;
-    this.pipelineExpireCheckTimestamp = System.currentTimeMillis();
     int maxPoolSize = config.getMaxPipelinePoolSize();
     int expireTime = config.getPipelineExpireTime();
     if (config.isPipelineCachingEnabled()) {
-      this.pool = CacheBuilder.newBuilder()
-        .maximumSize(maxPoolSize)
-        .expireAfterAccess(expireTime, TimeUnit.SECONDS)
-        .build(new CacheLoader<PipelineSettings, ConcurrentLinkedQueue<Pipeline>>() {
-          @Override
-          public ConcurrentLinkedQueue<Pipeline> load(PipelineSettings key) {
-            return new ConcurrentLinkedQueue<>();
-          }
-        });
+      GenericKeyedObjectPoolConfig<Pipeline> poolConfig = new GenericKeyedObjectPoolConfig<>();
+      poolConfig.setMaxTotal(maxPoolSize);
+      poolConfig.setMaxIdlePerKey(maxPoolSize);
+      poolConfig.setMaxTotalPerKey(maxPoolSize);
+      poolConfig.setMinIdlePerKey(0);
+      // TODO: wait time
+      poolConfig.setBlockWhenExhausted(false);
+      //poolConfig.setEvictionPolicy();
+      // TODO idle time, more settings
+      this.pool = new GenericKeyedObjectPool<>(this, poolConfig);
     } else {
       this.pool = null;
     }
   }
 
   Pipeline getPipeline(PipelineSettings settings) throws Exception {
-    if (pool != null) {
-      // expire old pipelines in queues (where settings may be used, but some of the created pipelines are unused)
-      long expireCheckDelta = System.currentTimeMillis() - pipelineExpireCheckTimestamp;
-      if (expireCheckDelta > PIPELINE_EXPIRE_TIME) {
-        AtomicInteger removed = new AtomicInteger();
-        pipelineExpireCheckTimestamp = System.currentTimeMillis();
-        //pool.asMap().forEach((s, queue) -> queue.removeIf(Pipeline::isExpired));
-        pool.asMap().forEach((s, queue) -> queue.removeIf(pipeline -> {
-          if (pipeline.isExpired()) {
-            removed.getAndIncrement();
-            return true;
-          } else {
-            return false;
-          }
-        }));
-        ServerTools.print("Removing " + removed.get() + " expired pipelines");
-      }
-
-      requests++;
-      ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
-      if (requests % 1000 == 0) {
-        logger.info(String.format("Pipeline cache stats: %f hit rate", (double) pipelinesUsed / requests));
-      }
-      Pipeline pipeline = pipelines.poll();
-      if (pipeline == null) {
-        //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
-        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
-      } else {
-        pipelinesUsed++;
-        //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
-      }
-      return pipeline;
-    } else {
+    if (pool == null) {
       return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
+    } else {
+      try {
+        logger.info("Requesting pipeline for {}; pool has {} active objects, {} idle",
+          settings, pool.getNumActive(), pool.getNumIdle());
+        return pool.borrowObject(settings);
+      } catch(NoSuchElementException ignored) {
+        logger.info("Pipeline pool capacity reached: {} active objects, {} idle",
+          pool.getNumActive(), pool.getNumIdle());
+        return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
+      }
     }
   }
 
-  void returnPipeline(PipelineSettings settings, Pipeline pipeline) throws ExecutionException {
+
+  void returnPipeline(PipelineSettings settings, Pipeline pipeline) throws Exception {
     if (pool == null) return;
-    ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
-    pipeline.refreshExpireTimer();
-    pipelines.add(pipeline);
+    try {
+      pool.returnObject(settings, pipeline);
+    } catch(IllegalStateException e) {
+    }
   }
 
   /**
@@ -291,6 +208,32 @@ class PipelinePool {
       ServerTools.print("Using options configured in the GUI");
       org.languagetool.gui.Tools.configureFromRules(lt, config);
     }
+  }
+
+  @Override
+  public PooledObject<Pipeline> makeObject(PipelineSettings pipelineSettings) throws Exception {
+    return new DefaultPooledObject<>(createPipeline(pipelineSettings.lang, pipelineSettings.motherTongue, pipelineSettings.query,
+      pipelineSettings.globalConfig, pipelineSettings.userConfig, config.getDisabledRuleIds()));
+  }
+
+  @Override
+  public void destroyObject(PipelineSettings pipelineSettings, PooledObject<Pipeline> pooledObject) throws Exception {
+  }
+
+  @Override
+  public boolean validateObject(PipelineSettings pipelineSettings, PooledObject<Pipeline> pooledObject) {
+    return true;
+  }
+
+  // can make equal on pipeline settings more liberal (e.g. equal language, but some rule IDs disabled)
+  // and make required changes to the pipeline before activating/passivating
+  // to improve reuse and reduce number of stored pipelines
+  @Override
+  public void activateObject(PipelineSettings pipelineSettings, PooledObject<Pipeline> pooledObject) throws Exception {
+  }
+
+  @Override
+  public void passivateObject(PipelineSettings pipelineSettings, PooledObject<Pipeline> pooledObject) throws Exception {
   }
 
 }
