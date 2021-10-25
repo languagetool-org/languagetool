@@ -165,6 +165,10 @@ public class MorfologikSpanishSpellerRuleTest {
     
     // hashtags, domain names, mentions
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Una #mecion de @algunamigo en es.wikipedia.org")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("documentos publicados en ADSLZone.net")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Europa-Agricola.es es una página web dedicada a los anuncios")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("LANGUAGETOOL.ORG")).length);
+    
     
   }
 

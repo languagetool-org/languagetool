@@ -30,6 +30,7 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -38,6 +39,8 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.languagetool.rules.de.GermanHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
@@ -84,8 +87,9 @@ public class AgreementRule extends Rule {
   }
 
   private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
-    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
-    "statt 'mein kleines Haus'";
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' statt 'mein kleines Haus'";
+  private static final String MSG2 = "Möglicherweise fehlende grammatische Übereinstimmung " +
+    "von Kasus, Numerus oder Genus. Beispiel: 'mein schönes kleiner Haus' statt 'mein schönes kleines Haus'";
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
@@ -183,12 +187,17 @@ public class AgreementRule extends Rule {
     "RP" // "Die RP (Rheinische Post)"
   ));
 
+  private final static List<List<PatternToken>> allAntiPatterns =
+    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS)
+      .flatMap(Collection::stream)
+      .collect(Collectors.toList());
+
   public AgreementRule(ResourceBundle messages, German language) {
     this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
-    antiPatterns = cacheAntiPatterns(language, AgreementRuleAntiPatterns.ANTI_PATTERNS);
+    antiPatterns = cacheAntiPatterns(language, allAntiPatterns);
   }
 
   @Override
@@ -198,7 +207,7 @@ public class AgreementRule extends Rule {
 
   @Override
   public int estimateContextForSureMatch() {
-    return AgreementRuleAntiPatterns.ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);
+    return allAntiPatterns.stream().mapToInt(List::size).max().orElse(0);
   }
 
   @Override
@@ -228,12 +237,13 @@ public class AgreementRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] origTokens = Arrays.copyOf(tokens, tokens.length);
     Map<Integer, ReplacementType> replMap = replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized()) {
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {
         continue;
       }
 
@@ -604,7 +614,7 @@ public class AgreementRule extends Rule {
       if (token4.hasPartialPosTag("ABK")) {
         return null;
       }
-      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG, SHORT_MSG);
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);
       if (returnSuggestions && replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);

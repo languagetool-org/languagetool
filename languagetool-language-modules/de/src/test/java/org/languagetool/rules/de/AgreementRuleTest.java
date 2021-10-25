@@ -62,6 +62,9 @@ public class AgreementRuleTest {
     assertBad("Was für eine schöner Sonnenuntergang!", "ein schöner Sonnenuntergang");
     assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
     assertGood("War das Eifersucht?");
+    assertGood("Sie gehörte einst zu den besten Afrikas.");
+    assertGood("Dieses Bild stammt von einem lange Zeit unbekannten Maler.");
+    assertGood("Das Staatsoberhaupt ist der Verfassung zufolge der König.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
@@ -326,6 +329,8 @@ public class AgreementRuleTest {
     assertGood("Er wollte doch nur jemandem Gutes tun.");
     assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
     assertGood("Texas und New Mexico, beides spanische Kolonien, sind...");
+    assertGood("Texas und New Mexico - beides spanische Kolonien - sind...");
+    assertGood("Texas und New Mexico – beides spanische Kolonien – sind...");
     assertGood("Weitere Brunnen sind insbesondere der Wittelsbacher und der Vater-Rhein-Brunnen auf der Museumsinsel, beides Werke von Adolf von Hildebrand.");
     assertGood("Für manche ist das Anlass genug, darüber nicht weiter zu diskutieren.");
     assertGood("Vielleicht schreckt das Frauen ab.");
@@ -635,6 +640,32 @@ public class AgreementRuleTest {
     //assertBad("An der rot Ampel.");
   }
 
+  @Test
+  public void testDetAdjAdjNounRule() throws IOException {
+    // correct:
+    assertGood("Das verlangt reifliche Überlegung.");
+    assertGood("Das bedeutet private Versicherungssummen ab 100€.");
+    assertGood("Das erfordert einigen Mut.");
+    assertGood("Die abnehmend aufwendige Gestaltung der Portale...");
+    assertGood("Die strahlend roten Blumen.");
+    assertGood("Der weiter vorhandene Widerstand konnte sich nicht durchsetzen.");
+    assertGood("Das jetzige gemeinsame Ergebnis...");
+    assertGood("Das früher übliche Abdecken mit elementarem Schwefel...");
+    assertGood("Das einzig wirklich Schöne...");
+    assertGood("Andere weniger bekannte Vorschläge waren „Konsistenter Empirismus“ oder...");
+    assertGood("Werden mehrere solcher physikalischen Elemente zu einer Einheit zusammengesetzt...");
+    assertGood("Aufgrund ihrer weniger guten Bonitätslage.");
+    assertGood("Mit ihren teilweise eigenwilligen Außenformen...");
+    // incorrect:
+    assertBad("Das ist eine solides strategisches Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist eine solide strategisches Fundament", "ein solides strategisches Fundament");
+    assertBad1("Das ist eine solide strategische Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solide strategisches Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solides strategische Fundament", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solides strategisches Fundamente", "ein solides strategisches Fundament");
+    assertBad("Das ist ein solides strategisches Fundaments", "ein solides strategisches Fundament");
+  }
+
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
@@ -647,6 +678,25 @@ public class AgreementRuleTest {
       RuleMatch match = matches[0];
       List<String> suggestions = match.getSuggestedReplacements();
       assertThat(suggestions, is(Arrays.asList(expectedSuggestions)));
+    }
+  }
+
+  // test that a suggestion is there, no matter its position
+  private void assertBad1(String s, String expectedSuggestion) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    RuleMatch match = matches[0];
+    List<String> suggestions = match.getSuggestedReplacements();
+    boolean found = false;
+    for (String suggestion : suggestions.subList(0, Math.min(4, suggestions.size()))) {
+      if (suggestion.equals(expectedSuggestion)) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      fail("Expected suggestion '" + expectedSuggestion + "' not found in first 5 suggestions for input '" + s + "'. " +
+        "Suggestions found: " + suggestions);
     }
   }
 
