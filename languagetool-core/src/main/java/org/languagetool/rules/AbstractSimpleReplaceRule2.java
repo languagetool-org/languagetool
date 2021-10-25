@@ -259,12 +259,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
           RuleMatch ruleMatch;
+          ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           if (subRuleSpecificIds) {
-            String desc = getDescription(crt + " / " + msgSuggestions.replace("<suggestion>", "").replace("</suggestion>", ""));
-            String id = StringTools.toId(getId() + "_" + crt);
-            ruleMatch = new RuleMatch(new SpecificIdRule(id, desc, messages), sentence, startPos, endPos, msg, getShort());
-          } else {
-            ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {

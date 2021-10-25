@@ -277,7 +277,7 @@ public class RuleMatchesAsJsonSerializer {
   private void writeRule(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeObjectFieldStart("rule");
     Rule rule = match.getRule();
-    g.writeStringField("id", rule.getId());
+    g.writeStringField("id", match.getSpecificRuleId()); // rule.getId()
     if (rule instanceof AbstractPatternRule) {
       AbstractPatternRule pRule = (AbstractPatternRule) rule;
       if (pRule.getSubId() != null) {

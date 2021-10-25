@@ -177,7 +177,7 @@ public final class CommandLineTools {
     for (RuleMatch match : ruleMatches) {
       Rule rule = match.getRule();
       String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
-              + match.getColumn() + ", Rule ID: " + rule.getId();
+              + match.getColumn() + ", Rule ID: " + match.getSpecificRuleId(); //rule.getId();
       if (rule instanceof AbstractPatternRule) {
         AbstractPatternRule pRule = (AbstractPatternRule) rule;
         if (pRule.getSubId() != null) {

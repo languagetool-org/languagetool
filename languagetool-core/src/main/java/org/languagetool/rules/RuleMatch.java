@@ -64,6 +64,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private boolean autoCorrect = false;
   private String errorLimitLang;
+  
+  private String specificRuleId = "";
 
   /**
    * Creates a RuleMatch object, taking the rule that triggered
@@ -193,6 +195,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setEndLine(clone.getEndLine());
     this.setColumn(clone.getColumn());
     this.setEndColumn(clone.getEndColumn());
+    this.setSpecificRuleId(clone.getSpecificRuleId());
   }
   
   //clone with new replacements
@@ -208,6 +211,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setEndLine(clone.getEndLine());
     this.setColumn(clone.getColumn());
     this.setEndColumn(clone.getEndColumn());
+    this.setSpecificRuleId(clone.getSpecificRuleId());
   }
 
   @NotNull
@@ -575,4 +579,17 @@ public class RuleMatch implements Comparable<RuleMatch> {
       super(start, end);
     }
   }
+  
+  public void setSpecificRuleId(String s) {
+    specificRuleId = s;
+  }
+  
+  public String getSpecificRuleId() {
+    if (specificRuleId.isEmpty()) {
+      return this.getRule().getId();
+    } else {
+      return specificRuleId;  
+    }
+  }
+  
 }

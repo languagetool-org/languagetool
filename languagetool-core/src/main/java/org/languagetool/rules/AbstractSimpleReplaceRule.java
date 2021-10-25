@@ -219,15 +219,11 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     int pos = tokenReadings.getStartPos();
     
     RuleMatch potentialRuleMatch = null;
+    potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
+        + tokenString.length(), getMessage(tokenString, replacements), getShort());
     if (subRuleSpecificIds) {
-      String id = StringTools.toId(getId() + "_" + originalTokenStr);
-      potentialRuleMatch = new RuleMatch(new SpecificIdRule(id, this.getDescription(), messages), sentence, pos, pos
-          + tokenString.length(), getMessage(tokenString, replacements), getShort());   
-    } else {
-      potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
-          + tokenString.length(), getMessage(tokenString, replacements), getShort());
+      potentialRuleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + originalTokenStr));
     }
-
     if (!isCaseSensitive() && StringTools.startsWithUppercase(tokenString)) {
       for (int i = 0; i < replacements.size(); i++) {
         replacements.set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
