@@ -4,6 +4,9 @@
 
 ...
 
+#### Russian
+  * added and improved rules
+
 #### General
   * The `--allow-origin` option doesn't require a parameter anymore
     in order to avoid confusion about whether `*` needs to be quoted
