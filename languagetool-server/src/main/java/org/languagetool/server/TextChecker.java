@@ -146,7 +146,7 @@ abstract class TextChecker {
   private void prewarmPipelinePool() {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
-    Map<PipelinePool.PipelineSettings, Integer> prewarmSettings = new HashMap<>();
+    Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
     List<Language> prewarmLanguages = Stream.of(
       "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
       .map(Languages::getLanguageForShortCode)
@@ -160,20 +160,20 @@ abstract class TextChecker {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
           true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);
-        PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
+        PipelineSettings settings = new PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
-        PipelinePool.PipelineSettings settingsMotherTongueEqual = new PipelinePool.PipelineSettings(language, language, params, config.globalConfig, user);
-        PipelinePool.PipelineSettings settingsMotherTongueEnglish = new PipelinePool.PipelineSettings(language,
+        PipelineSettings settingsMotherTongueEqual = new PipelineSettings(language, language, params, config.globalConfig, user);
+        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language,
           Languages.getLanguageForName("English"), params, config.globalConfig, user);
         prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
         prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
       }
     }
     try {
-      for (Map.Entry<PipelinePool.PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
+      for (Map.Entry<PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
           int numPipelines = prewarmSetting.getValue();
-          PipelinePool.PipelineSettings setting = prewarmSetting.getKey();
+          PipelineSettings setting = prewarmSetting.getKey();
 
           // request n pipelines first, return all afterwards -> creates multiple for same setting
           List<Pipeline> pipelines = new ArrayList<>();
@@ -724,11 +724,11 @@ abstract class TextChecker {
   }
 
   private List<CheckResults> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
-    PipelinePool.PipelineSettings settings = null;
+    PipelineSettings settings = null;
     Pipeline lt = null;
     List<CheckResults> res = new ArrayList<>();
     try {
-      settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
+      settings = new PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
       lt = pipelinePool.getPipeline(settings);
       Long textSessionId = userConfig.getTextSessionId();
       if (params.regressionTestMode) {
