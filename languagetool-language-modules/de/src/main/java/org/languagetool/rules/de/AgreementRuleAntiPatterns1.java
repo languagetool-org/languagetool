@@ -66,8 +66,8 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       // "Die ersten Drei bekommen einen Preis."
       tokenRegex("den|die"),
-      token("ersten"),
-      csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert")
+      tokenRegex("ersten|nächsten|vorherigen|letzten"),
+      csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert|Tausend")
     ),
     Arrays.asList(
       // "sie zog allem anderen kindliche Spiele vor"

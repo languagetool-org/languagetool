@@ -285,6 +285,7 @@ public class German extends Language implements AutoCloseable {
       case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
+      case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "DE_COMPOUNDS": return 10;

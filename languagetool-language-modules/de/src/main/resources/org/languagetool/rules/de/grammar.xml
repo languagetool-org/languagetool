@@ -11142,6 +11142,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="CONTENT_HYPHEN" name="Fehlender Bindestrich in 'Content-Maarketing'">
+            <antipattern><!-- job title -->
+                <token>Content</token>
+                <token>Marketing</token>
+                <token regexp="yes">Managers?</token>
+            </antipattern>
+            <antipattern><!-- job title -->
+                <token>Content</token>
+                <token>Management</token>
+                <token regexp="yes">System.*</token>
+            </antipattern>
+            <pattern>
+                <token>Content</token>
+                <token regexp="yes">Managers?|Managerin|Marketings?|Managements?</token>
+            </pattern>
+            <message>Dieses Nomen wird in der Regel mit Bindestrich geschrieben.</message>
+            <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Content-Marketing">Wir bloggen jetzt, um besseres <marker>Content Marketing</marker> zu machen.</example>
+        </rule>
+        <rule id="NULL_KOMMA_NICHTS" name="Nullkommanichts" default="temp_off">
+            <pattern>
+                <token regexp="yes">null|0</token>
+                <token regexp="yes">kom?ma</token>
+                <token regexp="yes">nichts|nix</token>
+            </pattern>
+            <message>Das Wort <suggestion>Nullkomma<match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="Nullkommanichts">Im <marker>Null Komma Nichts</marker> bin ich weg!</example>
+        </rule>
         <rule id="ZWISCHEN_DURCH" name="zwischendurch">
             <pattern>
                 <token>zwischen</token>
@@ -55672,7 +55700,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
+                <token case_sensitive="yes" regexp="yes">[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
