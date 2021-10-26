@@ -22326,6 +22326,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="difusament"><marker>difosament</marker></example>
             <example>confusament</example>
         </rule>
+        <rule id="SACRAMENT" name="sacrament/sagrament">
+            <pattern>
+                <token>sacrament</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>sagrament</suggestion> (nom)? "Sacrament" pot ser un adverbi amb el significat de 'de manera sacra'. </message>
+            <example correction="sagrament">El <marker>sacrament</marker> de la confessió.</example>
+        </rule>
         <rule id="FLUIDAMENT" name="fluïdament/fluidament">
             <pattern>
                 <token>fluïdament</token>
@@ -22334,6 +22341,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Error ortogràfic</short>
             <example correction="fluidament"><marker>fluïdament</marker></example>
             <example>fluidament</example>
+        </rule>
+        <rule id="LLUNYAMENT" name="llunyament">
+            <pattern>
+                <token>llunyament</token>
+            </pattern>
+            <message>Possible confusió. ¿Volíeu dir <suggestion>llunyanament</suggestion> o <suggestion>allunyament</suggestion>? "Llunyament" és un adverbi possible però d'ús infreqüent.</message>
+            <example correction="llunyanament|allunyament">Ho veia <marker>llunyament</marker></example>
+        </rule>
+        <rule id="SOMAMENT" name="somament">
+            <pattern>
+                <token>somament</token>
+            </pattern>
+            <message>Possible confusió. ¿Volíeu dir <suggestion>summament</suggestion>? "Somament" és un adverbi possible, derivat de "som" (superficial).</message>
+            <example correction="summament">Estava <marker>somament</marker> cansat.</example>
         </rule>
         <rule id="RAPIDAMENT" name="rapidament/ràpidament">
             <pattern>
@@ -63383,18 +63404,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="reina|rei|xata|xato|amor|amor meu|vida|afecte|estima|estimació">Vine, <marker>carinyo</marker>!</example>
             </rule>
         </rulegroup>
-        <rule id="CARINYOS" name="carinyós">
-            <pattern>
-                <token inflected="yes">carinyós</token>
-            </pattern>
-            <message>Paraula col·loquial, només admesa per alguns diccionaris.</message>
-            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">afectuós</match></suggestion>
-            <!--<url>http://esadir.cat/entrades/fitxa/node/carinyos</url>-->
+        <rulegroup id="CARINYOS" name="carinyós">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=cariny%F3s&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11711&amp;idHit=11711&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcte+%27carinyo%27+en+catal%E0%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
-            <short>Llenguatge col·loquial</short>
-            <example correction="afectuoses">Eren molt <marker>carinyoses</marker>.</example>
-            <example>Afectuoses</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">carinyós</token>
+                </pattern>
+                <message>Paraula col·loquial, només admesa per alguns diccionaris.</message>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">afectuós</match></suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/carinyos</url>-->
+                <short>Llenguatge col·loquial</short>
+                <example correction="afectuoses">Eren molt <marker>carinyoses</marker>.</example>
+                <example>Afectuoses</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>carinyosament</token>
+                </pattern>
+                <message>Paraula col·loquial, només admesa per alguns diccionaris.</message>
+                <suggestion>afectuosament</suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/carinyos</url>-->
+                <short>Llenguatge col·loquial</short>
+                <example correction="afectuosament">Li ho va dir <marker>carinyosament</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="FLIPAR" name="flipar">
             <pattern>
                 <token inflected="yes">flipar</token>
