@@ -1427,6 +1427,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">de|d'|que</token>
             </antipattern>
             <antipattern>
+                <token>vist</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">esquerra|dreta</token>
                 <token regexp="yes">[\-/]</token>
                 <token regexp="yes">esquerra|dreta</token>
@@ -5547,24 +5551,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>-->
     </category>
     <category id="CONCORDANCES_SUBJECT_VERB" name="Z) Concordances entre subjecte, verb i complements">
-        <rule id="TOTHOM_TOTS" name="Ús incorrecte de tothom -> tots">
-            <antipattern>
-                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                <token>tothom</token>
-            </antipattern>
-            <pattern>
-                <marker>
+        <rulegroup id="TOTHOM_TOTS" name="Ús incorrecte de tothom -> tots">
+            <rule>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                     <token>tothom</token>
-                </marker>
-                <token min="0" max="4" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"/>
-                <token postag="V.+[12]P.+" postag_regexp="yes"/>
-            </pattern>
-            <message>El pronom 'tothom' no pot acompanyar un verb en 1a o 2a persona del plural. Podeu fer servir el pronom <suggestion>tots</suggestion>, o bé la 3a persona del singular amb 'tothom'.</message>
-            <url>https://geiec.iec.cat/capitol_veure.asp?id_gelc=252&amp;capitol=12</url>
-            <example correction="Tots"><marker>Tothom</marker> vam sortir</example>
-            <example correction="Tots"><marker>Tothom</marker> ja us en vau adonar, que s'equivocava.</example>
-            <example>Per a construir una societat acollidora i respectuosa amb tothom hem d'entendre la cultura com un fet social.</example>
-        </rule>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>tothom</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"/>
+                    <token postag="V.+[12]P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>El pronom 'tothom' no pot acompanyar un verb en 1a o 2a persona del plural. Podeu fer servir el pronom <suggestion>tots</suggestion>, o bé la 3a persona del singular amb 'tothom'.</message>
+                <url>https://geiec.iec.cat/capitol_veure.asp?id_gelc=252&amp;capitol=12</url>
+                <example correction="Tots"><marker>Tothom</marker> vam sortir</example>
+                <example correction="Tots"><marker>Tothom</marker> ja us en vau adonar, que s'equivocava.</example>
+                <example>Per a construir una societat acollidora i respectuosa amb tothom hem d'entendre la cultura com un fet social.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>entre</token>
+                    <token>tothom</token>
+                </pattern>
+                <message>Probablement cal dir <suggestion>entre tots</suggestion>.</message>
+                <example correction="entre tots">Ho farem <marker>entre tothom</marker> vam sortir</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORD_SER_PARTICIPI" name="concordança ser + participi">
             <antipattern>
                 <token regexp="yes">encara|ni</token>
