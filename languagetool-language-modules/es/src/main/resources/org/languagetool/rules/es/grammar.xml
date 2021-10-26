@@ -2458,6 +2458,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tocaría">Le <marker>tocaria</marker> la moral.</example>
             <example>La secundaria es la ESO.</example>
         </rule>
+        <rule id="VIVIDAMENTE" name="vividamente/vívidamente">
+            <pattern>
+                <token>vividamente</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>vívidamente</suggestion> (derivado de 'vívido')?</message>
+            <example correction="vívidamente">Lo sentimos <marker>vividamente</marker>.</example>
+        </rule>
         <rulegroup id="RELATIVOS_SIN_TILDE" name="relativos sin tilde (quien, donde...)">
             <url>https://www.fundeu.es/recomendacion/alguien-a-quien-preguntar-sin-tilde-en-quien/</url>
             <rule>
@@ -7727,20 +7734,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
         <rule id="NUMBERS_IN_WORDS" name="Numbers in words" default="temp_off">
-            <antipattern><!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
+            <antipattern>
+                <!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->
                 <token regexp="yes">\p{L}\d\p{L}</token>
             </antipattern>
-            <antipattern><!-- Eigennamen -->
+            <antipattern>
+                <!-- Eigennamen -->
                 <token regexp="yes">ed2k|co2e|md5sums|log4php|planet3dnow|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2go|.+4(all|ever)|cat5e|unity3d</token>
             </antipattern>
             <antipattern>
-                <token />
+                <token/>
                 <token spacebefore="no">.</token>
                 <token regexp="yes" spacebefore="no">&sometlds;</token>
             </antipattern>
-            <antipattern><!-- Hashtags -->
+            <antipattern>
+                <!-- Hashtags -->
                 <token>#</token>
-                <token spacebefore="no" />
+                <token spacebefore="no"/>
             </antipattern>
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
@@ -16915,31 +16925,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VM.*" postag_regexp="yes" skip="-1"/>
                     <marker>
-                        <token postag="VM.*" postag_regexp="yes" inflected="yes"><match no="0" postag="VM.*" postag_regexp="yes" postag_replace="VMN...."/></token>    
+                        <token postag="VM.*" postag_regexp="yes" inflected="yes"><match no="0" postag="VM.*" postag_regexp="yes" postag_replace="VMN...."/></token>
                     </marker>
                 </pattern>
                 <message>Verbo repetido.</message>
-                <example correction="">Cantaba muy bien, pero desafinó cuando <marker>cantó</marker> la última.</example>    
+                <example correction="">Cantaba muy bien, pero desafinó cuando <marker>cantó</marker> la última.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="NC.*" postag_regexp="yes" skip="-1"/>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes" inflected="yes"><match no="0" postag="NC.*" postag_regexp="yes" postag_replace="NC.[SN]..."/></token>    
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes"><match no="0" postag="NC.*" postag_regexp="yes" postag_replace="NC.[SN]..."/></token>
                     </marker>
                 </pattern>
                 <message>Verbo repetido.</message>
-                <example correction="">Las casas eran rojas, pero aquella <marker>casa</marker> era verde.</example>    
+                <example correction="">Las casas eran rojas, pero aquella <marker>casa</marker> era verde.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="A.*" postag_regexp="yes" skip="-1"/>
                     <marker>
-                        <token postag="A.*" postag_regexp="yes" inflected="yes"><match no="0" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][SN]."/></token>    
+                        <token postag="A.*" postag_regexp="yes" inflected="yes"><match no="0" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][SN]."/></token>
                     </marker>
                 </pattern>
                 <message>Adjetivo repetido.</message>
-                <example correction="">Las casas eran rojas, pero aquel árbol también era <marker>rojo</marker>.</example>    
+                <example correction="">Las casas eran rojas, pero aquel árbol también era <marker>rojo</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAMA" name="mama/mamá">
