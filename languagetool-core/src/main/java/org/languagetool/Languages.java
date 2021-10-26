@@ -146,7 +146,7 @@ public final class Languages {
   }
 
   private static boolean hasPremium(String className) {
-    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwisssGerman|Dutch|French|Spanish|English|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
+    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwissGerman|Dutch|French|Spanish|English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
   }
 
   /**
