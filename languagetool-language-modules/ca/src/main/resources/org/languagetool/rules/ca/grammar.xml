@@ -1322,6 +1322,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordança d'adjectiu posposat a substantius">
             <antipattern>
+                <token regexp="yes">acompanya(t|da|ts|des)</token>
+                <token inflected="yes">per</token>
+            </antipattern>
+            <antipattern>
                 <token>iva</token>
                 <token>inclòs</token>
             </antipattern>
@@ -1349,6 +1353,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token regexp="yes">de|d'</token>
+                <token min="0">una</token>
+                <token regexp="yes">manera|forma</token>
+                <token postag="AQ.[CF][SN].|V.P..FS." postag_regexp="yes"/>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token postag="D[NI].*|A[QO].*" postag_regexp="yes"/>
                 <token min="0" inflected="yes">de</token>
                 <token regexp="yes" inflected="yes">&unitats_temps;|temps</token>
@@ -1362,7 +1374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia|&parts_dia;</token>
+                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia|&parts_dia;|moment|instant|temporada</token>
                 <token min="0" max="4" postag="RG|LOC_ADV|AO.*|CC" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -1484,6 +1496,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">la|seua|seva|gran</token>
                 <token>majoria</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -2041,6 +2054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="següents">Durant els tres mesos <marker>següent</marker>.</example>
             <example>Són els elements distintius: tradició i història comunes.</example>
             <example>La dosi adequada de biaix ideològic.</example>
+            <example>Les reformes foren de manera general molt bones.</example>
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
