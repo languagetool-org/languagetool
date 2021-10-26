@@ -23176,7 +23176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KFZ_CASE" name="KFZ -> Kfz">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Brief(e?[ns]?)?|Vergleich(e?[ns]?)|Anmeldestellen?|Versicherungsvergleich(e?[sn]?)?|Anmeldeservices?|Anmeldung(en)?|Abmeldung(en)?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Neuzulassung(en)?|Zulassungsstellen?|Zulassung(en)?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Werkstattbetrieb(e?[ns]?)|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
+                    <token case_sensitive="yes" regexp="yes">KFZ-(Halter[sn]?|Vollkasko|Teilkasko|Brief(e?[ns]?)?|Vergleich(e?[ns]?)|Anmeldestellen?|Versicherungsvergleich(e?[sn]?)?|Anmeldeservices?|Anmeldung(en)?|Abmeldung(en)?|Teilen?|Steuern?|Schein[se]?|Schlosser[sn]?|Schlosserin(nen)?|Mechatronikerin(nen)?|Neuzulassung(en)?|Zulassungsstellen?|Zulassung(en)?|Meisterbetrieb(e?[ns]?)?|Meister[sn]?|Werkstatt|Werkstattbetrieb(e?[ns]?)|Versicherung(en)?|Haftpflichtversicherung(en)?|Werkstätten|Mechaniker[sn]?|Mechatroniker[sn]?|Kennzeichen)</token>
                 </pattern>
                 <message>Bei der Abkürzung "Kfz" (= Kraftfahrzeug) wird nur der erste Buchstabe großgeschrieben.</message>
                 <suggestion><match no="1" regexp_match="KFZ" regexp_replace="Kfz" /></suggestion>
@@ -53959,6 +53959,10 @@ Andere Projekte</example>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                     <token postag="SUB:.+" postag_regexp="yes"/>  
                 </antipattern>
+                <antipattern>
+                    <token>rund</token>
+                    <token>um</token>
+                </antipattern>
                 <pattern>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -53987,6 +53991,7 @@ Andere Projekte</example>
                 <example>Drücke diesen Knopf um die Maschine in Gang zu setzen.</example>
                 <example>Es handle sich um einen Schritt, der drohe die Auslieferung an Empfänger um einige Tage zu verzögern.</example>
                 <example>Es handle sich um einen Schritt, der drohe die Auslieferung an Empfänger um Wochen zu verzögern.</example>
+                <example>Neues gibt es rund um den Hackerangriff auf den britischen Mobilfunkanbieter Talk Talk zu berichten, den wir erst gestern hier thematisierten.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -54015,6 +54020,10 @@ Andere Projekte</example>
                     <token>noch</token>
                     <token>als</token>
                 </antipattern>
+                <antipattern>
+                    <token>rund</token>
+                    <token>um</token>
+                </antipattern>
                 <pattern>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -54031,6 +54040,7 @@ Andere Projekte</example>
                 <example correction=", um">Sie ging nach Hause<marker> um</marker> sich umzuziehen.</example>
                 <example>Sie <marker>ging nach Hause, um</marker> sich umzuziehen.</example>
                 <example>Es ist Ihre Pflicht als Bürger aufzupassen.</example>
+                <example>Natürlich nehmen wir uns gerne vorher die Zeit auf alle Ihre Fragen rund um Ihre Suche zu Dachbeschichtung Ummeln einzugehen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -54101,7 +54111,7 @@ Andere Projekte</example>
                     <token regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
                 <pattern>
-                    <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <marker>
                         <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                     </marker>
@@ -55662,7 +55672,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>

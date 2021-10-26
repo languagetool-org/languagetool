@@ -20364,6 +20364,25 @@ steenwijk;Steenwijk
 				<example correction="'s-Hertogenheide">Vertrek in de Knoet om 10 uur, vandaar gaat het met de fiets (mtb) naar <marker>'s Hertogenheide</marker> waar de start van het eerste looponderdeel gegeven wordt.</example>
 				<example correction="'s-Gravenmolen">Na een flesje prosecco gekraakt te hebben op haar studio, reden we naar de <marker>‘s Gravenmolen</marker> om ten volle te genieten van deze schitterende lenteavond en onze reünie.</example>
 			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">'|‘</token>
+					<token spacebefore="yes" regexp="yes">s-(Graven|Heeren|Hertog).*</token>
+				</pattern>
+				<message>De apostrof hoort aan de s vast.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="'s-Gravenmeer">Ik ga naar <marker>' s-Gravenmeer</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern><token regexp="yes">'|‘</token><token spacebefore="yes" regexp="yes">s-(Graven|Heeren|Hertog).*</token></antipattern>
+				<pattern>
+					<token spacebefore="yes" regexp="yes">s-(Graven|Heeren|Hertog).*</token>
+				</pattern>
+				<message>Hier hoort een apostrof voor.</message>
+				<suggestion>'\1</suggestion>
+				<example correction="'s-Gravenmeer">Ik ga naar <marker>s-Gravenmeer</marker>.</example>
+			</rule>
+
 		</rulegroup>
 		<rulegroup id="DEN_HAAG_b" name="'s-Gravenhage of Den Haag">
 			<!-- 2014-08-23 TaalTik -->
