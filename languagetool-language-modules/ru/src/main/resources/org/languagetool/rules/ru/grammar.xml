@@ -2976,7 +2976,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="лучше, чем">Они <marker>лучше чем</marker> у тебя.</example>
           </rule>
         </rulegroup>
-        <rule id="Nesmotrja_na_to_chto2" name="Выражение «несмотря на то, что ..., ...»" default="temp_off"> <!-- #1118 -->
+        <rule id="Nesmotrja_na_to_chto2" name="Выражение «несмотря на то, что ..., ...»" default="on" tags="picky"> <!-- #1118 -->
             <pattern> 
                 <token negate="yes" regexp="yes">&pnct;</token>
                 <token>несмотря</token>
@@ -2985,7 +2985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>,</token>
                 <token skip="-1">что<exception scope="next">,</exception></token>
                 <marker>
-                    <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception><exception inflected="yes">быть</exception></token>
                     <token skip="-1"><exception scope="next">,</exception><exception>,</exception></token>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
                     <token regexp="yes">[.!?]</token>
@@ -2995,6 +2995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_483</url>
             <short>Нужна запятая</short>
             <example>Несмотря на то, что я поел, мне было голодно.</example>
+            <example>Несмотря на то, что окружающие будут пытаться испортить вам настроение.</example>
             <example correction="поел, мне было голодно.">Несмотря на то, что я <marker>поел мне было голодно.</marker></example>
           </rule>                                         
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
@@ -4219,7 +4220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="VB:.*|PT_Short:.*" postag_regexp="yes" negate_pos="yes" ></exception>
                         <exception regexp="yes" inflected="yes">оказаться|установить|есть|следовать|существовать|признавать|признаваться|выяснять|выясняться|выясниться</exception>
                     </token>
-                    <token>,<exception regexp="yes">&start_vvodnoe;</exception></token>
+                    <token>,<exception scope="previous" regexp="yes">&start_vvodnoe;</exception></token>
                     <marker>
                         <token>однако</token>
                         <token spacebefore="no">,<exception scope="next" regexp="yes">а|что</exception></token>
