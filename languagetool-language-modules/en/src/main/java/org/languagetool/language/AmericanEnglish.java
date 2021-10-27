@@ -24,6 +24,8 @@ import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.GRPCRule;
+import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.AmericanReplaceRule;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
@@ -73,4 +75,16 @@ public class AmericanEnglish extends English {
     }
     return rules;
   }
+
+  @Override
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
+      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
+
+    // no description needed - matches based on automatically created rules with descriptions provided by remote server
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+      "AI_SPELLING_EN_US", "INTERNAL - dynamically loaded rule supported by remote server"));
+    return rules;
+  }
+
 }
