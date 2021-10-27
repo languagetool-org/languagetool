@@ -642,8 +642,8 @@ public class AgreementRule extends Rule {
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
     Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
     boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, skipSol);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, true);
     set1.retainAll(set2);
@@ -655,8 +655,8 @@ public class AgreementRule extends Rule {
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4) {
     Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
     boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, skipSol);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, skipSol);
     Set<String> set4 = AgreementTools.getAgreementCategories(token4, categoryToRelaxSet, true);

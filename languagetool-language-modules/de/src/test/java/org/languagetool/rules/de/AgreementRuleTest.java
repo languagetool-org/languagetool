@@ -656,6 +656,8 @@ public class AgreementRuleTest {
     assertGood("Werden mehrere solcher physikalischen Elemente zu einer Einheit zusammengesetzt...");
     assertGood("Aufgrund ihrer weniger guten Bonitätslage.");
     assertGood("Mit ihren teilweise eigenwilligen Außenformen...");
+    assertGood("Die deutsche Kommasetzung bedarf einiger technischer Ausarbeitung.");
+    assertGood("Die deutsche Kommasetzung bedarf einiger guter technischer Ausarbeitung.");
     // incorrect:
     assertBad("Das ist eine solides strategisches Fundament", "ein solides strategisches Fundament");
     assertBad("Das ist eine solide strategisches Fundament", "ein solides strategisches Fundament");
@@ -664,6 +666,8 @@ public class AgreementRuleTest {
     assertBad("Das ist ein solides strategische Fundament", "ein solides strategisches Fundament");
     assertBad("Das ist ein solides strategisches Fundamente", "ein solides strategisches Fundament");
     assertBad("Das ist ein solides strategisches Fundaments", "ein solides strategisches Fundament");
+    assertBad("Die deutsche Kommasetzung bedarf einiger technisches Ausarbeitung.");
+    assertBad("Die deutsche Kommasetzung bedarf einiger guter technische Ausarbeitung.");
   }
 
   private void assertGood(String s) throws IOException {
