@@ -36923,27 +36923,14 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">[a-z]+-</token>
 					<token>en</token>
-					<token regexp="yes">...+(combinaties?|stel|stellen|paar|paren)</token>
+					<token regexp="yes">...+(combinaties?|groep|groepen)</token>
 				</pattern>
-				<message>Als het om (een) <match no="3" regexp_replace="$2" regexp_match="(...+)(combinatie|combinaties|stel|stellen|paar|paren)" /> gaat van \1 en <match no="3" regexp_replace="$1" regexp_match="(...+)(combinaties?|stel|stellen|paar|paren)" /> is de juiste schrijfwijze: <suggestion>\1\2-\3</suggestion>.</message>
+				<message>Als het om niet om \1<match no="3" regexp_replace="$2" regexp_match="(...+)(combinaties?|groep|groepen)" /> en \3<match no="3" regexp_replace="$2" regexp_match="(...+)(combinaties?|groep|groepen)" />, maar een combinatie, dan is de juiste schrijfwijze: <suggestion>\1\2-\3</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
-				<example correction="peper-en-zoutstel">Dit is een <marker>peper- en zoutstel</marker>.</example>
-				<example correction="voor-en-achternaamcombinatie">De <marker>voor- en achternaamcombinatie</marker> is raar.</example>
+				<example correction="bank-en-verzekeringsgroep">De <marker>bank- en verzekeringsgroep</marker> is groot.</example>
 				<example>Het is een <marker>peper-en-zoutstel</marker>.</example>
 			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes">[a-z]+</token>
-					<token>en</token>
-					<token regexp="yes">...+(combinatie|combinaties|stel|stellen|paar|paren)</token>
-				</pattern>
-				<message>Als het om (een) <match no="3" regexp_replace="$2" regexp_match="(...+)(combinaties?|stel|stellen|paar|paren)" /> gaat van \1 en <match no="3" regexp_match="(...+)(combinaties?|stel|stellen|paar|paren)" regexp_replace="$1"/> is de juiste schrijfwijze: <suggestion>\1-\2-\3</suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
-				<example correction="peper-en-zoutstel">Dit is een <marker>peper en zoutstel</marker>.</example>
-				<example correction="voor-en-achternaamcombinatie">De <marker>voor en achternaamcombinatie</marker> is raar.</example>
-			</rule>
 		</rulegroup>
-		<!--
 		<rulegroup id="PEPER-EN-ZOUT-STEL" name="peper en zout stel → peper-en-zout-stel">
 			<rule>
 				<pattern>
@@ -36958,7 +36945,6 @@ steenwijk;Steenwijk
 				<example>Het is een <marker>peper-en-zout-stel</marker>.</example>
 			</rule>
 		</rulegroup>
-		-->
 
 		<rulegroup id="POEP-EN-PIES-HUMOR" name="poep en pies humor → poep-en-pies-humor">
 			<rule>
