@@ -514,6 +514,9 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
     }
+    if (id.startsWith("AI_SPELLING")) {
+      return -9; // higher than MORFOLOGIK_*, for testing
+    }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
