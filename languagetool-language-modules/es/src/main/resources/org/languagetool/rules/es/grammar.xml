@@ -12670,9 +12670,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">amazonas</token>
                     </marker>
                 </pattern>
-                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
+                <message>Si es un nombre propio, se escribe con mayúscula inicial.</message>
                 <suggestion>\1 Amazonas</suggestion>
                 <example correction="el Amazonas">En <marker>el amazonas</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="D..M..|SP:DA" postag_regexp="yes"/>
+                        <token case_sensitive="yes">mercedes</token>
+                    </marker>
+                </pattern>
+                <message>Si es un nombre propio, se escribe con mayúscula inicial.</message>
+                <suggestion>\1 Mercedes</suggestion>
+                <example correction="el Mercedes">En <marker>el mercedes</marker> tengo la documentación.</example>
             </rule>
             <rule>
                 <pattern>
