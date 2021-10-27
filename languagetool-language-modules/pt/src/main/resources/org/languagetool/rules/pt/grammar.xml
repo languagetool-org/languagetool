@@ -7199,6 +7199,180 @@ Há coisas mais importantes em que pensar. → Há prioridades.
 	 </rule> 		 
     </rulegroup>
 
+
+    <!-- 	TELEFONO PARA TI telefono-te -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-27 (25-JUN-2021+)      -->	
+    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style" default="temp_off">
+<!--
+Telefonei para si. → Telefonei-lhe.
+-->		
+
+	  <!--
+		O que você disse não faz absolutamente nenhum sentido para mim.
+		Seu cachorro sempre late para mim.
+		Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?
+		Parece que as portas do céu se abriram para mim.
+
+	    Ela pediu para ele se sentar.
+		"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"
+		Eu expliquei a regra para ele.
+		Você não disse nada para ele?
+		Estou pouco me lixando para ela.
+		
+		Os últimos dias têm sido terrivelmente ocupado para nós.
+		Ele, às vezes, prepara o jantar para nós.
+
+		Está tudo acabado para você.		
+		Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.
+	  -->
+        <antipattern>
+		  <token negate_pos="yes" postag='NP.+|SPS.+|SENT_START' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='PP.+'/>
+		  </token>
+		  <token postag='V.+|AQ0.+|NC.+|PI.+|RN|I' postag_regexp='yes'/>
+		  <token>para</token>
+		  <token regexp='yes'>mim|ti|si|vocês?|el[ae]s?|nós|vós</token>
+		  <token postag='PP.+|SPS00|_PUNCT|V.+' postag_regexp='yes'>
+			<exception regexp='yes'>[ao]s?|com|me|n[ao]s?|se|vocês?</exception>
+			<exception postag_regexp='yes' postag='CC|RG'/>
+		  </token>
+        </antipattern>	
+
+		<!-- EU -->
+		<rule>
+			<pattern>
+				<token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+				<marker>
+					<token postag='V.+' postag_regexp='yes'/>
+					<token>para</token>
+					<token>mim</token>
+				</marker>
+				<and>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+				</and>
+			</pattern>		
+			<message>Esta perífrase poderá ser simplificada.</message>
+			<suggestion>\2-me</suggestion>
+			<example correction="Telefona-me"><marker>Telefona para mim</marker>.</example>  
+			
+			<example>O que você disse não faz absolutamente nenhum sentido para mim.</example>
+			<example>Seu cachorro sempre late para mim.</example>
+			<example>Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?</example>
+			<example>Parece que as portas do céu se abriram para mim.</example>
+		</rule>
+
+		<!-- TU -->
+		<rule>
+			<pattern>
+				<token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+				<marker>
+					<token postag='V.+' postag_regexp='yes'/>
+					<token>para</token>
+					<token regexp='yes'>tu|ti|si|você</token>
+				</marker>
+				<and>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+				</and>
+			</pattern>		
+			<message>Esta perífrase poderá ser simplificada.</message>
+			<suggestion>\2-te</suggestion>
+			<suggestion>\2-lhe</suggestion>
+			<example correction="Telefonei-te|Telefonei-lhe"><marker>Telefonei para ti</marker>.</example>  
+		</rule>	
+
+		<!-- ELE -->
+		<rule>
+			<pattern>
+				<token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+				<marker>
+					<token postag='V.+' postag_regexp='yes'/>
+					<token>para</token>
+					<token regexp='yes'>el[ae]</token>
+				</marker>				
+				<and>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+				</and>
+			</pattern>		
+			<message>Esta perífrase poderá ser simplificada.</message>
+			<suggestion>\2-lhe</suggestion>
+			<example correction="Telefonei-lhe"><marker>Telefonei para ela</marker>.</example> 
+
+			<example>Ela pediu para ele se sentar.</example>
+			<example>"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"</example>
+			<example>Eu expliquei a regra para ele.</example>
+			<example>Você não disse nada para ele?</example>
+			<example>Estou pouco me lixando para ela.</example>		
+		</rule>	
+
+		<!-- NÓS -->
+		<rule>
+			<pattern>
+				<token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+				<marker>
+					<token postag='V.+' postag_regexp='yes'/>
+					<token>para</token>
+					<token>nós</token>
+				</marker>
+				<and>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+				</and>
+			</pattern>		
+			<message>Esta perífrase poderá ser simplificada.</message>
+			<suggestion>\2-nos</suggestion>
+			<example correction="Telefonaram-nos"><marker>Telefonaram para nós</marker>.</example>  
+
+			<example>Os últimos dias têm sido terrivelmente ocupado para nós.</example>
+			<example>Ele, às vezes, prepara o jantar para nós.</example>
+		</rule>		
+
+		<!-- VÓS -->
+		<rule>
+			<pattern>
+				<token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+				<marker>
+					<token postag='V.+' postag_regexp='yes'/>
+					<token>para</token>
+					<token regexp='yes'>vocês|vós</token>
+				</marker>
+				<and>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+				</and>
+			</pattern>		
+			<message>Esta perífrase poderá ser simplificada.</message>
+			<suggestion>\2-vos</suggestion>
+			<example correction="Telefonaram-vos"><marker>Telefonaram para vocês</marker>.</example>  
+
+			<example>Está tudo acabado para você.</example>
+			<example>Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.</example>
+		</rule>	
+
+		<!-- ELES -->
+		<rule>
+			<pattern>
+				<token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+				<marker>
+					<token postag='V.+' postag_regexp='yes'/>
+					<token>para</token>
+					<token regexp='yes'>el[ae]s</token>
+				</marker>
+				<and>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+				</and>
+			</pattern>		
+			<message>Esta perífrase poderá ser simplificada.</message>
+			<suggestion>\2-lhes</suggestion>
+			<example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>  
+		</rule>	
+		
+	</rulegroup>
+
+
 	<!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
     <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13/14/15/19/20 (25-JUN-2021+)      -->
