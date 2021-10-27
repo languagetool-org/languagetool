@@ -53991,6 +53991,16 @@ Andere Projekte</example>
                     <token>rund</token>
                     <token>um</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="VER:.*" postag_regexp="yes" skip="-1"/>
+                    <token>als</token>
+                    <token postag="ART:.+" postag_regexp="yes" min="0"></token>
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0"></token>
+                    <token postag="SUB:.+" postag_regexp="yes"></token>
+                    <token postag="ZUS">
+                        <exception>zu</exception>
+                    </token>
+                </antipattern>
                 <pattern>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -54003,8 +54013,8 @@ Andere Projekte</example>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Infinitiv) handelt, muss in der Regel ein Komma gesetzt werden.</message>
-                <suggestion>, \2</suggestion>
+                <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Grundform) handelt, muss in der Regel ein Komma gesetzt werden.</message>
+                <suggestion>, <match no="2" case_conversion="startlower"/></suggestion>
                 <example correction=", als">Ich kenne nichts Schöneres<marker> als</marker> mit einem guten Buch am Kamin zu sitzen</example>
                 <example>Ich <marker>kenne nichts Schöneres, als</marker> mit einem guten Buch am Kamin zu sitzen</example>
                 <example>Es scheint sich um einen Fehler zu handeln.</example>
@@ -54020,6 +54030,7 @@ Andere Projekte</example>
                 <example>Es handle sich um einen Schritt, der drohe die Auslieferung an Empfänger um einige Tage zu verzögern.</example>
                 <example>Es handle sich um einen Schritt, der drohe die Auslieferung an Empfänger um Wochen zu verzögern.</example>
                 <example>Neues gibt es rund um den Hackerangriff auf den britischen Mobilfunkanbieter Talk Talk zu berichten, den wir erst gestern hier thematisierten.</example>
+                <example>Auch im Palast lässt er ihn einfach als Gemälde zurück, anstatt ihn zu töten.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -54063,7 +54074,7 @@ Andere Projekte</example>
                     </marker>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Wenn eine Infinitivgruppe ('zu' + Infinitiv) mit '\2' eingeleitet wird, muss ein Komma gesetzt werden.</message>
+                <message>Wenn eine Infinitivgruppe ('zu' + Grundform) mit '\2' eingeleitet wird, muss ein Komma gesetzt werden.</message>
                 <suggestion>, \2</suggestion>
                 <example correction=", um">Sie ging nach Hause<marker> um</marker> sich umzuziehen.</example>
                 <example>Sie <marker>ging nach Hause, um</marker> sich umzuziehen.</example>
@@ -54111,7 +54122,7 @@ Andere Projekte</example>
                         <exception regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|…|und|oder</exception>
                     </token>
                 </pattern>
-                <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Infinitiv) handelt, muss in der Regel ein Komma gesetzt werden.</message>
+                <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Grundform) handelt, muss in der Regel ein Komma gesetzt werden.</message>
                 <suggestion>\3,</suggestion>
                 <example correction="schreiben,">Anstatt einen Brief zu <marker>schreiben</marker> könntest du auch einfach anrufen.</example>
                 <example><marker>Anstatt einen Brief zu schreiben,</marker> könntest du auch einfach anrufen.</example>
@@ -54149,7 +54160,7 @@ Andere Projekte</example>
                         <exception regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|…|und|oder</exception>
                     </token>
                 </pattern>
-                <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Infinitiv) handelt, muss in der Regel ein Komma gesetzt werden.</message>
+                <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Grundform) handelt, muss in der Regel ein Komma gesetzt werden.</message>
                 <suggestion>\2,</suggestion>
                 <example correction="umzuziehen,">Um sich <marker>umzuziehen</marker> ging sie nach Hause.</example>
                 <example><marker>Um sich umzuziehen,</marker> ging sie nach Hause.</example>
