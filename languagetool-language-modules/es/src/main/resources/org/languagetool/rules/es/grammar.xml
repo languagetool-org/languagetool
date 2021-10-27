@@ -11716,7 +11716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="on">
-            <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
+            <url>https://www.rae.es/dpd/deque%C3%ADsmo</url>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">anunciar|oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -13684,6 +13684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="los">Cumplir dos de <marker>las</marker> tres preceptos.</example>
                 <example>De las 16 restantes.</example>
                 <example>Las dos somos estudiantes.</example>
+                <example>Están relacionadas con las dos precedentes.</example>
             </rule>
             <rule id="LOS_NUMBER_FEMALE" name="'los tres preguntas' etcétera">
                 <pattern>
@@ -13988,6 +13989,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
+            <antipattern>
+                <token>incluidos</token>
+                <token postag="NCM.*|A..M.." postag_regexp="yes"/>
+                <token regexp="yes">y|e|o|u|,</token>
+                <token postag="NC.*|A.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>incluidos</token>
+                <token postag="NC.*|A.*" postag_regexp="yes"/>
+                <token regexp="yes">y|e|o|u|,</token>
+                <token postag="NCM.*|A..M.*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token/>
                 <token spacebefore="no">(</token>
@@ -14666,6 +14679,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Y desde entonces pasa dos meses en Veracruz.</example>
             <example>Los rodeleros eran soldados de infantería españoles.</example>
             <example>Están casi en su totalidad incluidos en el catálogo.</example>
+            <example>En varios idiomas, incluidos inglés, alemán, español, portugués y holandés.</example>
             <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -15026,6 +15040,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No es lo mismo producción que productividad.</example>
                 <example>Combos creatina.</example>
                 <example>Las clases alta y media españolas.</example>
+                <example>Son pulsiones asaz primitivas.</example>
             </rule>
             <rule>
                 <pattern>

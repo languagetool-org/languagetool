@@ -2090,6 +2090,15 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="RG"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="RG">asaz</token>
+                </marker>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
     </rulegroup>
     <rulegroup id="NO_ADV" name="no (adverb not noun)">
         <rule>
@@ -4295,7 +4304,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="AQ.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
+                        <token postag="AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nuevo|precedente</exception></token>
                         <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
                     </and>
                 </marker>
