@@ -132,12 +132,12 @@ public class JLanguageTool {
       }
       Object connObj = res.openConnection();
       if (connObj instanceof JarURLConnection) {
-        JarURLConnection conn = (JarURLConnection) connObj;
-        Manifest manifest = conn.getManifest();
-        return manifest.getMainAttributes().getValue("Implementation-Date");
-      } else {
-        return null;
+        Manifest manifest = ((JarURLConnection) connObj).getManifest();
+        if (manifest != null) {
+          return manifest.getMainAttributes().getValue("Implementation-Date");
+        }
       }
+      return null;
     } catch (IOException e) {
       throw new RuntimeException("Could not get build date from JAR", e);
     }
