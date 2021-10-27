@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 
